@@ -457,10 +457,10 @@
         }
     },
     "interval": {
-        "day": "",
-        "hour": "",
-        "month": "",
-        "week": ""
+        "day": "天",
+        "hour": "小时",
+        "month": "月",
+        "week": "周"
     },
     "login": {
         "backToLogin": "返回登录",
@@ -468,7 +468,7 @@
         "codeSentTo": "为了你的安全，我们已向 <strong>{{ codeVerificationEmail }}</strong> 发送了一封包含 6 位验证码的邮件。",
         "createAccount": "创建账号 →",
         "email": "邮箱",
-        "emailPlaceholder": "",
+        "emailPlaceholder": "you@yourcompany.com",
         "error": {
             "generic": "无法完成登录，请重试。",
             "githubSsoEnforced": "你的组织不允许使用此验证方式。请使用 GitHub 登录。",
@@ -565,9 +565,9 @@
         }
     },
     "sceneActivity": {
-        "by": "",
-        "created": "",
-        "lastModified": ""
+        "by": "由",
+        "created": "创建于",
+        "lastModified": "最后修改"
     },
     "settings": {
         "apiKeys": {
@@ -656,6 +656,42 @@
                 "modalTitle": "{{ name }} 接入设置",
                 "viewFullDocs": "查看完整的 {{ name }} 文档",
                 "viewFullInstructions": "查看完整接入说明"
+            },
+            "sessionRecording": {
+                "captureBody": "捕获正文",
+                "captureCanvas": "捕获画布元素",
+                "captureConsoleLogs": "捕获控制台日志",
+                "captureNetworkRequests": "捕获网络请求",
+                "domainsDeprecated": "<strong>此设置已被弃用，无法再修改。</strong>建议删除下面的域名，改用录制条件中的 URL 触发器来控制要录制的域名。",
+                "domainsHint": "支持域名和通配符子域名（例如 <code>https://*.example.com</code>）。但出于安全考虑，不能使用通配的顶级域名。",
+                "enableBodyCapture": "启用正文捕获",
+                "enableHeaderCapture": "启用请求头捕获",
+                "headerCapture": "请求头捕获",
+                "masking": {
+                    "freeLove": "自由放任（仅屏蔽密码）",
+                    "normal": "普通（屏蔽输入框，但不屏蔽文本/图片）",
+                    "totalPrivacy": "完全隐私（屏蔽所有文本/图片）"
+                },
+                "networkBodyCapture": "网络正文捕获",
+                "payloadWarningDetail": "如果其中可能包含敏感数据，你需要在初始化 PostHog 时提供一个函数来屏蔽这些数据。<DocsLink>在我们的文档中了解如何屏蔽请求头和正文中的值</DocsLink>",
+                "payloadWarningIntro": "我们会自动清除网络请求头以及请求和响应正文中的部分敏感信息。",
+                "performanceRequired": "需先启用会话和网络性能捕获",
+                "recordUserSessions": "录制用户会话",
+                "replayRequired": "需先启用会话重放",
+                "retention": {
+                    "boostOrScaleOnly": "仅 Boost 或 Scale 套餐可用",
+                    "changeDescription": "更改保留期只影响此后开始的录制，已有录制仍保留原来的保留期。",
+                    "changeTitle": "要更改录制保留期吗？",
+                    "changeTo": "将保留期改为 {{ label }}",
+                    "days30": "30 天",
+                    "days90": "90 天",
+                    "enterpriseOnly": "仅 Enterprise 套餐可用",
+                    "payAsYouGoOnly": "仅按量付费套餐可用",
+                    "year1": "1 年（365 天）",
+                    "years5": "5 年（1825 天）"
+                },
+                "retentionUpgradeHint": "需要更长的数据保留期？前往<BillingLink>账单页面</BillingLink>升级套餐。",
+                "sinceVersion": "自 {{ version }} 起"
             },
             "team": {
                 "businessModel": {

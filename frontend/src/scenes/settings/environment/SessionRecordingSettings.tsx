@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useMemo, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconCalendar, IconCheck, IconClock, IconHourglass, IconInfinity, IconInfo } from '@posthog/icons'
 import {
@@ -35,11 +36,22 @@ export function Since(props: {
     reactNative?: false | { version?: string }
     flutter?: false | { version?: string }
 }): JSX.Element {
+    const { t } = useTranslation()
     const tooltipContent = useMemo(() => {
         return Object.entries(props)
             .filter(([_, value]) => !!value)
             .map(([key, value]) => {
-                const since = isObject(value) && !!value.version ? <span>since {value.version}</span> : <IconCheck />
+                const since =
+                    isObject(value) && !!value.version ? (
+                        <span>
+                            {t('settings.environment.sessionRecording.sinceVersion', {
+                                defaultValue: 'since {{ version }}',
+                                version: value.version,
+                            })}
+                        </span>
+                    ) : (
+                        <IconCheck />
+                    )
                 return (
                     <li key={key} className="flex flex-row justify-between gap-x-2">
                         <span>{key}:</span>
@@ -47,7 +59,7 @@ export function Since(props: {
                     </li>
                 )
             })
-    }, [props])
+    }, [props, t])
 
     return (
         <Tooltip delayMs={200} title={<ul>{tooltipContent}</ul>}>
@@ -57,6 +69,7 @@ export function Since(props: {
 }
 
 export function LogCaptureSettings(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
     const restrictedReason = useRestrictedArea({
@@ -70,11 +83,17 @@ export function LogCaptureSettings(): JSX.Element {
             onChange={(checked) => {
                 updateCurrentTeam({ capture_console_log_opt_in: checked })
             }}
-            label="Capture console logs"
+            label={t('settings.environment.sessionRecording.captureConsoleLogs', {
+                defaultValue: 'Capture console logs',
+            })}
             bordered
             checked={!!currentTeam?.capture_console_log_opt_in}
             disabledReason={
-                !currentTeam?.session_recording_opt_in ? 'Session replay must be enabled' : restrictedReason
+                !currentTeam?.session_recording_opt_in
+                    ? t('settings.environment.sessionRecording.replayRequired', {
+                          defaultValue: 'Session replay must be enabled',
+                      })
+                    : restrictedReason
             }
             loading={currentTeamLoading}
         />
@@ -82,6 +101,7 @@ export function LogCaptureSettings(): JSX.Element {
 }
 
 export function CanvasCaptureSettings(): JSX.Element | null {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
     const restrictedReason = useRestrictedArea({
@@ -100,11 +120,21 @@ export function CanvasCaptureSettings(): JSX.Element | null {
                     },
                 })
             }}
-            label={<LemonLabel>Capture canvas elements</LemonLabel>}
+            label={
+                <LemonLabel>
+                    {t('settings.environment.sessionRecording.captureCanvas', {
+                        defaultValue: 'Capture canvas elements',
+                    })}
+                </LemonLabel>
+            }
             bordered
             checked={currentTeam?.session_replay_config ? !!currentTeam?.session_replay_config?.record_canvas : false}
             disabledReason={
-                !currentTeam?.session_recording_opt_in ? 'Session replay must be enabled' : restrictedReason
+                !currentTeam?.session_recording_opt_in
+                    ? t('settings.environment.sessionRecording.replayRequired', {
+                          defaultValue: 'Session replay must be enabled',
+                      })
+                    : restrictedReason
             }
             loading={currentTeamLoading}
         />
@@ -112,26 +142,35 @@ export function CanvasCaptureSettings(): JSX.Element | null {
 }
 
 function PayloadWarning(): JSX.Element {
+    const { t } = useTranslation()
     return (
         <>
             <p>
-                We automatically scrub some sensitive information from network headers and request and response bodies.
+                {t('settings.environment.sessionRecording.payloadWarningIntro', {
+                    defaultValue:
+                        'We automatically scrub some sensitive information from network headers and request and response bodies.',
+                })}
             </p>{' '}
             <p>
-                If they could contain sensitive data, you should provide a function to mask the data when you initialise
-                PostHog.{' '}
-                <Link
-                    to="https://posthog.com/docs/session-replay/network-recording#sensitive-information"
-                    target="blank"
-                >
-                    Learn how to mask header and body values in our docs
-                </Link>
+                <Trans
+                    i18nKey="settings.environment.sessionRecording.payloadWarningDetail"
+                    components={{
+                        DocsLink: (
+                            <Link
+                                to="https://posthog.com/docs/session-replay/network-recording#sensitive-information"
+                                target="blank"
+                            />
+                        ),
+                    }}
+                    defaults="If they could contain sensitive data, you should provide a function to mask the data when you initialise PostHog. <DocsLink>Learn how to mask header and body values in our docs</DocsLink>"
+                />
             </p>
         </>
     )
 }
 
 export function ReplayNetworkCapture(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
     const restrictedReason = useRestrictedArea({
@@ -145,11 +184,17 @@ export function ReplayNetworkCapture(): JSX.Element {
             onChange={(checked) => {
                 updateCurrentTeam({ capture_performance_opt_in: checked })
             }}
-            label="Capture network requests"
+            label={t('settings.environment.sessionRecording.captureNetworkRequests', {
+                defaultValue: 'Capture network requests',
+            })}
             bordered
             checked={!!currentTeam?.capture_performance_opt_in}
             disabledReason={
-                !currentTeam?.session_recording_opt_in ? 'Session replay must be enabled' : restrictedReason
+                !currentTeam?.session_recording_opt_in
+                    ? t('settings.environment.sessionRecording.replayRequired', {
+                          defaultValue: 'Session replay must be enabled',
+                      })
+                    : restrictedReason
             }
             loading={currentTeamLoading}
         />
@@ -157,6 +202,7 @@ export function ReplayNetworkCapture(): JSX.Element {
 }
 
 export function ReplayNetworkHeadersPayloads(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
     const restrictedReason = useRestrictedArea({
@@ -172,11 +218,15 @@ export function ReplayNetworkHeadersPayloads(): JSX.Element {
                     if (checked) {
                         LemonDialog.open({
                             maxWidth: '650px',
-                            title: 'Header capture',
+                            title: t('settings.environment.sessionRecording.headerCapture', {
+                                defaultValue: 'Header capture',
+                            }),
                             description: <PayloadWarning />,
                             primaryButton: {
                                 'data-attr': 'network-header-capture-accept-warning-and-enable',
-                                children: 'Enable header capture',
+                                children: t('settings.environment.sessionRecording.enableHeaderCapture', {
+                                    defaultValue: 'Enable header capture',
+                                }),
                                 onClick: () => {
                                     updateCurrentTeam({
                                         session_recording_network_payload_capture_config: {
@@ -196,7 +246,7 @@ export function ReplayNetworkHeadersPayloads(): JSX.Element {
                         })
                     }
                 }}
-                label="Header capture"
+                label={t('settings.environment.sessionRecording.headerCapture', { defaultValue: 'Header capture' })}
                 bordered
                 checked={
                     currentTeam?.session_recording_opt_in
@@ -205,7 +255,9 @@ export function ReplayNetworkHeadersPayloads(): JSX.Element {
                 }
                 disabledReason={
                     !currentTeam?.session_recording_opt_in || !currentTeam?.capture_performance_opt_in
-                        ? 'Session and network performance capture must be enabled'
+                        ? t('settings.environment.sessionRecording.performanceRequired', {
+                              defaultValue: 'Session and network performance capture must be enabled',
+                          })
                         : restrictedReason
                 }
                 loading={currentTeamLoading}
@@ -216,11 +268,15 @@ export function ReplayNetworkHeadersPayloads(): JSX.Element {
                     if (checked) {
                         LemonDialog.open({
                             maxWidth: '650px',
-                            title: 'Network body capture',
+                            title: t('settings.environment.sessionRecording.networkBodyCapture', {
+                                defaultValue: 'Network body capture',
+                            }),
                             description: <PayloadWarning />,
                             primaryButton: {
                                 'data-attr': 'network-payload-capture-accept-warning-and-enable',
-                                children: 'Enable body capture',
+                                children: t('settings.environment.sessionRecording.enableBodyCapture', {
+                                    defaultValue: 'Enable body capture',
+                                }),
                                 onClick: () => {
                                     updateCurrentTeam({
                                         session_recording_network_payload_capture_config: {
@@ -240,7 +296,7 @@ export function ReplayNetworkHeadersPayloads(): JSX.Element {
                         })
                     }
                 }}
-                label="Capture body"
+                label={t('settings.environment.sessionRecording.captureBody', { defaultValue: 'Capture body' })}
                 bordered
                 checked={
                     currentTeam?.session_recording_opt_in
@@ -249,7 +305,9 @@ export function ReplayNetworkHeadersPayloads(): JSX.Element {
                 }
                 disabledReason={
                     !currentTeam?.session_recording_opt_in || !currentTeam?.capture_performance_opt_in
-                        ? 'Session and network performance capture must be enabled'
+                        ? t('settings.environment.sessionRecording.performanceRequired', {
+                              defaultValue: 'Session and network performance capture must be enabled',
+                          })
                         : restrictedReason
                 }
                 loading={currentTeamLoading}
@@ -266,12 +324,18 @@ export function ReplayAuthorizedDomains(): JSX.Element {
     return (
         <div className="gap-y-2">
             <LemonBanner type="warning">
-                <strong>This setting is now deprecated and cannot be updated.</strong> Instead we recommend deleting the
-                domains below and using URL triggers in your recording conditions to control which domains you record.
+                <Trans
+                    i18nKey="settings.environment.sessionRecording.domainsDeprecated"
+                    components={{ strong: <strong /> }}
+                    defaults="<strong>This setting is now deprecated and cannot be updated.</strong> Instead we recommend deleting the domains below and using URL triggers in your recording conditions to control which domains you record."
+                />
             </LemonBanner>
             <p>
-                Domains and wildcard subdomains are allowed (e.g. <code>https://*.example.com</code>). However,
-                wildcarded top-level domains cannot be used (for security reasons).
+                <Trans
+                    i18nKey="settings.environment.sessionRecording.domainsHint"
+                    components={{ code: <code /> }}
+                    defaults="Domains and wildcard subdomains are allowed (e.g. <code>https://*.example.com</code>). However, wildcarded top-level domains cannot be used (for security reasons)."
+                />
             </p>
             <AuthorizedUrlList
                 type={AuthorizedUrlListType.RECORDING_DOMAINS}
@@ -284,6 +348,7 @@ export function ReplayAuthorizedDomains(): JSX.Element {
 }
 
 export function ReplayMaskingSettings(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
     const restrictedReason = useRestrictedArea({
@@ -311,9 +376,24 @@ export function ReplayMaskingSettings(): JSX.Element {
                 value={maskingLevel}
                 onChange={(val) => val && handleMaskingChange(val)}
                 options={[
-                    { value: 'total-privacy', label: 'Total privacy (mask all text/images)' },
-                    { value: 'normal', label: 'Normal (mask inputs but not text/images)' },
-                    { value: 'free-love', label: 'Free love (mask only passwords)' },
+                    {
+                        value: 'total-privacy',
+                        label: t('settings.environment.sessionRecording.masking.totalPrivacy', {
+                            defaultValue: 'Total privacy (mask all text/images)',
+                        }),
+                    },
+                    {
+                        value: 'normal',
+                        label: t('settings.environment.sessionRecording.masking.normal', {
+                            defaultValue: 'Normal (mask inputs but not text/images)',
+                        }),
+                    },
+                    {
+                        value: 'free-love',
+                        label: t('settings.environment.sessionRecording.masking.freeLove', {
+                            defaultValue: 'Free love (mask only passwords)',
+                        }),
+                    },
                 ]}
                 loading={currentTeamLoading}
                 disabledReason={restrictedReason}
@@ -323,6 +403,7 @@ export function ReplayMaskingSettings(): JSX.Element {
 }
 
 export function ReplayDataRetentionSettings(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
     const { currentOrganization } = useValues(organizationLogic)
@@ -342,34 +423,46 @@ export function ReplayDataRetentionSettings(): JSX.Element {
     const currentRetention = currentTeam?.session_recording_retention_period || '30d'
 
     const renderOptions = (loading: boolean): LemonSegmentedButtonOption<SessionRecordingRetentionPeriod>[] => {
-        const disabledReason = loading ? 'Loading...' : (restrictedReason ?? undefined)
+        const disabledReason = loading
+            ? t('settings.loading', { defaultValue: 'Loading...' })
+            : (restrictedReason ?? undefined)
         const options = [
             {
                 value: '30d' as SessionRecordingRetentionPeriod,
                 icon: <IconClock />,
-                label: '30 days',
+                label: t('settings.environment.sessionRecording.retention.days30', { defaultValue: '30 days' }),
                 'data-attr': 'session-recording-retention-button-30d',
                 disabledReason,
             },
             {
                 value: '90d' as SessionRecordingRetentionPeriod,
                 icon: <IconHourglass />,
-                label: '90 days',
-                disabledReason: 'Only available on the pay-as-you-go plan',
+                label: t('settings.environment.sessionRecording.retention.days90', { defaultValue: '90 days' }),
+                disabledReason: t('settings.environment.sessionRecording.retention.payAsYouGoOnly', {
+                    defaultValue: 'Only available on the pay-as-you-go plan',
+                }),
                 'data-attr': 'session-recording-retention-button-90d',
             },
             {
                 value: '1y' as SessionRecordingRetentionPeriod,
                 icon: <IconCalendar />,
-                label: '1 year (365 days)',
-                disabledReason: 'Only available with the Boost or Scale packages',
+                label: t('settings.environment.sessionRecording.retention.year1', {
+                    defaultValue: '1 year (365 days)',
+                }),
+                disabledReason: t('settings.environment.sessionRecording.retention.boostOrScaleOnly', {
+                    defaultValue: 'Only available with the Boost or Scale packages',
+                }),
                 'data-attr': 'session-recording-retention-button-1y',
             },
             {
                 value: '5y' as SessionRecordingRetentionPeriod,
                 icon: <IconInfinity />,
-                label: '5 years (1825 days)',
-                disabledReason: 'Only available with the Enterprise package',
+                label: t('settings.environment.sessionRecording.retention.years5', {
+                    defaultValue: '5 years (1825 days)',
+                }),
+                disabledReason: t('settings.environment.sessionRecording.retention.enterpriseOnly', {
+                    defaultValue: 'Only available with the Enterprise package',
+                }),
                 'data-attr': 'session-recording-retention-button-5y',
             },
         ]
@@ -402,17 +495,24 @@ export function ReplayDataRetentionSettings(): JSX.Element {
         }
         const label = renderOptions(false).find((o) => o.value === retention_period)?.label ?? retention_period
         LemonDialog.open({
-            title: 'Change recording retention period?',
-            description:
-                'Changing retention only affects recordings that start from this point forwards. Existing recordings will keep their original retention period.',
+            title: t('settings.environment.sessionRecording.retention.changeTitle', {
+                defaultValue: 'Change recording retention period?',
+            }),
+            description: t('settings.environment.sessionRecording.retention.changeDescription', {
+                defaultValue:
+                    'Changing retention only affects recordings that start from this point forwards. Existing recordings will keep their original retention period.',
+            }),
             primaryButton: {
-                children: `Change retention to ${label}`,
+                children: t('settings.environment.sessionRecording.retention.changeTo', {
+                    defaultValue: 'Change retention to {{ label }}',
+                    label,
+                }),
                 onClick: () =>
                     updateCurrentTeam({
                         session_recording_retention_period: retention_period,
                     }),
             },
-            secondaryButton: { children: 'Cancel' },
+            secondaryButton: { children: t('settings.cancel', { defaultValue: 'Cancel' }) },
         })
     }
 
@@ -426,11 +526,11 @@ export function ReplayDataRetentionSettings(): JSX.Element {
             />
             {!hasMaxRetentionEntitlement && (
                 <p className="mt-4">
-                    Need longer data retention? Head over to our{' '}
-                    <Link to={urls.organizationBilling()} target="_blank">
-                        billing page
-                    </Link>{' '}
-                    to upgrade your package.{' '}
+                    <Trans
+                        i18nKey="settings.environment.sessionRecording.retentionUpgradeHint"
+                        components={{ BillingLink: <Link to={urls.organizationBilling()} target="_blank" /> }}
+                        defaults="Need longer data retention? Head over to our <BillingLink>billing page</BillingLink> to upgrade your package."
+                    />
                 </p>
             )}
         </div>
@@ -438,6 +538,7 @@ export function ReplayDataRetentionSettings(): JSX.Element {
 }
 
 export function ReplayGeneral(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
     const [showSurvey, setShowSurvey] = useState<boolean>(false)
@@ -460,7 +561,9 @@ export function ReplayGeneral(): JSX.Element {
                 onChange={(checked) => {
                     handleOptInChange(checked)
                 }}
-                label="Record user sessions"
+                label={t('settings.environment.sessionRecording.recordUserSessions', {
+                    defaultValue: 'Record user sessions',
+                })}
                 bordered
                 checked={!!currentTeam?.session_recording_opt_in}
                 loading={currentTeamLoading}

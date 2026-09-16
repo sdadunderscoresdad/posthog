@@ -657,6 +657,42 @@
                 "viewFullDocs": "",
                 "viewFullInstructions": ""
             },
+            "sessionRecording": {
+                "captureBody": "",
+                "captureCanvas": "",
+                "captureConsoleLogs": "",
+                "captureNetworkRequests": "",
+                "domainsDeprecated": "",
+                "domainsHint": "",
+                "enableBodyCapture": "",
+                "enableHeaderCapture": "",
+                "headerCapture": "",
+                "masking": {
+                    "freeLove": "",
+                    "normal": "",
+                    "totalPrivacy": ""
+                },
+                "networkBodyCapture": "",
+                "payloadWarningDetail": "",
+                "payloadWarningIntro": "",
+                "performanceRequired": "",
+                "recordUserSessions": "",
+                "replayRequired": "",
+                "retention": {
+                    "boostOrScaleOnly": "",
+                    "changeDescription": "",
+                    "changeTitle": "",
+                    "changeTo": "",
+                    "days30": "",
+                    "days90": "",
+                    "enterpriseOnly": "",
+                    "payAsYouGoOnly": "",
+                    "year1": "",
+                    "years5": ""
+                },
+                "retentionUpgradeHint": "",
+                "sinceVersion": ""
+            },
             "team": {
                 "businessModel": {
                     "label": ""

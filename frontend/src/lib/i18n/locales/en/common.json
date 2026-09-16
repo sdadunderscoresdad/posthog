@@ -662,6 +662,42 @@
                 "viewFullDocs": "View full {{ name }} documentation",
                 "viewFullInstructions": "View full setup instructions"
             },
+            "sessionRecording": {
+                "captureBody": "Capture body",
+                "captureCanvas": "Capture canvas elements",
+                "captureConsoleLogs": "Capture console logs",
+                "captureNetworkRequests": "Capture network requests",
+                "domainsDeprecated": "<strong>This setting is now deprecated and cannot be updated.</strong> Instead we recommend deleting the domains below and using URL triggers in your recording conditions to control which domains you record.",
+                "domainsHint": "Domains and wildcard subdomains are allowed (e.g. <code>https://*.example.com</code>). However, wildcarded top-level domains cannot be used (for security reasons).",
+                "enableBodyCapture": "Enable body capture",
+                "enableHeaderCapture": "Enable header capture",
+                "headerCapture": "Header capture",
+                "masking": {
+                    "freeLove": "Free love (mask only passwords)",
+                    "normal": "Normal (mask inputs but not text/images)",
+                    "totalPrivacy": "Total privacy (mask all text/images)"
+                },
+                "networkBodyCapture": "Network body capture",
+                "payloadWarningDetail": "If they could contain sensitive data, you should provide a function to mask the data when you initialise PostHog. <DocsLink>Learn how to mask header and body values in our docs</DocsLink>",
+                "payloadWarningIntro": "We automatically scrub some sensitive information from network headers and request and response bodies.",
+                "performanceRequired": "Session and network performance capture must be enabled",
+                "recordUserSessions": "Record user sessions",
+                "replayRequired": "Session replay must be enabled",
+                "retention": {
+                    "boostOrScaleOnly": "Only available with the Boost or Scale packages",
+                    "changeDescription": "Changing retention only affects recordings that start from this point forwards. Existing recordings will keep their original retention period.",
+                    "changeTitle": "Change recording retention period?",
+                    "changeTo": "Change retention to {{ label }}",
+                    "days30": "30 days",
+                    "days90": "90 days",
+                    "enterpriseOnly": "Only available with the Enterprise package",
+                    "payAsYouGoOnly": "Only available on the pay-as-you-go plan",
+                    "year1": "1 year (365 days)",
+                    "years5": "5 years (1825 days)"
+                },
+                "retentionUpgradeHint": "Need longer data retention? Head over to our <BillingLink>billing page</BillingLink> to upgrade your package.",
+                "sinceVersion": "since {{ version }}"
+            },
             "team": {
                 "businessModel": {
                     "label": "Business model"
