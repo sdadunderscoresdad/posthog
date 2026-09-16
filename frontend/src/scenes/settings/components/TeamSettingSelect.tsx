@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonSelect, LemonSelectOption } from 'lib/lemon-ui/LemonSelect'
 import { teamLogic } from 'scenes/teamLogic'
@@ -16,6 +17,7 @@ export function TeamSettingSelect<T extends string | number>({
     defaultValue: T
     disabledReason?: string | null
 }): JSX.Element {
+    const { t } = useTranslation()
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
     const { updateCurrentTeam } = useActions(teamLogic)
 
@@ -33,7 +35,7 @@ export function TeamSettingSelect<T extends string | number>({
             value={currentValue}
             onChange={handleChange}
             options={options}
-            disabledReason={currentTeamLoading ? 'Loading...' : disabledReason}
+            disabledReason={currentTeamLoading ? t('settings.loading', { defaultValue: 'Loading...' }) : disabledReason}
         />
     )
 }

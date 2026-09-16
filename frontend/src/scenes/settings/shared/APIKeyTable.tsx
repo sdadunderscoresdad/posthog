@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 import { IconEllipsis } from '@posthog/icons'
 import { LemonButton, LemonDialog, LemonMenu, LemonTable, LemonTableColumn, LemonTag, Tooltip } from '@posthog/lemon-ui'
 
@@ -45,6 +47,7 @@ interface APIKeyTableProps<T extends APIKeyTableRow = APIKeyTableRow> {
 }
 
 function TagList({ tags, onMoreClick }: { tags: string[]; onMoreClick: () => void }): JSX.Element {
+    const { t } = useTranslation()
     return (
         <span className="flex flex-wrap gap-1">
             {tags.slice(0, 4).map((x) => (
@@ -52,7 +55,12 @@ function TagList({ tags, onMoreClick }: { tags: string[]; onMoreClick: () => voi
             ))}
             {tags.length > 4 && (
                 <Tooltip title={tags.slice(4).join(', ')}>
-                    <LemonTag onClick={onMoreClick}>+{tags.length - 4} more</LemonTag>
+                    <LemonTag onClick={onMoreClick}>
+                        {t('settings.apiKeys.moreTags', {
+                            defaultValue: '+{{ number }} more',
+                            number: tags.length - 4,
+                        })}
+                    </LemonTag>
                 </Tooltip>
             )}
         </span>
@@ -74,10 +82,11 @@ export function APIKeyTable<T extends APIKeyTableRow = APIKeyTableRow>({
     extraColumnsAfterLabel,
     extraColumnsAfterScopes,
     rowClassName,
-    deleteDescription = 'This action cannot be undone.',
+    deleteDescription,
 }: APIKeyTableProps<T>): JSX.Element {
+    const { t } = useTranslation()
     const labelColumn: LemonTableColumn<T, any> = {
-        title: 'Label',
+        title: t('settings.apiKeys.columns.label', { defaultValue: 'Label' }),
         dataIndex: 'label',
         key: 'label',
         render: function RenderLabel(_label: any, key: T) {
@@ -93,7 +102,7 @@ export function APIKeyTable<T extends APIKeyTableRow = APIKeyTableRow>({
     }
 
     const secretKeyColumn: LemonTableColumn<T, any> = {
-        title: 'Secret key',
+        title: t('settings.apiKeys.columns.maskValue', { defaultValue: 'Secret key' }),
         dataIndex: 'mask_value',
         key: 'mask_value',
         render: (_: any, key: T) => {
@@ -103,9 +112,13 @@ export function APIKeyTable<T extends APIKeyTableRow = APIKeyTableRow>({
             return key.mask_value ? (
                 <span className="font-mono">{key.mask_value}</span>
             ) : (
-                <Tooltip title="This key was created before the introduction of previews">
+                <Tooltip
+                    title={t('settings.apiKeys.noPreviewReason', {
+                        defaultValue: 'This key was created before the introduction of previews',
+                    })}
+                >
                     <span className="inline-flex items-center gap-1">
-                        <span>No preview</span>
+                        <span>{t('settings.apiKeys.noPreview', { defaultValue: 'No preview' })}</span>
                     </span>
                 </Tooltip>
             )
@@ -113,7 +126,7 @@ export function APIKeyTable<T extends APIKeyTableRow = APIKeyTableRow>({
     }
 
     const scopesColumn: LemonTableColumn<T, any> = {
-        title: 'Scopes',
+        title: t('settings.apiKeys.columns.scopes', { defaultValue: 'Scopes' }),
         key: 'scopes',
         dataIndex: 'scopes',
         render: function RenderScopes(_: any, key: T) {
@@ -125,15 +138,17 @@ export function APIKeyTable<T extends APIKeyTableRow = APIKeyTableRow>({
     }
 
     const createdByColumn: LemonTableColumn<T, any> = {
-        title: 'Created by',
+        title: t('settings.apiKeys.columns.createdBy', { defaultValue: 'Created by' }),
         key: 'created_by',
         dataIndex: 'created_by',
         render: (_: any, key: T) =>
-            key.created_by ? `${key.created_by.first_name || key.created_by.email}` : 'Unknown',
+            key.created_by
+                ? `${key.created_by.first_name || key.created_by.email}`
+                : t('settings.apiKeys.unknown', { defaultValue: 'Unknown' }),
     }
 
     const lastUsedColumn: LemonTableColumn<T, any> = {
-        title: 'Last used',
+        title: t('settings.apiKeys.columns.lastUsed', { defaultValue: 'Last used' }),
         dataIndex: 'last_used_at',
         key: 'lastUsedAt',
         sorter: (a: T, b: T) => {
@@ -156,7 +171,7 @@ export function APIKeyTable<T extends APIKeyTableRow = APIKeyTableRow>({
     }
 
     const createdColumn: LemonTableColumn<T, any> = {
-        title: 'Created',
+        title: t('settings.apiKeys.columns.created', { defaultValue: 'Created' }),
         dataIndex: 'created_at',
         key: 'createdAt',
         render: (_: any, key: T) => (
@@ -165,7 +180,7 @@ export function APIKeyTable<T extends APIKeyTableRow = APIKeyTableRow>({
     }
 
     const lastRolledColumn: LemonTableColumn<T, any> = {
-        title: 'Last rolled',
+        title: t('settings.apiKeys.columns.lastRolled', { defaultValue: 'Last rolled' }),
         dataIndex: 'last_rolled_at',
         key: 'lastRolledAt',
         render: (_: any, key: T) => (
@@ -184,36 +199,51 @@ export function APIKeyTable<T extends APIKeyTableRow = APIKeyTableRow>({
             <LemonMenu
                 items={[
                     {
-                        label: 'Edit',
+                        label: t('settings.apiKeys.actions.edit', { defaultValue: 'Edit' }),
                         onClick: () => onEdit(key.id),
                     },
                     {
-                        label: 'Roll',
+                        label: t('settings.apiKeys.actions.roll', { defaultValue: 'Roll' }),
                         onClick: () => {
                             LemonDialog.open({
-                                title: `Roll key "${key.label}"?`,
-                                description: 'This will generate a new key. The old key will immediately stop working.',
+                                title: t('settings.apiKeys.rollDialog.title', {
+                                    defaultValue: 'Roll key "{{ label }}"?',
+                                    label: key.label,
+                                }),
+                                description: t('settings.apiKeys.rollDialog.description', {
+                                    defaultValue:
+                                        'This will generate a new key. The old key will immediately stop working.',
+                                }),
                                 primaryButton: {
                                     status: 'danger',
-                                    children: 'Roll',
+                                    children: t('settings.apiKeys.actions.roll', { defaultValue: 'Roll' }),
                                     onClick: () => onRoll(key.id),
                                 },
                                 secondaryButton: {
-                                    children: 'Cancel',
+                                    children: t('settings.apiKeys.actions.cancel', { defaultValue: 'Cancel' }),
                                 },
                             })
                         },
                     },
                     {
-                        label: 'Delete',
+                        label: t('settings.apiKeys.actions.delete', { defaultValue: 'Delete' }),
                         status: 'danger',
                         onClick: () => {
                             LemonDialog.open({
-                                title: `Permanently delete key "${key.label}"?`,
-                                description: deleteDescription,
+                                title: t('settings.apiKeys.deleteDialog.title', {
+                                    defaultValue: 'Permanently delete key "{{ label }}"?',
+                                    label: key.label,
+                                }),
+                                description:
+                                    deleteDescription ??
+                                    t('settings.apiKeys.deleteDialog.description', {
+                                        defaultValue: 'This action cannot be undone.',
+                                    }),
                                 primaryButton: {
                                     status: 'danger',
-                                    children: 'Permanently delete',
+                                    children: t('settings.apiKeys.actions.permanentlyDelete', {
+                                        defaultValue: 'Permanently delete',
+                                    }),
                                     onClick: () => onDelete(key.id),
                                 },
                             })

@@ -552,5 +552,50 @@
         "by": "",
         "created": "",
         "lastModified": ""
+    },
+    "settings": {
+        "apiKeys": {
+            "actions": {
+                "cancel": "",
+                "delete": "",
+                "edit": "",
+                "permanentlyDelete": "",
+                "roll": ""
+            },
+            "columns": {
+                "created": "",
+                "createdBy": "",
+                "label": "",
+                "lastRolled": "",
+                "lastUsed": "",
+                "maskValue": "",
+                "scopes": ""
+            },
+            "deleteDialog": {
+                "description": "",
+                "title": ""
+            },
+            "moreTags": "",
+            "noPreview": "",
+            "noPreviewReason": "",
+            "rollDialog": {
+                "description": "",
+                "title": ""
+            },
+            "unknown": ""
+        },
+        "docsLink": "",
+        "loading": "",
+        "nav": {
+            "menu": "",
+            "title": ""
+        },
+        "noChangesToSave": "",
+        "save": "",
+        "search": {
+            "empty": "",
+            "label": "",
+            "placeholder": ""
+        }
     }
 }

@@ -542,5 +542,50 @@
         "by": "",
         "created": "",
         "lastModified": ""
+    },
+    "settings": {
+        "apiKeys": {
+            "actions": {
+                "cancel": "取消",
+                "delete": "删除",
+                "edit": "编辑",
+                "permanentlyDelete": "永久删除",
+                "roll": "轮换"
+            },
+            "columns": {
+                "created": "创建时间",
+                "createdBy": "创建者",
+                "label": "标签",
+                "lastRolled": "最近轮换",
+                "lastUsed": "最近使用",
+                "maskValue": "密钥",
+                "scopes": "权限范围"
+            },
+            "deleteDialog": {
+                "description": "此操作无法撤销。",
+                "title": "永久删除密钥 “{{ label }}”？"
+            },
+            "moreTags": "还有 {{ number }} 个",
+            "noPreview": "无预览",
+            "noPreviewReason": "此密钥创建于密钥预览功能推出之前",
+            "rollDialog": {
+                "description": "这将生成一个新密钥，旧密钥会立即失效。",
+                "title": "轮换密钥 “{{ label }}”？"
+            },
+            "unknown": "未知"
+        },
+        "docsLink": "文档",
+        "loading": "加载中…",
+        "nav": {
+            "menu": "设置菜单",
+            "title": "设置导航"
+        },
+        "noChangesToSave": "没有需要保存的更改",
+        "save": "保存",
+        "search": {
+            "empty": "未找到设置项",
+            "label": "搜索设置",
+            "placeholder": "搜索设置…"
+        }
     }
 }

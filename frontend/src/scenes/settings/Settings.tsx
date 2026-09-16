@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import { useActions, useValues } from 'kea'
 import { router } from 'kea-router'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconExternal, IconList } from '@posthog/icons'
 import { LemonButton, LemonDivider, Link } from '@posthog/lemon-ui'
@@ -66,6 +67,7 @@ export function Settings({
     handleLocally?: boolean
     headerSlot?: JSX.Element | null
 }): JSX.Element {
+    const { t } = useTranslation()
     const {
         selectedSectionId,
         selectedSection,
@@ -302,17 +304,19 @@ export function Settings({
             <div className="p-1 shrink-0 border-b">
                 <ComboboxInput
                     className="w-full"
-                    placeholder="Search settings..."
+                    placeholder={t('settings.search.placeholder', { defaultValue: 'Search settings...' })}
                     showTrigger={false}
                     showClear={!!searchTerm}
-                    aria-label="Search settings"
+                    aria-label={t('settings.search.label', { defaultValue: 'Search settings' })}
                 />
             </div>
             <div className="flex-1 min-h-0 overflow-y-auto scroll-mask-y-4 scroll-py-8">
                 {isSearching ? (
                     <ComboboxList className="max-h-none overflow-visible px-1">
                         {searchResults.length === 0 ? (
-                            <div className="text-muted text-sm p-2">No settings found</div>
+                            <div className="text-muted text-sm p-2">
+                                {t('settings.search.empty', { defaultValue: 'No settings found' })}
+                            </div>
                         ) : (
                             searchResults.map((group) => (
                                 <ComboboxGroup key={group.sectionId} items={group.results} className="mb-2">
@@ -353,7 +357,9 @@ export function Settings({
                 <>
                     <Button variant="outline" left className="w-full" onClick={() => openCompactNavigation()}>
                         <IconList className="stroke-2 size-4 mr-1" />{' '}
-                        <span className="flex-1 truncate text-left font-semibold text-base">Settings menu</span>
+                        <span className="flex-1 truncate text-left font-semibold text-base">
+                            {t('settings.nav.menu', { defaultValue: 'Settings menu' })}
+                        </span>
                     </Button>
                     <Drawer
                         swipeDirection="left"
@@ -361,7 +367,9 @@ export function Settings({
                         onOpenChange={(open) => (open ? openCompactNavigation() : closeCompactNavigation())}
                     >
                         <DrawerContent data-quill>
-                            <DrawerTitle className="sr-only">Settings navigation</DrawerTitle>
+                            <DrawerTitle className="sr-only">
+                                {t('settings.nav.title', { defaultValue: 'Settings navigation' })}
+                            </DrawerTitle>
                             {/* Pin the height to the visual viewport (minus the drawer's 1rem
                                 padding) so the search stays put, the list scrolls within, and
                                 the panel shrinks above the on-screen keyboard. */}
@@ -416,6 +424,7 @@ export function Settings({
 }
 
 function SettingsRenderer(props: SettingsLogicProps & { handleLocally: boolean }): JSX.Element | null {
+    const { t } = useTranslation()
     const {
         settings: allSettings,
         selectedLevel,
@@ -459,7 +468,7 @@ function SettingsRenderer(props: SettingsLogicProps & { handleLocally: boolean }
                                     <>
                                         &nbsp;
                                         <Link to={x.docsUrl} target="_blank" data-attr={`settings-docs-link-${x.id}`}>
-                                            Docs
+                                            {t('settings.docsLink', { defaultValue: 'Docs' })}
                                         </Link>
                                     </>
                                 )}

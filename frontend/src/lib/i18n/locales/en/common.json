@@ -547,5 +547,50 @@
         "by": "by",
         "created": "Created",
         "lastModified": "Last modified"
+    },
+    "settings": {
+        "apiKeys": {
+            "actions": {
+                "cancel": "Cancel",
+                "delete": "Delete",
+                "edit": "Edit",
+                "permanentlyDelete": "Permanently delete",
+                "roll": "Roll"
+            },
+            "columns": {
+                "created": "Created",
+                "createdBy": "Created by",
+                "label": "Label",
+                "lastRolled": "Last rolled",
+                "lastUsed": "Last used",
+                "maskValue": "Secret key",
+                "scopes": "Scopes"
+            },
+            "deleteDialog": {
+                "description": "This action cannot be undone.",
+                "title": "Permanently delete key \"{{ label }}\"?"
+            },
+            "moreTags": "+{{ number }} more",
+            "noPreview": "No preview",
+            "noPreviewReason": "This key was created before the introduction of previews",
+            "rollDialog": {
+                "description": "This will generate a new key. The old key will immediately stop working.",
+                "title": "Roll key \"{{ label }}\"?"
+            },
+            "unknown": "Unknown"
+        },
+        "docsLink": "Docs",
+        "loading": "Loading...",
+        "nav": {
+            "menu": "Settings menu",
+            "title": "Settings navigation"
+        },
+        "noChangesToSave": "No changes to save",
+        "save": "Save",
+        "search": {
+            "empty": "No settings found",
+            "label": "Search settings",
+            "placeholder": "Search settings..."
+        }
     }
 }

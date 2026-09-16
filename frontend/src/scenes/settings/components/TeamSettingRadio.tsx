@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonRadio, LemonRadioOption } from 'lib/lemon-ui/LemonRadio'
@@ -49,6 +50,7 @@ export function TeamSettingRadio<T extends string>({
     onSave?: (value: T) => void
     disabledReason?: string | null
 }): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam } = useValues(teamLogic)
 
@@ -86,9 +88,13 @@ export function TeamSettingRadio<T extends string>({
                 <LemonButton
                     type="primary"
                     onClick={handleSave}
-                    disabledReason={value === savedValue ? 'No changes to save' : disabledReason}
+                    disabledReason={
+                        value === savedValue
+                            ? t('settings.noChangesToSave', { defaultValue: 'No changes to save' })
+                            : disabledReason
+                    }
                 >
-                    Save
+                    {t('settings.save', { defaultValue: 'Save' })}
                 </LemonButton>
             </div>
         </>
