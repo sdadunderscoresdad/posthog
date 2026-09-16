@@ -6,6 +6,7 @@ import { LemonButton } from '@posthog/lemon-ui'
 
 import { getCookie } from 'lib/api'
 import { BridgePage } from 'lib/components/BridgePage/BridgePage'
+import { i18n } from 'lib/i18n/i18n'
 import { IconErrorOutline } from 'lib/lemon-ui/icons'
 import { SceneExport } from 'scenes/sceneTypes'
 
@@ -19,8 +20,13 @@ export function AgenticAccountMismatch(): JSX.Element {
 
     const expectedEmail = typeof searchParams.expected_email === 'string' ? searchParams.expected_email : ''
     const currentEmail =
-        typeof searchParams.current_email === 'string' ? searchParams.current_email : 'your current account'
-    const partnerName = typeof searchParams.partner_name === 'string' ? searchParams.partner_name : 'the requesting app'
+        typeof searchParams.current_email === 'string'
+            ? searchParams.current_email
+            : i18n.t('accountMismatch.yourCurrentAccount', { defaultValue: 'your current account' })
+    const partnerName =
+        typeof searchParams.partner_name === 'string'
+            ? searchParams.partner_name
+            : i18n.t('accountMismatch.theRequestingApp', { defaultValue: 'the requesting app' })
     const state = typeof searchParams.state === 'string' ? searchParams.state : ''
 
     const nextUrl = state ? `/api/agentic/authorize?state=${encodeURIComponent(state)}` : null

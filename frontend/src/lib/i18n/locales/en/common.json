@@ -17,7 +17,9 @@
         "logOut": "Log out and continue",
         "logOutAs": "Log out and continue as {{ email }}",
         "signedInAs": "You're currently logged in as <Strong>{{ currentEmail }}</Strong>, but your {{ partner }} account is linked to <Strong>{{ expected }}</Strong>.",
-        "title": "Account mismatch"
+        "theRequestingApp": "the requesting app",
+        "title": "Account mismatch",
+        "yourCurrentAccount": "your current account"
     },
     "activity": {
         "explore": {
@@ -223,6 +225,25 @@
         "description": "Your account was set up with the credentials and connected apps listed below. Review them and revoke anything you don't recognize before continuing.",
         "loading": "Loading your credentials…",
         "oneMoreThing": "One more thing.",
+        "passkeyType": {
+            "hardware": "Hardware key",
+            "hybrid": "Cross-device",
+            "platform": "This device",
+            "unknown": "Unknown"
+        },
+        "scopeSummary": {
+            "andMore_one": "{{ scopes }} + {{ count }} more",
+            "andMore_other": "{{ scopes }} + {{ count }} more",
+            "fullAccess": "Full access",
+            "noAccess": "No access"
+        },
+        "teamScopeSummary": {
+            "allProjects": "All projects",
+            "organizations_one": "{{ count }} organization",
+            "organizations_other": "{{ count }} organizations",
+            "projects_one": "{{ count }} project",
+            "projects_other": "{{ count }} projects"
+        },
         "welcome": "Welcome to PostHog!"
     },
     "credentialsReview": {
@@ -1015,11 +1036,13 @@
     },
     "login": {
         "backToLogin": "Back to login",
+        "checkYourInbox": "Check your inbox",
         "codeSent": "Code sent",
         "codeSentTo": "For your security, we've emailed a 6-digit verification code to <strong>{{ codeVerificationEmail }}</strong>.",
         "createAccount": "Create an account →",
         "email": "Email",
         "emailPlaceholder": "you@yourcompany.com",
+        "enterSixDigitCode": "Enter the 6-digit code from your email",
         "error": {
             "generic": "Could not complete your login. Please try again.",
             "githubSsoEnforced": "Your organization does not allow this authentication method. Please log in with GitHub.",
@@ -1039,9 +1062,13 @@
         },
         "forgotPassword": "Forgot password?",
         "logIn": "Log in",
+        "logInTo": "Log in to",
+        "logInToConnect": "Log in to connect",
+        "logInWith": "Log in with",
         "needHelp": "Need help?",
         "newToPosthog": "New to PostHog?",
         "noSignInMethod": "No sign-in method is set up for this account. Use <2>Forgot password?</2> to set a password by email.",
+        "orLogInWith": "Or log in with",
         "otherRegionHint": "Already have a PostHog Cloud account? It may live in our {{ otherRegion }} region. You're currently on {{ currentRegion }}. <RegionLink>Log in on {{ otherRegionHost }}</RegionLink>",
         "password": "Password",
         "redirect": {
@@ -1072,6 +1099,14 @@
         "resendCode": "Resend code",
         "sending": "Sending...",
         "sessionRiskBanner": "For your security, we signed you out because this session showed unusual activity. Sign back in to continue.",
+        "support": {
+            "codeVerificationPending": "Waiting on an emailed verification code.",
+            "dataRegion": "Data region: {{ region }}",
+            "errorCode": "Error code: {{ code }}",
+            "headline": "I need help logging in.",
+            "methodsAvailable": "Login methods available: {{ methods }}",
+            "ssoEnforced": "Login method: SSO enforced ({{ provider }})"
+        },
         "twoFactor": {
             "authenticatorToken": "Authenticator token",
             "description": "Enter a token from your authenticator app, use your passkey, or enter a backup code.",
@@ -1237,11 +1272,13 @@
         "euFaster": "Faster if you and your users are based in Europe",
         "euHosting": "EU hosting",
         "euLocation": "Hosted in Frankfurt, Germany",
+        "europeanUnion": "European Union",
         "local": "Local (this instance)",
         "localHint": "Log in with the form below",
         "modalDescription": "It's possible to migrate to another region later.",
         "modalTitle": "Which region would you like to choose?",
         "oauth": "OAuth",
+        "unitedStates": "United States",
         "usCloud": "US Cloud",
         "usCompliance": "Easier to comply with some US regulations",
         "usFaster": "Faster if you and your users are based in the US",
@@ -4266,6 +4303,9 @@
         "yourName": "Your name",
         "yourTeam": "your team"
     },
+    "support": {
+        "reportAnIssue": "Report an issue"
+    },
     "surveyActivity": {
         "appearance": {
             "allowGoBack": "back button",
@@ -4583,10 +4623,14 @@
     },
     "twoFactorSetup": {
         "changeOrganization": "change your organization",
+        "enterAuthenticatorCode": "Enter the 6-digit code from your authenticator app to verify your identity.",
         "manualSetupHint": "If you can't scan the QR code, you can use the secret key below to manually set up your authenticator app.",
         "or": "or",
         "qrAlt": "QR code for two-factor authentication setup",
+        "requiredBannerSetup": "Your organization requires you to set up 2FA.",
+        "requiredBannerVerify": "Your organization requires two-factor authentication. Please verify using your authenticator app.",
         "requiredTitle": "Two-factor authentication required",
+        "scanQrCode": "Use an authenticator app like Google Authenticator or 1Password to scan the QR code below.",
         "secretDescription": "2FA secret key",
         "setUpTitle": "Set up two-factor authentication",
         "submit": "Submit",
@@ -4613,10 +4657,15 @@
         "goToPosthog": "Go to PostHog",
         "linkedDetail": "Your PostHog organization <Strong>{{ org }}</Strong> is now connected to Vercel.",
         "linkedTitle": "Account linked",
+        "linkFailed": "Failed to link",
+        "linkOrgFailed": "Failed to link organization",
+        "loadFailed": "Failed to load session",
+        "missingSession": "Missing session parameter. Please try again from Vercel.",
         "noAdminOrgs": "You don't have any organizations with admin access.",
         "returnToVercel": "Return to Vercel",
         "selectOrg": "Select an organization",
         "selectProject": "Select a project",
+        "sessionExpired": "Session expired or invalid",
         "title": "Connect to Vercel"
     },
     "vercelLinkError": {
@@ -4625,7 +4674,8 @@
         "logOut": "Log out and continue",
         "logOutWith": "Log out and continue with {{ email }}",
         "signedInAs": "You're currently logged in as <Strong>{{ currentEmail }}</Strong>, but your Vercel account is linked to <Strong>{{ expected }}</Strong>.",
-        "title": "Account mismatch"
+        "title": "Account mismatch",
+        "yourCurrentAccount": "your current account"
     },
     "verifyEmail": {
         "alreadyHaveCode": "Already have a code? Enter it below. Codes are valid for 30 minutes.",

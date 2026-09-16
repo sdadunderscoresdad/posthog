@@ -6,6 +6,7 @@ import { LemonButton } from '@posthog/lemon-ui'
 
 import { getCookie } from 'lib/api'
 import { BridgePage } from 'lib/components/BridgePage/BridgePage'
+import { i18n } from 'lib/i18n/i18n'
 import { IconErrorOutline } from 'lib/lemon-ui/icons'
 import { SceneExport } from 'scenes/sceneTypes'
 
@@ -18,7 +19,9 @@ export function VercelLinkError(): JSX.Element {
     const { searchParams } = useValues(router)
 
     const expectedEmail = searchParams.expected_email
-    const currentEmail = searchParams.current_email || 'your current account'
+    const currentEmail =
+        searchParams.current_email ||
+        i18n.t('vercelLinkError.yourCurrentAccount', { defaultValue: 'your current account' })
     const code = searchParams.code
     const state = searchParams.state
 

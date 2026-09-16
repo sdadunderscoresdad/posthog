@@ -17,7 +17,9 @@
         "logOut": "",
         "logOutAs": "",
         "signedInAs": "",
-        "title": ""
+        "theRequestingApp": "",
+        "title": "",
+        "yourCurrentAccount": ""
     },
     "activity": {
         "explore": {
@@ -225,6 +227,31 @@
         "description": "",
         "loading": "",
         "oneMoreThing": "",
+        "passkeyType": {
+            "hardware": "",
+            "hybrid": "",
+            "platform": "",
+            "unknown": ""
+        },
+        "scopeSummary": {
+            "andMore_one": "",
+            "andMore_few": "",
+            "andMore_many": "",
+            "andMore_other": "",
+            "fullAccess": "",
+            "noAccess": ""
+        },
+        "teamScopeSummary": {
+            "allProjects": "",
+            "organizations_one": "",
+            "organizations_few": "",
+            "organizations_many": "",
+            "organizations_other": "",
+            "projects_one": "",
+            "projects_few": "",
+            "projects_many": "",
+            "projects_other": ""
+        },
         "welcome": ""
     },
     "credentialsReview": {
@@ -1051,11 +1078,13 @@
     },
     "login": {
         "backToLogin": "",
+        "checkYourInbox": "",
         "codeSent": "",
         "codeSentTo": "",
         "createAccount": "",
         "email": "",
         "emailPlaceholder": "",
+        "enterSixDigitCode": "",
         "error": {
             "generic": "",
             "githubSsoEnforced": "",
@@ -1075,9 +1104,13 @@
         },
         "forgotPassword": "",
         "logIn": "",
+        "logInTo": "",
+        "logInToConnect": "",
+        "logInWith": "",
         "needHelp": "",
         "newToPosthog": "",
         "noSignInMethod": "",
+        "orLogInWith": "",
         "otherRegionHint": "",
         "password": "",
         "redirect": {
@@ -1108,6 +1141,14 @@
         "resendCode": "",
         "sending": "",
         "sessionRiskBanner": "",
+        "support": {
+            "codeVerificationPending": "",
+            "dataRegion": "",
+            "errorCode": "",
+            "headline": "",
+            "methodsAvailable": "",
+            "ssoEnforced": ""
+        },
         "twoFactor": {
             "authenticatorToken": "",
             "description": "",
@@ -1275,11 +1316,13 @@
         "euFaster": "",
         "euHosting": "",
         "euLocation": "",
+        "europeanUnion": "",
         "local": "",
         "localHint": "",
         "modalDescription": "",
         "modalTitle": "",
         "oauth": "",
+        "unitedStates": "",
         "usCloud": "",
         "usCompliance": "",
         "usFaster": "",
@@ -4350,6 +4393,9 @@
         "yourName": "",
         "yourTeam": ""
     },
+    "support": {
+        "reportAnIssue": ""
+    },
     "surveyActivity": {
         "appearance": {
             "allowGoBack": "",
@@ -4669,10 +4715,14 @@
     },
     "twoFactorSetup": {
         "changeOrganization": "",
+        "enterAuthenticatorCode": "",
         "manualSetupHint": "",
         "or": "",
         "qrAlt": "",
+        "requiredBannerSetup": "",
+        "requiredBannerVerify": "",
         "requiredTitle": "",
+        "scanQrCode": "",
         "secretDescription": "",
         "setUpTitle": "",
         "submit": "",
@@ -4699,10 +4749,15 @@
         "goToPosthog": "",
         "linkedDetail": "",
         "linkedTitle": "",
+        "linkFailed": "",
+        "linkOrgFailed": "",
+        "loadFailed": "",
+        "missingSession": "",
         "noAdminOrgs": "",
         "returnToVercel": "",
         "selectOrg": "",
         "selectProject": "",
+        "sessionExpired": "",
         "title": ""
     },
     "vercelLinkError": {
@@ -4711,7 +4766,8 @@
         "logOut": "",
         "logOutWith": "",
         "signedInAs": "",
-        "title": ""
+        "title": "",
+        "yourCurrentAccount": ""
     },
     "verifyEmail": {
         "alreadyHaveCode": "",

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonDialog, LemonTable, Tooltip } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { humanFriendlyDetailedTime } from 'lib/utils/datetime'
 import { ConnectedApps } from 'scenes/settings/user/ConnectedApps'
 import { connectedAppsLogic } from 'scenes/settings/user/connectedAppsLogic'
@@ -13,29 +14,45 @@ import { PersonalAPIKeyType } from '~/types'
 
 function scopeSummary(key: PersonalAPIKeyType): string {
     if (!key.scopes?.length) {
-        return 'No access'
+        return i18n.t('credentialReview.scopeSummary.noAccess', { defaultValue: 'No access' })
     }
     if (key.scopes.includes('*')) {
-        return 'Full access'
+        return i18n.t('credentialReview.scopeSummary.fullAccess', { defaultValue: 'Full access' })
     }
     if (key.scopes.length <= 3) {
         return key.scopes.join(', ')
     }
-    return `${key.scopes.slice(0, 3).join(', ')} + ${key.scopes.length - 3} more`
+    return i18n.t('credentialReview.scopeSummary.andMore', {
+        defaultValue: '{{ scopes }} + {{ count }} more',
+        scopes: key.scopes.slice(0, 3).join(', '),
+        count: key.scopes.length - 3,
+    })
 }
 
 function teamScopeSummary(key: PersonalAPIKeyType): string {
     const orgs = key.scoped_organizations?.length ?? 0
     const teams = key.scoped_teams?.length ?? 0
     if (orgs === 0 && teams === 0) {
-        return 'All projects'
+        return i18n.t('credentialReview.teamScopeSummary.allProjects', { defaultValue: 'All projects' })
     }
     const parts: string[] = []
     if (orgs > 0) {
-        parts.push(`${orgs} organization${orgs === 1 ? '' : 's'}`)
+        parts.push(
+            i18n.t('credentialReview.teamScopeSummary.organizations', {
+                count: orgs,
+                defaultValue_one: '{{ count }} organization',
+                defaultValue_other: '{{ count }} organizations',
+            })
+        )
     }
     if (teams > 0) {
-        parts.push(`${teams} project${teams === 1 ? '' : 's'}`)
+        parts.push(
+            i18n.t('credentialReview.teamScopeSummary.projects', {
+                count: teams,
+                defaultValue_one: '{{ count }} project',
+                defaultValue_other: '{{ count }} projects',
+            })
+        )
     }
     return parts.join(', ')
 }
@@ -43,13 +60,13 @@ function teamScopeSummary(key: PersonalAPIKeyType): string {
 function passkeyTypeLabel(passkey: PasskeyCredential): string {
     switch (passkey.authenticator_type) {
         case 'platform':
-            return 'This device'
+            return i18n.t('credentialReview.passkeyType.platform', { defaultValue: 'This device' })
         case 'hardware':
-            return 'Hardware key'
+            return i18n.t('credentialReview.passkeyType.hardware', { defaultValue: 'Hardware key' })
         case 'hybrid':
-            return 'Cross-device'
+            return i18n.t('credentialReview.passkeyType.hybrid', { defaultValue: 'Cross-device' })
         default:
-            return 'Unknown'
+            return i18n.t('credentialReview.passkeyType.unknown', { defaultValue: 'Unknown' })
     }
 }
 

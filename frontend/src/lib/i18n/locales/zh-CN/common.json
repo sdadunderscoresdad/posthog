@@ -17,7 +17,9 @@
         "logOut": "退出登录并继续",
         "logOutAs": "退出登录并以 {{ email }} 继续",
         "signedInAs": "你当前登录的账户是 <Strong>{{ currentEmail }}</Strong>，但你的 {{ partner }} 账户关联到了 <Strong>{{ expected }}</Strong>。",
-        "title": "账户不匹配"
+        "theRequestingApp": "发起请求的应用",
+        "title": "账户不匹配",
+        "yourCurrentAccount": "你当前登录的账号"
     },
     "activity": {
         "explore": {
@@ -222,6 +224,22 @@
         "description": "你的账户已使用下方列出的凭据和已连接应用完成设置。请检查它们，并在继续之前撤销任何你不认识的内容。",
         "loading": "正在加载你的凭据…",
         "oneMoreThing": "还有一件事。",
+        "passkeyType": {
+            "hardware": "硬件密钥",
+            "hybrid": "跨设备",
+            "platform": "本设备",
+            "unknown": "未知"
+        },
+        "scopeSummary": {
+            "andMore_other": "{{ scopes }} 等 {{ count }} 项",
+            "fullAccess": "完全访问权限",
+            "noAccess": "无访问权限"
+        },
+        "teamScopeSummary": {
+            "allProjects": "所有项目",
+            "organizations_other": "{{ count }} 个组织",
+            "projects_other": "{{ count }} 个项目"
+        },
         "welcome": "欢迎使用 PostHog！"
     },
     "credentialsReview": {
@@ -1008,11 +1026,13 @@
     },
     "login": {
         "backToLogin": "返回登录",
+        "checkYourInbox": "请查收邮件",
         "codeSent": "验证码已发送",
         "codeSentTo": "为了你的安全，我们已向 <strong>{{ codeVerificationEmail }}</strong> 发送了一封包含 6 位验证码的邮件。",
         "createAccount": "创建账号 →",
         "email": "邮箱",
         "emailPlaceholder": "you@yourcompany.com",
+        "enterSixDigitCode": "请输入邮件中的 6 位验证码",
         "error": {
             "generic": "无法完成登录，请重试。",
             "githubSsoEnforced": "你的组织不允许使用此验证方式。请使用 GitHub 登录。",
@@ -1032,9 +1052,13 @@
         },
         "forgotPassword": "忘记密码？",
         "logIn": "登录",
+        "logInTo": "登录",
+        "logInToConnect": "登录以连接",
+        "logInWith": "使用以下方式登录",
         "needHelp": "需要帮助？",
         "newToPosthog": "初次使用 PostHog？",
         "noSignInMethod": "此账号未设置登录方式。请使用 <2>忘记密码？</2> 通过邮箱设置密码。",
+        "orLogInWith": "或使用以下方式登录",
         "otherRegionHint": "已有 PostHog Cloud 账号？它可能位于我们的 {{ otherRegion }} 区域。你当前在 {{ currentRegion }}。<RegionLink>前往 {{ otherRegionHost }} 登录</RegionLink>",
         "password": "密码",
         "redirect": {
@@ -1065,6 +1089,14 @@
         "resendCode": "重新发送验证码",
         "sending": "发送中…",
         "sessionRiskBanner": "为了你的安全，我们已将你登出，因为此会话出现了异常活动。请重新登录以继续。",
+        "support": {
+            "codeVerificationPending": "正在等待邮件验证码。",
+            "dataRegion": "数据区域：{{ region }}",
+            "errorCode": "错误代码：{{ code }}",
+            "headline": "我需要登录帮助。",
+            "methodsAvailable": "可用的登录方式：{{ methods }}",
+            "ssoEnforced": "登录方式：强制 SSO（{{ provider }}）"
+        },
         "twoFactor": {
             "authenticatorToken": "身份验证器令牌",
             "description": "输入身份验证器应用中的令牌，使用通行密钥，或输入备用代码。",
@@ -1135,64 +1167,64 @@
         "title": "通知",
         "type": {
             "achievementUnlocked": {
-                "label": "解锁成就",
-                "description": "你解锁新成就时"
+                "description": "你解锁新成就时",
+                "label": "解锁成就"
             },
             "alertFiring": {
-                "label": "告警触发",
-                "description": "你订阅的告警触发时"
+                "description": "你订阅的告警触发时",
+                "label": "告警触发"
             },
             "approvalRequested": {
-                "label": "审批请求",
-                "description": "有待你审批的变更时"
+                "description": "有待你审批的变更时",
+                "label": "审批请求"
             },
             "approvalResolved": {
-                "label": "审批已处理",
-                "description": "你发起的审批有结果时"
+                "description": "你发起的审批有结果时",
+                "label": "审批已处理"
             },
             "commentMention": {
-                "label": "评论提及",
-                "description": "有人在讨论中 @ 提及你时"
+                "description": "有人在讨论中 @ 提及你时",
+                "label": "评论提及"
             },
             "dataQualityCheckFailure": {
-                "label": "数据质量检查失败",
-                "description": "仓库表或视图的数据质量检查开始失败时"
+                "description": "仓库表或视图的数据质量检查开始失败时",
+                "label": "数据质量检查失败"
             },
             "experimentConcluded": {
-                "label": "实验已结束",
-                "description": "你创建的实验结束时"
+                "description": "你创建的实验结束时",
+                "label": "实验已结束"
             },
             "issueAssigned": {
-                "label": "问题已分配",
-                "description": "错误追踪问题分配给你时"
+                "description": "错误追踪问题分配给你时",
+                "label": "问题已分配"
             },
             "materializationFailure": {
-                "label": "物化视图失败",
-                "description": "项目中的物化视图刷新失败时"
+                "description": "项目中的物化视图刷新失败时",
+                "label": "物化视图失败"
             },
             "pipelineFailure": {
-                "label": "数据管道失败",
-                "description": "数据管道或批量导出失败时"
+                "description": "数据管道或批量导出失败时",
+                "label": "数据管道失败"
             },
             "projectCreated": {
-                "label": "项目已创建",
-                "description": "组织成员创建新项目时"
+                "description": "组织成员创建新项目时",
+                "label": "项目已创建"
             },
             "reminder": {
-                "label": "提醒",
-                "description": "你设置的提醒到期时"
+                "description": "你设置的提醒到期时",
+                "label": "提醒"
             },
             "subscriptionNudge": {
-                "label": "订阅建议",
-                "description": "PostHog 建议你订阅经常查看的仪表盘时"
+                "description": "PostHog 建议你订阅经常查看的仪表盘时",
+                "label": "订阅建议"
             },
             "usageSpike": {
-                "label": "用量激增",
-                "description": "计费系统发现你的某个账户用量激增时"
+                "description": "计费系统发现你的某个账户用量激增时",
+                "label": "用量激增"
             },
             "webAnalyticsDigest": {
-                "label": "Web 分析摘要",
-                "description": "你的每周 Web 分析摘要已准备好！"
+                "description": "你的每周 Web 分析摘要已准备好！",
+                "label": "Web 分析摘要"
             }
         },
         "viewResource": "查看 {{ resource }}"
@@ -1230,11 +1262,13 @@
         "euFaster": "如果你和你的用户位于欧洲，速度更快",
         "euHosting": "欧盟托管",
         "euLocation": "托管于德国法兰克福",
+        "europeanUnion": "欧盟",
         "local": "本地（此实例）",
         "localHint": "使用下方表单登录",
         "modalDescription": "之后仍然可以迁移到其他区域。",
         "modalTitle": "你想选择哪个区域？",
         "oauth": "OAuth",
+        "unitedStates": "美国",
         "usCloud": "美国云",
         "usCompliance": "更容易满足部分美国法规要求",
         "usFaster": "如果你和你的用户位于美国，速度更快",
@@ -4236,6 +4270,9 @@
         "yourName": "你的名字",
         "yourTeam": "你的团队"
     },
+    "support": {
+        "reportAnIssue": "反馈问题"
+    },
     "surveyActivity": {
         "appearance": {
             "allowGoBack": "返回按钮",
@@ -4553,10 +4590,14 @@
     },
     "twoFactorSetup": {
         "changeOrganization": "切换组织",
+        "enterAuthenticatorCode": "请输入身份验证器应用中的 6 位验证码以验证身份。",
         "manualSetupHint": "如果无法扫描二维码，可以使用下方的一次性密钥在验证器应用中手动设置。",
         "or": "或",
         "qrAlt": "用于设置双重验证的二维码",
+        "requiredBannerSetup": "你的组织要求你设置两步验证。",
+        "requiredBannerVerify": "你的组织要求使用两步验证。请使用身份验证器应用进行验证。",
         "requiredTitle": "需要双重验证",
+        "scanQrCode": "使用 Google Authenticator 或 1Password 等身份验证器应用扫描下方二维码。",
         "secretDescription": "双重验证一次性密钥",
         "setUpTitle": "设置双重验证",
         "submit": "提交",
@@ -4583,10 +4624,15 @@
         "goToPosthog": "前往 PostHog",
         "linkedDetail": "你的 PostHog 组织 <Strong>{{ org }}</Strong> 现在已连接到 Vercel。",
         "linkedTitle": "账户已关联",
+        "linkFailed": "关联失败",
+        "linkOrgFailed": "关联组织失败",
+        "loadFailed": "加载会话失败",
+        "missingSession": "缺少会话参数。请从 Vercel 重试。",
         "noAdminOrgs": "你没有任何拥有管理员权限的组织。",
         "returnToVercel": "返回 Vercel",
         "selectOrg": "选择组织",
         "selectProject": "选择项目",
+        "sessionExpired": "会话已过期或无效",
         "title": "连接到 Vercel"
     },
     "vercelLinkError": {
@@ -4595,7 +4641,8 @@
         "logOut": "退出登录并继续",
         "logOutWith": "退出登录并以 {{ email }} 继续",
         "signedInAs": "你当前登录的账户是 <Strong>{{ currentEmail }}</Strong>，但你的 Vercel 账户关联到了 <Strong>{{ expected }}</Strong>。",
-        "title": "账户不匹配"
+        "title": "账户不匹配",
+        "yourCurrentAccount": "你当前登录的账号"
     },
     "verifyEmail": {
         "alreadyHaveCode": "已经有验证码了？在下方输入即可。验证码有效期为 30 分钟。",

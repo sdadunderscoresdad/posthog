@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { LemonBanner, LemonDivider } from '@posthog/lemon-ui'
 
 import { OrganizationMenu } from 'lib/components/Account/OrganizationMenu'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonModal } from 'lib/lemon-ui/LemonModal'
 import { membersLogic } from 'scenes/organization/membersLogic'
 import { userLogic } from 'scenes/userLogic'
@@ -36,14 +37,25 @@ export function TwoFactorSetupModal(): JSX.Element {
                 {forceOpenTwoFactorSetupModal && (
                     <LemonBanner className="mb-4" type="warning">
                         {isSetupMode
-                            ? 'Your organization requires you to set up 2FA.'
-                            : 'Your organization requires two-factor authentication. Please verify using your authenticator app.'}
+                            ? i18n.t('twoFactorSetup.requiredBannerSetup', {
+                                  defaultValue: 'Your organization requires you to set up 2FA.',
+                              })
+                            : i18n.t('twoFactorSetup.requiredBannerVerify', {
+                                  defaultValue:
+                                      'Your organization requires two-factor authentication. Please verify using your authenticator app.',
+                              })}
                     </LemonBanner>
                 )}
                 <p>
                     {isSetupMode
-                        ? 'Use an authenticator app like Google Authenticator or 1Password to scan the QR code below.'
-                        : 'Enter the 6-digit code from your authenticator app to verify your identity.'}
+                        ? i18n.t('twoFactorSetup.scanQrCode', {
+                              defaultValue:
+                                  'Use an authenticator app like Google Authenticator or 1Password to scan the QR code below.',
+                          })
+                        : i18n.t('twoFactorSetup.enterAuthenticatorCode', {
+                              defaultValue:
+                                  'Enter the 6-digit code from your authenticator app to verify your identity.',
+                          })}
                 </p>
                 <TwoFactorSetup
                     onSuccess={() => {

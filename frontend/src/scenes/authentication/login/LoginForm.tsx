@@ -12,6 +12,7 @@ import { SocialLoginButtons, SSOEnforcedLoginButton } from 'lib/components/Socia
 import { supportLogic } from 'lib/components/Support/supportLogic'
 import { SSO_PROVIDER_NAMES } from 'lib/constants'
 import { usePrevious } from 'lib/hooks/usePrevious'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonField } from 'lib/lemon-ui/LemonField'
 import { LemonInput } from 'lib/lemon-ui/LemonInput/LemonInput'
@@ -67,28 +68,42 @@ function buildLoginSupportMessage({
     precheckTrusted: boolean
     codeVerificationPending: boolean
 }): string {
-    const lines = ['I need help logging in.']
+    const lines = [i18n.t('login.support.headline', { defaultValue: 'I need help logging in.' })]
     if (errorCode) {
-        lines.push(`Error code: ${errorCode}`)
+        lines.push(i18n.t('login.support.errorCode', { defaultValue: 'Error code: {{ code }}', code: errorCode }))
     }
     if (region) {
-        lines.push(`Data region: ${region}`)
+        lines.push(i18n.t('login.support.dataRegion', { defaultValue: 'Data region: {{ region }}', region }))
     }
     // Only state the account's methods when the precheck is trustworthy. A failed or stale one
     // reports permissive defaults (e.g. password login for an SSO-only account), which would point
     // support the wrong way.
     if (precheckTrusted) {
         if (ssoEnforcement) {
-            lines.push(`Login method: SSO enforced (${SSO_PROVIDER_NAMES[ssoEnforcement]})`)
+            lines.push(
+                i18n.t('login.support.ssoEnforced', {
+                    defaultValue: 'Login method: SSO enforced ({{ provider }})',
+                    provider: SSO_PROVIDER_NAMES[ssoEnforcement],
+                })
+            )
         } else {
             const labels = availableLoginMethods.map(loginMethodLabel).filter(Boolean)
             if (labels.length) {
-                lines.push(`Login methods available: ${labels.join(', ')}`)
+                lines.push(
+                    i18n.t('login.support.methodsAvailable', {
+                        defaultValue: 'Login methods available: {{ methods }}',
+                        methods: labels.join(', '),
+                    })
+                )
             }
         }
     }
     if (codeVerificationPending) {
-        lines.push('Waiting on an emailed verification code.')
+        lines.push(
+            i18n.t('login.support.codeVerificationPending', {
+                defaultValue: 'Waiting on an emailed verification code.',
+            })
+        )
     }
     return lines.join('\n')
 }
@@ -161,12 +176,16 @@ export function LoginForm(): JSX.Element {
                     className={isCodeSent ? 'mb-2' : undefined}
                     title={
                         isCodeSent ? (
-                            'Check your inbox'
+                            i18n.t('login.checkYourInbox', { defaultValue: 'Check your inbox' })
                         ) : (
                             <>
                                 {/* This whole fragment is deleted when the title flips to the code-sent
                                     string, so even the separator space lives inside an element */}
-                                <span>{pendingConnection ? 'Log in to connect ' : 'Log in to '}</span>
+                                <span>
+                                    {pendingConnection
+                                        ? i18n.t('login.logInToConnect', { defaultValue: 'Log in to connect' })
+                                        : i18n.t('login.logInTo', { defaultValue: 'Log in to' })}{' '}
+                                </span>
                                 <span className="px-1 rounded-md bg-[color-mix(in_srgb,var(--color-blue-500)_10%,transparent)] text-[var(--color-blue-500)]">
                                     {pendingConnection ? pendingConnection.clientName : '@PostHog'}
                                 </span>
@@ -310,7 +329,9 @@ export function LoginForm(): JSX.Element {
                             disabledReason={
                                 isValidVerificationCode(normalizeVerificationCode(codeVerification.code))
                                     ? undefined
-                                    : 'Enter the 6-digit code from your email'
+                                    : i18n.t('login.enterSixDigitCode', {
+                                          defaultValue: 'Enter the 6-digit code from your email',
+                                      })
                             }
                         >
                             {t('login.verifyAndLogIn', { defaultValue: 'Verify and log in' })}
@@ -447,7 +468,11 @@ export function LoginForm(): JSX.Element {
                     (!precheckResponse.saml_available || isPasswordLoginUnavailable) && (
                         <SocialLoginButtons
                             topDivider
-                            caption={isPasswordLoginUnavailable ? 'Log in with' : 'Or log in with'}
+                            caption={
+                                isPasswordLoginUnavailable
+                                    ? i18n.t('login.logInWith', { defaultValue: 'Log in with' })
+                                    : i18n.t('login.orLogInWith', { defaultValue: 'Or log in with' })
+                            }
                             captionLocation="top"
                             lastUsedProvider={lastLoginMethod}
                             restrictToProviders={restrictToProviders}

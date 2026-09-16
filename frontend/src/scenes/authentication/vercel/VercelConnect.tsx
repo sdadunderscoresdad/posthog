@@ -7,6 +7,7 @@ import { LemonButton, LemonSelect } from '@posthog/lemon-ui'
 
 import { getCookie } from 'lib/api'
 import { BridgePage } from 'lib/components/BridgePage/BridgePage'
+import { i18n } from 'lib/i18n/i18n'
 import { Spinner } from 'lib/lemon-ui/Spinner'
 import { SceneExport } from 'scenes/sceneTypes'
 
@@ -56,7 +57,11 @@ export function VercelConnect(): JSX.Element {
 
     useEffect(() => {
         if (!sessionKey) {
-            setError('Missing session parameter. Please try again from Vercel.')
+            setError(
+                i18n.t('vercelConnect.missingSession', {
+                    defaultValue: 'Missing session parameter. Please try again from Vercel.',
+                })
+            )
             setLoading(false)
             return
         }
@@ -64,7 +69,9 @@ export function VercelConnect(): JSX.Element {
         fetch(`/api/vercel/connect/session?session=${encodeURIComponent(sessionKey)}`)
             .then((res) => {
                 if (!res.ok) {
-                    throw new Error('Session expired or invalid')
+                    throw new Error(
+                        i18n.t('vercelConnect.sessionExpired', { defaultValue: 'Session expired or invalid' })
+                    )
                 }
                 return res.json()
             })
@@ -77,7 +84,7 @@ export function VercelConnect(): JSX.Element {
                 setLoading(false)
             })
             .catch((err) => {
-                setError(err.message || 'Failed to load session')
+                setError(err.message || i18n.t('vercelConnect.loadFailed', { defaultValue: 'Failed to load session' }))
                 setLoading(false)
             })
     }, [sessionKey])
@@ -122,7 +129,11 @@ export function VercelConnect(): JSX.Element {
             .then((res) => {
                 if (!res.ok) {
                     return res.json().then((data) => {
-                        throw new Error(data.detail || data.attr?.session || 'Failed to link')
+                        throw new Error(
+                            data.detail ||
+                                data.attr?.session ||
+                                i18n.t('vercelConnect.linkFailed', { defaultValue: 'Failed to link' })
+                        )
                     })
                 }
                 return res.json()
@@ -138,7 +149,10 @@ export function VercelConnect(): JSX.Element {
                 }
             })
             .catch((err) => {
-                setError(err.message || 'Failed to link organization')
+                setError(
+                    err.message ||
+                        i18n.t('vercelConnect.linkOrgFailed', { defaultValue: 'Failed to link organization' })
+                )
                 setLinking(false)
             })
     }

@@ -143,11 +143,11 @@ export default function RegionSelect(): JSX.Element | null {
                     value={preflight?.region}
                     options={[
                         {
-                            label: 'United States',
+                            label: i18n.t('regionSelect.unitedStates', { defaultValue: 'United States' }),
                             value: Region.US,
                         },
                         {
-                            label: 'European Union',
+                            label: i18n.t('regionSelect.europeanUnion', { defaultValue: 'European Union' }),
                             value: Region.EU,
                         },
                     ]}
