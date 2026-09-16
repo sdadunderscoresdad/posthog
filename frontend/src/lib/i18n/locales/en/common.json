@@ -56,6 +56,38 @@
         "no": "No",
         "yes": "Yes"
     },
+    "homepage": {
+        "ai": {
+            "allowAnalysis": "I allow AI analysis in this organization",
+            "consentAdmin": "PostHog AI needs an organization admin to approve processing identifying user data with external AI providers.",
+            "consentSelf": "PostHog AI needs your approval to potentially process identifying user data with external AI providers.",
+            "noTraining": "Your data won't be used for training third-party models."
+        },
+        "breadcrumb": {
+            "projectHomepage": "Project homepage"
+        },
+        "input": {
+            "askTooltip": "Try asking a question",
+            "commandsHint": "/ for commands",
+            "handsFreeTooltip": "Start a new chat in hands-free",
+            "placeholder": "What can I help you with?",
+            "tabToSearch": "Tab to search"
+        },
+        "rail": {
+            "noPinnedDashboards": "No pinned dashboards",
+            "pinHint": "Pin dashboards by clicking \"Pin\" in the dashboard context panel",
+            "pinnedDashboards": "Pinned dashboards",
+            "recents": "Recents"
+        },
+        "recentInsights": {
+            "emptyButton": "View insights",
+            "emptyDescription": "Explore this project's insights by clicking below.",
+            "emptyTitle": "You have no recently viewed insights",
+            "lastModified": "Last modified {{ time }}",
+            "title": "Your recently viewed insights",
+            "untitled": "Insight"
+        }
+    },
     "mcp": {
         "columns": {
             "key": "Key",

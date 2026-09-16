@@ -61,6 +61,23 @@ describe('locale formatters', () => {
             expect(chinese.relativeTime(-3, 'minute')).toBe('3分钟前')
         })
 
+        it('picks the largest unit that still reads as a number', () => {
+            jest.useFakeTimers()
+            jest.setSystemTime(new Date('2026-01-15T12:00:00Z'))
+            try {
+                const minuteAgo = new Date('2026-01-15T11:59:00Z')
+                const dayAgo = new Date('2026-01-14T12:00:00Z')
+                const inThreeHours = new Date('2026-01-15T15:00:00Z')
+
+                expect(english.relativeTimeFromNow(minuteAgo)).toBe('1 minute ago')
+                expect(english.relativeTimeFromNow(dayAgo)).toBe('yesterday')
+                expect(english.relativeTimeFromNow(inThreeHours)).toBe('in 3 hours')
+                expect(chinese.relativeTimeFromNow(minuteAgo)).toBe('1分钟前')
+            } finally {
+                jest.useRealTimers()
+            }
+        })
+
         it('formats a timestamp in the language rather than in a fixed locale', () => {
             const timestamp = Date.UTC(2026, 0, 15, 12, 30)
             expect(english.date(timestamp, { timeZone: 'UTC' })).toBe('Jan 15, 2026')

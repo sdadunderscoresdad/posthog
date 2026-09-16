@@ -1,6 +1,7 @@
 import { BindLogic, useActions, useAsyncActions, useValues } from 'kea'
 import posthog from 'posthog-js'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconArrowRight, IconClock, IconInfo, IconMicrophone, IconPin, IconSparkles } from '@posthog/icons'
 import { LemonButton, LemonSkeleton, Tooltip } from '@posthog/lemon-ui'
@@ -41,6 +42,7 @@ import { HOMEPAGE_TAB_ID } from './constants'
 import { SUGGESTIONS_LIMIT } from './homepageSuggestions'
 
 function IdleInput(): JSX.Element {
+    const { t } = useTranslation()
     const { query, fillInHint } = useValues(aiFirstHomepageLogic)
     const { setQuery, submitQuery, enterAiMode, startHandsFreeChat, setFillInHint } = useActions(aiFirstHomepageLogic)
     const { dataProcessingAccepted } = useValues(maxGlobalLogic)
@@ -80,9 +82,11 @@ function IdleInput(): JSX.Element {
                 <div className="flex w-full py-1 px-1 max-h-[300px] items-end gap-1">
                     {!query && !fillInHint && (
                         <span className="text-tertiary pointer-events-none absolute left-2.5 top-2 flex items-center gap-1">
-                            <span className="text-tertiary">What can I help you with?</span>
+                            <span className="text-tertiary">
+                                {t('homepage.input.placeholder', { defaultValue: 'What can I help you with?' })}
+                            </span>
                             <span className="text-tertiary opacity-50 contrast-more:opacity-100 hidden @xl/main-content:inline">
-                                / for commands
+                                {t('homepage.input.commandsHint', { defaultValue: '/ for commands' })}
                             </span>
                         </span>
                     )}
@@ -160,10 +164,16 @@ function IdleInput(): JSX.Element {
                                     submitQuery('search')
                                 }}
                             >
-                                <span className="text-xxs">Tab to search</span>
+                                <span className="text-xxs">
+                                    {t('homepage.input.tabToSearch', { defaultValue: 'Tab to search' })}
+                                </span>
                             </ButtonPrimitive>
                             {handsFreeAvailable && (
-                                <Tooltip title="Start a new chat in hands-free">
+                                <Tooltip
+                                    title={t('homepage.input.handsFreeTooltip', {
+                                        defaultValue: 'Start a new chat in hands-free',
+                                    })}
+                                >
                                     <ButtonPrimitive
                                         iconOnly
                                         data-attr="homepage-hands-free"
@@ -174,7 +184,13 @@ function IdleInput(): JSX.Element {
                                     </ButtonPrimitive>
                                 </Tooltip>
                             )}
-                            <Tooltip title={!query.trim() ? 'Try asking a question' : undefined}>
+                            <Tooltip
+                                title={
+                                    !query.trim()
+                                        ? t('homepage.input.askTooltip', { defaultValue: 'Try asking a question' })
+                                        : undefined
+                                }
+                            >
                                 <ButtonPrimitive
                                     onClick={() => {
                                         posthog.capture('homepage query submitted', { mode: 'ai' })
@@ -196,6 +212,7 @@ function IdleInput(): JSX.Element {
 }
 
 export function HomepageAiInput(): JSX.Element {
+    const { t } = useTranslation()
     const { threadLogicKey, conversation } = useValues(maxLogic)
     const { dataProcessingAccepted, dataProcessingApprovalDisabledReason } = useValues(maxGlobalLogic)
     const { acceptDataProcessing } = useAsyncActions(aiConsentLogic)
@@ -214,10 +231,20 @@ export function HomepageAiInput(): JSX.Element {
             <div className="border border-primary rounded-lg bg-surface-primary p-4 flex flex-col gap-2">
                 <p className="font-medium text-pretty m-0">
                     {isAdmin
-                        ? 'PostHog AI needs your approval to potentially process identifying user data with external AI providers.'
-                        : 'PostHog AI needs an organization admin to approve processing identifying user data with external AI providers.'}
+                        ? t('homepage.ai.consentSelf', {
+                              defaultValue:
+                                  'PostHog AI needs your approval to potentially process identifying user data with external AI providers.',
+                          })
+                        : t('homepage.ai.consentAdmin', {
+                              defaultValue:
+                                  'PostHog AI needs an organization admin to approve processing identifying user data with external AI providers.',
+                          })}
                 </p>
-                <p className="text-muted text-xs m-0">Your data won't be used for training third-party models.</p>
+                <p className="text-muted text-xs m-0">
+                    {t('homepage.ai.noTraining', {
+                        defaultValue: "Your data won't be used for training third-party models.",
+                    })}
+                </p>
                 {isAdmin ? (
                     <LemonButton
                         type="primary"
@@ -231,7 +258,9 @@ export function HomepageAiInput(): JSX.Element {
                         }}
                         sideIcon={<IconArrowRight />}
                     >
-                        I allow AI analysis in this organization
+                        {t('homepage.ai.allowAnalysis', {
+                            defaultValue: 'I allow AI analysis in this organization',
+                        })}
                     </LemonButton>
                 ) : (
                     <div className="flex">
@@ -274,25 +303,35 @@ interface RailSection {
     emptyState?: { label: string; tooltip: React.ReactNode }
 }
 
-// The navigation rail next to the suggestions list: compact links to existing resources.
-// Recents carry no empty state: they fill by themselves as the user browses, so an empty
-// section has nothing actionable to say and just takes space.
-const RAIL_SECTIONS: RailSection[] = [
-    {
-        label: 'Pinned dashboards',
-        kind: 'dashboard',
-        icon: <IconPin className="size-3" />,
-        emptyState: {
-            label: 'No pinned dashboards',
-            tooltip: 'Pin dashboards by clicking "Pin" in the dashboard context panel',
+/**
+ * The navigation rail next to the suggestions list: compact links to existing resources.
+ * Recents carry no empty state: they fill by themselves as the user browses, so an empty
+ * section has nothing actionable to say and just takes space.
+ *
+ * Built on each render rather than kept as a module constant, because a message read at import
+ * time never follows a language change.
+ */
+function useRailSections(): RailSection[] {
+    const { t } = useTranslation()
+    return [
+        {
+            label: t('homepage.rail.pinnedDashboards', { defaultValue: 'Pinned dashboards' }),
+            kind: 'dashboard',
+            icon: <IconPin className="size-3" />,
+            emptyState: {
+                label: t('homepage.rail.noPinnedDashboards', { defaultValue: 'No pinned dashboards' }),
+                tooltip: t('homepage.rail.pinHint', {
+                    defaultValue: 'Pin dashboards by clicking "Pin" in the dashboard context panel',
+                }),
+            },
         },
-    },
-    {
-        label: 'Recents',
-        kind: 'recent',
-        icon: <IconClock className="size-3" />,
-    },
-]
+        {
+            label: t('homepage.rail.recents', { defaultValue: 'Recents' }),
+            kind: 'recent',
+            icon: <IconClock className="size-3" />,
+        },
+    ]
+}
 
 const SKELETON_ROWS_BY_KIND: Record<HomepageGridItemKind, number> = {
     dashboard: PINNED_DASHBOARDS_LIMIT,
@@ -409,6 +448,7 @@ function RailEmptyState({
 }
 
 function IdleGrid(): JSX.Element {
+    const railSections = useRailSections()
     const {
         gridItems,
         displayedSuggestionItems,
@@ -627,7 +667,7 @@ function IdleGrid(): JSX.Element {
 
             {/* Navigation rail: pinned dashboards and recents */}
             <div role="rowgroup" className="flex-1 min-w-0 flex flex-col gap-px" data-attr="homepage-grid-column-nav">
-                {RAIL_SECTIONS.map((section) => {
+                {railSections.map((section) => {
                     const items = railItemsByKind[section.kind as 'dashboard' | 'recent']
                     const loading = section.kind === 'dashboard' ? dashboardsLoading : recentItemsLoading
                     const offset = railHighlightOffset[section.kind as 'dashboard' | 'recent']

@@ -55,6 +55,38 @@
         "no": "",
         "yes": ""
     },
+    "homepage": {
+        "ai": {
+            "allowAnalysis": "",
+            "consentAdmin": "",
+            "consentSelf": "",
+            "noTraining": ""
+        },
+        "breadcrumb": {
+            "projectHomepage": ""
+        },
+        "input": {
+            "askTooltip": "",
+            "commandsHint": "",
+            "handsFreeTooltip": "",
+            "placeholder": "",
+            "tabToSearch": ""
+        },
+        "rail": {
+            "noPinnedDashboards": "",
+            "pinHint": "",
+            "pinnedDashboards": "",
+            "recents": ""
+        },
+        "recentInsights": {
+            "emptyButton": "",
+            "emptyDescription": "",
+            "emptyTitle": "",
+            "lastModified": "",
+            "title": "",
+            "untitled": ""
+        }
+    },
     "mcp": {
         "columns": {
             "key": "",

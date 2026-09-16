@@ -55,6 +55,38 @@
         "no": "否",
         "yes": "是"
     },
+    "homepage": {
+        "ai": {
+            "allowAnalysis": "我允许在此组织中使用 AI 分析",
+            "consentAdmin": "PostHog AI 需要组织管理员批准，才能将可识别用户身份的数据交由外部 AI 服务商处理。",
+            "consentSelf": "PostHog AI 需要你的批准，才能将可识别用户身份的数据交由外部 AI 服务商处理。",
+            "noTraining": "你的数据不会被用于训练第三方模型。"
+        },
+        "breadcrumb": {
+            "projectHomepage": "项目首页"
+        },
+        "input": {
+            "askTooltip": "试着提个问题",
+            "commandsHint": "/ 唤起命令",
+            "handsFreeTooltip": "开始免手操作的对话",
+            "placeholder": "有什么可以帮你的？",
+            "tabToSearch": "Tab 搜索"
+        },
+        "rail": {
+            "noPinnedDashboards": "没有置顶的仪表盘",
+            "pinHint": "在仪表盘的上下文面板中点击“置顶”即可固定",
+            "pinnedDashboards": "置顶的仪表盘",
+            "recents": "最近访问"
+        },
+        "recentInsights": {
+            "emptyButton": "查看洞察",
+            "emptyDescription": "点击下方按钮浏览此项目的洞察。",
+            "emptyTitle": "你还没有最近查看的洞察",
+            "lastModified": "最后修改于 {{ time }}",
+            "title": "你最近查看的洞察",
+            "untitled": "洞察"
+        }
+    },
     "mcp": {
         "columns": {
             "key": "键",

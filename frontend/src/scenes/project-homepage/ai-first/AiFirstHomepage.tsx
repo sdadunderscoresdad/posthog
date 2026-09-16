@@ -1,4 +1,5 @@
 import { BindLogic, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { Search } from 'lib/components/Search/Search'
 import { cn } from 'lib/utils/css-classes'
@@ -21,6 +22,7 @@ function phaseAtLeast(current: string, target: string): boolean {
 }
 
 export function AiFirstHomepage(): JSX.Element {
+    const { t } = useTranslation()
     const { mode, animationPhase, query, threadStarted } = useValues(aiFirstHomepageLogic)
     const { conversationId } = useValues(maxLogic({ panelId: HOMEPAGE_TAB_ID }))
 
@@ -53,7 +55,9 @@ export function AiFirstHomepage(): JSX.Element {
                         <ChatHeader conversationId={conversationId} hideBorder>
                             <SceneBreadcrumbBackButton
                                 forceBackTo={{
-                                    name: 'Project homepage',
+                                    name: t('homepage.breadcrumb.projectHomepage', {
+                                        defaultValue: 'Project homepage',
+                                    }),
                                     path: urls.projectHomepage(),
                                     type: 'projectTree',
                                     key: 'projectHomepage',

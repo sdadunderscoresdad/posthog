@@ -77,6 +77,34 @@ interface DurationPart {
     readonly amount: number
 }
 
+/** Whole units, largest first, used to pick how coarsely to express a distance in time. */
+const RELATIVE_UNITS: ReadonlyArray<{ unit: Intl.RelativeTimeFormatUnit; milliseconds: number }> = [
+    { unit: 'year', milliseconds: 31_536_000_000 },
+    { unit: 'month', milliseconds: 2_592_000_000 },
+    { unit: 'week', milliseconds: 604_800_000 },
+    { unit: 'day', milliseconds: 86_400_000 },
+    { unit: 'hour', milliseconds: 3_600_000 },
+    { unit: 'minute', milliseconds: 60_000 },
+]
+
+function formatRelativeTimeFromNow(
+    locale: LocaleCode,
+    value: Date | number | string,
+    options: Intl.RelativeTimeFormatOptions | undefined
+): string {
+    const milliseconds = value instanceof Date ? value.getTime() : typeof value === 'number' ? value : Date.parse(value)
+    const difference = milliseconds - Date.now()
+    const magnitude = Math.abs(difference)
+    const formatter = relativeTimeFormat(locale, { numeric: 'auto', ...options })
+
+    for (const { unit, milliseconds: unitMilliseconds } of RELATIVE_UNITS) {
+        if (magnitude >= unitMilliseconds) {
+            return formatter.format(Math.round(difference / unitMilliseconds), unit)
+        }
+    }
+    return formatter.format(Math.round(difference / 1000), 'second')
+}
+
 /**
  * Split a span into the units to render, largest first.
  *
@@ -177,6 +205,12 @@ export interface LocaleFormatters {
     time(value: Date | number, options?: Intl.DateTimeFormatOptions): string
     dateTime(value: Date | number, options?: Intl.DateTimeFormatOptions): string
     relativeTime(value: number, unit: Intl.RelativeTimeFormatUnit, options?: Intl.RelativeTimeFormatOptions): string
+    /**
+     * Express a timestamp as a distance from now, in the largest unit that still reads as a
+     * number: `3 minutes ago`, `yesterday`, `in 2 days`. The string form has to be an ISO date,
+     * which is what the API returns.
+     */
+    relativeTimeFromNow(value: Date | number | string, options?: Intl.RelativeTimeFormatOptions): string
     durationSeconds(seconds: number, options?: DurationFormatOptions): string
     durationMilliseconds(milliseconds: number, options?: DurationFormatOptions): string
     list(items: readonly string[], options?: Intl.ListFormatOptions): string
@@ -208,6 +242,7 @@ export function createLocaleFormatters(locale: LocaleCode): LocaleFormatters {
             ),
         relativeTime: (value, unit, options) =>
             relativeTimeFormat(locale, { numeric: 'auto', ...options }).format(value, unit),
+        relativeTimeFromNow: (value, options) => formatRelativeTimeFromNow(locale, value, options),
         durationSeconds: (seconds, options) => formatDuration(locale, seconds * 1000, options),
         durationMilliseconds: (milliseconds, options) => formatDuration(locale, milliseconds, options),
         list: (items, options) =>
