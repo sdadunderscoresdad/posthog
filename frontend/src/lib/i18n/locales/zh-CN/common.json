@@ -1128,6 +1128,14 @@
         "joinTitle": "加入 {{ org }}",
         "logInShort": "登录",
         "needHelp": "需要帮助？",
+        "notes": {
+            "hmm": "嗯……",
+            "invited": "你收到了邀请",
+            "oneMoreOrg": "又多了一个组织",
+            "orgWaiting": "{{ org }} 正在等你",
+            "welcomeBack": "欢迎回来",
+            "wrongInvite": "这个邀请有问题"
+        },
         "notNow": "暂不，返回 PostHog",
         "onPosthog": "在 PostHog 上",
         "orContinueWith": "或使用以下方式继续",
@@ -1172,6 +1180,10 @@
         "needHelp": "需要帮助？",
         "newToPosthog": "初次使用 PostHog？",
         "noSignInMethod": "此账号未设置登录方式。请使用 <2>忘记密码？</2> 通过邮箱设置密码。",
+        "notes": {
+            "teamsShipHere": "50 万+ 团队在这里发布产品",
+            "welcomeBack": "欢迎回来"
+        },
         "orLogInWith": "或使用以下方式登录",
         "otherRegionHint": "已有 PostHog Cloud 账号？它可能位于我们的 {{ otherRegion }} 区域。你当前在 {{ currentRegion }}。<RegionLink>前往 {{ otherRegionHost }} 登录</RegionLink>",
         "password": "密码",
@@ -4446,6 +4458,14 @@
         "logIn": "登录 →",
         "logInInstead": "改为登录 →",
         "namePlaceholder": "Jane Doe",
+        "notes": {
+            "almostThere": "就快好了",
+            "createAccount": "创建账号",
+            "freeEvents": "每月 100 万事件免费",
+            "lastStep": "最后一步",
+            "makeItGood": "起个好名字",
+            "stepTwo": "第 2 步，共 2 步"
+        },
         "organizationName": "组织名称",
         "organizationPlaceholder": "Hogflix Movies",
         "orGoBack": "← 或返回上一步",
@@ -4873,6 +4893,16 @@
         "logIn": "登录 →",
         "logInPrompt": "使用你的邮箱和密码登录，我们会把新的验证码发送到你的邮箱。",
         "logInShort": "登录",
+        "notes": {
+            "emailDidNotGo": "邮件没有发出",
+            "giveItAnotherSend": "再发一次",
+            "goExplore": "去探索吧",
+            "justHitSend": "我们刚刚发出",
+            "nothingToVerify": "没有需要验证的内容",
+            "oneEmailAway": "只差一封邮件",
+            "startAgain": "重新开始",
+            "verified": "已验证"
+        },
         "notSeeingIt": "没有收到？",
         "resendCode": "重新发送验证码",
         "sendFailedNotice": "刚才没能发送你的验证码。请打开下方的「没有收到？」重新发送。",

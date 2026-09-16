@@ -1141,6 +1141,14 @@
         "joinTitle": "Join {{ org }}",
         "logInShort": "Log in",
         "needHelp": "Need help?",
+        "notes": {
+            "hmm": "hmm",
+            "invited": "you've been invited",
+            "oneMoreOrg": "one more org for you",
+            "orgWaiting": "{{ org }} is waiting",
+            "welcomeBack": "hey, welcome back",
+            "wrongInvite": "this invite isn't right"
+        },
         "notNow": "Not now, back to PostHog",
         "onPosthog": "on PostHog",
         "orContinueWith": "or continue with",
@@ -1185,6 +1193,10 @@
         "needHelp": "Need help?",
         "newToPosthog": "New to PostHog?",
         "noSignInMethod": "No sign-in method is set up for this account. Use <2>Forgot password?</2> to set a password by email.",
+        "notes": {
+            "teamsShipHere": "500,000+ teams ship here",
+            "welcomeBack": "welcome back"
+        },
         "orLogInWith": "Or log in with",
         "otherRegionHint": "Already have a PostHog Cloud account? It may live in our {{ otherRegion }} region. You're currently on {{ currentRegion }}. <RegionLink>Log in on {{ otherRegionHost }}</RegionLink>",
         "password": "Password",
@@ -4483,6 +4495,14 @@
         "logIn": "Log in →",
         "logInInstead": "Log in instead →",
         "namePlaceholder": "Jane Doe",
+        "notes": {
+            "almostThere": "almost there",
+            "createAccount": "create an account",
+            "freeEvents": "1M events free, every month",
+            "lastStep": "last step",
+            "makeItGood": "make it a good one",
+            "stepTwo": "step 2 of 2"
+        },
         "organizationName": "Organization name",
         "organizationPlaceholder": "Hogflix Movies",
         "orGoBack": "← or go back",
@@ -4910,6 +4930,16 @@
         "logIn": "Log in →",
         "logInPrompt": "Log in with your email and password and we'll send a new code to your inbox.",
         "logInShort": "Log in",
+        "notes": {
+            "emailDidNotGo": "the email did not go",
+            "giveItAnotherSend": "give it another send",
+            "goExplore": "go explore",
+            "justHitSend": "we just hit send",
+            "nothingToVerify": "nothing to verify",
+            "oneEmailAway": "one email away",
+            "startAgain": "let's start again",
+            "verified": "verified"
+        },
         "notSeeingIt": "Not seeing it?",
         "resendCode": "Resend code",
         "sendFailedNotice": "We couldn't send your code just now. Open \"Not seeing it?\" below to send a new one.",

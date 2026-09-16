@@ -13,6 +13,7 @@ import passkeyLogo from 'lib/components/SocialLoginButton/passkey.svg'
 import { SocialLoginButton, SSOEnforcedLoginButton } from 'lib/components/SocialLoginButton/SocialLoginButton'
 import { supportLogic } from 'lib/components/Support/supportLogic'
 import { SSO_PROVIDER_NAMES } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonDivider } from 'lib/lemon-ui/LemonDivider'
 import { LemonField } from 'lib/lemon-ui/LemonField'
@@ -174,7 +175,15 @@ function InviteNewUser({ invite }: { invite: PrevalidatedInvite }): JSX.Element 
     )
 
     return (
-        <AuthScene notes={["// you've been invited", `// ${org.toLowerCase()} is waiting`]}>
+        <AuthScene
+            notes={[
+                `// ${i18n.t('inviteSignup.notes.invited', { defaultValue: "you've been invited" })}`,
+                `// ${i18n.t('inviteSignup.notes.orgWaiting', {
+                    defaultValue: '{{ org }} is waiting',
+                    org: org.toLowerCase(),
+                })}`,
+            ]}
+        >
             <AuthSceneCard top={inviteHeader} footer={footer}>
                 <AuthCardTitle
                     title={t('inviteSignup.createAccount', { defaultValue: 'Create your account' })}
@@ -316,7 +325,12 @@ function InviteExistingAccount({ invite }: { invite: PrevalidatedInvite }): JSX.
     const org = invite.organization_name
 
     return (
-        <AuthScene notes={['// hey, welcome back', '// one more org for you']}>
+        <AuthScene
+            notes={[
+                `// ${i18n.t('inviteSignup.notes.welcomeBack', { defaultValue: 'hey, welcome back' })}`,
+                `// ${i18n.t('inviteSignup.notes.oneMoreOrg', { defaultValue: 'one more org for you' })}`,
+            ]}
+        >
             <AuthSceneCard>
                 <div className="mb-4 flex justify-center">
                     <OrgTile name={org} />
@@ -488,7 +502,12 @@ function InviteInvalid(): JSX.Element {
     )
 
     return (
-        <AuthScene notes={['// hmm', "// this invite isn't right"]}>
+        <AuthScene
+            notes={[
+                `// ${i18n.t('inviteSignup.notes.hmm', { defaultValue: 'hmm' })}`,
+                `// ${i18n.t('inviteSignup.notes.wrongInvite', { defaultValue: "this invite isn't right" })}`,
+            ]}
+        >
             <AuthSceneCard footer={footer}>
                 <div className="flex flex-col items-center text-center">
                     <HedgehogJudge className="block w-auto mx-auto h-28" />

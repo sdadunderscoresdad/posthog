@@ -10,6 +10,7 @@ import SignupRoleSelect from 'lib/components/SignupRoleSelect'
 import passkeyLogo from 'lib/components/SocialLoginButton/passkey.svg'
 import { SocialLoginButtons } from 'lib/components/SocialLoginButton/SocialLoginButton'
 import { supportLogic } from 'lib/components/Support/supportLogic'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonField } from 'lib/lemon-ui/LemonField'
 import { LemonInput } from 'lib/lemon-ui/LemonInput/LemonInput'
@@ -34,10 +35,25 @@ export const scene: SceneExport = {
 // Bare text nodes below are wrapped in <span>s: Chrome's in-page translation replaces text
 // nodes with <font> elements, which crashes React's sibling insert/remove operations
 // (removeChild/insertBefore NotFoundError, see react#11538). Text inside its own element is safe.
-const NOTES: Record<number, string[]> = {
-    0: ['// create an account', '// 1M events free, every month'],
-    1: ['// step 2 of 2', '// make it a good one'],
-    2: ['// almost there', '// last step'],
+/** Built per language, because notes resolved at import would keep the language the app started in. */
+function signupNotes(step: number): string[] {
+    switch (step) {
+        case 1:
+            return [
+                `// ${i18n.t('signup.notes.stepTwo', { defaultValue: 'step 2 of 2' })}`,
+                `// ${i18n.t('signup.notes.makeItGood', { defaultValue: 'make it a good one' })}`,
+            ]
+        case 2:
+            return [
+                `// ${i18n.t('signup.notes.almostThere', { defaultValue: 'almost there' })}`,
+                `// ${i18n.t('signup.notes.lastStep', { defaultValue: 'last step' })}`,
+            ]
+        default:
+            return [
+                `// ${i18n.t('signup.notes.createAccount', { defaultValue: 'create an account' })}`,
+                `// ${i18n.t('signup.notes.freeEvents', { defaultValue: '1M events free, every month' })}`,
+            ]
+    }
 }
 
 /** Step 1 — email (+ region, social, pending-invite branch). */
@@ -542,7 +558,7 @@ export function Signup(): JSX.Element | null {
     }
 
     return (
-        <AuthScene notes={NOTES[panel] ?? NOTES[0]}>
+        <AuthScene notes={signupNotes(panel)}>
             {panel === 0 ? <SignupEmailPanel /> : panel === 1 ? <SignupAuthPanel /> : <SignupProfilePanel />}
         </AuthScene>
     )

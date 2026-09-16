@@ -23,11 +23,30 @@ import { type VerifyEmailReason, verifyEmailLogic } from './verifyEmailLogic'
 const HedgehogMagnifyingGlass = pngHoggie(magnifyingGlassPng)
 const HedgehogExplorer = pngHoggie(explorerPng)
 
-const NOTES: Record<string, string[]> = {
-    pending: ['// one email away', '// we just hit send'],
-    send_failed: ['// the email did not go', '// give it another send'],
-    success: ['// verified', '// go explore'],
-    invalid: ['// nothing to verify', "// let's start again"],
+/** Built per language, because notes resolved at import would keep the language the app started in. */
+function verificationNotes(key: string): string[] {
+    switch (key) {
+        case 'send_failed':
+            return [
+                `// ${i18n.t('verifyEmail.notes.emailDidNotGo', { defaultValue: 'the email did not go' })}`,
+                `// ${i18n.t('verifyEmail.notes.giveItAnotherSend', { defaultValue: 'give it another send' })}`,
+            ]
+        case 'success':
+            return [
+                `// ${i18n.t('verifyEmail.notes.verified', { defaultValue: 'verified' })}`,
+                `// ${i18n.t('verifyEmail.notes.goExplore', { defaultValue: 'go explore' })}`,
+            ]
+        case 'invalid':
+            return [
+                `// ${i18n.t('verifyEmail.notes.nothingToVerify', { defaultValue: 'nothing to verify' })}`,
+                `// ${i18n.t('verifyEmail.notes.startAgain', { defaultValue: "let's start again" })}`,
+            ]
+        default:
+            return [
+                `// ${i18n.t('verifyEmail.notes.oneEmailAway', { defaultValue: 'one email away' })}`,
+                `// ${i18n.t('verifyEmail.notes.justHitSend', { defaultValue: 'we just hit send' })}`,
+            ]
+    }
 }
 
 const checklistItems = (): string[] => [
@@ -274,7 +293,7 @@ export function VerifyEmailForm(): JSX.Element {
     const { openSupportForm } = useActions(supportLogic)
 
     const noteKey = view === 'pending' && !verificationEmailSent ? 'send_failed' : (view ?? 'pending')
-    const notes = NOTES[noteKey] ?? NOTES.pending
+    const notes = verificationNotes(noteKey)
 
     if (view === 'success') {
         return (

@@ -168,7 +168,12 @@ export function LoginForm(): JSX.Element {
     )
 
     return (
-        <AuthScene notes={['// welcome back', '// 500,000+ teams ship here']}>
+        <AuthScene
+            notes={[
+                `// ${i18n.t('login.notes.welcomeBack', { defaultValue: 'welcome back' })}`,
+                `// ${i18n.t('login.notes.teamsShipHere', { defaultValue: '500,000+ teams ship here' })}`,
+            ]}
+        >
             {preflight?.cloud && <RedirectIfLoggedInOtherInstance />}
             <AuthSceneCard footer={footer}>
                 {isCodeSent && <HedgehogMagnifyingGlass className="block w-auto mx-auto mb-3 h-28" />}

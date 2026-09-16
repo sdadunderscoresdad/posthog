@@ -1165,6 +1165,14 @@
         "joinTitle": "",
         "logInShort": "",
         "needHelp": "",
+        "notes": {
+            "hmm": "",
+            "invited": "",
+            "oneMoreOrg": "",
+            "orgWaiting": "",
+            "welcomeBack": "",
+            "wrongInvite": ""
+        },
         "notNow": "",
         "onPosthog": "",
         "orContinueWith": "",
@@ -1209,6 +1217,10 @@
         "needHelp": "",
         "newToPosthog": "",
         "noSignInMethod": "",
+        "notes": {
+            "teamsShipHere": "",
+            "welcomeBack": ""
+        },
         "orLogInWith": "",
         "otherRegionHint": "",
         "password": "",
@@ -4532,6 +4544,14 @@
         "logIn": "",
         "logInInstead": "",
         "namePlaceholder": "",
+        "notes": {
+            "almostThere": "",
+            "createAccount": "",
+            "freeEvents": "",
+            "lastStep": "",
+            "makeItGood": "",
+            "stepTwo": ""
+        },
         "organizationName": "",
         "organizationPlaceholder": "",
         "orGoBack": "",
@@ -4960,6 +4980,16 @@
         "logIn": "",
         "logInPrompt": "",
         "logInShort": "",
+        "notes": {
+            "emailDidNotGo": "",
+            "giveItAnotherSend": "",
+            "goExplore": "",
+            "justHitSend": "",
+            "nothingToVerify": "",
+            "oneEmailAway": "",
+            "startAgain": "",
+            "verified": ""
+        },
         "notSeeingIt": "",
         "resendCode": "",
         "sendFailedNotice": "",
