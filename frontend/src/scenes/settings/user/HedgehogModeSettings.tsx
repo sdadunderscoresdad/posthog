@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Suspense, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonSkeleton, LemonSwitch } from '@posthog/lemon-ui'
 
@@ -32,6 +33,7 @@ const getHedgeHogMode = async (): Promise<any> => {
 }
 
 export function HedgehogModeSettings(): JSX.Element {
+    const { t } = useTranslation()
     const { hedgehogConfig } = useValues(hedgehogModeLogic)
     const { updateRemoteConfig } = useActions(hedgehogModeLogic)
 
@@ -43,14 +45,16 @@ export function HedgehogModeSettings(): JSX.Element {
         <>
             <div className="flex gap-2">
                 <LemonSwitch
-                    label="Enable hedgehog mode"
+                    label={t('settings.user.hedgehog.enable', { defaultValue: 'Enable hedgehog mode' })}
                     data-attr="hedgehog-mode-switch"
                     onChange={(checked) => updateRemoteConfig({ enabled: checked })}
                     checked={hedgehogConfig.enabled}
                     bordered
                 />
                 <LemonSwitch
-                    label="Use as profile picture"
+                    label={t('settings.user.hedgehog.useAsProfilePicture', {
+                        defaultValue: 'Use as profile picture',
+                    })}
                     data-attr="hedgehog-profile-picture"
                     onChange={(checked) => updateRemoteConfig({ use_as_profile: checked })}
                     checked={hedgehogConfig.use_as_profile}

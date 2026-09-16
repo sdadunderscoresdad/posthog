@@ -78,7 +78,12 @@ export function RealtimeNotificationPreferences(): JSX.Element {
                                     label={
                                         <div className="flex items-center gap-2">
                                             <span>{team.name}</span>
-                                            <LemonTag type="muted">id: {String(team.id)}</LemonTag>
+                                            <LemonTag type="muted">
+                                                {t('settings.user.emailPreferences.idTag', {
+                                                    defaultValue: 'id: {{ id }}',
+                                                    id: String(team.id),
+                                                })}
+                                            </LemonTag>
                                         </div>
                                     }
                                 />

@@ -1,10 +1,12 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonSwitch } from '@posthog/lemon-ui'
 
 import { userLogic } from 'scenes/userLogic'
 
 export function MCPHintsSetting(): JSX.Element {
+    const { t } = useTranslation()
     const { user, userLoading } = useValues(userLogic)
     const { updateUser } = useActions(userLogic)
 
@@ -15,7 +17,7 @@ export function MCPHintsSetting(): JSX.Element {
             }}
             checked={!(user?.hide_mcp_hints ?? false)}
             loading={userLoading}
-            label="Show MCP hints after I take actions"
+            label={t('settings.user.mcpHints', { defaultValue: 'Show MCP hints after I take actions' })}
             bordered
         />
     )

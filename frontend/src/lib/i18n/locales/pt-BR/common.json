@@ -667,6 +667,7 @@
             "placeholder": ""
         },
         "user": {
+            "anonymizeData": "",
             "apiKeys": {
                 "active": "",
                 "addDescription": "",
@@ -752,6 +753,7 @@
                 "deleteAccount": "",
                 "deleteAccountTitle": "",
                 "deleteOrganization": "",
+                "irreversible": "",
                 "keysWillBeDeleted": "",
                 "leave": "",
                 "leaveOrganization": "",
@@ -837,6 +839,10 @@
                 "weeklyDigest": "",
                 "weeklyDigestDescription": ""
             },
+            "hedgehog": {
+                "enable": "",
+                "useAsProfilePicture": ""
+            },
             "impersonation": {
                 "description": "",
                 "label": ""
@@ -855,6 +861,7 @@
                 "githubEmptyDescription": "",
                 "githubHint": "",
                 "githubInstallation": "",
+                "githubRemoved": "",
                 "githubStarting": "",
                 "linkAnotherWorkspace": "",
                 "linked": "",
@@ -889,6 +896,7 @@
                 "unlink": "",
                 "unlinkTooltip": ""
             },
+            "mcpHints": "",
             "passkeys": {
                 "add": "",
                 "added": "",
@@ -1027,14 +1035,21 @@
             },
             "scopes": {
                 "allAccessHint": "",
+                "organizationIdTooltip": "",
+                "organizationIdTooltipLabel": "",
                 "organizations": "",
                 "organizationsHint": "",
                 "projects": "",
                 "projectsHint": "",
+                "requiredOrganization": "",
+                "requiredProject": "",
                 "selectOrganization": "",
+                "selectOrganizationLabel": "",
                 "selectOrganizations": "",
                 "selectProject": "",
-                "selectProjects": ""
+                "selectProjectLabel": "",
+                "selectProjects": "",
+                "tokenTooltip": ""
             },
             "sessions": {
                 "columns": {
@@ -1062,6 +1077,22 @@
                 "unknown": "",
                 "unknownDevice": "",
                 "working": ""
+            },
+            "sidebar": {
+                "alwaysVisible": "",
+                "autoSuggest": "",
+                "bottomOfSidebar": "",
+                "comfortable": "",
+                "compact": "",
+                "density": "",
+                "otherCategory": ""
+            },
+            "theme": {
+                "colorTheme": "",
+                "customCss": "",
+                "dark": "",
+                "light": "",
+                "system": ""
             },
             "twoFactor": {
                 "addPasskeyToEnable": "",
@@ -1094,7 +1125,8 @@
                 "totpNotSetUp": "",
                 "totpSetUp": "",
                 "viewBackupCodes": ""
-            }
+            },
+            "webAnalyticsAchievements": ""
         }
     }
 }

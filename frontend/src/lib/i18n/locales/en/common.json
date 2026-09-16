@@ -662,6 +662,7 @@
             "placeholder": "Search settings..."
         },
         "user": {
+            "anonymizeData": "Anonymize my data",
             "apiKeys": {
                 "active": "Active",
                 "addDescription": "Add description",
@@ -747,6 +748,7 @@
                 "deleteAccount": "Delete account",
                 "deleteAccountTitle": "Delete your account",
                 "deleteOrganization": "Delete organization",
+                "irreversible": "This is <b>irreversible</b>. Please be certain.",
                 "keysWillBeDeleted": "The following personal API keys will be deleted",
                 "leave": "Leave",
                 "leaveOrganization": "Leave organization",
@@ -832,6 +834,10 @@
                 "weeklyDigest": "Weekly digest",
                 "weeklyDigestDescription": "The weekly digest keeps you up to date with everything that's happening in your PostHog organizations"
             },
+            "hedgehog": {
+                "enable": "Enable hedgehog mode",
+                "useAsProfilePicture": "Use as profile picture"
+            },
             "impersonation": {
                 "description": "PostHog support staff may need to log in as you to help debug issues. If you disable this setting, support staff will not be able to access your account directly. Read our <PolicyLink>policy on user impersonation</PolicyLink>.",
                 "label": "Allow support to log in as me"
@@ -850,6 +856,7 @@
                 "githubEmptyDescription": "Connect to let PostHog access your repos, attribute commits, open pull requests, and assign issues as you. You can add multiple installations for different accounts or organizations.",
                 "githubHint": "Heads up: if GitHub's <strong>Save</strong> button is disabled at the end of the flow, flip between <strong>All repositories</strong> and <strong>Only select repositories</strong> to proceed.",
                 "githubInstallation": "GitHub installation",
+                "githubRemoved": "The PostHog app was removed from GitHub. Disconnect this installation, then connect again if you still need it.",
                 "githubStarting": "Starting GitHub installation…",
                 "linkAnotherWorkspace": "Link another workspace",
                 "linked": "Linked",
@@ -884,6 +891,7 @@
                 "unlink": "Unlink",
                 "unlinkTooltip": "Unlink this Slack account"
             },
+            "mcpHints": "Show MCP hints after I take actions",
             "passkeys": {
                 "add": "Add passkey",
                 "added": "Passkey added and verified successfully!",
@@ -1022,14 +1030,21 @@
             },
             "scopes": {
                 "allAccessHint": "This will allow access to all organizations and projects you're in.",
+                "organizationIdTooltip": "ID: {{ id }}",
+                "organizationIdTooltipLabel": "Organization ID: {{ id }}",
                 "organizations": "Organizations",
                 "organizationsHint": "This will only allow access to selected organizations and all projects within them.",
                 "projects": "Projects",
                 "projectsHint": "This will only allow access to selected projects.",
+                "requiredOrganization": "This application requires access to a specific organization.",
+                "requiredProject": "This application requires access to a specific project.",
                 "selectOrganization": "Select an organization...",
+                "selectOrganizationLabel": "Select organization",
                 "selectOrganizations": "Select organizations...",
                 "selectProject": "Select a project...",
-                "selectProjects": "Select projects..."
+                "selectProjectLabel": "Select project",
+                "selectProjects": "Select projects...",
+                "tokenTooltip": "Token: {{ token }}"
             },
             "sessions": {
                 "columns": {
@@ -1056,6 +1071,22 @@
                 "unknown": "Unknown",
                 "unknownDevice": "Unknown device",
                 "working": "Working…"
+            },
+            "sidebar": {
+                "alwaysVisible": "{{ label }} always stays visible",
+                "autoSuggest": "Automatically suggest new tools",
+                "bottomOfSidebar": "Bottom of the sidebar",
+                "comfortable": "Comfortable",
+                "compact": "Compact",
+                "density": "Density",
+                "otherCategory": "Other"
+            },
+            "theme": {
+                "colorTheme": "Color theme",
+                "customCss": "Edit custom CSS",
+                "dark": "Dark mode",
+                "light": "Light mode",
+                "system": "Sync with system"
             },
             "twoFactor": {
                 "addPasskeyToEnable": "Add a passkey in Passkeys settings to enable this method",
@@ -1088,7 +1119,8 @@
                 "totpNotSetUp": "Set up an authenticator app to use time-based codes for 2FA.",
                 "totpSetUp": "Authenticator app is set up and enabled for 2FA.",
                 "viewBackupCodes": "View backup codes"
-            }
+            },
+            "webAnalyticsAchievements": "Show Web analytics achievements"
         }
     }
 }

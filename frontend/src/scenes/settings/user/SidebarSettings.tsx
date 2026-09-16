@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonLabel, LemonSegmentedButton, LemonSwitch } from '@posthog/lemon-ui'
 
@@ -28,19 +29,23 @@ export function HomepageSetting(): JSX.Element {
 }
 
 export function SidebarLayoutSetting(): JSX.Element {
+    const { t } = useTranslation()
     const { sidebarDensity } = useValues(uiCustomizationLogic)
     const { setSidebarDensity } = useActions(uiCustomizationLogic)
 
     return (
         <div className="flex flex-col gap-4 max-w-160">
             <div className="flex flex-col gap-2">
-                <LemonLabel>Density</LemonLabel>
+                <LemonLabel>{t('settings.user.sidebar.density', { defaultValue: 'Density' })}</LemonLabel>
                 <LemonSegmentedButton
                     value={sidebarDensity}
                     onChange={(value) => setSidebarDensity(value as SidebarDensity)}
                     options={[
-                        { value: 'comfortable', label: 'Comfortable' },
-                        { value: 'compact', label: 'Compact' },
+                        {
+                            value: 'comfortable',
+                            label: t('settings.user.sidebar.comfortable', { defaultValue: 'Comfortable' }),
+                        },
+                        { value: 'compact', label: t('settings.user.sidebar.compact', { defaultValue: 'Compact' }) },
                     ]}
                     size="small"
                     data-attr="sidebar-customization-density"
@@ -61,6 +66,7 @@ function ItemLabel({
     description?: string
     docsHref?: string
 }): JSX.Element {
+    const { t } = useTranslation()
     return (
         <span className="flex items-center gap-2">
             <span className="text-lg text-secondary flex items-center">{icon}</span>
@@ -74,7 +80,7 @@ function ItemLabel({
                             className="text-xs font-normal"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            Docs
+                            {t('settings.docsLink', { defaultValue: 'Docs' })}
                         </Link>
                     )}
                 </span>
@@ -85,6 +91,7 @@ function ItemLabel({
 }
 
 export function SidebarItemsSetting(): JSX.Element {
+    const { t } = useTranslation()
     const { isSidebarSectionShown, isSidebarItemShown, userLoading } = useValues(uiCustomizationLogic)
     const { setSidebarSectionShown, setSidebarItemShown } = useActions(uiCustomizationLogic)
     const { featureFlags } = useValues(featureFlagLogic)
@@ -97,7 +104,10 @@ export function SidebarItemsSetting(): JSX.Element {
                     key={item.label}
                     className="py-2"
                     checked={true}
-                    disabledReason={`${item.label} always stays visible`}
+                    disabledReason={t('settings.user.sidebar.alwaysVisible', {
+                        defaultValue: '{{ label }} always stays visible',
+                        label: item.label,
+                    })}
                     label={
                         <ItemLabel
                             icon={item.icon}
@@ -172,7 +182,9 @@ export function SidebarItemsSetting(): JSX.Element {
                 )
             })}
             <div className="flex flex-col gap-2">
-                <LemonLabel>Bottom of the sidebar</LemonLabel>
+                <LemonLabel>
+                    {t('settings.user.sidebar.bottomOfSidebar', { defaultValue: 'Bottom of the sidebar' })}
+                </LemonLabel>
                 {SIDEBAR_CUSTOMIZABLE_FOOTER_ITEMS.filter(
                     (item) => !item.flag || (featureFlags as Record<string, boolean | string>)[item.flag]
                 ).map((item) => renderItemSwitch(item))}
@@ -182,6 +194,7 @@ export function SidebarItemsSetting(): JSX.Element {
 }
 
 export function SidebarMyToolsSetting(): JSX.Element {
+    const { t } = useTranslation()
     const { enabledToolPaths, customProductsLoading } = useValues(customProductsLogic)
     const { setToolEnabled } = useActions(customProductsLogic)
     const { featureFlags } = useValues(featureFlagLogic)
@@ -191,7 +204,7 @@ export function SidebarMyToolsSetting(): JSX.Element {
         .filter((product) => !getProductAccessDisabledReason(product))
     const productsByCategory = new Map<string, FileSystemImport[]>()
     for (const product of products) {
-        const category = product.category || 'Other'
+        const category = product.category || t('settings.user.sidebar.otherCategory', { defaultValue: 'Other' })
         if (!productsByCategory.has(category)) {
             productsByCategory.set(category, [])
         }

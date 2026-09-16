@@ -1,8 +1,10 @@
+import type { TFunction } from 'i18next'
+
 import { LemonInputSelectOption, Tooltip } from '@posthog/lemon-ui'
 
 import type { OrganizationOption, TeamOption } from './types'
 
-export const createOrganizationOption = (org: OrganizationOption): LemonInputSelectOption<string> => ({
+export const createOrganizationOption = (t: TFunction, org: OrganizationOption): LemonInputSelectOption<string> => ({
     key: `${org.id}`,
     label: org.name,
     labelComponent: (
@@ -10,7 +12,9 @@ export const createOrganizationOption = (org: OrganizationOption): LemonInputSel
             title={
                 <div>
                     <div className="font-semibold">{org.name}</div>
-                    <div className="text-xs whitespace-nowrap">ID: {org.id}</div>
+                    <div className="text-xs whitespace-nowrap">
+                        {t('settings.user.scopes.organizationIdTooltip', { defaultValue: 'ID: {{ id }}', id: org.id })}
+                    </div>
                 </div>
             }
         >
@@ -20,6 +24,7 @@ export const createOrganizationOption = (org: OrganizationOption): LemonInputSel
 })
 
 export const createTeamOption = (
+    t: TFunction,
     team: TeamOption,
     organizations: OrganizationOption[]
 ): LemonInputSelectOption<string> => {
@@ -34,8 +39,18 @@ export const createTeamOption = (
                 title={
                     <div>
                         <div className="font-semibold">{team.name}</div>
-                        <div className="text-xs whitespace-nowrap">Token: {team.api_token}</div>
-                        <div className="text-xs whitespace-nowrap">Organization ID: {team.organization}</div>
+                        <div className="text-xs whitespace-nowrap">
+                            {t('settings.user.scopes.tokenTooltip', {
+                                defaultValue: 'Token: {{ token }}',
+                                token: team.api_token,
+                            })}
+                        </div>
+                        <div className="text-xs whitespace-nowrap">
+                            {t('settings.user.scopes.organizationIdTooltipLabel', {
+                                defaultValue: 'Organization ID: {{ id }}',
+                                id: team.organization,
+                            })}
+                        </div>
                     </div>
                 }
             >

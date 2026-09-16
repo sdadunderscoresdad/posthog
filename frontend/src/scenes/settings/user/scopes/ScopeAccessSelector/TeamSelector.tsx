@@ -13,7 +13,7 @@ export const TeamSelector = ({ teams, organizations, mode, value, onChange }: Te
             data-attr="teams"
             value={value}
             onChange={onChange}
-            options={(teams || []).map((team) => createTeamOption(team, organizations))}
+            options={(teams || []).map((team) => createTeamOption(t, team, organizations))}
             loading={teams === undefined}
             placeholder={
                 mode === 'single'

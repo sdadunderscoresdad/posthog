@@ -1,10 +1,12 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonSwitch } from '@posthog/lemon-ui'
 
 import { webAnalyticsAchievementsPreferencesLogic } from 'scenes/web-analytics/achievements/webAnalyticsAchievementsPreferencesLogic'
 
 export function WebAnalyticsAchievementsSetting(): JSX.Element {
+    const { t } = useTranslation()
     const { achievementsOptOut, preferencesLoading } = useValues(webAnalyticsAchievementsPreferencesLogic)
     const { setAchievementsOptOut } = useActions(webAnalyticsAchievementsPreferencesLogic)
 
@@ -13,7 +15,7 @@ export function WebAnalyticsAchievementsSetting(): JSX.Element {
             onChange={(checked) => setAchievementsOptOut({ optedOut: !checked })}
             checked={!achievementsOptOut}
             loading={preferencesLoading}
-            label="Show Web analytics achievements"
+            label={t('settings.user.webAnalyticsAchievements', { defaultValue: 'Show Web analytics achievements' })}
             bordered
         />
     )

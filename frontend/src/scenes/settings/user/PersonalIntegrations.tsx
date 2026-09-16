@@ -122,8 +122,10 @@ function GitHubInstallationRow({ integration }: { integration: PersonalGitHubInt
                 </div>
                 {installationUnavailable ? (
                     <LemonBanner type="error" className="mt-2">
-                        The PostHog app was removed from GitHub. Disconnect this installation, then connect again if you
-                        still need it.
+                        {t('settings.user.integrations.githubRemoved', {
+                            defaultValue:
+                                'The PostHog app was removed from GitHub. Disconnect this installation, then connect again if you still need it.',
+                        })}
                     </LemonBanner>
                 ) : null}
             </div>

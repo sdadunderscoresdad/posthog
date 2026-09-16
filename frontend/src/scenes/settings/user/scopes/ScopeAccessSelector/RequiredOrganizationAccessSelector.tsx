@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonLabel } from '@posthog/lemon-ui'
 
@@ -16,10 +17,17 @@ export const RequiredOrganizationAccessSelector = ({
     organizations,
     autoSelectFirst = false,
 }: RequiredOrganizationAccessSelectorProps): JSX.Element => {
+    const { t } = useTranslation()
     return (
         <div className="flex flex-col gap-2">
-            <LemonLabel>Select organization</LemonLabel>
-            <p className="text-sm text-muted mb-2">This application requires access to a specific organization.</p>
+            <LemonLabel>
+                {t('settings.user.scopes.selectOrganizationLabel', { defaultValue: 'Select organization' })}
+            </LemonLabel>
+            <p className="text-sm text-muted mb-2">
+                {t('settings.user.scopes.requiredOrganization', {
+                    defaultValue: 'This application requires access to a specific organization.',
+                })}
+            </p>
             <LemonField name="scoped_organizations">
                 {({ value, onChange }) => {
                     const arrayValue = Array.isArray(value) ? value : []

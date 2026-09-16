@@ -18,7 +18,7 @@ export const OrganizationSelector = ({
             data-attr="organizations"
             value={value}
             onChange={onChange}
-            options={organizations.map((org) => createOrganizationOption(org)) ?? []}
+            options={organizations.map((org) => createOrganizationOption(t, org)) ?? []}
             loading={organizations === undefined}
             placeholder={
                 mode === 'single'

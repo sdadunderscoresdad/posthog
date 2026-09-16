@@ -276,6 +276,7 @@ export function DeleteUserModal({
 }
 
 export function UserDangerZone(): JSX.Element {
+    const { t } = useTranslation()
     const { setDeleteUserModalOpen } = useActions(userDangerZoneLogic)
     const { deleteUserModalOpen } = useValues(userDangerZoneLogic)
 
@@ -284,7 +285,11 @@ export function UserDangerZone(): JSX.Element {
             <div className="text-danger">
                 <div className="mt-4">
                     <p className="text-danger">
-                        This is <b>irreversible</b>. Please be certain.
+                        <Trans
+                            i18nKey="settings.user.dangerZone.irreversible"
+                            components={{ b: <b /> }}
+                            defaults="This is <b>irreversible</b>. Please be certain."
+                        />
                     </p>
                     <LemonButton
                         status="danger"
@@ -293,7 +298,7 @@ export function UserDangerZone(): JSX.Element {
                         data-attr="delete-user-button"
                         icon={<IconTrash />}
                     >
-                        Delete your account
+                        {t('settings.user.dangerZone.deleteAccountTitle', { defaultValue: 'Delete your account' })}
                     </LemonButton>
                 </div>
             </div>
