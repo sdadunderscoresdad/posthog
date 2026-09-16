@@ -574,6 +574,7 @@
             },
             "unknown": ""
         },
+        "cancel": "",
         "docsLink": "",
         "loading": "",
         "nav": {
@@ -581,6 +582,61 @@
             "title": ""
         },
         "noChangesToSave": "",
+        "project": {
+            "apiKeys": {
+                "addLabel": "",
+                "copyPrompt": "",
+                "createdTitle": "",
+                "createKey": "",
+                "createTitle": "",
+                "deleted": "",
+                "deleteFailed": "",
+                "description": "",
+                "editTitle": "",
+                "label": "",
+                "labelPlaceholder": "",
+                "loadFailed": "",
+                "maximumKeys": "",
+                "newKeyFor": "",
+                "noScopesMatch": "",
+                "noun": "",
+                "rolledTitle": "",
+                "rolledWarning": "",
+                "rollFailed": "",
+                "save": "",
+                "scopes": "",
+                "scopesHint": "",
+                "scopeUnavailable": "",
+                "searchScopes": "",
+                "selectPreset": "",
+                "selectScope": "",
+                "showOnceWarning": "",
+                "warning": ""
+            },
+            "confirmPrompt": "",
+            "currentProject": "",
+            "dangerZone": {
+                "cleanupNote": "",
+                "deleteButton": "",
+                "deleteModalTitle": "",
+                "deleting": "",
+                "irreversible": "",
+                "warning": ""
+            },
+            "displayName": "",
+            "move": {
+                "button": "",
+                "modalTitle": "",
+                "moving": "",
+                "notAdminReason": "",
+                "prompt": "",
+                "selectTarget": "",
+                "selectTargetFirst": "",
+                "warning": ""
+            },
+            "projectName": "",
+            "tags": ""
+        },
         "save": "",
         "search": {
             "empty": "",

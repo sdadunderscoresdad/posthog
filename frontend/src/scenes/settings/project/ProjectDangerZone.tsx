@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Dispatch, SetStateAction, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconTrash } from '@posthog/icons'
 import { LemonButton, LemonInput, LemonModal } from '@posthog/lemon-ui'
@@ -16,6 +17,7 @@ export function DeleteProjectModal({
     isOpen: boolean
     setIsOpen: Dispatch<SetStateAction<boolean>>
 }): JSX.Element {
+    const { t } = useTranslation()
     const { currentProject, projectBeingDeleted } = useValues(projectLogic)
     const { currentOrganization } = useValues(organizationLogic)
     const { deleteProject } = useActions(projectLogic)
@@ -28,18 +30,27 @@ export function DeleteProjectModal({
             ? currentOrganization.teams.filter((team) => team.project_id === currentProject.id)
             : []
 
+    const projectName = currentProject
+        ? currentProject.name
+        : t('settings.project.currentProject', { defaultValue: 'the current project' })
+
     return (
         <LemonModal
-            title="Delete the project and its data?"
+            title={t('settings.project.dangerZone.deleteModalTitle', {
+                defaultValue: 'Delete the project and its data?',
+            })}
             onClose={!isDeletionInProgress ? () => setIsOpen(false) : undefined}
             footer={
                 <>
                     <LemonButton
-                        disabledReason={isDeletionInProgress && 'Deleting...'}
+                        disabledReason={
+                            isDeletionInProgress &&
+                            t('settings.project.dangerZone.deleting', { defaultValue: 'Deleting...' })
+                        }
                         type="secondary"
                         onClick={() => setIsOpen(false)}
                     >
-                        Cancel
+                        {t('settings.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="secondary"
@@ -48,14 +59,22 @@ export function DeleteProjectModal({
                         data-attr="delete-project-ok"
                         status="danger"
                         onClick={currentProject ? () => deleteProject(currentProject) : undefined}
-                    >{`Delete ${currentProject ? currentProject.name : 'the current project'}`}</LemonButton>
+                    >
+                        {t('settings.project.dangerZone.deleteButton', {
+                            defaultValue: 'Delete {{ name }}',
+                            name: projectName,
+                        })}
+                    </LemonButton>
                 </>
             }
             isOpen={isOpen}
         >
             <p>
-                Project deletion <b>cannot be undone</b>. You will lose all environments and their data (
-                <b>including events</b>):
+                <Trans
+                    i18nKey="settings.project.dangerZone.warning"
+                    components={{ b: <b /> }}
+                    defaults="Project deletion <b>cannot be undone</b>. You will lose all environments and their data (<b>including events</b>):"
+                />
                 <ul className="list-disc list-inside ml-4 mt-1">
                     {allTeamsOfProject.map((team) => (
                         <li key={team.id}>{team.name}</li>
@@ -63,11 +82,23 @@ export function DeleteProjectModal({
                 </ul>
             </p>
             <p className="mt-2 p-2 bg-bg-3000 rounded text-sm">
-                <strong>Note:</strong> For projects with lots of data, cleanup may take several hours. We'll send you an
-                email when the process is complete.
+                <Trans
+                    i18nKey="settings.project.dangerZone.cleanupNote"
+                    components={{ strong: <strong /> }}
+                    defaults="<strong>Note:</strong> For projects with lots of data, cleanup may take several hours. We'll send you an email when the process is complete."
+                />
             </p>
             <p>
-                Please type <strong>{currentProject ? currentProject.name : "this project's name"}</strong> to confirm.
+                <Trans
+                    i18nKey="settings.project.confirmPrompt"
+                    values={{
+                        name: currentProject
+                            ? currentProject.name
+                            : t('settings.project.projectName', { defaultValue: "this project's name" }),
+                    }}
+                    components={{ strong: <strong /> }}
+                    defaults="Please type <strong>{{ name }}</strong> to confirm."
+                />
             </p>
             <LemonInput
                 type="text"
@@ -82,6 +113,7 @@ export function DeleteProjectModal({
 }
 
 export function ProjectDangerZone(): JSX.Element {
+    const { t } = useTranslation()
     const { currentProject } = useValues(projectLogic)
     const [isModalVisible, setIsModalVisible] = useState(false)
 
@@ -96,7 +128,11 @@ export function ProjectDangerZone(): JSX.Element {
                 <div className="mt-4">
                     {!restrictedReason && (
                         <p className="text-danger">
-                            This is <b>irreversible</b>. Please be certain.
+                            <Trans
+                                i18nKey="settings.project.dangerZone.irreversible"
+                                components={{ b: <b /> }}
+                                defaults="This is <b>irreversible</b>. Please be certain."
+                            />
                         </p>
                     )}
                     <LemonButton
@@ -107,7 +143,14 @@ export function ProjectDangerZone(): JSX.Element {
                         icon={<IconTrash />}
                         disabledReason={restrictedReason}
                     >
-                        Delete {currentProject?.name || 'the current project'}
+                        {t('settings.project.dangerZone.deleteButton', {
+                            defaultValue: 'Delete {{ name }}',
+                            name:
+                                currentProject?.name ||
+                                t('settings.project.currentProject', {
+                                    defaultValue: 'the current project',
+                                }),
+                        })}
                     </LemonButton>
                 </div>
             </div>

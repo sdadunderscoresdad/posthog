@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { useTranslation } from 'react-i18next'
 
 import { IconPlus } from '@posthog/icons'
 import { LemonButton, LemonInput, LemonModal, LemonSelect } from '@posthog/lemon-ui'
@@ -13,6 +14,7 @@ import { APIKeyTable } from '../shared/APIKeyTable'
 import { MAX_PROJECT_API_KEYS_PER_PROJECT, projectSecretAPIKeysLogic } from './projectSecretAPIKeysLogic'
 
 function EditKeyModal(): JSX.Element {
+    const { t } = useTranslation()
     const {
         editingKey,
         editingKeyId,
@@ -29,17 +31,21 @@ function EditKeyModal(): JSX.Element {
     const isNew = editingKeyId === 'new'
 
     const submitDisabledReason = !editingKeyChanged
-        ? 'No changes to save'
+        ? t('settings.noChangesToSave', { defaultValue: 'No changes to save' })
         : !editingKey.label
-          ? 'Add a label'
+          ? t('settings.project.apiKeys.addLabel', { defaultValue: 'Add a label' })
           : !editingKey.scopes?.length
-            ? 'Select at least one scope'
+            ? t('settings.project.apiKeys.selectScope', { defaultValue: 'Select at least one scope' })
             : undefined
 
     return (
         <Form logic={projectSecretAPIKeysLogic} formKey="editingKey">
             <LemonModal
-                title={`${isNew ? 'Create' : 'Edit'} project secret API key`}
+                title={
+                    isNew
+                        ? t('settings.project.apiKeys.createTitle', { defaultValue: 'Create project secret API key' })
+                        : t('settings.project.apiKeys.editTitle', { defaultValue: 'Edit project secret API key' })
+                }
                 onClose={() => setEditingKeyId(null)}
                 isOpen={!!editingKeyId}
                 width="40rem"
@@ -47,7 +53,7 @@ function EditKeyModal(): JSX.Element {
                 footer={
                     <>
                         <LemonButton type="secondary" onClick={() => setEditingKeyId(null)}>
-                            Cancel
+                            {t('settings.cancel', { defaultValue: 'Cancel' })}
                         </LemonButton>
                         <LemonButton
                             type="primary"
@@ -56,21 +62,32 @@ function EditKeyModal(): JSX.Element {
                             disabledReason={submitDisabledReason}
                             onClick={submitEditingKey}
                         >
-                            {isNew ? 'Create key' : 'Save'}
+                            {isNew
+                                ? t('settings.project.apiKeys.createKey', { defaultValue: 'Create key' })
+                                : t('settings.project.apiKeys.save', { defaultValue: 'Save' })}
                         </LemonButton>
                     </>
                 }
             >
-                <LemonField name="label" label="Label">
-                    <LemonInput placeholder="e.g., CI/CD Pipeline" maxLength={40} />
+                <LemonField name="label" label={t('settings.project.apiKeys.label', { defaultValue: 'Label' })}>
+                    <LemonInput
+                        placeholder={t('settings.project.apiKeys.labelPlaceholder', {
+                            defaultValue: 'e.g., CI/CD Pipeline',
+                        })}
+                        maxLength={40}
+                    />
                 </LemonField>
 
                 <div className="flex items-center justify-between mt-4 mb-2">
-                    <label className="font-semibold">Scopes</label>
+                    <label className="font-semibold">
+                        {t('settings.project.apiKeys.scopes', { defaultValue: 'Scopes' })}
+                    </label>
                     <LemonField name="preset">
                         <LemonSelect
                             size="small"
-                            placeholder="Select preset"
+                            placeholder={t('settings.project.apiKeys.selectPreset', {
+                                defaultValue: 'Select preset',
+                            })}
                             options={availablePresets}
                             dropdownMatchSelectWidth={false}
                         />
@@ -78,12 +95,15 @@ function EditKeyModal(): JSX.Element {
                 </div>
 
                 <p className="text-sm text-muted mb-4">
-                    Project secret API keys have limited scopes. Select only the permissions needed.
+                    {t('settings.project.apiKeys.scopesHint', {
+                        defaultValue:
+                            'Project secret API keys have limited scopes. Select only the permissions needed.',
+                    })}
                 </p>
 
                 <LemonInput
                     type="search"
-                    placeholder="Search scopes..."
+                    placeholder={t('settings.project.apiKeys.searchScopes', { defaultValue: 'Search scopes...' })}
                     value={searchTerm}
                     onChange={setSearchTerm}
                     className="mb-2"
@@ -93,7 +113,12 @@ function EditKeyModal(): JSX.Element {
                 <LemonField name="scopes">
                     <div className="max-h-[50vh] overflow-y-auto space-y-2">
                         {filteredScopes.length === 0 ? (
-                            <div className="text-muted text-sm py-2">No scopes match "{searchTerm}"</div>
+                            <div className="text-muted text-sm py-2">
+                                {t('settings.project.apiKeys.noScopesMatch', {
+                                    defaultValue: 'No scopes match "{{ term }}"',
+                                    term: searchTerm,
+                                })}
+                            </div>
                         ) : (
                             filteredScopes.map(({ key, label, disabledActions }) => (
                                 <ScopeAccessRow
@@ -103,12 +128,16 @@ function EditKeyModal(): JSX.Element {
                                     onChange={(value) => setScopeRadioValue(key, value)}
                                     readDisabledReason={
                                         disabledActions?.includes('read')
-                                            ? 'Not available for project secret API keys'
+                                            ? t('settings.project.apiKeys.scopeUnavailable', {
+                                                  defaultValue: 'Not available for project secret API keys',
+                                              })
                                             : undefined
                                     }
                                     writeDisabledReason={
                                         disabledActions?.includes('write')
-                                            ? 'Not available for project secret API keys'
+                                            ? t('settings.project.apiKeys.scopeUnavailable', {
+                                                  defaultValue: 'Not available for project secret API keys',
+                                              })
                                             : undefined
                                     }
                                 />
@@ -122,6 +151,7 @@ function EditKeyModal(): JSX.Element {
 }
 
 export function ProjectSecretAPIKeys(): JSX.Element {
+    const { t } = useTranslation()
     const { keys, keysLoading } = useValues(projectSecretAPIKeysLogic)
     const { setEditingKeyId, deleteKey, rollKey } = useActions(projectSecretAPIKeysLogic)
 
@@ -133,11 +163,16 @@ export function ProjectSecretAPIKeys(): JSX.Element {
     return (
         <>
             <p>
-                Project secret API keys allow programmatic access to a very limited set of scopes and endpoints. Unlike
-                personal API keys, project secret API keys are not tied to a specific user.
+                {t('settings.project.apiKeys.description', {
+                    defaultValue:
+                        'Project secret API keys allow programmatic access to a very limited set of scopes and endpoints. Unlike personal API keys, project secret API keys are not tied to a specific user.',
+                })}
             </p>
             <p className="font-bold">
-                They should be kept secret as they can have scopes that allow access to the project's data.
+                {t('settings.project.apiKeys.warning', {
+                    defaultValue:
+                        "They should be kept secret as they can have scopes that allow access to the project's data.",
+                })}
             </p>
 
             {!restrictionReason && (
@@ -147,11 +182,16 @@ export function ProjectSecretAPIKeys(): JSX.Element {
                     onClick={() => setEditingKeyId('new')}
                     disabledReason={
                         keys.length >= MAX_PROJECT_API_KEYS_PER_PROJECT
-                            ? `Maximum ${MAX_PROJECT_API_KEYS_PER_PROJECT} keys per project`
+                            ? t('settings.project.apiKeys.maximumKeys', {
+                                  defaultValue: 'Maximum {{ number }} keys per project',
+                                  number: MAX_PROJECT_API_KEYS_PER_PROJECT,
+                              })
                             : undefined
                     }
                 >
-                    Create project secret API key
+                    {t('settings.project.apiKeys.createTitle', {
+                        defaultValue: 'Create project secret API key',
+                    })}
                 </LemonButton>
             )}
 
@@ -161,7 +201,7 @@ export function ProjectSecretAPIKeys(): JSX.Element {
                 onEdit={setEditingKeyId}
                 onRoll={rollKey}
                 onDelete={deleteKey}
-                noun="project secret API key"
+                noun={t('settings.project.apiKeys.noun', { defaultValue: 'project secret API key' })}
                 showCreatedBy={true}
                 showActions={!restrictionReason}
             />

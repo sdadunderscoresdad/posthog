@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Dispatch, SetStateAction, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconArrowRight } from '@posthog/icons'
 import { LemonButton, LemonInput, LemonModal, LemonSelect } from '@posthog/lemon-ui'
@@ -20,6 +21,7 @@ export function MoveProjectModal({
     setIsOpen: Dispatch<SetStateAction<boolean>>
     organization: OrganizationBasicType
 }): JSX.Element {
+    const { t } = useTranslation()
     const { currentProject, projectBeingMovedLoading } = useValues(projectLogic)
     const { moveProject } = useActions(projectLogic)
 
@@ -27,18 +29,22 @@ export function MoveProjectModal({
 
     return (
         <LemonModal
-            title="Move the project to another organization?"
+            title={t('settings.project.move.modalTitle', {
+                defaultValue: 'Move the project to another organization?',
+            })}
             onClose={!projectBeingMovedLoading ? () => setIsOpen(false) : undefined}
             closable={!projectBeingMovedLoading}
             maxWidth="30rem"
             footer={
                 <>
                     <LemonButton
-                        disabledReason={projectBeingMovedLoading && 'Moving...'}
+                        disabledReason={
+                            projectBeingMovedLoading && t('settings.project.move.moving', { defaultValue: 'Moving...' })
+                        }
                         type="secondary"
                         onClick={() => setIsOpen(false)}
                     >
-                        Cancel
+                        {t('settings.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="secondary"
@@ -47,17 +53,35 @@ export function MoveProjectModal({
                         data-attr="move-project-ok"
                         status="danger"
                         onClick={currentProject ? () => moveProject(currentProject, organization.id) : undefined}
-                    >{`Move ${currentProject ? currentProject.name : 'the current project'}`}</LemonButton>
+                    >
+                        {t('settings.project.move.button', {
+                            defaultValue: 'Move {{ name }}',
+                            name:
+                                currentProject?.name ||
+                                t('settings.project.currentProject', { defaultValue: 'the current project' }),
+                        })}
+                    </LemonButton>
                 </>
             }
             isOpen={isOpen}
         >
             <p>
-                Moving a project will mean all original organization members will lose access including via things like
-                API keys unless they also are part of the new organization.
+                {t('settings.project.move.warning', {
+                    defaultValue:
+                        'Moving a project will mean all original organization members will lose access including via things like API keys unless they also are part of the new organization.',
+                })}
             </p>
             <p>
-                Please type <strong>{currentProject ? currentProject.name : "this project's name"}</strong> to confirm.
+                <Trans
+                    i18nKey="settings.project.confirmPrompt"
+                    values={{
+                        name: currentProject
+                            ? currentProject.name
+                            : t('settings.project.projectName', { defaultValue: "this project's name" }),
+                    }}
+                    components={{ strong: <strong /> }}
+                    defaults="Please type <strong>{{ name }}</strong> to confirm."
+                />
             </p>
             <LemonInput
                 type="text"
@@ -71,13 +95,12 @@ export function MoveProjectModal({
     )
 }
 
-const NOT_ADMIN_OF_TARGET_REASON = 'You need to be an admin or owner of this organization to move a project into it'
-
 function notAdminOfOrg(organization: OrganizationBasicType): boolean {
     return (organization.membership_level ?? OrganizationMembershipLevel.Member) < OrganizationMembershipLevel.Admin
 }
 
 export function ProjectMove(): JSX.Element {
+    const { t } = useTranslation()
     const { currentProject } = useValues(projectLogic)
     const { otherOrganizations } = useValues(userLogic)
     const [isModalVisible, setIsModalVisible] = useState(false)
@@ -90,16 +113,25 @@ export function ProjectMove(): JSX.Element {
     })
     const { moveProjectDisabledReason } = useValues(projectLogic)
 
+    const notAdminOfTargetReason = t('settings.project.move.notAdminReason', {
+        defaultValue: 'You need to be an admin or owner of this organization to move a project into it',
+    })
+
     // Moving a project requires admin (or owner) on BOTH organizations — the API enforces this. The source org is
     // covered by `restrictedReason` above; guard the target org here so a member of the target org gets a clear
     // message instead of a failed request.
     const targetOrgRestrictionReason =
-        targetOrganization && notAdminOfOrg(targetOrganization) ? NOT_ADMIN_OF_TARGET_REASON : null
+        targetOrganization && notAdminOfOrg(targetOrganization) ? notAdminOfTargetReason : null
 
     return (
         <>
             <p>
-                Move <b>{currentProject?.name}</b> to another organization?
+                <Trans
+                    i18nKey="settings.project.move.prompt"
+                    values={{ name: currentProject?.name }}
+                    components={{ b: <b /> }}
+                    defaults="Move <b>{{ name }}</b> to another organization?"
+                />
             </p>
 
             <div className="flex items-center gap-2">
@@ -107,9 +139,11 @@ export function ProjectMove(): JSX.Element {
                     options={otherOrganizations.map((o) => ({
                         label: o.name,
                         value: o.id,
-                        disabledReason: notAdminOfOrg(o) ? NOT_ADMIN_OF_TARGET_REASON : undefined,
+                        disabledReason: notAdminOfOrg(o) ? notAdminOfTargetReason : undefined,
                     }))}
-                    placeholder="Select target organization"
+                    placeholder={t('settings.project.move.selectTarget', {
+                        defaultValue: 'Select target organization',
+                    })}
                     onChange={(value) => {
                         const organization = otherOrganizations.find((o) => o.id === value)
                         setTargetOrganization(organization || null)
@@ -128,11 +162,18 @@ export function ProjectMove(): JSX.Element {
                         restrictedReason ??
                         moveProjectDisabledReason ??
                         (targetOrganization === null
-                            ? 'Please select the target organization'
+                            ? t('settings.project.move.selectTargetFirst', {
+                                  defaultValue: 'Please select the target organization',
+                              })
                             : (targetOrgRestrictionReason ?? undefined))
                     }
                 >
-                    Move {currentProject?.name || 'the current project'}
+                    {t('settings.project.move.button', {
+                        defaultValue: 'Move {{ name }}',
+                        name:
+                            currentProject?.name ||
+                            t('settings.project.currentProject', { defaultValue: 'the current project' }),
+                    })}
                 </LemonButton>
             </div>
             {targetOrganization && (

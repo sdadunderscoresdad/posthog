@@ -579,6 +579,7 @@
             },
             "unknown": "Unknown"
         },
+        "cancel": "Cancel",
         "docsLink": "Docs",
         "loading": "Loading...",
         "nav": {
@@ -586,6 +587,61 @@
             "title": "Settings navigation"
         },
         "noChangesToSave": "No changes to save",
+        "project": {
+            "apiKeys": {
+                "addLabel": "Add a label",
+                "copyPrompt": "Copy your new project secret API key:",
+                "createdTitle": "Project secret API key ready",
+                "createKey": "Create key",
+                "createTitle": "Create project secret API key",
+                "deleted": "Project secret API key deleted",
+                "deleteFailed": "Failed to delete project secret API key",
+                "description": "Project secret API keys allow programmatic access to a very limited set of scopes and endpoints. Unlike personal API keys, project secret API keys are not tied to a specific user.",
+                "editTitle": "Edit project secret API key",
+                "label": "Label",
+                "labelPlaceholder": "e.g., CI/CD Pipeline",
+                "loadFailed": "Failed to load project secret API keys",
+                "maximumKeys": "Maximum {{ number }} keys per project",
+                "newKeyFor": "Your new key for \"{{ label }}\":",
+                "noScopesMatch": "No scopes match \"{{ term }}\"",
+                "noun": "project secret API key",
+                "rolledTitle": "Project secret API key rolled",
+                "rolledWarning": "<strong>Warning:</strong> The previous key is no longer valid. This key will never be shown again. Copy it now.",
+                "rollFailed": "Failed to roll project secret API key",
+                "save": "Save",
+                "scopes": "Scopes",
+                "scopesHint": "Project secret API keys have limited scopes. Select only the permissions needed.",
+                "scopeUnavailable": "Not available for project secret API keys",
+                "searchScopes": "Search scopes...",
+                "selectPreset": "Select preset",
+                "selectScope": "Select at least one scope",
+                "showOnceWarning": "<strong>Warning:</strong> This key will never be shown again. Copy it now.",
+                "warning": "They should be kept secret as they can have scopes that allow access to the project's data."
+            },
+            "confirmPrompt": "Please type <strong>{{ name }}</strong> to confirm.",
+            "currentProject": "the current project",
+            "dangerZone": {
+                "cleanupNote": "<strong>Note:</strong> For projects with lots of data, cleanup may take several hours. We'll send you an email when the process is complete.",
+                "deleteButton": "Delete {{ name }}",
+                "deleteModalTitle": "Delete the project and its data?",
+                "deleting": "Deleting...",
+                "irreversible": "This is <b>irreversible</b>. Please be certain.",
+                "warning": "Project deletion <b>cannot be undone</b>. You will lose all environments and their data (<b>including events</b>):"
+            },
+            "displayName": "Display name",
+            "move": {
+                "button": "Move {{ name }}",
+                "modalTitle": "Move the project to another organization?",
+                "moving": "Moving...",
+                "notAdminReason": "You need to be an admin or owner of this organization to move a project into it",
+                "prompt": "Move <b>{{ name }}</b> to another organization?",
+                "selectTarget": "Select target organization",
+                "selectTargetFirst": "Please select the target organization",
+                "warning": "Moving a project will mean all original organization members will lose access including via things like API keys unless they also are part of the new organization."
+            },
+            "projectName": "this project's name",
+            "tags": "Tags"
+        },
         "save": "Save",
         "search": {
             "empty": "No settings found",

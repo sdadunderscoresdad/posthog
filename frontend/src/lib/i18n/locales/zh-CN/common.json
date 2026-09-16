@@ -574,6 +574,7 @@
             },
             "unknown": "未知"
         },
+        "cancel": "取消",
         "docsLink": "文档",
         "loading": "加载中…",
         "nav": {
@@ -581,6 +582,61 @@
             "title": "设置导航"
         },
         "noChangesToSave": "没有需要保存的更改",
+        "project": {
+            "apiKeys": {
+                "addLabel": "添加标签",
+                "copyPrompt": "复制你新建的项目 API 密钥：",
+                "createdTitle": "项目 API 密钥已就绪",
+                "createKey": "创建密钥",
+                "createTitle": "创建项目 API 密钥",
+                "deleted": "项目 API 密钥已删除",
+                "deleteFailed": "删除项目 API 密钥失败",
+                "description": "项目 API 密钥只能访问非常有限的范围和端点。与个人 API 密钥不同，项目 API 密钥不绑定到某个具体用户。",
+                "editTitle": "编辑项目 API 密钥",
+                "label": "标签",
+                "labelPlaceholder": "例如：CI/CD 流水线",
+                "loadFailed": "加载项目 API 密钥失败",
+                "maximumKeys": "每个项目最多 {{ number }} 个密钥",
+                "newKeyFor": "你为 “{{ label }}” 生成的新密钥：",
+                "noScopesMatch": "没有匹配 “{{ term }}” 的权限范围",
+                "noun": "项目 API 密钥",
+                "rolledTitle": "项目 API 密钥已轮换",
+                "rolledWarning": "<strong>警告：</strong>此前的密钥已失效。此密钥不会再显示，请立即复制。",
+                "rollFailed": "轮换项目 API 密钥失败",
+                "save": "保存",
+                "scopes": "权限范围",
+                "scopesHint": "项目 API 密钥的权限范围有限，请只选择需要的权限。",
+                "scopeUnavailable": "项目 API 密钥无法使用此项",
+                "searchScopes": "搜索权限范围…",
+                "selectPreset": "选择预设",
+                "selectScope": "至少选择一个权限范围",
+                "showOnceWarning": "<strong>警告：</strong>此密钥不会再显示，请立即复制。",
+                "warning": "请妥善保管，因为它们可能拥有访问项目数据的权限。"
+            },
+            "confirmPrompt": "请输入 <strong>{{ name }}</strong> 以确认。",
+            "currentProject": "当前项目",
+            "dangerZone": {
+                "cleanupNote": "<strong>注意：</strong>数据量较大的项目，清理可能需要数小时。处理完成后我们会给你发送邮件。",
+                "deleteButton": "删除 {{ name }}",
+                "deleteModalTitle": "删除该项目及其数据？",
+                "deleting": "正在删除…",
+                "irreversible": "此操作<b>不可撤销</b>，请确认无误。",
+                "warning": "项目删除<b>不可撤销</b>。你将失去所有环境及其数据（<b>包括事件</b>）："
+            },
+            "displayName": "显示名称",
+            "move": {
+                "button": "移动 {{ name }}",
+                "modalTitle": "将项目移动到其他组织？",
+                "moving": "正在移动…",
+                "notAdminReason": "你需要是该组织的管理员或所有者，才能把项目移动到该组织",
+                "prompt": "将 <b>{{ name }}</b> 移动到其他组织？",
+                "selectTarget": "选择目标组织",
+                "selectTargetFirst": "请先选择目标组织",
+                "warning": "移动项目后，原组织的所有成员都会失去访问权限（包括通过 API 密钥等方式），除非他们同时也是新组织的成员。"
+            },
+            "projectName": "该项目的名称",
+            "tags": "标签"
+        },
         "save": "保存",
         "search": {
             "empty": "未找到设置项",

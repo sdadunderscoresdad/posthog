@@ -2,12 +2,14 @@ import { MakeLogicType, actions, afterMount, connect, kea, listeners, path, redu
 import { forms } from 'kea-forms'
 import type { DeepPartial, DeepPartialMap, FieldName, ValidationErrorType } from 'kea-forms'
 import { loaders } from 'kea-loaders'
+import { Trans } from 'react-i18next'
 
 import { LemonDialog } from '@posthog/lemon-ui'
 
 import api from 'lib/api'
 import { CodeSnippet } from 'lib/components/CodeSnippet'
 import { FEATURE_FLAGS } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 import {
@@ -257,17 +259,29 @@ export const projectSecretAPIKeysLogic = kea<projectSecretAPIKeysLogicType>([
                     try {
                         return await api.projectSecretApiKeys.list()
                     } catch (error: any) {
-                        lemonToast.error('Failed to load project secret API keys')
+                        lemonToast.error(
+                            i18n.t('settings.project.apiKeys.loadFailed', {
+                                defaultValue: 'Failed to load project secret API keys',
+                            })
+                        )
                         throw error
                     }
                 },
                 deleteKey: async ({ id }: { id: string }) => {
                     try {
                         await api.projectSecretApiKeys.delete(id)
-                        lemonToast.success('Project secret API key deleted')
+                        lemonToast.success(
+                            i18n.t('settings.project.apiKeys.deleted', {
+                                defaultValue: 'Project secret API key deleted',
+                            })
+                        )
                         return values.keys.filter((key: ProjectSecretAPIKeyApi) => key.id !== id)
                     } catch (error: any) {
-                        lemonToast.error('Failed to delete project secret API key')
+                        lemonToast.error(
+                            i18n.t('settings.project.apiKeys.deleteFailed', {
+                                defaultValue: 'Failed to delete project secret API key',
+                            })
+                        )
                         throw error
                     }
                 },
@@ -284,7 +298,11 @@ export const projectSecretAPIKeysLogic = kea<projectSecretAPIKeysLogicType>([
                         const storedKey = { ...rolledKey, value: '' }
                         return values.keys.map((key: ProjectSecretAPIKeyApi) => (key.id === id ? storedKey : key))
                     } catch (error: any) {
-                        lemonToast.error('Failed to roll project secret API key')
+                        lemonToast.error(
+                            i18n.t('settings.project.apiKeys.rollFailed', {
+                                defaultValue: 'Failed to roll project secret API key',
+                            })
+                        )
                         throw error
                     }
                 },
@@ -435,16 +453,31 @@ export const projectSecretAPIKeysLogic = kea<projectSecretAPIKeysLogicType>([
             }
 
             LemonDialog.open({
-                title: 'Project secret API key ready',
+                title: i18n.t('settings.project.apiKeys.createdTitle', {
+                    defaultValue: 'Project secret API key ready',
+                }),
                 width: 536,
                 content: (
                     <>
-                        <p>Copy your new project secret API key:</p>
-                        <CodeSnippet className="ph-no-capture" thing="project secret API key">
+                        <p>
+                            {i18n.t('settings.project.apiKeys.copyPrompt', {
+                                defaultValue: 'Copy your new project secret API key:',
+                            })}
+                        </p>
+                        <CodeSnippet
+                            className="ph-no-capture"
+                            thing={i18n.t('settings.project.apiKeys.noun', {
+                                defaultValue: 'project secret API key',
+                            })}
+                        >
                             {key.value}
                         </CodeSnippet>
                         <p className="text-warning mt-4">
-                            <strong>Warning:</strong> This key will never be shown again. Copy it now.
+                            <Trans
+                                i18nKey="settings.project.apiKeys.showOnceWarning"
+                                components={{ strong: <strong /> }}
+                                defaults="<strong>Warning:</strong> This key will never be shown again. Copy it now."
+                            />
                         </p>
                     </>
                 ),
@@ -457,15 +490,31 @@ export const projectSecretAPIKeysLogic = kea<projectSecretAPIKeysLogicType>([
             }
 
             LemonDialog.open({
-                title: 'Project secret API key rolled',
+                title: i18n.t('settings.project.apiKeys.rolledTitle', {
+                    defaultValue: 'Project secret API key rolled',
+                }),
                 width: 536,
                 content: (
                     <>
-                        <p>Your new key for "{key.label}":</p>
-                        <CodeSnippet thing="project secret API key">{key.value}</CodeSnippet>
+                        <p>
+                            {i18n.t('settings.project.apiKeys.newKeyFor', {
+                                defaultValue: 'Your new key for "{{ label }}":',
+                                label: key.label,
+                            })}
+                        </p>
+                        <CodeSnippet
+                            thing={i18n.t('settings.project.apiKeys.noun', {
+                                defaultValue: 'project secret API key',
+                            })}
+                        >
+                            {key.value}
+                        </CodeSnippet>
                         <p className="text-warning mt-4">
-                            <strong>Warning:</strong> The previous key is no longer valid. This key will never be shown
-                            again. Copy it now.
+                            <Trans
+                                i18nKey="settings.project.apiKeys.rolledWarning"
+                                components={{ strong: <strong /> }}
+                                defaults="<strong>Warning:</strong> The previous key is no longer valid. This key will never be shown again. Copy it now."
+                            />
                         </p>
                     </>
                 ),
