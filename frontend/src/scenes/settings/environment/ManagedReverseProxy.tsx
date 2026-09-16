@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import { useActions, useAsyncActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
 import { useMemo } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconCheckCircle, IconEllipsis, IconInfo, IconWarning, IconX } from '@posthog/icons'
 import {
@@ -41,12 +42,8 @@ import {
 } from './proxyLogic'
 import { ProxySDKSetup } from './ProxySDKSetup'
 
-const statusText = {
-    valid: 'live',
-    timed_out: 'timed out',
-}
-
 export function ManagedReverseProxy(): JSX.Element {
+    const { t } = useTranslation()
     const {
         shouldShowCloudflareOptIn,
         formState,
@@ -63,6 +60,11 @@ export function ManagedReverseProxy(): JSX.Element {
     const { preflight } = useValues(preflightLogic)
 
     const cloudflareProxyEnabled = preflight?.instance_preferences?.cloudflare_proxy_enabled
+
+    const statusText: { valid: string; timed_out: string } = {
+        valid: t('settings.environment.managedReverseProxy.status.live', { defaultValue: 'live' }),
+        timed_out: t('settings.environment.managedReverseProxy.status.timedOut', { defaultValue: 'timed out' }),
+    }
 
     const restrictionReason = useRestrictedArea({
         minimumAccessLevel: OrganizationMembershipLevel.Admin,
@@ -114,15 +116,19 @@ export function ManagedReverseProxy(): JSX.Element {
 
     const columns: LemonTableColumns<ProxyRecord> = [
         {
-            title: 'Domain',
+            title: t('settings.environment.managedReverseProxy.columns.domain', { defaultValue: 'Domain' }),
             dataIndex: 'domain',
         },
         {
-            title: 'Status',
+            title: t('settings.environment.managedReverseProxy.columns.status', { defaultValue: 'Status' }),
             dataIndex: 'status',
             render: function RenderStatus(status) {
                 if (!status) {
-                    return <span>Unknown</span>
+                    return (
+                        <span>
+                            {t('settings.environment.managedReverseProxy.status.unknown', { defaultValue: 'Unknown' })}
+                        </span>
+                    )
                 }
 
                 return (
@@ -139,12 +145,21 @@ export function ManagedReverseProxy(): JSX.Element {
                         {status === 'issuing' && <Spinner />}
                         <span className="capitalize">{isKeyOf(status, statusText) ? statusText[status] : status}</span>
                         {status === 'waiting' && (
-                            <Tooltip title="Waiting for DNS records to be created">
+                            <Tooltip
+                                title={t('settings.environment.managedReverseProxy.status.waitingTooltip', {
+                                    defaultValue: 'Waiting for DNS records to be created',
+                                })}
+                            >
                                 <IconInfo className="cursor-pointer" />
                             </Tooltip>
                         )}
                         {status === 'timed_out' && (
-                            <Tooltip title="Timed out waiting for DNS records to be created. Please delete the record and try again">
+                            <Tooltip
+                                title={t('settings.environment.managedReverseProxy.status.timedOutTooltip', {
+                                    defaultValue:
+                                        'Timed out waiting for DNS records to be created. Please delete the record and try again',
+                                })}
+                            >
                                 <IconInfo className="cursor-pointer" />
                             </Tooltip>
                         )}
@@ -164,34 +179,57 @@ export function ManagedReverseProxy(): JSX.Element {
                         <LemonMenu
                             items={[
                                 {
-                                    label: isDiagnosing ? 'Running diagnostics…' : 'Diagnose',
+                                    label: isDiagnosing
+                                        ? t('settings.environment.managedReverseProxy.diagnostics.running', {
+                                              defaultValue: 'Running diagnostics…',
+                                          })
+                                        : t('settings.environment.managedReverseProxy.diagnostics.run', {
+                                              defaultValue: 'Diagnose',
+                                          }),
                                     onClick: () => diagnose(id),
-                                    disabledReason: isDiagnosing ? 'A diagnostic is already running' : undefined,
+                                    disabledReason: isDiagnosing
+                                        ? t('settings.environment.managedReverseProxy.diagnostics.alreadyRunning', {
+                                              defaultValue: 'A diagnostic is already running',
+                                          })
+                                        : undefined,
                                 },
                                 ...(status === 'erroring' || status === 'timed_out'
                                     ? [
                                           {
-                                              label: 'Retry',
+                                              label: t('settings.environment.managedReverseProxy.retry', {
+                                                  defaultValue: 'Retry',
+                                              }),
                                               onClick: () => retryRecord(id),
                                           },
                                       ]
                                     : []),
                                 {
-                                    label: 'Delete',
+                                    label: t('settings.environment.managedReverseProxy.delete', {
+                                        defaultValue: 'Delete',
+                                    }),
                                     status: 'danger' as const,
                                     onClick: () => {
                                         LemonDialog.open({
-                                            title: 'Delete managed proxy',
+                                            title: t('settings.environment.managedReverseProxy.deleteDialog.title', {
+                                                defaultValue: 'Delete managed proxy',
+                                            }),
                                             width: '20rem',
-                                            content:
-                                                'Are you sure you want to delete this managed proxy? This cannot be undone and if it is in use then events sent to the domain will not be processed.',
+                                            content: t(
+                                                'settings.environment.managedReverseProxy.deleteDialog.description',
+                                                {
+                                                    defaultValue:
+                                                        'Are you sure you want to delete this managed proxy? This cannot be undone and if it is in use then events sent to the domain will not be processed.',
+                                                }
+                                            ),
                                             primaryButton: {
                                                 status: 'danger',
                                                 onClick: () => deleteRecord(id),
-                                                children: 'Delete',
+                                                children: t('settings.environment.managedReverseProxy.delete', {
+                                                    defaultValue: 'Delete',
+                                                }),
                                             },
                                             secondaryButton: {
-                                                children: 'Cancel',
+                                                children: t('settings.cancel', { defaultValue: 'Cancel' }),
                                             },
                                             shouldAwaitSubmit: true,
                                         })
@@ -237,10 +275,16 @@ export function ManagedReverseProxy(): JSX.Element {
 
             {validProxyRecords.length > 0 && (
                 <div className="flex flex-col gap-2 bg-surface-primary rounded border my-4 px-5 py-4">
-                    <div className="text-xl font-semibold leading-tight">Update your SDK configuration</div>
+                    <div className="text-xl font-semibold leading-tight">
+                        {t('settings.environment.managedReverseProxy.sdkSetup.title', {
+                            defaultValue: 'Update your SDK configuration',
+                        })}
+                    </div>
                     <p className="text-secondary">
-                        Now that your proxy is live, update your SDK initialization to send data through your custom
-                        domain.
+                        {t('settings.environment.managedReverseProxy.sdkSetup.description', {
+                            defaultValue:
+                                'Now that your proxy is live, update your SDK initialization to send data through your custom domain.',
+                        })}
                     </p>
                     <ProxySDKSetup />
                 </div>
@@ -249,12 +293,16 @@ export function ManagedReverseProxy(): JSX.Element {
             {formState === 'collapsed' ? (
                 maxRecordsReached ? (
                     <LemonBanner type="info">
-                        There is a maximum of {maxProxyRecords} proxy records allowed per organization.
+                        <Trans
+                            i18nKey="settings.environment.managedReverseProxy.maxRecordsReached"
+                            values={{ count: maxProxyRecords }}
+                            defaults="There is a maximum of {{ count }} proxy records allowed per organization."
+                        />
                     </LemonBanner>
                 ) : (
                     <div className="flex">
                         <LemonButton onClick={showForm} type="primary" disabledReason={restrictionReason}>
-                            Add managed proxy
+                            {t('settings.environment.managedReverseProxy.add', { defaultValue: 'Add managed proxy' })}
                         </LemonButton>
                     </div>
                 )
@@ -272,77 +320,109 @@ function CloudflareOptInBanner({
     onAcknowledge: () => void
     restrictionReason: string | false | undefined | null
 }): JSX.Element {
+    const { t } = useTranslation()
     const { cloudflareOptInChecked } = useValues(proxyLogic)
     const { setCloudflareOptInChecked } = useActions(proxyLogic)
 
     return (
         <div className="bg-surface-primary rounded border px-5 py-4 space-y-4">
-            <div className="text-xl font-semibold leading-tight">Enable Managed Proxy</div>
+            <div className="text-xl font-semibold leading-tight">
+                {t('settings.environment.managedReverseProxy.optIn.title', { defaultValue: 'Enable Managed Proxy' })}
+            </div>
             <p className="text-secondary">
-                This feature is disabled by default and has no effect unless you explicitly enable it.
+                {t('settings.environment.managedReverseProxy.optIn.description', {
+                    defaultValue:
+                        'This feature is disabled by default and has no effect unless you explicitly enable it.',
+                })}
             </p>
             <p>
-                By enabling this feature, you explicitly instruct us to route applicable traffic via{' '}
-                <Link to="https://www.cloudflare.com" target="_blank">
-                    Cloudflare
-                </Link>
-                , and understand that data processed as part of this feature will be transmitted to and processed by
-                Cloudflare.
+                <Trans
+                    i18nKey="settings.environment.managedReverseProxy.optIn.consentIntro"
+                    components={{ CloudflareLink: <Link to="https://www.cloudflare.com" target="_blank" /> }}
+                    defaults="By enabling this feature, you explicitly instruct us to route applicable traffic via <CloudflareLink>Cloudflare</CloudflareLink>, and understand that data processed as part of this feature will be transmitted to and processed by Cloudflare."
+                />
             </p>
             <div className="border rounded p-4 space-y-3 bg-surface-secondary">
-                <div className="font-semibold">Third-party processing (Cloudflare)</div>
+                <div className="font-semibold">
+                    {t('settings.environment.managedReverseProxy.optIn.thirdParty.title', {
+                        defaultValue: 'Third-party processing (Cloudflare)',
+                    })}
+                </div>
                 <p className="text-sm">
-                    This feature routes certain customer and customer end-user traffic through Cloudflare, a third-party
-                    infrastructure provider, for the purpose of delivering the managed proxy functionality. Cloudflare
-                    is listed as a{' '}
-                    <Link to="https://posthog.com/subprocessors" target="_blank">
-                        subprocessor
-                    </Link>{' '}
-                    referenced in our{' '}
-                    <Link to="https://posthog.com/dpa" target="_blank">
-                        Data Processing Agreement
-                    </Link>{' '}
-                    ("<strong>DPA</strong>") for this purpose.
+                    <Trans
+                        i18nKey="settings.environment.managedReverseProxy.optIn.thirdParty.description"
+                        components={{
+                            SubprocessorLink: <Link to="https://posthog.com/subprocessors" target="_blank" />,
+                            DpaLink: <Link to="https://posthog.com/dpa" target="_blank" />,
+                            Strong: <strong />,
+                        }}
+                        defaults='This feature routes certain customer and customer end-user traffic through Cloudflare, a third-party infrastructure provider, for the purpose of delivering the managed proxy functionality. Cloudflare is listed as a <SubprocessorLink>subprocessor</SubprocessorLink> referenced in our <DpaLink>Data Processing Agreement</DpaLink> ("<Strong>DPA</Strong>") for this purpose.'
+                    />
                 </p>
-                <p className="text-sm">By enabling this feature, you:</p>
+                <p className="text-sm">
+                    {t('settings.environment.managedReverseProxy.optIn.consentListLeadIn', {
+                        defaultValue: 'By enabling this feature, you:',
+                    })}
+                </p>
                 <ul className="text-sm list-disc pl-5 space-y-1">
-                    <li>Explicitly instruct us to route applicable data through Cloudflare for this service;</li>
                     <li>
-                        Acknowledge and agree that data processed as part of this feature will be transmitted to and
-                        processed by Cloudflare, and that this processing may occur using Cloudflare infrastructure in
-                        multiple or dynamically assigned geographic locations as part of providing managed reverse proxy
-                        functionality, in accordance with our DPA; and
+                        {t('settings.environment.managedReverseProxy.optIn.consentItemRouting', {
+                            defaultValue:
+                                'Explicitly instruct us to route applicable data through Cloudflare for this service;',
+                        })}
                     </li>
                     <li>
-                        Understand that traffic routed through this proxy is handled by Cloudflare as described in our
-                        DPA.
+                        {t('settings.environment.managedReverseProxy.optIn.consentItemAcknowledge', {
+                            defaultValue:
+                                'Acknowledge and agree that data processed as part of this feature will be transmitted to and processed by Cloudflare, and that this processing may occur using Cloudflare infrastructure in multiple or dynamically assigned geographic locations as part of providing managed reverse proxy functionality, in accordance with our DPA; and',
+                        })}
+                    </li>
+                    <li>
+                        {t('settings.environment.managedReverseProxy.optIn.consentItemUnderstand', {
+                            defaultValue:
+                                'Understand that traffic routed through this proxy is handled by Cloudflare as described in our DPA.',
+                        })}
                     </li>
                 </ul>
             </div>
             <div className="border rounded p-4 space-y-3 bg-surface-secondary">
-                <div className="font-semibold">HIPAA Disclaimer</div>
+                <div className="font-semibold">
+                    {t('settings.environment.managedReverseProxy.optIn.hipaa.title', {
+                        defaultValue: 'HIPAA Disclaimer',
+                    })}
+                </div>
                 <p className="text-sm">
-                    This feature is not HIPAA-compliant and is not intended for the processing of Protected Health
-                    Information ("<strong>PHI</strong>"). Any Business Associate Agreement ("<strong>BAA</strong>") you
-                    may have entered into with PostHog does not apply to this functionality. You agree not to use this
-                    feature with PHI.
+                    <Trans
+                        i18nKey="settings.environment.managedReverseProxy.optIn.hipaa.description"
+                        components={{ Strong: <strong /> }}
+                        defaults='This feature is not HIPAA-compliant and is not intended for the processing of Protected Health Information ("<Strong>PHI</Strong>"). Any Business Associate Agreement ("<Strong>BAA</Strong>") you may have entered into with PostHog does not apply to this functionality. You agree not to use this feature with PHI.'
+                    />
                 </p>
             </div>
             <div className="space-y-3">
                 <LemonCheckbox
                     checked={cloudflareOptInChecked}
                     onChange={setCloudflareOptInChecked}
-                    label="I have read and agree to the above terms"
+                    label={t('settings.environment.managedReverseProxy.optIn.agreeLabel', {
+                        defaultValue: 'I have read and agree to the above terms',
+                    })}
                 />
                 <LemonButton
                     type="primary"
                     onClick={onAcknowledge}
                     disabled={!cloudflareOptInChecked}
                     disabledReason={
-                        restrictionReason || (!cloudflareOptInChecked ? 'You must agree to the terms' : undefined)
+                        restrictionReason ||
+                        (!cloudflareOptInChecked
+                            ? t('settings.environment.managedReverseProxy.optIn.mustAgree', {
+                                  defaultValue: 'You must agree to the terms',
+                              })
+                            : undefined)
                     }
                 >
-                    Enable Managed Proxy
+                    {t('settings.environment.managedReverseProxy.optIn.title', {
+                        defaultValue: 'Enable Managed Proxy',
+                    })}
                 </LemonButton>
             </div>
         </div>
@@ -350,6 +430,7 @@ function CloudflareOptInBanner({
 }
 
 const ExpandedRow = ({ record }: { record: ProxyRecord }): JSX.Element => {
+    const { t } = useTranslation()
     const { diagnosticReports, recordActiveTabs, rootRedirectDrafts, proxyRecordsLoading } = useValues(proxyLogic)
     const { setRecordActiveTab, setRootRedirectDraft, updateRootRedirect } = useActions(proxyLogic)
 
@@ -359,7 +440,7 @@ const ExpandedRow = ({ record }: { record: ProxyRecord }): JSX.Element => {
 
     const tabs = [
         {
-            label: 'CNAME',
+            label: t('settings.environment.managedReverseProxy.expandedRow.tabs.cname', { defaultValue: 'CNAME' }),
             key: 'cname',
             content: (
                 <CodeSnippet key={record.id} language={Language.HTTP}>
@@ -370,19 +451,28 @@ const ExpandedRow = ({ record }: { record: ProxyRecord }): JSX.Element => {
         ...(canConfigureRootRedirect(record)
             ? [
                   {
-                      label: 'Root redirect',
+                      label: t('settings.environment.managedReverseProxy.expandedRow.tabs.rootRedirect', {
+                          defaultValue: 'Root redirect',
+                      }),
                       key: 'root-redirect',
                       content: (
                           <div className="flex flex-col gap-2 max-w-160">
                               <p className="text-secondary">
-                                  Redirect visits to <code>https://{record.domain}/</code> to another HTTPS URL. This
-                                  does not affect event ingestion or other proxy paths.
+                                  <Trans
+                                      i18nKey="settings.environment.managedReverseProxy.expandedRow.rootRedirect.description"
+                                      values={{ domain: record.domain }}
+                                      components={{ code: <code /> }}
+                                      defaults="Redirect visits to <code>https://{{ domain }}/</code> to another HTTPS URL. This does not affect event ingestion or other proxy paths."
+                                  />
                               </p>
                               <LemonInput
                                   type="url"
                                   value={rootRedirectDraft}
                                   onChange={(value) => setRootRedirectDraft(record.id, value)}
-                                  placeholder="https://www.example.com/"
+                                  placeholder={t(
+                                      'settings.environment.managedReverseProxy.expandedRow.rootRedirect.placeholder',
+                                      { defaultValue: 'https://www.example.com/' }
+                                  )}
                               />
                               <div>
                                   <LemonButton
@@ -394,11 +484,16 @@ const ExpandedRow = ({ record }: { record: ProxyRecord }): JSX.Element => {
                                       loading={proxyRecordsLoading}
                                       disabledReason={
                                           rootRedirectDraft === (record.root_redirect_url ?? '')
-                                              ? 'No changes to save'
+                                              ? t(
+                                                    'settings.environment.managedReverseProxy.expandedRow.rootRedirect.noChanges',
+                                                    { defaultValue: 'No changes to save' }
+                                                )
                                               : undefined
                                       }
                                   >
-                                      Save redirect
+                                      {t('settings.environment.managedReverseProxy.expandedRow.rootRedirect.save', {
+                                          defaultValue: 'Save redirect',
+                                      })}
                                   </LemonButton>
                               </div>
                           </div>
@@ -409,7 +504,9 @@ const ExpandedRow = ({ record }: { record: ProxyRecord }): JSX.Element => {
         ...(report
             ? [
                   {
-                      label: 'Diagnosis',
+                      label: t('settings.environment.managedReverseProxy.expandedRow.tabs.diagnosis', {
+                          defaultValue: 'Diagnosis',
+                      }),
                       key: 'diagnosis',
                       content: <DiagnosticReportContent report={report} />,
                   },
@@ -438,6 +535,7 @@ const ExpandedRow = ({ record }: { record: ProxyRecord }): JSX.Element => {
 }
 
 function CreateRecordForm(): JSX.Element {
+    const { t } = useTranslation()
     const { formState, proxyRecordsLoading } = useValues(proxyLogic)
     const { collapseForm } = useActions(proxyLogic)
 
@@ -452,25 +550,39 @@ function CreateRecordForm(): JSX.Element {
                 >
                     <LemonBanner type="warning">
                         <p className="font-semibold mb-1">
-                            Avoid domains that ad-blockers may flag as analytics or advertising related.
+                            {t('settings.environment.managedReverseProxy.createForm.adBlockerWarningTitle', {
+                                defaultValue:
+                                    'Avoid domains that ad-blockers may flag as analytics or advertising related.',
+                            })}
                         </p>
                         <ul className="list-disc pl-5 space-y-0.5 mb-1">
                             <li>
-                                <strong>Do not use</strong> subdomains containing words related to tracking, analytics,
-                                advertising, or PostHog (e.g. <code>analytics.mydomain.com</code>,{' '}
-                                <code>posthog.mydomain.com</code>, or <code>ph.mydomain.com</code>). These are commonly
-                                blocked by ad-blockers and will cause data loss. The proxy will <strong>NOT</strong>{' '}
-                                achieve the intended effect if ad-blockers are blocking the domain.
+                                <Trans
+                                    i18nKey="settings.environment.managedReverseProxy.createForm.adBlockerWarningItem"
+                                    components={{ Strong: <strong />, code: <code /> }}
+                                    defaults="<Strong>Do not use</Strong> subdomains containing words related to tracking, analytics, advertising, or PostHog (e.g. <code>analytics.mydomain.com</code>, <code>posthog.mydomain.com</code>, or <code>ph.mydomain.com</code>). These are commonly blocked by ad-blockers and will cause data loss. The proxy will <Strong>NOT</Strong> achieve the intended effect if ad-blockers are blocking the domain."
+                                />
                             </li>
                             <li>
-                                <strong>Use a generic subdomain</strong> such as <code>t.mydomain.com</code> instead.
+                                <Trans
+                                    i18nKey="settings.environment.managedReverseProxy.createForm.genericSubdomainHint"
+                                    components={{ Strong: <strong />, code: <code /> }}
+                                    defaults="<Strong>Use a generic subdomain</Strong> such as <code>t.mydomain.com</code> instead."
+                                />
                             </li>
                         </ul>
                     </LemonBanner>
-                    <LemonField name="domain" label="Domain">
+                    <LemonField
+                        name="domain"
+                        label={t('settings.environment.managedReverseProxy.createForm.domainLabel', {
+                            defaultValue: 'Domain',
+                        })}
+                    >
                         <LemonInput
                             autoFocus
-                            placeholder="Enter a domain (e.g. t.mydomain.com)"
+                            placeholder={t('settings.environment.managedReverseProxy.createForm.domainPlaceholder', {
+                                defaultValue: 'Enter a domain (e.g. t.mydomain.com)',
+                            })}
                             data-attr="domain-input"
                         />
                     </LemonField>
@@ -478,9 +590,15 @@ function CreateRecordForm(): JSX.Element {
                         <LemonButton
                             type="secondary"
                             onClick={collapseForm}
-                            disabledReason={proxyRecordsLoading ? 'Saving' : undefined}
+                            disabledReason={
+                                proxyRecordsLoading
+                                    ? t('settings.environment.managedReverseProxy.createForm.saving', {
+                                          defaultValue: 'Saving',
+                                      })
+                                    : undefined
+                            }
                         >
-                            Cancel
+                            {t('settings.cancel', { defaultValue: 'Cancel' })}
                         </LemonButton>
                         <LemonButton
                             htmlType="submit"
@@ -488,7 +606,7 @@ function CreateRecordForm(): JSX.Element {
                             data-attr="domain-save"
                             loading={proxyRecordsLoading}
                         >
-                            Add
+                            {t('settings.environment.managedReverseProxy.createForm.add', { defaultValue: 'Add' })}
                         </LemonButton>
                     </div>
                 </Form>
@@ -498,6 +616,7 @@ function CreateRecordForm(): JSX.Element {
 }
 
 const WaitingRecords = (): JSX.Element | null => {
+    const { t } = useTranslation()
     const { proxyRecords } = useValues(proxyLogic)
 
     const waitingRecords = proxyRecords.filter((r) => r.status === 'waiting')
@@ -508,9 +627,15 @@ const WaitingRecords = (): JSX.Element | null => {
 
     return (
         <div className="flex flex-col gap-2 bg-surface-primary rounded border px-5 py-4">
-            <div className="text-xl font-semibold leading-tight">Almost there</div>
+            <div className="text-xl font-semibold leading-tight">
+                {t('settings.environment.managedReverseProxy.waitingRecords.title', { defaultValue: 'Almost there' })}
+            </div>
             <div>
-                You need to set the following <b>CNAME</b> records in your DNS provider:
+                <Trans
+                    i18nKey="settings.environment.managedReverseProxy.waitingRecords.description"
+                    components={{ b: <b /> }}
+                    defaults="You need to set the following <b>CNAME</b> records in your DNS provider:"
+                />
             </div>
             <div className="flex flex-col gap-1">
                 {waitingRecords.map((r) => (
@@ -531,9 +656,11 @@ const WaitingRecords = (): JSX.Element | null => {
                 ))}
             </div>
             <div className="text-sm">
-                <strong>Important:</strong> If you are using a DNS provider like Cloudflare that offers proxy options
-                (orange cloud), make sure the proxy is <strong>disabled</strong> (gray cloud) for this domain. Enabling
-                the proxy at your DNS provider may interfere with the managed reverse proxy functionality.
+                <Trans
+                    i18nKey="settings.environment.managedReverseProxy.waitingRecords.dnsProxyHint"
+                    components={{ Strong: <strong /> }}
+                    defaults="<Strong>Important:</Strong> If you are using a DNS provider like Cloudflare that offers proxy options (orange cloud), make sure the proxy is <Strong>disabled</Strong> (gray cloud) for this domain. Enabling the proxy at your DNS provider may interfere with the managed reverse proxy functionality."
+                />
             </div>
         </div>
     )
@@ -553,9 +680,15 @@ const checkStatusIcon = (status: DiagnosticCheckStatus): JSX.Element => {
 }
 
 function DiagnosticReportContent({ report }: { report: DiagnosticReport }): JSX.Element {
+    const { t } = useTranslation()
     return (
         <div className="flex flex-col gap-3">
-            <div className="text-xs text-secondary">Ran {new Date(report.ran_at).toLocaleString()}</div>
+            <div className="text-xs text-secondary">
+                {t('settings.environment.managedReverseProxy.diagnostics.ran', {
+                    defaultValue: 'Ran {{ date }}',
+                    date: new Date(report.ran_at).toLocaleString(),
+                })}
+            </div>
             <div className="flex flex-col gap-2">
                 {report.checks.map((check) => (
                     <DiagnosticCheckRow key={check.id} check={check} />
@@ -566,12 +699,28 @@ function DiagnosticReportContent({ report }: { report: DiagnosticReport }): JSX.
 }
 
 function DiagnosticCheckRow({ check }: { check: DiagnosticCheckResult }): JSX.Element {
+    const { t } = useTranslation()
+    const statusLabel: Record<DiagnosticCheckStatus, string> = {
+        passed: t('settings.environment.managedReverseProxy.diagnostics.status.passed', {
+            defaultValue: 'passed',
+        }),
+        warned: t('settings.environment.managedReverseProxy.diagnostics.status.warned', {
+            defaultValue: 'warned',
+        }),
+        failed: t('settings.environment.managedReverseProxy.diagnostics.status.failed', {
+            defaultValue: 'failed',
+        }),
+        skipped: t('settings.environment.managedReverseProxy.diagnostics.status.skipped', {
+            defaultValue: 'skipped',
+        }),
+    }
+
     return (
         <div className="border rounded p-3 flex flex-col gap-2 bg-surface-secondary">
             <div className="flex items-center gap-2">
                 {checkStatusIcon(check.status)}
                 <span className="font-semibold">{check.name}</span>
-                <span className="text-xs text-secondary capitalize">({check.status})</span>
+                <span className="text-xs text-secondary capitalize">({statusLabel[check.status]})</span>
             </div>
             <LemonMarkdown className="text-sm">{check.detail}</LemonMarkdown>
             {check.remediation && (

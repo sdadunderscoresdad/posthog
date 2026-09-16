@@ -627,6 +627,89 @@
                 "currentlyResolves": "当前解析为：",
                 "placeholder": "1（默认）"
             },
+            "managedReverseProxy": {
+                "add": "添加托管代理",
+                "columns": {
+                    "domain": "域名",
+                    "status": "状态"
+                },
+                "createForm": {
+                    "adBlockerWarningItem": "<Strong>不要使用</Strong>包含与跟踪、分析、广告或 PostHog 相关词语的子域名（例如 <code>analytics.mydomain.com</code>、<code>posthog.mydomain.com</code> 或 <code>ph.mydomain.com</code>）。这些子域名经常被广告拦截器拦截，会导致数据丢失。如果域名被广告拦截器拦截，该代理将<Strong>无法</Strong>达到预期效果。",
+                    "adBlockerWarningTitle": "避免使用可能被广告拦截器判定为分析或广告相关的域名。",
+                    "add": "添加",
+                    "domainLabel": "域名",
+                    "domainPlaceholder": "输入域名（例如 t.mydomain.com）",
+                    "genericSubdomainHint": "<Strong>请改用通用子域名</Strong>，例如 <code>t.mydomain.com</code>。",
+                    "saving": "保存中"
+                },
+                "delete": "删除",
+                "deleteDialog": {
+                    "description": "确定要删除这个托管代理吗？此操作无法撤销，如果它正在使用中，发送到该域名的事件将不会被处理。",
+                    "title": "删除托管代理"
+                },
+                "diagnostics": {
+                    "alreadyRunning": "诊断已在运行中",
+                    "ran": "运行于 {{ date }}",
+                    "run": "诊断",
+                    "running": "正在运行诊断…",
+                    "status": {
+                        "failed": "失败",
+                        "passed": "通过",
+                        "skipped": "已跳过",
+                        "warned": "警告"
+                    }
+                },
+                "expandedRow": {
+                    "rootRedirect": {
+                        "description": "将访问 <code>https://{{ domain }}/</code> 的请求重定向到另一个 HTTPS URL。这不会影响事件采集或其他代理路径。",
+                        "noChanges": "没有需要保存的更改",
+                        "placeholder": "https://www.example.com/",
+                        "save": "保存重定向"
+                    },
+                    "tabs": {
+                        "cname": "CNAME",
+                        "diagnosis": "诊断",
+                        "rootRedirect": "根路径重定向"
+                    }
+                },
+                "maxRecordsReached_other": "每个组织最多允许 {{ count }} 条代理记录。",
+                "optIn": {
+                    "agreeLabel": "我已阅读并同意上述条款",
+                    "consentIntro": "启用此功能即表示你明确指示我们将相关流量经由 <CloudflareLink>Cloudflare</CloudflareLink> 路由，并知晓作为此功能的一部分处理的数据将被传输给 Cloudflare 并由其处理。",
+                    "consentItemAcknowledge": "确认并同意：作为此功能的一部分处理的数据将被传输给 Cloudflare 并由其处理，并且根据我们的 DPA，此类处理可能使用 Cloudflare 位于多个或动态分配的地理位置的设施来完成，以提供托管反向代理功能；以及",
+                    "consentItemRouting": "明确指示我们将相关数据经由 Cloudflare 路由以提供此服务；",
+                    "consentItemUnderstand": "理解经由该代理路由的流量由 Cloudflare 按照我们的 DPA 所述方式处理。",
+                    "consentListLeadIn": "启用此功能即表示你：",
+                    "description": "此功能默认关闭，除非你明确启用，否则不会产生任何影响。",
+                    "hipaa": {
+                        "description": "此功能不符合 HIPAA 要求，也不适用于处理受保护健康信息（\"<Strong>PHI</Strong>\"）。你与 PostHog 签订的任何商业伙伴协议（\"<Strong>BAA</Strong>\"）均不适用于此功能。你同意不将受保护健康信息用于此功能。",
+                        "title": "HIPAA 免责声明"
+                    },
+                    "mustAgree": "你必须同意这些条款",
+                    "thirdParty": {
+                        "description": "此功能会将部分客户及客户终端用户的流量经由 Cloudflare（第三方基础设施提供商）路由，以实现托管反向代理功能。Cloudflare 已被列为我们的<SubprocessorLink>子处理者</SubprocessorLink>，并在我们的<DpaLink>数据处理协议</DpaLink>（\"<Strong>DPA</Strong>\"）中就此用途被提及。",
+                        "title": "第三方处理（Cloudflare）"
+                    },
+                    "title": "启用托管代理"
+                },
+                "retry": "重试",
+                "sdkSetup": {
+                    "description": "代理已上线，请更新 SDK 初始化配置，让数据通过你的自定义域名发送。",
+                    "title": "更新 SDK 配置"
+                },
+                "status": {
+                    "live": "已生效",
+                    "timedOut": "超时",
+                    "timedOutTooltip": "等待创建 DNS 记录超时。请删除该记录后重试",
+                    "unknown": "未知",
+                    "waitingTooltip": "正在等待创建 DNS 记录"
+                },
+                "waitingRecords": {
+                    "description": "你需要在 DNS 服务商处设置以下 <b>CNAME</b> 记录：",
+                    "dnsProxyHint": "<Strong>重要：</Strong>如果你使用的是 Cloudflare 这类提供代理选项（橙色云朵）的 DNS 服务商，请确保该域名的代理处于<Strong>关闭</Strong>状态（灰色云朵）。在 DNS 服务商处启用代理可能会干扰托管反向代理功能。",
+                    "title": "就快完成了"
+                }
+            },
             "maxChangelog": {
                 "empty": "暂时没有更新日志。稍后再来看看 PostHog AI 的新功能。"
             },

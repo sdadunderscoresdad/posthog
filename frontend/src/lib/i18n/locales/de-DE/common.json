@@ -632,6 +632,90 @@
                 "currentlyResolves": "",
                 "placeholder": ""
             },
+            "managedReverseProxy": {
+                "add": "",
+                "columns": {
+                    "domain": "",
+                    "status": ""
+                },
+                "createForm": {
+                    "adBlockerWarningItem": "",
+                    "adBlockerWarningTitle": "",
+                    "add": "",
+                    "domainLabel": "",
+                    "domainPlaceholder": "",
+                    "genericSubdomainHint": "",
+                    "saving": ""
+                },
+                "delete": "",
+                "deleteDialog": {
+                    "description": "",
+                    "title": ""
+                },
+                "diagnostics": {
+                    "alreadyRunning": "",
+                    "ran": "",
+                    "run": "",
+                    "running": "",
+                    "status": {
+                        "failed": "",
+                        "passed": "",
+                        "skipped": "",
+                        "warned": ""
+                    }
+                },
+                "expandedRow": {
+                    "rootRedirect": {
+                        "description": "",
+                        "noChanges": "",
+                        "placeholder": "",
+                        "save": ""
+                    },
+                    "tabs": {
+                        "cname": "",
+                        "diagnosis": "",
+                        "rootRedirect": ""
+                    }
+                },
+                "maxRecordsReached_one": "",
+                "maxRecordsReached_other": "",
+                "optIn": {
+                    "agreeLabel": "",
+                    "consentIntro": "",
+                    "consentItemAcknowledge": "",
+                    "consentItemRouting": "",
+                    "consentItemUnderstand": "",
+                    "consentListLeadIn": "",
+                    "description": "",
+                    "hipaa": {
+                        "description": "",
+                        "title": ""
+                    },
+                    "mustAgree": "",
+                    "thirdParty": {
+                        "description": "",
+                        "title": ""
+                    },
+                    "title": ""
+                },
+                "retry": "",
+                "sdkSetup": {
+                    "description": "",
+                    "title": ""
+                },
+                "status": {
+                    "live": "",
+                    "timedOut": "",
+                    "timedOutTooltip": "",
+                    "unknown": "",
+                    "waitingTooltip": ""
+                },
+                "waitingRecords": {
+                    "description": "",
+                    "dnsProxyHint": "",
+                    "title": ""
+                }
+            },
             "maxChangelog": {
                 "empty": ""
             },
