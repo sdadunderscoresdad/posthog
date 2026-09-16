@@ -1,7 +1,9 @@
 import { useMemo } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { LemonTag, Tooltip } from '@posthog/lemon-ui'
 
+import { useFormatters } from 'lib/i18n/useFormatters'
 import { IconRobot } from 'lib/lemon-ui/icons'
 import { CATEGORY_LABELS } from 'lib/utils/botDetection'
 
@@ -51,6 +53,8 @@ export interface LiveBotPanelProps {
 }
 
 export function LiveBotPanel({ events, className }: LiveBotPanelProps): JSX.Element | null {
+    const { t } = useTranslation()
+    const { percent } = useFormatters()
     const { total, byName } = useMemo(() => aggregateBots(events), [events])
 
     if (events.length === 0) {
@@ -67,22 +71,40 @@ export function LiveBotPanel({ events, className }: LiveBotPanelProps): JSX.Elem
                 className ?? ''
             }`}
         >
-            <Tooltip title="Bot detection is based on known user agent patterns for crawlers, AI agents, monitoring tools and automation frameworks.">
+            <Tooltip
+                title={t('activity.live.bots.detectionTooltip', {
+                    defaultValue:
+                        'Bot detection is based on known user agent patterns for crawlers, AI agents, monitoring tools and automation frameworks.',
+                })}
+            >
                 <span className="flex items-center gap-1 font-medium text-default">
                     <IconRobot className="text-sm text-muted" />
-                    Bot traffic
+                    {t('activity.live.bots.traffic', { defaultValue: 'Bot traffic' })}
                 </span>
             </Tooltip>
 
             <span className="tabular-nums text-muted">
-                <span className="font-medium text-default">{total.toLocaleString()}</span> bot events of{' '}
-                <span className="tabular-nums">{events.length.toLocaleString()}</span>
-                {` · `}
-                {botShare.toFixed(botShare < 10 ? 1 : 0)}%
+                <Trans
+                    i18nKey="activity.live.bots.summary"
+                    values={{
+                        botEvents: total.toLocaleString(),
+                        totalEvents: events.length.toLocaleString(),
+                        share: percent(botShare / 100, {
+                            maximumFractionDigits: botShare < 10 ? 1 : 0,
+                        }),
+                    }}
+                    components={{ BotCount: <span className="font-medium text-default" /> }}
+                    defaults="<BotCount>{{ botEvents }}</BotCount> bot events of {{ totalEvents }} · {{ share }}"
+                />
             </span>
 
             {regularCount > 0 && (
-                <span className="text-muted hidden sm:inline">({regularCount.toLocaleString()} regular)</span>
+                <span className="text-muted hidden sm:inline">
+                    {t('activity.live.bots.regular', {
+                        defaultValue: '({{ value }} regular)',
+                        value: regularCount.toLocaleString(),
+                    })}
+                </span>
             )}
 
             {topBots.length > 0 && (
@@ -90,14 +112,26 @@ export function LiveBotPanel({ events, className }: LiveBotPanelProps): JSX.Elem
                     <span className="text-muted">·</span>
                     <div className="flex flex-wrap items-center gap-1">
                         {topBots.map((bot) => (
-                            <Tooltip key={bot.name} title={`${bot.count.toLocaleString()} events · ${bot.category}`}>
+                            <Tooltip
+                                key={bot.name}
+                                title={t('activity.live.bots.tooltip', {
+                                    defaultValue: '{{ count }} events · {{ category }}',
+                                    count: bot.count,
+                                    category: bot.category,
+                                })}
+                            >
                                 <LemonTag type="muted" size="small" className="text-[11px]">
                                     {bot.name} · {bot.count.toLocaleString()}
                                 </LemonTag>
                             </Tooltip>
                         ))}
                         {byName.size > TOP_BOT_LIMIT && (
-                            <span className="text-muted">+{byName.size - TOP_BOT_LIMIT} more</span>
+                            <span className="text-muted">
+                                {t('activity.live.bots.more', {
+                                    defaultValue: '+{{ value }} more',
+                                    value: byName.size - TOP_BOT_LIMIT,
+                                })}
+                            </span>
                         )}
                     </div>
                 </>

@@ -1,3 +1,5 @@
+import type { TFunction } from 'i18next'
+
 import { TZLabel } from 'lib/components/TZLabel'
 import { dayjs } from 'lib/dayjs'
 import { colonDelimitedDuration } from 'lib/utils/durations'
@@ -39,33 +41,39 @@ const renderSessionId: QueryContextColumnComponent = ({ value, record, query }) 
     return <SessionDisplay sessionId={sessionId} isLive={isLive} noPopover />
 }
 
-export function getSessionsColumns(): QueryContext['columns'] {
+export function getSessionsColumns(t: TFunction): QueryContext['columns'] {
     return {
         session_id: {
-            title: 'Session ID',
+            title: t('activity.sessions.columns.sessionId', { defaultValue: 'Session ID' }),
             render: renderSessionId,
         },
         $start_timestamp: {
-            title: 'Start time',
+            title: t('activity.sessions.columns.startTime', { defaultValue: 'Start time' }),
             render: ({ value }) => <TZLabel time={value as string} showSeconds />,
         },
         $end_timestamp: {
-            title: 'End time',
+            title: t('activity.sessions.columns.endTime', { defaultValue: 'End time' }),
             render: ({ value }) => <TZLabel time={value as string} showSeconds />,
         },
         $session_duration: {
-            title: 'Duration',
+            title: t('activity.sessions.columns.duration', { defaultValue: 'Duration' }),
             render: ({ value }) => <>{colonDelimitedDuration(value as number)}</>,
         },
         $entry_current_url: {
-            title: 'Entry URL',
+            title: t('activity.sessions.columns.entryUrl', { defaultValue: 'Entry URL' }),
         },
         $pageview_count: {
-            title: 'Pageviews',
+            title: t('activity.sessions.columns.pageviews', { defaultValue: 'Pageviews' }),
         },
         $is_bounce: {
-            title: 'Bounced',
-            render: ({ value }) => <>{value === 1 || value === true ? 'Yes' : 'No'}</>,
+            title: t('activity.sessions.columns.bounced', { defaultValue: 'Bounced' }),
+            render: ({ value }) => (
+                <>
+                    {value === 1 || value === true
+                        ? t('common.yes', { defaultValue: 'Yes' })
+                        : t('common.no', { defaultValue: 'No' })}
+                </>
+            ),
         },
     }
 }

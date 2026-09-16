@@ -29,6 +29,20 @@ describe('i18n runtime', () => {
         expect(ensureLocaleCatalogs('zh-CN')).toBeNull()
     })
 
+    it('translates a message once its language catalog is loaded, and falls back for a missing key', async () => {
+        await setLocale('zh-CN')
+
+        expect(i18n.t('activity.tabs.events', { defaultValue: 'Events' })).toBe('事件')
+        expect(i18n.t('activity.tabs.notTranslatedYet', { defaultValue: 'Still English' })).toBe('Still English')
+    })
+
+    it('falls back to the English text for a message the language has not translated yet', async () => {
+        i18n.addResourceBundle('ko-KR', 'common', { untranslated: '' }, true, true)
+        await setLocale('ko-KR')
+
+        expect(i18n.t('untranslated', { defaultValue: 'Not translated yet' })).toBe('Not translated yet')
+    })
+
     it('selects the plural form each language requires rather than one form for every count', async () => {
         i18n.addResourceBundle(
             'ru-RU',

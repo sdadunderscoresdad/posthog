@@ -85,6 +85,37 @@ function placeholdersOf(message) {
     return [...message.matchAll(/\{\{\s*([\w.]+)/g)].map((match) => match[1]).sort()
 }
 
+const PLURAL_SUFFIXES = ['_zero', '_one', '_two', '_few', '_many', '_other']
+
+/**
+ * The key without its plural suffix.
+ *
+ * Languages carry different plural categories, so the extractor writes `_one` and `_other` for
+ * English but also `_few` and `_many` for Russian. Those are forms of one message, not new messages,
+ * so the comparison runs on the base key.
+ */
+function pluralBaseOf(key) {
+    for (const suffix of PLURAL_SUFFIXES) {
+        if (key.endsWith(suffix)) {
+            return { base: key.slice(0, -suffix.length), suffix }
+        }
+    }
+    return { base: key, suffix: '' }
+}
+
+/** Index the source catalog by base key, so any plural category a target language needs resolves. */
+function indexSourceByBase(source) {
+    const byBase = new Map()
+    for (const [key, message] of Object.entries(source)) {
+        const { base, suffix } = pluralBaseOf(key)
+        if (!byBase.has(base)) {
+            byBase.set(base, new Map())
+        }
+        byBase.get(base).set(suffix, message)
+    }
+    return byBase
+}
+
 /** Catalogs nest on the key separator, so compare them as flat dotted keys. */
 function flattenMessages(value, relativePath, problems, prefix = '') {
     const flat = {}
@@ -162,18 +193,21 @@ function checkAgainstSource(localeCodes, namespaces, sourceLocale, catalogs, pro
         }
         for (const namespace of namespaces) {
             const source = catalogs.get(`${sourceLocale}/${namespace}`) ?? {}
+            const sourceByBase = indexSourceByBase(source)
             const translated = catalogs.get(`${code}/${namespace}`)
             if (!translated) {
                 continue
             }
             for (const [key, message] of Object.entries(translated)) {
-                const sourceMessage = source[key]
-                if (sourceMessage === undefined) {
+                const { base, suffix } = pluralBaseOf(key)
+                const sourceVariants = sourceByBase.get(base)
+                if (!sourceVariants) {
                     problems.push(
                         `locales/${code}/${namespace}.json translates "${key}", which the source catalog does not have.`
                     )
                     continue
                 }
+                const sourceMessage = sourceVariants.get(suffix) ?? [...sourceVariants.values()][0]
                 if (message === '') {
                     // An empty value is a message the translator has not written yet, so it has no
                     // placeholders to compare against the source.

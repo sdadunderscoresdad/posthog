@@ -1,1 +1,89 @@
-{}
+{
+    "activity": {
+        "explore": {
+            "setOnceProperties": {
+                "description": ""
+            },
+            "setProperties": {
+                "description": ""
+            }
+        },
+        "live": {
+            "bots": {
+                "detectionTooltip": "",
+                "more": "",
+                "regular": "",
+                "summary": "",
+                "tooltip_one": "",
+                "tooltip_other": "",
+                "traffic": ""
+            },
+            "clearEvents": "",
+            "feed": {
+                "copyLinkTooltip": "",
+                "event": "",
+                "paused": "",
+                "person": "",
+                "personTooltip": "",
+                "time": "",
+                "url": "",
+                "waiting": ""
+            },
+            "filterByEvent": "",
+            "filterByProperty": "",
+            "pause": "",
+            "play": "",
+            "terminalBanner": ""
+        },
+        "sessions": {
+            "columns": {
+                "bounced": "",
+                "duration": "",
+                "endTime": "",
+                "entryUrl": "",
+                "pageviews": "",
+                "sessionId": "",
+                "startTime": ""
+            }
+        },
+        "tabs": {
+            "events": "",
+            "live": "",
+            "sessions": ""
+        }
+    },
+    "common": {
+        "no": "",
+        "yes": ""
+    },
+    "mcp": {
+        "columns": {
+            "key": "",
+            "value": ""
+        },
+        "kind": {
+            "resource": "",
+            "tool": ""
+        },
+        "searchPlaceholder": "",
+        "summary": {
+            "client": "",
+            "duration": "",
+            "durationValue": "",
+            "error": "",
+            "intent": "",
+            "intentWithSource": "",
+            "model": "",
+            "modelWithSource": "",
+            "server": "",
+            "status": "",
+            "success": ""
+        },
+        "value": {
+            "hide": "",
+            "hideAria": "",
+            "show": "",
+            "showAria": ""
+        }
+    }
+}

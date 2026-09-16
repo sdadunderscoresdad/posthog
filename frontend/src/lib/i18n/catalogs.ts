@@ -1,5 +1,11 @@
-/** One namespace of one language: a flat map from message key to translated text. */
-export type Catalog = Record<string, string>
+/**
+ * One namespace of one language: message keys mapped to translated text.
+ *
+ * Keys nest on the key separator, so `activity.tabs.events` is stored as
+ * `{ activity: { tabs: { events: '…' } } }`, which is the shape i18next looks up and the shape
+ * `i18next-cli extract` writes.
+ */
+export type Catalog = { [key: string]: string | Catalog }
 
 /**
  * A JSON catalog as a bundler hands it back. Vite and esbuild wrap the parsed object in a `default`

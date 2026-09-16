@@ -1,7 +1,9 @@
 import './LiveEventsTable.scss'
 
 import clsx from 'clsx'
+import type { TFunction } from 'i18next'
 import { type ReactNode, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconPauseFilled } from '@posthog/icons'
 import { Spinner, Tooltip } from '@posthog/lemon-ui'
@@ -22,84 +24,99 @@ export type LiveEventsFeedColumn = 'event' | 'person' | 'url' | 'recording' | 't
 
 const ALL_COLUMNS: LiveEventsFeedColumn[] = ['event', 'person', 'url', 'recording', 'timestamp', 'more']
 
-const COLUMN_DEFINITIONS: Record<LiveEventsFeedColumn, LemonTableColumn<LiveEvent, keyof LiveEvent | undefined>> = {
-    event: {
-        title: 'Event',
-        key: 'event',
-        className: 'max-w-80',
-        render: function Render(_, event: LiveEvent) {
-            return <PropertyKeyInfo value={event.event} type={TaxonomicFilterGroupType.Events} />
+/**
+ * Built from `t` rather than kept as a module constant, because a message read at import time is
+ * read once and would keep whatever language the page happened to load in.
+ */
+function buildColumnDefinitions(
+    t: TFunction
+): Record<LiveEventsFeedColumn, LemonTableColumn<LiveEvent, keyof LiveEvent | undefined>> {
+    return {
+        event: {
+            title: t('activity.live.feed.event', { defaultValue: 'Event' }),
+            key: 'event',
+            className: 'max-w-80',
+            render: function Render(_, event: LiveEvent) {
+                return <PropertyKeyInfo value={event.event} type={TaxonomicFilterGroupType.Events} />
+            },
         },
-    },
-    person: {
-        title: 'Person distinct ID',
-        tooltip:
-            'Some events may be missing a person profile – this is expected, because live events are streamed before person processing completes',
-        key: 'person' as any,
-        className: 'max-w-80',
-        render: function Render(_, event: LiveEvent) {
-            return <PersonDisplay person={{ distinct_id: event.distinct_id }} />
+        person: {
+            title: t('activity.live.feed.person', { defaultValue: 'Person distinct ID' }),
+            tooltip: t('activity.live.feed.personTooltip', {
+                defaultValue:
+                    'Some events may be missing a person profile – this is expected, because live events are streamed before person processing completes',
+            }),
+            key: 'person' as any,
+            className: 'max-w-80',
+            render: function Render(_, event: LiveEvent) {
+                return <PersonDisplay person={{ distinct_id: event.distinct_id }} />
+            },
         },
-    },
-    url: {
-        title: 'URL / Screen',
-        key: '$current_url' as any,
-        className: 'max-w-80',
-        render: function Render(_, event: LiveEvent) {
-            return (
-                <span>
-                    {event.properties['$current_url'] ||
-                        event.properties['$screen_name'] ||
-                        event.properties['$pathname']}
-                </span>
-            )
+        url: {
+            title: t('activity.live.feed.url', { defaultValue: 'URL / Screen' }),
+            key: '$current_url' as any,
+            className: 'max-w-80',
+            render: function Render(_, event: LiveEvent) {
+                return (
+                    <span>
+                        {event.properties['$current_url'] ||
+                            event.properties['$screen_name'] ||
+                            event.properties['$pathname']}
+                    </span>
+                )
+            },
         },
-    },
-    recording: {
-        title: '',
-        key: 'recording' as any,
-        width: 0,
-        render: function Render(_, event: LiveEvent) {
-            const sessionId = event.properties.$session_id
-            if (typeof sessionId !== 'string' || !sessionId) {
-                return null
-            }
-            return (
-                <ViewRecordingButton
-                    iconOnly
-                    sessionId={sessionId}
-                    timestamp={event.timestamp}
-                    openPlayerIn={RecordingPlayerType.NewTab}
-                    size="xsmall"
-                    type="secondary"
-                    data-attr="live-events-feed-watch"
-                />
-            )
+        recording: {
+            title: '',
+            key: 'recording' as any,
+            width: 0,
+            render: function Render(_, event: LiveEvent) {
+                const sessionId = event.properties.$session_id
+                if (typeof sessionId !== 'string' || !sessionId) {
+                    return null
+                }
+                return (
+                    <ViewRecordingButton
+                        iconOnly
+                        sessionId={sessionId}
+                        timestamp={event.timestamp}
+                        openPlayerIn={RecordingPlayerType.NewTab}
+                        size="xsmall"
+                        type="secondary"
+                        data-attr="live-events-feed-watch"
+                    />
+                )
+            },
         },
-    },
-    timestamp: {
-        title: 'Time',
-        key: 'timestamp',
-        className: 'max-w-80',
-        render: function Render(_, event: LiveEvent) {
-            return <TZLabel time={event.timestamp} />
+        timestamp: {
+            title: t('activity.live.feed.time', { defaultValue: 'Time' }),
+            key: 'timestamp',
+            className: 'max-w-80',
+            render: function Render(_, event: LiveEvent) {
+                return <TZLabel time={event.timestamp} />
+            },
         },
-    },
-    more: {
-        dataIndex: '__more' as any,
-        render: function Render(_, event: LiveEvent) {
-            return (
-                <More
-                    overlay={
-                        <Tooltip title="It may take up to a few minutes for the event to show up in the Explore view">
-                            <EventCopyLinkButton event={event} />
-                        </Tooltip>
-                    }
-                />
-            )
+        more: {
+            dataIndex: '__more' as any,
+            render: function Render(_, event: LiveEvent) {
+                return (
+                    <More
+                        overlay={
+                            <Tooltip
+                                title={t('activity.live.feed.copyLinkTooltip', {
+                                    defaultValue:
+                                        'It may take up to a few minutes for the event to show up in the Explore view',
+                                })}
+                            >
+                                <EventCopyLinkButton event={event} />
+                            </Tooltip>
+                        }
+                    />
+                )
+            },
+            width: 0,
         },
-        width: 0,
-    },
+    }
 }
 
 export interface LiveEventsFeedProps {
@@ -117,13 +134,17 @@ export function LiveEventsFeed({
     streamPaused = false,
     className,
 }: LiveEventsFeedProps): JSX.Element {
-    const tableColumns = useMemo(() => columns.map((col) => COLUMN_DEFINITIONS[col]), [columns])
+    const { t } = useTranslation()
+    const columnDefinitions = useMemo(() => buildColumnDefinitions(t), [t])
+    const tableColumns = useMemo(() => columns.map((col) => columnDefinitions[col]), [columns, columnDefinitions])
 
     const defaultEmptyState = (
         <div className="flex flex-col justify-center items-center gap-4 p-6">
             {!streamPaused ? <Spinner className="text-4xl" textColored /> : <IconPauseFilled className="text-4xl" />}
             <span className="text-lg font-title font-semibold leading-tight">
-                {!streamPaused ? 'Waiting for events…' : 'Stream paused'}
+                {!streamPaused
+                    ? t('activity.live.feed.waiting', { defaultValue: 'Waiting for events…' })
+                    : t('activity.live.feed.paused', { defaultValue: 'Stream paused' })}
             </span>
         </div>
     )

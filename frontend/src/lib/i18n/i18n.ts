@@ -38,6 +38,10 @@ i18n.use(initReactI18next).init({
     defaultNS: DEFAULT_NAMESPACE,
     // React escapes every interpolated value already, and escaping again would render entities.
     interpolation: { escapeValue: false },
+    // The extractor writes an empty value for every message a language has not translated yet. Left
+    // at the default, i18next returns that empty string and ignores the English text at the call
+    // site, so an untranslated language renders blank labels instead of falling back.
+    returnEmptyString: false,
     // Synchronous init is what lets the first render know its language. Left asynchronous, i18next
     // waits on a resource backend that does not exist here, and the language is unknown until that
     // settles. Catalogs arrive later, through addResourceBundle.

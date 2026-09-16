@@ -1,3 +1,5 @@
+import { Trans } from 'react-i18next'
+
 import { IconLlmAnalytics } from '@posthog/icons'
 
 import { ErrorDisplay, idFrom } from 'lib/components/Errors/ErrorDisplay'
@@ -146,11 +148,13 @@ export function EventDetails({ event, tableProps }: EventDetailsProps): JSX.Elem
                         return (
                             <div className="mx-3 -mt-4">
                                 <p>
-                                    Person properties sent with this event. Will replace any property value that may
-                                    have been set on this person profile before now.{' '}
-                                    <Link to="https://posthog.com/docs/getting-started/person-properties">
-                                        Learn more
-                                    </Link>
+                                    <Trans i18nKey="activity.explore.setProperties.description">
+                                        Person properties sent with this event. Will replace any property value that may
+                                        have been set on this person profile before now.{' '}
+                                        <Link to="https://posthog.com/docs/getting-started/person-properties">
+                                            Learn more
+                                        </Link>
+                                    </Trans>
                                 </p>
                                 <PropertiesTable
                                     type={PropertyDefinitionType.Event}
@@ -166,11 +170,13 @@ export function EventDetails({ event, tableProps }: EventDetailsProps): JSX.Elem
                         return (
                             <div className="mx-3 -mt-4">
                                 <p>
-                                    "Set once" person properties sent with this event. Will replace any property value
-                                    that has never been set on this person profile before now.{' '}
-                                    <Link to="https://posthog.com/docs/getting-started/person-properties">
-                                        Learn more
-                                    </Link>
+                                    <Trans i18nKey="activity.explore.setOnceProperties.description">
+                                        "Set once" person properties sent with this event. Will replace any property
+                                        value that has never been set on this person profile before now.{' '}
+                                        <Link to="https://posthog.com/docs/getting-started/person-properties">
+                                            Learn more
+                                        </Link>
+                                    </Trans>
                                 </p>
                                 <PropertiesTable
                                     type={PropertyDefinitionType.Event}

@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { ActivitySceneTabs } from 'scenes/activity/ActivitySceneTabs'
 import { sceneConfigurations } from 'scenes/scenes'
@@ -16,6 +17,7 @@ import { createSessionsRowTransformer, getSessionsColumns } from './sessionsColu
 import { sessionsSceneLogic } from './sessionsSceneLogic'
 
 export function SessionsScene(): JSX.Element {
+    const { t } = useTranslation()
     const { query } = useValues(sessionsSceneLogic())
     const { setQuery } = useActions(sessionsSceneLogic())
 
@@ -38,7 +40,7 @@ export function SessionsScene(): JSX.Element {
                 query={query}
                 setQuery={setQuery}
                 context={{
-                    columns: getSessionsColumns(),
+                    columns: getSessionsColumns(t),
                     showOpenEditorButton: true,
                     extraDataTableQueryFeatures: [QueryFeature.highlightExceptionEventRows],
                     dataTableMaxPaginationLimit: 200,

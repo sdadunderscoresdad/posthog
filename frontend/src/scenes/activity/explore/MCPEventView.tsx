@@ -1,4 +1,5 @@
 import { ReactNode, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconChevronDown, IconChevronRight } from '@posthog/icons'
 import { LemonTable, LemonTableColumns, LemonTag, Tooltip } from '@posthog/lemon-ui'
@@ -110,6 +111,7 @@ const orderIndex = (key: string): number => {
 }
 
 function ValueCell({ value, bytes }: { value: unknown; bytes: number }): JSX.Element {
+    const { t } = useTranslation()
     const [expanded, setExpanded] = useState(false)
     const valueType = value === null ? 'null' : typeof value
     const isLong = bytes > LONG_VALUE_BYTES
@@ -173,10 +175,19 @@ function ValueCell({ value, bytes }: { value: unknown; bytes: number }): JSX.Ele
                     type="tertiary"
                     icon={expanded ? <IconChevronDown /> : <IconChevronRight />}
                     onClick={() => setExpanded((e) => !e)}
-                    aria-label={expanded ? 'Hide value' : `Show value (${formatBytes(bytes)})`}
+                    aria-label={
+                        expanded
+                            ? t('mcp.value.hideAria', { defaultValue: 'Hide value' })
+                            : t('mcp.value.showAria', {
+                                  defaultValue: 'Show value ({{ size }})',
+                                  size: formatBytes(bytes),
+                              })
+                    }
                     className="shrink-0"
                 >
-                    {expanded ? 'Hide' : `Show ${formatBytes(bytes)}`}
+                    {expanded
+                        ? t('mcp.value.hide', { defaultValue: 'Hide' })
+                        : t('mcp.value.show', { defaultValue: 'Show {{ size }}', size: formatBytes(bytes) })}
                 </LemonButton>
                 <span className="shrink-0">{typeTag}</span>
                 <span className="shrink-0">{copyButton}</span>
@@ -203,6 +214,7 @@ function Stat({ label, children }: { label: string; children: ReactNode }): JSX.
 }
 
 export function MCPEventView({ properties }: MCPEventViewProps): JSX.Element {
+    const { t } = useTranslation()
     const [searchTerm, setSearchTerm] = useState('')
 
     const mcpProps = useMemo(
@@ -217,10 +229,10 @@ export function MCPEventView({ properties }: MCPEventViewProps): JSX.Element {
     let displayKind: string | undefined
     if (mcpProps['$mcp_tool_name'] !== undefined) {
         displayName = String(mcpProps['$mcp_tool_name'])
-        displayKind = 'Tool'
+        displayKind = t('mcp.kind.tool', { defaultValue: 'Tool' })
     } else if (mcpProps['$mcp_resource_name'] !== undefined) {
         displayName = String(mcpProps['$mcp_resource_name'])
-        displayKind = 'Resource'
+        displayKind = t('mcp.kind.resource', { defaultValue: 'Resource' })
     }
     const rawIsError = mcpProps['$mcp_is_error']
     // Normalise — ingestion can flatten booleans to strings, and "false" is truthy in JS.
@@ -269,7 +281,7 @@ export function MCPEventView({ properties }: MCPEventViewProps): JSX.Element {
     const columns: LemonTableColumns<MCPEntry> = [
         {
             key: 'key',
-            title: 'Key',
+            title: t('mcp.columns.key', { defaultValue: 'Key' }),
             render: (_, item) => (
                 <div className="properties-table-key">
                     <PropertyKeyInfo value={item.key} type={TaxonomicFilterGroupType.EventProperties} />
@@ -278,7 +290,7 @@ export function MCPEventView({ properties }: MCPEventViewProps): JSX.Element {
         },
         {
             key: 'value',
-            title: 'Value',
+            title: t('mcp.columns.value', { defaultValue: 'Value' }),
             fullWidth: true,
             render: (_, item) => <ValueCell value={item.value} bytes={item.bytes} />,
         },
@@ -289,8 +301,12 @@ export function MCPEventView({ properties }: MCPEventViewProps): JSX.Element {
             {hasSummaryStat ? (
                 <div className="border-border bg-surface-secondary flex flex-wrap items-start gap-x-6 gap-y-3 rounded border p-3">
                     {hasErrorStatus ? (
-                        <Stat label="Status">
-                            <LemonTag type={isError ? 'danger' : 'success'}>{isError ? 'Error' : 'Success'}</LemonTag>
+                        <Stat label={t('mcp.summary.status', { defaultValue: 'Status' })}>
+                            <LemonTag type={isError ? 'danger' : 'success'}>
+                                {isError
+                                    ? t('mcp.summary.error', { defaultValue: 'Error' })
+                                    : t('mcp.summary.success', { defaultValue: 'Success' })}
+                            </LemonTag>
                         </Stat>
                     ) : null}
                     {displayName && displayKind ? (
@@ -299,19 +315,44 @@ export function MCPEventView({ properties }: MCPEventViewProps): JSX.Element {
                         </Stat>
                     ) : null}
                     {durationMs !== undefined && durationMs !== null ? (
-                        <Stat label="Duration">{String(durationMs)} ms</Stat>
+                        <Stat label={t('mcp.summary.duration', { defaultValue: 'Duration' })}>
+                            {t('mcp.summary.durationValue', {
+                                defaultValue: '{{ value }} ms',
+                                value: String(durationMs),
+                            })}
+                        </Stat>
                     ) : null}
-                    {clientName ? <Stat label="Client">{String(clientName)}</Stat> : null}
+                    {clientName ? (
+                        <Stat label={t('mcp.summary.client', { defaultValue: 'Client' })}>{String(clientName)}</Stat>
+                    ) : null}
                     {llmModel ? (
-                        <Stat label={llmModelSource ? `Model (${String(llmModelSource).replace(/_/g, ' ')})` : 'Model'}>
+                        <Stat
+                            label={
+                                llmModelSource
+                                    ? t('mcp.summary.modelWithSource', {
+                                          defaultValue: 'Model ({{ source }})',
+                                          source: String(llmModelSource).replace(/_/g, ' '),
+                                      })
+                                    : t('mcp.summary.model', { defaultValue: 'Model' })
+                            }
+                        >
                             {String(llmModel)}
                         </Stat>
                     ) : null}
-                    {serverName ? <Stat label="Server">{String(serverName)}</Stat> : null}
+                    {serverName ? (
+                        <Stat label={t('mcp.summary.server', { defaultValue: 'Server' })}>{String(serverName)}</Stat>
+                    ) : null}
                     {intent ? (
                         <div className="basis-full">
                             <Stat
-                                label={intentSource ? `Intent (${String(intentSource).replace(/_/g, ' ')})` : 'Intent'}
+                                label={
+                                    intentSource
+                                        ? t('mcp.summary.intentWithSource', {
+                                              defaultValue: 'Intent ({{ source }})',
+                                              source: String(intentSource).replace(/_/g, ' '),
+                                          })
+                                        : t('mcp.summary.intent', { defaultValue: 'Intent' })
+                                }
                             >
                                 <Tooltip title={String(intent)}>
                                     <span className="block whitespace-pre-wrap break-words">{String(intent)}</span>
@@ -324,7 +365,7 @@ export function MCPEventView({ properties }: MCPEventViewProps): JSX.Element {
             {entries.length > 6 ? (
                 <LemonInput
                     type="search"
-                    placeholder="Search property keys and values"
+                    placeholder={t('mcp.searchPlaceholder', { defaultValue: 'Search property keys and values' })}
                     value={searchTerm}
                     onChange={setSearchTerm}
                     className="w-64 max-w-full"

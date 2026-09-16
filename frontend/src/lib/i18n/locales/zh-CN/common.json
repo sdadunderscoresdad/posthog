@@ -1,1 +1,88 @@
-{}
+{
+    "activity": {
+        "explore": {
+            "setOnceProperties": {
+                "description": "随此事件发送的“仅设置一次”用户属性。会替换该用户档案中此前从未设置过的任何属性值。<2>了解更多</2>"
+            },
+            "setProperties": {
+                "description": "随此事件发送的用户属性。会替换该用户档案中此前可能已设置的任何属性值。<1>了解更多</1>"
+            }
+        },
+        "live": {
+            "bots": {
+                "detectionTooltip": "机器人检测基于已知的爬虫、AI 代理、监控工具和自动化框架的 User-Agent 特征。",
+                "more": "还有 {{ value }} 个",
+                "regular": "（{{ value }} 个常规）",
+                "summary": "<BotCount>{{ botEvents }}</BotCount> 个机器人事件，共 {{ totalEvents }} 个 · {{ share }}",
+                "tooltip_other": "{{ count }} 个事件 · {{ category }}",
+                "traffic": "机器人流量"
+            },
+            "clearEvents": "清空事件",
+            "feed": {
+                "copyLinkTooltip": "事件最多可能需要几分钟才会出现在探索视图中",
+                "event": "事件",
+                "paused": "已暂停流式传输",
+                "person": "用户 distinct ID",
+                "personTooltip": "某些事件可能缺少用户档案，这是正常的，因为实时事件在用户处理完成前就已流式传输出来",
+                "time": "时间",
+                "url": "URL / 屏幕",
+                "waiting": "正在等待事件…"
+            },
+            "filterByEvent": "按事件筛选",
+            "filterByProperty": "按属性筛选",
+            "pause": "暂停",
+            "play": "继续",
+            "terminalBanner": "使用 <1>posthog-live</1> 在终端中直接流式查看实时事件。<3>了解更多</3>"
+        },
+        "sessions": {
+            "columns": {
+                "bounced": "跳出",
+                "duration": "时长",
+                "endTime": "结束时间",
+                "entryUrl": "入口 URL",
+                "pageviews": "页面浏览量",
+                "sessionId": "会话 ID",
+                "startTime": "开始时间"
+            }
+        },
+        "tabs": {
+            "events": "事件",
+            "live": "实时",
+            "sessions": "会话"
+        }
+    },
+    "common": {
+        "no": "否",
+        "yes": "是"
+    },
+    "mcp": {
+        "columns": {
+            "key": "键",
+            "value": "值"
+        },
+        "kind": {
+            "resource": "资源",
+            "tool": "工具"
+        },
+        "searchPlaceholder": "搜索属性键和值",
+        "summary": {
+            "client": "客户端",
+            "duration": "耗时",
+            "durationValue": "{{ value }} 毫秒",
+            "error": "错误",
+            "intent": "意图",
+            "intentWithSource": "意图（{{ source }}）",
+            "model": "模型",
+            "modelWithSource": "模型（{{ source }}）",
+            "server": "服务器",
+            "status": "状态",
+            "success": "成功"
+        },
+        "value": {
+            "hide": "隐藏",
+            "hideAria": "隐藏值",
+            "show": "显示 {{ size }}",
+            "showAria": "显示值（{{ size }}）"
+        }
+    }
+}

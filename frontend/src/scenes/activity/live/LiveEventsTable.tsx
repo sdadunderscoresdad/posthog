@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useEffect } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconPauseFilled, IconPlayFilled, IconRefresh, IconTerminal } from '@posthog/icons'
 import { LemonButton, Link } from '@posthog/lemon-ui'
@@ -36,6 +37,7 @@ export const scene: SceneExport = {
 }
 
 export function LiveEventsTable(): JSX.Element {
+    const { t } = useTranslation()
     const { events, streamPaused, filters } = useValues(liveEventsLogic)
     const { pauseStream, resumeStream, setFilters, clearEvents } = useActions(liveEventsLogic)
     const { featureFlags } = useValues(featureFlagLogic)
@@ -53,10 +55,12 @@ export function LiveEventsTable(): JSX.Element {
         <SceneContent data-attr="manage-events-table">
             <ActivitySceneTabs activeKey={ActivityTab.LiveEvents} />
             <LemonBanner type="info" className="mb-4" icon={<IconTerminal />} dismissKey="livestream-tui-banner">
-                Stream live events directly in your terminal with <code>posthog-live</code>.{' '}
-                <Link to="https://posthog.com/docs/activity#terminal-live-events-posthog-live" target="_blank">
-                    Learn more
-                </Link>
+                <Trans i18nKey="activity.live.terminalBanner">
+                    Stream live events directly in your terminal with <code>posthog-live</code>.{' '}
+                    <Link to="https://posthog.com/docs/activity#terminal-live-events-posthog-live" target="_blank">
+                        Learn more
+                    </Link>
+                </Trans>
             </LemonBanner>
             <SceneTitleSection
                 name={sceneConfigurations[Scene.Activity].name}
@@ -77,12 +81,12 @@ export function LiveEventsTable(): JSX.Element {
                         type="secondary"
                         onClick={clearEvents}
                         size="small"
-                        tooltip="Clear events"
+                        tooltip={t('activity.live.clearEvents', { defaultValue: 'Clear events' })}
                     />
                     <EventName
                         value={filters.eventType}
                         onChange={(value) => setFilters({ ...filters, eventType: value })}
-                        placeholder="Filter by event"
+                        placeholder={t('activity.live.filterByEvent', { defaultValue: 'Filter by event' })}
                         allEventsOption="clear"
                         // Narrows the live feed in memory rather than saving a query.
                         includeHiddenEvents
@@ -97,7 +101,7 @@ export function LiveEventsTable(): JSX.Element {
                                 ? LIVE_EVENTS_SUPPORTED_OPERATORS
                                 : [PropertyOperator.Exact]
                         }
-                        buttonText="Filter by property"
+                        buttonText={t('activity.live.filterByProperty', { defaultValue: 'Filter by property' })}
                     />
                     <LemonButton
                         icon={
@@ -111,7 +115,9 @@ export function LiveEventsTable(): JSX.Element {
                         onClick={streamPaused ? resumeStream : pauseStream}
                         size="small"
                     >
-                        {streamPaused ? 'Play' : 'Pause'}
+                        {streamPaused
+                            ? t('activity.live.play', { defaultValue: 'Play' })
+                            : t('activity.live.pause', { defaultValue: 'Pause' })}
                     </LemonButton>
                 </div>
             </div>
