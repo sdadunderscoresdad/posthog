@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonBanner, LemonDivider } from '@posthog/lemon-ui'
 
@@ -12,6 +13,7 @@ import { twoFactorLogic } from './twoFactorLogic'
 import { TwoFactorSetup } from './TwoFactorSetup'
 
 export function TwoFactorSetupModal(): JSX.Element {
+    const { t } = useTranslation()
     const { isTwoFactorSetupModalOpen, forceOpenTwoFactorSetupModal, startSetup, canSwitchOrg } =
         useValues(twoFactorLogic)
     const { closeTwoFactorSetupModal } = useActions(twoFactorLogic)
@@ -19,7 +21,9 @@ export function TwoFactorSetupModal(): JSX.Element {
 
     // Determine if this is setup mode (has secret) or verification mode (no secret)
     const isSetupMode = !!startSetup?.secret
-    const title = isSetupMode ? 'Set up two-factor authentication' : 'Two-factor authentication required'
+    const title = isSetupMode
+        ? t('twoFactorSetup.setUpTitle', { defaultValue: 'Set up two-factor authentication' })
+        : t('twoFactorSetup.requiredTitle', { defaultValue: 'Two-factor authentication required' })
 
     return (
         <LemonModal
@@ -54,13 +58,13 @@ export function TwoFactorSetupModal(): JSX.Element {
                 {canSwitchOrg && (
                     <div className="flex flex-col items-center gap-1 mt-4">
                         <div className="text-muted-alt text-xs">
-                            or{' '}
+                            {t('twoFactorSetup.or', { defaultValue: 'or' })}{' '}
                             <button
                                 type="button"
                                 className="text-muted-alt cursor-pointer underline hover:text-muted"
                                 onClick={() => setShowOrgDropdown(true)}
                             >
-                                change your organization
+                                {t('twoFactorSetup.changeOrganization', { defaultValue: 'change your organization' })}
                             </button>
                         </div>
                         {showOrgDropdown && <OrganizationMenu allowCreate={false} />}

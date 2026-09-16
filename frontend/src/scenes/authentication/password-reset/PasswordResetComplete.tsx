@@ -3,6 +3,7 @@ Scene to enter a new password from a received reset link
 */
 import { useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { useTranslation, Trans } from 'react-i18next'
 
 import { LemonButton, LemonInput } from '@posthog/lemon-ui'
 
@@ -24,6 +25,7 @@ export const scene: SceneExport = {
 }
 
 export function PasswordResetComplete(): JSX.Element {
+    const { t } = useTranslation()
     const { validatedResetToken, validatedResetTokenLoading } = useValues(passwordResetLogic)
     const invalidLink = !validatedResetTokenLoading && !validatedResetToken?.success
     return (
@@ -33,7 +35,11 @@ export function PasswordResetComplete(): JSX.Element {
                     <IconErrorOutline className="text-secondary text-4xl" />
                 </div>
             )}
-            <h2>{invalidLink ? 'Unable to reset' : 'Set a new password'}</h2>
+            <h2>
+                {invalidLink
+                    ? t('passwordReset.unableToReset', { defaultValue: 'Unable to reset' })
+                    : t('passwordReset.setNewpassword', { defaultValue: 'Set a new password' })}
+            </h2>
             {validatedResetTokenLoading ? (
                 <Spinner />
             ) : !validatedResetToken?.token ? (
@@ -46,15 +52,22 @@ export function PasswordResetComplete(): JSX.Element {
 }
 
 function NewPasswordForm(): JSX.Element {
+    const { t } = useTranslation()
     const { validatedPassword, isPasswordResetSubmitting, passwordResetManualErrors } = useValues(passwordResetLogic)
 
     return (
         <>
-            <div className="text-center mb-4">Please enter a new password for your account.</div>
+            <div className="text-center mb-4">
+                {t('passwordReset.enterNewpassword', {
+                    defaultValue: 'Please enter a new password for your account.',
+                })}
+            </div>
             {!isPasswordResetSubmitting && passwordResetManualErrors.generic && (
                 <LemonBanner type="error">
                     {passwordResetManualErrors.generic?.detail ||
-                        'Could not complete your password reset request. Please try again.'}
+                        t('passwordReset.completeFailed', {
+                            defaultValue: 'Could not complete your password reset request. Please try again.',
+                        })}
                 </LemonBanner>
             )}
             <Form
@@ -67,7 +80,7 @@ function NewPasswordForm(): JSX.Element {
                     name="password"
                     label={
                         <div className="flex flex-1 items-center justify-between">
-                            <span>Password</span>
+                            <span>{t('signup.PasswordLabel', { defaultValue: 'Password' })}</span>
                             <PasswordStrength validatedPassword={validatedPassword} />
                         </div>
                     }
@@ -82,7 +95,10 @@ function NewPasswordForm(): JSX.Element {
                     />
                 </LemonField>
 
-                <LemonField name="passwordConfirm" label="Confirm Password">
+                <LemonField
+                    name="passwordConfirm"
+                    label={t('passwordReset.confirmpassword', { defaultValue: 'Confirm Password' })}
+                >
                     <LemonInput
                         autoComplete="new-password"
                         type="password"
@@ -100,7 +116,7 @@ function NewPasswordForm(): JSX.Element {
                     data-attr="password-reset-complete"
                     loading={isPasswordResetSubmitting}
                 >
-                    Change my password
+                    {t('passwordReset.changeMypassword', { defaultValue: 'Change my password' })}
                 </LemonButton>
             </Form>
         </>
@@ -108,11 +124,16 @@ function NewPasswordForm(): JSX.Element {
 }
 
 function ResetInvalid(): JSX.Element {
+    const { t } = useTranslation()
     const { user } = useValues(userLogic)
 
     return (
         <div className="text-center">
-            The provided link is <b>invalid or has expired</b>. Please request a new link.
+            <Trans
+                i18nKey="passwordReset.invalidLink"
+                components={{ Bold: <b /> }}
+                defaults="The provided link is <Bold>invalid or has expired</Bold>. Please request a new link."
+            />
             <div className="mt-4">
                 <LemonButton
                     fullWidth
@@ -122,7 +143,7 @@ function ResetInvalid(): JSX.Element {
                     // Scene.PasswordReset is onlyUnauthenticated, so /reset would bounce a signed-in user.
                     to={user ? urls.settings('user-profile', 'change-password') : urls.passwordReset()}
                 >
-                    Request new link
+                    {t('passwordReset.requestNewLink', { defaultValue: 'Request new link' })}
                 </LemonButton>
             </div>
         </div>

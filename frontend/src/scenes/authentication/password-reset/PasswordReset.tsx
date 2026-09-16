@@ -5,6 +5,7 @@ import { useActions, useMountedLogic, useValues } from 'kea'
 import { Form } from 'kea-forms'
 import { router } from 'kea-router'
 import { useEffect } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconCheckCircle } from '@posthog/icons'
 import { LemonButton, LemonDivider, LemonInput, Link } from '@posthog/lemon-ui'
@@ -27,6 +28,7 @@ export const scene: SceneExport = {
 }
 
 export function PasswordReset(): JSX.Element {
+    const { t } = useTranslation()
     // Mounted here so the login funnel is only reported from the auth scenes
     useMountedLogic(loginTelemetryLogic)
     const { preflight, preflightLoading } = useValues(preflightLogic)
@@ -52,7 +54,7 @@ export function PasswordReset(): JSX.Element {
                     </div>
                 )
             )}
-            <h2>Reset password</h2>
+            <h2>{t('passwordReset.title', { defaultValue: 'Reset password' })}</h2>
             {preflightLoading ? (
                 <Spinner />
             ) : !preflight?.email_service_available ? (
@@ -69,25 +71,38 @@ export function PasswordReset(): JSX.Element {
 }
 
 function EmailUnavailable(): JSX.Element {
+    const { t } = useTranslation()
     return (
         <div>
             <div>
-                Self-serve password reset is unavailable. Please <b>contact your instance administrator</b> to reset
-                your password.
+                <Trans
+                    i18nKey="passwordReset.unavailable"
+                    components={{ Bold: <b /> }}
+                    defaults="Self-serve password reset is unavailable. Please <Bold>contact your instance administrator</Bold> to reset your password."
+                />
             </div>
             <LemonDivider className="my-6" />
             <div className="mt-4">
-                If you're an administrator:
+                {t('passwordReset.ifAdministrator', { defaultValue: "If you're an administrator:" })}
                 <p>
                     <ul>
                         <li>
-                            Password reset is unavailable because email service is not configured.{' '}
-                            <Link to="https://posthog.com/docs/self-host/configure/email?utm_medium=in-product&utm_campaign=password-reset">
-                                Read the docs
-                            </Link>{' '}
-                            on how to set this up.
+                            <Trans
+                                i18nKey="passwordReset.emailNotConfigured"
+                                components={{
+                                    DocsLink: (
+                                        <Link to="https://posthog.com/docs/self-host/configure/email?utm_medium=in-product&utm_campaign=password-reset" />
+                                    ),
+                                }}
+                                defaults="Password reset is unavailable because email service is not configured. <DocsLink>Read the docs</DocsLink> on how to set this up."
+                            />
                         </li>
-                        <li>To reset the password manually, run the following command in your instance.</li>
+                        <li>
+                            {t('passwordReset.manualReset', {
+                                defaultValue:
+                                    'To reset the password manually, run the following command in your instance.',
+                            })}
+                        </li>
                     </ul>
                 </p>
                 <CodeSnippet language={Language.Bash} wrap>
@@ -99,6 +114,7 @@ function EmailUnavailable(): JSX.Element {
 }
 
 function ResetForm(): JSX.Element {
+    const { t } = useTranslation()
     const { isRequestPasswordResetSubmitting } = useValues(passwordResetLogic)
 
     return (
@@ -109,9 +125,12 @@ function ResetForm(): JSX.Element {
             enableFormOnSubmit
         >
             <div className="text-center">
-                Enter your email address. If an account exists, you’ll receive an email with a password reset link soon.
+                {t('passwordReset.enterEmail', {
+                    defaultValue:
+                        'Enter your email address. If an account exists, you’ll receive an email with a password reset link soon.',
+                })}
             </div>
-            <LemonField name="email" label="Email">
+            <LemonField name="email" label={t('signup.emailLabel', { defaultValue: 'Email' })}>
                 <LemonInput
                     className="ph-ignore-input"
                     autoFocus
@@ -131,20 +150,27 @@ function ResetForm(): JSX.Element {
                 loading={isRequestPasswordResetSubmitting}
                 size="large"
             >
-                Continue
+                {t('signup.continue', { defaultValue: 'Continue' })}
             </LemonButton>
         </Form>
     )
 }
 
 function ResetSuccess(): JSX.Element {
+    const { t } = useTranslation()
     const { requestPasswordReset } = useValues(passwordResetLogic)
     const { push } = useActions(router)
 
     return (
         <div className="text-center">
-            Request received successfully! If the email <b>{requestPasswordReset?.email || 'you typed'}</b> exists,
-            you’ll receive an email with a reset link soon.
+            <Trans
+                i18nKey="passwordReset.success"
+                values={{
+                    email: requestPasswordReset?.email || t('passwordReset.youTyped', { defaultValue: 'you typed' }),
+                }}
+                components={{ Bold: <b /> }}
+                defaults="Request received successfully! If the email <Bold>{{ email }}</Bold> exists, you’ll receive an email with a reset link soon."
+            />
             <div className="mt-4">
                 <LemonButton
                     type="primary"
@@ -155,7 +181,7 @@ function ResetSuccess(): JSX.Element {
                     onClick={() => push('/login')}
                     size="large"
                 >
-                    Back to login
+                    {t('passwordReset.backToLogin', { defaultValue: 'Back to login' })}
                 </LemonButton>
             </div>
         </div>
@@ -163,13 +189,20 @@ function ResetSuccess(): JSX.Element {
 }
 
 function ResetThrottled(): JSX.Element {
+    const { t } = useTranslation()
     const { requestPasswordReset } = useValues(passwordResetLogic)
     const { push } = useActions(router)
 
     return (
         <div className="text-center">
-            There have been too many reset requests for the email <b>{requestPasswordReset?.email || 'you typed'}</b>.
-            Please try again later or contact support if you think this has been a mistake.
+            <Trans
+                i18nKey="passwordReset.throttled"
+                values={{
+                    email: requestPasswordReset?.email || t('passwordReset.youTyped', { defaultValue: 'you typed' }),
+                }}
+                components={{ Bold: <b /> }}
+                defaults="There have been too many reset requests for the email <Bold>{{ email }}</Bold>. Please try again later or contact support if you think this has been a mistake."
+            />
             <div className="mt-4">
                 <LemonButton
                     type="primary"
@@ -180,7 +213,7 @@ function ResetThrottled(): JSX.Element {
                     onClick={() => push('/login')}
                     size="large"
                 >
-                    Back to login
+                    {t('passwordReset.backToLogin', { defaultValue: 'Back to login' })}
                 </LemonButton>
             </div>
         </div>

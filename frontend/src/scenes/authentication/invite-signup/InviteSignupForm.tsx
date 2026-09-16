@@ -1,6 +1,7 @@
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
 import { type ReactNode, useEffect } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import * as judgePng from '@posthog/brand/hoggies/png/judge'
 
@@ -49,6 +50,7 @@ function InviteAlternativeLogins({
     onRegisterPasskey: () => void
     passkeyRegistering: boolean
 }): JSX.Element | null {
+    const { t } = useTranslation()
     const { preflight, socialAuthAvailable } = useValues(preflightLogic)
 
     const order = Object.keys(SSO_PROVIDER_NAMES)
@@ -65,7 +67,9 @@ function InviteAlternativeLogins({
         <>
             <LemonDivider dashed className="my-4" />
             <div className="text-center deprecated-space-y-4">
-                <p className="text-secondary">or continue with</p>
+                <p className="text-secondary">
+                    {t('inviteSignup.orContinueWith', { defaultValue: 'or continue with' })}
+                </p>
                 <div className="flex gap-4 justify-center flex-wrap">
                     {socialProviders.map((provider) => (
                         <SocialLoginButton
@@ -78,8 +82,16 @@ function InviteAlternativeLogins({
                         <LemonButton
                             size="large"
                             htmlType="button"
-                            icon={<img src={passkeyLogo} alt="Passkey" className="object-contain w-7 h-7" />}
-                            tooltip="Sign up with a passkey"
+                            icon={
+                                <img
+                                    src={passkeyLogo}
+                                    alt={t('inviteSignup.passkeyAlt', { defaultValue: 'Passkey' })}
+                                    className="object-contain w-7 h-7"
+                                />
+                            }
+                            tooltip={t('inviteSignup.signUpWithPasskey', {
+                                defaultValue: 'Sign up with a passkey',
+                            })}
                             onClick={onRegisterPasskey}
                             loading={passkeyRegistering}
                             data-attr="invite-signup-passkey"
@@ -92,6 +104,7 @@ function InviteAlternativeLogins({
 }
 
 function InviteNewUser({ invite }: { invite: PrevalidatedInvite }): JSX.Element {
+    const { t } = useTranslation()
     const {
         isSignupSubmitting,
         signupManualErrors,
@@ -123,11 +136,15 @@ function InviteNewUser({ invite }: { invite: PrevalidatedInvite }): JSX.Element 
                 </span>
             </div>
             <div className="text-center">
-                <p className="m-0 text-sm text-secondary">You've been invited to join</p>
+                <p className="m-0 text-sm text-secondary">
+                    {t('inviteSignup.invitedToJoin', { defaultValue: "You've been invited to join" })}
+                </p>
                 <p className="pb-1.5 mt-0.5 mb-0 font-title text-3xl font-extrabold text-primary tracking-tight border-b border-dashed border-[#c5c6bd]">
                     {org}
                 </p>
-                <p className="m-0 mt-1.5 text-sm text-secondary">on PostHog</p>
+                <p className="m-0 mt-1.5 text-sm text-secondary">
+                    {t('inviteSignup.onPosthog', { defaultValue: 'on PostHog' })}
+                </p>
             </div>
         </div>
     )
@@ -135,23 +152,22 @@ function InviteNewUser({ invite }: { invite: PrevalidatedInvite }): JSX.Element 
     const footer = (
         <>
             <p className="AuthScene__terms mt-5 mb-0 text-xs leading-relaxed text-tertiary text-center">
-                By continuing you agree to our{' '}
-                <Link to="https://posthog.com/terms" target="_blank">
-                    terms
-                </Link>{' '}
-                and{' '}
-                <Link to="https://posthog.com/privacy" target="_blank">
-                    privacy policy
-                </Link>
-                .
+                <Trans
+                    i18nKey="inviteSignup.terms"
+                    components={{
+                        TermsLink: <Link to="https://posthog.com/terms" target="_blank" />,
+                        PrivacyLink: <Link to="https://posthog.com/privacy" target="_blank" />,
+                    }}
+                    defaults="By continuing you agree to our <TermsLink>terms</TermsLink> and <PrivacyLink>privacy policy</PrivacyLink>."
+                />
             </p>
             <p className="mt-5 mb-0 text-sm text-secondary text-center">
-                Already have an account?{' '}
+                {t('signup.haveAccount', { defaultValue: 'Already have an account?' })}{' '}
                 <Link
                     to={urls.login()}
                     className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-warning"
                 >
-                    Log in →
+                    {t('signup.logIn', { defaultValue: 'Log in →' })}
                 </Link>
             </p>
         </>
@@ -160,16 +176,22 @@ function InviteNewUser({ invite }: { invite: PrevalidatedInvite }): JSX.Element 
     return (
         <AuthScene notes={["// you've been invited", `// ${org.toLowerCase()} is waiting`]}>
             <AuthSceneCard top={inviteHeader} footer={footer}>
-                <AuthCardTitle title="Create your account" sub="Your teammates are already in. This takes a minute." />
+                <AuthCardTitle
+                    title={t('inviteSignup.createAccount', { defaultValue: 'Create your account' })}
+                    sub={t('inviteSignup.createAccountSub', {
+                        defaultValue: 'Your teammates are already in. This takes a minute.',
+                    })}
+                />
                 {signupManualErrors?.generic && (
                     <div className="mb-4 py-2.5 px-3 text-sm leading-normal text-primary text-left bg-danger-highlight border border-danger rounded">
-                        {signupManualErrors.generic.detail || 'Could not complete your signup.'}{' '}
+                        {signupManualErrors.generic.detail ||
+                            t('signup.signupFailed', { defaultValue: 'Could not complete your signup.' })}{' '}
                         <Link
                             data-attr="invite-signup-error-contact-support"
                             onClick={() => openSupportForm({ kind: 'support' })}
                             className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-warning"
                         >
-                            Need help?
+                            {t('inviteSignup.needHelp', { defaultValue: 'Need help?' })}
                         </Link>
                     </div>
                 )}
@@ -179,7 +201,12 @@ function InviteNewUser({ invite }: { invite: PrevalidatedInvite }): JSX.Element 
                     </div>
                 )}
                 <Form logic={inviteSignupLogic} formKey="signup" enableFormOnSubmit className="flex flex-col gap-4">
-                    <LemonField.Pure label="Email" help="The invite is tied to this address.">
+                    <LemonField.Pure
+                        label={t('signup.emailLabel', { defaultValue: 'Email' })}
+                        help={t('inviteSignup.emailHelp', {
+                            defaultValue: 'The invite is tied to this address.',
+                        })}
+                    >
                         <LemonInput type="email" value={invite.target_email} disabled fullWidth />
                     </LemonField.Pure>
 
@@ -190,7 +217,7 @@ function InviteNewUser({ invite }: { invite: PrevalidatedInvite }): JSX.Element 
                                     name="password"
                                     label={
                                         <div className="flex items-baseline justify-between w-full">
-                                            <span>Password</span>
+                                            <span>{t('signup.PasswordLabel', { defaultValue: 'Password' })}</span>
                                             <PasswordStrength validatedPassword={validatedPassword} />
                                         </div>
                                     }
@@ -211,13 +238,13 @@ function InviteNewUser({ invite }: { invite: PrevalidatedInvite }): JSX.Element 
                                     )}
                                 </LemonField>
                             )}
-                            <LemonField name="first_name" label="Your name">
+                            <LemonField name="first_name" label={t('signup.yourName', { defaultValue: 'Your name' })}>
                                 {({ value, onChange, error, id }) => (
                                     <LemonInput
                                         id={id}
                                         className="ph-ignore-input"
                                         data-attr="first_name"
-                                        placeholder="Jane Doe"
+                                        placeholder={t('signup.namePlaceholder', { defaultValue: 'Jane Doe' })}
                                         autoComplete="name"
                                         value={value ?? ''}
                                         onChange={onChange}
@@ -248,14 +275,14 @@ function InviteNewUser({ invite }: { invite: PrevalidatedInvite }): JSX.Element 
                                 data-attr="password-signup"
                                 loading={isSignupSubmitting || precheckResponseLoading}
                             >
-                                Join {org}
+                                {t('inviteSignup.join', { defaultValue: 'Join {{ org }}', org })}
                             </LemonButton>
                         ))}
                     {precheckResponse.sso_enforcement && (
                         <SSOEnforcedLoginButton
                             provider={precheckResponse.sso_enforcement}
                             email={invite.target_email}
-                            actionText="Continue"
+                            actionText={t('signup.continue', { defaultValue: 'Continue' })}
                             extraQueryParams={{ invite_id: invite.id }}
                         />
                     )}
@@ -263,7 +290,7 @@ function InviteNewUser({ invite }: { invite: PrevalidatedInvite }): JSX.Element 
                         <SSOEnforcedLoginButton
                             provider="saml"
                             email={invite.target_email}
-                            actionText="Continue"
+                            actionText={t('signup.continue', { defaultValue: 'Continue' })}
                             extraQueryParams={{ invite_id: invite.id }}
                         />
                     )}
@@ -282,6 +309,7 @@ function InviteNewUser({ invite }: { invite: PrevalidatedInvite }): JSX.Element 
 }
 
 function InviteExistingAccount({ invite }: { invite: PrevalidatedInvite }): JSX.Element {
+    const { t } = useTranslation()
     const { user } = useValues(userLogic)
     const { acceptInvite } = useActions(inviteSignupLogic)
     const { acceptedInvite, acceptedInviteLoading } = useValues(inviteSignupLogic)
@@ -294,8 +322,10 @@ function InviteExistingAccount({ invite }: { invite: PrevalidatedInvite }): JSX.
                     <OrgTile name={org} />
                 </div>
                 <AuthCardTitle
-                    title={`Join ${org}`}
-                    sub="You'll accept this invite with your existing PostHog account:"
+                    title={t('inviteSignup.joinTitle', { defaultValue: 'Join {{ org }}', org })}
+                    sub={t('inviteSignup.existingAccountSub', {
+                        defaultValue: "You'll accept this invite with your existing PostHog account:",
+                    })}
                     className="mb-4"
                 />
                 {user && (
@@ -313,8 +343,12 @@ function InviteExistingAccount({ invite }: { invite: PrevalidatedInvite }): JSX.
                     </div>
                 )}
                 <p className="AuthScene__sub mb-4 text-left text-sm text-secondary text-pretty">
-                    Accepting adds <b className="text-primary">{org}</b> to your account. Switch between organizations
-                    any time from the upper left of the app.
+                    <Trans
+                        i18nKey="inviteSignup.acceptingAdds"
+                        values={{ org }}
+                        components={{ Bold: <b className="text-primary" /> }}
+                        defaults="Accepting adds <Bold>{{ org }}</Bold> to your account. Switch between organizations any time from the upper left of the app."
+                    />
                 </p>
                 {acceptedInvite ? (
                     <LemonButton
@@ -326,7 +360,7 @@ function InviteExistingAccount({ invite }: { invite: PrevalidatedInvite }): JSX.
                             window.location.href = '/'
                         }}
                     >
-                        Go to {org} →
+                        {t('inviteSignup.goTo', { defaultValue: 'Go to {{ org }} →', org })}
                     </LemonButton>
                 ) : (
                     <div className="flex flex-col gap-2.5">
@@ -338,7 +372,7 @@ function InviteExistingAccount({ invite }: { invite: PrevalidatedInvite }): JSX.
                             loading={acceptedInviteLoading}
                             onClick={acceptInvite}
                         >
-                            Accept invite
+                            {t('inviteSignup.acceptInvite', { defaultValue: 'Accept invite' })}
                         </LemonButton>
                         <LemonButton
                             size="large"
@@ -348,7 +382,7 @@ function InviteExistingAccount({ invite }: { invite: PrevalidatedInvite }): JSX.
                                 window.location.href = '/'
                             }}
                         >
-                            Not now, back to PostHog
+                            {t('inviteSignup.notNow', { defaultValue: 'Not now, back to PostHog' })}
                         </LemonButton>
                     </div>
                 )}
@@ -358,6 +392,7 @@ function InviteExistingAccount({ invite }: { invite: PrevalidatedInvite }): JSX.
 }
 
 function InviteInvalid(): JSX.Element {
+    const { t } = useTranslation()
     const { error } = useValues(inviteSignupLogic)
     const { user } = useValues(userLogic)
     const { openSupportForm } = useActions(supportLogic)
@@ -365,50 +400,67 @@ function InviteInvalid(): JSX.Element {
     const code = error?.code ?? ErrorCodes.Unknown
 
     const titles: Record<ErrorCodes, string> = {
-        [ErrorCodes.InvalidInvite]: 'This invite link is invalid or expired',
-        [ErrorCodes.UserAlreadyMember]: "You're already a member",
-        [ErrorCodes.InvalidRecipient]: "This invite link can't be used",
-        [ErrorCodes.Unknown]: "We couldn't validate this invite link",
+        [ErrorCodes.InvalidInvite]: t('inviteSignup.invalidInviteTitle', {
+            defaultValue: 'This invite link is invalid or expired',
+        }),
+        [ErrorCodes.UserAlreadyMember]: t('inviteSignup.alreadyMemberTitle', {
+            defaultValue: "You're already a member",
+        }),
+        [ErrorCodes.InvalidRecipient]: t('inviteSignup.invalidRecipientTitle', {
+            defaultValue: "This invite link can't be used",
+        }),
+        [ErrorCodes.Unknown]: t('inviteSignup.unknownTitle', {
+            defaultValue: "We couldn't validate this invite link",
+        }),
     }
 
     const details: Record<ErrorCodes, ReactNode> = {
         [ErrorCodes.InvalidInvite]: (
-            <>
-                {error?.detail} If you believe this is a mistake, ask whoever created the invite to{' '}
-                <b>send you a new one</b>.
-            </>
+            <Trans
+                i18nKey="inviteSignup.invalidInviteDetail"
+                values={{ detail: error?.detail }}
+                components={{ Bold: <b /> }}
+                defaults="{{ detail }} If you believe this is a mistake, ask whoever created the invite to <Bold>send you a new one</Bold>."
+            />
         ),
         [ErrorCodes.UserAlreadyMember]: (
-            <>
-                {error?.detail || 'You already are a member of this organization.'} Your account
-                {user?.email ? (
-                    <>
-                        {' '}
-                        (<b>{user.email}</b>)
-                    </>
-                ) : null}{' '}
-                already belongs to it. To join a different organization, ask the inviter to send a new invite to a
-                different email address.
-            </>
+            <Trans
+                i18nKey="inviteSignup.alreadyMemberDetail"
+                values={{
+                    detail:
+                        error?.detail ||
+                        t('inviteSignup.alreadyMemberFallback', {
+                            defaultValue: 'You already are a member of this organization.',
+                        }),
+                    email: user?.email ? ` (${user.email})` : '',
+                }}
+                defaults="{{ detail }} Your account{{ email }} already belongs to it. To join a different organization, ask the inviter to send a new invite to a different email address."
+            />
         ),
         [ErrorCodes.InvalidRecipient]: (
-            <>
-                {error?.detail}{' '}
-                {user ? (
-                    <>
-                        You can log out and create a new account under the invited email address, or ask the
-                        organization admin to send a new invite to <b>{user.email}</b>.
-                    </>
-                ) : (
-                    'Log in with the invited email address above, or create your own password.'
-                )}
-            </>
+            <Trans
+                i18nKey="inviteSignup.invalidRecipientDetail"
+                values={{
+                    detail: error?.detail,
+                    following: user
+                        ? t('inviteSignup.invalidRecipientSignedIn', {
+                              defaultValue:
+                                  'You can log out and create a new account under the invited email address, or ask the organization admin to send a new invite to {{ email }}.',
+                              email: user.email,
+                          })
+                        : t('inviteSignup.invalidRecipientSignedOut', {
+                              defaultValue: 'Log in with the invited email address above, or create your own password.',
+                          }),
+                }}
+                defaults="{{ detail }} {{ following }}"
+            />
         ),
         [ErrorCodes.Unknown]: (
-            <>
-                {error?.detail} There was an issue with your invite link. Please try again in a few seconds. If the
-                problem persists, contact us.
-            </>
+            <Trans
+                i18nKey="inviteSignup.unknownDetail"
+                values={{ detail: error?.detail }}
+                defaults="{{ detail }} There was an issue with your invite link. Please try again in a few seconds. If the problem persists, contact us."
+            />
         ),
     }
 
@@ -420,7 +472,7 @@ function InviteInvalid(): JSX.Element {
                         to={urls.login()}
                         className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-warning"
                     >
-                        Log in
+                        {t('inviteSignup.logInShort', { defaultValue: 'Log in' })}
                     </Link>
                     <span className="mx-1.5 text-muted">·</span>
                 </>
@@ -449,7 +501,7 @@ function InviteInvalid(): JSX.Element {
                     <div className="flex flex-col gap-2.5 w-full">
                         {user ? (
                             <LemonButton size="large" center fullWidth type="primary" to={urls.default()}>
-                                Go back to PostHog
+                                {t('inviteSignup.goBackToPosthog', { defaultValue: 'Go back to PostHog' })}
                             </LemonButton>
                         ) : code === ErrorCodes.InvalidRecipient ? (
                             <LemonButton
@@ -460,11 +512,11 @@ function InviteInvalid(): JSX.Element {
                                 to={window.location.pathname}
                                 disableClientSideRouting
                             >
-                                Try again
+                                {t('inviteSignup.tryAgain', { defaultValue: 'Try again' })}
                             </LemonButton>
                         ) : null}
                         <LemonButton size="large" center fullWidth onClick={() => openSupportForm({ kind: 'bug' })}>
-                            Contact support
+                            {t('inviteSignup.contactSupport', { defaultValue: 'Contact support' })}
                         </LemonButton>
                     </div>
                 </div>

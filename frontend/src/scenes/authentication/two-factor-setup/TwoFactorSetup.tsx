@@ -2,6 +2,7 @@ import './Setup2FA.scss'
 
 import { useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonInput } from '@posthog/lemon-ui'
 
@@ -12,6 +13,7 @@ import { LemonField } from 'lib/lemon-ui/LemonField'
 import { twoFactorLogic } from './twoFactorLogic'
 
 export function TwoFactorSetup({ onSuccess }: { onSuccess: () => void }): JSX.Element | null {
+    const { t } = useTranslation()
     const { startSetupLoading, startSetup, generalError, isTokenSubmitting } = useValues(twoFactorLogic({ onSuccess }))
     if (startSetupLoading) {
         return null
@@ -30,7 +32,9 @@ export function TwoFactorSetup({ onSuccess }: { onSuccess: () => void }): JSX.El
                         <img
                             src="/account/two_factor/qrcode/"
                             className="Setup2FA__image"
-                            alt="QR code for two-factor authentication setup"
+                            alt={t('twoFactorSetup.qrAlt', {
+                                defaultValue: 'QR code for two-factor authentication setup',
+                            })}
                         />
                     </div>
 
@@ -38,17 +42,26 @@ export function TwoFactorSetup({ onSuccess }: { onSuccess: () => void }): JSX.El
                     {startSetup?.secret && (
                         <div className="ph-no-capture mt-4 p-3 bg-secondary rounded text-center w-full max-w-md">
                             <p className="text-default">
-                                If you can't scan the QR code, you can use the secret key below to manually set up your
-                                authenticator app.
+                                {t('twoFactorSetup.manualSetupHint', {
+                                    defaultValue:
+                                        "If you can't scan the QR code, you can use the secret key below to manually set up your authenticator app.",
+                                })}
                             </p>
-                            <CopyToClipboardInline description="2FA secret key" selectable iconSize="xsmall">
+                            <CopyToClipboardInline
+                                description={t('twoFactorSetup.secretDescription', { defaultValue: '2FA secret key' })}
+                                selectable
+                                iconSize="xsmall"
+                            >
                                 {startSetup.secret}
                             </CopyToClipboardInline>
                         </div>
                     )}
                 </div>
                 {generalError && <LemonBanner type="error">{generalError.detail}</LemonBanner>}
-                <LemonField name="token" label="Authenticator token">
+                <LemonField
+                    name="token"
+                    label={t('twoFactorSetup.tokenLabel', { defaultValue: 'Authenticator token' })}
+                >
                     {({ value, onChange, id }) => (
                         <LemonInput
                             id={id}
@@ -76,7 +89,7 @@ export function TwoFactorSetup({ onSuccess }: { onSuccess: () => void }): JSX.El
                     center
                     loading={isTokenSubmitting}
                 >
-                    Submit
+                    {t('twoFactorSetup.submit', { defaultValue: 'Submit' })}
                 </LemonButton>
             </Form>
         </>
