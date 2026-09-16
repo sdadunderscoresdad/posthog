@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconX } from '@posthog/icons'
 
@@ -14,6 +15,7 @@ const MAX_BOUNCE_RATE_DURATION = 120
 const DEFAULT_BOUNCE_RATE_DURATION = 10
 
 export function BounceRateDurationSetting(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam } = useValues(teamLogic)
     const restrictedReason = useRestrictedArea({
@@ -56,7 +58,9 @@ export function BounceRateDurationSetting(): JSX.Element {
                         size="small"
                         noPadding
                         icon={<IconX />}
-                        tooltip="Clear input"
+                        tooltip={t('settings.environment.bounceRateDuration.clearInput', {
+                            defaultValue: 'Clear input',
+                        })}
                         onClick={(e) => {
                             e.stopPropagation()
                             setBounceRateDuration(DEFAULT_BOUNCE_RATE_DURATION)
@@ -72,19 +76,27 @@ export function BounceRateDurationSetting(): JSX.Element {
                     onClick={() => handleChange(bounceRateDuration)}
                     disabledReason={
                         bounceRateDuration === savedDuration
-                            ? 'No changes to save'
+                            ? t('settings.noChangesToSave', { defaultValue: 'No changes to save' })
                             : bounceRateDuration == undefined
                               ? undefined
                               : isNaN(bounceRateDuration)
-                                ? 'Invalid number'
+                                ? t('settings.environment.bounceRateDuration.invalidNumber', {
+                                      defaultValue: 'Invalid number',
+                                  })
                                 : bounceRateDuration < MIN_BOUNCE_RATE_DURATION
-                                  ? `Duration must be at least ${MIN_BOUNCE_RATE_DURATION} second`
+                                  ? t('settings.environment.bounceRateDuration.tooShort', {
+                                        defaultValue: 'Duration must be at least {{ min }} second',
+                                        min: MIN_BOUNCE_RATE_DURATION,
+                                    })
                                   : bounceRateDuration > MAX_BOUNCE_RATE_DURATION
-                                    ? `Duration must be less than ${MAX_BOUNCE_RATE_DURATION} seconds`
+                                    ? t('settings.environment.bounceRateDuration.tooLong', {
+                                          defaultValue: 'Duration must be less than {{ max }} seconds',
+                                          max: MAX_BOUNCE_RATE_DURATION,
+                                      })
                                     : restrictedReason
                     }
                 >
-                    Save
+                    {t('settings.save', { defaultValue: 'Save' })}
                 </LemonButton>
             </div>
         </>

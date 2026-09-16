@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { TeamMembershipLevel } from 'lib/constants'
@@ -8,6 +9,7 @@ import { LemonSwitch } from 'lib/lemon-ui/LemonSwitch'
 import { teamLogic } from 'scenes/teamLogic'
 
 export function PreAggregatedTablesSetting(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam } = useValues(teamLogic)
     const restrictedReason = useRestrictedArea({
@@ -36,10 +38,12 @@ export function PreAggregatedTablesSetting(): JSX.Element {
                     type="primary"
                     onClick={() => handleChange(useWebAnalyticsPreAggregatedTables)}
                     disabledReason={
-                        useWebAnalyticsPreAggregatedTables === savedSetting ? 'No changes to save' : restrictedReason
+                        useWebAnalyticsPreAggregatedTables === savedSetting
+                            ? t('settings.noChangesToSave', { defaultValue: 'No changes to save' })
+                            : restrictedReason
                     }
                 >
-                    Save
+                    {t('settings.save', { defaultValue: 'Save' })}
                 </LemonButton>
             </div>
         </>

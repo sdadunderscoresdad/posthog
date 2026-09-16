@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { TeamMembershipLevel } from 'lib/constants'
@@ -10,6 +11,7 @@ import { preflightLogic } from 'scenes/PreflightCheck/preflightLogic'
 import { teamLogic } from 'scenes/teamLogic'
 
 export function TimezoneConfig({ displayWarning = true }: { displayWarning?: boolean }): JSX.Element {
+    const { t } = useTranslation()
     const { preflight } = useValues(preflightLogic)
     const { currentTeam, timezone: currentTimezone, currentTeamLoading } = useValues(teamLogic)
     const { updateCurrentTeam } = useActions(teamLogic)
@@ -30,7 +32,7 @@ export function TimezoneConfig({ displayWarning = true }: { displayWarning?: boo
         <div className="max-w-160">
             <LemonInputSelect
                 mode="single"
-                placeholder="Select a time zone"
+                placeholder={t('settings.environment.timezone.placeholder', { defaultValue: 'Select a time zone' })}
                 disabled={currentTeamLoading || !!restrictedReason}
                 value={[currentTeam.timezone]}
                 popoverClassName="z-[1000]"
@@ -46,21 +48,30 @@ export function TimezoneConfig({ displayWarning = true }: { displayWarning?: boo
                         updateCurrentTeam({ timezone: newTimezone })
                     } else {
                         LemonDialog.open({
-                            title: `Change time zone to ${timeZoneLabel(newTimezone, newOffset)}?`,
+                            title: t('settings.environment.timezone.confirmTitle', {
+                                defaultValue: 'Change time zone to {{ timezone }}?',
+                                timezone: timeZoneLabel(newTimezone, newOffset),
+                            }),
                             description: (
                                 <p className="max-w-120">
-                                    This time zone has an offset different from the current{' '}
-                                    <strong>{timeZoneLabel(currentTimezone, currentOffset)}</strong>, so queries will
-                                    need to be recalculated. There will be a difference in date-based time ranges, and
-                                    in day/week/month buckets.
+                                    <Trans
+                                        i18nKey="settings.environment.timezone.confirmDescription"
+                                        values={{
+                                            current: timeZoneLabel(currentTimezone, currentOffset),
+                                        }}
+                                        components={{ Strong: <strong /> }}
+                                        defaults="This time zone has an offset different from the current <Strong>{{ current }}</Strong>, so queries will need to be recalculated. There will be a difference in date-based time ranges, and in day/week/month buckets."
+                                    />
                                 </p>
                             ),
                             primaryButton: {
-                                children: 'Change time zone',
+                                children: t('settings.environment.timezone.confirm', {
+                                    defaultValue: 'Change time zone',
+                                }),
                                 onClick: () => updateCurrentTeam({ timezone: newTimezone }),
                             },
                             secondaryButton: {
-                                children: 'Cancel',
+                                children: t('settings.cancel', { defaultValue: 'Cancel' }),
                             },
                         })
                     }

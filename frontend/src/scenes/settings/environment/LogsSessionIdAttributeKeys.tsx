@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton } from '@posthog/lemon-ui'
 
@@ -12,6 +13,7 @@ import { objectsEqual } from 'lib/utils/objects'
 import { DEFAULT_LOGS_SESSION_ID_ATTRIBUTE_KEYS, logsConfigLogic } from 'products/logs/frontend/logsConfigLogic'
 
 export function LogsSessionIdAttributeKeys(): JSX.Element {
+    const { t } = useTranslation()
     const { logsConfig, logsConfigLoading } = useValues(logsConfigLogic)
     const { updateLogsConfig } = useActions(logsConfigLogic)
     const restrictedReason = useRestrictedArea({
@@ -53,11 +55,17 @@ export function LogsSessionIdAttributeKeys(): JSX.Element {
                 onClick={() => updateLogsConfig({ logs_session_id_attribute_keys: cleaned })}
                 disabledReason={
                     restrictedReason ||
-                    (isEmpty ? 'At least one attribute key is required' : !isDirty ? 'No changes to save' : undefined)
+                    (isEmpty
+                        ? t('settings.environment.logsAttributeKeys.atLeastOneRequired', {
+                              defaultValue: 'At least one attribute key is required',
+                          })
+                        : !isDirty
+                          ? t('settings.noChangesToSave', { defaultValue: 'No changes to save' })
+                          : undefined)
                 }
                 loading={logsConfigLoading}
             >
-                Save
+                {t('settings.save', { defaultValue: 'Save' })}
             </LemonButton>
         </div>
     )

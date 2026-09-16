@@ -1,3 +1,5 @@
+import { Trans } from 'react-i18next'
+
 import { LemonBanner, Link } from '@posthog/lemon-ui'
 
 import { urls } from 'scenes/urls'
@@ -6,12 +8,21 @@ export function ErrorTrackingConfigurationMovedBanner(): JSX.Element {
     return (
         <LemonBanner type="info">
             <p>
-                <strong>Error tracking configuration has moved.</strong> Configurations for alerting, suppression rules,
-                spike detection, assignment rules, grouping rules, symbol sets, and releases are now on the{' '}
-                <Link to={urls.errorTrackingConfiguration()}>Error tracking configuration</Link> page.
+                <Trans
+                    i18nKey="settings.environment.errorTrackingConfigurationMoved.message"
+                    components={{
+                        Strong: <strong />,
+                        ConfigLink: <Link to={urls.errorTrackingConfiguration()} />,
+                    }}
+                    defaults="<Strong>Error tracking configuration has moved.</Strong> Configurations for alerting, suppression rules, spike detection, assignment rules, grouping rules, symbol sets, and releases are now on the <ConfigLink>Error tracking configuration</ConfigLink> page."
+                />
             </p>
             <p>
-                You can get there via the sidebar: <strong>Error tracking &rarr; Configuration</strong>.
+                <Trans
+                    i18nKey="settings.environment.errorTrackingConfigurationMoved.whereToFind"
+                    components={{ Strong: <strong /> }}
+                    defaults="You can get there via the sidebar: <Strong>Error tracking &rarr; Configuration</Strong>."
+                />
             </p>
         </LemonBanner>
     )

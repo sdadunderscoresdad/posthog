@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton } from '@posthog/lemon-ui'
 
@@ -11,6 +12,7 @@ import { LemonSkeleton } from 'lib/lemon-ui/LemonSkeleton'
 import { teamLogic } from 'scenes/teamLogic'
 
 export function PersonDisplayNameProperties(): JSX.Element {
+    const { t } = useTranslation()
     const { currentTeam } = useValues(teamLogic)
     const { updateCurrentTeam } = useActions(teamLogic)
     const [value, setValue] = useState([] as string[])
@@ -35,7 +37,7 @@ export function PersonDisplayNameProperties(): JSX.Element {
                     taxonomicFilterGroup={TaxonomicFilterGroupType.PersonProperties}
                     onChange={(properties) => setValue(properties)}
                     selectedProperties={value || []}
-                    addText="Add"
+                    addText={t('settings.environment.personDisplayNameProperties.add', { defaultValue: 'Add' })}
                     sortable
                     disabledReason={restrictedReason}
                 />
@@ -48,7 +50,7 @@ export function PersonDisplayNameProperties(): JSX.Element {
                     }
                     disabledReason={restrictedReason}
                 >
-                    Save
+                    {t('settings.save', { defaultValue: 'Save' })}
                 </LemonButton>
             </div>
         </>

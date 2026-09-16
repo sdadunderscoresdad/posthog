@@ -616,6 +616,19 @@
                 "orgLevelLabel": "Include organization-level activity",
                 "orgLevelTooltip": "When enabled, activity logs from organization-level changes (such as organization settings, domains, and members) will be included in this project's activity logs page, exports, and notifications subscriptions."
             },
+            "autocapture": {
+                "label": "Enable autocapture for web"
+            },
+            "autocaptureWebVitals": {
+                "description": "You can also choose to only capture specific web vitals metrics. By default, all four core web vitals metrics are captured: CLS, FCP, LCP, and INP.",
+                "label": "Enable web vitals autocapture"
+            },
+            "bounceRateDuration": {
+                "clearInput": "Clear input",
+                "invalidNumber": "Invalid number",
+                "tooLong": "Duration must be less than {{ max }} seconds",
+                "tooShort": "Duration must be at least {{ min }} second"
+            },
             "bounceRatePageViewMode": {
                 "countPageviews": "Counts pageviews",
                 "countPageviewsDescription": "This is the default. Counts <code>$pageview</code> events in a session as part of the bounce rate calculation.",
@@ -623,6 +636,10 @@
                 "countUniqueUrlsDescription": "Counts the number of unique url visited as part of the bounce rate calculation",
                 "useUniqUpTo": "Use uniqUpTo",
                 "useUniqUpToDescription": "Uses the <code>uniqUpTo</code> function to count if the total unique pageviews + screen events + autocaptures is >= 2"
+            },
+            "cookielessServerHashMode": {
+                "description": "When cookieless tracking is enabled, the IP address is hashed into the distinct ID and stripped before transformations run, so IP-based transformations like GeoIP enrichment and bot detection will not enrich those events.",
+                "label": "Enable cookieless tracking"
             },
             "coreEvents": {
                 "actionNumber": "Action #{{ id }}",
@@ -702,6 +719,12 @@
                 },
                 "unknownTable": "Unknown table",
                 "update": "Update"
+            },
+            "correlationConfig": {
+                "addExclusion": "Add exclusion",
+                "excludedEventProperties": "Excluded event properties",
+                "excludedEvents": "Excluded events",
+                "excludedPersonProperties": "Excluded person properties"
             },
             "cspReporting": {
                 "directives": "PostHog supports both the <ReportUriLink>report-uri</ReportUriLink> and <ReportToLink>report-to</ReportToLink> directives, converting violations into an event. Letting you track and alert on them just like any other event.",
@@ -836,6 +859,9 @@
                 "valuePlaceholder": "Enter a value",
                 "when": "When"
             },
+            "dataAttributes": {
+                "placeholder": "data-attr, ..."
+            },
             "dataColorTheme": {
                 "addColor": "Add color",
                 "addTheme": "Add theme",
@@ -846,6 +872,44 @@
                 "name": "Name",
                 "namePlaceholder": "My custom theme",
                 "officialTheme": "Official theme"
+            },
+            "dataColorThemes": {
+                "addTheme": "Add theme",
+                "changeDefaultTitle": "Change the default data theme to \"{{ name }}\"?",
+                "columns": {
+                    "name": "Name",
+                    "official": "Official"
+                },
+                "defaultTheme": "Default theme",
+                "description": "These themes can be used in insights. You can also set a default theme for all insights below. For more details, check out our <DocsLink>docs</DocsLink>."
+            },
+            "deadClicksAutocapture": {
+                "label": "Enable dead clicks autocapture"
+            },
+            "defaultCuped": {
+                "label": "Enable CUPED by default"
+            },
+            "defaultOnlyCountMaturedUsers": {
+                "label": "Require completed conversion window"
+            },
+            "defaultSequentialTesting": {
+                "label": "Apply sequential testing by default"
+            },
+            "discussionMentionNotifications": {
+                "description": "Get notified when someone mentions you in a discussion.",
+                "tooltip": "Configure destination integrations (e.g., Slack, Discord, Microsoft Teams) to receive notifications when you are mentioned in discussions on replays, notebooks, insights, and other items."
+            },
+            "errorTrackingConfigurationMoved": {
+                "message": "<Strong>Error tracking configuration has moved.</Strong> Configurations for alerting, suppression rules, spike detection, assignment rules, grouping rules, symbol sets, and releases are now on the <ConfigLink>Error tracking configuration</ConfigLink> page.",
+                "whereToFind": "You can get there via the sidebar: <Strong>Error tracking → Configuration</Strong>."
+            },
+            "experimentRecalculationTime": {
+                "placeholder": "Select recalculation time"
+            },
+            "flagCleanupRepository": {
+                "clear": "Clear",
+                "connectGithub": "Connect GitHub in your project settings to choose a repository.",
+                "placeholder": "Select a repository"
             },
             "groupAnalytics": {
                 "columns": {
@@ -865,10 +929,39 @@
                 "makeChangesFirst": "Make some changes before saving",
                 "revertChanges": "Revert any changes made"
             },
+            "heatmaps": {
+                "label": "Enable heatmaps for web"
+            },
+            "humanFriendlyComparisonPeriods": {
+                "label": "Use human friendly comparison periods"
+            },
+            "ipAllowList": {
+                "description": "Whenever PostHog makes a call to an external service it will come from one of our static IP addresses. If you need to explicitly allowlist these IPs, you can do so by adding them to your firewall rules. This applies to all integrations such as webhooks, apps or batch exports.",
+                "notSupported": "Not supported"
+            },
+            "ipCapture": {
+                "label": "Discard client IP data"
+            },
             "jsSnippetVersion": {
                 "acceptedFormats": "Accepted formats: major version (<code>1</code>), minor version (<code>1.358</code>), or exact version (<code>1.358.0</code>).",
                 "currentlyResolves": "Currently resolves to:",
                 "placeholder": "1 (default)"
+            },
+            "logsAttributeKeys": {
+                "atLeastOneRequired": "At least one attribute key is required"
+            },
+            "logsCapture": {
+                "consoleLogsLabel": "Capture console logs to Logs product",
+                "jsonParseLabel": "JSON parse logs",
+                "piiScrubDescription": "When enabled, we scrub common sensitive patterns from the log message body before storage: email addresses, Bearer-style authorization tokens, and Stripe secret key shapes. This is best-effort: values that do not match these patterns, or bank card numbers, may still appear. Redaction is permanent and one-way. Redacted values are replaced with {{ placeholder }}.",
+                "piiScrubLabel": "Scrub PII in logs at ingestion"
+            },
+            "logsPatternMessageKeys": {
+                "help": "Drag keys to change their priority. Clear all keys to disable message extraction.",
+                "label": "Message keys",
+                "loadError": "Could not load pattern message extraction settings.",
+                "placeholder": "Add a message key",
+                "retry": "Retry"
             },
             "managedReverseProxy": {
                 "add": "Add managed proxy",
@@ -955,7 +1048,10 @@
                 }
             },
             "maxChangelog": {
-                "empty": "No changelog entries available. Check back later for updates on new PostHog AI features."
+                "empty": "No changelog entries available. Check back later for updates on new PostHog AI features.",
+                "recentUpdates": "Recent updates",
+                "seeChangelog": "See the <ChangelogLink>complete changelog</ChangelogLink> for all PostHog AI updates.",
+                "showButtonLabel": "Show 'What's new' button in PostHog AI"
             },
             "maxMemory": {
                 "fieldLabel": "PostHog AI's memory",
@@ -977,6 +1073,11 @@
                 "learnMoreLink": "here",
                 "learnMorePrefix": "You can learn more about what tools are available and other installation options"
             },
+            "pathCleaning": {
+                "premiumNotice": "Advanced path cleaning is a premium feature. Check <DocsLink>our path cleaning rules documentation</DocsLink> to learn more about it.",
+                "testHint": "Wanna test what your cleaned path will look like? Try them out here.",
+                "testPlaceholder": "Enter a path to test"
+            },
             "pathCleaningSuggestions": {
                 "applyAll": "Apply all",
                 "bannerSummary_one": "We analyzed your traffic and suggest <Strong>{{ count }}</Strong> path cleaning {{ rules }} to group similar pages. Review and apply them:",
@@ -992,6 +1093,12 @@
                 "ruleMatchSummary": "groups {{ matched }} of your top {{ sampled }} paths",
                 "views_one": "{{ value }} view",
                 "views_other": "{{ value }} views"
+            },
+            "personDisplayNameProperties": {
+                "add": "Add"
+            },
+            "personLastSeenAt": {
+                "label": "Track when a person was last seen"
             },
             "personsJoinMode": {
                 "innerDescription": "This is the default. You want this one unless you know what you are doing.",
@@ -1217,6 +1324,15 @@
                     "start": "start",
                     "stop": "stop"
                 }
+            },
+            "timezone": {
+                "confirm": "Change time zone",
+                "confirmDescription": "This time zone has an offset different from the current <Strong>{{ current }}</Strong>, so queries will need to be recalculated. There will be a difference in date-based time ranges, and in day/week/month buckets.",
+                "confirmTitle": "Change time zone to {{ timezone }}?",
+                "placeholder": "Select a time zone"
+            },
+            "tracingAttributeKeys": {
+                "atLeastOneRequired": "At least one attribute key is required"
             },
             "usageMetrics": {
                 "add": "Add metric",

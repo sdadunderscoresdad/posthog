@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconPlus } from '@posthog/icons'
 import { LemonButton } from '@posthog/lemon-ui'
@@ -13,6 +14,7 @@ import { LemonInputSelect } from 'lib/lemon-ui/LemonInputSelect/LemonInputSelect
 import { teamLogic } from 'scenes/teamLogic'
 
 export function CorrelationConfig(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam, funnelCorrelationConfig } = useValues(teamLogic)
     const restrictedReason = useRestrictedArea({
@@ -49,20 +51,26 @@ export function CorrelationConfig(): JSX.Element {
                     <div>
                         <h3 className="flex items-center gap-2">
                             <IconSelectProperties className="text-lg" />
-                            Excluded person properties
+                            {t('settings.environment.correlationConfig.excludedPersonProperties', {
+                                defaultValue: 'Excluded person properties',
+                            })}
                         </h3>
                         <PropertySelect
                             taxonomicFilterGroup={TaxonomicFilterGroupType.PersonProperties}
                             onChange={(properties) => handleChange(properties)}
                             selectedProperties={funnelCorrelationConfig.excluded_person_property_names || []}
-                            addText="Add exclusion"
+                            addText={t('settings.environment.correlationConfig.addExclusion', {
+                                defaultValue: 'Add exclusion',
+                            })}
                             disabledReason={restrictedReason}
                         />
                     </div>
                     <div>
                         <h3 className="flex items-center gap-2">
                             <IconSelectEvents className="text-lg" />
-                            Excluded events
+                            {t('settings.environment.correlationConfig.excludedEvents', {
+                                defaultValue: 'Excluded events',
+                            })}
                         </h3>
                         <EventSelect
                             onChange={(excludedEvents) => handleChange(undefined, excludedEvents)}
@@ -75,7 +83,9 @@ export function CorrelationConfig(): JSX.Element {
                                     sideIcon={null}
                                     disabledReason={restrictedReason}
                                 >
-                                    Add exclusion
+                                    {t('settings.environment.correlationConfig.addExclusion', {
+                                        defaultValue: 'Add exclusion',
+                                    })}
                                 </LemonButton>
                             }
                         />
@@ -83,7 +93,9 @@ export function CorrelationConfig(): JSX.Element {
                     <div>
                         <h3 className="flex items-center gap-2">
                             <IconSelectEvents className="text-lg" />
-                            Excluded event properties
+                            {t('settings.environment.correlationConfig.excludedEventProperties', {
+                                defaultValue: 'Excluded event properties',
+                            })}
                         </h3>
                         <div className="max-w-160">
                             <LemonInputSelect

@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonSwitch } from '@posthog/lemon-ui'
 
@@ -7,6 +8,7 @@ import { TeamMembershipLevel } from 'lib/constants'
 import { teamLogic } from 'scenes/teamLogic'
 
 export function PersonLastSeenAtEnabled(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
     const restrictedReason = useRestrictedArea({
@@ -29,7 +31,9 @@ export function PersonLastSeenAtEnabled(): JSX.Element {
             checked={checked}
             loading={currentTeamLoading}
             disabledReason={restrictedReason}
-            label="Track when a person was last seen"
+            label={t('settings.environment.personLastSeenAt.label', {
+                defaultValue: 'Track when a person was last seen',
+            })}
             bordered
         />
     )

@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconArrowRight } from '@posthog/icons'
 import { LemonInput, Link } from '@posthog/lemon-ui'
@@ -18,6 +19,7 @@ import { userLogic } from 'scenes/userLogic'
 import { AvailableFeature, PathCleaningFilter } from '~/types'
 
 export function PathCleaningFiltersConfig(): JSX.Element | null {
+    const { t } = useTranslation()
     const [testValue, setTestValue] = useState('')
 
     const { updateCurrentTeam } = useActions(teamLogic)
@@ -36,11 +38,13 @@ export function PathCleaningFiltersConfig(): JSX.Element | null {
     if (!hasAdvancedPaths) {
         return (
             <p>
-                Advanced path cleaning is a premium feature. Check{' '}
-                <Link to="https://posthog.com/docs/product-analytics/paths#path-cleaning-rules">
-                    our path cleaning rules documentation
-                </Link>{' '}
-                to learn more about it.
+                <Trans
+                    i18nKey="settings.environment.pathCleaning.premiumNotice"
+                    components={{
+                        DocsLink: <Link to="https://posthog.com/docs/product-analytics/paths#path-cleaning-rules" />,
+                    }}
+                    defaults="Advanced path cleaning is a premium feature. Check <DocsLink>our path cleaning rules documentation</DocsLink> to learn more about it."
+                />
             </p>
         )
     }
@@ -70,12 +74,18 @@ export function PathCleaningFiltersConfig(): JSX.Element | null {
                 </div>
             </div>
 
-            <p className="mt-4">Wanna test what your cleaned path will look like? Try them out here.</p>
+            <p className="mt-4">
+                {t('settings.environment.pathCleaning.testHint', {
+                    defaultValue: 'Wanna test what your cleaned path will look like? Try them out here.',
+                })}
+            </p>
             <div className="flex flex-col sm:flex-row gap-2 items-center justify-center">
                 <LemonInput
                     value={testValue}
                     onChange={setTestValue}
-                    placeholder="Enter a path to test"
+                    placeholder={t('settings.environment.pathCleaning.testPlaceholder', {
+                        defaultValue: 'Enter a path to test',
+                    })}
                     size="medium"
                     className="flex-1"
                     disabledReason={restrictedReason}

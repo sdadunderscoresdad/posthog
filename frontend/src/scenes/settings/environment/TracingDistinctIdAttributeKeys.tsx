@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton } from '@posthog/lemon-ui'
 
@@ -15,6 +16,7 @@ import {
 } from 'products/tracing/frontend/tracingCorrelationConfigLogic'
 
 export function TracingDistinctIdAttributeKeys(): JSX.Element {
+    const { t } = useTranslation()
     const { tracingConfig, tracingConfigLoading } = useValues(tracingCorrelationConfigLogic)
     const { updateTracingConfig } = useActions(tracingCorrelationConfigLogic)
     const restrictedReason = useRestrictedArea({
@@ -56,11 +58,17 @@ export function TracingDistinctIdAttributeKeys(): JSX.Element {
                 onClick={() => updateTracingConfig({ tracing_distinct_id_attribute_keys: cleaned })}
                 disabledReason={
                     restrictedReason ||
-                    (isEmpty ? 'At least one attribute key is required' : !isDirty ? 'No changes to save' : undefined)
+                    (isEmpty
+                        ? t('settings.environment.tracingAttributeKeys.atLeastOneRequired', {
+                              defaultValue: 'At least one attribute key is required',
+                          })
+                        : !isDirty
+                          ? t('settings.noChangesToSave', { defaultValue: 'No changes to save' })
+                          : undefined)
                 }
                 loading={tracingConfigLoading}
             >
-                Save
+                {t('settings.save', { defaultValue: 'Save' })}
             </LemonButton>
         </div>
     )

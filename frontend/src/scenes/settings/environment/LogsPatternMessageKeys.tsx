@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { useTranslation } from 'react-i18next'
 
 import { LemonBanner, LemonButton } from '@posthog/lemon-ui'
 
@@ -12,6 +13,7 @@ import { LemonSkeleton } from 'lib/lemon-ui/LemonSkeleton'
 import { logsConfigLogic } from 'products/logs/frontend/logsConfigLogic'
 
 export function LogsPatternMessageKeys(): JSX.Element {
+    const { t } = useTranslation()
     const {
         logsConfig,
         logsConfigLoading,
@@ -29,8 +31,16 @@ export function LogsPatternMessageKeys(): JSX.Element {
         return logsConfigLoading ? (
             <LemonSkeleton className="w-1/2 h-4" />
         ) : (
-            <LemonBanner type="error" action={{ children: 'Retry', onClick: () => loadLogsConfig() }}>
-                Could not load pattern message extraction settings.
+            <LemonBanner
+                type="error"
+                action={{
+                    children: t('settings.environment.logsPatternMessageKeys.retry', { defaultValue: 'Retry' }),
+                    onClick: () => loadLogsConfig(),
+                }}
+            >
+                {t('settings.environment.logsPatternMessageKeys.loadError', {
+                    defaultValue: 'Could not load pattern message extraction settings.',
+                })}
             </LemonBanner>
         )
     }
@@ -39,8 +49,10 @@ export function LogsPatternMessageKeys(): JSX.Element {
         <Form logic={logsConfigLogic} formKey="patternMessageKeys" enableFormOnSubmit className="space-y-4">
             <LemonField
                 name="keys"
-                label="Message keys"
-                help="Drag keys to change their priority. Clear all keys to disable message extraction."
+                label={t('settings.environment.logsPatternMessageKeys.label', { defaultValue: 'Message keys' })}
+                help={t('settings.environment.logsPatternMessageKeys.help', {
+                    defaultValue: 'Drag keys to change their priority. Clear all keys to disable message extraction.',
+                })}
             >
                 <LemonInputSelect
                     mode="multiple"
@@ -49,7 +61,9 @@ export function LogsPatternMessageKeys(): JSX.Element {
                     limit={10}
                     disableCommaSplitting
                     bulkActions="clear-all"
-                    placeholder="Add a message key"
+                    placeholder={t('settings.environment.logsPatternMessageKeys.placeholder', {
+                        defaultValue: 'Add a message key',
+                    })}
                     loading={logsConfigLoading}
                     disabled={logsConfigLoading || isPatternMessageKeysSubmitting || !!restrictedReason}
                     data-attr="logs-pattern-message-keys-select"
@@ -65,11 +79,13 @@ export function LogsPatternMessageKeys(): JSX.Element {
                 disabledReason={
                     restrictedReason ||
                     patternMessageKeysValidationErrors.keys?.[0] ||
-                    (!patternMessageKeysChanged ? 'No changes to save' : undefined)
+                    (!patternMessageKeysChanged
+                        ? t('settings.noChangesToSave', { defaultValue: 'No changes to save' })
+                        : undefined)
                 }
                 loading={logsConfigLoading || isPatternMessageKeysSubmitting}
             >
-                Save
+                {t('settings.save', { defaultValue: 'Save' })}
             </LemonButton>
         </Form>
     )

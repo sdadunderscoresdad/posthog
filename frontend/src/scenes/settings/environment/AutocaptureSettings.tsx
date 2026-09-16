@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { SupportedWebVitalsMetrics } from 'posthog-js'
+import { useTranslation } from 'react-i18next'
 
 import { LemonDivider, LemonSwitch } from '@posthog/lemon-ui'
 
@@ -58,6 +59,7 @@ function WebVitalsAllowedMetricSwitch({ metric }: { metric: SupportedWebVitalsMe
 }
 
 export function AutocaptureSettings(): JSX.Element {
+    const { t } = useTranslation()
     const { userLoading } = useValues(userLogic)
     const { currentTeam } = useValues(teamLogic)
     const { updateCurrentTeam } = useActions(teamLogic)
@@ -81,7 +83,7 @@ export function AutocaptureSettings(): JSX.Element {
                     checked={!currentTeam?.autocapture_opt_out}
                     disabled={userLoading}
                     disabledReason={restrictedReason}
-                    label="Enable autocapture for web"
+                    label={t('settings.environment.autocapture.label', { defaultValue: 'Enable autocapture for web' })}
                     bordered
                 />
             </div>
@@ -90,6 +92,7 @@ export function AutocaptureSettings(): JSX.Element {
 }
 
 export function WebVitalsAutocaptureSettings(): JSX.Element {
+    const { t } = useTranslation()
     const { userLoading } = useValues(userLogic)
     const { currentTeam } = useValues(teamLogic)
     const { updateCurrentTeam } = useActions(teamLogic)
@@ -110,13 +113,17 @@ export function WebVitalsAutocaptureSettings(): JSX.Element {
                 checked={!!currentTeam?.autocapture_web_vitals_opt_in}
                 disabled={userLoading}
                 disabledReason={restrictedReason}
-                label="Enable web vitals autocapture"
+                label={t('settings.environment.autocaptureWebVitals.label', {
+                    defaultValue: 'Enable web vitals autocapture',
+                })}
                 bordered
             />
             <LemonDivider />
             <p>
-                You can also choose to only capture specific web vitals metrics. By default, all four core web vitals
-                metrics are captured: CLS, FCP, LCP, and INP.
+                {t('settings.environment.autocaptureWebVitals.description', {
+                    defaultValue:
+                        'You can also choose to only capture specific web vitals metrics. By default, all four core web vitals metrics are captured: CLS, FCP, LCP, and INP.',
+                })}
             </p>
             <div className="inline-grid grid-cols-2 gap-2 xs:grid xs:w-full">
                 <WebVitalsAllowedMetricSwitch metric="CLS" />

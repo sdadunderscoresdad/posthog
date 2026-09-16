@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonSkeleton } from '@posthog/lemon-ui'
 
@@ -9,6 +10,7 @@ import { LemonInputSelect } from 'lib/lemon-ui/LemonInputSelect/LemonInputSelect
 import { teamLogic } from 'scenes/teamLogic'
 
 export function DataAttributes(): JSX.Element {
+    const { t } = useTranslation()
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
     const { updateCurrentTeam } = useActions(teamLogic)
     const [value, setValue] = useState([] as string[])
@@ -32,7 +34,9 @@ export function DataAttributes(): JSX.Element {
                     onChange={(values: string[]) => setValue(values || [])}
                     value={value}
                     data-attr="data-attribute-select"
-                    placeholder="data-attr, ..."
+                    placeholder={t('settings.environment.dataAttributes.placeholder', {
+                        defaultValue: 'data-attr, ...',
+                    })}
                     loading={currentTeamLoading}
                     disabled={currentTeamLoading || !!restrictedReason}
                 />
@@ -43,7 +47,7 @@ export function DataAttributes(): JSX.Element {
                     }
                     disabledReason={restrictedReason}
                 >
-                    Save
+                    {t('settings.save', { defaultValue: 'Save' })}
                 </LemonButton>
             </div>
         </>

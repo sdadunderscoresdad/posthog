@@ -1,5 +1,5 @@
 import { useActions, useValues } from 'kea'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { LemonSwitch, LemonTag, Link } from '@posthog/lemon-ui'
 
@@ -35,12 +35,16 @@ export function MaxChangelogSettings(): JSX.Element {
             <LemonSwitch
                 checked={!isDismissed}
                 onChange={handleToggle}
-                label="Show 'What's new' button in PostHog AI"
+                label={t('settings.environment.maxChangelog.showButtonLabel', {
+                    defaultValue: "Show 'What's new' button in PostHog AI",
+                })}
                 bordered
             />
 
             <div>
-                <h4 className="font-semibold text-sm mb-3">Recent updates</h4>
+                <h4 className="font-semibold text-sm mb-3">
+                    {t('settings.environment.maxChangelog.recentUpdates', { defaultValue: 'Recent updates' })}
+                </h4>
                 <div className="space-y-2">
                     {entries.map((entry: ChangelogEntry, index: number) => (
                         <div key={index} className="flex gap-3 p-3 rounded-lg border bg-bg-light">
@@ -55,11 +59,13 @@ export function MaxChangelogSettings(): JSX.Element {
                     ))}
                 </div>
                 <p className="text-muted text-sm mt-3">
-                    See the{' '}
-                    <Link to="https://posthog.com/changelog?team=PostHog+AI" target="_blank">
-                        complete changelog
-                    </Link>{' '}
-                    for all PostHog AI updates.
+                    <Trans
+                        i18nKey="settings.environment.maxChangelog.seeChangelog"
+                        components={{
+                            ChangelogLink: <Link to="https://posthog.com/changelog?team=PostHog+AI" target="_blank" />,
+                        }}
+                        defaults="See the <ChangelogLink>complete changelog</ChangelogLink> for all PostHog AI updates."
+                    />
                 </p>
             </div>
         </div>

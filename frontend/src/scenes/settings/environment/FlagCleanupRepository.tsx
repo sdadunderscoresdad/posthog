@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonInputSelect } from '@posthog/lemon-ui'
 
@@ -12,6 +13,7 @@ import { integrationsLogic } from 'lib/integrations/integrationsLogic'
 import { experimentsConfigLogic } from './experimentsConfigLogic'
 
 export function FlagCleanupRepository(): JSX.Element {
+    const { t } = useTranslation()
     const { experimentsConfig, experimentsConfigUpdating } = useValues(experimentsConfigLogic)
     const { updateExperimentsConfig } = useActions(experimentsConfigLogic)
     const { githubIntegrations, integrationsLoading } = useValues(integrationsLogic)
@@ -28,13 +30,24 @@ export function FlagCleanupRepository(): JSX.Element {
         if (integrationsLoading) {
             return (
                 <div className="max-w-160">
-                    <LemonInputSelect mode="single" options={[]} loading placeholder="Select a repository" />
+                    <LemonInputSelect
+                        mode="single"
+                        options={[]}
+                        loading
+                        placeholder={t('settings.environment.flagCleanupRepository.placeholder', {
+                            defaultValue: 'Select a repository',
+                        })}
+                    />
                 </div>
             )
         }
         return (
             <div className="flex items-center gap-2 max-w-160">
-                <p className="mb-0 text-secondary">Connect GitHub in your project settings to choose a repository.</p>
+                <p className="mb-0 text-secondary">
+                    {t('settings.environment.flagCleanupRepository.connectGithub', {
+                        defaultValue: 'Connect GitHub in your project settings to choose a repository.',
+                    })}
+                </p>
                 {savedValue !== null && (
                     <LemonButton
                         type="secondary"
@@ -42,7 +55,7 @@ export function FlagCleanupRepository(): JSX.Element {
                         loading={experimentsConfigUpdating}
                         disabledReason={restrictionReason}
                     >
-                        Clear
+                        {t('settings.environment.flagCleanupRepository.clear', { defaultValue: 'Clear' })}
                     </LemonButton>
                 )}
             </div>
@@ -74,6 +87,7 @@ function RepositoryPicker({
     restrictionReason: string | null
     onChange: (repository: string | null) => void
 }): JSX.Element {
+    const { t } = useTranslation()
     const logic = githubIntegrationLogic({ id: integrationId })
     const { repositories, repositoriesLoading } = useValues(logic)
     const { loadRepositories } = useActions(logic)
@@ -97,7 +111,9 @@ function RepositoryPicker({
                 options={options}
                 loading={repositoriesLoading || updating}
                 disabledReason={restrictionReason ?? undefined}
-                placeholder="Select a repository"
+                placeholder={t('settings.environment.flagCleanupRepository.placeholder', {
+                    defaultValue: 'Select a repository',
+                })}
                 data-attr="experiment-flag-cleanup-default-repository"
                 className="flex-1"
             />
@@ -108,7 +124,7 @@ function RepositoryPicker({
                     loading={updating}
                     disabledReason={restrictionReason}
                 >
-                    Clear
+                    {t('settings.environment.flagCleanupRepository.clear', { defaultValue: 'Clear' })}
                 </LemonButton>
             )}
         </div>

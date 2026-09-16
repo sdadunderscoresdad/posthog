@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonBanner, LemonSwitch } from '@posthog/lemon-ui'
 
@@ -11,6 +12,7 @@ import { teamLogic } from 'scenes/teamLogic'
 import { CookielessServerHashMode } from '~/types'
 
 export function CookielessServerHashModeSetting(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam } = useValues(teamLogic)
     const restrictedReason = useRestrictedArea({
@@ -34,12 +36,15 @@ export function CookielessServerHashModeSetting(): JSX.Element {
     return (
         <>
             <LemonBanner type="info" className="mb-4">
-                When cookieless tracking is enabled, the IP address is hashed into the distinct ID and stripped before
-                transformations run, so IP-based transformations like GeoIP enrichment and bot detection will not enrich
-                those events.
+                {t('settings.environment.cookielessServerHashMode.description', {
+                    defaultValue:
+                        'When cookieless tracking is enabled, the IP address is hashed into the distinct ID and stripped before transformations run, so IP-based transformations like GeoIP enrichment and bot detection will not enrich those events.',
+                })}
             </LemonBanner>
             <LemonSwitch
-                label="Enable cookieless tracking"
+                label={t('settings.environment.cookielessServerHashMode.label', {
+                    defaultValue: 'Enable cookieless tracking',
+                })}
                 checked={enabled}
                 onChange={setEnabled}
                 disabledReason={restrictedReason}
@@ -49,9 +54,13 @@ export function CookielessServerHashModeSetting(): JSX.Element {
                 <LemonButton
                     type="primary"
                     onClick={handleSave}
-                    disabledReason={enabled === savedEnabled ? 'No changes to save' : restrictedReason}
+                    disabledReason={
+                        enabled === savedEnabled
+                            ? t('settings.noChangesToSave', { defaultValue: 'No changes to save' })
+                            : restrictedReason
+                    }
                 >
-                    Save
+                    {t('settings.save', { defaultValue: 'Save' })}
                 </LemonButton>
             </div>
         </>

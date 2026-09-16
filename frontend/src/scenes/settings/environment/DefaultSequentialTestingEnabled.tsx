@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonCheckbox } from '@posthog/lemon-ui'
 
@@ -8,6 +9,7 @@ import { TeamMembershipLevel } from 'lib/constants'
 import { experimentsConfigLogic } from './experimentsConfigLogic'
 
 export function DefaultSequentialTestingEnabled(): JSX.Element | null {
+    const { t } = useTranslation()
     const { experimentsConfig, experimentsConfigLoading } = useValues(experimentsConfigLogic)
     const { updateExperimentsConfig } = useActions(experimentsConfigLogic)
 
@@ -18,7 +20,9 @@ export function DefaultSequentialTestingEnabled(): JSX.Element | null {
 
     return (
         <LemonCheckbox
-            label="Apply sequential testing by default"
+            label={t('settings.environment.defaultSequentialTesting.label', {
+                defaultValue: 'Apply sequential testing by default',
+            })}
             checked={experimentsConfig?.default_sequential_testing_enabled ?? false}
             onChange={(checked) => {
                 updateExperimentsConfig({ default_sequential_testing_enabled: checked })

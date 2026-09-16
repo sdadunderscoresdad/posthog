@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonDialog, LemonSegmentedButton, LemonSegmentedButtonOption, LemonSwitch } from '@posthog/lemon-ui'
 
@@ -15,6 +16,7 @@ const VALID_RETENTION_DAYS = [14, 30] as const
 type LogsRetentionDays = (typeof VALID_RETENTION_DAYS)[number]
 
 export function LogsCaptureSettings(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
     const restrictedReason = useRestrictedArea({
@@ -31,7 +33,9 @@ export function LogsCaptureSettings(): JSX.Element {
                         logs_settings: { ...currentTeam?.logs_settings, capture_console_logs: checked },
                     })
                 }}
-                label="Capture console logs to Logs product"
+                label={t('settings.environment.logsCapture.consoleLogsLabel', {
+                    defaultValue: 'Capture console logs to Logs product',
+                })}
                 bordered
                 checked={!!currentTeam?.logs_settings?.capture_console_logs}
                 loading={currentTeamLoading}
@@ -42,6 +46,7 @@ export function LogsCaptureSettings(): JSX.Element {
 }
 
 export function LogsJsonParseSettings(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
     const restrictedReason = useRestrictedArea({
@@ -64,7 +69,7 @@ export function LogsJsonParseSettings(): JSX.Element {
                             logs_settings: { ...currentTeam?.logs_settings, json_parse_logs: checked },
                         })
                     }}
-                    label="JSON parse logs"
+                    label={t('settings.environment.logsCapture.jsonParseLabel', { defaultValue: 'JSON parse logs' })}
                     bordered
                     checked={isJsonParseLogs}
                     loading={currentTeamLoading}
@@ -76,6 +81,7 @@ export function LogsJsonParseSettings(): JSX.Element {
 }
 
 export function LogsPiiScrubSettings(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
     const restrictedReason = useRestrictedArea({
@@ -96,7 +102,9 @@ export function LogsPiiScrubSettings(): JSX.Element {
                             logs_settings: { ...currentTeam?.logs_settings, pii_scrub_logs: checked },
                         })
                     }}
-                    label="Scrub PII in logs at ingestion"
+                    label={t('settings.environment.logsCapture.piiScrubLabel', {
+                        defaultValue: 'Scrub PII in logs at ingestion',
+                    })}
                     bordered
                     checked={!!currentTeam?.logs_settings?.pii_scrub_logs}
                     loading={currentTeamLoading}
@@ -104,10 +112,11 @@ export function LogsPiiScrubSettings(): JSX.Element {
                 />
             </AccessControlAction>
             <p className="text-secondary text-sm max-w-200 mt-2">
-                When enabled, we scrub common sensitive patterns from the log message body before storage: email
-                addresses, Bearer-style authorization tokens, and Stripe secret key shapes. This is best-effort: values
-                that do not match these patterns, or bank card numbers, may still appear. Redaction is permanent and
-                one-way. Redacted values are replaced with {'{{REDACTED}}'}.
+                {t('settings.environment.logsCapture.piiScrubDescription', {
+                    defaultValue:
+                        'When enabled, we scrub common sensitive patterns from the log message body before storage: email addresses, Bearer-style authorization tokens, and Stripe secret key shapes. This is best-effort: values that do not match these patterns, or bank card numbers, may still appear. Redaction is permanent and one-way. Redacted values are replaced with {{ placeholder }}.',
+                    placeholder: '{{REDACTED}}',
+                })}
             </p>
         </>
     )

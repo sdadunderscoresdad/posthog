@@ -611,6 +611,19 @@
                 "orgLevelLabel": "",
                 "orgLevelTooltip": ""
             },
+            "autocapture": {
+                "label": ""
+            },
+            "autocaptureWebVitals": {
+                "description": "",
+                "label": ""
+            },
+            "bounceRateDuration": {
+                "clearInput": "",
+                "invalidNumber": "",
+                "tooLong": "",
+                "tooShort": ""
+            },
             "bounceRatePageViewMode": {
                 "countPageviews": "",
                 "countPageviewsDescription": "",
@@ -618,6 +631,10 @@
                 "countUniqueUrlsDescription": "",
                 "useUniqUpTo": "",
                 "useUniqUpToDescription": ""
+            },
+            "cookielessServerHashMode": {
+                "description": "",
+                "label": ""
             },
             "coreEvents": {
                 "actionNumber": "",
@@ -696,6 +713,12 @@
                 },
                 "unknownTable": "",
                 "update": ""
+            },
+            "correlationConfig": {
+                "addExclusion": "",
+                "excludedEventProperties": "",
+                "excludedEvents": "",
+                "excludedPersonProperties": ""
             },
             "cspReporting": {
                 "directives": "",
@@ -829,6 +852,9 @@
                 "valuePlaceholder": "",
                 "when": ""
             },
+            "dataAttributes": {
+                "placeholder": ""
+            },
             "dataColorTheme": {
                 "addColor": "",
                 "addTheme": "",
@@ -839,6 +865,44 @@
                 "name": "",
                 "namePlaceholder": "",
                 "officialTheme": ""
+            },
+            "dataColorThemes": {
+                "addTheme": "",
+                "changeDefaultTitle": "",
+                "columns": {
+                    "name": "",
+                    "official": ""
+                },
+                "defaultTheme": "",
+                "description": ""
+            },
+            "deadClicksAutocapture": {
+                "label": ""
+            },
+            "defaultCuped": {
+                "label": ""
+            },
+            "defaultOnlyCountMaturedUsers": {
+                "label": ""
+            },
+            "defaultSequentialTesting": {
+                "label": ""
+            },
+            "discussionMentionNotifications": {
+                "description": "",
+                "tooltip": ""
+            },
+            "errorTrackingConfigurationMoved": {
+                "message": "",
+                "whereToFind": ""
+            },
+            "experimentRecalculationTime": {
+                "placeholder": ""
+            },
+            "flagCleanupRepository": {
+                "clear": "",
+                "connectGithub": "",
+                "placeholder": ""
             },
             "groupAnalytics": {
                 "columns": {
@@ -858,10 +922,39 @@
                 "makeChangesFirst": "",
                 "revertChanges": ""
             },
+            "heatmaps": {
+                "label": ""
+            },
+            "humanFriendlyComparisonPeriods": {
+                "label": ""
+            },
+            "ipAllowList": {
+                "description": "",
+                "notSupported": ""
+            },
+            "ipCapture": {
+                "label": ""
+            },
             "jsSnippetVersion": {
                 "acceptedFormats": "",
                 "currentlyResolves": "",
                 "placeholder": ""
+            },
+            "logsAttributeKeys": {
+                "atLeastOneRequired": ""
+            },
+            "logsCapture": {
+                "consoleLogsLabel": "",
+                "jsonParseLabel": "",
+                "piiScrubDescription": "",
+                "piiScrubLabel": ""
+            },
+            "logsPatternMessageKeys": {
+                "help": "",
+                "label": "",
+                "loadError": "",
+                "placeholder": "",
+                "retry": ""
             },
             "managedReverseProxy": {
                 "add": "",
@@ -947,7 +1040,10 @@
                 }
             },
             "maxChangelog": {
-                "empty": ""
+                "empty": "",
+                "recentUpdates": "",
+                "seeChangelog": "",
+                "showButtonLabel": ""
             },
             "maxMemory": {
                 "fieldLabel": "",
@@ -969,6 +1065,11 @@
                 "learnMoreLink": "",
                 "learnMorePrefix": ""
             },
+            "pathCleaning": {
+                "premiumNotice": "",
+                "testHint": "",
+                "testPlaceholder": ""
+            },
             "pathCleaningSuggestions": {
                 "applyAll": "",
                 "bannerSummary_other": "",
@@ -981,6 +1082,12 @@
                 "ruleCount_other": "",
                 "ruleMatchSummary": "",
                 "views_other": ""
+            },
+            "personDisplayNameProperties": {
+                "add": ""
+            },
+            "personLastSeenAt": {
+                "label": ""
             },
             "personsJoinMode": {
                 "innerDescription": "",
@@ -1202,6 +1309,15 @@
                     "start": "",
                     "stop": ""
                 }
+            },
+            "timezone": {
+                "confirm": "",
+                "confirmDescription": "",
+                "confirmTitle": "",
+                "placeholder": ""
+            },
+            "tracingAttributeKeys": {
+                "atLeastOneRequired": ""
             },
             "usageMetrics": {
                 "add": "",

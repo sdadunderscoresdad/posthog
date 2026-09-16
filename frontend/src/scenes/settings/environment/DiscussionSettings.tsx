@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 import { IconInfo } from '@posthog/icons'
 import { Tooltip } from '@posthog/lemon-ui'
 
@@ -7,6 +9,7 @@ import { LinkedHogFunctions } from 'scenes/hog-functions/list/LinkedHogFunctions
 import { urls } from 'scenes/urls'
 
 export function DiscussionMentionNotifications(): JSX.Element | null {
+    const { t } = useTranslation()
     const restrictedReason = useRestrictedArea({
         scope: RestrictionScope.Project,
         minimumAccessLevel: TeamMembershipLevel.Admin,
@@ -19,13 +22,16 @@ export function DiscussionMentionNotifications(): JSX.Element | null {
     return (
         <div>
             <p className="flex items-center gap-1">
-                Get notified when someone mentions you in a discussion.
+                {t('settings.environment.discussionMentionNotifications.description', {
+                    defaultValue: 'Get notified when someone mentions you in a discussion.',
+                })}
                 <Tooltip
                     title={
                         <>
-                            Configure destination integrations (e.g., Slack, Discord, Microsoft Teams) to receive
-                            notifications when you are mentioned in discussions on replays, notebooks, insights, and
-                            other items.
+                            {t('settings.environment.discussionMentionNotifications.tooltip', {
+                                defaultValue:
+                                    'Configure destination integrations (e.g., Slack, Discord, Microsoft Teams) to receive notifications when you are mentioned in discussions on replays, notebooks, insights, and other items.',
+                            })}
                         </>
                     }
                 >

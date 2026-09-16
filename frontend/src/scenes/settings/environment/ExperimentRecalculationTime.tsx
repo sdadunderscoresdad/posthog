@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { TeamMembershipLevel } from 'lib/constants'
@@ -37,6 +38,7 @@ const localHourToUtcString = (localHour: number, projectTimezone: string): strin
 }
 
 export function ExperimentRecalculationTime(): JSX.Element {
+    const { t } = useTranslation()
     const { timezone: projectTimezone } = useValues(teamLogic)
     const { experimentsConfig, experimentsConfigLoading } = useValues(experimentsConfigLogic)
     const { updateExperimentsConfig } = useActions(experimentsConfigLogic)
@@ -59,9 +61,14 @@ export function ExperimentRecalculationTime(): JSX.Element {
             value={currentLocalHour.toString()}
             onChange={handleChange}
             options={hourOptions}
-            disabledReason={restrictedReason || (experimentsConfigLoading ? 'Loading...' : undefined)}
+            disabledReason={
+                restrictedReason ||
+                (experimentsConfigLoading ? t('settings.loading', { defaultValue: 'Loading...' }) : undefined)
+            }
             data-attr="team-experiment-recalculation-time"
-            placeholder="Select recalculation time"
+            placeholder={t('settings.environment.experimentRecalculationTime.placeholder', {
+                defaultValue: 'Select recalculation time',
+            })}
         />
     )
 }
