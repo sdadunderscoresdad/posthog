@@ -1,3 +1,5 @@
+import { i18n } from 'lib/i18n/i18n'
+
 // Action key constants - sync with backend ACTION_REGISTRY
 export const ApprovalActionKey = {
     FEATURE_FLAG_ENABLE: 'feature_flag.enable',
@@ -15,21 +17,43 @@ interface ApprovalActionConfig {
     contextDescriptions?: Partial<Record<ApprovalContext, string>>
 }
 
+/**
+ * Read through `i18n` rather than kept as a constant, because a label resolved at import time keeps
+ * whatever language the module happened to load in.
+ */
 export const APPROVAL_ACTIONS: Record<string, ApprovalActionConfig> = {
-    [ApprovalActionKey.FEATURE_FLAG_ENABLE]: {
-        label: 'Enable feature flag',
-        description: 'enable this feature flag',
-        contextDescriptions: { experiment: 'resume this experiment' },
+    get [ApprovalActionKey.FEATURE_FLAG_ENABLE](): ApprovalActionConfig {
+        return {
+            label: i18n.t('approvals.actions.enableFlag', { defaultValue: 'Enable feature flag' }),
+            description: i18n.t('approvals.actions.enableFlagDescription', {
+                defaultValue: 'enable this feature flag',
+            }),
+            contextDescriptions: {
+                experiment: i18n.t('approvals.actions.resumeExperiment', { defaultValue: 'resume this experiment' }),
+            },
+        }
     },
-    [ApprovalActionKey.FEATURE_FLAG_DISABLE]: {
-        label: 'Disable feature flag',
-        description: 'disable this feature flag',
-        contextDescriptions: { experiment: 'pause this experiment' },
+    get [ApprovalActionKey.FEATURE_FLAG_DISABLE](): ApprovalActionConfig {
+        return {
+            label: i18n.t('approvals.actions.disableFlag', { defaultValue: 'Disable feature flag' }),
+            description: i18n.t('approvals.actions.disableFlagDescription', {
+                defaultValue: 'disable this feature flag',
+            }),
+            contextDescriptions: {
+                experiment: i18n.t('approvals.actions.pauseExperiment', { defaultValue: 'pause this experiment' }),
+            },
+        }
     },
-    [ApprovalActionKey.FEATURE_FLAG_UPDATE]: {
-        label: 'Update feature flag',
-        description: 'update feature flag fields',
-        contextDescriptions: { experiment: 'update this experiment' },
+    get [ApprovalActionKey.FEATURE_FLAG_UPDATE](): ApprovalActionConfig {
+        return {
+            label: i18n.t('approvals.actions.updateFlag', { defaultValue: 'Update feature flag' }),
+            description: i18n.t('approvals.actions.updateFlagDescription', {
+                defaultValue: 'update feature flag fields',
+            }),
+            contextDescriptions: {
+                experiment: i18n.t('approvals.actions.updateExperiment', { defaultValue: 'update this experiment' }),
+            },
+        }
     },
 }
 
@@ -54,7 +78,12 @@ export const ApprovalResourceType = {
 
 // Maps resource types to display names and URL builders
 const APPROVAL_RESOURCE_CONFIG: Record<string, { label: string; urlBuilder: (id: string) => string }> = {
-    [ApprovalResourceType.FEATURE_FLAG]: { label: 'Feature flag', urlBuilder: (id) => `/feature_flags/${id}` },
+    get [ApprovalResourceType.FEATURE_FLAG](): { label: string; urlBuilder: (id: string) => string } {
+        return {
+            label: i18n.t('approvals.resources.featureFlag', { defaultValue: 'Feature flag' }),
+            urlBuilder: (id) => `/feature_flags/${id}`,
+        }
+    },
 }
 
 export function getApprovalResourceUrl(actionKey: string, resourceId: string | null): string | null {

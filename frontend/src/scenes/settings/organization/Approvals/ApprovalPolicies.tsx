@@ -1,5 +1,7 @@
+import type { TFunction } from 'i18next'
 import { useActions, useValues } from 'kea'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconInfo, IconX } from '@posthog/icons'
 import {
@@ -28,20 +30,41 @@ import { ApprovalPolicy, AvailableFeature } from '~/types'
 
 import { approvalPoliciesLogic } from './approvalPoliciesLogic'
 
-// Available fields that can be gated
-const GATEABLE_FIELDS: Record<string, { label: string; type: 'number' | 'boolean' | 'string' }> = {
-    rollout_percentage: { label: 'Rollout percentage', type: 'number' },
+// Available fields that can be gated. Built from `t`, so the labels follow a language change.
+function gateableFields(t: TFunction): Record<string, { label: string; type: 'number' | 'boolean' | 'string' }> {
+    return {
+        rollout_percentage: {
+            label: t('settings.organization.approvals.fields.rolloutPercentage', {
+                defaultValue: 'Rollout percentage',
+            }),
+            type: 'number',
+        },
+    }
 }
 
-const CONDITION_TYPES = [
-    { value: 'any_change', label: 'changes' },
-    { value: 'before_after', label: 'new value is' },
-    { value: 'change_amount', label: 'changes by' },
-]
+function conditionTypes(t: TFunction): { value: string; label: string }[] {
+    return [
+        {
+            value: 'any_change',
+            label: t('settings.organization.approvals.conditions.changes', { defaultValue: 'changes' }),
+        },
+        {
+            value: 'before_after',
+            label: t('settings.organization.approvals.conditions.newValueIs', { defaultValue: 'new value is' }),
+        },
+        {
+            value: 'change_amount',
+            label: t('settings.organization.approvals.conditions.changesBy', { defaultValue: 'changes by' }),
+        },
+    ]
+}
 
-const CONDITION_TYPES_TOOLTIP = `• changes – require approval whenever this field is modified
-• new value is – require approval when the new value meets a threshold (e.g., rollout > 50%)
-• changes by – require approval when the change amount meets a threshold (e.g., increased by more than 10%)`
+function conditionTypesTooltip(t: TFunction): string {
+    return t('settings.organization.approvals.conditionsTooltip', {
+        defaultValue:
+            '• changes – require approval whenever this field is modified\n• new value is – require approval when the new value meets a threshold (e.g., rollout > 50%)\n• changes by – require approval when the change amount meets a threshold (e.g., increased by more than 10%)',
+    })
+}
 
 const OPERATORS = [
     { value: '>', label: '>' },
@@ -60,6 +83,7 @@ interface ConditionRule {
 }
 
 export function ApprovalPolicies(): JSX.Element {
+    const { t } = useTranslation()
     const { policies, policiesLoading } = useValues(approvalPoliciesLogic)
     const { loadPolicies, deletePolicy } = useActions(approvalPoliciesLogic)
     const [editingPolicy, setEditingPolicy] = useState<ApprovalPolicy | null>(null)
@@ -72,12 +96,12 @@ export function ApprovalPolicies(): JSX.Element {
 
     const columns: LemonTableColumn<ApprovalPolicy, keyof ApprovalPolicy | undefined>[] = [
         {
-            title: 'Action',
+            title: t('settings.organization.approvals.columns.action', { defaultValue: 'Action' }),
             dataIndex: 'action_key',
             render: (_, policy) => getApprovalActionLabel(policy.action_key),
         },
         {
-            title: 'Approvers',
+            title: t('settings.organization.approvals.columns.approvers', { defaultValue: 'Approvers' }),
             render: (_, policy) => {
                 const users = policy.approver_config?.users || []
                 const roles = policy.approver_config?.roles || []
@@ -88,22 +112,30 @@ export function ApprovalPolicies(): JSX.Element {
                 if (roles.length > 0) {
                     parts.push(`${roles.length} role${roles.length > 1 ? 's' : ''}`)
                 }
-                return parts.join(', ') || 'None'
+                return parts.join(', ') || t('settings.organization.approvals.none', { defaultValue: 'None' })
             },
         },
         {
-            title: 'Approvals required',
+            title: t('settings.organization.approvals.columns.approvalsRequired', {
+                defaultValue: 'Approvals required',
+            }),
             render: (_, policy) => policy.approver_config?.quorum || 1,
         },
         {
-            title: 'Self-approve',
+            title: t('settings.organization.approvals.columns.selfApprove', { defaultValue: 'Self-approve' }),
             dataIndex: 'allow_self_approve',
-            render: (_, policy) => (policy.allow_self_approve ? 'Yes' : 'No'),
+            render: (_, policy) =>
+                policy.allow_self_approve
+                    ? t('settings.organization.approvals.yes', { defaultValue: 'Yes' })
+                    : t('settings.organization.approvals.no', { defaultValue: 'No' }),
         },
         {
-            title: 'Status',
+            title: t('settings.organization.approvals.columns.status', { defaultValue: 'Status' }),
             dataIndex: 'enabled',
-            render: (_, policy) => (policy.enabled ? 'Enabled' : 'Disabled'),
+            render: (_, policy) =>
+                policy.enabled
+                    ? t('settings.organization.approvals.enabled', { defaultValue: 'Enabled' })
+                    : t('settings.organization.approvals.disabled', { defaultValue: 'Disabled' }),
         },
         {
             width: 0,
@@ -118,25 +150,29 @@ export function ApprovalPolicies(): JSX.Element {
                                 }}
                                 disabledReason={restrictionReason}
                             >
-                                Edit
+                                {t('settings.organization.approvals.edit', { defaultValue: 'Edit' })}
                             </LemonButton>
                             <LemonButton
                                 fullWidth
                                 status="danger"
                                 onClick={() => {
                                     LemonDialog.open({
-                                        title: 'Delete approval policy?',
-                                        content:
-                                            'This will immediately remove the approval requirement for this action.',
+                                        title: t('settings.organization.approvals.deleteTitle', {
+                                            defaultValue: 'Delete approval policy?',
+                                        }),
+                                        content: t('settings.organization.approvals.deleteContent', {
+                                            defaultValue:
+                                                'This will immediately remove the approval requirement for this action.',
+                                        }),
                                         primaryButton: {
-                                            children: 'Delete',
+                                            children: t('settings.apiKeys.actions.delete', { defaultValue: 'Delete' }),
                                             type: 'primary',
                                             status: 'danger',
                                             onClick: () => deletePolicy(policy.id),
                                             size: 'small',
                                         },
                                         secondaryButton: {
-                                            children: 'Cancel',
+                                            children: t('settings.cancel', { defaultValue: 'Cancel' }),
                                             type: 'tertiary',
                                             size: 'small',
                                         },
@@ -144,7 +180,7 @@ export function ApprovalPolicies(): JSX.Element {
                                 }}
                                 disabledReason={restrictionReason}
                             >
-                                Delete
+                                {t('settings.apiKeys.actions.delete', { defaultValue: 'Delete' })}
                             </LemonButton>
                         </>
                     }
@@ -158,7 +194,7 @@ export function ApprovalPolicies(): JSX.Element {
             <div className="space-y-4">
                 <div className="flex justify-end items-center">
                     <LemonButton type="primary" onClick={() => setIsCreating(true)} disabledReason={restrictionReason}>
-                        Add policy
+                        {t('settings.organization.approvals.addPolicy', { defaultValue: 'Add policy' })}
                     </LemonButton>
                 </div>
 
@@ -167,8 +203,13 @@ export function ApprovalPolicies(): JSX.Element {
                     columns={columns}
                     loading={policiesLoading}
                     rowKey="id"
-                    nouns={['policy', 'policies']}
-                    emptyState="No approval policies configured"
+                    nouns={[
+                        t('settings.organization.approvals.nounSingular', { defaultValue: 'policy' }),
+                        t('settings.organization.approvals.nounPlural', { defaultValue: 'policies' }),
+                    ]}
+                    emptyState={t('settings.organization.approvals.empty', {
+                        defaultValue: 'No approval policies configured',
+                    })}
                 />
 
                 {isCreating && <ApprovalPolicyModal onClose={() => setIsCreating(false)} />}
@@ -179,6 +220,7 @@ export function ApprovalPolicies(): JSX.Element {
 }
 
 function ApprovalPolicyModal({ policy, onClose }: { policy?: ApprovalPolicy; onClose: () => void }): JSX.Element {
+    const { t } = useTranslation()
     const { createPolicy, updatePolicy } = useActions(approvalPoliciesLogic)
     const { members } = useValues(membersLogic)
     const { roles } = useValues(rolesLogic)
@@ -231,11 +273,15 @@ function ApprovalPolicyModal({ policy, onClose }: { policy?: ApprovalPolicy; onC
     }
 
     const usedFields = new Set(rules.map((r) => r.field))
-    const availableFields = Object.entries(GATEABLE_FIELDS).filter(([key]) => !usedFields.has(key))
+    const availableFields = Object.entries(gateableFields(t)).filter(([key]) => !usedFields.has(key))
 
     const handleSave = (): void => {
         if (approverUserIds.length === 0 && approverRoleIds.length === 0) {
-            lemonToast.error('Please select at least one user or role')
+            lemonToast.error(
+                t('settings.organization.approvals.selectApproverError', {
+                    defaultValue: 'Please select at least one user or role',
+                })
+            )
             return
         }
 
@@ -244,7 +290,11 @@ function ApprovalPolicyModal({ policy, onClose }: { policy?: ApprovalPolicy; onC
         if (actionKey === ApprovalActionKey.FEATURE_FLAG_UPDATE && rules.length > 0) {
             const rule = rules[0]
             if (rule.type !== 'any_change' && rule.value === undefined) {
-                lemonToast.error('Please specify a threshold value')
+                lemonToast.error(
+                    t('settings.organization.approvals.thresholdError', {
+                        defaultValue: 'Please specify a threshold value',
+                    })
+                )
                 return
             }
             conditions = {
@@ -302,21 +352,27 @@ function ApprovalPolicyModal({ policy, onClose }: { policy?: ApprovalPolicy; onC
             isOpen
             onClose={onClose}
             width={600}
-            title={policy ? 'Edit approval policy' : 'Create approval policy'}
+            title={
+                policy
+                    ? t('settings.organization.approvals.editPolicy', { defaultValue: 'Edit approval policy' })
+                    : t('settings.organization.approvals.createPolicy', { defaultValue: 'Create approval policy' })
+            }
             footer={
                 <>
                     <LemonButton type="secondary" onClick={onClose}>
-                        Cancel
+                        {t('settings.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton type="primary" onClick={handleSave}>
-                        Save
+                        {t('settings.save', { defaultValue: 'Save' })}
                     </LemonButton>
                 </>
             }
         >
             <div className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium mb-1">Action type</label>
+                    <label className="block text-sm font-medium mb-1">
+                        {t('settings.organization.approvals.actionType', { defaultValue: 'Action type' })}
+                    </label>
                     <LemonSelect
                         fullWidth
                         value={actionKey}
@@ -336,15 +392,22 @@ function ApprovalPolicyModal({ policy, onClose }: { policy?: ApprovalPolicy; onC
                 {actionKey === ApprovalActionKey.FEATURE_FLAG_UPDATE && (
                     <div className="space-y-3">
                         <div className="flex items-center gap-2">
-                            <label className="block text-sm font-medium">Require approval when</label>
-                            <Tooltip title={CONDITION_TYPES_TOOLTIP}>
+                            <label className="block text-sm font-medium">
+                                {t('settings.organization.approvals.requireApprovalWhen', {
+                                    defaultValue: 'Require approval when',
+                                })}
+                            </label>
+                            <Tooltip title={conditionTypesTooltip(t)}>
                                 <IconInfo className="text-muted-alt w-4 h-4" />
                             </Tooltip>
                         </div>
 
                         {rules.length === 0 ? (
                             <div className="p-4 border border-dashed rounded text-center text-muted">
-                                No conditions configured. Add a field to require approval for specific changes.
+                                {t('settings.organization.approvals.noConditions', {
+                                    defaultValue:
+                                        'No conditions configured. Add a field to require approval for specific changes.',
+                                })}
                             </div>
                         ) : (
                             <div className="space-y-2">
@@ -361,7 +424,9 @@ function ApprovalPolicyModal({ policy, onClose }: { policy?: ApprovalPolicy; onC
 
                         {availableFields.length > 0 && (
                             <LemonSelect
-                                placeholder="+ Add field"
+                                placeholder={t('settings.organization.approvals.addField', {
+                                    defaultValue: '+ Add field',
+                                })}
                                 value={null}
                                 onChange={(value) => value && addRule(value)}
                                 options={availableFields.map(([key, config]) => ({
@@ -373,47 +438,83 @@ function ApprovalPolicyModal({ policy, onClose }: { policy?: ApprovalPolicy; onC
                         )}
 
                         <p className="text-xs text-secondary">
-                            If no conditions are set, all changes to this action type will require approval.
+                            {t('settings.organization.approvals.noConditionsNote', {
+                                defaultValue:
+                                    'If no conditions are set, all changes to this action type will require approval.',
+                            })}
                         </p>
                     </div>
                 )}
 
                 <div>
-                    <label className="block text-sm font-medium mb-1">Approver users</label>
+                    <label className="block text-sm font-medium mb-1">
+                        {t('settings.organization.approvals.approverUsers', { defaultValue: 'Approver users' })}
+                    </label>
                     <LemonInputSelect
                         mode="multiple"
                         value={approverUserIds.map(String)}
                         onChange={(values) => setApproverUserIds(values.map(Number))}
                         options={userOptions}
-                        placeholder="Select users who can approve"
+                        placeholder={t('settings.organization.approvals.selectApproverUsers', {
+                            defaultValue: 'Select users who can approve',
+                        })}
                     />
-                    <p className="text-xs text-secondary mt-1">Users who can approve change requests for this action</p>
+                    <p className="text-xs text-secondary mt-1">
+                        {t('settings.organization.approvals.approverUsersHint', {
+                            defaultValue: 'Users who can approve change requests for this action',
+                        })}
+                    </p>
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium mb-1">Approver roles</label>
+                    <label className="block text-sm font-medium mb-1">
+                        {t('settings.organization.approvals.approverRoles', { defaultValue: 'Approver roles' })}
+                    </label>
                     <LemonInputSelect
                         mode="multiple"
                         value={approverRoleIds}
                         onChange={setApproverRoleIds}
                         options={roleOptions}
-                        placeholder="Select roles who can approve"
+                        placeholder={t('settings.organization.approvals.selectApproverRoles', {
+                            defaultValue: 'Select roles who can approve',
+                        })}
                     />
                     <p className="text-xs text-secondary mt-1">
-                        Users with any of these roles can approve change requests for this action
+                        {t('settings.organization.approvals.approverRolesHint', {
+                            defaultValue: 'Users with any of these roles can approve change requests for this action',
+                        })}
                     </p>
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium mb-1">Approvals required</label>
+                    <label className="block text-sm font-medium mb-1">
+                        {t('settings.organization.approvals.approvalsRequired', { defaultValue: 'Approvals required' })}
+                    </label>
                     <LemonSelect
                         fullWidth
                         value={quorum}
                         onChange={setQuorum}
                         options={[
-                            { label: '1 approval', value: 1 },
-                            { label: '2 approvals', value: 2 },
-                            { label: '3 approvals', value: 3 },
+                            {
+                                label: t('settings.organization.approvals.approvalCountOne', {
+                                    defaultValue: '1 approval',
+                                }),
+                                value: 1,
+                            },
+                            {
+                                label: t('settings.organization.approvals.approvalCountOther', {
+                                    defaultValue: '{{ count }} approvals',
+                                    count: 2,
+                                }),
+                                value: 2,
+                            },
+                            {
+                                label: t('settings.organization.approvals.approvalCountOther', {
+                                    defaultValue: '{{ count }} approvals',
+                                    count: 3,
+                                }),
+                                value: 3,
+                            },
                         ]}
                     />
                 </div>
@@ -424,8 +525,17 @@ function ApprovalPolicyModal({ policy, onClose }: { policy?: ApprovalPolicy; onC
                         onChange={setAllowSelfApprove}
                         label={
                             <div className="flex items-center gap-2">
-                                <span>Allow self-approval</span>
-                                <Tooltip title="If enabled, the person requesting the change can also approve it. They still need to be in the approver list.">
+                                <span>
+                                    {t('settings.organization.approvals.allowSelfApproval', {
+                                        defaultValue: 'Allow self-approval',
+                                    })}
+                                </span>
+                                <Tooltip
+                                    title={t('settings.organization.approvals.allowSelfApprovalTooltip', {
+                                        defaultValue:
+                                            'If enabled, the person requesting the change can also approve it. They still need to be in the approver list.',
+                                    })}
+                                >
                                     <IconInfo className="text-muted-alt w-4 h-4" />
                                 </Tooltip>
                             </div>
@@ -434,9 +544,13 @@ function ApprovalPolicyModal({ policy, onClose }: { policy?: ApprovalPolicy; onC
                 </div>
 
                 <div className="border-t pt-4 mt-4">
-                    <label className="block text-sm font-medium mb-2">Bypass options</label>
+                    <label className="block text-sm font-medium mb-2">
+                        {t('settings.organization.approvals.bypassOptions', { defaultValue: 'Bypass options' })}
+                    </label>
                     <p className="text-xs text-secondary mb-3">
-                        Users matching these criteria can skip the approval flow entirely
+                        {t('settings.organization.approvals.bypassOptionsHint', {
+                            defaultValue: 'Users matching these criteria can skip the approval flow entirely',
+                        })}
                     </p>
 
                     <div className="space-y-3">
@@ -445,8 +559,17 @@ function ApprovalPolicyModal({ policy, onClose }: { policy?: ApprovalPolicy; onC
                             onChange={setBypassAdminsOwners}
                             label={
                                 <div className="flex items-center gap-2">
-                                    <span>Allow org admins and owners to bypass</span>
-                                    <Tooltip title="Organization admins and owners can perform this action without requiring approval">
+                                    <span>
+                                        {t('settings.organization.approvals.allowAdminsBypass', {
+                                            defaultValue: 'Allow org admins and owners to bypass',
+                                        })}
+                                    </span>
+                                    <Tooltip
+                                        title={t('settings.organization.approvals.allowAdminsBypassTooltip', {
+                                            defaultValue:
+                                                'Organization admins and owners can perform this action without requiring approval',
+                                        })}
+                                    >
                                         <IconInfo className="text-muted-alt w-4 h-4" />
                                     </Tooltip>
                                 </div>
@@ -454,16 +577,22 @@ function ApprovalPolicyModal({ policy, onClose }: { policy?: ApprovalPolicy; onC
                         />
 
                         <div>
-                            <label className="block text-sm font-medium mb-1">Bypass roles</label>
+                            <label className="block text-sm font-medium mb-1">
+                                {t('settings.organization.approvals.bypassRoles', { defaultValue: 'Bypass roles' })}
+                            </label>
                             <LemonInputSelect
                                 mode="multiple"
                                 value={bypassRoleIds}
                                 onChange={setBypassRoleIds}
                                 options={roleOptions}
-                                placeholder="Select roles that can bypass approval"
+                                placeholder={t('settings.organization.approvals.selectBypassRoles', {
+                                    defaultValue: 'Select roles that can bypass approval',
+                                })}
                             />
                             <p className="text-xs text-secondary mt-1">
-                                Users with any of these roles can skip the approval flow
+                                {t('settings.organization.approvals.bypassRolesHint', {
+                                    defaultValue: 'Users with any of these roles can skip the approval flow',
+                                })}
                             </p>
                         </div>
                     </div>
@@ -482,7 +611,8 @@ function RuleRow({
     onChange: (updates: Partial<ConditionRule>) => void
     onRemove: () => void
 }): JSX.Element {
-    const fieldConfig = GATEABLE_FIELDS[rule.field]
+    const { t } = useTranslation()
+    const fieldConfig = gateableFields(t)[rule.field]
     const isNumeric = fieldConfig?.type === 'number'
 
     return (
@@ -493,7 +623,7 @@ function RuleRow({
                 size="small"
                 value={rule.type}
                 onChange={(value) => onChange({ type: value })}
-                options={CONDITION_TYPES}
+                options={conditionTypes(t)}
             />
 
             {rule.type !== 'any_change' && isNumeric && (
@@ -520,7 +650,12 @@ function RuleRow({
 
             <div className="flex-1" />
 
-            <LemonButton size="small" icon={<IconX />} onClick={onRemove} tooltip="Remove rule" />
+            <LemonButton
+                size="small"
+                icon={<IconX />}
+                onClick={onRemove}
+                tooltip={t('settings.organization.approvals.removeRule', { defaultValue: 'Remove rule' })}
+            />
         </div>
     )
 }

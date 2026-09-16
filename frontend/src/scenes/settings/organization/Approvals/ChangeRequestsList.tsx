@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { router } from 'kea-router'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonDialog, LemonInput, LemonSelect, LemonTable, LemonTag, lemonToast } from '@posthog/lemon-ui'
 
@@ -21,12 +22,13 @@ import { urls } from 'scenes/urls'
 import { AvailableFeature, ChangeRequest, ChangeRequestState } from '~/types'
 
 export function ChangeRequestsList(): JSX.Element {
+    const { t } = useTranslation()
     const { changeRequests, changeRequestsDataLoading, filters, hasMore } = useValues(approvalsLogic)
     const { setFilters, loadMore, approveChangeRequest, rejectChangeRequest } = useActions(approvalsLogic)
 
     const columns: LemonTableColumn<ChangeRequest, keyof ChangeRequest | undefined>[] = [
         {
-            title: 'Action',
+            title: t('settings.organization.approvals.columns.action', { defaultValue: 'Action' }),
             dataIndex: 'action_key',
             render: function RenderAction(_, changeRequest) {
                 return (
@@ -38,7 +40,7 @@ export function ChangeRequestsList(): JSX.Element {
             },
         },
         {
-            title: 'Resource',
+            title: t('settings.organization.approvals.columns.resource', { defaultValue: 'Resource' }),
             render: function RenderResource(_, changeRequest) {
                 const resourceUrl = getApprovalResourceUrl(changeRequest.action_key, changeRequest.resource_id)
                 const name = getApprovalResourceName(changeRequest.resource_type, changeRequest.intent)
@@ -46,20 +48,20 @@ export function ChangeRequestsList(): JSX.Element {
             },
         },
         {
-            title: 'Requested by',
+            title: t('settings.organization.approvals.columns.requestedBy', { defaultValue: 'Requested by' }),
             render: function RenderRequester(_, changeRequest) {
                 return <ProfilePicture user={changeRequest.created_by} size="md" showName />
             },
         },
         {
-            title: 'Status',
+            title: t('settings.organization.approvals.columns.status', { defaultValue: 'Status' }),
             dataIndex: 'state',
             render: function RenderStatus(_, changeRequest) {
                 return <StatusTag state={changeRequest.state} />
             },
         },
         {
-            title: 'Approvals',
+            title: t('settings.organization.approvals.columns.approvals', { defaultValue: 'Approvals' }),
             render: function RenderApprovals(_, changeRequest) {
                 const required = changeRequest.policy_snapshot?.quorum || 1
                 const current = changeRequest.approvals?.length || 0
@@ -71,14 +73,14 @@ export function ChangeRequestsList(): JSX.Element {
             },
         },
         {
-            title: 'Created',
+            title: t('settings.organization.approvals.columns.created', { defaultValue: 'Created' }),
             dataIndex: 'created_at',
             render: function RenderCreatedAt(_, changeRequest) {
                 return <TZLabel time={changeRequest.created_at} />
             },
         },
         {
-            title: 'Expires',
+            title: t('settings.organization.approvals.columns.expires', { defaultValue: 'Expires' }),
             dataIndex: 'expires_at',
             render: function RenderExpiresAt(_, changeRequest) {
                 if (changeRequest.state !== ChangeRequestState.Pending || !changeRequest.expires_at) {
@@ -124,7 +126,7 @@ export function ChangeRequestsList(): JSX.Element {
                 <div className={cn('flex flex-wrap gap-2 justify-between')}>
                     <div className="flex gap-2 items-center">
                         <span>
-                            <b>Status</b>
+                            <b>{t('settings.organization.approvals.columns.status', { defaultValue: 'Status' })}</b>
                         </span>
                         <LemonSelect
                             dropdownMatchSelectWidth={false}
@@ -133,13 +135,46 @@ export function ChangeRequestsList(): JSX.Element {
                             }}
                             size="small"
                             options={[
-                                { label: 'All', value: null },
-                                { label: 'Pending', value: ChangeRequestState.Pending },
-                                { label: 'Approved', value: ChangeRequestState.Approved },
-                                { label: 'Applied', value: ChangeRequestState.Applied },
-                                { label: 'Rejected', value: ChangeRequestState.Rejected },
-                                { label: 'Expired', value: ChangeRequestState.Expired },
-                                { label: 'Failed', value: ChangeRequestState.Failed },
+                                {
+                                    label: t('settings.organization.approvals.states.all', { defaultValue: 'All' }),
+                                    value: null,
+                                },
+                                {
+                                    label: t('settings.organization.approvals.states.pending', {
+                                        defaultValue: 'Pending',
+                                    }),
+                                    value: ChangeRequestState.Pending,
+                                },
+                                {
+                                    label: t('settings.organization.approvals.states.approved', {
+                                        defaultValue: 'Approved',
+                                    }),
+                                    value: ChangeRequestState.Approved,
+                                },
+                                {
+                                    label: t('settings.organization.approvals.states.applied', {
+                                        defaultValue: 'Applied',
+                                    }),
+                                    value: ChangeRequestState.Applied,
+                                },
+                                {
+                                    label: t('settings.organization.approvals.states.rejected', {
+                                        defaultValue: 'Rejected',
+                                    }),
+                                    value: ChangeRequestState.Rejected,
+                                },
+                                {
+                                    label: t('settings.organization.approvals.states.expired', {
+                                        defaultValue: 'Expired',
+                                    }),
+                                    value: ChangeRequestState.Expired,
+                                },
+                                {
+                                    label: t('settings.organization.approvals.states.failed', {
+                                        defaultValue: 'Failed',
+                                    }),
+                                    value: ChangeRequestState.Failed,
+                                },
                             ]}
                             value={filters.state ?? null}
                         />
@@ -151,19 +186,36 @@ export function ChangeRequestsList(): JSX.Element {
                     columns={columns}
                     rowKey="id"
                     loading={changeRequestsDataLoading}
-                    nouns={['change request', 'change requests']}
+                    nouns={[
+                        t('settings.organization.approvals.changeRequestNoun', { defaultValue: 'change request' }),
+                        t('settings.organization.approvals.changeRequestNounPlural', {
+                            defaultValue: 'change requests',
+                        }),
+                    ]}
                     data-attr="approvals-table"
-                    emptyState="No change requests found"
+                    emptyState={t('settings.organization.approvals.noChangeRequests', {
+                        defaultValue: 'No change requests found',
+                    })}
                     footer={
                         hasMore && (
                             <div className="flex justify-center p-1">
                                 <LemonButton
                                     onClick={loadMore}
                                     className="min-w-full text-center"
-                                    disabledReason={changeRequestsDataLoading ? 'Loading change requests' : ''}
+                                    disabledReason={
+                                        changeRequestsDataLoading
+                                            ? t('settings.organization.approvals.loadingChangeRequests', {
+                                                  defaultValue: 'Loading change requests',
+                                              })
+                                            : ''
+                                    }
                                 >
                                     <span className="flex-1 text-center">
-                                        {changeRequestsDataLoading ? 'Loading...' : 'Load more'}
+                                        {changeRequestsDataLoading
+                                            ? t('settings.loading')
+                                            : t('settings.organization.approvals.loadMore', {
+                                                  defaultValue: 'Load more',
+                                              })}
                                     </span>
                                 </LemonButton>
                             </div>
@@ -184,6 +236,7 @@ function ChangeRequestTableActions({
     onApprove: (id: string) => void
     onReject: (id: string, reason: string) => void
 }): JSX.Element {
+    const { t } = useTranslation()
     const restrictedReason = useRestrictedArea({
         scope: RestrictionScope.Organization,
         minimumAccessLevel: OrganizationMembershipLevel.Admin,
@@ -195,7 +248,7 @@ function ChangeRequestTableActions({
             overlay={
                 <>
                     <LemonButton fullWidth onClick={() => router.actions.push(urls.approval(changeRequest.id))}>
-                        View details
+                        {t('settings.organization.approvals.viewDetails', { defaultValue: 'View details' })}
                     </LemonButton>
                     {showApproveButton && (
                         <LemonButton
@@ -204,30 +257,38 @@ function ChangeRequestTableActions({
                             disabledReason={restrictedReason}
                             onClick={() => {
                                 LemonDialog.open({
-                                    title: 'Approve this change request?',
+                                    title: t('settings.organization.approvals.approveTitle', {
+                                        defaultValue: 'Approve this change request?',
+                                    }),
                                     content: (
                                         <div className="text-sm text-secondary">
-                                            This will add your approval to the change request.
+                                            {t('settings.organization.approvals.approveContent', {
+                                                defaultValue: 'This will add your approval to the change request.',
+                                            })}
                                             {changeRequest.policy_snapshot?.quorum === 1
-                                                ? ' The change will be applied automatically.'
+                                                ? ` ${t('settings.organization.approvals.approveAutoApply', {
+                                                      defaultValue: ' The change will be applied automatically.',
+                                                  }).trim()}`
                                                 : ''}
                                         </div>
                                     ),
                                     primaryButton: {
-                                        children: 'Approve',
+                                        children: t('settings.organization.approvals.approve', {
+                                            defaultValue: 'Approve',
+                                        }),
                                         type: 'primary',
                                         onClick: () => onApprove(changeRequest.id),
                                         size: 'small',
                                     },
                                     secondaryButton: {
-                                        children: 'Cancel',
+                                        children: t('settings.cancel', { defaultValue: 'Cancel' }),
                                         type: 'tertiary',
                                         size: 'small',
                                     },
                                 })
                             }}
                         >
-                            Approve
+                            {t('settings.organization.approvals.approve', { defaultValue: 'Approve' })}
                         </LemonButton>
                     )}
                     {showRejectButton && (
@@ -237,20 +298,29 @@ function ChangeRequestTableActions({
                             disabledReason={restrictedReason}
                             onClick={() => {
                                 LemonDialog.open({
-                                    title: 'Reject this change request?',
+                                    title: t('settings.organization.approvals.rejectTitle', {
+                                        defaultValue: 'Reject this change request?',
+                                    }),
                                     content: (
                                         <div>
                                             <div className="text-sm text-secondary mb-2">
-                                                This will reject the change request and prevent it from being applied.
+                                                {t('settings.organization.approvals.rejectContent', {
+                                                    defaultValue:
+                                                        'This will reject the change request and prevent it from being applied.',
+                                                })}
                                             </div>
                                             <LemonInput
                                                 id="reject-reason"
-                                                placeholder="Reason for rejection (required)"
+                                                placeholder={t('settings.organization.approvals.rejectPlaceholder', {
+                                                    defaultValue: 'Reason for rejection (required)',
+                                                })}
                                             />
                                         </div>
                                     ),
                                     primaryButton: {
-                                        children: 'Reject',
+                                        children: t('settings.organization.approvals.reject', {
+                                            defaultValue: 'Reject',
+                                        }),
                                         type: 'primary',
                                         status: 'danger',
                                         onClick: () => {
@@ -258,7 +328,11 @@ function ChangeRequestTableActions({
                                                 document.getElementById('reject-reason') as HTMLInputElement
                                             )?.value
                                             if (!reason) {
-                                                lemonToast.error('Please provide a reason for rejection')
+                                                lemonToast.error(
+                                                    t('settings.organization.approvals.rejectReasonRequired', {
+                                                        defaultValue: 'Please provide a reason for rejection',
+                                                    })
+                                                )
                                                 return
                                             }
                                             onReject(changeRequest.id, reason)
@@ -266,14 +340,14 @@ function ChangeRequestTableActions({
                                         size: 'small',
                                     },
                                     secondaryButton: {
-                                        children: 'Cancel',
+                                        children: t('settings.cancel', { defaultValue: 'Cancel' }),
                                         type: 'tertiary',
                                         size: 'small',
                                     },
                                 })
                             }}
                         >
-                            Reject
+                            {t('settings.organization.approvals.reject', { defaultValue: 'Reject' })}
                         </LemonButton>
                     )}
                 </>
@@ -283,6 +357,7 @@ function ChangeRequestTableActions({
 }
 
 function StatusTag({ state }: { state: ChangeRequestState }): JSX.Element {
+    const { t } = useTranslation()
     const tagTypes = {
         [ChangeRequestState.Pending]: 'default',
         [ChangeRequestState.Approved]: 'primary',
@@ -294,7 +369,7 @@ function StatusTag({ state }: { state: ChangeRequestState }): JSX.Element {
 
     return (
         <LemonTag type={tagTypes[state]} className="uppercase">
-            {state}
+            {t(`settings.organization.approvals.states.${state}`, { defaultValue: state })}
         </LemonTag>
     )
 }

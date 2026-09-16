@@ -52,6 +52,22 @@
             "sessions": "Sessions"
         }
     },
+    "approvals": {
+        "actions": {
+            "disableFlag": "Disable feature flag",
+            "disableFlagDescription": "disable this feature flag",
+            "enableFlag": "Enable feature flag",
+            "enableFlagDescription": "enable this feature flag",
+            "pauseExperiment": "pause this experiment",
+            "resumeExperiment": "resume this experiment",
+            "updateExperiment": "update this experiment",
+            "updateFlag": "Update feature flag",
+            "updateFlagDescription": "update feature flag fields"
+        },
+        "resources": {
+            "featureFlag": "Feature flag"
+        }
+    },
     "common": {
         "no": "No",
         "unknown": "Unknown",
@@ -628,6 +644,94 @@
                 "signedBaa": "You are opted out of internal AI training because you have a signed BAA with PostHog.",
                 "signedBaaReason": "Organizations with a signed BAA stay opted out of AI training. Contact us if this needs to change.",
                 "whatsThis": "What's this?"
+            },
+            "approvals": {
+                "actionType": "Action type",
+                "addField": "+ Add field",
+                "addPolicy": "Add policy",
+                "allowAdminsBypass": "Allow org admins and owners to bypass",
+                "allowAdminsBypassTooltip": "Organization admins and owners can perform this action without requiring approval",
+                "allowSelfApproval": "Allow self-approval",
+                "allowSelfApprovalTooltip": "If enabled, the person requesting the change can also approve it. They still need to be in the approver list.",
+                "approvalCountOne": "1 approval",
+                "approvalCountOther_one": "{{ count }} approvals",
+                "approvalCountOther_other": "{{ count }} approvals",
+                "approvalsRequired": "Approvals required",
+                "approve": "Approve",
+                "approveAutoApply": " The change will be applied automatically.",
+                "approveContent": "This will add your approval to the change request.",
+                "approverRoles": "Approver roles",
+                "approverRolesHint": "Users with any of these roles can approve change requests for this action",
+                "approverUsers": "Approver users",
+                "approverUsersHint": "Users who can approve change requests for this action",
+                "approveTitle": "Approve this change request?",
+                "bypassOptions": "Bypass options",
+                "bypassOptionsHint": "Users matching these criteria can skip the approval flow entirely",
+                "bypassRoles": "Bypass roles",
+                "bypassRolesHint": "Users with any of these roles can skip the approval flow",
+                "changeRequestNoun": "change request",
+                "changeRequestNounPlural": "change requests",
+                "columns": {
+                    "action": "Action",
+                    "approvals": "Approvals",
+                    "approvalsRequired": "Approvals required",
+                    "approvers": "Approvers",
+                    "created": "Created",
+                    "expires": "Expires",
+                    "requestedBy": "Requested by",
+                    "resource": "Resource",
+                    "selfApprove": "Self-approve",
+                    "status": "Status"
+                },
+                "conditions": {
+                    "changes": "changes",
+                    "changesBy": "changes by",
+                    "newValueIs": "new value is"
+                },
+                "conditionsTooltip": "• changes – require approval whenever this field is modified\n• new value is – require approval when the new value meets a threshold (e.g., rollout > 50%)\n• changes by – require approval when the change amount meets a threshold (e.g., increased by more than 10%)",
+                "createPolicy": "Create approval policy",
+                "deleteContent": "This will immediately remove the approval requirement for this action.",
+                "deleteTitle": "Delete approval policy?",
+                "disabled": "Disabled",
+                "edit": "Edit",
+                "editPolicy": "Edit approval policy",
+                "empty": "No approval policies configured",
+                "enabled": "Enabled",
+                "fields": {
+                    "rolloutPercentage": "Rollout percentage"
+                },
+                "loadingChangeRequests": "Loading change requests",
+                "loadMore": "Load more",
+                "no": "No",
+                "noChangeRequests": "No change requests found",
+                "noConditions": "No conditions configured. Add a field to require approval for specific changes.",
+                "noConditionsNote": "If no conditions are set, all changes to this action type will require approval.",
+                "none": "None",
+                "nounPlural": "policies",
+                "nounSingular": "policy",
+                "reject": "Reject",
+                "rejectContent": "This will reject the change request and prevent it from being applied.",
+                "rejectPlaceholder": "Reason for rejection (required)",
+                "rejectReasonRequired": "Please provide a reason for rejection",
+                "rejectTitle": "Reject this change request?",
+                "removeRule": "Remove rule",
+                "requireApprovalWhen": "Require approval when",
+                "selectApproverError": "Please select at least one user or role",
+                "selectApproverRoles": "Select roles who can approve",
+                "selectApproverUsers": "Select users who can approve",
+                "selectBypassRoles": "Select roles that can bypass approval",
+                "states": {
+                    "all": "All",
+                    "applied": "Applied",
+                    "approved": "Approved",
+                    "expired": "Expired",
+                    "failed": "Failed",
+                    "pending": "Pending",
+                    "rejected": "Rejected"
+                },
+                "thresholdError": "Please specify a threshold value",
+                "viewDetails": "View details",
+                "yes": "Yes"
             },
             "cimd": {
                 "addToMetadata": "Add it to your CIMD metadata document as <code>verification_token</code> inside the <code>com.posthog</code> object.",

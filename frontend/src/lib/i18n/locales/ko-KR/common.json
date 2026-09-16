@@ -51,6 +51,22 @@
             "sessions": ""
         }
     },
+    "approvals": {
+        "actions": {
+            "disableFlag": "",
+            "disableFlagDescription": "",
+            "enableFlag": "",
+            "enableFlagDescription": "",
+            "pauseExperiment": "",
+            "resumeExperiment": "",
+            "updateExperiment": "",
+            "updateFlag": "",
+            "updateFlagDescription": ""
+        },
+        "resources": {
+            "featureFlag": ""
+        }
+    },
     "common": {
         "no": "",
         "unknown": "",
@@ -623,6 +639,93 @@
                 "signedBaa": "",
                 "signedBaaReason": "",
                 "whatsThis": ""
+            },
+            "approvals": {
+                "actionType": "",
+                "addField": "",
+                "addPolicy": "",
+                "allowAdminsBypass": "",
+                "allowAdminsBypassTooltip": "",
+                "allowSelfApproval": "",
+                "allowSelfApprovalTooltip": "",
+                "approvalCountOne": "",
+                "approvalCountOther_other": "",
+                "approvalsRequired": "",
+                "approve": "",
+                "approveAutoApply": "",
+                "approveContent": "",
+                "approverRoles": "",
+                "approverRolesHint": "",
+                "approverUsers": "",
+                "approverUsersHint": "",
+                "approveTitle": "",
+                "bypassOptions": "",
+                "bypassOptionsHint": "",
+                "bypassRoles": "",
+                "bypassRolesHint": "",
+                "changeRequestNoun": "",
+                "changeRequestNounPlural": "",
+                "columns": {
+                    "action": "",
+                    "approvals": "",
+                    "approvalsRequired": "",
+                    "approvers": "",
+                    "created": "",
+                    "expires": "",
+                    "requestedBy": "",
+                    "resource": "",
+                    "selfApprove": "",
+                    "status": ""
+                },
+                "conditions": {
+                    "changes": "",
+                    "changesBy": "",
+                    "newValueIs": ""
+                },
+                "conditionsTooltip": "",
+                "createPolicy": "",
+                "deleteContent": "",
+                "deleteTitle": "",
+                "disabled": "",
+                "edit": "",
+                "editPolicy": "",
+                "empty": "",
+                "enabled": "",
+                "fields": {
+                    "rolloutPercentage": ""
+                },
+                "loadingChangeRequests": "",
+                "loadMore": "",
+                "no": "",
+                "noChangeRequests": "",
+                "noConditions": "",
+                "noConditionsNote": "",
+                "none": "",
+                "nounPlural": "",
+                "nounSingular": "",
+                "reject": "",
+                "rejectContent": "",
+                "rejectPlaceholder": "",
+                "rejectReasonRequired": "",
+                "rejectTitle": "",
+                "removeRule": "",
+                "requireApprovalWhen": "",
+                "selectApproverError": "",
+                "selectApproverRoles": "",
+                "selectApproverUsers": "",
+                "selectBypassRoles": "",
+                "states": {
+                    "all": "",
+                    "applied": "",
+                    "approved": "",
+                    "expired": "",
+                    "failed": "",
+                    "pending": "",
+                    "rejected": ""
+                },
+                "thresholdError": "",
+                "viewDetails": "",
+                "yes": ""
             },
             "cimd": {
                 "addToMetadata": "",

@@ -51,6 +51,22 @@
             "sessions": "会话"
         }
     },
+    "approvals": {
+        "actions": {
+            "disableFlag": "停用功能开关",
+            "disableFlagDescription": "停用此功能开关",
+            "enableFlag": "启用功能开关",
+            "enableFlagDescription": "启用此功能开关",
+            "pauseExperiment": "暂停此实验",
+            "resumeExperiment": "恢复此实验",
+            "updateExperiment": "更新此实验",
+            "updateFlag": "更新功能开关",
+            "updateFlagDescription": "更新功能开关的字段"
+        },
+        "resources": {
+            "featureFlag": "功能开关"
+        }
+    },
     "common": {
         "no": "否",
         "unknown": "未知",
@@ -623,6 +639,93 @@
                 "signedBaa": "由于你与 PostHog 签署了 BAA，你已退出内部 AI 训练。",
                 "signedBaaReason": "签署了 BAA 的组织会保持退出 AI 训练。如需调整，请联系我们。",
                 "whatsThis": "这是什么？"
+            },
+            "approvals": {
+                "actionType": "操作类型",
+                "addField": "+ 添加字段",
+                "addPolicy": "添加策略",
+                "allowAdminsBypass": "允许组织管理员和所有者绕过",
+                "allowAdminsBypassTooltip": "组织管理员和所有者可以不经审批直接执行此操作",
+                "allowSelfApproval": "允许自我批准",
+                "allowSelfApprovalTooltip": "启用后，发起变更的人也可以批准它。TA 仍需在审批人列表中。",
+                "approvalCountOne": "1 个批准",
+                "approvalCountOther_other": "{{ count }} 个批准",
+                "approvalsRequired": "所需批准数",
+                "approve": "批准",
+                "approveAutoApply": "变更将自动应用。",
+                "approveContent": "这会把你的批准计入该变更请求。",
+                "approverRoles": "审批角色",
+                "approverRolesHint": "拥有其中任一角色的用户可以批准此操作的变更请求",
+                "approverUsers": "审批人",
+                "approverUsersHint": "可以批准此操作变更请求的用户",
+                "approveTitle": "批准该变更请求？",
+                "bypassOptions": "绕过审批的选项",
+                "bypassOptionsHint": "符合条件的用户可以直接跳过审批流程",
+                "bypassRoles": "可绕过的角色",
+                "bypassRolesHint": "拥有其中任一角色的用户可以跳过审批流程",
+                "changeRequestNoun": "变更请求",
+                "changeRequestNounPlural": "变更请求",
+                "columns": {
+                    "action": "",
+                    "approvals": "",
+                    "approvalsRequired": "",
+                    "approvers": "",
+                    "created": "",
+                    "expires": "",
+                    "requestedBy": "",
+                    "resource": "",
+                    "selfApprove": "",
+                    "status": ""
+                },
+                "conditions": {
+                    "changes": "变更",
+                    "changesBy": "变化幅度",
+                    "newValueIs": "新值为"
+                },
+                "conditionsTooltip": "• 变更 – 只要该字段被修改就需要审批\n• 新值为 – 新值达到阈值时需要审批（例如 rollout > 50%）\n• 变化幅度 – 变化量达到阈值时需要审批（例如增加超过 10%）",
+                "createPolicy": "创建审批策略",
+                "deleteContent": "这会立即移除该操作的审批要求。",
+                "deleteTitle": "删除审批策略？",
+                "disabled": "已停用",
+                "edit": "编辑",
+                "editPolicy": "编辑审批策略",
+                "empty": "没有配置审批策略",
+                "enabled": "已启用",
+                "fields": {
+                    "rolloutPercentage": "放量比例"
+                },
+                "loadingChangeRequests": "正在加载变更请求",
+                "loadMore": "加载更多",
+                "no": "否",
+                "noChangeRequests": "没有找到变更请求",
+                "noConditions": "还没有配置条件。添加一个字段即可要求特定变更需要审批。",
+                "noConditionsNote": "如果没有设置条件，对该操作类型的所有变更都需要审批。",
+                "none": "无",
+                "nounPlural": "策略",
+                "nounSingular": "策略",
+                "reject": "拒绝",
+                "rejectContent": "这会拒绝该变更请求，使其无法被应用。",
+                "rejectPlaceholder": "拒绝原因（必填）",
+                "rejectReasonRequired": "请填写拒绝原因",
+                "rejectTitle": "拒绝该变更请求？",
+                "removeRule": "移除规则",
+                "requireApprovalWhen": "在以下情况需要审批",
+                "selectApproverError": "请至少选择一个用户或角色",
+                "selectApproverRoles": "选择可以批准的角色",
+                "selectApproverUsers": "选择可以批准的用户",
+                "selectBypassRoles": "选择可以绕过审批的角色",
+                "states": {
+                    "all": "全部",
+                    "applied": "已应用",
+                    "approved": "已批准",
+                    "expired": "已过期",
+                    "failed": "失败",
+                    "pending": "待处理",
+                    "rejected": "已拒绝"
+                },
+                "thresholdError": "请填写阈值",
+                "viewDetails": "查看详情",
+                "yes": "是"
             },
             "cimd": {
                 "addToMetadata": "把它作为 <code>verification_token</code> 添加到你的 CIMD 元数据文档中 <code>com.posthog</code> 对象内。",
