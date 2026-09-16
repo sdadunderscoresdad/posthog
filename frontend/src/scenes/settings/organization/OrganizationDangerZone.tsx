@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Dispatch, SetStateAction, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconTrash } from '@posthog/icons'
 import { LemonButton, LemonInput, LemonModal } from '@posthog/lemon-ui'
@@ -22,6 +23,7 @@ export function DeleteOrganizationModal({
     setIsOpen: Dispatch<SetStateAction<boolean>>
     redirectPath?: string
 }): JSX.Element | null {
+    const { t } = useTranslation()
     const { organizationBeingDeleted } = useValues(organizationLogic)
     const { deleteOrganization } = useActions(organizationLogic)
 
@@ -30,12 +32,14 @@ export function DeleteOrganizationModal({
 
     return (
         <LemonModal
-            title="Delete the entire organization?"
+            title={t('settings.organization.dangerZone.deleteModalTitle', {
+                defaultValue: 'Delete the entire organization?',
+            })}
             onClose={!isDeletionInProgress ? () => setIsOpen(false) : undefined}
             footer={
                 <>
                     <LemonButton disabled={isDeletionInProgress} type="secondary" onClick={() => setIsOpen(false)}>
-                        Cancel
+                        {t('settings.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="secondary"
@@ -48,17 +52,40 @@ export function DeleteOrganizationModal({
                                 ? () => deleteOrganization({ organizationId: organization.id, redirectPath })
                                 : undefined
                         }
-                    >{`Delete ${organization ? organization.name : 'the current organization'}`}</LemonButton>
+                    >
+                        {t('settings.organization.dangerZone.deleteButton', {
+                            defaultValue: 'Delete {{ name }}',
+                            name:
+                                organization?.name ||
+                                t('settings.organization.dangerZone.currentOrganization', {
+                                    defaultValue: 'the current organization',
+                                }),
+                        })}
+                    </LemonButton>
                 </>
             }
             isOpen={isOpen}
         >
             <p>
-                Organization deletion <b>cannot be undone</b>. You will lose all data, <b>including all events</b>,
-                related to all projects within this organization.
+                <Trans
+                    i18nKey="settings.organization.dangerZone.warning"
+                    components={{ b: <b /> }}
+                    defaults="Organization deletion <b>cannot be undone</b>. You will lose all data, <b>including all events</b>, related to all projects within this organization."
+                />
             </p>
             <p>
-                Please type <strong>{organization ? organization.name : "this organization's name"}</strong> to confirm.
+                <Trans
+                    i18nKey="settings.organization.dangerZone.confirmPrompt"
+                    values={{
+                        name:
+                            organization?.name ||
+                            t('settings.organization.dangerZone.organizationName', {
+                                defaultValue: "this organization's name",
+                            }),
+                    }}
+                    components={{ strong: <strong /> }}
+                    defaults="Please type <strong>{{ name }}</strong> to confirm."
+                />
             </p>
             <LemonInput
                 type="text"
@@ -74,6 +101,7 @@ export function DeleteOrganizationModal({
 }
 
 export function OrganizationDangerZone(): JSX.Element {
+    const { t } = useTranslation()
     const { currentOrganization } = useValues(organizationLogic)
     const [isModalVisible, setIsModalVisible] = useState(false)
 
@@ -87,7 +115,11 @@ export function OrganizationDangerZone(): JSX.Element {
             <div className="text-danger">
                 {!restrictionReason && (
                     <p className="text-danger">
-                        This is <b>irreversible</b>. Please be certain.
+                        <Trans
+                            i18nKey="settings.organization.dangerZone.irreversible"
+                            components={{ b: <b /> }}
+                            defaults="This is <b>irreversible</b>. Please be certain."
+                        />
                     </p>
                 )}
                 <LemonButton
@@ -98,7 +130,14 @@ export function OrganizationDangerZone(): JSX.Element {
                     icon={<IconTrash />}
                     disabledReason={restrictionReason}
                 >
-                    Delete {currentOrganization?.name || 'the current organization'}
+                    {t('settings.organization.dangerZone.deleteButton', {
+                        defaultValue: 'Delete {{ name }}',
+                        name:
+                            currentOrganization?.name ||
+                            t('settings.organization.dangerZone.currentOrganization', {
+                                defaultValue: 'the current organization',
+                            }),
+                    })}
                 </LemonButton>
             </div>
             {currentOrganization && (

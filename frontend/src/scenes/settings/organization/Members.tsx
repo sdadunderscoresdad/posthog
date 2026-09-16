@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import posthog from 'posthog-js'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconInfo } from '@posthog/icons'
 import { LemonBanner, LemonInput, LemonSwitch } from '@posthog/lemon-ui'
@@ -32,6 +33,7 @@ import { userLogic } from 'scenes/userLogic'
 import { AvailableFeature, OrganizationMemberType } from '~/types'
 
 function RemoveMemberModal({ member }: { member: OrganizationMemberType }): JSX.Element {
+    const { t } = useTranslation()
     const { user } = useValues(userLogic)
     const { scopedApiKeys } = useValues(membersLogic)
 
@@ -39,30 +41,48 @@ function RemoveMemberModal({ member }: { member: OrganizationMemberType }): JSX.
         <div className="max-w-xl">
             <p>
                 {member.user.uuid === user?.uuid
-                    ? 'Are you sure you want to leave this organization? This cannot be undone. If you leave, you will no longer have access to this organization.'
-                    : 'Are you sure you want to remove this member? This cannot be undone. They will no longer have access to this organization.'}
+                    ? t('settings.organization.members.confirmLeave', {
+                          defaultValue:
+                              'Are you sure you want to leave this organization? This cannot be undone. If you leave, you will no longer have access to this organization.',
+                      })
+                    : t('settings.organization.members.confirmRemove', {
+                          defaultValue:
+                              'Are you sure you want to remove this member? This cannot be undone. They will no longer have access to this organization.',
+                      })}
             </p>
             {scopedApiKeys?.keys && scopedApiKeys.keys.length > 0 && (
                 <div className="mt-4">
                     <LemonBanner type="warning" className="mb-2">
-                        The following personal API keys which belong to{' '}
-                        {member.user.uuid == user?.uuid ? 'you' : 'this member'} will lose access to this organization
-                        and will stop working immediately. Please confirm they will not affect any services that depend
-                        on them before removing {member.user.uuid == user?.uuid ? 'yourself' : 'this member'}.
+                        {member.user.uuid == user?.uuid
+                            ? t('settings.organization.members.scopedKeysWarningSelf', {
+                                  defaultValue:
+                                      'The following personal API keys which belong to you will lose access to this organization and will stop working immediately. Please confirm they will not affect any services that depend on them before removing yourself.',
+                              })
+                            : t('settings.organization.members.scopedKeysWarningOther', {
+                                  defaultValue:
+                                      'The following personal API keys which belong to this member will lose access to this organization and will stop working immediately. Please confirm they will not affect any services that depend on them before removing this member.',
+                              })}
                     </LemonBanner>
                     <LemonTable
                         dataSource={scopedApiKeys.keys}
                         columns={[
                             {
-                                title: 'Name',
+                                title: t('settings.organization.members.columns.name', { defaultValue: 'Name' }),
                                 dataIndex: 'name',
                                 key: 'name',
                             },
                             {
-                                title: 'Last used',
+                                title: t('settings.organization.members.columns.lastUsed', {
+                                    defaultValue: 'Last used',
+                                }),
                                 dataIndex: 'last_used_at',
                                 key: 'last_used_at',
-                                render: (last_used_at) => (last_used_at ? <TZLabel time={last_used_at} /> : 'Never'),
+                                render: (last_used_at) =>
+                                    last_used_at ? (
+                                        <TZLabel time={last_used_at} />
+                                    ) : (
+                                        t('settings.organization.members.never', { defaultValue: 'Never' })
+                                    ),
                             },
                         ]}
                     />
@@ -73,6 +93,7 @@ function RemoveMemberModal({ member }: { member: OrganizationMemberType }): JSX.
 }
 
 function ActionsComponent(_: any, member: OrganizationMemberType): JSX.Element | null {
+    const { t } = useTranslation()
     const { user } = useValues(userLogic)
     const { currentOrganization } = useValues(organizationLogic)
     const { removeMember, changeMemberAccessLevel, loadMemberScopedApiKeys } = useActions(membersLogic)
@@ -117,17 +138,26 @@ function ActionsComponent(_: any, member: OrganizationMemberType): JSX.Element |
                                     }
                                     if (listLevel === OrganizationMembershipLevel.Owner) {
                                         LemonDialog.open({
-                                            title: `Add additional owner to ${user.organization?.name}?`,
-                                            description: `Please confirm that you would like to make ${fullName(
-                                                member.user
-                                            )} an owner of ${user.organization?.name}.`,
+                                            title: t('settings.organization.members.addOwnerTitle', {
+                                                defaultValue: 'Add additional owner to {{ organization }}?',
+                                                organization: user.organization?.name,
+                                            }),
+                                            description: t('settings.organization.members.addOwnerDescription', {
+                                                defaultValue:
+                                                    'Please confirm that you would like to make {{ member }} an owner of {{ organization }}.',
+                                                member: fullName(member.user),
+                                                organization: user.organization?.name,
+                                            }),
                                             primaryButton: {
                                                 status: 'danger',
-                                                children: `Make ${fullName(member.user)} an owner`,
+                                                children: t('settings.organization.members.makeOwnerButton', {
+                                                    defaultValue: 'Make {{ member }} an owner',
+                                                    member: fullName(member.user),
+                                                }),
                                                 onClick: () => changeMemberAccessLevel(member, listLevel),
                                             },
                                             secondaryButton: {
-                                                children: 'Cancel',
+                                                children: t('settings.cancel', { defaultValue: 'Cancel' }),
                                             },
                                         })
                                     } else {
@@ -137,11 +167,21 @@ function ActionsComponent(_: any, member: OrganizationMemberType): JSX.Element |
                                 data-test-level={listLevel}
                             >
                                 {listLevel === OrganizationMembershipLevel.Owner ? (
-                                    <>Make owner</>
+                                    <>{t('settings.organization.members.makeOwner', { defaultValue: 'Make owner' })}</>
                                 ) : listLevel > member.level ? (
-                                    <>Upgrade to {membershipLevelToName.get(listLevel)}</>
+                                    <>
+                                        {t('settings.organization.members.upgradeTo', {
+                                            defaultValue: 'Upgrade to {{ level }}',
+                                            level: membershipLevelToName.get(listLevel),
+                                        })}
+                                    </>
                                 ) : (
-                                    <>Downgrade to {membershipLevelToName.get(listLevel)}</>
+                                    <>
+                                        {t('settings.organization.members.downgradeTo', {
+                                            defaultValue: 'Downgrade to {{ level }}',
+                                            level: membershipLevelToName.get(listLevel),
+                                        })}
+                                    </>
                                 )}
                             </LemonButton>
                         ))}
@@ -156,25 +196,45 @@ function ActionsComponent(_: any, member: OrganizationMemberType): JSX.Element |
                                     }
                                     loadMemberScopedApiKeys(member)
                                     LemonDialog.open({
-                                        title: `${
+                                        title:
                                             member.user.uuid == user.uuid
-                                                ? 'Leave'
-                                                : `Remove ${fullName(member.user)} from`
-                                        } organization ${user.organization?.name}?`,
+                                                ? t('settings.organization.members.leaveTitle', {
+                                                      defaultValue: 'Leave organization {{ organization }}?',
+                                                      organization: user.organization?.name,
+                                                  })
+                                                : t('settings.organization.members.removeTitle', {
+                                                      defaultValue:
+                                                          'Remove {{ member }} from organization {{ organization }}?',
+                                                      member: fullName(member.user),
+                                                      organization: user.organization?.name,
+                                                  }),
                                         primaryButton: {
-                                            children: member.user.uuid == user.uuid ? 'Leave' : 'Remove',
+                                            children:
+                                                member.user.uuid == user.uuid
+                                                    ? t('settings.organization.members.leave', {
+                                                          defaultValue: 'Leave',
+                                                      })
+                                                    : t('settings.organization.members.remove', {
+                                                          defaultValue: 'Remove',
+                                                      }),
                                             status: 'danger',
                                             onClick: () => removeMember(member),
                                         },
                                         secondaryButton: {
-                                            children: 'Cancel',
+                                            children: t('settings.cancel', { defaultValue: 'Cancel' }),
                                         },
                                         content: <RemoveMemberModal member={member} />,
                                     })
                                 }}
                                 fullWidth
                             >
-                                {member.user.uuid !== user.uuid ? 'Remove from organization' : 'Leave organization'}
+                                {member.user.uuid !== user.uuid
+                                    ? t('settings.organization.members.removeFromOrganization', {
+                                          defaultValue: 'Remove from organization',
+                                      })
+                                    : t('settings.organization.members.leaveOrganization', {
+                                          defaultValue: 'Leave organization',
+                                      })}
                             </LemonButton>
                         </>
                     )}
@@ -185,6 +245,7 @@ function ActionsComponent(_: any, member: OrganizationMemberType): JSX.Element |
 }
 
 export function Members(): JSX.Element | null {
+    const { t } = useTranslation()
     const { filteredMembers, members, membersLoading, search } = useValues(membersLogic)
     const { downloadMembersListDisabledReason } = useValues(membersExportLogic)
     const { currentOrganization } = useValues(organizationLogic)
@@ -214,17 +275,22 @@ export function Members(): JSX.Element | null {
             width: 32,
         },
         {
-            title: 'Name',
+            title: t('settings.organization.members.columns.name', { defaultValue: 'Name' }),
             key: 'user_name',
             render: (_, member) => (
                 <span className="ph-no-capture">
-                    {member.user.uuid == user.uuid ? `${fullName(member.user)} (you)` : fullName(member.user)}
+                    {member.user.uuid == user.uuid
+                        ? t('settings.organization.members.you', {
+                              defaultValue: '{{ name }} (you)',
+                              name: fullName(member.user),
+                          })
+                        : fullName(member.user)}
                 </span>
             ),
             sorter: (a, b) => fullName(a.user).localeCompare(fullName(b.user)),
         },
         {
-            title: 'Email',
+            title: t('settings.organization.members.columns.email', { defaultValue: 'Email' }),
             key: 'user_email',
             render: (_, member) => {
                 return (
@@ -236,7 +302,9 @@ export function Members(): JSX.Element | null {
                                 <>
                                     {' '}
                                     <LemonTag type="highlight" data-attr="pending-email-verification">
-                                        pending email verification
+                                        {t('settings.organization.members.pendingEmailVerification', {
+                                            defaultValue: 'pending email verification',
+                                        })}
                                     </LemonTag>
                                 </>
                             )}
@@ -246,20 +314,20 @@ export function Members(): JSX.Element | null {
             sorter: (a, b) => a.user.email.localeCompare(b.user.email),
         },
         {
-            title: 'Level',
+            title: t('settings.organization.members.columns.level', { defaultValue: 'Level' }),
             dataIndex: 'level',
             key: 'level',
             render: function LevelRender(_, member) {
                 return (
                     <LemonTag data-attr="membership-level">
-                        {capitalizeFirstLetter(membershipLevelToName.get(member.level) ?? `unknown (${member.level})`)}
+                        {capitalizeFirstLetter(membershipLevelToName.get(member.level) ?? member.level.toString())}
                     </LemonTag>
                 )
             },
             sorter: (a, b) => a.level - b.level,
         },
         {
-            title: '2FA',
+            title: t('settings.organization.members.columns.twoFactor', { defaultValue: '2FA' }),
             dataIndex: 'is_2fa_enabled',
             key: 'is_2fa_enabled',
             render: function LevelRender(_, member) {
@@ -268,7 +336,9 @@ export function Members(): JSX.Element | null {
                         <Tooltip
                             title={
                                 member.user.uuid == user.uuid && !member.is_2fa_enabled
-                                    ? 'Click to setup 2FA for your account'
+                                    ? t('settings.organization.members.setup2fa', {
+                                          defaultValue: 'Click to setup 2FA for your account',
+                                      })
                                     : ''
                             }
                         >
@@ -281,7 +351,9 @@ export function Members(): JSX.Element | null {
                                 data-attr="2fa-enabled"
                                 type={member.is_2fa_enabled ? 'success' : 'warning'}
                             >
-                                {member.is_2fa_enabled ? '2FA enabled' : '2FA not enabled'}
+                                {member.is_2fa_enabled
+                                    ? t('settings.user.twoFactor.enabled', { defaultValue: '2FA enabled' })
+                                    : t('settings.user.twoFactor.notEnabled', { defaultValue: '2FA not enabled' })}
                             </LemonTag>
                         </Tooltip>
                     </>
@@ -290,7 +362,7 @@ export function Members(): JSX.Element | null {
             sorter: (a, b) => (a.is_2fa_enabled != b.is_2fa_enabled ? 1 : 0),
         },
         {
-            title: 'Joined',
+            title: t('settings.organization.members.columns.joined', { defaultValue: 'Joined' }),
             dataIndex: 'joined_at',
             key: 'joined_at',
             render: function RenderJoinedAt(joinedAt) {
@@ -303,13 +375,17 @@ export function Members(): JSX.Element | null {
             sorter: (a, b) => a.joined_at.localeCompare(b.joined_at),
         },
         {
-            title: 'Last Logged In',
+            title: t('settings.organization.members.columns.lastLoggedIn', { defaultValue: 'Last Logged In' }),
             dataIndex: 'last_login',
             key: 'last_login',
             render: function RenderLastLogin(lastLogin) {
                 return (
                     <div className="whitespace-nowrap">
-                        {lastLogin ? <TZLabel time={lastLogin as string} /> : 'Never'}
+                        {lastLogin ? (
+                            <TZLabel time={lastLogin as string} />
+                        ) : (
+                            t('settings.organization.members.never', { defaultValue: 'Never' })
+                        )}
                     </div>
                 )
             },
@@ -327,7 +403,9 @@ export function Members(): JSX.Element | null {
             <div className="flex flex-wrap gap-2 justify-between items-center">
                 <LemonInput
                     type="search"
-                    placeholder="Search for members"
+                    placeholder={t('settings.organization.members.searchPlaceholder', {
+                        defaultValue: 'Search for members',
+                    })}
                     value={search}
                     onChange={setSearch}
                     className="flex-1 basis-[min(100%,18rem)]"
@@ -339,7 +417,9 @@ export function Members(): JSX.Element | null {
                         disabledReason={downloadMembersListDisabledReason}
                         data-attr="org-members-download-csv"
                     >
-                        Download members list
+                        {t('settings.organization.members.downloadList', {
+                            defaultValue: 'Download members list',
+                        })}
                     </LemonButton>
                 )}
             </div>
@@ -368,8 +448,14 @@ export function Members(): JSX.Element | null {
                                 ))}
                             </div>
                             <span className="text-secondary">
-                                Other organization members{' '}
-                                <Tooltip title="Your organization only shows the full member list to admins.">
+                                {t('settings.organization.members.otherMembers', {
+                                    defaultValue: 'Other organization members',
+                                })}{' '}
+                                <Tooltip
+                                    title={t('settings.organization.members.hiddenMembersTooltip', {
+                                        defaultValue: 'Your organization only shows the full member list to admins.',
+                                    })}
+                                >
                                     <IconInfo className="text-base align-middle" />
                                 </Tooltip>
                             </span>
@@ -377,14 +463,20 @@ export function Members(): JSX.Element | null {
                     )
                 }
             />
-            <h3 className="mt-4">Two-factor authentication</h3>
+            <h3 className="mt-4">
+                {t('settings.organization.members.twoFactorHeading', { defaultValue: 'Two-factor authentication' })}
+            </h3>
             <PayGateMini
                 feature={AvailableFeature.TWOFA_ENFORCEMENT}
                 featureDetail="organization-members-two-factor-authentication"
             >
-                <p>Require all organization members to use two-factor authentication.</p>
+                <p>
+                    {t('settings.organization.members.enforce2faDescription', {
+                        defaultValue: 'Require all organization members to use two-factor authentication.',
+                    })}
+                </p>
                 <LemonSwitch
-                    label="Enforce 2FA"
+                    label={t('settings.organization.members.enforce2fa', { defaultValue: 'Enforce 2FA' })}
                     bordered
                     checked={!!currentOrganization?.enforce_2fa}
                     onChange={(enforce_2fa) => updateOrganization({ enforce_2fa })}
@@ -392,16 +484,27 @@ export function Members(): JSX.Element | null {
                 />
             </PayGateMini>
 
-            <h3 className="mt-4">Invite settings</h3>
+            <h3 className="mt-4">
+                {t('settings.organization.members.inviteSettings', { defaultValue: 'Invite settings' })}
+            </h3>
             <PayGateMini
                 feature={AvailableFeature.ORGANIZATION_INVITE_SETTINGS}
                 featureDetail="organization-member-and-project-invites"
             >
-                <p>Control who can send organization invites.</p>
+                <p>
+                    {t('settings.organization.members.inviteSettingsDescription', {
+                        defaultValue: 'Control who can send organization invites.',
+                    })}
+                </p>
                 <LemonSwitch
                     label={
                         <span>
-                            Members can invite others to join <i>{currentOrganization?.name}</i>
+                            <Trans
+                                i18nKey="settings.organization.members.membersCanInvite"
+                                values={{ organization: currentOrganization?.name }}
+                                components={{ i: <i /> }}
+                                defaults="Members can invite others to join <i>{{ organization }}</i>"
+                            />
                         </span>
                     }
                     bordered
@@ -411,12 +514,20 @@ export function Members(): JSX.Element | null {
                     disabledReason={adminRestrictionReason}
                 />
                 <p className="mt-4">
-                    Control who can create new projects. Admins and owners can always create projects.
+                    {t('settings.organization.members.createProjectsDescription', {
+                        defaultValue:
+                            'Control who can create new projects. Admins and owners can always create projects.',
+                    })}
                 </p>
                 <LemonSwitch
                     label={
                         <span>
-                            Members can create new projects in <i>{currentOrganization?.name}</i>
+                            <Trans
+                                i18nKey="settings.organization.members.membersCanCreateProjects"
+                                values={{ organization: currentOrganization?.name }}
+                                components={{ i: <i /> }}
+                                defaults="Members can create new projects in <i>{{ organization }}</i>"
+                            />
                         </span>
                     }
                     bordered
@@ -429,17 +540,30 @@ export function Members(): JSX.Element | null {
 
             {posthog.isFeatureEnabled(FEATURE_FLAGS.MEMBERS_CAN_USE_PERSONAL_API_KEYS) && (
                 <>
-                    <h3 className="mt-4">Security settings</h3>
+                    <h3 className="mt-4">
+                        {t('settings.organization.security.heading', { defaultValue: 'Security settings' })}
+                    </h3>
                     <PayGateMini
                         feature={AvailableFeature.ORGANIZATION_SECURITY_SETTINGS}
                         featureDetail="organization-members-personal-api-key-access"
                     >
-                        <p>Configure security permissions for organization members.</p>
+                        <p>
+                            {t('settings.organization.members.securitySettingsDescription', {
+                                defaultValue: 'Configure security permissions for organization members.',
+                            })}
+                        </p>
                         <LemonSwitch
                             label={
                                 <span>
-                                    Members can use personal API keys{' '}
-                                    <Tooltip title="Organization admins and owners can always use personal API keys regardless of this setting.">
+                                    {t('settings.organization.members.membersCanUsePersonalApiKeys', {
+                                        defaultValue: 'Members can use personal API keys',
+                                    })}{' '}
+                                    <Tooltip
+                                        title={t('settings.organization.members.personalApiKeysTooltip', {
+                                            defaultValue:
+                                                'Organization admins and owners can always use personal API keys regardless of this setting.',
+                                        })}
+                                    >
                                         <IconInfo className="mr-1" />
                                     </Tooltip>
                                 </span>

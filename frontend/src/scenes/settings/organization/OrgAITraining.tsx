@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconExternal } from '@posthog/icons'
 import { LemonButton, LemonSwitch } from '@posthog/lemon-ui'
@@ -8,13 +9,17 @@ import { OrganizationMembershipLevel } from 'lib/constants'
 import { organizationLogic } from 'scenes/organizationLogic'
 
 import { AI_TRAINING_URL } from './aiTrainingConstants'
-import { ORG_ADMIN_REQUIRED_TOOLTIP } from './organizationSettingsConstants'
+import { orgAdminRequiredTooltip } from './organizationSettingsConstants'
 
 function AITrainingDescription({ hasSignedBaa, isLocked }: { hasSignedBaa: boolean; isLocked: boolean }): JSX.Element {
+    const { t } = useTranslation()
     if (hasSignedBaa) {
         return (
             <p className="mb-2 text-sm text-secondary">
-                You are opted out of internal AI training because you have a signed BAA with PostHog.
+                {t('settings.organization.aiTraining.signedBaa', {
+                    defaultValue:
+                        'You are opted out of internal AI training because you have a signed BAA with PostHog.',
+                })}
             </p>
         )
     }
@@ -22,8 +27,10 @@ function AITrainingDescription({ hasSignedBaa, isLocked }: { hasSignedBaa: boole
     if (isLocked) {
         return (
             <p className="mb-2 text-sm text-secondary">
-                Your organization's internal AI training preference is fixed by your contract and cannot be changed.
-                Please contact us if you need to discuss this.
+                {t('settings.organization.aiTraining.locked', {
+                    defaultValue:
+                        "Your organization's internal AI training preference is fixed by your contract and cannot be changed. Please contact us if you need to discuss this.",
+                })}
             </p>
         )
     }
@@ -31,15 +38,23 @@ function AITrainingDescription({ hasSignedBaa, isLocked }: { hasSignedBaa: boole
     return (
         <div className="mb-2 text-sm text-secondary">
             <p>
-                Enable PostHog to use anonymized aggregated data to train AI features that benefit all PostHog
-                customers. <strong>Your and your customers' data stays with PostHog.</strong>
+                <Trans
+                    i18nKey="settings.organization.aiTraining.description"
+                    components={{ strong: <strong /> }}
+                    defaults="Enable PostHog to use anonymized aggregated data to train AI features that benefit all PostHog customers. <strong>Your and your customers' data stays with PostHog.</strong>"
+                />
             </p>
-            <p className="mt-2">Opting out means that you cannot access certain AI features.</p>
+            <p className="mt-2">
+                {t('settings.organization.aiTraining.optOutNote', {
+                    defaultValue: 'Opting out means that you cannot access certain AI features.',
+                })}
+            </p>
         </div>
     )
 }
 
 export function OrganizationAITrainingOptOut(): JSX.Element {
+    const { t } = useTranslation()
     const { currentOrganization, currentOrganizationLoading } = useValues(organizationLogic)
     const { updateOrganization } = useActions(organizationLogic)
 
@@ -48,11 +63,16 @@ export function OrganizationAITrainingOptOut(): JSX.Element {
     const isLocked = !!currentOrganization?.is_ai_training_locked
 
     const disabledReason = hasSignedBaa
-        ? 'Organizations with a signed BAA stay opted out of AI training. Contact us if this needs to change.'
+        ? t('settings.organization.aiTraining.signedBaaReason', {
+              defaultValue:
+                  'Organizations with a signed BAA stay opted out of AI training. Contact us if this needs to change.',
+          })
         : isLocked
-          ? 'Please contact us to change this setting.'
+          ? t('settings.organization.aiTraining.contactUs', {
+                defaultValue: 'Please contact us to change this setting.',
+            })
           : restrictionReason
-            ? ORG_ADMIN_REQUIRED_TOOLTIP
+            ? orgAdminRequiredTooltip(t)
             : undefined
 
     const checked = !hasSignedBaa && !!currentOrganization?.is_ai_training_opted_in
@@ -62,7 +82,9 @@ export function OrganizationAITrainingOptOut(): JSX.Element {
             <AITrainingDescription hasSignedBaa={hasSignedBaa} isLocked={isLocked} />
             <div className="my-4">
                 <LemonSwitch
-                    label="Enable AI training on anonymized data"
+                    label={t('settings.organization.aiTraining.enable', {
+                        defaultValue: 'Enable AI training on anonymized data',
+                    })}
                     data-attr="organization-ai-training-opt-in"
                     onChange={(value) => {
                         updateOrganization({ is_ai_training_opted_in: value })
@@ -74,7 +96,7 @@ export function OrganizationAITrainingOptOut(): JSX.Element {
                 />
             </div>
             <LemonButton type="primary" className="inline-block" sideIcon={<IconExternal />} to={AI_TRAINING_URL}>
-                What's this?
+                {t('settings.organization.aiTraining.whatsThis', { defaultValue: "What's this?" })}
             </LemonButton>
         </div>
     )

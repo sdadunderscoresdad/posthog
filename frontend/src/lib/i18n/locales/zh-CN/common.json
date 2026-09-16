@@ -595,6 +595,107 @@
         "notifications": {
             "lockedByAdmin": "你的组织管理员为你设置了此项"
         },
+        "organization": {
+            "adminRequired": "你需要是组织的管理员或所有者才能修改此设置",
+            "ai": {
+                "enable": "启用使用第三方 AI 服务的 PostHog 功能"
+            },
+            "aiTraining": {
+                "contactUs": "请联系我们修改此设置。",
+                "description": "允许 PostHog 使用匿名化的聚合数据训练 AI 功能，让所有 PostHog 客户受益。<strong>你和你的客户的数据始终留在 PostHog。</strong>",
+                "enable": "允许使用匿名化数据进行 AI 训练",
+                "locked": "你组织的内部 AI 训练偏好由合同固定，无法修改。如需讨论，请联系我们。",
+                "optOutNote": "选择退出意味着你无法使用部分 AI 功能。",
+                "signedBaa": "由于你与 PostHog 签署了 BAA，你已退出内部 AI 训练。",
+                "signedBaaReason": "签署了 BAA 的组织会保持退出 AI 训练。如需调整，请联系我们。",
+                "whatsThis": "这是什么？"
+            },
+            "dangerZone": {
+                "confirmPrompt": "请输入 <strong>{{ name }}</strong> 以确认。",
+                "currentOrganization": "当前组织",
+                "deleteButton": "删除 {{ name }}",
+                "deleteModalTitle": "删除整个组织？",
+                "irreversible": "此操作<b>不可撤销</b>，请确认无误。",
+                "organizationName": "该组织的名称",
+                "warning": "删除组织<b>不可撤销</b>。你将失去该组织内所有项目的全部数据，<b>包括所有事件</b>。"
+            },
+            "desktopBetaTerms": {
+                "accept": "接受 Beta 条款",
+                "alreadyAccepted": "该组织已经接受过 PostHog Desktop Beta 条款。"
+            },
+            "displayName": {
+                "nameRequired": "请填写名称",
+                "placeholder": "组织名称",
+                "resetLogo": "恢复为默认字标",
+                "upload": "上传",
+                "uploadFailed": "上传图片出错：{{ detail }}"
+            },
+            "ipAnonymizationDefault": {
+                "label": "新项目默认丢弃客户端 IP 数据"
+            },
+            "members": {
+                "addOwnerDescription": "请确认你要将 {{ member }} 设为 {{ organization }} 的所有者。",
+                "addOwnerTitle": "为 {{ organization }} 添加其他所有者？",
+                "columns": {
+                    "email": "邮箱",
+                    "joined": "加入时间",
+                    "lastLoggedIn": "最近登录",
+                    "lastUsed": "最近使用",
+                    "level": "级别",
+                    "name": "名称",
+                    "twoFactor": "2FA"
+                },
+                "confirmLeave": "确定要退出此组织吗？此操作无法撤销。退出后你将无法再访问该组织。",
+                "confirmRemove": "确定要移除该成员吗？此操作无法撤销。移除后 TA 将无法再访问该组织。",
+                "createProjectsDescription": "控制谁可以创建新项目。管理员和所有者始终可以创建项目。",
+                "downgradeTo": "降级为 {{ level }}",
+                "downloadList": "下载成员列表",
+                "enforce2fa": "强制启用 2FA",
+                "enforce2faDescription": "要求组织内所有成员使用两步验证。",
+                "hiddenMembersTooltip": "你的组织只向管理员显示完整成员列表。",
+                "inviteSettings": "邀请设置",
+                "inviteSettingsDescription": "控制谁可以发送组织邀请。",
+                "leave": "退出",
+                "leaveOrganization": "退出组织",
+                "leaveTitle": "退出组织 {{ organization }}？",
+                "makeOwner": "设为所有者",
+                "makeOwnerButton": "将 {{ member }} 设为所有者",
+                "membersCanCreateProjects": "成员可以在 <i>{{ organization }}</i> 中创建新项目",
+                "membersCanInvite": "成员可以邀请他人加入 <i>{{ organization }}</i>",
+                "membersCanUsePersonalApiKeys": "成员可以使用个人 API 密钥",
+                "never": "从未",
+                "otherMembers": "其他组织成员",
+                "pendingEmailVerification": "邮箱待验证",
+                "personalApiKeysTooltip": "无论此设置如何，组织的管理员和所有者始终可以使用个人 API 密钥。",
+                "remove": "移除",
+                "removeFromOrganization": "从组织中移除",
+                "removeTitle": "将 {{ member }} 从组织 {{ organization }} 中移除？",
+                "scopedKeysWarningOther": "以下属于该成员的个人 API 密钥将失去对该组织的访问权限并立即失效。请先确认移除该成员不会影响任何依赖这些密钥的服务。",
+                "scopedKeysWarningSelf": "以下属于你的个人 API 密钥将失去对该组织的访问权限并立即失效。请先确认退出不会影响任何依赖这些密钥的服务。",
+                "searchPlaceholder": "搜索成员",
+                "securitySettingsDescription": "配置组织成员的安全权限。",
+                "setup2fa": "点击为你的账号设置 2FA",
+                "twoFactorHeading": "两步验证",
+                "upgradeTo": "升级为 {{ level }}",
+                "you": "{{ name }}（你）"
+            },
+            "notLoaded": "组织尚未加载",
+            "security": {
+                "disableSharing": "关闭公开分享",
+                "disableSharingParagraph1": "关闭公开分享会立即让该组织所有现有的分享链接和公开仪表盘失效。",
+                "disableSharingParagraph2": "在你重新开启此设置之前，用户将无法访问任何已分享的资源。",
+                "disableSharingTitle": "关闭公开分享？",
+                "heading": "安全设置",
+                "memberListLabel": "成员可以查看完整成员列表",
+                "memberListTooltip": "关闭后，只有管理员和所有者可以看到组织的全部成员。成员在成员列表中只能看到自己，在项目的访问控制中也只能看到有项目权限的人。",
+                "publicSharingLabel": "允许公开分享的资源",
+                "publicSharingTooltip": "关闭后，该组织的分享链接和公开仪表盘将被阻止。"
+            },
+            "variables": {
+                "description": "使用此 ID 在 <ApiLink>PostHog API</ApiLink> 中标识你的组织。",
+                "thing": "组织 ID"
+            }
+        },
         "project": {
             "apiKeys": {
                 "addLabel": "添加标签",

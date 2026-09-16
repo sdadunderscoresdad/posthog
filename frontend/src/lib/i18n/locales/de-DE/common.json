@@ -600,6 +600,107 @@
         "notifications": {
             "lockedByAdmin": ""
         },
+        "organization": {
+            "adminRequired": "",
+            "ai": {
+                "enable": ""
+            },
+            "aiTraining": {
+                "contactUs": "",
+                "description": "",
+                "enable": "",
+                "locked": "",
+                "optOutNote": "",
+                "signedBaa": "",
+                "signedBaaReason": "",
+                "whatsThis": ""
+            },
+            "dangerZone": {
+                "confirmPrompt": "",
+                "currentOrganization": "",
+                "deleteButton": "",
+                "deleteModalTitle": "",
+                "irreversible": "",
+                "organizationName": "",
+                "warning": ""
+            },
+            "desktopBetaTerms": {
+                "accept": "",
+                "alreadyAccepted": ""
+            },
+            "displayName": {
+                "nameRequired": "",
+                "placeholder": "",
+                "resetLogo": "",
+                "upload": "",
+                "uploadFailed": ""
+            },
+            "ipAnonymizationDefault": {
+                "label": ""
+            },
+            "members": {
+                "addOwnerDescription": "",
+                "addOwnerTitle": "",
+                "columns": {
+                    "email": "",
+                    "joined": "",
+                    "lastLoggedIn": "",
+                    "lastUsed": "",
+                    "level": "",
+                    "name": "",
+                    "twoFactor": ""
+                },
+                "confirmLeave": "",
+                "confirmRemove": "",
+                "createProjectsDescription": "",
+                "downgradeTo": "",
+                "downloadList": "",
+                "enforce2fa": "",
+                "enforce2faDescription": "",
+                "hiddenMembersTooltip": "",
+                "inviteSettings": "",
+                "inviteSettingsDescription": "",
+                "leave": "",
+                "leaveOrganization": "",
+                "leaveTitle": "",
+                "makeOwner": "",
+                "makeOwnerButton": "",
+                "membersCanCreateProjects": "",
+                "membersCanInvite": "",
+                "membersCanUsePersonalApiKeys": "",
+                "never": "",
+                "otherMembers": "",
+                "pendingEmailVerification": "",
+                "personalApiKeysTooltip": "",
+                "remove": "",
+                "removeFromOrganization": "",
+                "removeTitle": "",
+                "scopedKeysWarningOther": "",
+                "scopedKeysWarningSelf": "",
+                "searchPlaceholder": "",
+                "securitySettingsDescription": "",
+                "setup2fa": "",
+                "twoFactorHeading": "",
+                "upgradeTo": "",
+                "you": ""
+            },
+            "notLoaded": "",
+            "security": {
+                "disableSharing": "",
+                "disableSharingParagraph1": "",
+                "disableSharingParagraph2": "",
+                "disableSharingTitle": "",
+                "heading": "",
+                "memberListLabel": "",
+                "memberListTooltip": "",
+                "publicSharingLabel": "",
+                "publicSharingTooltip": ""
+            },
+            "variables": {
+                "description": "",
+                "thing": ""
+            }
+        },
         "project": {
             "apiKeys": {
                 "addLabel": "",

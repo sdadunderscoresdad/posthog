@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonSwitch } from '@posthog/lemon-ui'
 
@@ -7,9 +8,10 @@ import { OrganizationMembershipLevel } from 'lib/constants'
 
 import { organizationLogic } from '~/scenes/organizationLogic'
 
-import { ORG_ADMIN_REQUIRED_TOOLTIP } from './organizationSettingsConstants'
+import { orgAdminRequiredTooltip } from './organizationSettingsConstants'
 
 export function OrgIPAnonymizationDefault(): JSX.Element {
+    const { t } = useTranslation()
     const { currentOrganization, currentOrganizationLoading } = useValues(organizationLogic)
     const { updateOrganization } = useActions(organizationLogic)
 
@@ -23,9 +25,11 @@ export function OrgIPAnonymizationDefault(): JSX.Element {
                 updateOrganization({ default_anonymize_ips: checked })
             }}
             checked={!!currentOrganization?.default_anonymize_ips}
-            disabledReason={restrictionReason ? ORG_ADMIN_REQUIRED_TOOLTIP : undefined}
+            disabledReason={restrictionReason ? orgAdminRequiredTooltip(t) : undefined}
             loading={currentOrganizationLoading}
-            label="Discard client IP data by default for new projects"
+            label={t('settings.organization.ipAnonymizationDefault.label', {
+                defaultValue: 'Discard client IP data by default for new projects',
+            })}
             bordered
         />
     )

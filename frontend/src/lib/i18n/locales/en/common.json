@@ -600,6 +600,107 @@
         "notifications": {
             "lockedByAdmin": "An admin of your organization set this for you"
         },
+        "organization": {
+            "adminRequired": "You must be an admin or owner of your organization to change this setting",
+            "ai": {
+                "enable": "Enable PostHog features that use third-party AI services"
+            },
+            "aiTraining": {
+                "contactUs": "Please contact us to change this setting.",
+                "description": "Enable PostHog to use anonymized aggregated data to train AI features that benefit all PostHog customers. <strong>Your and your customers' data stays with PostHog.</strong>",
+                "enable": "Enable AI training on anonymized data",
+                "locked": "Your organization's internal AI training preference is fixed by your contract and cannot be changed. Please contact us if you need to discuss this.",
+                "optOutNote": "Opting out means that you cannot access certain AI features.",
+                "signedBaa": "You are opted out of internal AI training because you have a signed BAA with PostHog.",
+                "signedBaaReason": "Organizations with a signed BAA stay opted out of AI training. Contact us if this needs to change.",
+                "whatsThis": "What's this?"
+            },
+            "dangerZone": {
+                "confirmPrompt": "Please type <strong>{{ name }}</strong> to confirm.",
+                "currentOrganization": "the current organization",
+                "deleteButton": "Delete {{ name }}",
+                "deleteModalTitle": "Delete the entire organization?",
+                "irreversible": "This is <b>irreversible</b>. Please be certain.",
+                "organizationName": "this organization's name",
+                "warning": "Organization deletion <b>cannot be undone</b>. You will lose all data, <b>including all events</b>, related to all projects within this organization."
+            },
+            "desktopBetaTerms": {
+                "accept": "Accept beta terms",
+                "alreadyAccepted": "The PostHog Desktop beta terms have already been accepted for this organization."
+            },
+            "displayName": {
+                "nameRequired": "You must provide a name",
+                "placeholder": "Organization name",
+                "resetLogo": "Reset back to lettermark",
+                "upload": "Upload",
+                "uploadFailed": "Error uploading image: {{ detail }}"
+            },
+            "ipAnonymizationDefault": {
+                "label": "Discard client IP data by default for new projects"
+            },
+            "members": {
+                "addOwnerDescription": "Please confirm that you would like to make {{ member }} an owner of {{ organization }}.",
+                "addOwnerTitle": "Add additional owner to {{ organization }}?",
+                "columns": {
+                    "email": "Email",
+                    "joined": "Joined",
+                    "lastLoggedIn": "Last Logged In",
+                    "lastUsed": "Last used",
+                    "level": "Level",
+                    "name": "Name",
+                    "twoFactor": "2FA"
+                },
+                "confirmLeave": "Are you sure you want to leave this organization? This cannot be undone. If you leave, you will no longer have access to this organization.",
+                "confirmRemove": "Are you sure you want to remove this member? This cannot be undone. They will no longer have access to this organization.",
+                "createProjectsDescription": "Control who can create new projects. Admins and owners can always create projects.",
+                "downgradeTo": "Downgrade to {{ level }}",
+                "downloadList": "Download members list",
+                "enforce2fa": "Enforce 2FA",
+                "enforce2faDescription": "Require all organization members to use two-factor authentication.",
+                "hiddenMembersTooltip": "Your organization only shows the full member list to admins.",
+                "inviteSettings": "Invite settings",
+                "inviteSettingsDescription": "Control who can send organization invites.",
+                "leave": "Leave",
+                "leaveOrganization": "Leave organization",
+                "leaveTitle": "Leave organization {{ organization }}?",
+                "makeOwner": "Make owner",
+                "makeOwnerButton": "Make {{ member }} an owner",
+                "membersCanCreateProjects": "Members can create new projects in <i>{{ organization }}</i>",
+                "membersCanInvite": "Members can invite others to join <i>{{ organization }}</i>",
+                "membersCanUsePersonalApiKeys": "Members can use personal API keys",
+                "never": "Never",
+                "otherMembers": "Other organization members",
+                "pendingEmailVerification": "pending email verification",
+                "personalApiKeysTooltip": "Organization admins and owners can always use personal API keys regardless of this setting.",
+                "remove": "Remove",
+                "removeFromOrganization": "Remove from organization",
+                "removeTitle": "Remove {{ member }} from organization {{ organization }}?",
+                "scopedKeysWarningOther": "The following personal API keys which belong to this member will lose access to this organization and will stop working immediately. Please confirm they will not affect any services that depend on them before removing this member.",
+                "scopedKeysWarningSelf": "The following personal API keys which belong to you will lose access to this organization and will stop working immediately. Please confirm they will not affect any services that depend on them before removing yourself.",
+                "searchPlaceholder": "Search for members",
+                "securitySettingsDescription": "Configure security permissions for organization members.",
+                "setup2fa": "Click to setup 2FA for your account",
+                "twoFactorHeading": "Two-factor authentication",
+                "upgradeTo": "Upgrade to {{ level }}",
+                "you": "{{ name }} (you)"
+            },
+            "notLoaded": "Organization not loaded",
+            "security": {
+                "disableSharing": "Disable sharing",
+                "disableSharingParagraph1": "Disabling public sharing will immediately break all existing sharing links and public dashboards for this organization.",
+                "disableSharingParagraph2": "Users will no longer be able to access any shared resources until this setting is re-enabled.",
+                "disableSharingTitle": "Disable public sharing?",
+                "heading": "Security settings",
+                "memberListLabel": "Members can see the full member list",
+                "memberListTooltip": "When disabled, only admins and owners can see all organization members. Members will only see themselves in the members list, and only people with project access in a project's access control.",
+                "publicSharingLabel": "Enable publicly shared resources",
+                "publicSharingTooltip": "When disabled, sharing links and public dashboards will be blocked for this organization."
+            },
+            "variables": {
+                "description": "Use this ID to identify your organization in the <ApiLink>PostHog API</ApiLink>.",
+                "thing": "organization ID"
+            }
+        },
         "project": {
             "apiKeys": {
                 "addLabel": "Add a label",

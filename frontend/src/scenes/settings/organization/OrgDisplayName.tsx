@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconUpload, IconX } from '@posthog/icons'
 import { LemonButton, LemonFileInput, LemonInput, lemonToast } from '@posthog/lemon-ui'
@@ -11,6 +12,7 @@ import { UploadedLogo } from 'lib/lemon-ui/UploadedLogo/UploadedLogo'
 import { organizationLogic } from 'scenes/organizationLogic'
 
 export function OrganizationDisplayName(): JSX.Element {
+    const { t } = useTranslation()
     const { currentOrganization, currentOrganizationLoading } = useValues(organizationLogic)
     const { updateOrganization } = useActions(organizationLogic)
 
@@ -28,7 +30,12 @@ export function OrganizationDisplayName(): JSX.Element {
             setLogoMediaId(id)
         },
         onError: (detail) => {
-            lemonToast.error(`Error uploading image: ${detail}`)
+            lemonToast.error(
+                t('settings.organization.displayName.uploadFailed', {
+                    defaultValue: 'Error uploading image: {{ detail }}',
+                    detail,
+                })
+            )
         },
     })
 
@@ -41,11 +48,11 @@ export function OrganizationDisplayName(): JSX.Element {
     const saveDisabledReason = restrictionReason
         ? restrictionReason
         : !hasChanges
-          ? 'No changes to save'
+          ? t('settings.noChangesToSave', { defaultValue: 'No changes to save' })
           : !name
-            ? 'You must provide a name'
+            ? t('settings.organization.displayName.nameRequired', { defaultValue: 'You must provide a name' })
             : !currentOrganization
-              ? 'Organization not loaded'
+              ? t('settings.organization.notLoaded', { defaultValue: 'Organization not loaded' })
               : undefined
     const saving = currentOrganizationLoading || uploading
 
@@ -75,7 +82,9 @@ export function OrganizationDisplayName(): JSX.Element {
                                         e.preventDefault()
                                     }}
                                     size="small"
-                                    tooltip="Reset back to lettermark"
+                                    tooltip={t('settings.organization.displayName.resetLogo', {
+                                        defaultValue: 'Reset back to lettermark',
+                                    })}
                                     tooltipPlacement="right"
                                     noPadding
                                     className="group-hover:flex hidden absolute right-0 top-0"
@@ -84,7 +93,7 @@ export function OrganizationDisplayName(): JSX.Element {
                         )}
                         <div className="flex items-center gap-1 mt-1 justify-center text-muted text-xs">
                             <IconUpload className="text-sm" />
-                            Upload
+                            {t('settings.organization.displayName.upload', { defaultValue: 'Upload' })}
                         </div>
                     </div>
                 }
@@ -95,7 +104,9 @@ export function OrganizationDisplayName(): JSX.Element {
                     onChange={setName}
                     disabled={!!restrictionReason}
                     data-attr="organization-name-input-settings"
-                    placeholder="Organization name"
+                    placeholder={t('settings.organization.displayName.placeholder', {
+                        defaultValue: 'Organization name',
+                    })}
                 />
                 <div className="flex items-center gap-2">
                     <LemonButton
@@ -114,7 +125,7 @@ export function OrganizationDisplayName(): JSX.Element {
                         disabledReason={saveDisabledReason}
                         loading={saving}
                     >
-                        Save
+                        {t('settings.save', { defaultValue: 'Save' })}
                     </LemonButton>
                 </div>
             </div>

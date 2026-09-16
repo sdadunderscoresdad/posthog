@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconInfo } from '@posthog/icons'
 import { LemonSwitch } from '@posthog/lemon-ui'
@@ -14,6 +15,7 @@ import { userLogic } from 'scenes/userLogic'
 import { AvailableFeature } from '~/types'
 
 export function OrganizationSecuritySettings(): JSX.Element | null {
+    const { t } = useTranslation()
     const { currentOrganization } = useValues(organizationLogic)
     const { user } = useValues(userLogic)
     const { updateOrganization } = useActions(organizationLogic)
@@ -35,8 +37,15 @@ export function OrganizationSecuritySettings(): JSX.Element | null {
                 <LemonSwitch
                     label={
                         <span>
-                            Enable publicly shared resources{' '}
-                            <Tooltip title="When disabled, sharing links and public dashboards will be blocked for this organization.">
+                            {t('settings.organization.security.publicSharingLabel', {
+                                defaultValue: 'Enable publicly shared resources',
+                            })}{' '}
+                            <Tooltip
+                                title={t('settings.organization.security.publicSharingTooltip', {
+                                    defaultValue:
+                                        'When disabled, sharing links and public dashboards will be blocked for this organization.',
+                                })}
+                            >
                                 <IconInfo className="mr-1" />
                             </Tooltip>
                         </span>
@@ -47,26 +56,34 @@ export function OrganizationSecuritySettings(): JSX.Element | null {
                     onChange={(allow_publicly_shared_resources) => {
                         if (!allow_publicly_shared_resources) {
                             LemonDialog.open({
-                                title: 'Disable public sharing?',
+                                title: t('settings.organization.security.disableSharingTitle', {
+                                    defaultValue: 'Disable public sharing?',
+                                }),
                                 description: (
                                     <div>
                                         <p>
-                                            Disabling public sharing will immediately break all existing sharing links
-                                            and public dashboards for this organization.
+                                            {t('settings.organization.security.disableSharingParagraph1', {
+                                                defaultValue:
+                                                    'Disabling public sharing will immediately break all existing sharing links and public dashboards for this organization.',
+                                            })}
                                         </p>
                                         <p>
-                                            Users will no longer be able to access any shared resources until this
-                                            setting is re-enabled.
+                                            {t('settings.organization.security.disableSharingParagraph2', {
+                                                defaultValue:
+                                                    'Users will no longer be able to access any shared resources until this setting is re-enabled.',
+                                            })}
                                         </p>
                                     </div>
                                 ),
                                 primaryButton: {
-                                    children: 'Disable sharing',
+                                    children: t('settings.organization.security.disableSharing', {
+                                        defaultValue: 'Disable sharing',
+                                    }),
                                     status: 'danger',
                                     onClick: () => updateOrganization({ allow_publicly_shared_resources }),
                                 },
                                 secondaryButton: {
-                                    children: 'Cancel',
+                                    children: t('settings.cancel', { defaultValue: 'Cancel' }),
                                 },
                             })
                         } else {
@@ -78,8 +95,15 @@ export function OrganizationSecuritySettings(): JSX.Element | null {
                 <LemonSwitch
                     label={
                         <span>
-                            Members can see the full member list{' '}
-                            <Tooltip title="When disabled, only admins and owners can see all organization members. Members will only see themselves in the members list, and only people with project access in a project's access control.">
+                            {t('settings.organization.security.memberListLabel', {
+                                defaultValue: 'Members can see the full member list',
+                            })}{' '}
+                            <Tooltip
+                                title={t('settings.organization.security.memberListTooltip', {
+                                    defaultValue:
+                                        "When disabled, only admins and owners can see all organization members. Members will only see themselves in the members list, and only people with project access in a project's access control.",
+                                })}
+                            >
                                 <IconInfo className="mr-1" />
                             </Tooltip>
                         </span>
