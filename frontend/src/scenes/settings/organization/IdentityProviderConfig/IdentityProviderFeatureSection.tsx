@@ -1,4 +1,6 @@
+import type { TFunction } from 'i18next'
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconCheckCircle, IconCircleDashed, IconWarning } from '@posthog/icons'
 import { LemonBanner, LemonButton, LemonCard, LemonSkeleton } from '@posthog/lemon-ui'
@@ -20,13 +22,28 @@ import {
     getIdentityProviderConfigStatusDescription,
 } from './identityProviderConfigUtils'
 
-const STATUS_DISPLAY = {
-    configured: { label: 'Configured', icon: <IconCheckCircle className="size-6 text-success" /> },
-    partially_configured: { label: 'Partially configured', icon: <IconWarning className="size-6 text-warning" /> },
-    not_configured: { label: 'Not configured', icon: <IconCircleDashed className="size-6 text-muted" /> },
+/** Built from `t`, so the status labels follow a language change. */
+function statusDisplay(t: TFunction): Record<string, { label: string; icon: JSX.Element }> {
+    return {
+        configured: {
+            label: t('settings.organization.idpConfig.status.configured', { defaultValue: 'Configured' }),
+            icon: <IconCheckCircle className="size-6 text-success" />,
+        },
+        partially_configured: {
+            label: t('settings.organization.idpConfig.status.partiallyConfigured', {
+                defaultValue: 'Partially configured',
+            }),
+            icon: <IconWarning className="size-6 text-warning" />,
+        },
+        not_configured: {
+            label: t('settings.organization.idpConfig.status.notConfigured', { defaultValue: 'Not configured' }),
+            icon: <IconCircleDashed className="size-6 text-muted" />,
+        },
+    }
 }
 
 export function IdentityProviderFeatureSection({ configScope }: { configScope: ConfigScopeEnumApi }): JSX.Element {
+    const { t } = useTranslation()
     const { identityProviderConfigs, identityProviderConfigsLoading, identityProviderConfigsLoadFailed } =
         useValues(identityProviderConfigsLogic)
     const { loadIdentityProviderConfigs } = useActions(identityProviderConfigsLogic)
@@ -50,12 +67,14 @@ export function IdentityProviderFeatureSection({ configScope }: { configScope: C
             <LemonBanner
                 type="error"
                 action={{
-                    children: 'Try again',
+                    children: t('settings.organization.idpConfig.tryAgain', { defaultValue: 'Try again' }),
                     onClick: loadIdentityProviderConfigs,
                     loading: identityProviderConfigsLoading,
                 }}
             >
-                Couldn't load identity provider configurations.
+                {t('settings.organization.idpConfig.loadFailed', {
+                    defaultValue: "Couldn't load identity provider configurations.",
+                })}
             </LemonBanner>
         )
     } else {
@@ -64,7 +83,7 @@ export function IdentityProviderFeatureSection({ configScope }: { configScope: C
                 <div className="space-y-3">
                     {configsToDisplay.map((config) => {
                         const configStatus = getIdentityProviderConfigStatus(config, configScope)
-                        const status = STATUS_DISPLAY[configStatus]
+                        const status = statusDisplay(t)[configStatus]
                         const statusDescription = getIdentityProviderConfigStatusDescription(
                             config,
                             configScope,
@@ -107,11 +126,17 @@ export function IdentityProviderFeatureSection({ configScope }: { configScope: C
                                             loading={scimLogsLoading}
                                             disabledReason={
                                                 restrictionReason ||
-                                                (!config ? 'Configure SCIM to view request logs' : undefined)
+                                                (!config
+                                                    ? t('settings.organization.idpConfig.configureScimForLogs', {
+                                                          defaultValue: 'Configure SCIM to view request logs',
+                                                      })
+                                                    : undefined)
                                             }
                                             data-attr={`view-scim-logs-${config?.id ?? 'none'}`}
                                         >
-                                            View SCIM logs
+                                            {t('settings.organization.verifiedDomains.viewScimLogs', {
+                                                defaultValue: 'View SCIM logs',
+                                            })}
                                         </LemonButton>
                                     )}
                                     <LemonButton
@@ -120,7 +145,7 @@ export function IdentityProviderFeatureSection({ configScope }: { configScope: C
                                         disabledReason={restrictionReason}
                                         data-attr={`configure-${configScope}-identity-provider`}
                                     >
-                                        Configure
+                                        {t('settings.organization.idpConfig.configure', { defaultValue: 'Configure' })}
                                     </LemonButton>
                                 </div>
                             </LemonCard>
@@ -132,10 +157,16 @@ export function IdentityProviderFeatureSection({ configScope }: { configScope: C
                         <LemonButton
                             type="tertiary"
                             to={urls.identityProviderConfig(configScope, 'new')}
-                            tooltip="You probably don't need multiple configurations. Only create a new configuration if you use multiple IdPs or apps within your IdP for SSO."
+                            tooltip={t('settings.organization.idpConfig.multipleConfigsTooltip', {
+                                defaultValue:
+                                    "You probably don't need multiple configurations. Only create a new configuration if you use multiple IdPs or apps within your IdP for SSO.",
+                            })}
                             data-attr={`new-${configScope}-identity-provider-from-settings`}
                         >
-                            Add a new {feature.name} configuration
+                            {t('settings.organization.idpConfig.addNew', {
+                                defaultValue: 'Add a new {{ feature }} configuration',
+                                feature: feature.name,
+                            })}
                         </LemonButton>
                     </div>
                 )}

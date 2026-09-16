@@ -1,3 +1,5 @@
+import { Trans, useTranslation } from 'react-i18next'
+
 import { Link } from '@posthog/lemon-ui'
 
 import { LemonBanner } from 'lib/lemon-ui/LemonBanner'
@@ -6,25 +8,34 @@ import { LemonInput } from 'lib/lemon-ui/LemonInput/LemonInput'
 import { LemonInputSelect } from 'lib/lemon-ui/LemonInputSelect/LemonInputSelect'
 
 export function XAAConfigFields({ isReady }: { isReady: boolean }): JSX.Element {
+    const { t } = useTranslation()
     return (
         <div className="space-y-4">
             <p>
-                Configure XAA for your organization.{' '}
+                {t('settings.organization.idpConfig.xaa.description', {
+                    defaultValue: 'Configure XAA for your organization.',
+                })}{' '}
                 <Link to="https://posthog.com/docs/settings/id-jag" target="_blank" targetBlankIcon>
-                    Read the XAA setup guide
+                    {t('settings.organization.idpConfig.xaa.readGuide', { defaultValue: 'Read the XAA setup guide' })}
                 </Link>
             </p>
             <LemonField
                 name="id_jag_issuer_url"
-                label="Identity provider issuer URL"
-                info="This must match the iss claim on ID-JAG tokens."
+                label={t('settings.organization.idpConfig.xaa.issuerUrl', {
+                    defaultValue: 'Identity provider issuer URL',
+                })}
+                info={t('settings.organization.idpConfig.xaa.issuerUrlInfo', {
+                    defaultValue: 'This must match the iss claim on ID-JAG tokens.',
+                })}
             >
                 <LemonInput className="ph-ignore-input" placeholder="https://idp.example.com" autoComplete="off" />
             </LemonField>
             <LemonField
                 name="id_jag_jwks_url"
-                label="JWKS URL (optional)"
-                info="Leave this empty to use OIDC discovery from the issuer URL."
+                label={t('settings.organization.idpConfig.xaa.jwksUrl', { defaultValue: 'JWKS URL (optional)' })}
+                info={t('settings.organization.idpConfig.xaa.jwksUrlInfo', {
+                    defaultValue: 'Leave this empty to use OIDC discovery from the issuer URL.',
+                })}
             >
                 <LemonInput
                     className="ph-ignore-input"
@@ -34,20 +45,36 @@ export function XAAConfigFields({ isReady }: { isReady: boolean }): JSX.Element 
             </LemonField>
             <LemonField
                 name="id_jag_allowed_clients"
-                label="Allowed client IDs (optional)"
-                info="Leave this empty to accept any client_id value."
+                label={t('settings.organization.idpConfig.xaa.allowedClients', {
+                    defaultValue: 'Allowed client IDs (optional)',
+                })}
+                info={t('settings.organization.idpConfig.xaa.allowedClientsInfo', {
+                    defaultValue: 'Leave this empty to accept any client_id value.',
+                })}
             >
-                <LemonInputSelect placeholder="Add client IDs" mode="multiple" allowCustomValues options={[]} />
+                <LemonInputSelect
+                    placeholder={t('settings.organization.idpConfig.xaa.addClientIds', {
+                        defaultValue: 'Add client IDs',
+                    })}
+                    mode="multiple"
+                    allowCustomValues
+                    options={[]}
+                />
             </LemonField>
             {!isReady && (
                 <LemonBanner type="info">
-                    XAA remains disabled until you enter an identity provider issuer URL. You can save a partial
-                    configuration.
+                    {t('settings.organization.idpConfig.xaa.incomplete', {
+                        defaultValue:
+                            'XAA remains disabled until you enter an identity provider issuer URL. You can save a partial configuration.',
+                    })}
                 </LemonBanner>
             )}
             <LemonBanner type="info">
-                Grant <code>user:read</code> and the scopes required by each integration. Project APIs also require{' '}
-                <code>organization:read</code> and <code>project:read</code>.
+                <Trans
+                    i18nKey="settings.organization.idpConfig.xaa.scopesNotice"
+                    components={{ code: <code /> }}
+                    defaults="Grant <code>user:read</code> and the scopes required by each integration. Project APIs also require <code>organization:read</code> and <code>project:read</code>."
+                />
             </LemonBanner>
         </div>
     )

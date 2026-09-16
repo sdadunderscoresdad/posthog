@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconShieldLock, IconTrash } from '@posthog/icons'
 import { LemonBanner, LemonButton, LemonDivider, LemonModal, Spinner } from '@posthog/lemon-ui'
@@ -37,6 +38,7 @@ export const scene: SceneExport<IdentityProviderConfigLogicProps> = {
 }
 
 export function IdentityProviderConfigScene(): JSX.Element | null {
+    const { t } = useTranslation()
     const {
         configScope,
         identityProviderConfig,
@@ -78,7 +80,13 @@ export function IdentityProviderConfigScene(): JSX.Element | null {
     }
 
     if (!configScope) {
-        return <NotFound object="identity provider configuration" />
+        return (
+            <NotFound
+                object={t('settings.organization.idpConfig.scene.notFound', {
+                    defaultValue: 'identity provider configuration',
+                })}
+            />
+        )
     }
 
     const feature = IDENTITY_PROVIDER_FEATURES[configScope]
@@ -90,13 +98,23 @@ export function IdentityProviderConfigScene(): JSX.Element | null {
     const loadFailed = identityProviderConfigLoadFailed || organizationDomainsLoadFailed
 
     if (identityProviderConfigLoaded && !isConfigScopeValid) {
-        return <NotFound object={`${feature.name} configuration`} />
+        return (
+            <NotFound
+                object={t('settings.organization.idpConfig.scene.notFoundTyped', {
+                    defaultValue: '{{ feature }} configuration',
+                    feature: feature.name,
+                })}
+            />
+        )
     }
 
     return (
         <SceneContent className="pb-8">
             <SceneTitleSection
-                name={`Configure ${feature.name}`}
+                name={t('settings.organization.idpConfig.scene.title', {
+                    defaultValue: 'Configure {{ feature }}',
+                    feature: feature.name,
+                })}
                 resourceType={{ type: 'identity_provider', forceIcon: <IconShieldLock /> }}
             />
             <TimeSensitiveAuthenticationArea>
@@ -105,7 +123,7 @@ export function IdentityProviderConfigScene(): JSX.Element | null {
                         <LemonBanner
                             type="error"
                             action={{
-                                children: 'Try again',
+                                children: t('settings.organization.idpConfig.tryAgain', { defaultValue: 'Try again' }),
                                 onClick: () => {
                                     if (identityProviderConfigLoadFailed) {
                                         loadIdentityProviderConfig()
@@ -117,7 +135,9 @@ export function IdentityProviderConfigScene(): JSX.Element | null {
                                 loading: identityProviderConfigLoading || organizationDomainsLoading,
                             }}
                         >
-                            Couldn't load this identity provider configuration.
+                            {t('settings.organization.idpConfig.scene.loadFailed', {
+                                defaultValue: "Couldn't load this identity provider configuration.",
+                            })}
                         </LemonBanner>
                     ) : isLoading ? (
                         <div className="flex min-h-64 items-center justify-center">
@@ -130,8 +150,17 @@ export function IdentityProviderConfigScene(): JSX.Element | null {
                             enableFormOnSubmit
                             className="max-w-200 space-y-6"
                         >
-                            <LemonField name="name" label="Configuration name">
-                                <LemonInput placeholder="For example, Okta production" />
+                            <LemonField
+                                name="name"
+                                label={t('settings.organization.idpConfig.scene.nameLabel', {
+                                    defaultValue: 'Configuration name',
+                                })}
+                            >
+                                <LemonInput
+                                    placeholder={t('settings.organization.idpConfig.scene.namePlaceholder', {
+                                        defaultValue: 'For example, Okta production',
+                                    })}
+                                />
                             </LemonField>
                             {configScope === ConfigScopeEnumApi.Saml ? (
                                 <SAMLConfigFields
@@ -173,26 +202,36 @@ export function IdentityProviderConfigScene(): JSX.Element | null {
                                     loading={isIdentityProviderConfigFormSubmitting}
                                     disabledReason={
                                         restrictionReason ||
-                                        (!identityProviderConfigFormChanged ? 'No changes to save' : undefined)
+                                        (!identityProviderConfigFormChanged
+                                            ? t('settings.noChangesToSave', { defaultValue: 'No changes to save' })
+                                            : undefined)
                                     }
                                     data-attr={`save-${configScope}-identity-provider`}
                                 >
-                                    Save configuration
+                                    {t('settings.organization.idpConfig.scene.save', {
+                                        defaultValue: 'Save configuration',
+                                    })}
                                 </LemonButton>
                                 <LemonButton
                                     type="secondary"
                                     to={urls.settings('organization-authentication')}
                                     disabled={isIdentityProviderConfigFormSubmitting}
                                 >
-                                    Cancel
+                                    {t('settings.cancel', { defaultValue: 'Cancel' })}
                                 </LemonButton>
                             </div>
                             {identityProviderConfig?.config_scope != null && (
                                 <div className="mt-6">
-                                    <div className="font-semibold">Danger zone</div>
+                                    <div className="font-semibold">
+                                        {t('settings.organization.idpConfig.scene.dangerZone', {
+                                            defaultValue: 'Danger zone',
+                                        })}
+                                    </div>
                                     <p className="mb-0 mt-1 text-secondary">
-                                        These actions cannot be undone. Deleting this configuration removes its identity
-                                        provider settings and may prevent users from authenticating.
+                                        {t('settings.organization.idpConfig.scene.dangerZoneDescription', {
+                                            defaultValue:
+                                                'These actions cannot be undone. Deleting this configuration removes its identity provider settings and may prevent users from authenticating.',
+                                        })}
                                     </p>
                                     <LemonButton
                                         className="mt-2"
@@ -203,7 +242,9 @@ export function IdentityProviderConfigScene(): JSX.Element | null {
                                         disabledReason={restrictionReason}
                                         data-attr={`delete-${configScope}-identity-provider`}
                                     >
-                                        Delete configuration
+                                        {t('settings.organization.idpConfig.scene.delete', {
+                                            defaultValue: 'Delete configuration',
+                                        })}
                                     </LemonButton>
                                 </div>
                             )}
@@ -215,7 +256,9 @@ export function IdentityProviderConfigScene(): JSX.Element | null {
                 <LemonModal
                     isOpen={isDeleteModalOpen}
                     onClose={identityProviderConfigDeletingLoading ? undefined : closeDeleteModal}
-                    title="Delete identity provider configuration?"
+                    title={t('settings.organization.idpConfig.scene.deleteTitle', {
+                        defaultValue: 'Delete identity provider configuration?',
+                    })}
                     footer={
                         <div className="flex justify-end gap-2">
                             <LemonButton
@@ -223,7 +266,7 @@ export function IdentityProviderConfigScene(): JSX.Element | null {
                                 onClick={closeDeleteModal}
                                 disabled={identityProviderConfigDeletingLoading}
                             >
-                                Cancel
+                                {t('settings.cancel', { defaultValue: 'Cancel' })}
                             </LemonButton>
                             <LemonButton
                                 type="secondary"
@@ -231,25 +274,45 @@ export function IdentityProviderConfigScene(): JSX.Element | null {
                                 onClick={deleteIdentityProviderConfig}
                                 disabledReason={
                                     deleteConfirmation !== `Delete ${identityProviderConfig.name}`
-                                        ? `Type Delete ${identityProviderConfig.name} to confirm`
+                                        ? t('settings.organization.idpConfig.scene.typeToConfirm', {
+                                              defaultValue: 'Type {{ phrase }} to confirm',
+                                              phrase: t('settings.organization.idpConfig.scene.deletePhrase', {
+                                                  defaultValue: 'Delete {{ name }}',
+                                                  name: identityProviderConfig.name,
+                                              }),
+                                          })
                                         : undefined
                                 }
                                 loading={identityProviderConfigDeletingLoading}
                                 data-attr={`confirm-delete-${configScope}-identity-provider`}
                             >
-                                Delete configuration
+                                {t('settings.organization.idpConfig.scene.delete', {
+                                    defaultValue: 'Delete configuration',
+                                })}
                             </LemonButton>
                         </div>
                     }
                 >
                     <p>
-                        This action cannot be undone. Type <strong>{`Delete ${identityProviderConfig.name}`}</strong> to
-                        confirm.
+                        <Trans
+                            i18nKey="settings.organization.idpConfig.scene.deleteWarning"
+                            values={{
+                                phrase: t('settings.organization.idpConfig.scene.deletePhrase', {
+                                    defaultValue: 'Delete {{ name }}',
+                                    name: identityProviderConfig.name,
+                                }),
+                            }}
+                            components={{ strong: <strong /> }}
+                            defaults="This action cannot be undone. Type <strong>{{ phrase }}</strong> to confirm."
+                        />
                     </p>
                     <LemonInput
                         value={deleteConfirmation}
                         onChange={setDeleteConfirmation}
-                        placeholder={`Delete ${identityProviderConfig.name}`}
+                        placeholder={t('settings.organization.idpConfig.scene.deletePhrase', {
+                            defaultValue: 'Delete {{ name }}',
+                            name: identityProviderConfig.name,
+                        })}
                         data-attr={`delete-${configScope}-identity-provider-confirmation-input`}
                     />
                 </LemonModal>

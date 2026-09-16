@@ -685,6 +685,88 @@
                 "upload": "Upload",
                 "uploadFailed": "Error uploading image: {{ detail }}"
             },
+            "idpConfig": {
+                "addNew": "Add a new {{ feature }} configuration",
+                "configure": "Configure",
+                "configureScimForLogs": "Configure SCIM to view request logs",
+                "domainScope": {
+                    "allDomains": "All domains",
+                    "allDomainsDescription": "Apply this configuration to every verified domain in the organization.",
+                    "conflict": "This SAML configuration overlaps with another SAML configuration on one or more verified domains. Choose different domains before saving.",
+                    "label": "Domains",
+                    "pendingDomain": "{{ domain }} (pending verification)",
+                    "placeholder": "Select domains",
+                    "saving": "Saving configuration",
+                    "selectedDomains": "Selected domains",
+                    "selectedDomainsDescription": "Apply this configuration only to the domains you select.",
+                    "warningPrefix": "Changing this value can affect your",
+                    "warningSuffix": "configurations."
+                },
+                "loadFailed": "Couldn't load identity provider configurations.",
+                "multipleConfigsTooltip": "You probably don't need multiple configurations. Only create a new configuration if you use multiple IdPs or apps within your IdP for SSO.",
+                "saml": {
+                    "acsConsumerUrl": "ACS consumer URL",
+                    "acsUrl": "SAML ACS URL",
+                    "audience": "Audience / entity ID",
+                    "certificate": "SAML X.509 certificate",
+                    "description": "Configure SAML for your organization.",
+                    "entityId": "SAML entity ID",
+                    "entityIdPlaceholder": "Entity ID provided by your identity provider",
+                    "incomplete": "SAML remains disabled until you enter the ACS URL, entity ID, and X.509 certificate. You can save a partial configuration.",
+                    "readGuide": "Read the SAML setup guide",
+                    "relayState": "Relay state",
+                    "saveForRelayState": "Save this configuration to generate a relay state."
+                },
+                "scene": {
+                    "dangerZone": "Danger zone",
+                    "dangerZoneDescription": "These actions cannot be undone. Deleting this configuration removes its identity provider settings and may prevent users from authenticating.",
+                    "delete": "Delete configuration",
+                    "deletePhrase": "Delete {{ name }}",
+                    "deleteTitle": "Delete identity provider configuration?",
+                    "deleteWarning": "This action cannot be undone. Type <strong>{{ phrase }}</strong> to confirm.",
+                    "loadFailed": "Couldn't load this identity provider configuration.",
+                    "nameLabel": "Configuration name",
+                    "namePlaceholder": "For example, Okta production",
+                    "notFound": "identity provider configuration",
+                    "notFoundTyped": "{{ feature }} configuration",
+                    "save": "Save configuration",
+                    "title": "Configure {{ feature }}",
+                    "typeToConfirm": "Type {{ phrase }} to confirm"
+                },
+                "scim": {
+                    "baseUrl": "SCIM base URL",
+                    "bearerToken": "Bearer token",
+                    "copyToken": "Copy this token now. It will not be shown again.",
+                    "description": "Configure SCIM for your organization.",
+                    "enable": "Enable SCIM provisioning",
+                    "readGuide": "Read the SCIM setup guide",
+                    "regenerate": "Regenerate token",
+                    "regenerateDescription": "This invalidates the current token. Update your identity provider with the new token after it is generated.",
+                    "regenerateTitle": "Regenerate SCIM token?",
+                    "saveForBaseUrl": "Save this configuration to generate the SCIM base URL.",
+                    "saveForToken": "Save this configuration to generate a bearer token.",
+                    "tokenOnlyWhenGenerated": "The bearer token is only shown when it is generated."
+                },
+                "status": {
+                    "configured": "Configured",
+                    "notConfigured": "Not configured",
+                    "partiallyConfigured": "Partially configured"
+                },
+                "tryAgain": "Try again",
+                "xaa": {
+                    "addClientIds": "Add client IDs",
+                    "allowedClients": "Allowed client IDs (optional)",
+                    "allowedClientsInfo": "Leave this empty to accept any client_id value.",
+                    "description": "Configure XAA for your organization.",
+                    "incomplete": "XAA remains disabled until you enter an identity provider issuer URL. You can save a partial configuration.",
+                    "issuerUrl": "Identity provider issuer URL",
+                    "issuerUrlInfo": "This must match the iss claim on ID-JAG tokens.",
+                    "jwksUrl": "JWKS URL (optional)",
+                    "jwksUrlInfo": "Leave this empty to use OIDC discovery from the issuer URL.",
+                    "readGuide": "Read the XAA setup guide",
+                    "scopesNotice": "Grant <code>user:read</code> and the scopes required by each integration. Project APIs also require <code>organization:read</code> and <code>project:read</code>."
+                }
+            },
             "invite": {
                 "add": "Add",
                 "addProject": "Add project",

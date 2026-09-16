@@ -680,6 +680,88 @@
                 "upload": "上传",
                 "uploadFailed": "上传图片出错：{{ detail }}"
             },
+            "idpConfig": {
+                "addNew": "添加新的 {{ feature }} 配置",
+                "configure": "配置",
+                "configureScimForLogs": "配置 SCIM 后可查看请求日志",
+                "loadFailed": "无法加载身份提供方配置。",
+                "multipleConfigsTooltip": "你大概不需要多个配置。只有在你使用了多个 IdP，或在同一个 IdP 中使用了多个应用做 SSO 时，才需要新建配置。",
+                "tryAgain": "重试",
+                "saml": {
+                    "acsConsumerUrl": "ACS 消费者 URL",
+                    "acsUrl": "SAML ACS URL",
+                    "audience": "受众 / 实体 ID",
+                    "certificate": "SAML X.509 证书",
+                    "description": "为你的组织配置 SAML。",
+                    "entityId": "SAML 实体 ID",
+                    "entityIdPlaceholder": "由你的身份提供方提供的实体 ID",
+                    "incomplete": "除非填写 ACS URL、实体 ID 和 X.509 证书，否则 SAML 会保持停用。你也可以先保存部分配置。",
+                    "readGuide": "阅读 SAML 设置指南",
+                    "relayState": "Relay state",
+                    "saveForRelayState": "保存此配置后会生成 relay state。"
+                },
+                "scim": {
+                    "baseUrl": "SCIM 基础 URL",
+                    "bearerToken": "Bearer 令牌",
+                    "copyToken": "请立即复制此令牌，它不会再次显示。",
+                    "description": "为你的组织配置 SCIM。",
+                    "enable": "启用 SCIM 预配",
+                    "readGuide": "阅读 SCIM 设置指南",
+                    "regenerate": "重新生成令牌",
+                    "regenerateDescription": "这会使当前令牌失效。生成新令牌后，请更新你的身份提供方。",
+                    "regenerateTitle": "重新生成 SCIM 令牌？",
+                    "saveForBaseUrl": "保存此配置后会生成 SCIM 基础 URL。",
+                    "saveForToken": "保存此配置后会生成 Bearer 令牌。",
+                    "tokenOnlyWhenGenerated": "Bearer 令牌只在生成时显示。"
+                },
+                "xaa": {
+                    "addClientIds": "添加客户端 ID",
+                    "allowedClients": "允许的客户端 ID（可选）",
+                    "allowedClientsInfo": "留空则接受任何 client_id 取值。",
+                    "description": "为你的组织配置 XAA。",
+                    "incomplete": "除非填写身份提供方发行方 URL，否则 XAA 会保持停用。你也可以先保存部分配置。",
+                    "issuerUrl": "身份提供方发行方 URL",
+                    "issuerUrlInfo": "必须与 ID-JAG 令牌中的 iss 声明一致。",
+                    "jwksUrl": "JWKS URL（可选）",
+                    "jwksUrlInfo": "留空则使用发行方 URL 的 OIDC 发现。",
+                    "readGuide": "阅读 XAA 设置指南",
+                    "scopesNotice": "授予 <code>user:read</code>，以及各集成所需的权限范围。项目级 API 还需要 <code>organization:read</code> 和 <code>project:read</code>。"
+                },
+                "status": {
+                    "configured": "已配置",
+                    "notConfigured": "未配置",
+                    "partiallyConfigured": "部分配置"
+                },
+                "scene": {
+                    "dangerZone": "危险区",
+                    "dangerZoneDescription": "这些操作无法撤销。删除此配置会移除它的身份提供方设置，并可能导致用户无法登录。",
+                    "delete": "删除配置",
+                    "deletePhrase": "Delete {{ name }}",
+                    "deleteTitle": "删除身份提供方配置？",
+                    "deleteWarning": "此操作无法撤销。请输入 <strong>{{ phrase }}</strong> 以确认。",
+                    "loadFailed": "无法加载该身份提供方配置。",
+                    "nameLabel": "配置名称",
+                    "namePlaceholder": "例如：Okta 生产环境",
+                    "notFound": "身份提供方配置",
+                    "notFoundTyped": "{{ feature }} 配置",
+                    "save": "保存配置",
+                    "title": "配置 {{ feature }}",
+                    "typeToConfirm": "请输入 {{ phrase }} 以确认"
+                },
+                "domainScope": {
+                    "allDomains": "所有域名",
+                    "allDomainsDescription": "将此配置应用到组织内所有已验证域名。",
+                    "conflict": "此 SAML 配置在一个或多个已验证域名上与其他 SAML 配置重叠。请先选择不同的域名再保存。",
+                    "label": "域名",
+                    "pendingDomain": "{{ domain }}（等待验证）",
+                    "placeholder": "选择域名",
+                    "saving": "正在保存配置",
+                    "selectedDomains": "选定的域名",
+                    "selectedDomainsDescription": "仅将此配置应用到你所选的域名。",
+                    "warningPrefix": "修改此值会影响你的",
+                    "warningSuffix": "配置。"
+                }
+            },
             "invite": {
                 "add": "添加",
                 "addProject": "添加项目",

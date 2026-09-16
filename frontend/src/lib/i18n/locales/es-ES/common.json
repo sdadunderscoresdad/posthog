@@ -690,6 +690,88 @@
                 "upload": "",
                 "uploadFailed": ""
             },
+            "idpConfig": {
+                "addNew": "",
+                "configure": "",
+                "configureScimForLogs": "",
+                "domainScope": {
+                    "allDomains": "",
+                    "allDomainsDescription": "",
+                    "conflict": "",
+                    "label": "",
+                    "pendingDomain": "",
+                    "placeholder": "",
+                    "saving": "",
+                    "selectedDomains": "",
+                    "selectedDomainsDescription": "",
+                    "warningPrefix": "",
+                    "warningSuffix": ""
+                },
+                "loadFailed": "",
+                "multipleConfigsTooltip": "",
+                "saml": {
+                    "acsConsumerUrl": "",
+                    "acsUrl": "",
+                    "audience": "",
+                    "certificate": "",
+                    "description": "",
+                    "entityId": "",
+                    "entityIdPlaceholder": "",
+                    "incomplete": "",
+                    "readGuide": "",
+                    "relayState": "",
+                    "saveForRelayState": ""
+                },
+                "scene": {
+                    "dangerZone": "",
+                    "dangerZoneDescription": "",
+                    "delete": "",
+                    "deletePhrase": "",
+                    "deleteTitle": "",
+                    "deleteWarning": "",
+                    "loadFailed": "",
+                    "nameLabel": "",
+                    "namePlaceholder": "",
+                    "notFound": "",
+                    "notFoundTyped": "",
+                    "save": "",
+                    "title": "",
+                    "typeToConfirm": ""
+                },
+                "scim": {
+                    "baseUrl": "",
+                    "bearerToken": "",
+                    "copyToken": "",
+                    "description": "",
+                    "enable": "",
+                    "readGuide": "",
+                    "regenerate": "",
+                    "regenerateDescription": "",
+                    "regenerateTitle": "",
+                    "saveForBaseUrl": "",
+                    "saveForToken": "",
+                    "tokenOnlyWhenGenerated": ""
+                },
+                "status": {
+                    "configured": "",
+                    "notConfigured": "",
+                    "partiallyConfigured": ""
+                },
+                "tryAgain": "",
+                "xaa": {
+                    "addClientIds": "",
+                    "allowedClients": "",
+                    "allowedClientsInfo": "",
+                    "description": "",
+                    "incomplete": "",
+                    "issuerUrl": "",
+                    "issuerUrlInfo": "",
+                    "jwksUrl": "",
+                    "jwksUrlInfo": "",
+                    "readGuide": "",
+                    "scopesNotice": ""
+                }
+            },
             "invite": {
                 "add": "",
                 "addProject": "",
