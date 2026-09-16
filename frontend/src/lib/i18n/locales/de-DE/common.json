@@ -616,6 +616,14 @@
                 "orgLevelLabel": "",
                 "orgLevelTooltip": ""
             },
+            "bounceRatePageViewMode": {
+                "countPageviews": "",
+                "countPageviewsDescription": "",
+                "countUniqueUrls": "",
+                "countUniqueUrlsDescription": "",
+                "useUniqUpTo": "",
+                "useUniqUpToDescription": ""
+            },
             "coreEvents": {
                 "actionNumber": "",
                 "add": "",
@@ -839,6 +847,24 @@
                 "namePlaceholder": "",
                 "officialTheme": ""
             },
+            "groupAnalytics": {
+                "columns": {
+                    "groupType": "",
+                    "groupTypeTooltip": "",
+                    "pluralName": "",
+                    "singularName": ""
+                },
+                "deleteDialog": {
+                    "cannotReassign": "",
+                    "confirm": "",
+                    "docsHint": "",
+                    "irreversible": "",
+                    "title": ""
+                },
+                "emptyState": "",
+                "makeChangesFirst": "",
+                "revertChanges": ""
+            },
             "jsSnippetVersion": {
                 "acceptedFormats": "",
                 "currentlyResolves": "",
@@ -930,6 +956,20 @@
             },
             "maxChangelog": {
                 "empty": ""
+            },
+            "maxMemory": {
+                "fieldLabel": "",
+                "loadError": "",
+                "loadFailed": "",
+                "loading": "",
+                "overLimit": "",
+                "overLimitReason": "",
+                "placeholder": "",
+                "placeholderFallbackSubject": "",
+                "retry": "",
+                "save": "",
+                "sizeHint": "",
+                "trimToFit": ""
             },
             "mcpServers": {
                 "description": "",
@@ -1095,6 +1135,25 @@
                 "retentionUpgradeHint": "",
                 "sinceVersion": ""
             },
+            "taskAgentDefaults": {
+                "adminsOnlyNotice": "",
+                "alreadyUsingProjectDefault": "",
+                "defaultEffort": "",
+                "effortSuffix": "",
+                "model": "",
+                "noDefaultSet": "",
+                "noProjectDefault": "",
+                "pickModelFirst": "",
+                "reasoningEffort": "",
+                "resetToProjectDefault": "",
+                "resolvedDefault": "",
+                "saving": "",
+                "sources": {
+                    "projectDefault": "",
+                    "userDefault": ""
+                },
+                "useProjectDefault": ""
+            },
             "team": {
                 "businessModel": {
                     "label": ""
@@ -1157,6 +1216,76 @@
                     "on": "",
                     "start": "",
                     "stop": ""
+                }
+            },
+            "usageMetrics": {
+                "add": "",
+                "calculation": {
+                    "count": "",
+                    "sumOf": "",
+                    "unknownProperty": ""
+                },
+                "columns": {
+                    "calculation": "",
+                    "display": "",
+                    "format": "",
+                    "interval": "",
+                    "name": "",
+                    "source": ""
+                },
+                "delete": "",
+                "deleteDialog": {
+                    "description": "",
+                    "title": ""
+                },
+                "display": {
+                    "number": "",
+                    "sparkline": ""
+                },
+                "edit": "",
+                "fields": {
+                    "calculation": "",
+                    "display": "",
+                    "format": "",
+                    "interval": "",
+                    "name": "",
+                    "namePlaceholder": ""
+                },
+                "filters": {
+                    "addEvent": "",
+                    "dataWarehouseHelp": "",
+                    "eventsHelp": "",
+                    "groupKeyColumn": "",
+                    "label": "",
+                    "matchPrompt": "",
+                    "propertyFiltersLabel": "",
+                    "timestampColumn": ""
+                },
+                "format": {
+                    "currency": "",
+                    "numeric": ""
+                },
+                "intro": "",
+                "introPlacement": "",
+                "math": {
+                    "amountPlaceholder": "",
+                    "columnToSum": "",
+                    "countEvents": "",
+                    "countRows": "",
+                    "propertyToSum": "",
+                    "selectProperty": "",
+                    "sumColumn": "",
+                    "sumProperty": ""
+                },
+                "modalTitle": "",
+                "source": {
+                    "events": "",
+                    "unknownTable": "",
+                    "warehouseTable": ""
+                },
+                "surfaces": {
+                    "person": "",
+                    "personAndGroup": ""
                 }
             }
         },

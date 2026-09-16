@@ -616,6 +616,14 @@
                 "orgLevelLabel": "Include organization-level activity",
                 "orgLevelTooltip": "When enabled, activity logs from organization-level changes (such as organization settings, domains, and members) will be included in this project's activity logs page, exports, and notifications subscriptions."
             },
+            "bounceRatePageViewMode": {
+                "countPageviews": "Counts pageviews",
+                "countPageviewsDescription": "This is the default. Counts <code>$pageview</code> events in a session as part of the bounce rate calculation.",
+                "countUniqueUrls": "Counts unique urls visited",
+                "countUniqueUrlsDescription": "Counts the number of unique url visited as part of the bounce rate calculation",
+                "useUniqUpTo": "Use uniqUpTo",
+                "useUniqUpToDescription": "Uses the <code>uniqUpTo</code> function to count if the total unique pageviews + screen events + autocaptures is >= 2"
+            },
             "coreEvents": {
                 "actionNumber": "Action #{{ id }}",
                 "add": "Add core event",
@@ -839,6 +847,24 @@
                 "namePlaceholder": "My custom theme",
                 "officialTheme": "Official theme"
             },
+            "groupAnalytics": {
+                "columns": {
+                    "groupType": "Group type",
+                    "groupTypeTooltip": "As used in code",
+                    "pluralName": "Plural name",
+                    "singularName": "Singular name"
+                },
+                "deleteDialog": {
+                    "cannotReassign": "You will not be able to assign existing events from this group type to another group type created in the future, only new events.",
+                    "confirm": "Delete {{ groupType }}",
+                    "docsHint": "For more information about groups, see <DocsLink>the docs</DocsLink>",
+                    "irreversible": "Deleting a group type is irreversible.",
+                    "title": "Delete {{ groupType }} group type"
+                },
+                "emptyState": "Group types will show up here after you send your first event associated with a group. Take a look at <DocsLink>this guide</DocsLink> for more information on getting started.",
+                "makeChangesFirst": "Make some changes before saving",
+                "revertChanges": "Revert any changes made"
+            },
             "jsSnippetVersion": {
                 "acceptedFormats": "Accepted formats: major version (<code>1</code>), minor version (<code>1.358</code>), or exact version (<code>1.358.0</code>).",
                 "currentlyResolves": "Currently resolves to:",
@@ -930,6 +956,20 @@
             },
             "maxChangelog": {
                 "empty": "No changelog entries available. Check back later for updates on new PostHog AI features."
+            },
+            "maxMemory": {
+                "fieldLabel": "PostHog AI's memory",
+                "loadError": "Could not load PostHog AI's memory. This does not mean your memory is empty. Your saved memory is safe.",
+                "loadFailed": "Memory could not be loaded",
+                "loading": "Loading project and memory...",
+                "overLimit": "This memory is over the {{ max }}-character limit and can't be saved until it fits. Trimming keeps the first {{ max }} characters.",
+                "overLimitReason": "Memory is over the character limit. Trim it to fit first.",
+                "placeholder": "What should PostHog AI know about {{ subject }}?",
+                "placeholderFallbackSubject": "your company or this product",
+                "retry": "Retry",
+                "save": "Save memory",
+                "sizeHint": "When memory exceeds 5,000 characters, only the first and last 2,500 characters are visible to PostHog AI. The maximum memory size is {{ max }} characters.",
+                "trimToFit": "Trim to fit"
             },
             "mcpServers": {
                 "description": "MCP servers allow AI assistants to connect directly to your PostHog instance, enabling them to retrieve insights and perform actions on your behalf.",
@@ -1095,6 +1135,25 @@
                 "retentionUpgradeHint": "Need longer data retention? Head over to our <BillingLink>billing page</BillingLink> to upgrade your package.",
                 "sinceVersion": "since {{ version }}"
             },
+            "taskAgentDefaults": {
+                "adminsOnlyNotice": "Only project admins can change this. You can still set your own default below.",
+                "alreadyUsingProjectDefault": "Already using the project default",
+                "defaultEffort": "Default effort",
+                "effortSuffix": "({{ effort }} effort)",
+                "model": "Model",
+                "noDefaultSet": "No default is set. Runs use each surface's built-in model.",
+                "noProjectDefault": "No project default",
+                "pickModelFirst": "Pick a model first",
+                "reasoningEffort": "Reasoning effort",
+                "resetToProjectDefault": "Reset to project default",
+                "resolvedDefault": "Runs you start without picking a model will use <Strong>{{ model }}</Strong> {{ effort }} from {{ source }}.",
+                "saving": "Saving…",
+                "sources": {
+                    "projectDefault": "the project default",
+                    "userDefault": "your default above"
+                },
+                "useProjectDefault": "Use project default"
+            },
             "team": {
                 "businessModel": {
                     "label": "Business model"
@@ -1157,6 +1216,76 @@
                     "on": "on",
                     "start": "start",
                     "stop": "stop"
+                }
+            },
+            "usageMetrics": {
+                "add": "Add metric",
+                "calculation": {
+                    "count": "Count",
+                    "sumOf": "Sum of {{ property }}",
+                    "unknownProperty": "(unknown)"
+                },
+                "columns": {
+                    "calculation": "Calculation",
+                    "display": "Display",
+                    "format": "Format",
+                    "interval": "Interval",
+                    "name": "Name",
+                    "source": "Source"
+                },
+                "delete": "Delete",
+                "deleteDialog": {
+                    "description": "Are you sure you want to delete \"{{ name }}\"? This action cannot be undone.",
+                    "title": "Delete usage metric"
+                },
+                "display": {
+                    "number": "Number",
+                    "sparkline": "Sparkline"
+                },
+                "edit": "Edit",
+                "fields": {
+                    "calculation": "Calculation",
+                    "display": "Display",
+                    "format": "Format",
+                    "interval": "Interval",
+                    "name": "Name",
+                    "namePlaceholder": "Events"
+                },
+                "filters": {
+                    "addEvent": "Add event",
+                    "dataWarehouseHelp": "Data warehouse metrics are limited to a single table and currently only render on group profiles.",
+                    "eventsHelp": "Pick events to match, or switch to a data warehouse table. Only one source can be active per metric.",
+                    "groupKeyColumn": "Group key column",
+                    "label": "Match events or data warehouse table",
+                    "matchPrompt": "Match event or data warehouse table",
+                    "propertyFiltersLabel": "Filters",
+                    "timestampColumn": "Timestamp column"
+                },
+                "format": {
+                    "currency": "Currency",
+                    "numeric": "Numeric"
+                },
+                "intro": "Define what usage means for your product based on one or more events.",
+                "introPlacement": "Usage metrics are displayed in the person {{ surface }}.",
+                "math": {
+                    "amountPlaceholder": "amount",
+                    "columnToSum": "Column to sum",
+                    "countEvents": "Count of events",
+                    "countRows": "Count of rows",
+                    "propertyToSum": "Property to sum",
+                    "selectProperty": "Select property",
+                    "sumColumn": "Sum of column",
+                    "sumProperty": "Sum of property"
+                },
+                "modalTitle": "Add usage metric",
+                "source": {
+                    "events": "Events",
+                    "unknownTable": "(unknown table)",
+                    "warehouseTable": "Warehouse · {{ table }}"
+                },
+                "surfaces": {
+                    "person": "profile",
+                    "personAndGroup": "and group profiles"
                 }
             }
         },

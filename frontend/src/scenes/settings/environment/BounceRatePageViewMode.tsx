@@ -1,5 +1,7 @@
+import { TFunction } from 'i18next'
 import { useActions, useValues } from 'kea'
 import { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { TeamMembershipLevel } from 'lib/constants'
@@ -12,45 +14,67 @@ import { HogQLQueryModifiers } from '~/queries/schema/schema-general'
 
 type BounceRatePageViewMode = NonNullable<HogQLQueryModifiers['bounceRatePageViewMode']>
 
-const BOUNCE_RATE_PAGE_VIEW_MODE_OPTIONS: LemonRadioOption<BounceRatePageViewMode>[] = [
-    {
-        value: 'count_pageviews',
-        label: (
-            <>
-                <div>Counts pageviews</div>
-                <div className="text-secondary">
-                    This is the default. Counts <code>$pageview</code> events in a session as part of the bounce rate
-                    calculation.
-                </div>
-            </>
-        ),
-    },
-    {
-        value: 'uniq_urls',
-        label: (
-            <>
-                <div>Counts unique urls visited</div>
-                <div className="text-secondary">
-                    Counts the number of unique url visited as part of the bounce rate calculation
-                </div>
-            </>
-        ),
-    },
-    {
-        value: 'uniq_page_screen_autocaptures',
-        label: (
-            <>
-                <div>Use uniqUpTo</div>
-                <div className="text-secondary">
-                    Uses the <code>uniqUpTo</code> function to count if the total unique pageviews + screen events +
-                    autocaptures is &gte; 2
-                </div>
-            </>
-        ),
-    },
-]
+function buildBounceRatePageViewModeOptions({ t }: { t: TFunction }): LemonRadioOption<BounceRatePageViewMode>[] {
+    return [
+        {
+            value: 'count_pageviews',
+            label: (
+                <>
+                    <div>
+                        {t('settings.environment.bounceRatePageViewMode.countPageviews', {
+                            defaultValue: 'Counts pageviews',
+                        })}
+                    </div>
+                    <div className="text-secondary">
+                        <Trans
+                            i18nKey="settings.environment.bounceRatePageViewMode.countPageviewsDescription"
+                            components={{ code: <code /> }}
+                            defaults="This is the default. Counts <code>$pageview</code> events in a session as part of the bounce rate calculation."
+                        />
+                    </div>
+                </>
+            ),
+        },
+        {
+            value: 'uniq_urls',
+            label: (
+                <>
+                    <div>
+                        {t('settings.environment.bounceRatePageViewMode.countUniqueUrls', {
+                            defaultValue: 'Counts unique urls visited',
+                        })}
+                    </div>
+                    <div className="text-secondary">
+                        {t('settings.environment.bounceRatePageViewMode.countUniqueUrlsDescription', {
+                            defaultValue:
+                                'Counts the number of unique url visited as part of the bounce rate calculation',
+                        })}
+                    </div>
+                </>
+            ),
+        },
+        {
+            value: 'uniq_page_screen_autocaptures',
+            label: (
+                <>
+                    <div>
+                        {t('settings.environment.bounceRatePageViewMode.useUniqUpTo', { defaultValue: 'Use uniqUpTo' })}
+                    </div>
+                    <div className="text-secondary">
+                        <Trans
+                            i18nKey="settings.environment.bounceRatePageViewMode.useUniqUpToDescription"
+                            components={{ code: <code /> }}
+                            defaults="Uses the <code>uniqUpTo</code> function to count if the total unique pageviews + screen events + autocaptures is >= 2"
+                        />
+                    </div>
+                </>
+            ),
+        },
+    ]
+}
 
 export function BounceRatePageViewModeSetting(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam } = useValues(teamLogic)
     const { reportBounceRatePageViewModeUpdated } = useActions(eventUsageLogic)
@@ -59,7 +83,7 @@ export function BounceRatePageViewModeSetting(): JSX.Element {
         minimumAccessLevel: TeamMembershipLevel.Admin,
     })
 
-    const bounceRatePageViewModeOptions = BOUNCE_RATE_PAGE_VIEW_MODE_OPTIONS.map((o) => ({
+    const modeOptions = buildBounceRatePageViewModeOptions({ t }).map((o) => ({
         ...o,
         disabledReason: restrictedReason ?? undefined,
     }))
@@ -77,20 +101,18 @@ export function BounceRatePageViewModeSetting(): JSX.Element {
 
     return (
         <>
-            <LemonRadio
-                value={bounceRatePageViewMode}
-                onChange={setBounceRatePageViewMode}
-                options={bounceRatePageViewModeOptions}
-            />
+            <LemonRadio value={bounceRatePageViewMode} onChange={setBounceRatePageViewMode} options={modeOptions} />
             <div className="mt-4">
                 <LemonButton
                     type="primary"
                     onClick={() => handleChange(bounceRatePageViewMode)}
                     disabledReason={
-                        bounceRatePageViewMode === savedBounceRatePageViewMode ? 'No changes to save' : restrictedReason
+                        bounceRatePageViewMode === savedBounceRatePageViewMode
+                            ? t('settings.noChangesToSave', { defaultValue: 'No changes to save' })
+                            : restrictedReason
                     }
                 >
-                    Save
+                    {t('settings.save', { defaultValue: 'Save' })}
                 </LemonButton>
             </div>
         </>

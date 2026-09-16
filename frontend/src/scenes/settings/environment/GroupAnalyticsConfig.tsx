@@ -1,10 +1,12 @@
 import { useActions, useValues } from 'kea'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconTrash } from '@posthog/icons'
 import { LemonButton, LemonDialog, LemonInput, Link } from '@posthog/lemon-ui'
 
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { TeamMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { GroupsAccessStatus, groupsAccessLogic } from 'lib/introductions/groupsAccessLogic'
 import { LemonBanner } from 'lib/lemon-ui/LemonBanner'
 import { LemonTable, LemonTableColumns } from 'lib/lemon-ui/LemonTable'
@@ -23,36 +25,52 @@ export interface DeleteGroupTypeDialogProps {
 export function openDeleteGroupTypeDialog({ onConfirm, groupTypeName }: DeleteGroupTypeDialogProps): void {
     const groupType = groupTypeName.toLowerCase()
     LemonDialog.open({
-        title: `Delete ${groupType} group type`,
+        title: i18n.t('settings.environment.groupAnalytics.deleteDialog.title', {
+            defaultValue: 'Delete {{ groupType }} group type',
+            groupType,
+        }),
         description: (
             <div className="mt-2 w-150">
-                Deleting a group type is irreversible.
+                {i18n.t('settings.environment.groupAnalytics.deleteDialog.irreversible', {
+                    defaultValue: 'Deleting a group type is irreversible.',
+                })}
                 <br />
                 <br />
-                You will not be able to assign existing events from this group type to another group type created in the
-                future, only new events.
+                {i18n.t('settings.environment.groupAnalytics.deleteDialog.cannotReassign', {
+                    defaultValue:
+                        'You will not be able to assign existing events from this group type to another group type created in the future, only new events.',
+                })}
                 <br />
                 <br />
-                For more information about groups, see{' '}
-                <Link to="https://posthog.com/docs/product-analytics/group-analytics" target="_blank">
-                    the docs
-                </Link>
+                <Trans
+                    i18nKey="settings.environment.groupAnalytics.deleteDialog.docsHint"
+                    components={{
+                        DocsLink: (
+                            <Link to="https://posthog.com/docs/product-analytics/group-analytics" target="_blank" />
+                        ),
+                    }}
+                    defaults="For more information about groups, see <DocsLink>the docs</DocsLink>"
+                />
             </div>
         ),
         secondaryButton: {
             type: 'secondary',
-            children: 'Cancel',
+            children: i18n.t('settings.cancel', { defaultValue: 'Cancel' }),
         },
         primaryButton: {
             type: 'primary',
             status: 'danger',
             onClick: onConfirm,
-            children: `Delete ${groupType}`,
+            children: i18n.t('settings.environment.groupAnalytics.deleteDialog.confirm', {
+                defaultValue: 'Delete {{ groupType }}',
+                groupType,
+            }),
         },
     })
 }
 
 export function GroupAnalyticsConfig(): JSX.Element | null {
+    const { t } = useTranslation()
     const { groupTypes, groupTypesLoading, singularChanges, pluralChanges, hasChanges } =
         useValues(groupAnalyticsConfigLogic)
     const { setSingular, setPlural, reset, save, deleteGroupType } = useActions(groupAnalyticsConfigLogic)
@@ -69,8 +87,10 @@ export function GroupAnalyticsConfig(): JSX.Element | null {
 
     const columns: LemonTableColumns<GroupType> = [
         {
-            title: 'Group type',
-            tooltip: 'As used in code',
+            title: t('settings.environment.groupAnalytics.columns.groupType', { defaultValue: 'Group type' }),
+            tooltip: t('settings.environment.groupAnalytics.columns.groupTypeTooltip', {
+                defaultValue: 'As used in code',
+            }),
             dataIndex: 'group_type',
             key: 'name',
             render: function RenderName(name) {
@@ -78,7 +98,7 @@ export function GroupAnalyticsConfig(): JSX.Element | null {
             },
         },
         {
-            title: 'Singular name',
+            title: t('settings.environment.groupAnalytics.columns.singularName', { defaultValue: 'Singular name' }),
             key: 'singular',
             render: function Render(_, groupType) {
                 return (
@@ -95,7 +115,7 @@ export function GroupAnalyticsConfig(): JSX.Element | null {
             },
         },
         {
-            title: 'Plural name',
+            title: t('settings.environment.groupAnalytics.columns.pluralName', { defaultValue: 'Plural name' }),
             key: 'plural',
             render: function Render(_, groupType) {
                 return (
@@ -138,12 +158,15 @@ export function GroupAnalyticsConfig(): JSX.Element | null {
         <>
             {groupsAccessStatus !== GroupsAccessStatus.AlreadyUsing && (
                 <LemonBanner type="info" className="mb-4">
-                    Group types will show up here after you send your first event associated with a group. Take a look
-                    at{' '}
-                    <Link to="https://posthog.com/docs/product-analytics/group-analytics" target="_blank">
-                        this guide
-                    </Link>{' '}
-                    for more information on getting started.
+                    <Trans
+                        i18nKey="settings.environment.groupAnalytics.emptyState"
+                        components={{
+                            DocsLink: (
+                                <Link to="https://posthog.com/docs/product-analytics/group-analytics" target="_blank" />
+                            ),
+                        }}
+                        defaults="Group types will show up here after you send your first event associated with a group. Take a look at <DocsLink>this guide</DocsLink> for more information on getting started."
+                    />
                 </LemonBanner>
             )}
 
@@ -152,13 +175,28 @@ export function GroupAnalyticsConfig(): JSX.Element | null {
             <div className="flex gap-2 mt-4">
                 <LemonButton
                     type="primary"
-                    disabledReason={hasChanges ? restrictedReason : 'Make some changes before saving'}
+                    disabledReason={
+                        hasChanges
+                            ? restrictedReason
+                            : t('settings.environment.groupAnalytics.makeChangesFirst', {
+                                  defaultValue: 'Make some changes before saving',
+                              })
+                    }
                     onClick={save}
                 >
-                    Save
+                    {t('settings.save', { defaultValue: 'Save' })}
                 </LemonButton>
-                <LemonButton disabledReason={hasChanges ? restrictedReason : 'Revert any changes made'} onClick={reset}>
-                    Cancel
+                <LemonButton
+                    disabledReason={
+                        hasChanges
+                            ? restrictedReason
+                            : t('settings.environment.groupAnalytics.revertChanges', {
+                                  defaultValue: 'Revert any changes made',
+                              })
+                    }
+                    onClick={reset}
+                >
+                    {t('settings.cancel', { defaultValue: 'Cancel' })}
                 </LemonButton>
             </div>
         </>

@@ -611,6 +611,14 @@
                 "orgLevelLabel": "包含组织级别的活动",
                 "orgLevelTooltip": "启用后，组织级别变更（例如组织设置、域名和成员）产生的活动日志会纳入此项目的活动日志页面、导出和通知订阅。"
             },
+            "bounceRatePageViewMode": {
+                "countPageviews": "按页面浏览量计数",
+                "countPageviewsDescription": "这是默认方式。在计算跳出率时，统计会话中的 <code>$pageview</code> 事件数。",
+                "countUniqueUrls": "按访问过的唯一 URL 计数",
+                "countUniqueUrlsDescription": "在计算跳出率时，统计访问过的唯一 URL 数量",
+                "useUniqUpTo": "使用 uniqUpTo",
+                "useUniqUpToDescription": "使用 <code>uniqUpTo</code> 函数，判断唯一页面浏览量 + 屏幕事件 + 自动捕获的总数是否 >= 2"
+            },
             "coreEvents": {
                 "actionNumber": "操作 #{{ id }}",
                 "add": "添加核心事件",
@@ -832,6 +840,24 @@
                 "namePlaceholder": "我的自定义主题",
                 "officialTheme": "官方主题"
             },
+            "groupAnalytics": {
+                "columns": {
+                    "groupType": "分组类型",
+                    "groupTypeTooltip": "在代码中使用",
+                    "pluralName": "复数名称",
+                    "singularName": "单数名称"
+                },
+                "deleteDialog": {
+                    "cannotReassign": "你将无法把此分组类型中已有的事件归属到将来创建的另一个分组类型，只有新事件可以。",
+                    "confirm": "删除 {{ groupType }}",
+                    "docsHint": "要了解更多关于分组的信息，请参阅<DocsLink>文档</DocsLink>",
+                    "irreversible": "删除分组类型是不可撤销的操作。",
+                    "title": "删除 {{ groupType }} 分组类型"
+                },
+                "emptyState": "在你发送第一个关联分组的事件之后，分组类型就会显示在这里。查看<DocsLink>这份指南</DocsLink>了解如何开始使用。",
+                "makeChangesFirst": "请先做出修改再保存",
+                "revertChanges": "撤销所有已做的修改"
+            },
             "jsSnippetVersion": {
                 "acceptedFormats": "支持的格式：主版本（<code>1</code>）、次版本（<code>1.358</code>）或精确版本（<code>1.358.0</code>）。",
                 "currentlyResolves": "当前解析为：",
@@ -922,6 +948,20 @@
             },
             "maxChangelog": {
                 "empty": "暂时没有更新日志。稍后再来看看 PostHog AI 的新功能。"
+            },
+            "maxMemory": {
+                "fieldLabel": "PostHog AI 的记忆",
+                "loadError": "无法加载 PostHog AI 的记忆。这并不意味着你的记忆是空的，你已保存的记忆是安全的。",
+                "loadFailed": "记忆无法加载",
+                "loading": "正在加载项目和记忆…",
+                "overLimit": "这段记忆超过了 {{ max }} 个字符的限制，需要缩减到限制以内才能保存。缩减后会保留前 {{ max }} 个字符。",
+                "overLimitReason": "记忆超过了字符限制。请先缩减到限制以内。",
+                "placeholder": "PostHog AI 应该了解关于{{ subject }}的哪些信息？",
+                "placeholderFallbackSubject": "你的公司或此产品",
+                "retry": "重试",
+                "save": "保存记忆",
+                "sizeHint": "当记忆超过 5,000 个字符时，PostHog AI 只能看到开头和结尾各 2,500 个字符。记忆的最大长度为 {{ max }} 个字符。",
+                "trimToFit": "缩减到限制以内"
             },
             "mcpServers": {
                 "description": "MCP 服务器让 AI 助手可以直接连接到你的 PostHog 实例，从而检索洞察并代表你执行操作。",
@@ -1080,6 +1120,25 @@
                 "retentionUpgradeHint": "需要更长的数据保留期？前往<BillingLink>账单页面</BillingLink>升级套餐。",
                 "sinceVersion": "自 {{ version }} 起"
             },
+            "taskAgentDefaults": {
+                "adminsOnlyNotice": "只有项目管理员可以修改此项。你仍然可以在下方设置自己的默认值。",
+                "alreadyUsingProjectDefault": "已在使用项目默认值",
+                "defaultEffort": "默认推理强度",
+                "effortSuffix": "（{{ effort }} 推理强度）",
+                "model": "模型",
+                "noDefaultSet": "没有设置默认值。运行会使用各个界面内置的模型。",
+                "noProjectDefault": "无项目默认值",
+                "pickModelFirst": "请先选择模型",
+                "reasoningEffort": "推理强度",
+                "resetToProjectDefault": "重置为项目默认值",
+                "resolvedDefault": "未选择模型就启动的运行将使用来自{{ source }}的 <Strong>{{ model }}</Strong> {{ effort }}。",
+                "saving": "保存中…",
+                "sources": {
+                    "projectDefault": "项目默认值",
+                    "userDefault": "你上方设置的默认值"
+                },
+                "useProjectDefault": "使用项目默认值"
+            },
             "team": {
                 "businessModel": {
                     "label": "商业模式"
@@ -1142,6 +1201,76 @@
                     "on": "打开",
                     "start": "开始",
                     "stop": "停止"
+                }
+            },
+            "usageMetrics": {
+                "add": "添加指标",
+                "calculation": {
+                    "count": "计数",
+                    "sumOf": "{{ property }} 之和",
+                    "unknownProperty": "（未知）"
+                },
+                "columns": {
+                    "calculation": "计算方式",
+                    "display": "展示方式",
+                    "format": "格式",
+                    "interval": "时间间隔",
+                    "name": "名称",
+                    "source": "数据来源"
+                },
+                "delete": "删除",
+                "deleteDialog": {
+                    "description": "确定要删除「{{ name }}」吗？此操作无法撤销。",
+                    "title": "删除使用指标"
+                },
+                "display": {
+                    "number": "数字",
+                    "sparkline": "迷你趋势图"
+                },
+                "edit": "编辑",
+                "fields": {
+                    "calculation": "计算方式",
+                    "display": "展示方式",
+                    "format": "格式",
+                    "interval": "时间间隔",
+                    "name": "名称",
+                    "namePlaceholder": "事件"
+                },
+                "filters": {
+                    "addEvent": "添加事件",
+                    "dataWarehouseHelp": "数据仓库指标仅限单张表，目前只在分组资料页展示。",
+                    "eventsHelp": "选择要匹配的事件，或切换为数据仓库表。每个指标只能启用一种数据来源。",
+                    "groupKeyColumn": "分组键列",
+                    "label": "匹配事件或数据仓库表",
+                    "matchPrompt": "匹配事件或数据仓库表",
+                    "propertyFiltersLabel": "过滤",
+                    "timestampColumn": "时间戳列"
+                },
+                "format": {
+                    "currency": "货币",
+                    "numeric": "数值"
+                },
+                "intro": "用一个或多个事件来定义对你产品而言什么算作使用。",
+                "introPlacement": "使用指标会展示在个人{{ surface }}中。",
+                "math": {
+                    "amountPlaceholder": "金额",
+                    "columnToSum": "要求和的列",
+                    "countEvents": "事件计数",
+                    "countRows": "行数",
+                    "propertyToSum": "要求和的属性",
+                    "selectProperty": "选择属性",
+                    "sumColumn": "列求和",
+                    "sumProperty": "属性求和"
+                },
+                "modalTitle": "添加使用指标",
+                "source": {
+                    "events": "事件",
+                    "unknownTable": "（未知表）",
+                    "warehouseTable": "数据仓库 · {{ table }}"
+                },
+                "surfaces": {
+                    "person": "资料",
+                    "personAndGroup": "和分组资料"
                 }
             }
         },
