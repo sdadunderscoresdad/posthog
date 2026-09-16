@@ -1,6 +1,7 @@
 import { deepEqual as equal } from 'fast-equals'
 import { useActions, useValues } from 'kea'
 import { useMemo, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconPlus } from '@posthog/icons'
 
@@ -8,6 +9,7 @@ import { PropertyValue } from 'lib/components/PropertyFilters/components/Propert
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { VerticalNestedDND } from 'lib/components/VerticalNestedDND/VerticalNestedDND'
 import { TeamMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonInputSelect, LemonInputSelectOption } from 'lib/lemon-ui/LemonInputSelect'
 import { LemonSelect } from 'lib/lemon-ui/LemonSelect'
@@ -29,37 +31,65 @@ import {
 import { FilterLogicalOperator, PropertyFilterType, PropertyOperator } from '~/types'
 
 const combinerOptions = [
-    { label: 'All', value: FilterLogicalOperator.And },
-    { label: 'Any', value: FilterLogicalOperator.Or },
+    {
+        get label() {
+            return i18n.t('settings.environment.customChannelTypes.combiners.all', { defaultValue: 'All' })
+        },
+        value: FilterLogicalOperator.And,
+    },
+    {
+        get label() {
+            return i18n.t('settings.environment.customChannelTypes.combiners.any', { defaultValue: 'Any' })
+        },
+        value: FilterLogicalOperator.Or,
+    },
 ]
 
 const keyOptions = [
     {
-        label: 'Referring domain',
+        get label() {
+            return i18n.t('settings.environment.customChannelTypes.fields.referringDomain', {
+                defaultValue: 'Referring domain',
+            })
+        },
         value: CustomChannelField.ReferringDomain,
     },
     {
-        label: 'UTM Source',
+        get label() {
+            return i18n.t('settings.environment.customChannelTypes.fields.utmSource', { defaultValue: 'UTM Source' })
+        },
         value: CustomChannelField.UTMSource,
     },
     {
-        label: 'UTM Medium',
+        get label() {
+            return i18n.t('settings.environment.customChannelTypes.fields.utmMedium', { defaultValue: 'UTM Medium' })
+        },
         value: CustomChannelField.UTMMedium,
     },
     {
-        label: 'UTM Campaign',
+        get label() {
+            return i18n.t('settings.environment.customChannelTypes.fields.utmCampaign', {
+                defaultValue: 'UTM Campaign',
+            })
+        },
         value: CustomChannelField.UTMCampaign,
     },
     {
-        label: 'URL',
+        get label() {
+            return i18n.t('settings.environment.customChannelTypes.fields.url', { defaultValue: 'URL' })
+        },
         value: CustomChannelField.URL,
     },
     {
-        label: 'Hostname',
+        get label() {
+            return i18n.t('settings.environment.customChannelTypes.fields.hostname', { defaultValue: 'Hostname' })
+        },
         value: CustomChannelField.Hostname,
     },
     {
-        label: 'Pathname',
+        get label() {
+            return i18n.t('settings.environment.customChannelTypes.fields.pathname', { defaultValue: 'Pathname' })
+        },
         value: CustomChannelField.Pathname,
     },
 ]
@@ -158,18 +188,22 @@ export function CustomChannelTypes(): JSX.Element {
     return (
         <div>
             <p>
-                You can create custom channel types by defining rules that match incoming events. The first matching
-                rule is used, and if no rule matches (or if none are defined) then the{' '}
-                <Link to="https://posthog.com/docs/data/channel-type#channel-type-calculation">
-                    default channel type
-                </Link>{' '}
-                is used.
+                <Trans
+                    i18nKey="settings.environment.customChannelTypes.intro"
+                    components={{
+                        DocsLink: <Link to="https://posthog.com/docs/data/channel-type#channel-type-calculation" />,
+                    }}
+                    defaults="You can create custom channel types by defining rules that match incoming events. The first matching rule is used, and if no rule matches (or if none are defined) then the <DocsLink>default channel type</DocsLink> is used."
+                />
             </p>
             <p>
-                To debug, try the{' '}
-                <Link to={urls.sessionAttributionExplorer()} target="_blank">
-                    session attribution explorer tool
-                </Link>
+                <Trans
+                    i18nKey="settings.environment.customChannelTypes.debugHint"
+                    components={{
+                        ExplorerLink: <Link to={urls.sessionAttributionExplorer()} target="_blank" />,
+                    }}
+                    defaults="To debug, try the <ExplorerLink>session attribution explorer tool</ExplorerLink>"
+                />
             </p>
             <ChannelTypeEditor
                 handleChange={setCustomChannelTypeRules}
@@ -209,6 +243,11 @@ export function ChannelTypeEditor({
     onSave,
     canEdit,
 }: ChannelTypeEditorProps): JSX.Element {
+    const { t } = useTranslation()
+    const editorOnlyReason = t('settings.environment.customChannelTypes.editorOnlyReason', {
+        defaultValue: 'You need editor access to modify channel types',
+    })
+
     return (
         <VerticalNestedDND<CustomChannelCondition, CustomChannelRule>
             initialItems={initialCustomChannelTypeRules}
@@ -216,7 +255,11 @@ export function ChannelTypeEditor({
                 return (
                     <div className="flex flex-col deprecated-space-y-2">
                         <div className="flex flex-row items-center deprecated-space-x-2">
-                            <span>Set Channel type to</span>
+                            <span>
+                                {t('settings.environment.customChannelTypes.setChannelTypeTo', {
+                                    defaultValue: 'Set Channel type to',
+                                })}
+                            </span>
                             <LemonInputSelect
                                 className="flex-1"
                                 mode="single"
@@ -229,26 +272,36 @@ export function ChannelTypeEditor({
                                     })
                                 }
                                 options={channelTypeOptions}
-                                placeholder="Enter a channel type name"
+                                placeholder={t('settings.environment.customChannelTypes.channelTypePlaceholder', {
+                                    defaultValue: 'Enter a channel type name',
+                                })}
                                 disabled={!canEdit}
                             />
                         </div>
                         {rule.items.length > 0 ? (
                             <div>
                                 {rule.items.length == 1 ? (
-                                    'when this condition is met'
+                                    t('settings.environment.customChannelTypes.singleCondition', {
+                                        defaultValue: 'when this condition is met',
+                                    })
                                 ) : (
                                     <div className="flex flex-row items-center deprecated-space-x-2">
-                                        <span>When</span>
+                                        <span>
+                                            {t('settings.environment.customChannelTypes.when', {
+                                                defaultValue: 'When',
+                                            })}
+                                        </span>
                                         <LemonSelect
                                             value={rule.combiner}
                                             options={combinerOptions}
                                             onChange={(combiner) => updateContainerItem({ ...rule, combiner })}
-                                            disabledReason={
-                                                !canEdit ? 'You need editor access to modify channel types' : undefined
-                                            }
+                                            disabledReason={!canEdit ? editorOnlyReason : undefined}
                                         />
-                                        <span>conditions are met</span>
+                                        <span>
+                                            {t('settings.environment.customChannelTypes.multipleConditions', {
+                                                defaultValue: 'conditions are met',
+                                            })}
+                                        </span>
                                     </div>
                                 )}
                             </div>
@@ -264,13 +317,13 @@ export function ChannelTypeEditor({
                                 value={rule.key}
                                 options={keyOptions}
                                 onChange={(key) => updateChildItem({ ...rule, key })}
-                                disabledReason={!canEdit ? 'You need editor access to modify channel types' : undefined}
+                                disabledReason={!canEdit ? editorOnlyReason : undefined}
                             />
                             <LemonSelect<CustomChannelOperator>
                                 value={rule.op}
                                 options={opOptions}
                                 onChange={(op) => updateChildItem({ ...rule, op })}
-                                disabledReason={!canEdit ? 'You need editor access to modify channel types' : undefined}
+                                disabledReason={!canEdit ? editorOnlyReason : undefined}
                             />
                         </div>
                         {isNullary(rule.op) ? null : canEdit ? (
@@ -283,7 +336,9 @@ export function ChannelTypeEditor({
                                 }}
                                 operator={opToPropertyOperator[rule.op]}
                                 value={rule.value}
-                                placeholder="Enter a value"
+                                placeholder={t('settings.environment.customChannelTypes.valuePlaceholder', {
+                                    defaultValue: 'Enter a value',
+                                })}
                             />
                         ) : (
                             <div className="text-muted">
@@ -296,14 +351,16 @@ export function ChannelTypeEditor({
             renderAddChildItem={(rule, { onAddChild }) => {
                 return canEdit ? (
                     <LemonButton type="primary" onClick={() => onAddChild(rule.id)} icon={<IconPlus />}>
-                        Add condition
+                        {t('settings.environment.customChannelTypes.addCondition', {
+                            defaultValue: 'Add condition',
+                        })}
                     </LemonButton>
                 ) : null
             }}
             renderAddContainerItem={({ onAddContainer }) => {
                 return canEdit ? (
                     <LemonButton type="primary" onClick={onAddContainer} icon={<IconPlus />}>
-                        Add rule
+                        {t('settings.environment.customChannelTypes.addRule', { defaultValue: 'Add rule' })}
                     </LemonButton>
                 ) : null
             }}
@@ -311,10 +368,16 @@ export function ChannelTypeEditor({
                 return canEdit ? (
                     <LemonButton
                         onClick={onSave}
-                        disabledReason={isSaveDisabled ? 'No changes to save' : undefined}
+                        disabledReason={
+                            isSaveDisabled
+                                ? t('settings.noChangesToSave', { defaultValue: 'No changes to save' })
+                                : undefined
+                        }
                         type="primary"
                     >
-                        Save custom channel type rules
+                        {t('settings.environment.customChannelTypes.save', {
+                            defaultValue: 'Save custom channel type rules',
+                        })}
                     </LemonButton>
                 ) : null
             }}

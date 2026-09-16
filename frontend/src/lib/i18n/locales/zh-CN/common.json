@@ -611,6 +611,95 @@
                 "orgLevelLabel": "包含组织级别的活动",
                 "orgLevelTooltip": "启用后，组织级别变更（例如组织设置、域名和成员）产生的活动日志会纳入此项目的活动日志页面、导出和通知订阅。"
             },
+            "coreEvents": {
+                "actionNumber": "操作 #{{ id }}",
+                "add": "添加核心事件",
+                "addTitle": "添加核心事件",
+                "allEvents": "所有事件",
+                "categories": {
+                    "acquisition": {
+                        "description": "注册、应用安装",
+                        "label": "获取"
+                    },
+                    "activation": {
+                        "description": "上手引导、首个核心操作",
+                        "label": "激活"
+                    },
+                    "churn": {
+                        "description": "取消订阅",
+                        "label": "流失"
+                    },
+                    "expansion": {
+                        "description": "套餐升级",
+                        "label": "扩展"
+                    },
+                    "monetization": {
+                        "description": "购买、订阅开始",
+                        "label": "变现"
+                    },
+                    "reactivation": {
+                        "description": "流失后回归",
+                        "label": "召回"
+                    },
+                    "referral": {
+                        "description": "发出邀请",
+                        "label": "推荐"
+                    },
+                    "retention": {
+                        "description": "重复购买",
+                        "label": "留存"
+                    }
+                },
+                "categoryPlaceholder": "选择类别",
+                "categoryRequired": "请选择一个类别",
+                "columns": {
+                    "actions": "操作",
+                    "category": "类别",
+                    "filter": "过滤",
+                    "name": "名称",
+                    "type": "类型"
+                },
+                "create": "添加",
+                "descriptionLabel": "描述（可选）",
+                "descriptionPlaceholder": "描述这个核心事件跟踪的内容",
+                "edit": "编辑",
+                "editTitle": "编辑核心事件",
+                "emptyHeading": "未配置核心事件",
+                "emptyState": "还没有配置核心事件。请在上方添加第一个核心事件。",
+                "filterLabel": "事件、操作或数据仓库表",
+                "filterTypes": {
+                    "action": "操作",
+                    "dataWarehouse": "数据仓库",
+                    "event": "事件",
+                    "unknown": "未知"
+                },
+                "heading_other": "{{ count }} 个核心事件",
+                "namePlaceholder": "例如：购买、注册",
+                "nameRequired": "请为该核心事件输入名称",
+                "remove": "移除",
+                "selectPlaceholder": "请选择一个事件、操作或数据仓库表",
+                "toasts": {
+                    "added": "已添加核心事件",
+                    "addFailed": "添加核心事件失败",
+                    "removed": "已删除核心事件",
+                    "removeFailed": "删除核心事件失败",
+                    "updated": "已更新核心事件",
+                    "updateFailed": "更新核心事件失败"
+                },
+                "unknownTable": "未知表",
+                "update": "更新"
+            },
+            "cspReporting": {
+                "directives": "PostHog 同时支持 <ReportUriLink>report-uri</ReportUriLink> 和 <ReportToLink>report-to</ReportToLink> 两种指令，并将违规行为转换为事件，让你可以像处理其他事件一样进行跟踪和告警。",
+                "extraParameters": "我们支持在报告 URL 上附加一些额外参数。这需要你在把该 URL 添加到页面时一并提供相应信息。 <DocsLink>查看我们的文档了解示例。</DocsLink>",
+                "includeDistinctId": "distinct_id：当前用户的 distinct id。这样你可以跟踪哪些用户受到了影响",
+                "includeSampleRate": "sample_rate：当前 CSP 的采样率。可让你控制接收的报告数量。",
+                "includeSessionId": "session_id：PostHog 的 UUIDv7 会话 ID。有助于把 CSP 违规与会话重放关联起来。",
+                "includeVersion": "version：当前 CSP 的版本。有助于你跟踪 CSP 变更带来的影响。",
+                "introWhatIsCsp": "CSP 是给浏览器的一组指令，用来指定允许加载哪些资源、你的网站可以向哪些域名发送信息。它是一项非常强大的安全机制，但配置起来可能相当麻烦。",
+                "introWhatItDoes": "CSP Reporting 会在发生 CSP 违规时把报告发送到 PostHog，从而帮你跟踪 CSP。这有助于你发现 CSP 配置错误、网站变更或安全缺陷导致的问题。",
+                "urlHint": "请在 report-to 和 report-uri 两个端点中都设置此 URL"
+            },
             "customBotRules": {
                 "addBot": "添加机器人",
                 "addCondition": "添加条件",
@@ -704,6 +793,33 @@
                     "tooManyRules": "最多可以定义 {{ max }} 个机器人",
                     "unsupportedConstruct": "这里用到了{{ construct }}，此处不支持。"
                 }
+            },
+            "customChannelTypes": {
+                "addCondition": "添加条件",
+                "addRule": "添加规则",
+                "channelTypePlaceholder": "输入渠道类型名称",
+                "combiners": {
+                    "all": "全部",
+                    "any": "任意"
+                },
+                "debugHint": "调试时可以使用<ExplorerLink>会话归因浏览器工具</ExplorerLink>",
+                "editorOnlyReason": "你需要编辑权限才能修改渠道类型",
+                "fields": {
+                    "hostname": "主机名",
+                    "pathname": "路径名",
+                    "referringDomain": "来源域名",
+                    "url": "URL",
+                    "utmCampaign": "UTM Campaign",
+                    "utmMedium": "UTM Medium",
+                    "utmSource": "UTM Source"
+                },
+                "intro": "你可以通过定义与传入事件匹配的规则来创建自定义渠道类型。系统会使用第一条匹配的规则；如果没有规则匹配（或没有定义任何规则），则使用<DocsLink>默认渠道类型</DocsLink>。",
+                "multipleConditions": "条件满足时",
+                "save": "保存自定义渠道类型规则",
+                "setChannelTypeTo": "将渠道类型设为",
+                "singleCondition": "满足此条件时",
+                "valuePlaceholder": "输入一个值",
+                "when": "当"
             },
             "dataColorTheme": {
                 "addColor": "添加颜色",

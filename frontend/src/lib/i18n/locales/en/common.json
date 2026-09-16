@@ -616,6 +616,96 @@
                 "orgLevelLabel": "Include organization-level activity",
                 "orgLevelTooltip": "When enabled, activity logs from organization-level changes (such as organization settings, domains, and members) will be included in this project's activity logs page, exports, and notifications subscriptions."
             },
+            "coreEvents": {
+                "actionNumber": "Action #{{ id }}",
+                "add": "Add core event",
+                "addTitle": "Add core event",
+                "allEvents": "All events",
+                "categories": {
+                    "acquisition": {
+                        "description": "Sign up, app install",
+                        "label": "Acquisition"
+                    },
+                    "activation": {
+                        "description": "Onboarding, first core action",
+                        "label": "Activation"
+                    },
+                    "churn": {
+                        "description": "Subscription canceled",
+                        "label": "Churn"
+                    },
+                    "expansion": {
+                        "description": "Plan upgraded",
+                        "label": "Expansion"
+                    },
+                    "monetization": {
+                        "description": "Purchase, subscription started",
+                        "label": "Monetization"
+                    },
+                    "reactivation": {
+                        "description": "Returned after churn",
+                        "label": "Reactivation"
+                    },
+                    "referral": {
+                        "description": "Invite sent",
+                        "label": "Referral"
+                    },
+                    "retention": {
+                        "description": "Repeat purchase",
+                        "label": "Retention"
+                    }
+                },
+                "categoryPlaceholder": "Select a category",
+                "categoryRequired": "Please select a category",
+                "columns": {
+                    "actions": "Actions",
+                    "category": "Category",
+                    "filter": "Filter",
+                    "name": "Name",
+                    "type": "Type"
+                },
+                "create": "Add",
+                "descriptionLabel": "Description (optional)",
+                "descriptionPlaceholder": "Describe what this core event tracks",
+                "edit": "Edit",
+                "editTitle": "Edit core event",
+                "emptyHeading": "No core events configured",
+                "emptyState": "No core events configured yet. Add your first core event above.",
+                "filterLabel": "Event, action, or data warehouse table",
+                "filterTypes": {
+                    "action": "Action",
+                    "dataWarehouse": "Data warehouse",
+                    "event": "Event",
+                    "unknown": "Unknown"
+                },
+                "heading_one": "{{ count }} core event",
+                "heading_other": "{{ count }} core events",
+                "namePlaceholder": "e.g., Purchase, Sign up",
+                "nameRequired": "Please enter a name for this core event",
+                "remove": "Remove",
+                "selectPlaceholder": "Please select an event, action, or data warehouse table",
+                "toasts": {
+                    "added": "Core event added",
+                    "addFailed": "Failed to add core event",
+                    "removed": "Core event removed",
+                    "removeFailed": "Failed to remove core event",
+                    "updated": "Core event updated",
+                    "updateFailed": "Failed to update core event"
+                },
+                "unknownTable": "Unknown table",
+                "update": "Update"
+            },
+            "cspReporting": {
+                "directives": "PostHog supports both the <ReportUriLink>report-uri</ReportUriLink> and <ReportToLink>report-to</ReportToLink> directives, converting violations into an event. Letting you track and alert on them just like any other event.",
+                "extraParameters": "We accept some additional parameters on the report URL. These require that you add information when adding the URL to your pages. <DocsLink>See our docs for some examples.</DocsLink>",
+                "includeDistinctId": "distinct_id: the distinct id for the current user. So you can track which users are being affected",
+                "includeSampleRate": "sample_rate: the sample rate for the current CSP. Lets you control the volume of reports you ingest.",
+                "includeSessionId": "session_id: the PostHog UUIDv7 session id. Helps you link CSP violations to session replay.",
+                "includeVersion": "version: the version for the current CSP. This helps you track impact of changes to your CSP.",
+                "introWhatIsCsp": "A CSP is an instruction to the browser on what assets are allowed to be loaded and what domains your site can send information to. It's a very powerful security mechanism, that can be super tricky to configure.",
+                "introWhatItDoes": "CSP Reporting lets you track your CSP by sending reports to PostHog when a CSP violation occurs. This helps you see when CSP misconfiguration, web site changes, or security flaws are causing problems.",
+                "urlHint": "Set this URL for both the report-to and report-uri endpoints"
+            },
             "customBotRules": {
                 "addBot": "Add bot",
                 "addCondition": "Add condition",
@@ -710,6 +800,33 @@
                     "tooManyRules": "You can define at most {{ max }} bots",
                     "unsupportedConstruct": "This uses a {{ construct }}, which is not supported here."
                 }
+            },
+            "customChannelTypes": {
+                "addCondition": "Add condition",
+                "addRule": "Add rule",
+                "channelTypePlaceholder": "Enter a channel type name",
+                "combiners": {
+                    "all": "All",
+                    "any": "Any"
+                },
+                "debugHint": "To debug, try the <ExplorerLink>session attribution explorer tool</ExplorerLink>",
+                "editorOnlyReason": "You need editor access to modify channel types",
+                "fields": {
+                    "hostname": "Hostname",
+                    "pathname": "Pathname",
+                    "referringDomain": "Referring domain",
+                    "url": "URL",
+                    "utmCampaign": "UTM Campaign",
+                    "utmMedium": "UTM Medium",
+                    "utmSource": "UTM Source"
+                },
+                "intro": "You can create custom channel types by defining rules that match incoming events. The first matching rule is used, and if no rule matches (or if none are defined) then the <DocsLink>default channel type</DocsLink> is used.",
+                "multipleConditions": "conditions are met",
+                "save": "Save custom channel type rules",
+                "setChannelTypeTo": "Set Channel type to",
+                "singleCondition": "when this condition is met",
+                "valuePlaceholder": "Enter a value",
+                "when": "When"
             },
             "dataColorTheme": {
                 "addColor": "Add color",

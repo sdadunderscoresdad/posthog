@@ -2,6 +2,7 @@ import { MakeLogicType, actions, afterMount, connect, kea, listeners, path, redu
 import { loaders } from 'kea-loaders'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { teamLogic } from 'scenes/teamLogic'
 
@@ -130,9 +131,15 @@ export const coreEventsLogic = kea<coreEventsLogicType>([
             try {
                 await api.create(`api/environments/${values.currentTeamId}/core_events/`, event)
                 actions.loadCoreEvents()
-                lemonToast.success('Core event added')
+                lemonToast.success(
+                    i18n.t('settings.environment.coreEvents.toasts.added', { defaultValue: 'Core event added' })
+                )
             } catch {
-                lemonToast.error('Failed to add core event')
+                lemonToast.error(
+                    i18n.t('settings.environment.coreEvents.toasts.addFailed', {
+                        defaultValue: 'Failed to add core event',
+                    })
+                )
             }
         },
         updateCoreEvent: async ({ event }) => {
@@ -142,9 +149,15 @@ export const coreEventsLogic = kea<coreEventsLogicType>([
             try {
                 await api.update(`api/environments/${values.currentTeamId}/core_events/${event.id}/`, event)
                 actions.loadCoreEvents()
-                lemonToast.success('Core event updated')
+                lemonToast.success(
+                    i18n.t('settings.environment.coreEvents.toasts.updated', { defaultValue: 'Core event updated' })
+                )
             } catch {
-                lemonToast.error('Failed to update core event')
+                lemonToast.error(
+                    i18n.t('settings.environment.coreEvents.toasts.updateFailed', {
+                        defaultValue: 'Failed to update core event',
+                    })
+                )
             }
         },
         removeCoreEvent: async ({ eventId }) => {
@@ -154,9 +167,15 @@ export const coreEventsLogic = kea<coreEventsLogicType>([
             try {
                 await api.delete(`api/environments/${values.currentTeamId}/core_events/${eventId}/`)
                 actions.loadCoreEvents()
-                lemonToast.success('Core event removed')
+                lemonToast.success(
+                    i18n.t('settings.environment.coreEvents.toasts.removed', { defaultValue: 'Core event removed' })
+                )
             } catch {
-                lemonToast.error('Failed to remove core event')
+                lemonToast.error(
+                    i18n.t('settings.environment.coreEvents.toasts.removeFailed', {
+                        defaultValue: 'Failed to remove core event',
+                    })
+                )
             }
         },
     })),

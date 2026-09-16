@@ -1,10 +1,12 @@
 import { useActions, useValues } from 'kea'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconPencil, IconPlusSmall, IconTrash } from '@posthog/icons'
 import { LemonButton, LemonInput, LemonLabel, LemonModal, LemonSelect, LemonTextArea } from '@posthog/lemon-ui'
 
 import { TaxonomicFilterGroupType } from 'lib/components/TaxonomicFilter/types'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonTable } from 'lib/lemon-ui/LemonTable'
 import { uuid } from 'lib/utils/dom'
 import { ActionFilter as ActionFilterComponent } from 'scenes/insights/filters/ActionFilter/ActionFilter'
@@ -39,43 +41,144 @@ const ALLOWED_MATH_TYPES = [
 ] as const
 
 const CATEGORY_OPTIONS = [
-    { value: CoreEventCategory.Acquisition, label: 'Acquisition', description: 'Sign up, app install' },
-    { value: CoreEventCategory.Activation, label: 'Activation', description: 'Onboarding, first core action' },
+    {
+        value: CoreEventCategory.Acquisition,
+        get label() {
+            return i18n.t('settings.environment.coreEvents.categories.acquisition.label', {
+                defaultValue: 'Acquisition',
+            })
+        },
+        get description() {
+            return i18n.t('settings.environment.coreEvents.categories.acquisition.description', {
+                defaultValue: 'Sign up, app install',
+            })
+        },
+    },
+    {
+        value: CoreEventCategory.Activation,
+        get label() {
+            return i18n.t('settings.environment.coreEvents.categories.activation.label', {
+                defaultValue: 'Activation',
+            })
+        },
+        get description() {
+            return i18n.t('settings.environment.coreEvents.categories.activation.description', {
+                defaultValue: 'Onboarding, first core action',
+            })
+        },
+    },
     {
         value: CoreEventCategory.Monetization,
-        label: 'Monetization',
-        description: 'Purchase, subscription started',
+        get label() {
+            return i18n.t('settings.environment.coreEvents.categories.monetization.label', {
+                defaultValue: 'Monetization',
+            })
+        },
+        get description() {
+            return i18n.t('settings.environment.coreEvents.categories.monetization.description', {
+                defaultValue: 'Purchase, subscription started',
+            })
+        },
     },
-    { value: CoreEventCategory.Expansion, label: 'Expansion', description: 'Plan upgraded' },
-    { value: CoreEventCategory.Referral, label: 'Referral', description: 'Invite sent' },
-    { value: CoreEventCategory.Retention, label: 'Retention', description: 'Repeat purchase' },
-    { value: CoreEventCategory.Churn, label: 'Churn', description: 'Subscription canceled' },
-    { value: CoreEventCategory.Reactivation, label: 'Reactivation', description: 'Returned after churn' },
+    {
+        value: CoreEventCategory.Expansion,
+        get label() {
+            return i18n.t('settings.environment.coreEvents.categories.expansion.label', {
+                defaultValue: 'Expansion',
+            })
+        },
+        get description() {
+            return i18n.t('settings.environment.coreEvents.categories.expansion.description', {
+                defaultValue: 'Plan upgraded',
+            })
+        },
+    },
+    {
+        value: CoreEventCategory.Referral,
+        get label() {
+            return i18n.t('settings.environment.coreEvents.categories.referral.label', {
+                defaultValue: 'Referral',
+            })
+        },
+        get description() {
+            return i18n.t('settings.environment.coreEvents.categories.referral.description', {
+                defaultValue: 'Invite sent',
+            })
+        },
+    },
+    {
+        value: CoreEventCategory.Retention,
+        get label() {
+            return i18n.t('settings.environment.coreEvents.categories.retention.label', {
+                defaultValue: 'Retention',
+            })
+        },
+        get description() {
+            return i18n.t('settings.environment.coreEvents.categories.retention.description', {
+                defaultValue: 'Repeat purchase',
+            })
+        },
+    },
+    {
+        value: CoreEventCategory.Churn,
+        get label() {
+            return i18n.t('settings.environment.coreEvents.categories.churn.label', { defaultValue: 'Churn' })
+        },
+        get description() {
+            return i18n.t('settings.environment.coreEvents.categories.churn.description', {
+                defaultValue: 'Subscription canceled',
+            })
+        },
+    },
+    {
+        value: CoreEventCategory.Reactivation,
+        get label() {
+            return i18n.t('settings.environment.coreEvents.categories.reactivation.label', {
+                defaultValue: 'Reactivation',
+            })
+        },
+        get description() {
+            return i18n.t('settings.environment.coreEvents.categories.reactivation.description', {
+                defaultValue: 'Returned after churn',
+            })
+        },
+    },
 ]
 
 function getFilterTypeLabel(filter: EventsNode | ActionsNode | DataWarehouseNode): string {
     switch (filter.kind) {
         case NodeKind.EventsNode:
-            return 'Event'
+            return i18n.t('settings.environment.coreEvents.filterTypes.event', { defaultValue: 'Event' })
         case NodeKind.ActionsNode:
-            return 'Action'
+            return i18n.t('settings.environment.coreEvents.filterTypes.action', { defaultValue: 'Action' })
         case NodeKind.DataWarehouseNode:
-            return 'Data warehouse'
+            return i18n.t('settings.environment.coreEvents.filterTypes.dataWarehouse', {
+                defaultValue: 'Data warehouse',
+            })
         default:
-            return 'Unknown'
+            return i18n.t('settings.environment.coreEvents.filterTypes.unknown', { defaultValue: 'Unknown' })
     }
 }
 
 function getFilterSummary(filter: EventsNode | ActionsNode | DataWarehouseNode): string {
     switch (filter.kind) {
         case NodeKind.EventsNode:
-            return filter.event || 'All events'
+            return filter.event || i18n.t('settings.environment.coreEvents.allEvents', { defaultValue: 'All events' })
         case NodeKind.ActionsNode:
-            return filter.name || `Action #${filter.id}`
+            return (
+                filter.name ||
+                i18n.t('settings.environment.coreEvents.actionNumber', {
+                    defaultValue: 'Action #{{ id }}',
+                    id: filter.id,
+                })
+            )
         case NodeKind.DataWarehouseNode:
-            return filter.table_name || 'Unknown table'
+            return (
+                filter.table_name ||
+                i18n.t('settings.environment.coreEvents.unknownTable', { defaultValue: 'Unknown table' })
+            )
         default:
-            return 'Unknown'
+            return i18n.t('settings.environment.coreEvents.filterTypes.unknown', { defaultValue: 'Unknown' })
     }
 }
 
@@ -158,7 +261,11 @@ function nodeToActionFilter(filter: EventsNode | ActionsNode | DataWarehouseNode
 
 const defaultFilter: EventsNode = {
     kind: NodeKind.EventsNode,
-    event: 'Please select an event, action, or data warehouse table',
+    get event() {
+        return i18n.t('settings.environment.coreEvents.selectPlaceholder', {
+            defaultValue: 'Please select an event, action, or data warehouse table',
+        })
+    },
 }
 
 interface FormState {
@@ -186,6 +293,7 @@ const eventToFormState = (event: CoreEvent): FormState => ({
 })
 
 export function CoreEventsSettings(): JSX.Element {
+    const { t } = useTranslation()
     const { coreEvents } = useValues(coreEventsLogic)
     const { addCoreEvent, updateCoreEvent, removeCoreEvent } = useActions(coreEventsLogic)
 
@@ -244,7 +352,9 @@ export function CoreEventsSettings(): JSX.Element {
 
     const getDisabledReason = (): string | undefined => {
         if (!formState.name.trim()) {
-            return 'Please enter a name for this core event'
+            return t('settings.environment.coreEvents.nameRequired', {
+                defaultValue: 'Please enter a name for this core event',
+            })
         }
         const hasValidFilter =
             (formState.filter.kind === NodeKind.EventsNode &&
@@ -255,10 +365,14 @@ export function CoreEventsSettings(): JSX.Element {
             (formState.filter.kind === NodeKind.DataWarehouseNode && formState.filter.table_name)
 
         if (!hasValidFilter) {
-            return 'Please select an event, action, or data warehouse table'
+            return t('settings.environment.coreEvents.selectPlaceholder', {
+                defaultValue: 'Please select an event, action, or data warehouse table',
+            })
         }
         if (!formState.category) {
-            return 'Please select a category'
+            return t('settings.environment.coreEvents.categoryRequired', {
+                defaultValue: 'Please select a category',
+            })
         }
         return undefined
     }
@@ -273,11 +387,17 @@ export function CoreEventsSettings(): JSX.Element {
             <div className="flex justify-between items-center">
                 <h3 className="font-bold">
                     {coreEvents.length === 0
-                        ? 'No core events configured'
-                        : `${coreEvents.length} core event${coreEvents.length === 1 ? '' : 's'}`}
+                        ? t('settings.environment.coreEvents.emptyHeading', {
+                              defaultValue: 'No core events configured',
+                          })
+                        : t('settings.environment.coreEvents.heading', {
+                              count: coreEvents.length,
+                              defaultValue_one: '{{ count }} core event',
+                              defaultValue_other: '{{ count }} core events',
+                          })}
                 </h3>
                 <LemonButton type="primary" icon={<IconPlusSmall />} onClick={handleOpenNewModal}>
-                    Add core event
+                    {t('settings.environment.coreEvents.add', { defaultValue: 'Add core event' })}
                 </LemonButton>
             </div>
 
@@ -287,24 +407,24 @@ export function CoreEventsSettings(): JSX.Element {
                 columns={[
                     {
                         key: 'name',
-                        title: 'Name',
+                        title: t('settings.environment.coreEvents.columns.name', { defaultValue: 'Name' }),
                         render: (_, event: CoreEvent) => <span className="font-medium">{event.name}</span>,
                     },
                     {
                         key: 'type',
-                        title: 'Type',
+                        title: t('settings.environment.coreEvents.columns.type', { defaultValue: 'Type' }),
                         render: (_, event: CoreEvent) => getFilterTypeLabel(event.filter),
                     },
                     {
                         key: 'filter',
-                        title: 'Filter',
+                        title: t('settings.environment.coreEvents.columns.filter', { defaultValue: 'Filter' }),
                         render: (_, event: CoreEvent) => (
                             <span className="text-muted">{getFilterSummary(event.filter)}</span>
                         ),
                     },
                     {
                         key: 'category',
-                        title: 'Category',
+                        title: t('settings.environment.coreEvents.columns.category', { defaultValue: 'Category' }),
                         render: (_, event: CoreEvent) =>
                             event.category
                                 ? CATEGORY_OPTIONS.find((o) => o.value === event.category)?.label || event.category
@@ -312,7 +432,7 @@ export function CoreEventsSettings(): JSX.Element {
                     },
                     {
                         key: 'actions',
-                        title: 'Actions',
+                        title: t('settings.environment.coreEvents.columns.actions', { defaultValue: 'Actions' }),
                         width: 100,
                         render: (_, event: CoreEvent) => (
                             <div className="flex gap-1">
@@ -320,57 +440,81 @@ export function CoreEventsSettings(): JSX.Element {
                                     icon={<IconPencil />}
                                     size="small"
                                     onClick={() => handleOpenEditModal(event)}
-                                    tooltip="Edit"
+                                    tooltip={t('settings.environment.coreEvents.edit', { defaultValue: 'Edit' })}
                                 />
                                 <LemonButton
                                     icon={<IconTrash />}
                                     size="small"
                                     status="danger"
                                     onClick={() => removeCoreEvent(event.id)}
-                                    tooltip="Remove"
+                                    tooltip={t('settings.environment.coreEvents.remove', { defaultValue: 'Remove' })}
                                 />
                             </div>
                         ),
                     },
                 ]}
-                emptyState="No core events configured yet. Add your first core event above."
+                emptyState={t('settings.environment.coreEvents.emptyState', {
+                    defaultValue: 'No core events configured yet. Add your first core event above.',
+                })}
             />
 
             <LemonModal
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
-                title={isEditing ? 'Edit core event' : 'Add core event'}
+                title={
+                    isEditing
+                        ? t('settings.environment.coreEvents.editTitle', { defaultValue: 'Edit core event' })
+                        : t('settings.environment.coreEvents.addTitle', { defaultValue: 'Add core event' })
+                }
                 width="40rem"
                 footer={
                     <>
-                        <LemonButton onClick={handleCloseModal}>Cancel</LemonButton>
+                        <LemonButton onClick={handleCloseModal}>
+                            {t('settings.cancel', { defaultValue: 'Cancel' })}
+                        </LemonButton>
                         <LemonButton type="primary" onClick={handleSave} disabledReason={disabledReason}>
-                            {isEditing ? 'Update' : 'Add'}
+                            {isEditing
+                                ? t('settings.environment.coreEvents.update', { defaultValue: 'Update' })
+                                : t('settings.environment.coreEvents.create', { defaultValue: 'Add' })}
                         </LemonButton>
                     </>
                 }
             >
                 <div className="space-y-4">
                     <div className="space-y-1">
-                        <LemonLabel>Name</LemonLabel>
+                        <LemonLabel>
+                            {t('settings.environment.coreEvents.columns.name', { defaultValue: 'Name' })}
+                        </LemonLabel>
                         <LemonInput
                             value={formState.name}
                             onChange={(value) => setFormState((prev) => ({ ...prev, name: value }))}
-                            placeholder="e.g., Purchase, Sign up"
+                            placeholder={t('settings.environment.coreEvents.namePlaceholder', {
+                                defaultValue: 'e.g., Purchase, Sign up',
+                            })}
                         />
                     </div>
 
                     <div className="space-y-1">
-                        <LemonLabel>Description (optional)</LemonLabel>
+                        <LemonLabel>
+                            {t('settings.environment.coreEvents.descriptionLabel', {
+                                defaultValue: 'Description (optional)',
+                            })}
+                        </LemonLabel>
                         <LemonTextArea
                             value={formState.description}
                             onChange={(value) => setFormState((prev) => ({ ...prev, description: value }))}
-                            placeholder="Describe what this core event tracks"
+                            placeholder={t('settings.environment.coreEvents.descriptionPlaceholder', {
+                                defaultValue: 'Describe what this core event tracks',
+                            })}
                         />
                     </div>
 
                     <div className="space-y-1">
-                        <LemonLabel>Event, action, or data warehouse table</LemonLabel>
+                        <LemonLabel>
+                            {t('settings.environment.coreEvents.filterLabel', {
+                                defaultValue: 'Event, action, or data warehouse table',
+                            })}
+                        </LemonLabel>
                         <ActionFilterComponent
                             bordered
                             filters={currentFilter}
@@ -394,12 +538,16 @@ export function CoreEventsSettings(): JSX.Element {
                     </div>
 
                     <div className="space-y-1">
-                        <LemonLabel>Category</LemonLabel>
+                        <LemonLabel>
+                            {t('settings.environment.coreEvents.columns.category', { defaultValue: 'Category' })}
+                        </LemonLabel>
                         <LemonSelect
                             value={formState.category}
                             onChange={(value) => setFormState((prev) => ({ ...prev, category: value }))}
                             options={CATEGORY_OPTIONS}
-                            placeholder="Select a category"
+                            placeholder={t('settings.environment.coreEvents.categoryPlaceholder', {
+                                defaultValue: 'Select a category',
+                            })}
                         />
                     </div>
                 </div>

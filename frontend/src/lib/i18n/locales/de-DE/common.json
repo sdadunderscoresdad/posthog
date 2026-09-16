@@ -616,6 +616,96 @@
                 "orgLevelLabel": "",
                 "orgLevelTooltip": ""
             },
+            "coreEvents": {
+                "actionNumber": "",
+                "add": "",
+                "addTitle": "",
+                "allEvents": "",
+                "categories": {
+                    "acquisition": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "activation": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "churn": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "expansion": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "monetization": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "reactivation": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "referral": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "retention": {
+                        "description": "",
+                        "label": ""
+                    }
+                },
+                "categoryPlaceholder": "",
+                "categoryRequired": "",
+                "columns": {
+                    "actions": "",
+                    "category": "",
+                    "filter": "",
+                    "name": "",
+                    "type": ""
+                },
+                "create": "",
+                "descriptionLabel": "",
+                "descriptionPlaceholder": "",
+                "edit": "",
+                "editTitle": "",
+                "emptyHeading": "",
+                "emptyState": "",
+                "filterLabel": "",
+                "filterTypes": {
+                    "action": "",
+                    "dataWarehouse": "",
+                    "event": "",
+                    "unknown": ""
+                },
+                "heading_one": "",
+                "heading_other": "",
+                "namePlaceholder": "",
+                "nameRequired": "",
+                "remove": "",
+                "selectPlaceholder": "",
+                "toasts": {
+                    "added": "",
+                    "addFailed": "",
+                    "removed": "",
+                    "removeFailed": "",
+                    "updated": "",
+                    "updateFailed": ""
+                },
+                "unknownTable": "",
+                "update": ""
+            },
+            "cspReporting": {
+                "directives": "",
+                "extraParameters": "",
+                "includeDistinctId": "",
+                "includeSampleRate": "",
+                "includeSessionId": "",
+                "includeVersion": "",
+                "introWhatIsCsp": "",
+                "introWhatItDoes": "",
+                "urlHint": ""
+            },
             "customBotRules": {
                 "addBot": "",
                 "addCondition": "",
@@ -710,6 +800,33 @@
                     "tooManyRules": "",
                     "unsupportedConstruct": ""
                 }
+            },
+            "customChannelTypes": {
+                "addCondition": "",
+                "addRule": "",
+                "channelTypePlaceholder": "",
+                "combiners": {
+                    "all": "",
+                    "any": ""
+                },
+                "debugHint": "",
+                "editorOnlyReason": "",
+                "fields": {
+                    "hostname": "",
+                    "pathname": "",
+                    "referringDomain": "",
+                    "url": "",
+                    "utmCampaign": "",
+                    "utmMedium": "",
+                    "utmSource": ""
+                },
+                "intro": "",
+                "multipleConditions": "",
+                "save": "",
+                "setChannelTypeTo": "",
+                "singleCondition": "",
+                "valuePlaceholder": "",
+                "when": ""
             },
             "dataColorTheme": {
                 "addColor": "",
