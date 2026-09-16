@@ -1094,6 +1094,7 @@
                 "authenticatorApp": "Authenticator app",
                 "authenticatorHint": "Use an authenticator app (like Google Authenticator, Authy, or 1Password) to generate time-based codes for 2FA.",
                 "authenticatorHintEnabled": "When enabled, you'll be asked for a code from your authenticator app when signing in.",
+                "backupCodesClipboard": "backup codes",
                 "backupCodesDescription": "Save these backup codes in a secure location. Each code can only be used once to sign in if you lose access to your authentication device.",
                 "backupCodesTitle": "Backup Codes",
                 "copy": "Copy",

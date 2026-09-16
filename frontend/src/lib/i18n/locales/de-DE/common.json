@@ -1094,6 +1094,7 @@
                 "authenticatorApp": "",
                 "authenticatorHint": "",
                 "authenticatorHintEnabled": "",
+                "backupCodesClipboard": "",
                 "backupCodesDescription": "",
                 "backupCodesTitle": "",
                 "copy": "",

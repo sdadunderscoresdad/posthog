@@ -89,7 +89,12 @@ export function TwoFactorSettings(): JSX.Element {
                                         size="small"
                                         className="absolute top-4 right-4"
                                         onClick={() => {
-                                            void copyToClipboard(status.backup_codes.join('\n') || '', 'backup codes')
+                                            void copyToClipboard(
+                                                status.backup_codes.join('\n') || '',
+                                                t('settings.user.twoFactor.backupCodesClipboard', {
+                                                    defaultValue: 'backup codes',
+                                                })
+                                            )
                                         }}
                                     >
                                         {t('settings.user.twoFactor.copy', { defaultValue: 'Copy' })}
