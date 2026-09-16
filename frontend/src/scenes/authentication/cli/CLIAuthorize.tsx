@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconCode } from '@posthog/icons'
 import { LemonButton, LemonInput, LemonSelect, Link } from '@posthog/lemon-ui'
@@ -20,6 +21,7 @@ export const scene: SceneExport = {
 }
 
 export function CLIAuthorize(): JSX.Element {
+    const { t } = useTranslation()
     const {
         authorize,
         isSuccess,
@@ -44,31 +46,49 @@ export function CLIAuthorize(): JSX.Element {
         <BridgePage view="login">
             {isSuccess ? (
                 <div className="text-center space-y-4">
-                    <h2>CLI Authorization Complete</h2>
+                    <h2>{t('cliAuthorize.successTitle', { defaultValue: 'CLI Authorization Complete' })}</h2>
                     <LemonBanner type="success">
                         <div className="space-y-2">
-                            <p className="font-semibold">Your CLI has been authorized successfully!</p>
-                            <p>You can now close this window and return to your terminal.</p>
+                            <p className="font-semibold">
+                                {t('cliAuthorize.successBanner', {
+                                    defaultValue: 'Your CLI has been authorized successfully!',
+                                })}
+                            </p>
+                            <p>
+                                {t('cliAuthorize.successDetail', {
+                                    defaultValue: 'You can now close this window and return to your terminal.',
+                                })}
+                            </p>
                         </div>
                     </LemonBanner>
                     <div className="text-muted text-sm mt-4">
                         <p>
-                            A personal API key has been created for your CLI. You can manage your personal API keys in{' '}
-                            <Link to={urls.settings('user-api-keys')} className="font-semibold">
-                                Settings → Personal API keys
-                            </Link>
+                            <Trans
+                                i18nKey="cliAuthorize.successKeyNote"
+                                components={{
+                                    SettingsLink: (
+                                        <Link to={urls.settings('user-api-keys')} className="font-semibold" />
+                                    ),
+                                }}
+                                defaults="A personal API key has been created for your CLI. You can manage your personal API keys in <SettingsLink>Settings → Personal API keys</SettingsLink>"
+                            />
                         </p>
                     </div>
                 </div>
             ) : (
                 <div className="space-y-4">
-                    <h2>Authorize CLI Access</h2>
+                    <h2>{t('cliAuthorize.title', { defaultValue: 'Authorize CLI Access' })}</h2>
                     <p className="text-muted text-sm">
-                        The PostHog CLI should have displayed a 9-character code (e.g., ABCD-1234). Enter it below to
-                        authorize your CLI.
+                        {t('cliAuthorize.description', {
+                            defaultValue:
+                                'The PostHog CLI should have displayed a 9-character code (e.g., ABCD-1234). Enter it below to authorize your CLI.',
+                        })}
                     </p>
                     <Form logic={cliAuthorizeLogic} formKey="authorize" enableFormOnSubmit className="space-y-4">
-                        <LemonField name="userCode" label="Authorization Code">
+                        <LemonField
+                            name="userCode"
+                            label={t('cliAuthorize.codeLabel', { defaultValue: 'Authorization Code' })}
+                        >
                             <LemonInput
                                 className="ph-ignore-input font-mono text-lg tracking-wider"
                                 autoFocus
@@ -83,10 +103,13 @@ export function CLIAuthorize(): JSX.Element {
                                 spellCheck={false}
                             />
                         </LemonField>
-                        <LemonField name="organizationId" label="Organization">
+                        <LemonField
+                            name="organizationId"
+                            label={t('cliAuthorize.organizationLabel', { defaultValue: 'Organization' })}
+                        >
                             <LemonSelect
                                 data-attr="cli-organization-select"
-                                placeholder="Select an organization"
+                                placeholder={t('vercelConnect.selectOrg', { defaultValue: 'Select an organization' })}
                                 value={authorize.organizationId}
                                 onChange={(value) => setAuthorizeValue('organizationId', value)}
                                 options={organizations.map((organization) => ({
@@ -95,10 +118,13 @@ export function CLIAuthorize(): JSX.Element {
                                 }))}
                             />
                         </LemonField>
-                        <LemonField name="projectId" label="Project">
+                        <LemonField
+                            name="projectId"
+                            label={t('cliAuthorize.projectLabel', { defaultValue: 'Project' })}
+                        >
                             <LemonSelect
                                 data-attr="cli-project-select"
-                                placeholder="Select a project"
+                                placeholder={t('vercelConnect.selectProject', { defaultValue: 'Select a project' })}
                                 value={authorize.projectId}
                                 onChange={(value) => setAuthorizeValue('projectId', value)}
                                 disabled={!authorize.organizationId}
@@ -111,11 +137,11 @@ export function CLIAuthorize(): JSX.Element {
                         </LemonField>
 
                         <div className="flex items-center justify-between mt-4 mb-2">
-                            <h3 className="mb-0">Scopes</h3>
+                            <h3 className="mb-0">{t('cliAuthorize.scopes', { defaultValue: 'Scopes' })}</h3>
                             <LemonSelect
                                 data-attr="cli-scope-preset"
                                 size="small"
-                                placeholder="Custom selection"
+                                placeholder={t('cliAuthorize.customSelection', { defaultValue: 'Custom selection' })}
                                 value={scopePreset}
                                 onChange={(value) => setScopePreset(value)}
                                 options={CLI_SCOPE_PRESETS.map((preset) => ({
@@ -127,8 +153,10 @@ export function CLIAuthorize(): JSX.Element {
                             />
                         </div>
                         <p className="text-muted text-sm mb-2">
-                            Permissions granted to the CLI. Pick a preset or fine-tune individual scopes. Only grant
-                            what you need.
+                            {t('cliAuthorize.scopesDescription', {
+                                defaultValue:
+                                    'Permissions granted to the CLI. Pick a preset or fine-tune individual scopes. Only grant what you need.',
+                            })}
                         </p>
 
                         <LemonField name="scopes">
@@ -143,16 +171,24 @@ export function CLIAuthorize(): JSX.Element {
                                     {allAccessSelected ? (
                                         <LemonBanner
                                             type="warning"
-                                            action={{ children: 'Reset', onClick: () => resetScopes() }}
+                                            action={{
+                                                children: t('cliAuthorize.reset', { defaultValue: 'Reset' }),
+                                                onClick: () => resetScopes(),
+                                            }}
                                         >
-                                            <b>This key will have full access to all supported endpoints.</b> We
-                                            recommend scoping it to only what the CLI needs.
+                                            <Trans
+                                                i18nKey="cliAuthorize.fullAccessWarning"
+                                                components={{ Bold: <b /> }}
+                                                defaults="<Bold>This key will have full access to all supported endpoints.</Bold> We recommend scoping it to only what the CLI needs."
+                                            />
                                         </LemonBanner>
                                     ) : (
                                         <>
                                             <LemonInput
                                                 type="search"
-                                                placeholder="Search scopes..."
+                                                placeholder={t('cliAuthorize.searchScopes', {
+                                                    defaultValue: 'Search scopes...',
+                                                })}
                                                 value={searchTerm}
                                                 onChange={setSearchTerm}
                                                 className="mb-2"
@@ -162,7 +198,10 @@ export function CLIAuthorize(): JSX.Element {
                                             <div className="max-h-64 overflow-y-auto pr-1">
                                                 {filteredScopes.length === 0 ? (
                                                     <div className="text-muted text-sm py-2">
-                                                        No scopes match "{searchTerm}"
+                                                        {t('cliAuthorize.noScopesMatch', {
+                                                            defaultValue: 'No scopes match "{{ term }}"',
+                                                            term: searchTerm,
+                                                        })}
                                                     </div>
                                                 ) : (
                                                     filteredScopes.map(
@@ -181,12 +220,18 @@ export function CLIAuthorize(): JSX.Element {
                                                                     onChange={(value) => setScopeRadioValue(key, value)}
                                                                     readDisabledReason={
                                                                         disabledActions?.includes('read')
-                                                                            ? 'Does not apply to this resource'
+                                                                            ? t('cliAuthorize.doesNotApply', {
+                                                                                  defaultValue:
+                                                                                      'Does not apply to this resource',
+                                                                              })
                                                                             : undefined
                                                                     }
                                                                     writeDisabledReason={
                                                                         disabledActions?.includes('write')
-                                                                            ? 'Does not apply to this resource'
+                                                                            ? t('cliAuthorize.doesNotApply', {
+                                                                                  defaultValue:
+                                                                                      'Does not apply to this resource',
+                                                                              })
                                                                             : undefined
                                                                     }
                                                                     warning={
@@ -211,28 +256,48 @@ export function CLIAuthorize(): JSX.Element {
                             <div className="space-y-2 mt-2">
                                 {missingSchemaScopes && (
                                     <LemonBanner type="warning">
-                                        <b>Schema management unavailable:</b> The CLI needs both{' '}
-                                        <code>event_definition</code> and <code>property_definition</code> permissions
-                                        (read or write) to manage schemas.
+                                        <Trans
+                                            i18nKey="cliAuthorize.missingSchemaScopes"
+                                            components={{
+                                                Bold: <b />,
+                                                EventCode: <code />,
+                                                PropertyCode: <code />,
+                                            }}
+                                            defaults="<Bold>Schema management unavailable:</Bold> The CLI needs both <EventCode>event_definition</EventCode> and <PropertyCode>property_definition</PropertyCode> permissions (read or write) to manage schemas."
+                                        />
                                     </LemonBanner>
                                 )}
                                 {missingErrorTrackingScopes && (
                                     <LemonBanner type="warning">
-                                        <b>Error tracking unavailable:</b> The CLI needs <code>error_tracking</code>{' '}
-                                        permissions (read or write) to manage error tracking.
+                                        <Trans
+                                            i18nKey="cliAuthorize.missingErrorTrackingScopes"
+                                            components={{ Bold: <b />, ScopeCode: <code /> }}
+                                            defaults="<Bold>Error tracking unavailable:</Bold> The CLI needs <ScopeCode>error_tracking</ScopeCode> permissions (read or write) to manage error tracking."
+                                        />
                                     </LemonBanner>
                                 )}
                                 {missingEndpointsScopes && (
                                     <LemonBanner type="warning">
-                                        <b>Endpoints unavailable:</b> The CLI needs <code>endpoint</code> permissions
-                                        (read or write) to execute endpoints.
+                                        <Trans
+                                            i18nKey="cliAuthorize.missingEndpointsScopes"
+                                            components={{ Bold: <b />, ScopeCode: <code /> }}
+                                            defaults="<Bold>Endpoints unavailable:</Bold> The CLI needs <ScopeCode>endpoint</ScopeCode> permissions (read or write) to execute endpoints."
+                                        />
                                     </LemonBanner>
                                 )}
                                 {missingAgentScopes && (
                                     <LemonBanner type="warning">
-                                        <b>Agent commands limited:</b> The CLI's <code>api</code> commands need{' '}
-                                        <code>user</code>, <code>project</code>, and <code>query</code> permissions
-                                        (read or write) to discover data and run queries.
+                                        <Trans
+                                            i18nKey="cliAuthorize.missingAgentScopes"
+                                            components={{
+                                                Bold: <b />,
+                                                ApiCode: <code />,
+                                                UserCode: <code />,
+                                                ProjectCode: <code />,
+                                                QueryCode: <code />,
+                                            }}
+                                            defaults="<Bold>Agent commands limited:</Bold> The CLI's <ApiCode>api</ApiCode> commands need <UserCode>user</UserCode>, <ProjectCode>project</ProjectCode>, and <QueryCode>query</QueryCode> permissions (read or write) to discover data and run queries."
+                                        />
                                     </LemonBanner>
                                 )}
                             </div>
@@ -249,7 +314,7 @@ export function CLIAuthorize(): JSX.Element {
                             size="large"
                             icon={<IconCode />}
                         >
-                            Authorize CLI
+                            {t('cliAuthorize.submit', { defaultValue: 'Authorize CLI' })}
                         </LemonButton>
                     </Form>
                 </div>

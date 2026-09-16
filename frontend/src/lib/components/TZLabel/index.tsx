@@ -3,6 +3,7 @@ import './index.scss'
 import clsx from 'clsx'
 import { useActions, useValues } from 'kea'
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconClock, IconCopy, IconGear, IconHome, IconLaptop } from '@posthog/icons'
 import { LemonButton, LemonDropdown, LemonDropdownProps } from '@posthog/lemon-ui'
@@ -10,6 +11,7 @@ import { LemonButton, LemonDropdown, LemonDropdownProps } from '@posthog/lemon-u
 import { dayjs } from 'lib/dayjs'
 import { useOnMountEffect } from 'lib/hooks/useOnMountEffect'
 import { usePageVisibility } from 'lib/hooks/usePageVisibility'
+import { useFormatters } from 'lib/i18n/useFormatters'
 import { IconLinux, IconWeb } from 'lib/lemon-ui/icons'
 import { copyToClipboard } from 'lib/utils/copyToClipboard'
 import { cn } from 'lib/utils/css-classes'
@@ -71,6 +73,7 @@ const TZLabelPopoverContent = React.memo(function TZLabelPopoverContent({
 }: Pick<TZLabelProps, 'showSeconds' | 'title' | 'displayTimezone'> & {
     time: dayjs.Dayjs
 }): JSX.Element {
+    const { t } = useTranslation()
     const DATE_OUTPUT_FORMAT = !showSeconds ? BASE_OUTPUT_FORMAT : BASE_OUTPUT_FORMAT_WITH_SECONDS
     const { currentTeam } = useValues(teamLogic)
     const { reportTimezoneComponentViewed } = useActions(eventUsageLogic)
@@ -100,7 +103,9 @@ const TZLabelPopoverContent = React.memo(function TZLabelPopoverContent({
     return (
         <div className={clsx('TZLabelPopover', showSeconds && 'TZLabelPopover--seconds')}>
             <div className="flex justify-between items-center border-b-1 p-1">
-                <h4 className="mb-0 px-1">{title || 'Timezone conversion'}</h4>
+                <h4 className="mb-0 px-1">
+                    {title || t('tzLabel.timezoneConversion', { defaultValue: 'Timezone conversion' })}
+                </h4>
                 <LemonButton
                     icon={<IconGear />}
                     size="xsmall"
@@ -111,7 +116,7 @@ const TZLabelPopoverContent = React.memo(function TZLabelPopoverContent({
                 {displayedTime && (
                     <TZLabelPopoverRow
                         icon={<IconClock />}
-                        label="Displayed"
+                        label={t('tzLabel.displayed', { defaultValue: 'Displayed' })}
                         caption={shortTimeZone(displayTimezone!, time.toDate()) ?? displayTimezone!}
                         value={displayedTime.format(DATE_OUTPUT_FORMAT)}
                         onClick={() => copyDateTime(displayedTime, 'displayed timezone date')}
@@ -121,7 +126,7 @@ const TZLabelPopoverContent = React.memo(function TZLabelPopoverContent({
                 <TZLabelPopoverRow
                     icon={<IconLaptop />}
                     muted={displayTimezone !== undefined}
-                    label="Your device"
+                    label={t('tzLabel.yourDevice', { defaultValue: 'Your device' })}
                     caption={shortTimeZone(undefined, time.toDate())!}
                     value={time.format(DATE_OUTPUT_FORMAT)}
                     onClick={() => copyDateTime(time, 'your device date')}
@@ -131,7 +136,7 @@ const TZLabelPopoverContent = React.memo(function TZLabelPopoverContent({
                     <TZLabelPopoverRow
                         muted
                         icon={<IconHome />}
-                        label="Project"
+                        label={t('tzLabel.project', { defaultValue: 'Project' })}
                         caption={shortTimeZone(currentTeam.timezone, time.toDate())!}
                         value={time.tz(currentTeam.timezone).format(DATE_OUTPUT_FORMAT)}
                         onClick={() => copyDateTime(time.tz(currentTeam.timezone), 'project timezone date')}
@@ -210,6 +215,7 @@ const TZLabelRaw = forwardRef<HTMLElement, TZLabelProps>(function TZLabelRaw(
     },
     ref
 ): JSX.Element {
+    const { relativeTimeFromNow } = useFormatters()
     const parsedTime = useMemo(() => (dayjs.isDayjs(time) ? time : dayjs(time)), [time])
     const displayTime = useMemo(() => {
         if (!displayTimezone) {
@@ -232,8 +238,8 @@ const TZLabelRaw = forwardRef<HTMLElement, TZLabelProps>(function TZLabelRaw(
         if (suffix) {
             return `${displayTime.fromNow(true)} ${suffix}`
         }
-        return displayTime.fromNow()
-    }, [formatDate, formatTime, displayTime, effectiveTimestampStyle, suffix])
+        return relativeTimeFromNow(parsedTime.toDate())
+    }, [formatDate, formatTime, displayTime, effectiveTimestampStyle, parsedTime, relativeTimeFromNow, suffix])
 
     const [formattedContent, setFormattedContent] = useState(format)
 

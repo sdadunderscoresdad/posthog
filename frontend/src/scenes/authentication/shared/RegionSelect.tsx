@@ -2,46 +2,57 @@ import clsx from 'clsx'
 import { useActions, useValues } from 'kea'
 import { router } from 'kea-router'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconCheckCircle } from '@posthog/icons'
 import { LemonModal, LemonSelect, LemonTag } from '@posthog/lemon-ui'
 
 import { CLOUD_HOSTNAMES } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonField } from 'lib/lemon-ui/LemonField'
 import { oauthLogic } from 'lib/oauth/oauthLogic'
 import { preflightLogic } from 'scenes/PreflightCheck/preflightLogic'
 
 import { Region } from '~/types'
 
-const sections = [
+const sections = (): { title: string; features: string[] }[] => [
     {
-        title: 'US hosting',
+        title: i18n.t('regionSelect.usHosting', { defaultValue: 'US hosting' }),
         features: [
-            'Faster if you and your users are based in the US',
-            'Easier to comply with some US regulations',
-            'Hosted in Virginia, USA',
+            i18n.t('regionSelect.usFaster', {
+                defaultValue: 'Faster if you and your users are based in the US',
+            }),
+            i18n.t('regionSelect.usCompliance', { defaultValue: 'Easier to comply with some US regulations' }),
+            i18n.t('regionSelect.usLocation', { defaultValue: 'Hosted in Virginia, USA' }),
         ],
     },
     {
-        title: 'EU hosting',
+        title: i18n.t('regionSelect.euHosting', { defaultValue: 'EU hosting' }),
         features: [
-            'Faster if you and your users are based in Europe',
-            'Keeps data in the EU to comply with GDPR requirements',
-            'Hosted in Frankfurt, Germany',
+            i18n.t('regionSelect.euFaster', {
+                defaultValue: 'Faster if you and your users are based in Europe',
+            }),
+            i18n.t('regionSelect.euCompliance', {
+                defaultValue: 'Keeps data in the EU to comply with GDPR requirements',
+            }),
+            i18n.t('regionSelect.euLocation', { defaultValue: 'Hosted in Frankfurt, Germany' }),
         ],
     },
 ]
 
 function WhyCloudModal({ setOpen, open }: { setOpen: (open: boolean) => void; open: boolean }): JSX.Element {
+    const { t } = useTranslation()
     return (
         <LemonModal
-            title="Which region would you like to choose?"
-            description="It's possible to migrate to another region later."
+            title={t('regionSelect.modalTitle', { defaultValue: 'Which region would you like to choose?' })}
+            description={t('regionSelect.modalDescription', {
+                defaultValue: "It's possible to migrate to another region later.",
+            })}
             isOpen={open}
             onClose={() => setOpen(false)}
         >
             <ul className="list-none">
-                {sections.map((section) => {
+                {sections().map((section) => {
                     return (
                         <li
                             key={section.title}
@@ -70,6 +81,7 @@ function WhyCloudModal({ setOpen, open }: { setOpen: (open: boolean) => void; op
 }
 
 export default function RegionSelect(): JSX.Element | null {
+    const { t } = useTranslation()
     const { preflight } = useValues(preflightLogic)
     const { loginInProgress } = useValues(oauthLogic)
     const { beginLogin } = useActions(oauthLogic)
@@ -84,7 +96,7 @@ export default function RegionSelect(): JSX.Element | null {
                 <div className="grid grid-cols-2 gap-2">
                     <RegionCard
                         flag="🇺🇸"
-                        label="US Cloud"
+                        label={t('regionSelect.usCloud', { defaultValue: 'US Cloud' })}
                         hint="us.posthog.com"
                         isOAuth
                         disabled={loginInProgress}
@@ -92,14 +104,19 @@ export default function RegionSelect(): JSX.Element | null {
                     />
                     <RegionCard
                         flag="🇪🇺"
-                        label="EU Cloud"
+                        label={t('regionSelect.euCloud', { defaultValue: 'EU Cloud' })}
                         hint="eu.posthog.com"
                         isOAuth
                         disabled={loginInProgress}
                         onClick={() => beginLogin(Region.EU)}
                     />
                 </div>
-                <RegionCard flag="💻" label="Local (this instance)" hint="Log in with the form below" selected />
+                <RegionCard
+                    flag="💻"
+                    label={t('regionSelect.local', { defaultValue: 'Local (this instance)' })}
+                    hint={t('regionSelect.localHint', { defaultValue: 'Log in with the form below' })}
+                    selected
+                />
             </div>
         )
     }
@@ -110,7 +127,10 @@ export default function RegionSelect(): JSX.Element | null {
 
     return (
         <>
-            <LemonField.Pure label="Data region" onExplanationClick={() => setRegionModalOpen(true)}>
+            <LemonField.Pure
+                label={t('regionSelect.dataRegion', { defaultValue: 'Data region' })}
+                onExplanationClick={() => setRegionModalOpen(true)}
+            >
                 <LemonSelect
                     onChange={(region) => {
                         if (!region) {
@@ -157,6 +177,7 @@ function RegionCard({
     disabled?: boolean
     onClick?: () => void
 }): JSX.Element {
+    const { t } = useTranslation()
     return (
         <button
             type="button"
@@ -174,7 +195,7 @@ function RegionCard({
                 <span className="text-sm font-semibold">{label}</span>
                 {isOAuth && (
                     <LemonTag type="primary" size="small" className="ml-auto">
-                        OAuth
+                        {t('regionSelect.oauth', { defaultValue: 'OAuth' })}
                     </LemonTag>
                 )}
             </div>

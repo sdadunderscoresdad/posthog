@@ -1,4 +1,24 @@
 {
+    "accountConnected": {
+        "canLogInWith": "现在你可以使用 {{ label }} 登录 PostHog 了。",
+        "desktopManualReturn": "如果没有自动返回，请手动回到 PostHog Desktop 应用。",
+        "integrationConnected": "{{ label }} 已连接",
+        "integrationFailed": "{{ label }} 连接失败",
+        "invalidLink": "此链接无效。请从你最初使用的产品返回 PostHog。",
+        "linkedToAccount": "{{ label }} 已关联到账户",
+        "linkingFailed": "{{ label }} 关联失败",
+        "returningToDesktop": "正在返回 PostHog Desktop…",
+        "slackDone": "你现在可以回到 Slack 了。",
+        "slackError": "出了点问题。请回到 Slack 重试。"
+    },
+    "accountMismatch": {
+        "differentAccount": "另一个 PostHog 账户",
+        "instruction": "要继续，请先退出登录，然后使用正确的邮箱登录。",
+        "logOut": "退出登录并继续",
+        "logOutAs": "退出登录并以 {{ email }} 继续",
+        "signedInAs": "你当前登录的账户是 <Strong>{{ currentEmail }}</Strong>，但你的 {{ partner }} 账户关联到了 <Strong>{{ expected }}</Strong>。",
+        "title": "账户不匹配"
+    },
     "activity": {
         "explore": {
             "setOnceProperties": {
@@ -76,11 +96,69 @@
             "leadOnceAccountReady": "账户准备就绪后"
         }
     },
+    "cliAuthorize": {
+        "codeLabel": "授权码",
+        "customSelection": "自定义选择",
+        "description": "PostHog CLI 应该会显示一个 9 位字符的代码（例如 ABCD-1234）。请在下方输入以授权你的 CLI。",
+        "doesNotApply": "不适用于此资源",
+        "fullAccessWarning": "<Bold>此密钥将拥有所有受支持端点的完全访问权限。</Bold>我们建议只授予 CLI 实际需要的权限。",
+        "missingAgentScopes": "<Bold>智能体命令受限：</Bold>CLI 的 <ApiCode>api</ApiCode> 命令需要 <UserCode>user</UserCode>、<ProjectCode>project</ProjectCode> 和 <QueryCode>query</QueryCode> 权限（读取或写入）才能发现数据并运行查询。",
+        "missingEndpointsScopes": "<Bold>端点不可用：</Bold>CLI 需要 <ScopeCode>endpoint</ScopeCode> 权限（读取或写入）才能执行端点。",
+        "missingErrorTrackingScopes": "<Bold>错误跟踪不可用：</Bold>CLI 需要 <ScopeCode>error_tracking</ScopeCode> 权限（读取或写入）才能管理错误跟踪。",
+        "missingSchemaScopes": "<Bold>Schema 管理不可用：</Bold>CLI 需要同时具备 <EventCode>event_definition</EventCode> 和 <PropertyCode>property_definition</PropertyCode> 权限（读取或写入）才能管理 schema。",
+        "noScopesMatch": "没有匹配「{{ term }}」的权限",
+        "organizationLabel": "组织",
+        "projectLabel": "项目",
+        "reset": "重置",
+        "scopes": "权限范围",
+        "scopesDescription": "授予 CLI 的权限。选择一个预设，或单独调整各项权限。只授予你需要的权限。",
+        "searchScopes": "搜索权限范围...",
+        "submit": "授权 CLI",
+        "successBanner": "你的 CLI 已成功授权！",
+        "successDetail": "你现在可以关闭此窗口并返回终端。",
+        "successKeyNote": "已为你的 CLI 创建个人 API 密钥。你可以在 <SettingsLink>设置 → 个人 API 密钥</SettingsLink> 中管理个人 API 密钥",
+        "successTitle": "CLI 授权完成",
+        "title": "授权 CLI 访问"
+    },
+    "cliLive": {
+        "authorizing": "正在授权 PostHog Live...",
+        "complete": "授权完成",
+        "completeDetail": "你可以关闭此标签页并返回终端。",
+        "failed": "授权失败",
+        "missingPort": "缺少端口参数",
+        "missingPortDetail": "此页面应从 PostHog Live TUI 打开。请在终端中运行 <code>posthog-live</code>。",
+        "selectProject": "选择项目",
+        "selectProjectDetail": "选择要实时推送事件的项目。"
+    },
     "common": {
         "no": "否",
         "unknown": "未知",
         "untitled": "未命名",
         "yes": "是"
+    },
+    "credentialReview": {
+        "continue": "继续前往 PostHog",
+        "description": "你的账户已使用下方列出的凭据和已连接应用完成设置。请检查它们，并在继续之前撤销任何你不认识的内容。",
+        "loading": "正在加载你的凭据…",
+        "oneMoreThing": "还有一件事。",
+        "welcome": "欢迎使用 PostHog！"
+    },
+    "credentialsReview": {
+        "columns": {
+            "access": "访问权限",
+            "created": "创建时间",
+            "label": "标签",
+            "type": "类型"
+        },
+        "connectedApplications": "已连接的应用",
+        "passkeys": "通行密钥",
+        "personalApiKeys": "个人 API 密钥",
+        "remove": "移除",
+        "removeDescription": "任何使用该通行密钥登录的用户都需要使用新的通行密钥才能再次登录。",
+        "removeTitle": "要移除「{{ label }}」吗？",
+        "revoke": "撤销",
+        "revokeDescription": "任何仍在使用该密钥的服务都会立即开始收到 401 错误。",
+        "revokeTitle": "要撤销「{{ label }}」吗？"
     },
     "dashboard": {
         "addInsight": {
@@ -423,6 +501,15 @@
             "tooltip": "收起/展开视图。图表较多时更方便编辑布局。"
         }
     },
+    "devLoginPanel": {
+        "createFresh": "创建新的演示账户",
+        "createFreshTooltip": "创建一个随机名称的一次性账户和组织，密码为 12345678，然后打开上手引导。",
+        "creatingAccount": "正在创建账户",
+        "hide": "隐藏登录工具",
+        "noAccounts": "还没有账户。请在下方创建一个新的演示账户。",
+        "oauthLogin": "通过 OAuth 登录",
+        "title": "登录工具"
+    },
     "homepage": {
         "ai": {
             "allowAnalysis": "我允许在此组织中使用 AI 分析",
@@ -626,6 +713,24 @@
         "unableToReset": "无法重置",
         "unavailable": "自助重置密码不可用。请<Bold>联系你的实例管理员</Bold>来重置你的密码。",
         "youTyped": "你输入的邮箱"
+    },
+    "regionSelect": {
+        "dataRegion": "数据区域",
+        "euCloud": "欧盟云",
+        "euCompliance": "数据留在欧盟境内，以满足 GDPR 要求",
+        "euFaster": "如果你和你的用户位于欧洲，速度更快",
+        "euHosting": "欧盟托管",
+        "euLocation": "托管于德国法兰克福",
+        "local": "本地（此实例）",
+        "localHint": "使用下方表单登录",
+        "modalDescription": "之后仍然可以迁移到其他区域。",
+        "modalTitle": "你想选择哪个区域？",
+        "oauth": "OAuth",
+        "usCloud": "美国云",
+        "usCompliance": "更容易满足部分美国法规要求",
+        "usFaster": "如果你和你的用户位于美国，速度更快",
+        "usHosting": "美国托管",
+        "usLocation": "托管于美国弗吉尼亚"
     },
     "sceneActivity": {
         "by": "由",
@@ -3532,6 +3637,12 @@
         "yourName": "你的名字",
         "yourTeam": "你的团队"
     },
+    "turnstile": {
+        "creatingAccount": "正在创建你的账户...",
+        "havingTrouble": "注册遇到问题？",
+        "needHelp": "需要帮助？",
+        "tryAgain": "重试"
+    },
     "twoFactorReset": {
         "aboutToReset": "你即将重置双重验证设置。此操作会：",
         "backToLogin": "返回登录",
@@ -3562,6 +3673,35 @@
         "setUpTitle": "设置双重验证",
         "submit": "提交",
         "tokenLabel": "验证器验证码"
+    },
+    "tzLabel": {
+        "displayed": "显示时间",
+        "project": "项目",
+        "timezoneConversion": "时区换算",
+        "yourDevice": "你的设备"
+    },
+    "vercelConnect": {
+        "allLinked": "你的所有组织都已关联到 Vercel。",
+        "close": "关闭",
+        "connectOrganization": "连接组织",
+        "description": "选择要关联到你的 Vercel 账户的 PostHog 组织。",
+        "errorTitle": "出了点问题",
+        "goToPosthog": "前往 PostHog",
+        "linkedDetail": "你的 PostHog 组织 <Strong>{{ org }}</Strong> 现在已连接到 Vercel。",
+        "linkedTitle": "账户已关联",
+        "noAdminOrgs": "你没有任何拥有管理员权限的组织。",
+        "returnToVercel": "返回 Vercel",
+        "selectOrg": "选择组织",
+        "selectProject": "选择项目",
+        "title": "连接到 Vercel"
+    },
+    "vercelLinkError": {
+        "differentAccount": "另一个账户",
+        "instruction": "要完成 Vercel SSO，请退出登录并使用正确的账户登录。",
+        "logOut": "退出登录并继续",
+        "logOutWith": "退出登录并以 {{ email }} 继续",
+        "signedInAs": "你当前登录的账户是 <Strong>{{ currentEmail }}</Strong>，但你的 Vercel 账户关联到了 <Strong>{{ expected }}</Strong>。",
+        "title": "账户不匹配"
     },
     "verifyEmail": {
         "alreadyHaveCode": "已经有验证码了？在下方输入即可。验证码有效期为 30 分钟。",

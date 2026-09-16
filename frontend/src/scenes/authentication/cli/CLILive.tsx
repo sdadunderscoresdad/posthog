@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { LemonSelect } from '@posthog/lemon-ui'
 
@@ -15,6 +16,7 @@ export const scene: SceneExport = {
 }
 
 export function CLILive(): JSX.Element {
+    const { t } = useTranslation()
     const { port, projects, projectsLoading, error, redirected, selectedProjectId } = useValues(cliLiveLogic)
     const { selectProject } = useActions(cliLiveLogic)
 
@@ -22,10 +24,13 @@ export function CLILive(): JSX.Element {
         return (
             <BridgePage view="login">
                 <div className="text-center space-y-4">
-                    <h2>Missing port parameter</h2>
+                    <h2>{t('cliLive.missingPort', { defaultValue: 'Missing port parameter' })}</h2>
                     <LemonBanner type="error">
-                        This page should be opened from the PostHog Live TUI. Please run <code>posthog-live</code> in
-                        your terminal.
+                        <Trans
+                            i18nKey="cliLive.missingPortDetail"
+                            components={{ code: <code /> }}
+                            defaults="This page should be opened from the PostHog Live TUI. Please run <code>posthog-live</code> in your terminal."
+                        />
                     </LemonBanner>
                 </div>
             </BridgePage>
@@ -36,10 +41,14 @@ export function CLILive(): JSX.Element {
         return (
             <BridgePage view="login">
                 <div className="text-center space-y-4">
-                    <h2>Authorization complete</h2>
+                    <h2>{t('cliLive.complete', { defaultValue: 'Authorization complete' })}</h2>
                     <LemonBanner type="success">
                         <div className="space-y-2">
-                            <p className="font-semibold">You can close this tab and return to your terminal.</p>
+                            <p className="font-semibold">
+                                {t('cliLive.completeDetail', {
+                                    defaultValue: 'You can close this tab and return to your terminal.',
+                                })}
+                            </p>
                         </div>
                     </LemonBanner>
                 </div>
@@ -51,7 +60,7 @@ export function CLILive(): JSX.Element {
         return (
             <BridgePage view="login">
                 <div className="text-center space-y-4">
-                    <h2>Authorization failed</h2>
+                    <h2>{t('cliLive.failed', { defaultValue: 'Authorization failed' })}</h2>
                     <LemonBanner type="error">{error}</LemonBanner>
                 </div>
             </BridgePage>
@@ -62,7 +71,7 @@ export function CLILive(): JSX.Element {
         return (
             <BridgePage view="login">
                 <div className="text-center space-y-4">
-                    <h2>Authorizing PostHog Live...</h2>
+                    <h2>{t('cliLive.authorizing', { defaultValue: 'Authorizing PostHog Live...' })}</h2>
                     <SpinnerOverlay />
                 </div>
             </BridgePage>
@@ -72,11 +81,15 @@ export function CLILive(): JSX.Element {
     return (
         <BridgePage view="login">
             <div className="space-y-4">
-                <h2>Select a project</h2>
-                <p className="text-muted text-sm">Choose which project to stream live events from.</p>
+                <h2>{t('cliLive.selectProject', { defaultValue: 'Select a project' })}</h2>
+                <p className="text-muted text-sm">
+                    {t('cliLive.selectProjectDetail', {
+                        defaultValue: 'Choose which project to stream live events from.',
+                    })}
+                </p>
                 <LemonSelect
                     data-attr="cli-live-project-select"
-                    placeholder="Select a project"
+                    placeholder={t('vercelConnect.selectProject', { defaultValue: 'Select a project' })}
                     value={selectedProjectId}
                     onChange={(value) => {
                         if (value) {

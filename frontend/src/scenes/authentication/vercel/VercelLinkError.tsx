@@ -1,5 +1,6 @@
 import { useValues } from 'kea'
 import { router } from 'kea-router'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { LemonButton } from '@posthog/lemon-ui'
 
@@ -13,6 +14,7 @@ export const scene: SceneExport = {
 }
 
 export function VercelLinkError(): JSX.Element {
+    const { t } = useTranslation()
     const { searchParams } = useValues(router)
 
     const expectedEmail = searchParams.expected_email
@@ -53,20 +55,40 @@ export function VercelLinkError(): JSX.Element {
             <div className="text-center mb-4">
                 <IconErrorOutline className="text-warning text-4xl" />
             </div>
-            <h2 className="text-center">Account mismatch</h2>
+            <h2 className="text-center">{t('vercelLinkError.title', { defaultValue: 'Account mismatch' })}</h2>
             <div className="text-center mb-6">
                 <p className="mb-2">
-                    You're currently logged in as <strong>{currentEmail}</strong>, but your Vercel account is linked to{' '}
-                    {expectedEmail ? <strong>{expectedEmail}</strong> : 'a different account'}.
+                    <Trans
+                        i18nKey="vercelLinkError.signedInAs"
+                        values={{
+                            currentEmail,
+                            expected:
+                                expectedEmail ??
+                                t('vercelLinkError.differentAccount', {
+                                    defaultValue: 'a different account',
+                                }),
+                        }}
+                        components={{ Strong: <strong /> }}
+                        defaults="You're currently logged in as <Strong>{{ currentEmail }}</Strong>, but your Vercel account is linked to <Strong>{{ expected }}</Strong>."
+                    />
                 </p>
-                <p>To complete Vercel SSO, please log out and sign in with the correct account.</p>
+                <p>
+                    {t('vercelLinkError.instruction', {
+                        defaultValue: 'To complete Vercel SSO, please log out and sign in with the correct account.',
+                    })}
+                </p>
             </div>
             <div className="flex flex-col gap-2">
                 <LemonButton fullWidth type="primary" center onClick={submitLogout}>
-                    {expectedEmail ? `Log out and continue with ${expectedEmail}` : 'Log out and continue'}
+                    {expectedEmail
+                        ? t('vercelLinkError.logOutWith', {
+                              defaultValue: 'Log out and continue with {{ email }}',
+                              email: expectedEmail,
+                          })
+                        : t('vercelLinkError.logOut', { defaultValue: 'Log out and continue' })}
                 </LemonButton>
                 <LemonButton fullWidth type="secondary" center to="/">
-                    Cancel
+                    {t('settings.cancel', { defaultValue: 'Cancel' })}
                 </LemonButton>
             </div>
         </BridgePage>

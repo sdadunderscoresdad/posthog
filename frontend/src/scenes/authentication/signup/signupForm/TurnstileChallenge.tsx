@@ -1,6 +1,7 @@
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile'
 import { useActions } from 'kea'
 import { useCallback, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton, Link, Spinner } from '@posthog/lemon-ui'
 
@@ -14,6 +15,7 @@ interface TurnstileChallengeProps {
 }
 
 export function TurnstileChallenge({ siteKey, onSuccess, tokenReceived, email }: TurnstileChallengeProps): JSX.Element {
+    const { t } = useTranslation()
     const { openSupportForm } = useActions(supportLogic)
     const turnstileRef = useRef<TurnstileInstance>(null)
     const [error, setError] = useState(false)
@@ -33,7 +35,9 @@ export function TurnstileChallenge({ siteKey, onSuccess, tokenReceived, email }:
         return (
             <div className="flex items-center justify-center gap-2 py-2">
                 <Spinner className="text-base" />
-                <span className="text-sm text-secondary">Creating your account...</span>
+                <span className="text-sm text-secondary">
+                    {t('turnstile.creatingAccount', { defaultValue: 'Creating your account...' })}
+                </span>
             </div>
         )
     }
@@ -51,13 +55,13 @@ export function TurnstileChallenge({ siteKey, onSuccess, tokenReceived, email }:
             {error && (
                 <>
                     <LemonButton type="secondary" size="small" onClick={handleRetry}>
-                        Try again
+                        {t('turnstile.tryAgain', { defaultValue: 'Try again' })}
                     </LemonButton>
                     {failureCount >= 2 && (
                         <p className="text-sm text-secondary">
                             {/* Text is span-wrapped so Chrome's in-page translation (which replaces bare text
                                 nodes with <font> elements) can't break React sibling ops — react#11538 */}
-                            <span>Having trouble signing up?</span>{' '}
+                            <span>{t('turnstile.havingTrouble', { defaultValue: 'Having trouble signing up?' })}</span>{' '}
                             <Link
                                 data-attr="turnstile-error-contact-support"
                                 onClick={(e) => {
@@ -68,7 +72,7 @@ export function TurnstileChallenge({ siteKey, onSuccess, tokenReceived, email }:
                                     })
                                 }}
                             >
-                                Need help?
+                                {t('turnstile.needHelp', { defaultValue: 'Need help?' })}
                             </Link>
                         </p>
                     )}

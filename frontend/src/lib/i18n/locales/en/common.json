@@ -1,4 +1,24 @@
 {
+    "accountConnected": {
+        "canLogInWith": "You can now log into PostHog using {{ label }}.",
+        "desktopManualReturn": "If this hasn't happened automatically, get back to the PostHog Desktop app manually.",
+        "integrationConnected": "{{ label }} connected",
+        "integrationFailed": "{{ label }} connection failed",
+        "invalidLink": "This link is not valid. Return to PostHog from the product you started from.",
+        "linkedToAccount": "{{ label }} linked to account",
+        "linkingFailed": "{{ label }} linking failed",
+        "returningToDesktop": "Returning to PostHog Desktop…",
+        "slackDone": "You can head back to Slack now.",
+        "slackError": "Something went wrong. Head back to Slack and try again."
+    },
+    "accountMismatch": {
+        "differentAccount": "a different PostHog account",
+        "instruction": "To continue, log out and sign in with the correct email.",
+        "logOut": "Log out and continue",
+        "logOutAs": "Log out and continue as {{ email }}",
+        "signedInAs": "You're currently logged in as <Strong>{{ currentEmail }}</Strong>, but your {{ partner }} account is linked to <Strong>{{ expected }}</Strong>.",
+        "title": "Account mismatch"
+    },
     "activity": {
         "explore": {
             "setOnceProperties": {
@@ -77,11 +97,69 @@
             "leadOnceAccountReady": "Once your account is ready"
         }
     },
+    "cliAuthorize": {
+        "codeLabel": "Authorization Code",
+        "customSelection": "Custom selection",
+        "description": "The PostHog CLI should have displayed a 9-character code (e.g., ABCD-1234). Enter it below to authorize your CLI.",
+        "doesNotApply": "Does not apply to this resource",
+        "fullAccessWarning": "<Bold>This key will have full access to all supported endpoints.</Bold> We recommend scoping it to only what the CLI needs.",
+        "missingAgentScopes": "<Bold>Agent commands limited:</Bold> The CLI's <ApiCode>api</ApiCode> commands need <UserCode>user</UserCode>, <ProjectCode>project</ProjectCode>, and <QueryCode>query</QueryCode> permissions (read or write) to discover data and run queries.",
+        "missingEndpointsScopes": "<Bold>Endpoints unavailable:</Bold> The CLI needs <ScopeCode>endpoint</ScopeCode> permissions (read or write) to execute endpoints.",
+        "missingErrorTrackingScopes": "<Bold>Error tracking unavailable:</Bold> The CLI needs <ScopeCode>error_tracking</ScopeCode> permissions (read or write) to manage error tracking.",
+        "missingSchemaScopes": "<Bold>Schema management unavailable:</Bold> The CLI needs both <EventCode>event_definition</EventCode> and <PropertyCode>property_definition</PropertyCode> permissions (read or write) to manage schemas.",
+        "noScopesMatch": "No scopes match \"{{ term }}\"",
+        "organizationLabel": "Organization",
+        "projectLabel": "Project",
+        "reset": "Reset",
+        "scopes": "Scopes",
+        "scopesDescription": "Permissions granted to the CLI. Pick a preset or fine-tune individual scopes. Only grant what you need.",
+        "searchScopes": "Search scopes...",
+        "submit": "Authorize CLI",
+        "successBanner": "Your CLI has been authorized successfully!",
+        "successDetail": "You can now close this window and return to your terminal.",
+        "successKeyNote": "A personal API key has been created for your CLI. You can manage your personal API keys in <SettingsLink>Settings → Personal API keys</SettingsLink>",
+        "successTitle": "CLI Authorization Complete",
+        "title": "Authorize CLI Access"
+    },
+    "cliLive": {
+        "authorizing": "Authorizing PostHog Live...",
+        "complete": "Authorization complete",
+        "completeDetail": "You can close this tab and return to your terminal.",
+        "failed": "Authorization failed",
+        "missingPort": "Missing port parameter",
+        "missingPortDetail": "This page should be opened from the PostHog Live TUI. Please run <code>posthog-live</code> in your terminal.",
+        "selectProject": "Select a project",
+        "selectProjectDetail": "Choose which project to stream live events from."
+    },
     "common": {
         "no": "No",
         "unknown": "Unknown",
         "untitled": "Untitled",
         "yes": "Yes"
+    },
+    "credentialReview": {
+        "continue": "Continue to PostHog",
+        "description": "Your account was set up with the credentials and connected apps listed below. Review them and revoke anything you don't recognize before continuing.",
+        "loading": "Loading your credentials…",
+        "oneMoreThing": "One more thing.",
+        "welcome": "Welcome to PostHog!"
+    },
+    "credentialsReview": {
+        "columns": {
+            "access": "Access",
+            "created": "Created",
+            "label": "Label",
+            "type": "Type"
+        },
+        "connectedApplications": "Connected applications",
+        "passkeys": "Passkeys",
+        "personalApiKeys": "Personal API keys",
+        "remove": "Remove",
+        "removeDescription": "Anyone signed in with this passkey will need a new one to log in again.",
+        "removeTitle": "Remove \"{{ label }}\"?",
+        "revoke": "Revoke",
+        "revokeDescription": "Any service still using this key will start receiving 401 errors immediately.",
+        "revokeTitle": "Revoke \"{{ label }}\"?"
     },
     "dashboard": {
         "addInsight": {
@@ -428,6 +506,15 @@
             "tooltip": "Collapse/Expand view. Makes it easier to edit the layout for busier dashboards."
         }
     },
+    "devLoginPanel": {
+        "createFresh": "Create fresh demo account",
+        "createFreshTooltip": "Creates a throwaway account and organization with a random name and the password 12345678, then opens onboarding.",
+        "creatingAccount": "Creating account",
+        "hide": "Hide login tools",
+        "noAccounts": "No accounts yet. Create a fresh demo account below.",
+        "oauthLogin": "Log in via OAuth",
+        "title": "Login tools"
+    },
     "homepage": {
         "ai": {
             "allowAnalysis": "I allow AI analysis in this organization",
@@ -631,6 +718,24 @@
         "unableToReset": "Unable to reset",
         "unavailable": "Self-serve password reset is unavailable. Please <Bold>contact your instance administrator</Bold> to reset your password.",
         "youTyped": "you typed"
+    },
+    "regionSelect": {
+        "dataRegion": "Data region",
+        "euCloud": "EU Cloud",
+        "euCompliance": "Keeps data in the EU to comply with GDPR requirements",
+        "euFaster": "Faster if you and your users are based in Europe",
+        "euHosting": "EU hosting",
+        "euLocation": "Hosted in Frankfurt, Germany",
+        "local": "Local (this instance)",
+        "localHint": "Log in with the form below",
+        "modalDescription": "It's possible to migrate to another region later.",
+        "modalTitle": "Which region would you like to choose?",
+        "oauth": "OAuth",
+        "usCloud": "US Cloud",
+        "usCompliance": "Easier to comply with some US regulations",
+        "usFaster": "Faster if you and your users are based in the US",
+        "usHosting": "US hosting",
+        "usLocation": "Hosted in Virginia, USA"
     },
     "sceneActivity": {
         "by": "by",
@@ -3559,6 +3664,12 @@
         "yourName": "Your name",
         "yourTeam": "your team"
     },
+    "turnstile": {
+        "creatingAccount": "Creating your account...",
+        "havingTrouble": "Having trouble signing up?",
+        "needHelp": "Need help?",
+        "tryAgain": "Try again"
+    },
     "twoFactorReset": {
         "aboutToReset": "You are about to reset your two-factor authentication settings. This will:",
         "backToLogin": "Back to login",
@@ -3589,6 +3700,35 @@
         "setUpTitle": "Set up two-factor authentication",
         "submit": "Submit",
         "tokenLabel": "Authenticator token"
+    },
+    "tzLabel": {
+        "displayed": "Displayed",
+        "project": "Project",
+        "timezoneConversion": "Timezone conversion",
+        "yourDevice": "Your device"
+    },
+    "vercelConnect": {
+        "allLinked": "All your organizations are already linked to Vercel.",
+        "close": "Close",
+        "connectOrganization": "Connect organization",
+        "description": "Select which PostHog organization to link to your Vercel account.",
+        "errorTitle": "Something went wrong",
+        "goToPosthog": "Go to PostHog",
+        "linkedDetail": "Your PostHog organization <Strong>{{ org }}</Strong> is now connected to Vercel.",
+        "linkedTitle": "Account linked",
+        "noAdminOrgs": "You don't have any organizations with admin access.",
+        "returnToVercel": "Return to Vercel",
+        "selectOrg": "Select an organization",
+        "selectProject": "Select a project",
+        "title": "Connect to Vercel"
+    },
+    "vercelLinkError": {
+        "differentAccount": "a different account",
+        "instruction": "To complete Vercel SSO, please log out and sign in with the correct account.",
+        "logOut": "Log out and continue",
+        "logOutWith": "Log out and continue with {{ email }}",
+        "signedInAs": "You're currently logged in as <Strong>{{ currentEmail }}</Strong>, but your Vercel account is linked to <Strong>{{ expected }}</Strong>.",
+        "title": "Account mismatch"
     },
     "verifyEmail": {
         "alreadyHaveCode": "Already have a code? Enter it below. Codes are valid for 30 minutes.",

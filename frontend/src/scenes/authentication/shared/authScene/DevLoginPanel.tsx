@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconPlus, IconX } from '@posthog/icons'
 
@@ -18,6 +19,7 @@ import { DevUser, devLoginLogic } from '../devLoginLogic'
 
 /** Floating dev-only panel (top-right) combining dev-login shortcuts and OAuth prod-data login. */
 export function DevLoginPanel(): JSX.Element | null {
+    const { t } = useTranslation()
     const { preflight } = useValues(preflightLogic)
     const { devUsers, devUsersLoading, devLoginPanelOpen, createFreshAccountLoading } = useValues(devLoginLogic)
     const { devLogin, loadDevUsers, createFreshAccount, setDevLoginPanelOpen } = useActions(devLoginLogic)
@@ -41,7 +43,7 @@ export function DevLoginPanel(): JSX.Element | null {
         return (
             <div className="fixed top-4 right-4 z-50">
                 <LemonButton size="small" type="tertiary" onClick={() => setDevLoginPanelOpen(true)}>
-                    Login tools
+                    {t('devLoginPanel.title', { defaultValue: 'Login tools' })}
                 </LemonButton>
             </div>
         )
@@ -50,13 +52,15 @@ export function DevLoginPanel(): JSX.Element | null {
     return (
         <div className="AuthScene__card fixed top-4 right-4 z-50 flex flex-col w-72 max-w-[calc(100vw-2rem)] max-h-[calc(100vh-2rem)]">
             <div className="flex items-center justify-between gap-2 pl-3 pr-1.5 py-1.5 border-b border-[#e0e1d9]">
-                <span className="text-xs font-semibold text-muted">Login tools</span>
+                <span className="text-xs font-semibold text-muted">
+                    {t('devLoginPanel.title', { defaultValue: 'Login tools' })}
+                </span>
                 <LemonButton
                     size="xsmall"
                     icon={<IconX />}
                     onClick={() => setDevLoginPanelOpen(false)}
-                    tooltip="Hide login tools"
-                    aria-label="Hide login tools"
+                    tooltip={t('devLoginPanel.hide', { defaultValue: 'Hide login tools' })}
+                    aria-label={t('devLoginPanel.hide', { defaultValue: 'Hide login tools' })}
                 />
             </div>
             {allowDevLogin && (
@@ -71,7 +75,9 @@ export function DevLoginPanel(): JSX.Element | null {
                     )}
                     {!devUsersLoading && devUsers.length === 0 && (
                         <p className="text-xs text-muted text-center px-2 py-4 m-0">
-                            No accounts yet. Create a fresh demo account below.
+                            {t('devLoginPanel.noAccounts', {
+                                defaultValue: 'No accounts yet. Create a fresh demo account below.',
+                            })}
                         </p>
                     )}
                 </div>
@@ -85,16 +91,25 @@ export function DevLoginPanel(): JSX.Element | null {
                         center
                         icon={<IconPlus />}
                         loading={createFreshAccountLoading}
-                        disabledReason={createFreshAccountLoading ? 'Creating account' : undefined}
+                        disabledReason={
+                            createFreshAccountLoading
+                                ? t('devLoginPanel.creatingAccount', { defaultValue: 'Creating account' })
+                                : undefined
+                        }
                         onClick={createFreshAccount}
                         data-attr="dev-create-fresh-account"
-                        tooltip="Creates a throwaway account and organization with a random name and the password 12345678, then opens onboarding."
+                        tooltip={t('devLoginPanel.createFreshTooltip', {
+                            defaultValue:
+                                'Creates a throwaway account and organization with a random name and the password 12345678, then opens onboarding.',
+                        })}
                     >
-                        Create fresh demo account
+                        {t('devLoginPanel.createFresh', { defaultValue: 'Create fresh demo account' })}
                     </LemonButton>
                 )}
                 <div>
-                    <p className="text-xs font-medium text-muted mb-1">Log in via OAuth</p>
+                    <p className="text-xs font-medium text-muted mb-1">
+                        {t('devLoginPanel.oauthLogin', { defaultValue: 'Log in via OAuth' })}
+                    </p>
                     <div className="grid grid-cols-2 gap-1">
                         {([Region.US, Region.EU] as const).map((region) => (
                             <LemonButton

@@ -1,5 +1,6 @@
 import { useValues } from 'kea'
 import { router } from 'kea-router'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { LemonButton } from '@posthog/lemon-ui'
 
@@ -13,6 +14,7 @@ export const scene: SceneExport = {
 }
 
 export function AgenticAccountMismatch(): JSX.Element {
+    const { t } = useTranslation()
     const { searchParams } = useValues(router)
 
     const expectedEmail = typeof searchParams.expected_email === 'string' ? searchParams.expected_email : ''
@@ -52,20 +54,41 @@ export function AgenticAccountMismatch(): JSX.Element {
             <div className="text-center mb-4">
                 <IconErrorOutline className="text-warning text-4xl" />
             </div>
-            <h2 className="text-center">Account mismatch</h2>
+            <h2 className="text-center">{t('accountMismatch.title', { defaultValue: 'Account mismatch' })}</h2>
             <div className="text-center mb-6">
                 <p className="mb-2">
-                    You're currently logged in as <strong>{currentEmail}</strong>, but your {partnerName} account is
-                    linked to {expectedEmail ? <strong>{expectedEmail}</strong> : 'a different PostHog account'}.
+                    <Trans
+                        i18nKey="accountMismatch.signedInAs"
+                        values={{
+                            currentEmail,
+                            partner: partnerName,
+                            expected:
+                                expectedEmail ??
+                                t('accountMismatch.differentAccount', {
+                                    defaultValue: 'a different PostHog account',
+                                }),
+                        }}
+                        components={{ Strong: <strong /> }}
+                        defaults="You're currently logged in as <Strong>{{ currentEmail }}</Strong>, but your {{ partner }} account is linked to <Strong>{{ expected }}</Strong>."
+                    />
                 </p>
-                <p>To continue, log out and sign in with the correct email.</p>
+                <p>
+                    {t('accountMismatch.instruction', {
+                        defaultValue: 'To continue, log out and sign in with the correct email.',
+                    })}
+                </p>
             </div>
             <div className="flex flex-col gap-2">
                 <LemonButton fullWidth type="primary" center onClick={submitLogout}>
-                    {expectedEmail ? `Log out and continue as ${expectedEmail}` : 'Log out and continue'}
+                    {expectedEmail
+                        ? t('accountMismatch.logOutAs', {
+                              defaultValue: 'Log out and continue as {{ email }}',
+                              email: expectedEmail,
+                          })
+                        : t('accountMismatch.logOut', { defaultValue: 'Log out and continue' })}
                 </LemonButton>
                 <LemonButton fullWidth type="secondary" center to="/">
-                    Cancel
+                    {t('settings.cancel', { defaultValue: 'Cancel' })}
                 </LemonButton>
             </div>
         </BridgePage>

@@ -44,7 +44,7 @@ describe('TZLabel', () => {
             const second = render(<TZLabel time="2026-03-16T10:10:15Z" showPopover={false} />)
 
             expect(jest.getTimerCount()).toBe(1)
-            expect(second.container).toHaveTextContent('a minute ago')
+            expect(second.container).toHaveTextContent('1 minute ago')
 
             act(() => {
                 jest.advanceTimersByTime(65_000)

@@ -1,4 +1,24 @@
 {
+    "accountConnected": {
+        "canLogInWith": "",
+        "desktopManualReturn": "",
+        "integrationConnected": "",
+        "integrationFailed": "",
+        "invalidLink": "",
+        "linkedToAccount": "",
+        "linkingFailed": "",
+        "returningToDesktop": "",
+        "slackDone": "",
+        "slackError": ""
+    },
+    "accountMismatch": {
+        "differentAccount": "",
+        "instruction": "",
+        "logOut": "",
+        "logOutAs": "",
+        "signedInAs": "",
+        "title": ""
+    },
     "activity": {
         "explore": {
             "setOnceProperties": {
@@ -76,11 +96,69 @@
             "leadOnceAccountReady": ""
         }
     },
+    "cliAuthorize": {
+        "codeLabel": "",
+        "customSelection": "",
+        "description": "",
+        "doesNotApply": "",
+        "fullAccessWarning": "",
+        "missingAgentScopes": "",
+        "missingEndpointsScopes": "",
+        "missingErrorTrackingScopes": "",
+        "missingSchemaScopes": "",
+        "noScopesMatch": "",
+        "organizationLabel": "",
+        "projectLabel": "",
+        "reset": "",
+        "scopes": "",
+        "scopesDescription": "",
+        "searchScopes": "",
+        "submit": "",
+        "successBanner": "",
+        "successDetail": "",
+        "successKeyNote": "",
+        "successTitle": "",
+        "title": ""
+    },
+    "cliLive": {
+        "authorizing": "",
+        "complete": "",
+        "completeDetail": "",
+        "failed": "",
+        "missingPort": "",
+        "missingPortDetail": "",
+        "selectProject": "",
+        "selectProjectDetail": ""
+    },
     "common": {
         "no": "",
         "unknown": "",
         "untitled": "",
         "yes": ""
+    },
+    "credentialReview": {
+        "continue": "",
+        "description": "",
+        "loading": "",
+        "oneMoreThing": "",
+        "welcome": ""
+    },
+    "credentialsReview": {
+        "columns": {
+            "access": "",
+            "created": "",
+            "label": "",
+            "type": ""
+        },
+        "connectedApplications": "",
+        "passkeys": "",
+        "personalApiKeys": "",
+        "remove": "",
+        "removeDescription": "",
+        "removeTitle": "",
+        "revoke": "",
+        "revokeDescription": "",
+        "revokeTitle": ""
     },
     "dashboard": {
         "addInsight": {
@@ -423,6 +501,15 @@
             "tooltip": ""
         }
     },
+    "devLoginPanel": {
+        "createFresh": "",
+        "createFreshTooltip": "",
+        "creatingAccount": "",
+        "hide": "",
+        "noAccounts": "",
+        "oauthLogin": "",
+        "title": ""
+    },
     "homepage": {
         "ai": {
             "allowAnalysis": "",
@@ -626,6 +713,24 @@
         "unableToReset": "",
         "unavailable": "",
         "youTyped": ""
+    },
+    "regionSelect": {
+        "dataRegion": "",
+        "euCloud": "",
+        "euCompliance": "",
+        "euFaster": "",
+        "euHosting": "",
+        "euLocation": "",
+        "local": "",
+        "localHint": "",
+        "modalDescription": "",
+        "modalTitle": "",
+        "oauth": "",
+        "usCloud": "",
+        "usCompliance": "",
+        "usFaster": "",
+        "usHosting": "",
+        "usLocation": ""
     },
     "sceneActivity": {
         "by": "",
@@ -3532,6 +3637,12 @@
         "yourName": "",
         "yourTeam": ""
     },
+    "turnstile": {
+        "creatingAccount": "",
+        "havingTrouble": "",
+        "needHelp": "",
+        "tryAgain": ""
+    },
     "twoFactorReset": {
         "aboutToReset": "",
         "backToLogin": "",
@@ -3562,6 +3673,35 @@
         "setUpTitle": "",
         "submit": "",
         "tokenLabel": ""
+    },
+    "tzLabel": {
+        "displayed": "",
+        "project": "",
+        "timezoneConversion": "",
+        "yourDevice": ""
+    },
+    "vercelConnect": {
+        "allLinked": "",
+        "close": "",
+        "connectOrganization": "",
+        "description": "",
+        "errorTitle": "",
+        "goToPosthog": "",
+        "linkedDetail": "",
+        "linkedTitle": "",
+        "noAdminOrgs": "",
+        "returnToVercel": "",
+        "selectOrg": "",
+        "selectProject": "",
+        "title": ""
+    },
+    "vercelLinkError": {
+        "differentAccount": "",
+        "instruction": "",
+        "logOut": "",
+        "logOutWith": "",
+        "signedInAs": "",
+        "title": ""
     },
     "verifyEmail": {
         "alreadyHaveCode": "",

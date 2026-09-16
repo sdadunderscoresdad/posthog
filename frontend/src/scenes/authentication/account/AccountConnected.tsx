@@ -1,11 +1,13 @@
 import { useValues } from 'kea'
 import { router } from 'kea-router'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconCheckCircle, IconWarning } from '@posthog/icons'
 
 import { BridgePage } from 'lib/components/BridgePage/BridgePage'
 import { SSO_PROVIDER_NAMES } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { describeGithubSetupError, getGithubSetupErrorCode } from 'lib/integrations/githubSetupErrors'
 import { SceneExport } from 'scenes/sceneTypes'
 
@@ -70,9 +72,13 @@ function providerLabel(provider: string | undefined): string {
 
 function headline(kind: Exclude<AccountConnectedKind, 'invalid'>, label: string, isError: boolean): string {
     if (kind === 'github-integration' || kind === 'slack-integration') {
-        return isError ? `${label} connection failed` : `${label} connected`
+        return isError
+            ? i18n.t('accountConnected.integrationFailed', { defaultValue: '{{ label }} connection failed', label })
+            : i18n.t('accountConnected.integrationConnected', { defaultValue: '{{ label }} connected', label })
     }
-    return isError ? `${label} linking failed` : `${label} linked to account`
+    return isError
+        ? i18n.t('accountConnected.linkingFailed', { defaultValue: '{{ label }} linking failed', label })
+        : i18n.t('accountConnected.linkedToAccount', { defaultValue: '{{ label }} linked to account', label })
 }
 
 const VALID_KINDS: ReadonlyArray<Exclude<AccountConnectedKind, 'invalid'>> = [
@@ -103,6 +109,7 @@ function isValidKind(kind: AccountConnectedKind | undefined): kind is Exclude<Ac
 }
 
 export function AccountConnected({ kind }: AccountConnectedProps): JSX.Element {
+    const { t } = useTranslation()
     const { searchParams } = useValues(router)
     const provider = typeof searchParams.provider === 'string' ? searchParams.provider : undefined
     const label = providerLabel(provider)
@@ -127,7 +134,10 @@ export function AccountConnected({ kind }: AccountConnectedProps): JSX.Element {
             <BridgePage view="account-connected">
                 <div className="flex flex-col items-center gap-4 text-center max-w-lg mx-auto">
                     <p className="text-muted mb-0">
-                        This link is not valid. Return to PostHog from the product you started from.
+                        {t('accountConnected.invalidLink', {
+                            defaultValue:
+                                'This link is not valid. Return to PostHog from the product you started from.',
+                        })}
                     </p>
                 </div>
             </BridgePage>
@@ -145,18 +155,36 @@ export function AccountConnected({ kind }: AccountConnectedProps): JSX.Element {
                     <IconCheckCircle className="text-success text-5xl shrink-0" />
                 )}
                 <h2 className="text-xl font-semibold m-0">{headline(kind, label, isError)}</h2>
-                {showLoginLine && <p className="text-muted mb-0">You can now log into PostHog using {label}.</p>}
+                {showLoginLine && (
+                    <p className="text-muted mb-0">
+                        {t('accountConnected.canLogInWith', {
+                            defaultValue: 'You can now log into PostHog using {{ label }}.',
+                            label,
+                        })}
+                    </p>
+                )}
                 {startedFromSlack ? (
                     <p className="text-muted mb-0">
                         {isError
-                            ? 'Something went wrong. Head back to Slack and try again.'
-                            : 'You can head back to Slack now.'}
+                            ? t('accountConnected.slackError', {
+                                  defaultValue: 'Something went wrong. Head back to Slack and try again.',
+                              })
+                            : t('accountConnected.slackDone', { defaultValue: 'You can head back to Slack now.' })}
                     </p>
                 ) : (
                     <p className="text-muted mb-0">
-                        <strong>Returning to PostHog Desktop…</strong>
+                        <strong>
+                            {t('accountConnected.returningToDesktop', {
+                                defaultValue: 'Returning to PostHog Desktop…',
+                            })}
+                        </strong>
                         <br />
-                        <em>If this hasn't happened automatically, get back to the PostHog Desktop app manually.</em>
+                        <em>
+                            {t('accountConnected.desktopManualReturn', {
+                                defaultValue:
+                                    "If this hasn't happened automatically, get back to the PostHog Desktop app manually.",
+                            })}
+                        </em>
                     </p>
                 )}
             </div>

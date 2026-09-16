@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonDialog, LemonTable, Tooltip } from '@posthog/lemon-ui'
 
@@ -53,6 +54,7 @@ function passkeyTypeLabel(passkey: PasskeyCredential): string {
 }
 
 export function CredentialsReviewList(): JSX.Element {
+    const { t } = useTranslation()
     const { keys, keysLoading } = useValues(personalAPIKeysLogic)
     const { deleteKey } = useActions(personalAPIKeysLogic)
     const { passkeys, passkeysLoading } = useValues(passkeySettingsLogic)
@@ -67,19 +69,21 @@ export function CredentialsReviewList(): JSX.Element {
         <div className="flex flex-col gap-6">
             {showKeys && (
                 <section>
-                    <h3 className="text-base font-semibold mb-2">Personal API keys</h3>
+                    <h3 className="text-base font-semibold mb-2">
+                        {t('credentialsReview.personalApiKeys', { defaultValue: 'Personal API keys' })}
+                    </h3>
                     <LemonTable
                         dataSource={keys}
                         loading={keysLoading}
                         rowKey={(key) => key.id}
                         columns={[
                             {
-                                title: 'Label',
+                                title: t('credentialsReview.columns.label', { defaultValue: 'Label' }),
                                 dataIndex: 'label',
                                 render: (_, key) => <span className="font-semibold">{key.label}</span>,
                             },
                             {
-                                title: 'Access',
+                                title: t('credentialsReview.columns.access', { defaultValue: 'Access' }),
                                 render: (_, key) => (
                                     <Tooltip title={key.scopes?.join(', ') ?? ''}>
                                         <span>
@@ -89,7 +93,7 @@ export function CredentialsReviewList(): JSX.Element {
                                 ),
                             },
                             {
-                                title: 'Created',
+                                title: t('credentialsReview.columns.created', { defaultValue: 'Created' }),
                                 dataIndex: 'created_at',
                                 render: (value) => humanFriendlyDetailedTime(value as string),
                             },
@@ -103,18 +107,25 @@ export function CredentialsReviewList(): JSX.Element {
                                         size="small"
                                         onClick={() =>
                                             LemonDialog.open({
-                                                title: `Revoke "${key.label}"?`,
-                                                description:
-                                                    'Any service still using this key will start receiving 401 errors immediately.',
+                                                title: t('credentialsReview.revokeTitle', {
+                                                    defaultValue: 'Revoke "{{ label }}"?',
+                                                    label: key.label,
+                                                }),
+                                                description: t('credentialsReview.revokeDescription', {
+                                                    defaultValue:
+                                                        'Any service still using this key will start receiving 401 errors immediately.',
+                                                }),
                                                 primaryButton: {
                                                     status: 'danger',
-                                                    children: 'Revoke',
+                                                    children: t('credentialsReview.revoke', {
+                                                        defaultValue: 'Revoke',
+                                                    }),
                                                     onClick: () => deleteKey(key.id),
                                                 },
                                             })
                                         }
                                     >
-                                        Revoke
+                                        {t('credentialsReview.revoke', { defaultValue: 'Revoke' })}
                                     </LemonButton>
                                 ),
                             },
@@ -124,7 +135,9 @@ export function CredentialsReviewList(): JSX.Element {
             )}
             {showPasskeys && (
                 <section>
-                    <h3 className="text-base font-semibold mb-2">Passkeys</h3>
+                    <h3 className="text-base font-semibold mb-2">
+                        {t('credentialsReview.passkeys', { defaultValue: 'Passkeys' })}
+                    </h3>
                     <LemonTable
                         dataSource={passkeys}
                         loading={passkeysLoading}
@@ -136,7 +149,7 @@ export function CredentialsReviewList(): JSX.Element {
                                 render: (_, passkey) => <span className="font-semibold">{passkey.label}</span>,
                             },
                             {
-                                title: 'Type',
+                                title: t('credentialsReview.columns.type', { defaultValue: 'Type' }),
                                 render: (_, passkey) => passkeyTypeLabel(passkey),
                             },
                             {
@@ -154,18 +167,25 @@ export function CredentialsReviewList(): JSX.Element {
                                         size="small"
                                         onClick={() =>
                                             LemonDialog.open({
-                                                title: `Remove "${passkey.label}"?`,
-                                                description:
-                                                    'Anyone signed in with this passkey will need a new one to log in again.',
+                                                title: t('credentialsReview.removeTitle', {
+                                                    defaultValue: 'Remove "{{ label }}"?',
+                                                    label: passkey.label,
+                                                }),
+                                                description: t('credentialsReview.removeDescription', {
+                                                    defaultValue:
+                                                        'Anyone signed in with this passkey will need a new one to log in again.',
+                                                }),
                                                 primaryButton: {
                                                     status: 'danger',
-                                                    children: 'Remove',
+                                                    children: t('credentialsReview.remove', {
+                                                        defaultValue: 'Remove',
+                                                    }),
                                                     onClick: () => deletePasskey(passkey.id),
                                                 },
                                             })
                                         }
                                     >
-                                        Remove
+                                        {t('credentialsReview.remove', { defaultValue: 'Remove' })}
                                     </LemonButton>
                                 ),
                             },
@@ -175,7 +195,11 @@ export function CredentialsReviewList(): JSX.Element {
             )}
             {showConnectedApps && (
                 <section>
-                    <h3 className="text-base font-semibold mb-2">Connected applications</h3>
+                    <h3 className="text-base font-semibold mb-2">
+                        {t('credentialsReview.connectedApplications', {
+                            defaultValue: 'Connected applications',
+                        })}
+                    </h3>
                     <ConnectedApps />
                 </section>
             )}
