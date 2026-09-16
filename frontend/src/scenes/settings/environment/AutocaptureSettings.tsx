@@ -6,6 +6,7 @@ import { LemonDivider, LemonSwitch } from '@posthog/lemon-ui'
 
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { TeamMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { eventUsageLogic } from 'lib/utils/eventUsageLogic'
 import { teamLogic } from 'scenes/teamLogic'
 import { userLogic } from 'scenes/userLogic'
@@ -30,10 +31,12 @@ function WebVitalsAllowedMetricSwitch({ metric }: { metric: SupportedWebVitalsMe
             }
             disabledReason={
                 userLoading
-                    ? 'Loading user'
+                    ? i18n.t('settings.environment.autocapture.loadingUser', { defaultValue: 'Loading user' })
                     : currentTeam?.autocapture_web_vitals_opt_in
                       ? restrictedReason
-                      : 'Enable web vitals autocapture to set allowed metrics'
+                      : i18n.t('settings.environment.autocapture.enableWebVitals', {
+                            defaultValue: 'Enable web vitals autocapture to set allowed metrics',
+                        })
             }
             onChange={(checked) => {
                 if (!currentTeam) {

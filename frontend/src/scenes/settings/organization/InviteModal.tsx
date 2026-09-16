@@ -9,6 +9,7 @@ import { LemonInput, LemonSelect, LemonTextArea, Link, Tooltip } from '@posthog/
 import { useRestrictedArea } from 'lib/components/RestrictedArea'
 import { RestrictionScope } from 'lib/components/RestrictedArea'
 import { OrganizationMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonBanner } from 'lib/lemon-ui/LemonBanner'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonModal } from 'lib/lemon-ui/LemonModal'
@@ -552,8 +553,18 @@ export function InviteModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                                     data-attr="invite-team-member-submit"
                                 >
                                     {validInvitesCount
-                                        ? `Invite ${pluralize(validInvitesCount, 'team member')}`
-                                        : 'Invite team members'}
+                                        ? i18n.t('settings.organization.invite.submitCount', {
+                                              defaultValue: 'Invite {{ members }}',
+                                              members: pluralize(
+                                                  validInvitesCount,
+                                                  i18n.t('settings.organization.invite.teamMember', {
+                                                      defaultValue: 'team member',
+                                                  })
+                                              ),
+                                          })
+                                        : i18n.t('settings.organization.invite.submit', {
+                                              defaultValue: 'Invite team members',
+                                          })}
                                 </LemonButton>
                             </>
                         )}

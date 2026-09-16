@@ -7,6 +7,7 @@ import { LemonBanner, LemonButton, LemonDialog, LemonSkeleton } from '@posthog/l
 
 import { TZLabel } from 'lib/components/TZLabel'
 import { useOnMountEffect } from 'lib/hooks/useOnMountEffect'
+import { i18n } from 'lib/i18n/i18n'
 import { buildGithubDisconnectDescription } from 'lib/integrations/githubDisconnectCopy'
 import { GitHubInstallRequestsBanner } from 'lib/integrations/GitHubInstallRequestsBanner'
 import { GitHubRepoSummary } from 'lib/integrations/GitHubRepoSummary'
@@ -56,7 +57,10 @@ function GitHubInstallationRow({ integration }: { integration: PersonalGitHubInt
                     <p>
                         {buildGithubDisconnectDescription(
                             t,
-                            accountName || 'this account',
+                            accountName ||
+                                i18n.t('settings.user.personalIntegrations.thisAccount', {
+                                    defaultValue: 'this account',
+                                }),
                             !!integration.installation_shared,
                             'account'
                         )}

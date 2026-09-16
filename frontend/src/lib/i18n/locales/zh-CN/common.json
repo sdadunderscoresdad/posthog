@@ -232,6 +232,8 @@
         "selectProjectDetail": "选择要实时推送事件的项目。"
     },
     "common": {
+        "cancel": "取消",
+        "loading": "加载中…",
         "no": "否",
         "unknown": "未知",
         "untitled": "未命名",
@@ -1435,6 +1437,10 @@
         "cancel": "取消",
         "docsLink": "文档",
         "environment": {
+            "accessControl": {
+                "resolutionNotice": "访问控制将开始采用最具体的规则。请在生效前查看变更。",
+                "reviewChanges": "查看变更"
+            },
             "activityLog": {
                 "browseAll": "浏览全部活动日志",
                 "notificationsDescription": "创建通知，以便在产生活动日志时收到提醒。",
@@ -1444,7 +1450,9 @@
                 "orgLevelTooltip": "启用后，组织级别变更（例如组织设置、域名和成员）产生的活动日志会纳入此项目的活动日志页面、导出和通知订阅。"
             },
             "autocapture": {
-                "label": "为 Web 启用自动捕获"
+                "enableWebVitals": "开启 Web 关键指标自动捕获后才能设置允许的指标",
+                "label": "为 Web 启用自动捕获",
+                "loadingUser": "正在加载用户"
             },
             "autocaptureWebVitals": {
                 "description": "你也可以只采集特定的 Web 关键指标。默认会采集全部四项核心 Web 关键指标：CLS、FCP、LCP 和 INP。",
@@ -1463,6 +1471,9 @@
                 "countUniqueUrlsDescription": "在计算跳出率时，统计访问过的唯一 URL 数量",
                 "useUniqUpTo": "使用 uniqUpTo",
                 "useUniqUpToDescription": "使用 <code>uniqUpTo</code> 函数，判断唯一页面浏览量 + 屏幕事件 + 自动捕获的总数是否 >= 2"
+            },
+            "businessModel": {
+                "notSpecified": "未指定"
             },
             "cookielessServerHashMode": {
                 "description": "启用无 Cookie 跟踪后，IP 地址会被哈希进 distinct ID，并在转换执行前被剥离，因此基于 IP 的转换（例如 GeoIP 增强和机器人检测）不会对这些事件做增强。",
@@ -1700,6 +1711,8 @@
             },
             "dataColorThemes": {
                 "addTheme": "添加主题",
+                "changeDefault": "更改默认主题",
+                "changeDefaultDescription": "这会更改洞察中数据可视化所用的默认颜色。",
                 "changeDefaultTitle": "要将默认数据主题改为「{{ name }}」吗？",
                 "columns": {
                     "name": "名称",
@@ -1723,6 +1736,9 @@
             "discussionMentionNotifications": {
                 "description": "当有人在讨论中提及你时获得通知。",
                 "tooltip": "配置目标集成（例如 Slack、Discord、Microsoft Teams），以便在重放、笔记本、洞察等内容的讨论中有人提及你时收到通知。"
+            },
+            "discussions": {
+                "noNotifications": "尚未配置通知"
             },
             "errorTrackingConfigurationMoved": {
                 "message": "<Strong>错误跟踪配置已迁移。</Strong>告警、抑制规则、突增检测、分配规则、分组规则、符号集和版本的配置现在位于<ConfigLink>错误跟踪配置</ConfigLink>页面。",
@@ -1760,6 +1776,9 @@
             "humanFriendlyComparisonPeriods": {
                 "label": "使用更易懂的对比周期"
             },
+            "ipAllowlist": {
+                "snippetLabel": "IP 地址白名单"
+            },
             "ipAllowList": {
                 "description": "PostHog 调用外部服务时，都会从我们的静态 IP 地址之一发出。如果你需要显式把这些 IP 加入允许列表，可以在防火墙规则中添加它们。这适用于所有集成，例如 Webhook、应用或批量导出。",
                 "notSupported": "不支持"
@@ -1776,10 +1795,16 @@
                 "atLeastOneRequired": "至少需要一个属性键"
             },
             "logsCapture": {
+                "changeConfirm": "将保留期改为 {{ period }}",
+                "changeDescription": "更改保留期只影响此后的日志。已有日志会保留原有的保留期。",
+                "changeTitle": "更改日志保留期？",
                 "consoleLogsLabel": "将控制台日志采集到日志产品",
                 "jsonParseLabel": "解析 JSON 日志",
                 "piiScrubDescription": "启用后，我们会在存储前从日志正文中清除常见的敏感模式：电子邮件地址、Bearer 形式的授权令牌以及 Stripe 密钥的形态。这是尽力而为的处理：不符合这些模式的值或银行卡号仍可能出现。脱敏是永久且不可逆的。被脱敏的值会替换为 {{ placeholder }}。",
-                "piiScrubLabel": "在写入时清除日志中的个人信息"
+                "piiScrubLabel": "在写入时清除日志中的个人信息",
+                "retention14d": "14 天（默认）",
+                "retention30d": "30 天",
+                "retention30dUpgrade": "升级到付费套餐才能使用 30 天保留期"
             },
             "logsPatternMessageKeys": {
                 "help": "拖动键可以调整优先级。清空所有键即可关闭消息提取。",
@@ -1853,6 +1878,7 @@
                     },
                     "title": "启用托管代理"
                 },
+                "records": "反向代理记录",
                 "retry": "重试",
                 "sdkSetup": {
                     "description": "代理已上线，请更新 SDK 初始化配置，让数据通过你的自定义域名发送。",
@@ -1870,6 +1896,12 @@
                     "dnsProxyHint": "<Strong>重要：</Strong>如果你使用的是 Cloudflare 这类提供代理选项（橙色云朵）的 DNS 服务商，请确保该域名的代理处于<Strong>关闭</Strong>状态（灰色云朵）。在 DNS 服务商处启用代理可能会干扰托管反向代理功能。",
                     "title": "就快完成了"
                 }
+            },
+            "max": {
+                "couldNotLoadMemory": "无法加载记忆。",
+                "couldNotSaveMemory": "无法保存记忆。",
+                "memoryCreated": "PostHog AI 记忆已创建。",
+                "memoryUpdated": "PostHog AI 记忆已更新。"
             },
             "maxChangelog": {
                 "empty": "暂时没有更新日志。稍后再来看看 PostHog AI 的新功能。",
@@ -1928,6 +1960,7 @@
                 "leftLabel": "使用左连接"
             },
             "personsOnEvents": {
+                "changed": "用户更改了 personsOnEventsMode 设置",
                 "eventTimeDescription": "查询更快。如果人员属性被更新，过去数据的查询结果<em>不会</em>改变。",
                 "eventTimeLabel": "使用事件发生时的人员属性",
                 "idsEventTimeDescription": "查询最快，<Span>但漏斗和独立用户数会不准确</Span>。如果人员属性被更新，过去数据的查询结果<em>不会</em>改变。",
@@ -2059,6 +2092,12 @@
                 "retentionUpgradeHint": "需要更长的数据保留期？前往<BillingLink>账单页面</BillingLink>升级套餐。",
                 "sinceVersion": "自 {{ version }} 起"
             },
+            "sessionsTableVersion": {
+                "auto": "自动",
+                "v1": "版本 1",
+                "v2": "版本 2",
+                "v3": "版本 3"
+            },
             "taskAgentDefaults": {
                 "adminsOnlyNotice": "只有项目管理员可以修改此项。你仍然可以在下方设置自己的默认值。",
                 "alreadyUsingProjectDefault": "已在使用项目默认值",
@@ -2146,6 +2185,7 @@
                 "confirm": "更改时区",
                 "confirmDescription": "该时区与当前 <Strong>{{ current }}</Strong> 的偏移量不同，因此查询需要重新计算。基于日期的时段，以及日/周/月分桶都会有所不同。",
                 "confirmTitle": "要将时区更改为 {{ timezone }} 吗？",
+                "noneAvailable": "没有可用的时区",
                 "placeholder": "选择时区"
             },
             "tracingAttributeKeys": {
@@ -2220,6 +2260,13 @@
                     "person": "资料",
                     "personAndGroup": "和分组资料"
                 }
+            },
+            "weekStart": {
+                "changeConfirm": "更改每周起始日",
+                "changeDescription": "按周分组的查询需要重新计算。",
+                "changeTitle": "将每周的第一天改为{{ day }}？",
+                "monday": "周一",
+                "sunday": "周日"
             }
         },
         "loading": "加载中…",
@@ -2600,6 +2647,7 @@
             },
             "feature-flag-secure-api-key": {
                 "description": "用于本地评估功能开关或远程配置的密钥。可替代用于本地评估的个人 API 密钥。",
+                "searchDescription": "该密钥用于本地评估功能开关或远程配置。新的集成应改用具备 feature_flag:read 权限范围的项目 API 密钥。",
                 "title": "功能开关安全 API 密钥"
             },
             "feature-flags-interface": {
@@ -2680,6 +2728,7 @@
                 "title": "告警"
             },
             "logs-distinct-id-attribute-key": {
+                "searchDescription": "PostHog 用于识别日志属于哪个人的日志属性。当任一属性匹配到该用户的某个 distinct ID 时，日志即与该用户关联。",
                 "title": "关联到人员"
             },
             "logs-drop-rules": {
@@ -2706,6 +2755,7 @@
                 "title": "保留规则"
             },
             "logs-session-id-attribute-keys": {
+                "searchDescription": "PostHog 用于识别日志属于哪个会话的日志属性，按顺序检查并以首个匹配为准，其后是其它常见的会话 ID 属性。",
                 "title": "关联到会话"
             },
             "marketing-settings": {
@@ -2746,9 +2796,11 @@
                 "dataTransfer": "这<Italic>可能</Italic>涉及传输可识别用户身份的数据，因此我们会在下方征求你所在组织的同意。",
                 "description": "PostHog AI 功能（例如 PostHog AI 对话）会使用<Providers><dfn>外部 AI 服务</dfn></Providers>进行数据分析。",
                 "noThirdPartyTraining": "<Strong>你的数据不会被用于训练第三方模型。</Strong>",
+                "searchDescription": "PostHog AI 功能会使用外部 AI 服务进行数据分析，这可能涉及识别性用户数据的传输。",
                 "title": "AI 服务商"
             },
             "organization-ai-training-opt-out": {
+                "searchDescription": "控制 PostHog 是否可以使用你的数据训练 AI 模型。关闭后组织内的 AI 功能将被禁用。",
                 "title": "内部 AI 训练"
             },
             "organization-authentication": {
@@ -2775,6 +2827,7 @@
                 "description": "接受 PostHog Desktop 测试版附加的数据处理条款。",
                 "proceeding": "你的组织同意在此状态下继续使用。如果该功能正式发布，PostHog 将更新 DPA 并发出通知。此测试版可能变更或停止提供。",
                 "processing": "PostHog Desktop 使用 Baseten 和 Modal 处理客户数据、个人数据和 PII。它们目前并未被列为该功能的 PostHog 子处理者。",
+                "searchDescription": "接受 PostHog Desktop 测试版所需的额外数据处理条款。",
                 "subprocessorsLink": "<SubprocessorsLink>查看 PostHog 子处理者</SubprocessorsLink>",
                 "title": "PostHog Desktop 测试版条款"
             },
@@ -2995,9 +3048,11 @@
                 "title": "主题"
             },
             "tracing-distinct-id-attribute-keys": {
+                "searchDescription": "PostHog 用于识别链路属于哪个人的 span 属性。当任一属性包含该用户的某个 distinct ID 时，链路即与该用户关联。",
                 "title": "关联到人员"
             },
             "tracing-session-id-attribute-keys": {
+                "searchDescription": "PostHog 用于识别链路属于哪个会话的 span 属性，按顺序检查并以首个匹配为准，其后是其它常见的会话 ID 属性。",
                 "title": "关联到会话"
             },
             "user-api-keys": {
@@ -3147,8 +3202,12 @@
                     "newValueIs": "新值为"
                 },
                 "conditionsTooltip": "• 变更 – 只要该字段被修改就需要审批\n• 新值为 – 新值达到阈值时需要审批（例如 rollout > 50%）\n• 变化幅度 – 变化量达到阈值时需要审批（例如增加超过 10%）",
+                "created": "审批策略已创建",
+                "createFailed": "创建审批策略失败",
                 "createPolicy": "创建审批策略",
                 "deleteContent": "这会立即移除该操作的审批要求。",
+                "deleted": "审批策略已删除",
+                "deleteFailed": "删除审批策略失败",
                 "deleteTitle": "删除审批策略？",
                 "disabled": "已停用",
                 "edit": "编辑",
@@ -3165,6 +3224,7 @@
                 "noConditions": "还没有配置条件。添加一个字段即可要求特定变更需要审批。",
                 "noConditionsNote": "如果没有设置条件，对该操作类型的所有变更都需要审批。",
                 "none": "无",
+                "noTeam": "未选择团队",
                 "nounPlural": "策略",
                 "nounSingular": "策略",
                 "reject": "拒绝",
@@ -3188,6 +3248,8 @@
                     "rejected": "已拒绝"
                 },
                 "thresholdError": "请填写阈值",
+                "updated": "审批策略已更新",
+                "updateFailed": "更新审批策略失败",
                 "viewDetails": "查看详情",
                 "yes": "是"
             },
@@ -3281,6 +3343,7 @@
                     "acsUrl": "SAML ACS URL",
                     "audience": "受众 / 实体 ID",
                     "certificate": "SAML X.509 证书",
+                    "certificatePlaceholder": "粘贴身份提供方的公开证书，请保留所有换行。",
                     "description": "为你的组织配置 SAML。",
                     "entityId": "SAML 实体 ID",
                     "entityIdPlaceholder": "由你的身份提供方提供的实体 ID",
@@ -3390,9 +3453,15 @@
                 "posthogFallback": "PostHog",
                 "projectAccess": "项目访问权限",
                 "projectAccessTooltip": "授予该用户访问特定项目的权限。用户接受邀请并加入组织后，这些访问控制将生效。",
-                "submit": "提交"
+                "submit": "邀请团队成员",
+                "submitCount": "邀请{{ members }}",
+                "teamMember": "名团队成员"
             },
             "invites": {
+                "cancelDialogConfirm": "是，取消邀请",
+                "cancelDialogDescription": "要取消发给 {{ email }} 的邀请吗？",
+                "cancelDialogKeep": "不，保留邀请",
+                "cancelDialogTitle": "取消邀请",
                 "cancelTitle": "取消邀请",
                 "cannotInvite": "你无法邀请其他成员或查看邀请",
                 "emptyState": "没有待处理的邀请。你可以在上方邀请其他团队成员。",
@@ -3510,7 +3579,9 @@
                 "next": "下一页",
                 "noMatchingMembers": "没有匹配该搜索的成员。",
                 "noMembers": "该组织还没有成员。",
+                "noOverrides": "无单独设置",
                 "noProjectNote": "PostHog 对此项按人保存单一取值，因此无法按项目设置。",
+                "overrideCount_other": "{{ count }} 项设置",
                 "pageOf": "第 {{ page }} 页，共 {{ pages }} 页",
                 "pendingChanges": "{{ changes }} 待保存，影响 {{ members }}",
                 "perProjectNote": "按项目、针对具体成员设置。之后被加入项目的成员在你为其设置之前不会应用任何覆盖。",
@@ -3655,6 +3726,7 @@
                     "acsUrlPlaceholder": "你的 IdP 的 ACS 或单点登录 URL。",
                     "audience": "受众 / 实体 ID",
                     "certificate": "SAML X.509 证书",
+                    "certificatePlaceholder": "粘贴 IdP 的公开证书，请保留所有换行。",
                     "enabled": "SAML 已启用",
                     "entityId": "SAML 实体 ID",
                     "entityIdPlaceholder": "由你的 IdP 提供的实体 ID。",
@@ -3670,12 +3742,17 @@
                     "baseUrl": "SCIM 基础 URL",
                     "bearerToken": "Bearer 令牌",
                     "bearerTokenDescription": "Bearer 令牌",
+                    "disable": "停用 SCIM",
+                    "disableDescription": "身份提供方将无法再管理用户。SAML 身份验证仍可正常使用。",
                     "disabledToast": "SCIM 已成功停用！",
+                    "disableTitle": "停用 SCIM？",
                     "enable": "启用 SCIM",
                     "enabled": "SCIM 已启用",
                     "enabledToast": "SCIM 已成功启用！",
                     "notEnabled": "SCIM 未启用",
                     "regenerate": "重新生成令牌",
+                    "regenerateDescription": "当前令牌将失效，你需要用新令牌更新身份提供方。",
+                    "regenerateTitle": "重新生成 SCIM 令牌？",
                     "saveToken": "请保存此令牌，它只会显示一次。",
                     "title": "配置 SCIM 预配",
                     "tokenOnce": "Bearer 令牌仅在生成时显示一次。",
@@ -3784,6 +3861,13 @@
                 "warning": "移动项目后，原组织的所有成员都会失去访问权限（包括通过 API 密钥等方式），除非他们同时也是新组织的成员。"
             },
             "projectName": "该项目的名称",
+            "projectSecretAPIKeys": {
+                "aiGateway": "AI 网关",
+                "needsLabel": "API 密钥需要填写名称",
+                "needsScope": "API 密钥至少需要一个权限范围",
+                "saveFailed": "保存项目 API 密钥失败",
+                "updated": "项目 API 密钥已更新"
+            },
             "tags": "标签"
         },
         "save": "保存",
@@ -4095,6 +4179,9 @@
                     "required": "请输入你的密码以继续"
                 }
             },
+            "personalIntegrations": {
+                "thisAccount": "该账号"
+            },
             "profilePicture": {
                 "addOnGravatar": "在 Gravatar 上添加",
                 "changeOnGravatar": "在 Gravatar 上修改",
@@ -4262,6 +4349,7 @@
             "enabled": "启用了",
             "forDomain": "，域名",
             "rotated": "轮换了",
+            "scimProvisioning": "SCIM 预配",
             "unknown": "未知域名"
         },
         "for": "，对象为",
@@ -4330,6 +4418,7 @@
         "theOrganization": "该组织",
         "to": "，对象为",
         "unknownKey": "未知密钥",
+        "unknownProject": "未知项目",
         "unknownScope": "未知范围",
         "updated": "更新了",
         "updatedWithField": "更新了"

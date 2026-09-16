@@ -7,6 +7,7 @@ import { LemonButton, LemonDialog, LemonLabel, LemonSelect, LemonTable, Link } f
 import { PayGateMini } from 'lib/components/PayGateMini/PayGateMini'
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { TeamMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonTableLink } from 'lib/lemon-ui/LemonTable/LemonTableLink'
 import { teamLogic } from 'scenes/teamLogic'
 
@@ -85,13 +86,17 @@ export function DataColorThemes(): JSX.Element {
                                 defaultValue: 'Change the default data theme to "{{ name }}"?',
                                 name: theme!.name,
                             }),
-                            description: 'This changes the default colors used when visualizing data in insights.',
+                            description: i18n.t('settings.environment.dataColorThemes.changeDefaultDescription', {
+                                defaultValue: 'This changes the default colors used when visualizing data in insights.',
+                            }),
                             primaryButton: {
-                                children: 'Change default theme',
+                                children: i18n.t('settings.environment.dataColorThemes.changeDefault', {
+                                    defaultValue: 'Change default theme',
+                                }),
                                 onClick: () => updateCurrentTeam({ default_data_theme: value! }),
                             },
                             secondaryButton: {
-                                children: 'Cancel',
+                                children: i18n.t('common.cancel', { defaultValue: 'Cancel' }),
                             },
                         })
                     }}

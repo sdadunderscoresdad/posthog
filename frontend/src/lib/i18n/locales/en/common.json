@@ -233,6 +233,8 @@
         "selectProjectDetail": "Choose which project to stream live events from."
     },
     "common": {
+        "cancel": "Cancel",
+        "loading": "Loading...",
         "no": "No",
         "unknown": "Unknown",
         "untitled": "Untitled",
@@ -1448,6 +1450,10 @@
         "cancel": "Cancel",
         "docsLink": "Docs",
         "environment": {
+            "accessControl": {
+                "resolutionNotice": "Access control will start using the most specific rule. Review the changes before they take effect.",
+                "reviewChanges": "Review changes"
+            },
             "activityLog": {
                 "browseAll": "Browse all activity logs",
                 "notificationsDescription": "Create notifications to get notified of activity logs.",
@@ -1457,7 +1463,9 @@
                 "orgLevelTooltip": "When enabled, activity logs from organization-level changes (such as organization settings, domains, and members) will be included in this project's activity logs page, exports, and notifications subscriptions."
             },
             "autocapture": {
-                "label": "Enable autocapture for web"
+                "enableWebVitals": "Enable web vitals autocapture to set allowed metrics",
+                "label": "Enable autocapture for web",
+                "loadingUser": "Loading user"
             },
             "autocaptureWebVitals": {
                 "description": "You can also choose to only capture specific web vitals metrics. By default, all four core web vitals metrics are captured: CLS, FCP, LCP, and INP.",
@@ -1476,6 +1484,9 @@
                 "countUniqueUrlsDescription": "Counts the number of unique url visited as part of the bounce rate calculation",
                 "useUniqUpTo": "Use uniqUpTo",
                 "useUniqUpToDescription": "Uses the <code>uniqUpTo</code> function to count if the total unique pageviews + screen events + autocaptures is >= 2"
+            },
+            "businessModel": {
+                "notSpecified": "Not specified"
             },
             "cookielessServerHashMode": {
                 "description": "When cookieless tracking is enabled, the IP address is hashed into the distinct ID and stripped before transformations run, so IP-based transformations like GeoIP enrichment and bot detection will not enrich those events.",
@@ -1715,6 +1726,8 @@
             },
             "dataColorThemes": {
                 "addTheme": "Add theme",
+                "changeDefault": "Change default theme",
+                "changeDefaultDescription": "This changes the default colors used when visualizing data in insights.",
                 "changeDefaultTitle": "Change the default data theme to \"{{ name }}\"?",
                 "columns": {
                     "name": "Name",
@@ -1738,6 +1751,9 @@
             "discussionMentionNotifications": {
                 "description": "Get notified when someone mentions you in a discussion.",
                 "tooltip": "Configure destination integrations (e.g., Slack, Discord, Microsoft Teams) to receive notifications when you are mentioned in discussions on replays, notebooks, insights, and other items."
+            },
+            "discussions": {
+                "noNotifications": "No notifications configured"
             },
             "errorTrackingConfigurationMoved": {
                 "message": "<Strong>Error tracking configuration has moved.</Strong> Configurations for alerting, suppression rules, spike detection, assignment rules, grouping rules, symbol sets, and releases are now on the <ConfigLink>Error tracking configuration</ConfigLink> page.",
@@ -1775,6 +1791,9 @@
             "humanFriendlyComparisonPeriods": {
                 "label": "Use human friendly comparison periods"
             },
+            "ipAllowlist": {
+                "snippetLabel": "IP addresses allowlisting"
+            },
             "ipAllowList": {
                 "description": "Whenever PostHog makes a call to an external service it will come from one of our static IP addresses. If you need to explicitly allowlist these IPs, you can do so by adding them to your firewall rules. This applies to all integrations such as webhooks, apps or batch exports.",
                 "notSupported": "Not supported"
@@ -1791,10 +1810,16 @@
                 "atLeastOneRequired": "At least one attribute key is required"
             },
             "logsCapture": {
+                "changeConfirm": "Change retention to {{ period }}",
+                "changeDescription": "Changing retention only affects logs from this point forwards. Existing logs will keep their original retention period.",
+                "changeTitle": "Change logs retention period?",
                 "consoleLogsLabel": "Capture console logs to Logs product",
                 "jsonParseLabel": "JSON parse logs",
                 "piiScrubDescription": "When enabled, we scrub common sensitive patterns from the log message body before storage: email addresses, Bearer-style authorization tokens, and Stripe secret key shapes. This is best-effort: values that do not match these patterns, or bank card numbers, may still appear. Redaction is permanent and one-way. Redacted values are replaced with {{ placeholder }}.",
-                "piiScrubLabel": "Scrub PII in logs at ingestion"
+                "piiScrubLabel": "Scrub PII in logs at ingestion",
+                "retention14d": "14 days (default)",
+                "retention30d": "30 days",
+                "retention30dUpgrade": "Upgrade to a paid plan to use 30-day retention"
             },
             "logsPatternMessageKeys": {
                 "help": "Drag keys to change their priority. Clear all keys to disable message extraction.",
@@ -1869,6 +1894,7 @@
                     },
                     "title": "Enable Managed Proxy"
                 },
+                "records": "Reverse proxy records",
                 "retry": "Retry",
                 "sdkSetup": {
                     "description": "Now that your proxy is live, update your SDK initialization to send data through your custom domain.",
@@ -1886,6 +1912,12 @@
                     "dnsProxyHint": "<Strong>Important:</Strong> If you are using a DNS provider like Cloudflare that offers proxy options (orange cloud), make sure the proxy is <Strong>disabled</Strong> (gray cloud) for this domain. Enabling the proxy at your DNS provider may interfere with the managed reverse proxy functionality.",
                     "title": "Almost there"
                 }
+            },
+            "max": {
+                "couldNotLoadMemory": "Could not load memory.",
+                "couldNotSaveMemory": "Could not save memory.",
+                "memoryCreated": "PostHog AI memory has been created.",
+                "memoryUpdated": "PostHog AI memory has been updated."
             },
             "maxChangelog": {
                 "empty": "No changelog entries available. Check back later for updates on new PostHog AI features.",
@@ -1947,6 +1979,7 @@
                 "leftLabel": "Does a left join."
             },
             "personsOnEvents": {
+                "changed": "user changed personsOnEventsMode setting",
                 "eventTimeDescription": "Fast queries. If the person property is updated, query results on past data <em>won't</em> change.",
                 "eventTimeLabel": "Use person properties from the time of the event",
                 "idsEventTimeDescription": "Fastest queries, <Span>but funnels and unique user counts will be inaccurate</Span>. If the person property is updated, query results on past data <em>won't</em> change.",
@@ -2082,6 +2115,12 @@
                 "retentionUpgradeHint": "Need longer data retention? Head over to our <BillingLink>billing page</BillingLink> to upgrade your package.",
                 "sinceVersion": "since {{ version }}"
             },
+            "sessionsTableVersion": {
+                "auto": "Auto",
+                "v1": "Version 1",
+                "v2": "Version 2",
+                "v3": "Version 3"
+            },
             "taskAgentDefaults": {
                 "adminsOnlyNotice": "Only project admins can change this. You can still set your own default below.",
                 "alreadyUsingProjectDefault": "Already using the project default",
@@ -2169,6 +2208,7 @@
                 "confirm": "Change time zone",
                 "confirmDescription": "This time zone has an offset different from the current <Strong>{{ current }}</Strong>, so queries will need to be recalculated. There will be a difference in date-based time ranges, and in day/week/month buckets.",
                 "confirmTitle": "Change time zone to {{ timezone }}?",
+                "noneAvailable": "No timezones are available",
                 "placeholder": "Select a time zone"
             },
             "tracingAttributeKeys": {
@@ -2243,6 +2283,13 @@
                     "person": "profile",
                     "personAndGroup": "and group profiles"
                 }
+            },
+            "weekStart": {
+                "changeConfirm": "Change week definition",
+                "changeDescription": "Queries grouped by week will need to be recalculated.",
+                "changeTitle": "Change the first day of the week to {{ day }}?",
+                "monday": "Monday",
+                "sunday": "Sunday"
             }
         },
         "loading": "Loading...",
@@ -2623,6 +2670,7 @@
             },
             "feature-flag-secure-api-key": {
                 "description": "Use this key for local evaluation of feature flags or remote config settings. Replaces personal API keys for local evaluation.",
+                "searchDescription": "Use this key for local evaluation of feature flags or remote config settings. Replaces personal API keys for local evaluation.",
                 "title": "Feature flags secure API key"
             },
             "feature-flags-interface": {
@@ -2703,6 +2751,7 @@
                 "title": "Alerting"
             },
             "logs-distinct-id-attribute-key": {
+                "searchDescription": "The log attributes PostHog reads to identify which person a log belongs to. A log is linked when any of these attributes matches one of the person's distinct IDs. Defaults to posthogDistinctId, the key the JavaScript and React Native SDKs auto-attach. Add keys only if your backend pipeline emits the person identifier under different attributes.",
                 "title": "Link to person"
             },
             "logs-drop-rules": {
@@ -2729,6 +2778,7 @@
                 "title": "Retention rules"
             },
             "logs-session-id-attribute-keys": {
+                "searchDescription": "The log attributes PostHog reads to identify which session a log belongs to, checked in order with the first match winning, followed by other common session ID attributes. Defaults to sessionId, the key the JavaScript and React Native SDKs auto-attach. Add keys only if your pipeline emits the session ID under different attributes.",
                 "title": "Link to session"
             },
             "marketing-settings": {
@@ -2769,9 +2819,11 @@
                 "dataTransfer": "This <Italic>can</Italic> involve transfer of identifying user data, so we ask for your org-wide consent below.",
                 "description": "PostHog AI features, such as the PostHog AI chat, use <Providers><dfn>external AI services</dfn></Providers> for data analysis.",
                 "noThirdPartyTraining": "<Strong>Your data will not be used for training third-party models.</Strong>",
+                "searchDescription": "PostHog AI features use external AI services for data analysis. This can involve transfer of identifying user data.",
                 "title": "AI service providers"
             },
             "organization-ai-training-opt-out": {
+                "searchDescription": "Control whether PostHog can use your data to train AI models. Turning this off disables AI features for your organization.",
                 "title": "Internal AI training"
             },
             "organization-authentication": {
@@ -2798,6 +2850,7 @@
                 "description": "Accept the additional data-processing terms for the PostHog Desktop beta.",
                 "proceeding": "Your organization agrees to proceed notwithstanding that status. If this feature becomes generally available, PostHog will update the DPA and provide notice. This beta may change or be discontinued.",
                 "processing": "PostHog Desktop uses Baseten and Modal to process customer data, personal data, and PII. They are not currently listed as PostHog subprocessors for this feature.",
+                "searchDescription": "Accept the additional data-processing terms for the PostHog Desktop beta.",
                 "subprocessorsLink": "<SubprocessorsLink>View PostHog subprocessors</SubprocessorsLink>",
                 "title": "PostHog Desktop beta terms"
             },
@@ -3018,9 +3071,11 @@
                 "title": "Theme"
             },
             "tracing-distinct-id-attribute-keys": {
+                "searchDescription": "The span attributes PostHog reads to identify which person a trace belongs to. A span is linked when any of these attributes holds one of the person's distinct IDs. Defaults to posthogDistinctId. Add keys only if your pipeline emits the person identifier under different attributes.",
                 "title": "Link to person"
             },
             "tracing-session-id-attribute-keys": {
+                "searchDescription": "The span attributes PostHog reads to identify which session a trace belongs to, checked in order with the first match winning, followed by other common session ID attributes. Defaults to sessionId. Add keys only if your pipeline emits the session ID under different attributes.",
                 "title": "Link to session"
             },
             "user-api-keys": {
@@ -3171,8 +3226,12 @@
                     "newValueIs": "new value is"
                 },
                 "conditionsTooltip": "• changes – require approval whenever this field is modified\n• new value is – require approval when the new value meets a threshold (e.g., rollout > 50%)\n• changes by – require approval when the change amount meets a threshold (e.g., increased by more than 10%)",
+                "created": "Approval policy created",
+                "createFailed": "Failed to create approval policy",
                 "createPolicy": "Create approval policy",
                 "deleteContent": "This will immediately remove the approval requirement for this action.",
+                "deleted": "Approval policy deleted",
+                "deleteFailed": "Failed to delete approval policy",
                 "deleteTitle": "Delete approval policy?",
                 "disabled": "Disabled",
                 "edit": "Edit",
@@ -3189,6 +3248,7 @@
                 "noConditions": "No conditions configured. Add a field to require approval for specific changes.",
                 "noConditionsNote": "If no conditions are set, all changes to this action type will require approval.",
                 "none": "None",
+                "noTeam": "No team selected",
                 "nounPlural": "policies",
                 "nounSingular": "policy",
                 "reject": "Reject",
@@ -3212,6 +3272,8 @@
                     "rejected": "Rejected"
                 },
                 "thresholdError": "Please specify a threshold value",
+                "updated": "Approval policy updated",
+                "updateFailed": "Failed to update approval policy",
                 "viewDetails": "View details",
                 "yes": "Yes"
             },
@@ -3305,6 +3367,7 @@
                     "acsUrl": "SAML ACS URL",
                     "audience": "Audience / entity ID",
                     "certificate": "SAML X.509 certificate",
+                    "certificatePlaceholder": "Enter the public certificate from your identity provider. Keep all line breaks.",
                     "description": "Configure SAML for your organization.",
                     "entityId": "SAML entity ID",
                     "entityIdPlaceholder": "Entity ID provided by your identity provider",
@@ -3415,9 +3478,15 @@
                 "posthogFallback": "PostHog",
                 "projectAccess": "Project access",
                 "projectAccessTooltip": "Give this user access to specific projects. These access controls will be applied when the user accepts the invite and joins the organization.",
-                "submit": "Submit"
+                "submit": "Submit",
+                "submitCount": "Invite {{ members }}",
+                "teamMember": "team member"
             },
             "invites": {
+                "cancelDialogConfirm": "Yes, cancel invite",
+                "cancelDialogDescription": "Do you want to cancel the invite for {{ email }}?",
+                "cancelDialogKeep": "No, keep invite",
+                "cancelDialogTitle": "Cancel invite",
                 "cancelTitle": "Cancel the invite",
                 "cannotInvite": "You can't invite other members or view invites",
                 "emptyState": "There are no outstanding invitations. You can invite another team member above.",
@@ -3537,7 +3606,10 @@
                 "next": "Next",
                 "noMatchingMembers": "No members match that search.",
                 "noMembers": "This organization has no members yet.",
+                "noOverrides": "No overrides",
                 "noProjectNote": "PostHog stores this one as a single value per person, so it cannot be set per project.",
+                "overrideCount_one": "{{ count }} set",
+                "overrideCount_other": "{{ count }} set",
                 "pageOf": "Page {{ page }} of {{ pages }}",
                 "pendingChanges": "{{ changes }} pending for {{ members }}",
                 "perProjectNote": "Set per project, for named people. Someone added to a project later has no override until you give them one.",
@@ -3689,6 +3761,7 @@
                     "acsUrlPlaceholder": "Your IdP's ACS or single sign-on URL.",
                     "audience": "Audience / Entity ID",
                     "certificate": "SAML X.509 Certificate",
+                    "certificatePlaceholder": "Enter the public certificate of your IdP. Keep all line breaks.",
                     "enabled": "SAML is enabled",
                     "entityId": "SAML Entity ID",
                     "entityIdPlaceholder": "Entity ID provided by your IdP.",
@@ -3704,12 +3777,17 @@
                     "baseUrl": "SCIM Base URL",
                     "bearerToken": "Bearer Token",
                     "bearerTokenDescription": "Bearer token",
+                    "disable": "Disable SCIM",
+                    "disableDescription": "Your identity provider will no longer be able to manage users. SAML authentication will continue to work.",
                     "disabledToast": "SCIM disabled successfully!",
+                    "disableTitle": "Disable SCIM?",
                     "enable": "Enable SCIM",
                     "enabled": "SCIM is enabled",
                     "enabledToast": "SCIM enabled successfully!",
                     "notEnabled": "SCIM is not enabled",
                     "regenerate": "Regenerate token",
+                    "regenerateDescription": "This will invalidate the current token. You will need to update your identity provider with the new token.",
+                    "regenerateTitle": "Regenerate SCIM token?",
                     "saveToken": "Save this token, it will only be shown once.",
                     "title": "Configure SCIM provisioning",
                     "tokenOnce": "The bearer token is only displayed once when generated.",
@@ -3818,6 +3896,13 @@
                 "warning": "Moving a project will mean all original organization members will lose access including via things like API keys unless they also are part of the new organization."
             },
             "projectName": "this project's name",
+            "projectSecretAPIKeys": {
+                "aiGateway": "AI gateway",
+                "needsLabel": "Your API key needs a label",
+                "needsScope": "Your API key needs at least one scope",
+                "saveFailed": "Failed to save project secret API key",
+                "updated": "Project secret API key updated"
+            },
             "tags": "Tags"
         },
         "save": "Save",
@@ -4129,6 +4214,9 @@
                     "required": "Please enter your password to continue"
                 }
             },
+            "personalIntegrations": {
+                "thisAccount": "this account"
+            },
             "profilePicture": {
                 "addOnGravatar": "Add on Gravatar",
                 "changeOnGravatar": "Change on Gravatar",
@@ -4297,6 +4385,7 @@
             "enabled": "enabled",
             "forDomain": "for domain",
             "rotated": "rotated the",
+            "scimProvisioning": "SCIM provisioning",
             "unknown": "unknown domain"
         },
         "for": "for",
@@ -4366,6 +4455,7 @@
         "theOrganization": "the organization",
         "to": "to",
         "unknownKey": "Unknown key",
+        "unknownProject": "Unknown Project",
         "unknownScope": "Unknown scope",
         "updated": "updated",
         "updatedWithField": "updated the"

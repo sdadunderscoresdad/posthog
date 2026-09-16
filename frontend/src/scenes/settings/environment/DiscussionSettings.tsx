@@ -5,6 +5,7 @@ import { Tooltip } from '@posthog/lemon-ui'
 
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { TeamMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { LinkedHogFunctions } from 'scenes/hog-functions/list/LinkedHogFunctions'
 import { urls } from 'scenes/urls'
 
@@ -42,7 +43,9 @@ export function DiscussionMentionNotifications(): JSX.Element | null {
             <LinkedHogFunctions
                 type="internal_destination"
                 subTemplateIds={['discussion-mention']}
-                emptyText="No notifications configured"
+                emptyText={i18n.t('settings.environment.discussions.noNotifications', {
+                    defaultValue: 'No notifications configured',
+                })}
                 queryParams={{
                     returnTo: urls.settings('environment-discussions', 'discussion-mention-integrations'),
                 }}

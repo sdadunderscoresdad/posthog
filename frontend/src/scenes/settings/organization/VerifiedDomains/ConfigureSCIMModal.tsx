@@ -6,6 +6,7 @@ import { IconRefresh } from '@posthog/icons'
 import { Link } from '@posthog/lemon-ui'
 
 import { CopyToClipboardInline } from 'lib/components/CopyToClipboard'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonBanner } from 'lib/lemon-ui/LemonBanner'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonDialog } from 'lib/lemon-ui/LemonDialog'
@@ -34,18 +35,24 @@ export function ConfigureSCIMModal(): JSX.Element {
 
         if (scimConfig.scim_enabled) {
             LemonDialog.open({
-                title: 'Disable SCIM?',
-                description:
-                    'Your identity provider will no longer be able to manage users. SAML authentication will continue to work.',
+                title: i18n.t('settings.organization.verifiedDomains.scim.disableTitle', {
+                    defaultValue: 'Disable SCIM?',
+                }),
+                description: i18n.t('settings.organization.verifiedDomains.scim.disableDescription', {
+                    defaultValue:
+                        'Your identity provider will no longer be able to manage users. SAML authentication will continue to work.',
+                }),
                 primaryButton: {
                     status: 'danger',
-                    children: 'Disable SCIM',
+                    children: i18n.t('settings.organization.verifiedDomains.scim.disable', {
+                        defaultValue: 'Disable SCIM',
+                    }),
                     onClick: async () => {
                         await disableScim(configureSCIMModalId)
                     },
                 },
                 secondaryButton: {
-                    children: 'Cancel',
+                    children: i18n.t('common.cancel', { defaultValue: 'Cancel' }),
                 },
             })
         } else {
@@ -60,12 +67,18 @@ export function ConfigureSCIMModal(): JSX.Element {
         }
 
         LemonDialog.open({
-            title: 'Regenerate SCIM token?',
-            description:
-                'This will invalidate the current token. You will need to update your identity provider with the new token.',
+            title: i18n.t('settings.organization.verifiedDomains.scim.regenerateTitle', {
+                defaultValue: 'Regenerate SCIM token?',
+            }),
+            description: i18n.t('settings.organization.verifiedDomains.scim.regenerateDescription', {
+                defaultValue:
+                    'This will invalidate the current token. You will need to update your identity provider with the new token.',
+            }),
             primaryButton: {
                 status: 'danger',
-                children: 'Regenerate token',
+                children: i18n.t('settings.organization.verifiedDomains.scim.regenerate', {
+                    defaultValue: 'Regenerate token',
+                }),
                 onClick: async () => {
                     await regenerateScimToken(configureSCIMModalId)
                     setTokenJustRevealed(true)

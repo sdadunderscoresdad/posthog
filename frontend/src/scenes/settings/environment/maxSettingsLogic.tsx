@@ -6,6 +6,7 @@ import posthog from 'posthog-js'
 
 import api from 'lib/api'
 import { ApiError, isAccessDeniedError } from 'lib/api-error'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 
 import { CoreMemory } from '~/types'
@@ -150,7 +151,9 @@ export const maxSettingsLogic = kea<maxSettingsLogicType>([
             {
                 loadCoreMemory: () => null,
                 loadCoreMemorySuccess: () => null,
-                loadCoreMemoryFailure: (_, { error }) => error || 'Could not load memory.',
+                loadCoreMemoryFailure: (_, { error }) =>
+                    error ||
+                    i18n.t('settings.environment.max.couldNotLoadMemory', { defaultValue: 'Could not load memory.' }),
             },
         ],
 
@@ -180,13 +183,21 @@ export const maxSettingsLogic = kea<maxSettingsLogicType>([
             updateCoreMemory: async (data: CoreMemoryForm) => {
                 if (!values.coreMemory) {
                     const response = await api.coreMemory.create(data)
-                    lemonToast.success('PostHog AI memory has been created.')
+                    lemonToast.success(
+                        i18n.t('settings.environment.max.memoryCreated', {
+                            defaultValue: 'PostHog AI memory has been created.',
+                        })
+                    )
                     posthog.capture('core memory saved', { action: 'create', length: data.text.length })
                     return response
                 }
 
                 const response = await api.coreMemory.update(values.coreMemory.id, data)
-                lemonToast.success('PostHog AI memory has been updated.')
+                lemonToast.success(
+                    i18n.t('settings.environment.max.memoryUpdated', {
+                        defaultValue: 'PostHog AI memory has been updated.',
+                    })
+                )
                 posthog.capture('core memory saved', { action: 'update', length: data.text.length })
                 return response
             },
@@ -228,7 +239,11 @@ export const maxSettingsLogic = kea<maxSettingsLogicType>([
         },
         updateCoreMemoryFailure: ({ error, errorObject }) => {
             const detail = errorObject instanceof ApiError ? errorObject.detail : null
-            lemonToast.error(detail || error || 'Could not save memory.')
+            lemonToast.error(
+                detail ||
+                    error ||
+                    i18n.t('settings.environment.max.couldNotSaveMemory', { defaultValue: 'Could not save memory.' })
+            )
             posthog.capture('core memory save failed', {
                 status: errorObject instanceof ApiError ? errorObject.status : undefined,
                 over_limit: values.coreMemoryOverLimit,

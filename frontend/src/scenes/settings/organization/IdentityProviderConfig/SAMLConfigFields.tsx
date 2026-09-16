@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { LemonBanner, Link } from '@posthog/lemon-ui'
 
 import { CopyToClipboardInline } from 'lib/components/CopyToClipboard'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonField } from 'lib/lemon-ui/LemonField'
 import { LemonInput } from 'lib/lemon-ui/LemonInput/LemonInput'
 import { LemonTextArea } from 'lib/lemon-ui/LemonTextArea/LemonTextArea'
@@ -79,7 +80,9 @@ export function SAMLConfigFields({
                 <LemonTextArea
                     className="ph-ignore-input"
                     minRows={10}
-                    placeholder={`Enter the public certificate from your identity provider. Keep all line breaks.\n-----BEGIN CERTIFICATE-----\nMIICVjCCAb+gAwIBAgIBADANBgkqhkiG9w0BAQ0FADBIMQswCQYDVQQGEwJ1czEL\n-----END CERTIFICATE-----`}
+                    placeholder={`${i18n.t('settings.organization.idpConfig.saml.certificatePlaceholder', {
+                        defaultValue: 'Enter the public certificate from your identity provider. Keep all line breaks.',
+                    })}\n-----BEGIN CERTIFICATE-----\nMIICVjCCAb+gAwIBAgIBADANBgkqhkiG9w0BAQ0FADBIMQswCQYDVQQGEwJ1czEL\n-----END CERTIFICATE-----`}
                 />
             </LemonField>
             {!isReady && (

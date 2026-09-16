@@ -23,6 +23,7 @@ import { CodeSnippet, Language } from 'lib/components/CodeSnippet'
 import { DomainConnectBanner } from 'lib/components/DomainConnect'
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { OrganizationMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonField } from 'lib/lemon-ui/LemonField'
 import { LemonMarkdown } from 'lib/lemon-ui/LemonMarkdown'
 import { Link } from 'lib/lemon-ui/Link'
@@ -108,7 +109,9 @@ export function ManagedReverseProxy(): JSX.Element {
                 value: JSON.stringify(
                     proxyRecords.map((r) => ({ id: r.id, domain: r.domain, status: r.status, message: r.message }))
                 ),
-                label: 'Reverse proxy records',
+                label: i18n.t('settings.environment.managedReverseProxy.records', {
+                    defaultValue: 'Reverse proxy records',
+                }),
             },
         ],
         { active: proxyRecords.length > 0 && !restrictionReason }

@@ -52,15 +52,24 @@ function makeActionsComponent(
                     invite.is_expired
                         ? deleteInvite(invite)
                         : LemonDialog.open({
-                              title: 'Cancel invite',
-                              description: `Do you want to cancel the invite for ${invite.target_email}?`,
+                              title: t('settings.organization.invites.cancelDialogTitle', {
+                                  defaultValue: 'Cancel invite',
+                              }),
+                              description: t('settings.organization.invites.cancelDialogDescription', {
+                                  defaultValue: 'Do you want to cancel the invite for {{ email }}?',
+                                  email: invite.target_email,
+                              }),
                               primaryButton: {
-                                  children: 'Yes, cancel invite',
+                                  children: t('settings.organization.invites.cancelDialogConfirm', {
+                                      defaultValue: 'Yes, cancel invite',
+                                  }),
                                   status: 'danger',
                                   onClick: () => deleteInvite(invite),
                               },
                               secondaryButton: {
-                                  children: 'No, keep invite',
+                                  children: t('settings.organization.invites.cancelDialogKeep', {
+                                      defaultValue: 'No, keep invite',
+                                  }),
                               },
                           })
                 }}

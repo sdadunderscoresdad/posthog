@@ -232,6 +232,8 @@
         "selectProjectDetail": ""
     },
     "common": {
+        "cancel": "",
+        "loading": "",
         "no": "",
         "unknown": "",
         "untitled": "",
@@ -1423,6 +1425,10 @@
         "cancel": "",
         "docsLink": "",
         "environment": {
+            "accessControl": {
+                "resolutionNotice": "",
+                "reviewChanges": ""
+            },
             "activityLog": {
                 "browseAll": "",
                 "notificationsDescription": "",
@@ -1432,7 +1438,9 @@
                 "orgLevelTooltip": ""
             },
             "autocapture": {
-                "label": ""
+                "enableWebVitals": "",
+                "label": "",
+                "loadingUser": ""
             },
             "autocaptureWebVitals": {
                 "description": "",
@@ -1451,6 +1459,9 @@
                 "countUniqueUrlsDescription": "",
                 "useUniqUpTo": "",
                 "useUniqUpToDescription": ""
+            },
+            "businessModel": {
+                "notSpecified": ""
             },
             "cookielessServerHashMode": {
                 "description": "",
@@ -1688,6 +1699,8 @@
             },
             "dataColorThemes": {
                 "addTheme": "",
+                "changeDefault": "",
+                "changeDefaultDescription": "",
                 "changeDefaultTitle": "",
                 "columns": {
                     "name": "",
@@ -1711,6 +1724,9 @@
             "discussionMentionNotifications": {
                 "description": "",
                 "tooltip": ""
+            },
+            "discussions": {
+                "noNotifications": ""
             },
             "errorTrackingConfigurationMoved": {
                 "message": "",
@@ -1748,6 +1764,9 @@
             "humanFriendlyComparisonPeriods": {
                 "label": ""
             },
+            "ipAllowlist": {
+                "snippetLabel": ""
+            },
             "ipAllowList": {
                 "description": "",
                 "notSupported": ""
@@ -1764,10 +1783,16 @@
                 "atLeastOneRequired": ""
             },
             "logsCapture": {
+                "changeConfirm": "",
+                "changeDescription": "",
+                "changeTitle": "",
                 "consoleLogsLabel": "",
                 "jsonParseLabel": "",
                 "piiScrubDescription": "",
-                "piiScrubLabel": ""
+                "piiScrubLabel": "",
+                "retention14d": "",
+                "retention30d": "",
+                "retention30dUpgrade": ""
             },
             "logsPatternMessageKeys": {
                 "help": "",
@@ -1841,6 +1866,7 @@
                     },
                     "title": ""
                 },
+                "records": "",
                 "retry": "",
                 "sdkSetup": {
                     "description": "",
@@ -1858,6 +1884,12 @@
                     "dnsProxyHint": "",
                     "title": ""
                 }
+            },
+            "max": {
+                "couldNotLoadMemory": "",
+                "couldNotSaveMemory": "",
+                "memoryCreated": "",
+                "memoryUpdated": ""
             },
             "maxChangelog": {
                 "empty": "",
@@ -1916,6 +1948,7 @@
                 "leftLabel": ""
             },
             "personsOnEvents": {
+                "changed": "",
                 "eventTimeDescription": "",
                 "eventTimeLabel": "",
                 "idsEventTimeDescription": "",
@@ -2047,6 +2080,12 @@
                 "retentionUpgradeHint": "",
                 "sinceVersion": ""
             },
+            "sessionsTableVersion": {
+                "auto": "",
+                "v1": "",
+                "v2": "",
+                "v3": ""
+            },
             "taskAgentDefaults": {
                 "adminsOnlyNotice": "",
                 "alreadyUsingProjectDefault": "",
@@ -2134,6 +2173,7 @@
                 "confirm": "",
                 "confirmDescription": "",
                 "confirmTitle": "",
+                "noneAvailable": "",
                 "placeholder": ""
             },
             "tracingAttributeKeys": {
@@ -2208,6 +2248,13 @@
                     "person": "",
                     "personAndGroup": ""
                 }
+            },
+            "weekStart": {
+                "changeConfirm": "",
+                "changeDescription": "",
+                "changeTitle": "",
+                "monday": "",
+                "sunday": ""
             }
         },
         "loading": "",
@@ -2588,6 +2635,7 @@
             },
             "feature-flag-secure-api-key": {
                 "description": "",
+                "searchDescription": "",
                 "title": ""
             },
             "feature-flags-interface": {
@@ -2668,6 +2716,7 @@
                 "title": ""
             },
             "logs-distinct-id-attribute-key": {
+                "searchDescription": "",
                 "title": ""
             },
             "logs-drop-rules": {
@@ -2694,6 +2743,7 @@
                 "title": ""
             },
             "logs-session-id-attribute-keys": {
+                "searchDescription": "",
                 "title": ""
             },
             "marketing-settings": {
@@ -2734,9 +2784,11 @@
                 "dataTransfer": "",
                 "description": "",
                 "noThirdPartyTraining": "",
+                "searchDescription": "",
                 "title": ""
             },
             "organization-ai-training-opt-out": {
+                "searchDescription": "",
                 "title": ""
             },
             "organization-authentication": {
@@ -2763,6 +2815,7 @@
                 "description": "",
                 "proceeding": "",
                 "processing": "",
+                "searchDescription": "",
                 "subprocessorsLink": "",
                 "title": ""
             },
@@ -2983,9 +3036,11 @@
                 "title": ""
             },
             "tracing-distinct-id-attribute-keys": {
+                "searchDescription": "",
                 "title": ""
             },
             "tracing-session-id-attribute-keys": {
+                "searchDescription": "",
                 "title": ""
             },
             "user-api-keys": {
@@ -3135,8 +3190,12 @@
                     "newValueIs": ""
                 },
                 "conditionsTooltip": "",
+                "created": "",
+                "createFailed": "",
                 "createPolicy": "",
                 "deleteContent": "",
+                "deleted": "",
+                "deleteFailed": "",
                 "deleteTitle": "",
                 "disabled": "",
                 "edit": "",
@@ -3153,6 +3212,7 @@
                 "noConditions": "",
                 "noConditionsNote": "",
                 "none": "",
+                "noTeam": "",
                 "nounPlural": "",
                 "nounSingular": "",
                 "reject": "",
@@ -3176,6 +3236,8 @@
                     "rejected": ""
                 },
                 "thresholdError": "",
+                "updated": "",
+                "updateFailed": "",
                 "viewDetails": "",
                 "yes": ""
             },
@@ -3269,6 +3331,7 @@
                     "acsUrl": "",
                     "audience": "",
                     "certificate": "",
+                    "certificatePlaceholder": "",
                     "description": "",
                     "entityId": "",
                     "entityIdPlaceholder": "",
@@ -3378,9 +3441,15 @@
                 "posthogFallback": "",
                 "projectAccess": "",
                 "projectAccessTooltip": "",
-                "submit": ""
+                "submit": "",
+                "submitCount": "",
+                "teamMember": ""
             },
             "invites": {
+                "cancelDialogConfirm": "",
+                "cancelDialogDescription": "",
+                "cancelDialogKeep": "",
+                "cancelDialogTitle": "",
                 "cancelTitle": "",
                 "cannotInvite": "",
                 "emptyState": "",
@@ -3498,7 +3567,9 @@
                 "next": "",
                 "noMatchingMembers": "",
                 "noMembers": "",
+                "noOverrides": "",
                 "noProjectNote": "",
+                "overrideCount_other": "",
                 "pageOf": "",
                 "pendingChanges": "",
                 "perProjectNote": "",
@@ -3643,6 +3714,7 @@
                     "acsUrlPlaceholder": "",
                     "audience": "",
                     "certificate": "",
+                    "certificatePlaceholder": "",
                     "enabled": "",
                     "entityId": "",
                     "entityIdPlaceholder": "",
@@ -3658,12 +3730,17 @@
                     "baseUrl": "",
                     "bearerToken": "",
                     "bearerTokenDescription": "",
+                    "disable": "",
+                    "disableDescription": "",
                     "disabledToast": "",
+                    "disableTitle": "",
                     "enable": "",
                     "enabled": "",
                     "enabledToast": "",
                     "notEnabled": "",
                     "regenerate": "",
+                    "regenerateDescription": "",
+                    "regenerateTitle": "",
                     "saveToken": "",
                     "title": "",
                     "tokenOnce": "",
@@ -3772,6 +3849,13 @@
                 "warning": ""
             },
             "projectName": "",
+            "projectSecretAPIKeys": {
+                "aiGateway": "",
+                "needsLabel": "",
+                "needsScope": "",
+                "saveFailed": "",
+                "updated": ""
+            },
             "tags": ""
         },
         "save": "",
@@ -4083,6 +4167,9 @@
                     "required": ""
                 }
             },
+            "personalIntegrations": {
+                "thisAccount": ""
+            },
             "profilePicture": {
                 "addOnGravatar": "",
                 "changeOnGravatar": "",
@@ -4250,6 +4337,7 @@
             "enabled": "",
             "forDomain": "",
             "rotated": "",
+            "scimProvisioning": "",
             "unknown": ""
         },
         "for": "",
@@ -4318,6 +4406,7 @@
         "theOrganization": "",
         "to": "",
         "unknownKey": "",
+        "unknownProject": "",
         "unknownScope": "",
         "updated": "",
         "updatedWithField": ""

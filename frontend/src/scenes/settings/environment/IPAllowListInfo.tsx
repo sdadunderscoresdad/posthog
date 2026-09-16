@@ -2,6 +2,7 @@ import { useValues } from 'kea'
 import { useTranslation } from 'react-i18next'
 
 import { CodeSnippet } from 'lib/components/CodeSnippet'
+import { i18n } from 'lib/i18n/i18n'
 import { preflightLogic } from 'scenes/PreflightCheck/preflightLogic'
 
 export function IPAllowListInfo(): JSX.Element {
@@ -20,7 +21,11 @@ export function IPAllowListInfo(): JSX.Element {
                 })}
             </p>
 
-            <CodeSnippet thing="IP addresses allowlisting">
+            <CodeSnippet
+                thing={i18n.t('settings.environment.ipAllowlist.snippetLabel', {
+                    defaultValue: 'IP addresses allowlisting',
+                })}
+            >
                 {preflight.public_egress_ip_addresses.join(' \n')}
             </CodeSnippet>
         </>

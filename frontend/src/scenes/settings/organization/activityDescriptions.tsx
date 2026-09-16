@@ -302,7 +302,11 @@ export function organizationDomainActivityDescriber(
                         {change.after
                             ? i18n.t('settingsActivity.domain.enabled', { defaultValue: 'enabled' })
                             : i18n.t('settingsActivity.domain.disabled', { defaultValue: 'disabled' })}{' '}
-                        <strong>SCIM provisioning</strong>{' '}
+                        <strong>
+                            {i18n.t('settingsActivity.domain.scimProvisioning', {
+                                defaultValue: 'SCIM provisioning',
+                            })}
+                        </strong>{' '}
                         {i18n.t('settingsActivity.domain.forDomain', { defaultValue: 'for domain' })}{' '}
                         <strong>{domainName}</strong>
                     </>

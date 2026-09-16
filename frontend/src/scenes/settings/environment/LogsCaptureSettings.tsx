@@ -7,6 +7,7 @@ import { AccessControlAction } from 'lib/components/AccessControlAction'
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { TeamMembershipLevel } from 'lib/constants'
 import { dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 import { teamLogic } from 'scenes/teamLogic'
 import { userLogic } from 'scenes/userLogic'
 
@@ -152,7 +153,9 @@ export function LogsRetentionSettings(): JSX.Element {
     const throttleReason = getThrottleReason()
     const retentionFeatureDisabledReason = (retentionDays: LogsRetentionDays): string | undefined => {
         if (retentionDays === 30 && !hasAvailableFeature(AvailableFeature.LOGS_RETENTION_30D)) {
-            return 'Upgrade to a paid plan to use 30-day retention'
+            return i18n.t('settings.environment.logsCapture.retention30dUpgrade', {
+                defaultValue: 'Upgrade to a paid plan to use 30-day retention',
+            })
         }
         return undefined
     }
@@ -162,13 +165,15 @@ export function LogsRetentionSettings(): JSX.Element {
         return [
             {
                 value: 14,
-                label: '14 days (default)',
+                label: i18n.t('settings.environment.logsCapture.retention14d', {
+                    defaultValue: '14 days (default)',
+                }),
                 disabledReason,
                 'data-attr': 'logs-retention-button-14d',
             },
             {
                 value: 30,
-                label: '30 days',
+                label: i18n.t('settings.environment.logsCapture.retention30d', { defaultValue: '30 days' }),
                 disabledReason: disabledReason ?? retentionFeatureDisabledReason(30),
                 'data-attr': 'logs-retention-button-30d',
             },
@@ -181,11 +186,18 @@ export function LogsRetentionSettings(): JSX.Element {
         }
         const label = renderOptions().find((o) => o.value === retentionDays)?.label ?? `${retentionDays} days`
         LemonDialog.open({
-            title: 'Change logs retention period?',
-            description:
-                'Changing retention only affects logs from this point forwards. Existing logs will keep their original retention period.',
+            title: i18n.t('settings.environment.logsCapture.changeTitle', {
+                defaultValue: 'Change logs retention period?',
+            }),
+            description: i18n.t('settings.environment.logsCapture.changeDescription', {
+                defaultValue:
+                    'Changing retention only affects logs from this point forwards. Existing logs will keep their original retention period.',
+            }),
             primaryButton: {
-                children: `Change retention to ${label}`,
+                children: i18n.t('settings.environment.logsCapture.changeConfirm', {
+                    defaultValue: 'Change retention to {{ period }}',
+                    period: label,
+                }),
                 onClick: () =>
                     updateCurrentTeam({
                         logs_settings: {

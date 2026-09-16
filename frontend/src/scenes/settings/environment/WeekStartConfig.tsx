@@ -4,6 +4,7 @@ import { LemonSelect } from '@posthog/lemon-ui'
 
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { TeamMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonDialog } from 'lib/lemon-ui/LemonDialog'
 import { teamLogic } from 'scenes/teamLogic'
 
@@ -21,13 +22,23 @@ export function WeekStartConfig({ displayWarning = true }: { displayWarning?: bo
             onChange={(value) => {
                 if (displayWarning) {
                     LemonDialog.open({
-                        title: `Change the first day of the week to ${value === 0 ? 'Sunday' : 'Monday'}?`,
-                        description: 'Queries grouped by week will need to be recalculated.',
+                        title: i18n.t('settings.environment.weekStart.changeTitle', {
+                            defaultValue: 'Change the first day of the week to {{ day }}?',
+                            day:
+                                value === 0
+                                    ? i18n.t('settings.environment.weekStart.sunday', { defaultValue: 'Sunday' })
+                                    : i18n.t('settings.environment.weekStart.monday', { defaultValue: 'Monday' }),
+                        }),
+                        description: i18n.t('settings.environment.weekStart.changeDescription', {
+                            defaultValue: 'Queries grouped by week will need to be recalculated.',
+                        }),
                         primaryButton: {
-                            children: 'Change week definition',
+                            children: i18n.t('settings.environment.weekStart.changeConfirm', {
+                                defaultValue: 'Change week definition',
+                            }),
                             onClick: () => updateCurrentTeam({ week_start_day: value }),
                         },
-                        secondaryButton: { children: 'Cancel' },
+                        secondaryButton: { children: i18n.t('common.cancel', { defaultValue: 'Cancel' }) },
                     })
                 } else {
                     updateCurrentTeam({ week_start_day: value })

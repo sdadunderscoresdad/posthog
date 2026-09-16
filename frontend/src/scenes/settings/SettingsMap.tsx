@@ -1031,8 +1031,9 @@ function buildSettingsMap(): SettingSection[] {
                             feature_flag:read scope instead.
                         </FlaggedFeature>
                     ),
-                    searchDescription:
-                        'Use this key for local evaluation of feature flags or remote config settings. Replaces personal API keys for local evaluation.',
+                    searchDescription: i18n.t('settings.map.feature-flag-secure-api-key.searchDescription', {
+                        defaultValue: `Use this key for local evaluation of feature flags or remote config settings. Replaces personal API keys for local evaluation.`,
+                    }),
                     docsUrl: 'https://posthog.com/docs/feature-flags/local-evaluation',
                     component: <FlagsSecureApiKeys />,
                     keywords: ['api key', 'secret', 'local evaluation', 'remote config'],
@@ -1115,8 +1116,9 @@ function buildSettingsMap(): SettingSection[] {
                             attributes.
                         </>
                     ),
-                    searchDescription:
-                        "The log attributes PostHog reads to identify which person a log belongs to. A log is linked when any of these attributes matches one of the person's distinct IDs. Defaults to posthogDistinctId, the key the JavaScript and React Native SDKs auto-attach. Add keys only if your backend pipeline emits the person identifier under different attributes.",
+                    searchDescription: i18n.t('settings.map.logs-distinct-id-attribute-key.searchDescription', {
+                        defaultValue: `The log attributes PostHog reads to identify which person a log belongs to. A log is linked when any of these attributes matches one of the person's distinct IDs. Defaults to posthogDistinctId, the key the JavaScript and React Native SDKs auto-attach. Add keys only if your backend pipeline emits the person identifier under different attributes.`,
+                    }),
                     component: <LogsDistinctIdAttributeKeys />,
                     keywords: ['log', 'person', 'distinct', 'attribute', 'pivot', 'profile', 'link'],
                 },
@@ -1145,8 +1147,9 @@ function buildSettingsMap(): SettingSection[] {
                             keys only if your pipeline emits the session ID under different attributes.
                         </>
                     ),
-                    searchDescription:
-                        'The log attributes PostHog reads to identify which session a log belongs to, checked in order with the first match winning, followed by other common session ID attributes. Defaults to sessionId, the key the JavaScript and React Native SDKs auto-attach. Add keys only if your pipeline emits the session ID under different attributes.',
+                    searchDescription: i18n.t('settings.map.logs-session-id-attribute-keys.searchDescription', {
+                        defaultValue: `The log attributes PostHog reads to identify which session a log belongs to, checked in order with the first match winning, followed by other common session ID attributes. Defaults to sessionId, the key the JavaScript and React Native SDKs auto-attach. Add keys only if your pipeline emits the session ID under different attributes.`,
+                    }),
                     component: <LogsSessionIdAttributeKeys />,
                     keywords: ['log', 'session', 'replay', 'attribute', 'link'],
                 },
@@ -1700,8 +1703,9 @@ function buildSettingsMap(): SettingSection[] {
                             under different attributes.
                         </>
                     ),
-                    searchDescription:
-                        "The span attributes PostHog reads to identify which person a trace belongs to. A span is linked when any of these attributes holds one of the person's distinct IDs. Defaults to posthogDistinctId. Add keys only if your pipeline emits the person identifier under different attributes.",
+                    searchDescription: i18n.t('settings.map.tracing-distinct-id-attribute-keys.searchDescription', {
+                        defaultValue: `The span attributes PostHog reads to identify which person a trace belongs to. A span is linked when any of these attributes holds one of the person's distinct IDs. Defaults to posthogDistinctId. Add keys only if your pipeline emits the person identifier under different attributes.`,
+                    }),
                     component: <TracingDistinctIdAttributeKeys />,
                     keywords: ['trace', 'span', 'person', 'distinct', 'attribute', 'pivot', 'profile', 'link'],
                 },
@@ -1718,8 +1722,9 @@ function buildSettingsMap(): SettingSection[] {
                             different attributes.
                         </>
                     ),
-                    searchDescription:
-                        'The span attributes PostHog reads to identify which session a trace belongs to, checked in order with the first match winning, followed by other common session ID attributes. Defaults to sessionId. Add keys only if your pipeline emits the session ID under different attributes.',
+                    searchDescription: i18n.t('settings.map.tracing-session-id-attribute-keys.searchDescription', {
+                        defaultValue: `The span attributes PostHog reads to identify which session a trace belongs to, checked in order with the first match winning, followed by other common session ID attributes. Defaults to sessionId. Add keys only if your pipeline emits the session ID under different attributes.`,
+                    }),
                     component: <TracingSessionIdAttributeKeys />,
                     keywords: ['trace', 'span', 'session', 'replay', 'attribute', 'link'],
                 },
@@ -2322,8 +2327,9 @@ function buildSettingsMap(): SettingSection[] {
                         'opt-in',
                         'data sharing',
                     ],
-                    searchDescription:
-                        'PostHog AI features use external AI services for data analysis. This can involve transfer of identifying user data.',
+                    searchDescription: i18n.t('settings.map.organization-ai-consent.searchDescription', {
+                        defaultValue: `PostHog AI features use external AI services for data analysis. This can involve transfer of identifying user data.`,
+                    }),
                 },
                 {
                     id: 'organization-desktop-beta-terms',
@@ -2361,7 +2367,9 @@ function buildSettingsMap(): SettingSection[] {
                     ),
                     component: <OrganizationDesktopBetaTerms />,
                     keywords: ['desktop', 'beta', 'terms', 'consent', 'opt-in', 'data processing'],
-                    searchDescription: 'Accept the additional data-processing terms for the PostHog Desktop beta.',
+                    searchDescription: i18n.t('settings.map.organization-desktop-beta-terms.searchDescription', {
+                        defaultValue: `Accept the additional data-processing terms for the PostHog Desktop beta.`,
+                    }),
                 },
                 {
                     id: 'organization-ai-training-opt-out',
@@ -2371,8 +2379,9 @@ function buildSettingsMap(): SettingSection[] {
                     component: <OrganizationAITrainingOptOut />,
                     hideOn: [Realm.SelfHostedClickHouse, Realm.SelfHostedPostgres],
                     keywords: ['ai', 'training', 'opt-out', 'opt-in', 'model', 'max'],
-                    searchDescription:
-                        'Control whether PostHog can use your data to train AI models. Turning this off disables AI features for your organization.',
+                    searchDescription: i18n.t('settings.map.organization-ai-training-opt-out.searchDescription', {
+                        defaultValue: `Control whether PostHog can use your data to train AI models. Turning this off disables AI features for your organization.`,
+                    }),
                 },
                 {
                     id: 'organization-ip-anonymization-default',

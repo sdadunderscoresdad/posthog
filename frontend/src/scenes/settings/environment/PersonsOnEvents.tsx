@@ -8,6 +8,7 @@ import { LemonTag } from '@posthog/lemon-ui'
 
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { TeamMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonRadio, LemonRadioOption } from 'lib/lemon-ui/LemonRadio'
 import { eventUsageLogic } from 'lib/utils/eventUsageLogic'
@@ -90,7 +91,12 @@ export function PersonsOnEvents(): JSX.Element {
 
     const handleChange = (mode: PoEMode): void => {
         updateCurrentTeam({ modifiers: { ...currentTeam?.modifiers, personsOnEventsMode: mode } })
-        posthog.capture('user changed personsOnEventsMode setting', { personsOnEventsMode: mode })
+        posthog.capture(
+            i18n.t('settings.environment.personsOnEvents.changed', {
+                defaultValue: 'user changed personsOnEventsMode setting',
+            }),
+            { personsOnEventsMode: mode }
+        )
         reportPoEModeUpdated(mode)
     }
 

@@ -3,6 +3,7 @@ import { Trans, useTranslation } from 'react-i18next'
 
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { TeamMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonDialog } from 'lib/lemon-ui/LemonDialog'
 import { LemonInputSelect } from 'lib/lemon-ui/LemonInputSelect/LemonInputSelect'
 import { LemonSkeleton } from 'lib/lemon-ui/LemonSkeleton'
@@ -40,7 +41,11 @@ export function TimezoneConfig({ displayWarning = true }: { displayWarning?: boo
                 onChange={([newTimezone]): void => {
                     // This is a string for a single-mode select, but typing is poor
                     if (!preflight?.available_timezones) {
-                        throw new Error('No timezones are available')
+                        throw new Error(
+                            i18n.t('settings.environment.timezone.noneAvailable', {
+                                defaultValue: 'No timezones are available',
+                            })
+                        )
                     }
                     const currentOffset = preflight.available_timezones[currentTimezone]
                     const newOffset = preflight.available_timezones[newTimezone]

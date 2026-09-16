@@ -3,6 +3,7 @@ import { useValues } from 'kea'
 import { LemonBanner } from '@posthog/lemon-ui'
 
 import { FEATURE_FLAGS } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { featureFlagLogic, getFeatureFlagPayload } from 'lib/logic/featureFlagLogic'
 import { organizationLogic } from 'scenes/organizationLogic'
 import { teamLogic } from 'scenes/teamLogic'
@@ -26,13 +27,18 @@ export function TeamAccessControl(): JSX.Element {
                     <LemonBanner
                         type="warning"
                         action={{
-                            children: 'Review changes',
+                            children: i18n.t('settings.environment.accessControl.reviewChanges', {
+                                defaultValue: 'Review changes',
+                            }),
                             to: urls.settings('organization-access-resolution'),
                             'data-attr': 'access-resolution-banner-review',
                         }}
                     >
                         {getFeatureFlagPayload(FEATURE_FLAGS.ACCESS_CONTROL_RESOLUTION_PREVIEW)?.message ??
-                            'Access control will start using the most specific rule. Review the changes before they take effect.'}
+                            i18n.t('settings.environment.accessControl.resolutionNotice', {
+                                defaultValue:
+                                    'Access control will start using the most specific rule. Review the changes before they take effect.',
+                            })}
                     </LemonBanner>
                 )}
             {currentTeam?.id ? <ResourcesAccessControlsV2 projectId={`${currentTeam.id}`} /> : null}

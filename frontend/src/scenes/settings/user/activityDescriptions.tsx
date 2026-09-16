@@ -15,7 +15,10 @@ export const personalAPIKeyActivityDescriber: Describer = (logItem: ActivityLogI
 
     const getScopeDescription = (): string => {
         const context = logItem.detail.context
-        if (context?.team_name && context.team_name !== 'Unknown Project') {
+        if (
+            context?.team_name &&
+            context.team_name !== i18n.t('settingsActivity.unknownProject', { defaultValue: 'Unknown Project' })
+        ) {
             return context.team_name
         }
         if (context?.organization_name) {

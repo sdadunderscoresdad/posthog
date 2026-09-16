@@ -2,6 +2,7 @@ import { MakeLogicType, actions, afterMount, connect, kea, listeners, path, redu
 import { loaders } from 'kea-loaders'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { teamLogic } from 'scenes/teamLogic'
 import { userLogic } from 'scenes/userLogic'
@@ -95,39 +96,66 @@ export const approvalPoliciesLogic = kea<approvalPoliciesLogicType>([
             try {
                 const teamId = teamLogic.values.currentTeamId
                 if (!teamId) {
-                    throw new Error('No team selected')
+                    throw new Error(
+                        i18n.t('settings.organization.approvals.noTeam', { defaultValue: 'No team selected' })
+                    )
                 }
                 await api.create(`api/environments/${teamId}/approval_policies/`, policy)
-                lemonToast.success('Approval policy created')
+                lemonToast.success(
+                    i18n.t('settings.organization.approvals.created', { defaultValue: 'Approval policy created' })
+                )
                 actions.loadPolicies()
             } catch (error: any) {
-                lemonToast.error(error.detail || 'Failed to create approval policy')
+                lemonToast.error(
+                    error.detail ||
+                        i18n.t('settings.organization.approvals.createFailed', {
+                            defaultValue: 'Failed to create approval policy',
+                        })
+                )
             }
         },
         updatePolicy: async ({ id, policy }) => {
             try {
                 const teamId = teamLogic.values.currentTeamId
                 if (!teamId) {
-                    throw new Error('No team selected')
+                    throw new Error(
+                        i18n.t('settings.organization.approvals.noTeam', { defaultValue: 'No team selected' })
+                    )
                 }
                 await api.update(`api/environments/${teamId}/approval_policies/${id}/`, policy)
-                lemonToast.success('Approval policy updated')
+                lemonToast.success(
+                    i18n.t('settings.organization.approvals.updated', { defaultValue: 'Approval policy updated' })
+                )
                 actions.loadPolicies()
             } catch (error: any) {
-                lemonToast.error(error.detail || 'Failed to update approval policy')
+                lemonToast.error(
+                    error.detail ||
+                        i18n.t('settings.organization.approvals.updateFailed', {
+                            defaultValue: 'Failed to update approval policy',
+                        })
+                )
             }
         },
         deletePolicy: async ({ id }) => {
             try {
                 const teamId = teamLogic.values.currentTeamId
                 if (!teamId) {
-                    throw new Error('No team selected')
+                    throw new Error(
+                        i18n.t('settings.organization.approvals.noTeam', { defaultValue: 'No team selected' })
+                    )
                 }
                 await api.delete(`api/environments/${teamId}/approval_policies/${id}/`)
-                lemonToast.success('Approval policy deleted')
+                lemonToast.success(
+                    i18n.t('settings.organization.approvals.deleted', { defaultValue: 'Approval policy deleted' })
+                )
                 actions.loadPolicies()
             } catch (error: any) {
-                lemonToast.error(error.detail || 'Failed to delete approval policy')
+                lemonToast.error(
+                    error.detail ||
+                        i18n.t('settings.organization.approvals.deleteFailed', {
+                            defaultValue: 'Failed to delete approval policy',
+                        })
+                )
             }
         },
     })),

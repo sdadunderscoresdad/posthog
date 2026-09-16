@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { LemonCollapse } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { organizationLogic } from 'scenes/organizationLogic'
 
 import type { NotificationConcept } from '../shared/notificationSettingDescriptors'
@@ -13,7 +14,14 @@ function CollapseHeader({ label, count }: { label: string; count: number }): JSX
     return (
         <span className="flex-1 flex items-center justify-between gap-2">
             <span>{label}</span>
-            <span className="text-muted text-xs">{count === 0 ? 'No overrides' : `${count} set`}</span>
+            <span className="text-muted text-xs">
+                {count === 0
+                    ? i18n.t('settings.organization.notifications.noOverrides', { defaultValue: 'No overrides' })
+                    : i18n.t('settings.organization.notifications.overrideCount', {
+                          defaultValue: '{{ count }} set',
+                          count,
+                      })}
+            </span>
         </span>
     )
 }
