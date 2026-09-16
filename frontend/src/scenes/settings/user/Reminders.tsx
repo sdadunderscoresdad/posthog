@@ -1,5 +1,7 @@
+import type { TFunction } from 'i18next'
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { useTranslation } from 'react-i18next'
 
 import { IconPencil, IconPlus, IconTrash } from '@posthog/icons'
 import { LemonButton, LemonInput, LemonModal, LemonSelect, LemonTable, LemonTag } from '@posthog/lemon-ui'
@@ -18,12 +20,14 @@ import { ReminderApi, ReminderStatusEnumApi } from 'products/reminders/frontend/
 
 import { remindersLogic } from './remindersLogic'
 
-const RECURRENCE_OPTIONS = [
-    { value: 'daily', label: 'Daily' },
-    { value: 'weekly', label: 'Weekly' },
-    { value: 'monthly', label: 'Monthly' },
-    { value: 'yearly', label: 'Yearly' },
-]
+function recurrenceOptions(t: TFunction): { value: string; label: string }[] {
+    return [
+        { value: 'daily', label: t('settings.user.reminders.recurrence.daily', { defaultValue: 'Daily' }) },
+        { value: 'weekly', label: t('settings.user.reminders.recurrence.weekly', { defaultValue: 'Weekly' }) },
+        { value: 'monthly', label: t('settings.user.reminders.recurrence.monthly', { defaultValue: 'Monthly' }) },
+        { value: 'yearly', label: t('settings.user.reminders.recurrence.yearly', { defaultValue: 'Yearly' }) },
+    ]
+}
 
 const STATUS_TAG_TYPE: Record<ReminderStatusEnumApi, 'primary' | 'muted' | 'danger'> = {
     active: 'primary',
@@ -31,17 +35,37 @@ const STATUS_TAG_TYPE: Record<ReminderStatusEnumApi, 'primary' | 'muted' | 'dang
     errored: 'danger',
 }
 
-function scheduleSummary(reminder: ReminderApi): string {
+function scheduleSummary(t: TFunction, reminder: ReminderApi): string {
     if (reminder.cron_expression) {
-        return `Cron: ${reminder.cron_expression}`
+        return t('settings.user.reminders.cronSummary', {
+            defaultValue: 'Cron: {{ expression }}',
+            expression: reminder.cron_expression,
+        })
     }
     if (reminder.recurrence_interval) {
-        return capitalizeFirstLetter(reminder.recurrence_interval)
+        return (
+            recurrenceOptions(t).find((option) => option.value === reminder.recurrence_interval)?.label ??
+            capitalizeFirstLetter(reminder.recurrence_interval)
+        )
     }
-    return 'One-off'
+    return t('settings.user.reminders.scheduleTypes.oneOff', { defaultValue: 'One-off' })
+}
+
+function reminderStatusLabel(t: TFunction, status: ReminderStatusEnumApi): string {
+    switch (status) {
+        case 'active':
+            return t('settings.user.reminders.status.active', { defaultValue: 'Active' })
+        case 'completed':
+            return t('settings.user.reminders.status.completed', { defaultValue: 'Completed' })
+        case 'errored':
+            return t('settings.user.reminders.status.errored', { defaultValue: 'Errored' })
+        default:
+            return capitalizeFirstLetter(status)
+    }
 }
 
 function ReminderModal(): JSX.Element {
+    const { t } = useTranslation()
     const {
         editingReminderId,
         reminderForm,
@@ -59,11 +83,15 @@ function ReminderModal(): JSX.Element {
         <LemonModal
             isOpen={isOpen}
             onClose={() => setEditingReminderId(null)}
-            title={isCreating ? 'New reminder' : 'Edit reminder'}
+            title={
+                isCreating
+                    ? t('settings.user.reminders.new', { defaultValue: 'New reminder' })
+                    : t('settings.user.reminders.edit', { defaultValue: 'Edit reminder' })
+            }
             footer={
                 <>
                     <LemonButton type="secondary" onClick={() => setEditingReminderId(null)}>
-                        Cancel
+                        {t('settings.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="primary"
@@ -71,34 +99,80 @@ function ReminderModal(): JSX.Element {
                         loading={isReminderFormSubmitting}
                         data-attr="save-reminder"
                     >
-                        {isCreating ? 'Create reminder' : 'Save'}
+                        {isCreating
+                            ? t('settings.user.reminders.create', { defaultValue: 'Create reminder' })
+                            : t('settings.save', { defaultValue: 'Save' })}
                     </LemonButton>
                 </>
             }
         >
             <Form logic={remindersLogic} formKey="reminderForm" className="deprecated-space-y-4">
-                <LemonField name="title" label="Title">
-                    <LemonInput placeholder="Review the activation dashboard" maxLength={255} autoFocus />
+                <LemonField name="title" label={t('settings.user.reminders.fields.title', { defaultValue: 'Title' })}>
+                    <LemonInput
+                        placeholder={t('settings.user.reminders.titlePlaceholder', {
+                            defaultValue: 'Review the activation dashboard',
+                        })}
+                        maxLength={255}
+                        autoFocus
+                    />
                 </LemonField>
-                <LemonField name="message" label="Message" info="Optional longer text shown in the notification.">
-                    <LemonTextArea placeholder="Optional details" minRows={2} />
+                <LemonField
+                    name="message"
+                    label={t('settings.user.reminders.fields.message', { defaultValue: 'Message' })}
+                    info={t('settings.user.reminders.messageInfo', {
+                        defaultValue: 'Optional longer text shown in the notification.',
+                    })}
+                >
+                    <LemonTextArea
+                        placeholder={t('settings.user.reminders.messagePlaceholder', {
+                            defaultValue: 'Optional details',
+                        })}
+                        minRows={2}
+                    />
                 </LemonField>
-                <LemonField name="team" label="Project">
+                <LemonField
+                    name="team"
+                    label={t('settings.user.reminders.fields.project', { defaultValue: 'Project' })}
+                >
                     {({ value, onChange }) => (
                         <LemonSelect value={value} onChange={onChange} options={projectOptions} fullWidth />
                     )}
                 </LemonField>
 
-                <LemonField name="scheduleType" label="Schedule">
+                <LemonField
+                    name="scheduleType"
+                    label={t('settings.user.reminders.fields.schedule', { defaultValue: 'Schedule' })}
+                >
                     {({ value, onChange }) => (
                         <LemonSegmentedButton
                             value={value}
                             onChange={onChange}
-                            disabledReason={!isScheduleEditable ? 'This reminder has already fired' : undefined}
+                            disabledReason={
+                                !isScheduleEditable
+                                    ? t('settings.user.reminders.alreadyFired', {
+                                          defaultValue: 'This reminder has already fired',
+                                      })
+                                    : undefined
+                            }
                             options={[
-                                { value: 'one-off', label: 'One-off' },
-                                { value: 'repeats', label: 'Repeats' },
-                                { value: 'advanced', label: 'Advanced' },
+                                {
+                                    value: 'one-off',
+                                    label: t('settings.user.reminders.scheduleTypes.oneOff', {
+                                        defaultValue: 'One-off',
+                                    }),
+                                },
+                                {
+                                    value: 'repeats',
+                                    label: t('settings.user.reminders.scheduleTypes.repeats', {
+                                        defaultValue: 'Repeats',
+                                    }),
+                                },
+                                {
+                                    value: 'advanced',
+                                    label: t('settings.user.reminders.scheduleTypes.advanced', {
+                                        defaultValue: 'Advanced',
+                                    }),
+                                },
                             ]}
                             fullWidth
                         />
@@ -106,28 +180,44 @@ function ReminderModal(): JSX.Element {
                 </LemonField>
 
                 {reminderForm.scheduleType === 'one-off' && (
-                    <LemonField name="scheduled_at" label="Fires at">
+                    <LemonField
+                        name="scheduled_at"
+                        label={t('settings.user.reminders.fields.firesAt', { defaultValue: 'Fires at' })}
+                    >
                         {({ value, onChange }) => (
                             <DatePicker
                                 value={value ? dayjs(value) : null}
                                 onChange={(date) => onChange(date ? date.toISOString() : null)}
                                 granularity="minute"
-                                placeholder="Select date and time"
+                                placeholder={t('settings.user.reminders.selectDateTime', {
+                                    defaultValue: 'Select date and time',
+                                })}
                                 maxDate={dayjs().add(10, 'year')}
-                                disabledReason={!isScheduleEditable ? 'This reminder has already fired' : undefined}
+                                disabledReason={
+                                    !isScheduleEditable
+                                        ? t('settings.user.reminders.alreadyFired', {
+                                              defaultValue: 'This reminder has already fired',
+                                          })
+                                        : undefined
+                                }
                             />
                         )}
                     </LemonField>
                 )}
 
                 {reminderForm.scheduleType === 'repeats' && (
-                    <LemonField name="recurrence_interval" label="Repeats every">
+                    <LemonField
+                        name="recurrence_interval"
+                        label={t('settings.user.reminders.fields.repeatsEvery', { defaultValue: 'Repeats every' })}
+                    >
                         {({ value, onChange }) => (
                             <LemonSelect
                                 value={value}
                                 onChange={onChange}
-                                options={RECURRENCE_OPTIONS}
-                                placeholder="Select an interval"
+                                options={recurrenceOptions(t)}
+                                placeholder={t('settings.user.reminders.selectInterval', {
+                                    defaultValue: 'Select an interval',
+                                })}
                                 disabled={!isScheduleEditable}
                                 fullWidth
                             />
@@ -138,37 +228,56 @@ function ReminderModal(): JSX.Element {
                 {reminderForm.scheduleType === 'advanced' && (
                     <LemonField
                         name="cron_expression"
-                        label="Cron expression"
-                        info="5-field cron, max 4 fires per day."
+                        label={t('settings.user.reminders.fields.cron', { defaultValue: 'Cron expression' })}
+                        info={t('settings.user.reminders.cronInfo', {
+                            defaultValue: '5-field cron, max 4 fires per day.',
+                        })}
                     >
                         <LemonInput placeholder="0 9 * * 1" disabled={!isScheduleEditable} />
                     </LemonField>
                 )}
 
                 {reminderForm.scheduleType !== 'one-off' && (
-                    <LemonField name="end_date" label="Ends" info="Optional. The reminder stops after this time.">
+                    <LemonField
+                        name="end_date"
+                        label={t('settings.user.reminders.fields.ends', { defaultValue: 'Ends' })}
+                        info={t('settings.user.reminders.endsInfo', {
+                            defaultValue: 'Optional. The reminder stops after this time.',
+                        })}
+                    >
                         {({ value, onChange }) => (
                             <DatePicker
                                 value={value ? dayjs(value) : null}
                                 onChange={(date) => onChange(date ? date.toISOString() : null)}
                                 granularity="minute"
-                                placeholder="No end date"
+                                placeholder={t('settings.user.reminders.noEndDate', { defaultValue: 'No end date' })}
                                 clearable
                                 maxDate={dayjs().add(10, 'year')}
-                                disabledReason={!isScheduleEditable ? 'This reminder has already fired' : undefined}
+                                disabledReason={
+                                    !isScheduleEditable
+                                        ? t('settings.user.reminders.alreadyFired', {
+                                              defaultValue: 'This reminder has already fired',
+                                          })
+                                        : undefined
+                                }
                             />
                         )}
                     </LemonField>
                 )}
 
-                <LemonField name="timezone" label="Time zone">
+                <LemonField
+                    name="timezone"
+                    label={t('settings.user.reminders.fields.timeZone', { defaultValue: 'Time zone' })}
+                >
                     {({ value, onChange }) => (
                         <LemonInputSelect
                             mode="single"
                             value={[value]}
                             onChange={(newTimezones) => newTimezones[0] && onChange(newTimezones[0])}
                             options={timezoneOptions}
-                            placeholder="Select a time zone"
+                            placeholder={t('settings.user.reminders.selectTimeZone', {
+                                defaultValue: 'Select a time zone',
+                            })}
                             disabled={!isScheduleEditable}
                             virtualized
                         />
@@ -180,6 +289,7 @@ function ReminderModal(): JSX.Element {
 }
 
 export function Reminders(): JSX.Element {
+    const { t } = useTranslation()
     const { reminders, remindersLoading } = useValues(remindersLogic)
     const { setEditingReminderId, deleteReminder } = useActions(remindersLogic)
 
@@ -192,7 +302,7 @@ export function Reminders(): JSX.Element {
                     onClick={() => setEditingReminderId('new')}
                     data-attr="new-reminder"
                 >
-                    New reminder
+                    {t('settings.user.reminders.new', { defaultValue: 'New reminder' })}
                 </LemonButton>
             </div>
 
@@ -200,27 +310,29 @@ export function Reminders(): JSX.Element {
                 loading={remindersLoading}
                 dataSource={reminders}
                 rowKey="id"
-                emptyState="No reminders yet. Create one to get a nudge when it's due."
+                emptyState={t('settings.user.reminders.empty', {
+                    defaultValue: "No reminders yet. Create one to get a nudge when it's due.",
+                })}
                 columns={[
                     {
-                        title: 'Title',
+                        title: t('settings.user.reminders.fields.title', { defaultValue: 'Title' }),
                         dataIndex: 'title',
                         render: (_, reminder) => <span className="font-semibold">{reminder.title}</span>,
                     },
                     {
-                        title: 'Schedule',
-                        render: (_, reminder) => scheduleSummary(reminder),
+                        title: t('settings.user.reminders.fields.schedule', { defaultValue: 'Schedule' }),
+                        render: (_, reminder) => scheduleSummary(t, reminder),
                     },
                     {
-                        title: 'Next fire',
+                        title: t('settings.user.reminders.fields.nextFire', { defaultValue: 'Next fire' }),
                         render: (_, reminder) =>
                             reminder.next_fire_at ? <TZLabel time={reminder.next_fire_at} /> : '—',
                     },
                     {
-                        title: 'Status',
+                        title: t('settings.user.reminders.fields.status', { defaultValue: 'Status' }),
                         render: (_, reminder) => (
                             <LemonTag type={STATUS_TAG_TYPE[reminder.status]}>
-                                {capitalizeFirstLetter(reminder.status)}
+                                {reminderStatusLabel(t, reminder.status)}
                             </LemonTag>
                         ),
                     },
@@ -232,24 +344,33 @@ export function Reminders(): JSX.Element {
                                 <LemonButton
                                     size="small"
                                     icon={<IconPencil />}
-                                    tooltip="Edit"
+                                    tooltip={t('settings.user.reminders.edit', { defaultValue: 'Edit reminder' })}
                                     onClick={() => setEditingReminderId(reminder.id)}
                                 />
                                 <LemonButton
                                     size="small"
                                     status="danger"
                                     icon={<IconTrash />}
-                                    tooltip="Delete"
+                                    tooltip={t('settings.apiKeys.actions.delete', { defaultValue: 'Delete' })}
                                     onClick={() =>
                                         LemonDialog.open({
-                                            title: 'Delete reminder?',
-                                            description: `"${reminder.title}" will be permanently deleted.`,
+                                            title: t('settings.user.reminders.deleteTitle', {
+                                                defaultValue: 'Delete reminder?',
+                                            }),
+                                            description: t('settings.user.reminders.deleteDescription', {
+                                                defaultValue: '"{{ title }}" will be permanently deleted.',
+                                                title: reminder.title,
+                                            }),
                                             primaryButton: {
-                                                children: 'Delete',
+                                                children: t('settings.apiKeys.actions.delete', {
+                                                    defaultValue: 'Delete',
+                                                }),
                                                 status: 'danger',
                                                 onClick: () => deleteReminder(reminder.id),
                                             },
-                                            secondaryButton: { children: 'Cancel' },
+                                            secondaryButton: {
+                                                children: t('settings.cancel', { defaultValue: 'Cancel' }),
+                                            },
                                         })
                                     }
                                 />

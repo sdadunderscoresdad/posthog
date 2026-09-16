@@ -602,6 +602,9 @@
             "title": ""
         },
         "noChangesToSave": "",
+        "notifications": {
+            "lockedByAdmin": ""
+        },
         "project": {
             "apiKeys": {
                 "addLabel": "",
@@ -781,6 +784,59 @@
                 "verified": "",
                 "verify": ""
             },
+            "emailPreferences": {
+                "apiKeyExposure": "",
+                "apiKeyExposureDescription": "",
+                "commentMentions": "",
+                "commentMentionsDescription": "",
+                "disableAllOrganizations": "",
+                "disableAllProjects": "",
+                "enableAllNotifications": "",
+                "enableAllOrganizations": "",
+                "enableAllProjects": "",
+                "etDigest": "",
+                "etDigestAutoPick": "",
+                "etDigestDescription": "",
+                "failureRateHint": "",
+                "failureRateThreshold": "",
+                "idTag": "",
+                "issueAssigned": "",
+                "issueAssignedDescription": "",
+                "loadingPipelines": "",
+                "matviewDaily": "",
+                "matviewDailyDescription": "",
+                "matviewFailures": "",
+                "matviewFailuresDescription": "",
+                "matviewImmediate": "",
+                "matviewImmediateDescription": "",
+                "memberJoin": "",
+                "memberJoinDescription": "",
+                "memberJoinHint": "",
+                "muteAllNotifications": "",
+                "noPipelines": "",
+                "pipelineErrors": "",
+                "pipelineErrorsDescription": "",
+                "pipelineKinds": {
+                    "batchExport": "",
+                    "destination": "",
+                    "plugin": "",
+                    "transformation": ""
+                },
+                "pipelinesHint": "",
+                "securityAlerts": "",
+                "securityAlertsDescription": "",
+                "selectOrganizations": "",
+                "selectPipelines": "",
+                "selectProjects": "",
+                "setByAdmin": "",
+                "thresholdError": "",
+                "unnamed": "",
+                "waDigest": "",
+                "waDigestAutoPick": "",
+                "waDigestDescription": "",
+                "weeklyDigest": "",
+                "weeklyDigestDescription": ""
+            },
             "impersonation": {
                 "description": "",
                 "label": ""
@@ -915,6 +971,59 @@
                 "missing": "",
                 "recheck": "",
                 "yourEmail": ""
+            },
+            "realtimeNotifications": {
+                "disableAll": "",
+                "empty": "",
+                "enableAll": ""
+            },
+            "reminders": {
+                "alreadyFired": "",
+                "create": "",
+                "cronInfo": "",
+                "cronSummary": "",
+                "deleteDescription": "",
+                "deleteTitle": "",
+                "edit": "",
+                "empty": "",
+                "endsInfo": "",
+                "fields": {
+                    "cron": "",
+                    "ends": "",
+                    "firesAt": "",
+                    "message": "",
+                    "nextFire": "",
+                    "project": "",
+                    "repeatsEvery": "",
+                    "schedule": "",
+                    "status": "",
+                    "timeZone": "",
+                    "title": ""
+                },
+                "messageInfo": "",
+                "messagePlaceholder": "",
+                "new": "",
+                "noEndDate": "",
+                "recurrence": {
+                    "daily": "",
+                    "monthly": "",
+                    "weekly": "",
+                    "yearly": ""
+                },
+                "scheduleTypes": {
+                    "advanced": "",
+                    "oneOff": "",
+                    "repeats": ""
+                },
+                "selectDateTime": "",
+                "selectInterval": "",
+                "selectTimeZone": "",
+                "status": {
+                    "active": "",
+                    "completed": "",
+                    "errored": ""
+                },
+                "titlePlaceholder": ""
             },
             "scopes": {
                 "allAccessHint": "",

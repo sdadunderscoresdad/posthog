@@ -597,6 +597,9 @@
             "title": "Settings navigation"
         },
         "noChangesToSave": "No changes to save",
+        "notifications": {
+            "lockedByAdmin": "An admin of your organization set this for you"
+        },
         "project": {
             "apiKeys": {
                 "addLabel": "Add a label",
@@ -776,6 +779,59 @@
                 "verified": "Email address verified.",
                 "verify": "Verify email"
             },
+            "emailPreferences": {
+                "apiKeyExposure": "Private API key exposure",
+                "apiKeyExposureDescription": "Get notified when private API keys are publicly exposed",
+                "commentMentions": "Comment mentions",
+                "commentMentionsDescription": "Get notified when someone mentions you in a discussion on any project",
+                "disableAllOrganizations": "Disable for all organizations",
+                "disableAllProjects": "Disable for all projects",
+                "enableAllNotifications": "Enable all notifications",
+                "enableAllOrganizations": "Enable for all organizations",
+                "enableAllProjects": "Enable for all projects",
+                "etDigest": "Error tracking weekly digest",
+                "etDigestAutoPick": "You haven't selected any projects yet, so on the first digest run we'll automatically pick the one with the most exceptions. If you'd prefer to choose yourself, just select your projects below and we won't override your choice.",
+                "etDigestDescription": "Get a weekly summary of exceptions caught across your projects every Monday",
+                "failureRateHint": "Only notify if failure rate exceeds this threshold. Set to 0% to notify on any failure.",
+                "failureRateThreshold": "Failure rate threshold",
+                "idTag": "id: {{ id }}",
+                "issueAssigned": "Issue assigned",
+                "issueAssignedDescription": "Stay on top of your bugs with a notification every time an issue is assigned to you or your role",
+                "loadingPipelines": "Loading pipelines...",
+                "matviewDaily": "Daily digest",
+                "matviewDailyDescription": "One email a day summarizing failing views.",
+                "matviewFailures": "Materialized view sync failures",
+                "matviewFailuresDescription": "Get notified when a materialized view fails to sync",
+                "matviewImmediate": "Right away",
+                "matviewImmediateDescription": "An email when a view starts failing. While it keeps failing, only the daily digest lists it.",
+                "memberJoin": "New member joined",
+                "memberJoinDescription": "When someone joins an organization you belong to, we email existing members. Choose which organizations you want these notifications for.",
+                "memberJoinHint": "You receive these emails by default for every organization you belong to. Turn off any organization you do not want them for.",
+                "muteAllNotifications": "Mute all notifications",
+                "noPipelines": "No pipelines found in your projects.",
+                "pipelineErrors": "Data pipeline errors",
+                "pipelineErrorsDescription": "Get notified when data pipeline components (destinations, batch exports, data warehouse sources) encounter errors for all projects",
+                "pipelineKinds": {
+                    "batchExport": "Batch exports",
+                    "destination": "Destinations",
+                    "plugin": "Plugin destinations (deprecated)",
+                    "transformation": "Transformations"
+                },
+                "pipelinesHint": "All pipelines are enabled by default. Uncheck any pipeline you no longer want notifications for.",
+                "securityAlerts": "Security alerts",
+                "securityAlertsDescription": "Account security notifications including password changes, 2FA, login activity, and personal API key exposure. These notifications cannot be disabled.",
+                "selectOrganizations": "Select organizations ({{ number }} available)",
+                "selectPipelines": "Select pipelines to receive notifications for",
+                "selectProjects": "Select projects ({{ number }} available)",
+                "setByAdmin": "Set by your admin",
+                "thresholdError": "Threshold must be between 0% and 100%",
+                "unnamed": "(unnamed)",
+                "waDigest": "Web analytics weekly digest",
+                "waDigestAutoPick": "You haven't selected any projects yet, so on the first digest run we'll automatically pick the one with the most visitors. If you'd prefer to choose yourself, just select your projects below and we won't override your choice.",
+                "waDigestDescription": "Get a weekly summary of web traffic across your projects every Monday",
+                "weeklyDigest": "Weekly digest",
+                "weeklyDigestDescription": "The weekly digest keeps you up to date with everything that's happening in your PostHog organizations"
+            },
             "impersonation": {
                 "description": "PostHog support staff may need to log in as you to help debug issues. If you disable this setting, support staff will not be able to access your account directly. Read our <PolicyLink>policy on user impersonation</PolicyLink>.",
                 "label": "Allow support to log in as me"
@@ -910,6 +966,59 @@
                 "missing": "No picture yet. Add one on Gravatar for <Email>{{ email }}</Email> and it shows here and anywhere teammates see you.",
                 "recheck": "Check again",
                 "yourEmail": "your email"
+            },
+            "realtimeNotifications": {
+                "disableAll": "Disable all",
+                "empty": "No real-time notifications are wired up for your account yet.",
+                "enableAll": "Enable all"
+            },
+            "reminders": {
+                "alreadyFired": "This reminder has already fired",
+                "create": "Create reminder",
+                "cronInfo": "5-field cron, max 4 fires per day.",
+                "cronSummary": "Cron: {{ expression }}",
+                "deleteDescription": "\"{{ title }}\" will be permanently deleted.",
+                "deleteTitle": "Delete reminder?",
+                "edit": "Edit reminder",
+                "empty": "No reminders yet. Create one to get a nudge when it's due.",
+                "endsInfo": "Optional. The reminder stops after this time.",
+                "fields": {
+                    "cron": "Cron expression",
+                    "ends": "Ends",
+                    "firesAt": "Fires at",
+                    "message": "Message",
+                    "nextFire": "Next fire",
+                    "project": "Project",
+                    "repeatsEvery": "Repeats every",
+                    "schedule": "Schedule",
+                    "status": "Status",
+                    "timeZone": "Time zone",
+                    "title": "Title"
+                },
+                "messageInfo": "Optional longer text shown in the notification.",
+                "messagePlaceholder": "Optional details",
+                "new": "New reminder",
+                "noEndDate": "No end date",
+                "recurrence": {
+                    "daily": "Daily",
+                    "monthly": "Monthly",
+                    "weekly": "Weekly",
+                    "yearly": "Yearly"
+                },
+                "scheduleTypes": {
+                    "advanced": "Advanced",
+                    "oneOff": "One-off",
+                    "repeats": "Repeats"
+                },
+                "selectDateTime": "Select date and time",
+                "selectInterval": "Select an interval",
+                "selectTimeZone": "Select a time zone",
+                "status": {
+                    "active": "Active",
+                    "completed": "Completed",
+                    "errored": "Errored"
+                },
+                "titlePlaceholder": "Review the activation dashboard"
             },
             "scopes": {
                 "allAccessHint": "This will allow access to all organizations and projects you're in.",

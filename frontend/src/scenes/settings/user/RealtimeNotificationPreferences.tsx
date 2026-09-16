@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconChevronRight } from '@posthog/icons'
 import { LemonButton, LemonCheckbox, LemonTag } from '@posthog/lemon-ui'
@@ -11,6 +12,7 @@ import { TeamBasicType } from '~/types'
 import { realtimeNotificationPreferencesLogic } from './realtimeNotificationPreferencesLogic'
 
 export function RealtimeNotificationPreferences(): JSX.Element {
+    const { t } = useTranslation()
     const { userLoading } = useValues(userLogic)
     const { updateRealtimeNotificationForTeam, updateRealtimeNotificationForProject, updateAllRealtimeNotifications } =
         useActions(userLogic)
@@ -19,7 +21,13 @@ export function RealtimeNotificationPreferences(): JSX.Element {
     const { setProjectExpanded } = useActions(realtimeNotificationPreferencesLogic)
 
     if (activeTypes.length === 0) {
-        return <div className="text-muted text-sm">No real-time notifications are wired up for your account yet.</div>
+        return (
+            <div className="text-muted text-sm">
+                {t('settings.user.realtimeNotifications.empty', {
+                    defaultValue: 'No real-time notifications are wired up for your account yet.',
+                })}
+            </div>
+        )
     }
 
     return (
@@ -31,7 +39,7 @@ export function RealtimeNotificationPreferences(): JSX.Element {
                     disabled={userLoading || allOn}
                     onClick={() => updateAllRealtimeNotifications(teamIds, activeTypes, true)}
                 >
-                    Enable all
+                    {t('settings.user.realtimeNotifications.enableAll', { defaultValue: 'Enable all' })}
                 </LemonButton>
                 <LemonButton
                     size="xsmall"
@@ -39,7 +47,7 @@ export function RealtimeNotificationPreferences(): JSX.Element {
                     disabled={userLoading || allOff}
                     onClick={() => updateAllRealtimeNotifications(teamIds, activeTypes, false)}
                 >
-                    Disable all
+                    {t('settings.user.realtimeNotifications.disableAll', { defaultValue: 'Disable all' })}
                 </LemonButton>
             </div>
 

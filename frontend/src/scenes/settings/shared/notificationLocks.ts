@@ -1,6 +1,13 @@
+import type { TFunction } from 'i18next'
+
 import type { OrganizationNotificationLockApi } from '~/generated/core/api.schemas'
 
-export const LOCKED_BY_ORGANIZATION = 'An admin of your organization set this for you'
+/** Resolved on each call, so the notice follows a language change. */
+export function lockedByOrganization(t: TFunction): string {
+    return t('settings.notifications.lockedByAdmin', {
+        defaultValue: 'An admin of your organization set this for you',
+    })
+}
 
 /** Looks up the value an organization enforces for a setting, or null when the choice is the member's. */
 export function lockedValueFor(

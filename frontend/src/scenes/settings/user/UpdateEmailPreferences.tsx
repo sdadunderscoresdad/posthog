@@ -1,6 +1,7 @@
 import { useActions, useValues } from 'kea'
 import { router } from 'kea-router'
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconChevronDown, IconChevronRight } from '@posthog/icons'
 import { LemonBanner, LemonButton, LemonCheckbox, LemonInput, LemonSwitch, LemonTag, Spinner } from '@posthog/lemon-ui'
@@ -10,8 +11,8 @@ import { userLogic } from 'scenes/userLogic'
 
 import { NotificationSettings, OrganizationBasicType, TeamBasicType } from '~/types'
 
-import { LOCKED_BY_ORGANIZATION, lockedValueFor } from '../shared/notificationLocks'
-import { PIPELINE_KIND_LABELS, pipelineNotificationsLogic } from './pipelineNotificationsLogic'
+import { lockedByOrganization, lockedValueFor } from '../shared/notificationLocks'
+import { pipelineKindLabels, pipelineNotificationsLogic } from './pipelineNotificationsLogic'
 
 enum NotificationBlock {
     Security = 'security',
@@ -70,6 +71,7 @@ function ProjectDigestSelector({
     onToggleAllTeams: (teamIds: number[], enabled: boolean) => void
     hint?: string
 }): JSX.Element {
+    const { t } = useTranslation()
     const { user, userLoading } = useValues(userLogic)
     const { currentOrganization } = useValues(organizationLogic)
     const [expanded, setExpanded] = useState(true)
@@ -88,7 +90,10 @@ function ProjectDigestSelector({
                 type="tertiary"
                 className="p-0"
             >
-                Select projects ({currentOrganization?.teams?.length || 0} available)
+                {t('settings.user.emailPreferences.selectProjects', {
+                    defaultValue: 'Select projects ({{ number }} available)',
+                    number: currentOrganization?.teams?.length || 0,
+                })}
             </LemonButton>
 
             {expanded && (
@@ -100,17 +105,21 @@ function ProjectDigestSelector({
                                 size="xsmall"
                                 type="secondary"
                                 onClick={() => onToggleAllTeams(ownTeamIds, true)}
-                                disabledReason={ownTeamIds.length === 0 ? LOCKED_BY_ORGANIZATION : undefined}
+                                disabledReason={ownTeamIds.length === 0 ? lockedByOrganization(t) : undefined}
                             >
-                                Enable for all projects
+                                {t('settings.user.emailPreferences.enableAllProjects', {
+                                    defaultValue: 'Enable for all projects',
+                                })}
                             </LemonButton>
                             <LemonButton
                                 size="xsmall"
                                 type="secondary"
                                 onClick={() => onToggleAllTeams(ownTeamIds, false)}
-                                disabledReason={ownTeamIds.length === 0 ? LOCKED_BY_ORGANIZATION : undefined}
+                                disabledReason={ownTeamIds.length === 0 ? lockedByOrganization(t) : undefined}
                             >
-                                Disable for all projects
+                                {t('settings.user.emailPreferences.disableAllProjects', {
+                                    defaultValue: 'Disable for all projects',
+                                })}
                             </LemonButton>
                         </div>
 
@@ -127,17 +136,26 @@ function ProjectDigestSelector({
                                     }
                                     disabledReason={
                                         enforced !== null
-                                            ? LOCKED_BY_ORGANIZATION
+                                            ? lockedByOrganization(t)
                                             : userLoading
-                                              ? 'Loading...'
+                                              ? t('settings.loading', { defaultValue: 'Loading...' })
                                               : undefined
                                     }
                                     label={
                                         <div className="flex items-center gap-2">
                                             <span>{team.name}</span>
-                                            <LemonTag type="muted">id: {team.id.toString()}</LemonTag>
+                                            <LemonTag type="muted">
+                                                {t('settings.user.emailPreferences.idTag', {
+                                                    defaultValue: 'id: {{ id }}',
+                                                    id: team.id.toString(),
+                                                })}
+                                            </LemonTag>
                                             {enforced !== null && (
-                                                <LemonTag type="highlight">Set by your admin</LemonTag>
+                                                <LemonTag type="highlight">
+                                                    {t('settings.user.emailPreferences.setByAdmin', {
+                                                        defaultValue: 'Set by your admin',
+                                                    })}
+                                                </LemonTag>
                                             )}
                                         </div>
                                     }
@@ -152,6 +170,7 @@ function ProjectDigestSelector({
 }
 
 function OrganizationMemberJoinSelector(): JSX.Element {
+    const { t } = useTranslation()
     const { user, userLoading } = useValues(userLogic)
     const { updateMemberJoinEmailForOrganization, updateMemberJoinEmailForAllOrganizations } = useActions(userLogic)
     const [expanded, setExpanded] = useState(true)
@@ -173,14 +192,19 @@ function OrganizationMemberJoinSelector(): JSX.Element {
                 type="tertiary"
                 className="p-0"
             >
-                Select organizations ({organizations.length} available)
+                {t('settings.user.emailPreferences.selectOrganizations', {
+                    defaultValue: 'Select organizations ({{ number }} available)',
+                    number: organizations.length,
+                })}
             </LemonButton>
 
             {expanded && (
                 <div className="mt-3 ml-6 space-y-2">
                     <span className="text-muted text-xs">
-                        You receive these emails by default for every organization you belong to. Turn off any
-                        organization you do not want them for.
+                        {t('settings.user.emailPreferences.memberJoinHint', {
+                            defaultValue:
+                                'You receive these emails by default for every organization you belong to. Turn off any organization you do not want them for.',
+                        })}
                     </span>
                     <div className="flex flex-col gap-2">
                         <div className="flex flex-row items-center gap-4">
@@ -188,17 +212,21 @@ function OrganizationMemberJoinSelector(): JSX.Element {
                                 size="xsmall"
                                 type="secondary"
                                 onClick={() => updateMemberJoinEmailForAllOrganizations(ownOrgIds, true)}
-                                disabledReason={ownOrgIds.length === 0 ? LOCKED_BY_ORGANIZATION : undefined}
+                                disabledReason={ownOrgIds.length === 0 ? lockedByOrganization(t) : undefined}
                             >
-                                Enable for all organizations
+                                {t('settings.user.emailPreferences.enableAllOrganizations', {
+                                    defaultValue: 'Enable for all organizations',
+                                })}
                             </LemonButton>
                             <LemonButton
                                 size="xsmall"
                                 type="secondary"
                                 onClick={() => updateMemberJoinEmailForAllOrganizations(ownOrgIds, false)}
-                                disabledReason={ownOrgIds.length === 0 ? LOCKED_BY_ORGANIZATION : undefined}
+                                disabledReason={ownOrgIds.length === 0 ? lockedByOrganization(t) : undefined}
                             >
-                                Disable for all organizations
+                                {t('settings.user.emailPreferences.disableAllOrganizations', {
+                                    defaultValue: 'Disable for all organizations',
+                                })}
                             </LemonButton>
                         </div>
 
@@ -213,16 +241,20 @@ function OrganizationMemberJoinSelector(): JSX.Element {
                                     checked={enforced !== null ? !enforced : !isOrgDisabled(org.id)}
                                     disabledReason={
                                         enforced !== null
-                                            ? LOCKED_BY_ORGANIZATION
+                                            ? lockedByOrganization(t)
                                             : userLoading
-                                              ? 'Loading...'
+                                              ? t('settings.loading', { defaultValue: 'Loading...' })
                                               : undefined
                                     }
                                     label={
                                         <span className="flex items-center gap-2">
                                             {org.name}
                                             {enforced !== null && (
-                                                <LemonTag type="highlight">Set by your admin</LemonTag>
+                                                <LemonTag type="highlight">
+                                                    {t('settings.user.emailPreferences.setByAdmin', {
+                                                        defaultValue: 'Set by your admin',
+                                                    })}
+                                                </LemonTag>
                                             )}
                                         </span>
                                     }
@@ -237,6 +269,7 @@ function OrganizationMemberJoinSelector(): JSX.Element {
 }
 
 function PipelineNotificationSelector(): JSX.Element {
+    const { t } = useTranslation()
     const { user, userLoading } = useValues(userLogic)
     const { updatePipelineNotification, updatePipelineNotificationForAll } = useActions(userLogic)
     const { pipelines, pipelinesLoading, pipelinesByTeam, allPipelineIds, isPipelineDisabled } =
@@ -252,21 +285,34 @@ function PipelineNotificationSelector(): JSX.Element {
                 type="tertiary"
                 className="p-0"
             >
-                Select pipelines to receive notifications for
+                {t('settings.user.emailPreferences.selectPipelines', {
+                    defaultValue: 'Select pipelines to receive notifications for',
+                })}
             </LemonButton>
 
             {expanded && (
                 <div className="mt-3 ml-6 space-y-2">
                     <p className="text-muted text-xs">
-                        All pipelines are enabled by default. Uncheck any pipeline you no longer want notifications for.
+                        {t('settings.user.emailPreferences.pipelinesHint', {
+                            defaultValue:
+                                'All pipelines are enabled by default. Uncheck any pipeline you no longer want notifications for.',
+                        })}
                     </p>
                     {pipelinesLoading ? (
                         <div className="flex items-center gap-2 py-2">
                             <Spinner className="text-lg" />
-                            <span className="text-muted text-sm">Loading pipelines...</span>
+                            <span className="text-muted text-sm">
+                                {t('settings.user.emailPreferences.loadingPipelines', {
+                                    defaultValue: 'Loading pipelines...',
+                                })}
+                            </span>
                         </div>
                     ) : pipelines.length === 0 ? (
-                        <p className="text-muted text-sm">No pipelines found in your projects.</p>
+                        <p className="text-muted text-sm">
+                            {t('settings.user.emailPreferences.noPipelines', {
+                                defaultValue: 'No pipelines found in your projects.',
+                            })}
+                        </p>
                     ) : (
                         <div className="flex flex-col gap-2">
                             <div className="flex flex-row items-center gap-4">
@@ -275,14 +321,18 @@ function PipelineNotificationSelector(): JSX.Element {
                                     type="secondary"
                                     onClick={() => updatePipelineNotificationForAll(allPipelineIds, true)}
                                 >
-                                    Enable all notifications
+                                    {t('settings.user.emailPreferences.enableAllNotifications', {
+                                        defaultValue: 'Enable all notifications',
+                                    })}
                                 </LemonButton>
                                 <LemonButton
                                     size="xsmall"
                                     type="secondary"
                                     onClick={() => updatePipelineNotificationForAll(allPipelineIds, false)}
                                 >
-                                    Mute all notifications
+                                    {t('settings.user.emailPreferences.muteAllNotifications', {
+                                        defaultValue: 'Mute all notifications',
+                                    })}
                                 </LemonButton>
                             </div>
 
@@ -296,9 +346,18 @@ function PipelineNotificationSelector(): JSX.Element {
                                     <div key={key} className="flex flex-col gap-2">
                                         <div className="flex items-center gap-2">
                                             <span className="font-medium">{teamName}</span>
-                                            <LemonTag type="muted">id: {teamId}</LemonTag>
+                                            <LemonTag type="muted">
+                                                {t('settings.user.emailPreferences.idTag', {
+                                                    defaultValue: 'id: {{ id }}',
+                                                    id: teamId,
+                                                })}
+                                            </LemonTag>
                                             {enforced !== null && (
-                                                <LemonTag type="highlight">Set by your admin</LemonTag>
+                                                <LemonTag type="highlight">
+                                                    {t('settings.user.emailPreferences.setByAdmin', {
+                                                        defaultValue: 'Set by your admin',
+                                                    })}
+                                                </LemonTag>
                                             )}
                                         </div>
                                         <div className="ml-4 flex flex-col gap-1">
@@ -315,16 +374,16 @@ function PipelineNotificationSelector(): JSX.Element {
                                                     }
                                                     disabledReason={
                                                         enforced !== null
-                                                            ? LOCKED_BY_ORGANIZATION
+                                                            ? lockedByOrganization(t)
                                                             : userLoading
-                                                              ? 'Loading...'
+                                                              ? t('settings.loading', { defaultValue: 'Loading...' })
                                                               : undefined
                                                     }
                                                     label={
                                                         <div className="flex items-center gap-2">
                                                             <span>{pipeline.name}</span>
                                                             <LemonTag type="default">
-                                                                {PIPELINE_KIND_LABELS[pipeline.kind]}
+                                                                {pipelineKindLabels(t)[pipeline.kind]}
                                                             </LemonTag>
                                                         </div>
                                                     }
@@ -343,6 +402,7 @@ function PipelineNotificationSelector(): JSX.Element {
 }
 
 export function UpdateEmailPreferences(): JSX.Element {
+    const { t } = useTranslation()
     const { user, userLoading } = useValues(userLogic)
     const {
         updateWeeklyDigestForTeam,
@@ -372,7 +432,9 @@ export function UpdateEmailPreferences(): JSX.Element {
         localDataPipelineErrorThreshold >= 0 &&
         localDataPipelineErrorThreshold <= 100
             ? undefined
-            : 'Threshold must be between 0% and 100%'
+            : t('settings.user.emailPreferences.thresholdError', {
+                  defaultValue: 'Threshold must be between 0% and 100%',
+              })
 
     const blocks: Record<NotificationBlock, JSX.Element> = {
         [NotificationBlock.Security]: (
@@ -382,11 +444,13 @@ export function UpdateEmailPreferences(): JSX.Element {
                         data-attr="security_alerts_enabled"
                         checked={true}
                         disabled={true}
-                        label="Security alerts"
+                        label={t('settings.user.emailPreferences.securityAlerts', { defaultValue: 'Security alerts' })}
                     />
                     <span className="text-muted text-sm">
-                        Account security notifications including password changes, 2FA, login activity, and personal API
-                        key exposure. These notifications cannot be disabled.
+                        {t('settings.user.emailPreferences.securityAlertsDescription', {
+                            defaultValue:
+                                'Account security notifications including password changes, 2FA, login activity, and personal API key exposure. These notifications cannot be disabled.',
+                        })}
                     </span>
                 </div>
             </div>
@@ -395,8 +459,11 @@ export function UpdateEmailPreferences(): JSX.Element {
             <div className="border rounded p-4 space-y-3">
                 <SimpleSwitch
                     setting="all_weekly_digest_disabled"
-                    label="Weekly digest"
-                    description="The weekly digest keeps you up to date with everything that's happening in your PostHog organizations"
+                    label={t('settings.user.emailPreferences.weeklyDigest', { defaultValue: 'Weekly digest' })}
+                    description={t('settings.user.emailPreferences.weeklyDigestDescription', {
+                        defaultValue:
+                            "The weekly digest keeps you up to date with everything that's happening in your PostHog organizations",
+                    })}
                     dataAttr="weekly_digest_enabled"
                     inverse={true}
                 />
@@ -418,10 +485,14 @@ export function UpdateEmailPreferences(): JSX.Element {
         [NotificationBlock.MemberJoin]: (
             <div className="border rounded p-4 space-y-3">
                 <div className="space-y-2">
-                    <span className="font-medium">New member joined</span>
+                    <span className="font-medium">
+                        {t('settings.user.emailPreferences.memberJoin', { defaultValue: 'New member joined' })}
+                    </span>
                     <span className="text-muted text-sm block">
-                        When someone joins an organization you belong to, we email existing members. Choose which
-                        organizations you want these notifications for.
+                        {t('settings.user.emailPreferences.memberJoinDescription', {
+                            defaultValue:
+                                'When someone joins an organization you belong to, we email existing members. Choose which organizations you want these notifications for.',
+                        })}
                     </span>
                 </div>
                 <OrganizationMemberJoinSelector />
@@ -431,13 +502,22 @@ export function UpdateEmailPreferences(): JSX.Element {
             <div className="border rounded p-4 space-y-3">
                 <SimpleSwitch
                     setting="plugin_disabled"
-                    label="Data pipeline errors"
-                    description="Get notified when data pipeline components (destinations, batch exports, data warehouse sources) encounter errors for all projects"
+                    label={t('settings.user.emailPreferences.pipelineErrors', {
+                        defaultValue: 'Data pipeline errors',
+                    })}
+                    description={t('settings.user.emailPreferences.pipelineErrorsDescription', {
+                        defaultValue:
+                            'Get notified when data pipeline components (destinations, batch exports, data warehouse sources) encounter errors for all projects',
+                    })}
                     dataAttr="pipeline_errors_enabled"
                 />
                 {user?.notification_settings?.plugin_disabled !== false && (
                     <div className="space-y-2">
-                        <label className="text-sm font-medium">Failure rate threshold</label>
+                        <label className="text-sm font-medium">
+                            {t('settings.user.emailPreferences.failureRateThreshold', {
+                                defaultValue: 'Failure rate threshold',
+                            })}
+                        </label>
                         <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-2">
                                 <LemonInput
@@ -452,14 +532,18 @@ export function UpdateEmailPreferences(): JSX.Element {
                                         setLocalDataPipelineErrorThreshold(numValue)
                                         updateDataPipelineErrorThreshold(numValue)
                                     }}
-                                    disabledReason={userLoading ? 'Loading...' : undefined}
+                                    disabledReason={
+                                        userLoading ? t('settings.loading', { defaultValue: 'Loading...' }) : undefined
+                                    }
                                     status={dataPipelineErrorThresholdError ? 'danger' : 'default'}
                                     suffix={<span>%</span>}
                                     className="w-32"
                                 />
                                 <span className="text-muted text-sm">
-                                    Only notify if failure rate exceeds this threshold. Set to 0% to notify on any
-                                    failure.
+                                    {t('settings.user.emailPreferences.failureRateHint', {
+                                        defaultValue:
+                                            'Only notify if failure rate exceeds this threshold. Set to 0% to notify on any failure.',
+                                    })}
                                 </span>
                             </div>
                             {dataPipelineErrorThresholdError && (
@@ -475,8 +559,11 @@ export function UpdateEmailPreferences(): JSX.Element {
             <div className="border rounded p-4">
                 <SimpleSwitch
                     setting="error_tracking_issue_assigned"
-                    label="Issue assigned"
-                    description="Stay on top of your bugs with a notification every time an issue is assigned to you or your role"
+                    label={t('settings.user.emailPreferences.issueAssigned', { defaultValue: 'Issue assigned' })}
+                    description={t('settings.user.emailPreferences.issueAssignedDescription', {
+                        defaultValue:
+                            'Stay on top of your bugs with a notification every time an issue is assigned to you or your role',
+                    })}
                     dataAttr="error_tracking_issue_assigned_enabled"
                 />
             </div>
@@ -485,17 +572,22 @@ export function UpdateEmailPreferences(): JSX.Element {
             <div className="border rounded p-4 space-y-3">
                 <SimpleSwitch
                     setting="error_tracking_weekly_digest"
-                    label="Error tracking weekly digest"
-                    description="Get a weekly summary of exceptions caught across your projects every Monday"
+                    label={t('settings.user.emailPreferences.etDigest', {
+                        defaultValue: 'Error tracking weekly digest',
+                    })}
+                    description={t('settings.user.emailPreferences.etDigestDescription', {
+                        defaultValue: 'Get a weekly summary of exceptions caught across your projects every Monday',
+                    })}
                     dataAttr="error_tracking_weekly_digest_enabled"
                 />
                 {etDigestEnabled && (
                     <>
                         {!user?.notification_settings.error_tracking_weekly_digest_project_enabled && (
                             <LemonBanner type="info">
-                                You haven't selected any projects yet, so on the first digest run we'll automatically
-                                pick the one with the most exceptions. If you'd prefer to choose yourself, just select
-                                your projects below and we won't override your choice.
+                                {t('settings.user.emailPreferences.etDigestAutoPick', {
+                                    defaultValue:
+                                        "You haven't selected any projects yet, so on the first digest run we'll automatically pick the one with the most exceptions. If you'd prefer to choose yourself, just select your projects below and we won't override your choice.",
+                                })}
                             </LemonBanner>
                         )}
                         <ProjectDigestSelector
@@ -516,17 +608,22 @@ export function UpdateEmailPreferences(): JSX.Element {
             <div className="border rounded p-4 space-y-3">
                 <SimpleSwitch
                     setting="web_analytics_weekly_digest"
-                    label="Web analytics weekly digest"
-                    description="Get a weekly summary of web traffic across your projects every Monday"
+                    label={t('settings.user.emailPreferences.waDigest', {
+                        defaultValue: 'Web analytics weekly digest',
+                    })}
+                    description={t('settings.user.emailPreferences.waDigestDescription', {
+                        defaultValue: 'Get a weekly summary of web traffic across your projects every Monday',
+                    })}
                     dataAttr="web_analytics_weekly_digest_enabled"
                 />
                 {waDigestEnabled && (
                     <>
                         {!user?.notification_settings.web_analytics_weekly_digest_project_enabled && (
                             <LemonBanner type="info">
-                                You haven't selected any projects yet, so on the first digest run we'll automatically
-                                pick the one with the most visitors. If you'd prefer to choose yourself, just select
-                                your projects below and we won't override your choice.
+                                {t('settings.user.emailPreferences.waDigestAutoPick', {
+                                    defaultValue:
+                                        "You haven't selected any projects yet, so on the first digest run we'll automatically pick the one with the most visitors. If you'd prefer to choose yourself, just select your projects below and we won't override your choice.",
+                                })}
                             </LemonBanner>
                         )}
                         <ProjectDigestSelector
@@ -547,8 +644,10 @@ export function UpdateEmailPreferences(): JSX.Element {
             <div className="border rounded p-4">
                 <SimpleSwitch
                     setting="discussions_mentioned"
-                    label="Comment mentions"
-                    description="Get notified when someone mentions you in a discussion on any project"
+                    label={t('settings.user.emailPreferences.commentMentions', { defaultValue: 'Comment mentions' })}
+                    description={t('settings.user.emailPreferences.commentMentionsDescription', {
+                        defaultValue: 'Get notified when someone mentions you in a discussion on any project',
+                    })}
                     dataAttr="discussions_mentioned_enabled"
                 />
             </div>
@@ -557,8 +656,12 @@ export function UpdateEmailPreferences(): JSX.Element {
             <div className="border rounded p-4">
                 <SimpleSwitch
                     setting="project_api_key_exposed"
-                    label="Private API key exposure"
-                    description="Get notified when private API keys are publicly exposed"
+                    label={t('settings.user.emailPreferences.apiKeyExposure', {
+                        defaultValue: 'Private API key exposure',
+                    })}
+                    description={t('settings.user.emailPreferences.apiKeyExposureDescription', {
+                        defaultValue: 'Get notified when private API keys are publicly exposed',
+                    })}
                     dataAttr="project_api_key_exposure_enabled"
                 />
             </div>
@@ -567,8 +670,12 @@ export function UpdateEmailPreferences(): JSX.Element {
             <div className="border rounded p-4 space-y-3">
                 <SimpleSwitch
                     setting="materialized_view_sync_failed"
-                    label="Materialized view sync failures"
-                    description="Get notified when a materialized view fails to sync"
+                    label={t('settings.user.emailPreferences.matviewFailures', {
+                        defaultValue: 'Materialized view sync failures',
+                    })}
+                    description={t('settings.user.emailPreferences.matviewFailuresDescription', {
+                        defaultValue: 'Get notified when a materialized view fails to sync',
+                    })}
                     dataAttr="materialized_view_sync_failed_enabled"
                 />
                 <MatviewFailureEmailOptions />
@@ -601,6 +708,7 @@ export function UpdateEmailPreferences(): JSX.Element {
 }
 
 const MatviewFailureEmailOptions = (): JSX.Element | null => {
+    const { t } = useTranslation()
     const { user } = useValues(userLogic)
 
     if (!user?.notification_settings?.materialized_view_sync_failed) {
@@ -611,14 +719,19 @@ const MatviewFailureEmailOptions = (): JSX.Element | null => {
         <div className="pl-6 space-y-3">
             <SimpleSwitch
                 setting="materialized_view_sync_failed_daily"
-                label="Daily digest"
-                description="One email a day summarizing failing views."
+                label={t('settings.user.emailPreferences.matviewDaily', { defaultValue: 'Daily digest' })}
+                description={t('settings.user.emailPreferences.matviewDailyDescription', {
+                    defaultValue: 'One email a day summarizing failing views.',
+                })}
                 dataAttr="materialized_view_sync_failed_daily"
             />
             <SimpleSwitch
                 setting="materialized_view_sync_failed_immediate"
-                label="Right away"
-                description="An email when a view starts failing. While it keeps failing, only the daily digest lists it."
+                label={t('settings.user.emailPreferences.matviewImmediate', { defaultValue: 'Right away' })}
+                description={t('settings.user.emailPreferences.matviewImmediateDescription', {
+                    defaultValue:
+                        'An email when a view starts failing. While it keeps failing, only the daily digest lists it.',
+                })}
                 dataAttr="materialized_view_sync_failed_immediate"
             />
         </div>
@@ -641,6 +754,7 @@ const SimpleSwitch = ({
      */
     inverse?: boolean
 }): JSX.Element => {
+    const { t } = useTranslation()
     const { user, userLoading } = useValues(userLogic)
     const { updateUser } = useActions(userLogic)
 
@@ -666,11 +780,23 @@ const SimpleSwitch = ({
                         })
                 }}
                 checked={checked}
-                disabledReason={enforced !== null ? LOCKED_BY_ORGANIZATION : userLoading ? 'Loading...' : undefined}
+                disabledReason={
+                    enforced !== null
+                        ? lockedByOrganization(t)
+                        : userLoading
+                          ? t('settings.loading', { defaultValue: 'Loading...' })
+                          : undefined
+                }
                 label={
                     <span className="flex items-center gap-2">
                         {label}
-                        {enforced !== null && <LemonTag type="highlight">Set by your admin</LemonTag>}
+                        {enforced !== null && (
+                            <LemonTag type="highlight">
+                                {t('settings.user.emailPreferences.setByAdmin', {
+                                    defaultValue: 'Set by your admin',
+                                })}
+                            </LemonTag>
+                        )}
                     </span>
                 }
             />

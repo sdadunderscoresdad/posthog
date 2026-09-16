@@ -592,6 +592,9 @@
             "title": "设置导航"
         },
         "noChangesToSave": "没有需要保存的更改",
+        "notifications": {
+            "lockedByAdmin": "你的组织管理员为你设置了此项"
+        },
         "project": {
             "apiKeys": {
                 "addLabel": "添加标签",
@@ -771,6 +774,59 @@
                 "verified": "邮箱地址已验证。",
                 "verify": "验证邮箱"
             },
+            "emailPreferences": {
+                "apiKeyExposure": "私钥泄露",
+                "apiKeyExposureDescription": "当私钥被公开暴露时收到通知",
+                "commentMentions": "评论提及",
+                "commentMentionsDescription": "当有人在任意项目的讨论中提及你时收到通知",
+                "disableAllOrganizations": "关闭所有组织的邮件",
+                "disableAllProjects": "关闭所有项目的邮件",
+                "enableAllNotifications": "开启全部通知",
+                "enableAllOrganizations": "为所有组织开启",
+                "enableAllProjects": "为所有项目开启",
+                "etDigest": "错误跟踪每周摘要",
+                "etDigestAutoPick": "你还没有选择任何项目，因此第一次生成摘要时我们会自动选择异常最多的那个项目。如果你希望自己选择，只需在下方选中项目，我们不会覆盖你的选择。",
+                "etDigestDescription": "每周一收到跨项目的异常汇总",
+                "failureRateHint": "仅当失败率超过该阈值时才通知。设为 0% 表示任何失败都通知。",
+                "failureRateThreshold": "失败率阈值",
+                "idTag": "id：{{ id }}",
+                "issueAssigned": "议题被指派",
+                "issueAssignedDescription": "每当有议题指派给你或你的角色时收到通知，方便及时跟进缺陷",
+                "loadingPipelines": "正在加载数据管道…",
+                "matviewDaily": "每日摘要",
+                "matviewDailyDescription": "每天一封邮件，汇总同步失败的物化视图。",
+                "matviewFailures": "物化视图同步失败",
+                "matviewFailuresDescription": "当物化视图同步失败时收到通知",
+                "matviewImmediate": "立即通知",
+                "matviewImmediateDescription": "视图开始失败时立即发送邮件。持续失败期间，只有每日摘要会列出它。",
+                "memberJoin": "新成员加入",
+                "memberJoinDescription": "当有人加入你所属的组织时，我们会给现有成员发邮件。请选择你希望收到这类通知的组织。",
+                "memberJoinHint": "默认情况下，你所属的每个组织都会发送这类邮件。可以关闭你不想接收的组织。",
+                "muteAllNotifications": "静音全部通知",
+                "noPipelines": "你的项目中没有找到数据管道。",
+                "pipelineErrors": "数据管道错误",
+                "pipelineErrorsDescription": "当数据管道组件（目标、批量导出、数据仓库来源）在所有项目中出现错误时收到通知",
+                "pipelineKinds": {
+                    "batchExport": "批量导出",
+                    "destination": "目标",
+                    "plugin": "插件目标（已弃用）",
+                    "transformation": "转换"
+                },
+                "pipelinesHint": "默认情况下所有数据管道都已开启。取消勾选你不想再接收通知的数据管道。",
+                "securityAlerts": "安全提醒",
+                "securityAlertsDescription": "账号安全通知，包括密码变更、2FA、登录活动和个人 API 密钥泄露。这些通知无法关闭。",
+                "selectOrganizations": "选择组织（可选 {{ number }} 个）",
+                "selectPipelines": "选择要接收通知的数据管道",
+                "selectProjects": "选择项目（可选 {{ number }} 个）",
+                "setByAdmin": "由管理员设置",
+                "thresholdError": "阈值必须在 0% 到 100% 之间",
+                "unnamed": "（未命名）",
+                "waDigest": "Web 分析每周摘要",
+                "waDigestAutoPick": "你还没有选择任何项目，因此第一次生成摘要时我们会自动选择访客最多的那个项目。如果你希望自己选择，只需在下方选中项目，我们不会覆盖你的选择。",
+                "waDigestDescription": "每周一收到跨项目的网站流量汇总",
+                "weeklyDigest": "每周摘要",
+                "weeklyDigestDescription": "每周摘要让你了解 PostHog 组织中正在发生的一切"
+            },
             "impersonation": {
                 "description": "PostHog 支持人员可能需要以你的身份登录，以便排查问题。如果你关闭此设置，支持人员将无法直接访问你的账号。请阅读我们的 <PolicyLink>用户身份模拟政策</PolicyLink>。",
                 "label": "允许支持人员以我的身份登录"
@@ -905,6 +961,59 @@
                 "missing": "还没有头像。为 <Email>{{ email }}</Email> 在 Gravatar 上添加一个，它就会显示在这里以及团队成员看到你的地方。",
                 "recheck": "重新检查",
                 "yourEmail": "你的邮箱"
+            },
+            "realtimeNotifications": {
+                "disableAll": "全部关闭",
+                "empty": "你的账号还没有配置任何实时通知。",
+                "enableAll": "全部开启"
+            },
+            "reminders": {
+                "alreadyFired": "此提醒已经触发过",
+                "create": "创建提醒",
+                "cronInfo": "5 段式 cron，每天最多触发 4 次。",
+                "cronSummary": "Cron：{{ expression }}",
+                "deleteDescription": "“{{ title }}” 将被永久删除。",
+                "deleteTitle": "删除提醒？",
+                "edit": "编辑提醒",
+                "empty": "还没有提醒。创建一个，到期时就会提醒你。",
+                "endsInfo": "可选。到该时间后提醒将停止。",
+                "fields": {
+                    "cron": "Cron 表达式",
+                    "ends": "结束",
+                    "firesAt": "触发时间",
+                    "message": "消息",
+                    "nextFire": "下次触发",
+                    "project": "项目",
+                    "repeatsEvery": "重复间隔",
+                    "schedule": "计划",
+                    "status": "状态",
+                    "timeZone": "时区",
+                    "title": "标题"
+                },
+                "messageInfo": "可选，通知中显示的较长文本。",
+                "messagePlaceholder": "可选详情",
+                "new": "新建提醒",
+                "noEndDate": "不设结束日期",
+                "recurrence": {
+                    "daily": "每天",
+                    "monthly": "每月",
+                    "weekly": "每周",
+                    "yearly": "每年"
+                },
+                "scheduleTypes": {
+                    "advanced": "高级",
+                    "oneOff": "一次性",
+                    "repeats": "重复"
+                },
+                "selectDateTime": "选择日期和时间",
+                "selectInterval": "选择间隔",
+                "selectTimeZone": "选择时区",
+                "status": {
+                    "active": "生效中",
+                    "completed": "已完成",
+                    "errored": "出错"
+                },
+                "titlePlaceholder": "查看激活情况仪表盘"
             },
             "scopes": {
                 "allAccessHint": "这将允许访问你所属的所有组织和项目。",
