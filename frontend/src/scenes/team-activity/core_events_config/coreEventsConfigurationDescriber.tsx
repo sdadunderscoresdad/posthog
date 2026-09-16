@@ -1,4 +1,5 @@
 import { ActivityChange, ChangeMapping } from 'lib/components/ActivityLog/humanizeActivity'
+import { i18n } from 'lib/i18n/i18n'
 
 import { CoreEvent } from '~/queries/schema/schema-general'
 
@@ -46,20 +47,26 @@ const describeCoreEventsChanges = (before: CoreEvent[], after: CoreEvent[]): JSX
         if (beforeEvent && !afterEvent) {
             descriptions.push(
                 <>
-                    removed the core event <code>{beforeEvent.name}</code>
+                    {i18n.t('teamActivity.removedThe', { defaultValue: 'removed the' })}{' '}
+                    {i18n.t('teamActivity.coreEvent', { defaultValue: 'core event' })} <code>{beforeEvent.name}</code>
                 </>
             )
         } else if (!beforeEvent && afterEvent) {
             descriptions.push(
                 <>
-                    added the core event <code>{afterEvent.name}</code> ({afterEvent.category})
+                    {i18n.t('teamActivity.addedThe', { defaultValue: 'added the' })}{' '}
+                    {i18n.t('teamActivity.coreEvent', { defaultValue: 'core event' })} <code>{afterEvent.name}</code> (
+                    {afterEvent.category})
                 </>
             )
         } else if (beforeEvent && afterEvent) {
             if (beforeEvent.name !== afterEvent.name) {
                 descriptions.push(
                     <>
-                        renamed the core event <code>{beforeEvent.name}</code> to <code>{afterEvent.name}</code>
+                        {i18n.t('teamActivity.renamedThe', { defaultValue: 'renamed the' })}{' '}
+                        {i18n.t('teamActivity.coreEvent', { defaultValue: 'core event' })}{' '}
+                        <code>{beforeEvent.name}</code> {i18n.t('teamActivity.to', { defaultValue: 'to' })}{' '}
+                        <code>{afterEvent.name}</code>
                     </>
                 )
             }
@@ -67,8 +74,12 @@ const describeCoreEventsChanges = (before: CoreEvent[], after: CoreEvent[]): JSX
             if (beforeEvent.category !== afterEvent.category) {
                 descriptions.push(
                     <>
-                        changed the category of core event <code>{afterEvent.name}</code> from{' '}
-                        <code>{beforeEvent.category}</code> to <code>{afterEvent.category}</code>
+                        {i18n.t('teamActivity.changedCategoryOf', {
+                            defaultValue: 'changed the category of core event',
+                        })}{' '}
+                        <code>{afterEvent.name}</code> {i18n.t('teamActivity.from', { defaultValue: 'from' })}{' '}
+                        <code>{beforeEvent.category}</code> {i18n.t('teamActivity.to', { defaultValue: 'to' })}{' '}
+                        <code>{afterEvent.category}</code>
                     </>
                 )
             }
@@ -76,7 +87,10 @@ const describeCoreEventsChanges = (before: CoreEvent[], after: CoreEvent[]): JSX
             if (beforeEvent.description !== afterEvent.description) {
                 descriptions.push(
                     <>
-                        updated the description of core event <code>{afterEvent.name}</code>
+                        {i18n.t('teamActivity.updatedDescriptionOf', {
+                            defaultValue: 'updated the description of core event',
+                        })}{' '}
+                        <code>{afterEvent.name}</code>
                     </>
                 )
             }
@@ -84,7 +98,10 @@ const describeCoreEventsChanges = (before: CoreEvent[], after: CoreEvent[]): JSX
             if (JSON.stringify(beforeEvent.filter) !== JSON.stringify(afterEvent.filter)) {
                 descriptions.push(
                     <>
-                        updated the filter configuration of core event <code>{afterEvent.name}</code>
+                        {i18n.t('teamActivity.updatedFilterConfigOf', {
+                            defaultValue: 'updated the filter configuration of core event',
+                        })}{' '}
+                        <code>{afterEvent.name}</code>
                     </>
                 )
             }

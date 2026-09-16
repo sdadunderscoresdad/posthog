@@ -1,5 +1,6 @@
 import { useValues } from 'kea'
 
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { urls } from 'scenes/urls'
 import {
@@ -22,11 +23,14 @@ export const SourceAddedDescriber = ({
 
     return (
         <>
-            started configuring <b>{table?.schema_name || 'Unknown source'}</b>{' '}
+            {i18n.t('teamActivity.startedConfiguring', { defaultValue: 'started configuring' })}{' '}
+            <b>{table?.schema_name || i18n.t('teamActivity.unknownSource', { defaultValue: 'Unknown source' })}</b>{' '}
             <Link to={urls.settings('project', 'marketing-settings')} target="_blank">
-                marketing source
+                {i18n.t('teamActivity.marketingSource', { defaultValue: 'marketing source' })}
             </Link>{' '}
-            by mapping <code>{columnKey}</code> column to <code>{mappedField}</code>
+            {i18n.t('teamActivity.byMapping', { defaultValue: 'by mapping' })} <code>{columnKey}</code>{' '}
+            {i18n.t('teamActivity.column', { defaultValue: 'column' })}{' '}
+            {i18n.t('teamActivity.to', { defaultValue: 'to' })} <code>{mappedField}</code>
         </>
     )
 }

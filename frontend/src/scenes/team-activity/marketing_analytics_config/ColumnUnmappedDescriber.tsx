@@ -1,5 +1,6 @@
 import { useValues } from 'kea'
 
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { urls } from 'scenes/urls'
 import {
@@ -20,9 +21,11 @@ export const ColumnUnmappedDescriber = ({
 
     return (
         <>
-            removed <code>{columnKey}</code> column mapping from <b>{table?.schema_name || 'Unknown source'}</b>{' '}
+            {i18n.t('teamActivity.removed', { defaultValue: 'removed' })} <code>{columnKey}</code>{' '}
+            {i18n.t('teamActivity.columnMappingFrom', { defaultValue: 'column mapping from' })}{' '}
+            <b>{table?.schema_name || i18n.t('teamActivity.unknownSource', { defaultValue: 'Unknown source' })}</b>{' '}
             <Link to={urls.settings('project', 'marketing-settings')} target="_blank">
-                marketing source
+                {i18n.t('teamActivity.marketingSource', { defaultValue: 'marketing source' })}
             </Link>
         </>
     )

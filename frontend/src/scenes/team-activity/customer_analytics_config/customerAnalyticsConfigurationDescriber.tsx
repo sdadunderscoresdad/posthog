@@ -1,4 +1,5 @@
 import { ActivityChange, ChangeMapping } from 'lib/components/ActivityLog/humanizeActivity'
+import { i18n } from 'lib/i18n/i18n'
 
 import { ActionsNode, CustomerAnalyticsConfig, EventsNode, NodeKind } from '~/queries/schema/schema-general'
 
@@ -36,21 +37,41 @@ const accountGroupTypeIndexDescriber = (
     if (beforeValue === null) {
         return [
             <>
-                set <strong>Account group type</strong> to <code>group {afterValue}</code>
+                {i18n.t('teamActivity.set', { defaultValue: 'set' })}{' '}
+                <strong>
+                    {i18n.t('teamActivity.customerAnalytics.accountGroupType', { defaultValue: 'Account group type' })}
+                </strong>{' '}
+                {i18n.t('teamActivity.to', { defaultValue: 'to' })}{' '}
+                <code>
+                    {i18n.t('teamActivity.customerAnalytics.group', { defaultValue: 'group' })} {afterValue}
+                </code>
             </>,
         ]
     }
     if (afterValue === null) {
         return [
             <>
-                cleared <strong>Account group type</strong>
+                {i18n.t('teamActivity.cleared', { defaultValue: 'cleared' })}{' '}
+                <strong>
+                    {i18n.t('teamActivity.customerAnalytics.accountGroupType', { defaultValue: 'Account group type' })}
+                </strong>
             </>,
         ]
     }
     return [
         <>
-            changed <strong>Account group type</strong> from <code>group {beforeValue}</code> to{' '}
-            <code>group {afterValue}</code>
+            {i18n.t('teamActivity.changed', { defaultValue: 'changed' })}{' '}
+            <strong>
+                {i18n.t('teamActivity.customerAnalytics.accountGroupType', { defaultValue: 'Account group type' })}
+            </strong>{' '}
+            {i18n.t('teamActivity.from', { defaultValue: 'from' })}{' '}
+            <code>
+                {i18n.t('teamActivity.customerAnalytics.group', { defaultValue: 'group' })} {beforeValue}
+            </code>{' '}
+            {i18n.t('teamActivity.to', { defaultValue: 'to' })}{' '}
+            <code>
+                {i18n.t('teamActivity.customerAnalytics.group', { defaultValue: 'group' })} {afterValue}
+            </code>
         </>,
     ]
 }
@@ -58,11 +79,17 @@ const accountGroupTypeIndexDescriber = (
 type EventType = 'activity_event' | 'signup_pageview_event' | 'signup_event' | 'subscription_event' | 'payment_event'
 
 const EVENT_TYPE_LABELS: Record<EventType, string> = {
-    activity_event: 'Activity event',
-    signup_pageview_event: 'Signup pageview event',
-    signup_event: 'Signup event',
-    subscription_event: 'Subscription event',
-    payment_event: 'Payment event',
+    activity_event: i18n.t('teamActivity.customerAnalytics.eventTypes.activityEvent', {
+        defaultValue: 'Activity event',
+    }),
+    signup_pageview_event: i18n.t('teamActivity.customerAnalytics.eventTypes.signupPageview', {
+        defaultValue: 'Signup pageview event',
+    }),
+    signup_event: i18n.t('teamActivity.customerAnalytics.eventTypes.signup', { defaultValue: 'Signup event' }),
+    subscription_event: i18n.t('teamActivity.customerAnalytics.eventTypes.subscription', {
+        defaultValue: 'Subscription event',
+    }),
+    payment_event: i18n.t('teamActivity.customerAnalytics.eventTypes.payment', { defaultValue: 'Payment event' }),
 }
 
 function isValidEventConfig(config: any): config is EventsNode | ActionsNode {

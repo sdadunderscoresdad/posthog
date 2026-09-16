@@ -1,5 +1,6 @@
 import { useValues } from 'kea'
 
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { urls } from 'scenes/urls'
 import {
@@ -20,11 +21,12 @@ export const ClearSourceDescriber = ({
 
     return (
         <>
-            cleared <b>{table?.schema_name}</b>{' '}
+            {i18n.t('teamActivity.cleared', { defaultValue: 'cleared' })} <b>{table?.schema_name}</b>{' '}
             <Link to={urls.settings('project', 'marketing-settings')} target="_blank">
-                marketing source
+                {i18n.t('teamActivity.marketingSource', { defaultValue: 'marketing source' })}
             </Link>{' '}
-            by removing <code>{columnKey}</code> column mapping
+            {i18n.t('teamActivity.byRemoving', { defaultValue: 'by removing' })} <code>{columnKey}</code>{' '}
+            {i18n.t('teamActivity.columnMapping', { defaultValue: 'column mapping' })}
         </>
     )
 }
