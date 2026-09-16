@@ -1,6 +1,7 @@
 import { decode } from 'he'
 import { useActions, useValues } from 'kea'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import * as magnifyingGlassPng from '@posthog/brand/hoggies/png/magnifying-glass-1'
 import { LemonButton, LemonDialog, LemonTable, LemonTag } from '@posthog/lemon-ui'
@@ -28,6 +29,7 @@ function sortScopesWriteFirst(scopes: string[]): string[] {
 }
 
 function ScopesAccordion({ scopes }: { scopes: string[] }): JSX.Element {
+    const { t } = useTranslation()
     const [expanded, setExpanded] = useState(false)
     const visibleCount = 3
     const sorted = sortScopesWriteFirst(scopes)
@@ -43,7 +45,12 @@ function ScopesAccordion({ scopes }: { scopes: string[] }): JSX.Element {
             ))}
             {needsAccordion && (
                 <LemonButton size="xsmall" type="secondary" onClick={() => setExpanded(!expanded)}>
-                    {expanded ? 'Show less' : `+${sorted.length - visibleCount} more`}
+                    {expanded
+                        ? t('settings.user.connectedApps.showLess', { defaultValue: 'Show less' })
+                        : t('settings.apiKeys.moreTags', {
+                              defaultValue: '+{{ number }} more',
+                              number: sorted.length - visibleCount,
+                          })}
                 </LemonButton>
             )}
         </div>
@@ -51,6 +58,7 @@ function ScopesAccordion({ scopes }: { scopes: string[] }): JSX.Element {
 }
 
 export function ConnectedApps(): JSX.Element {
+    const { t } = useTranslation()
     const { connectedApps, connectedAppsLoading } = useValues(connectedAppsLogic)
     const { revokeApp } = useActions(connectedAppsLogic)
 
@@ -59,15 +67,22 @@ export function ConnectedApps(): JSX.Element {
         const name = decode(app.name)
 
         LemonDialog.open({
-            title: `Revoke access for ${name}?`,
-            description: `This will revoke all tokens and permissions granted to ${name}. The app will no longer be able to access your PostHog account. You can re-authorize it at any time through the application's own interface.`,
+            title: t('settings.user.connectedApps.revokeTitle', {
+                defaultValue: 'Revoke access for {{ name }}?',
+                name,
+            }),
+            description: t('settings.user.connectedApps.revokeDescription', {
+                defaultValue:
+                    "This will revoke all tokens and permissions granted to {{ name }}. The app will no longer be able to access your PostHog account. You can re-authorize it at any time through the application's own interface.",
+                name,
+            }),
             primaryButton: {
-                children: 'Revoke',
+                children: t('settings.user.connectedApps.revoke', { defaultValue: 'Revoke' }),
                 status: 'danger',
                 onClick: () => revokeApp(app.id),
             },
             secondaryButton: {
-                children: 'Cancel',
+                children: t('settings.cancel', { defaultValue: 'Cancel' }),
             },
         })
     }
@@ -78,7 +93,7 @@ export function ConnectedApps(): JSX.Element {
             loading={connectedAppsLoading}
             columns={[
                 {
-                    title: 'Application',
+                    title: t('settings.user.connectedApps.columns.application', { defaultValue: 'Application' }),
                     dataIndex: 'name',
                     render: (_, app) => (
                         <div className="flex items-center gap-2">
@@ -86,7 +101,10 @@ export function ConnectedApps(): JSX.Element {
                                 <div className="w-8 h-8 shrink-0 rounded bg-bg-light border flex items-center justify-center p-1">
                                     <img
                                         src={app.logo_uri}
-                                        alt={`${decode(app.name)} logo`}
+                                        alt={t('settings.user.connectedApps.logoAlt', {
+                                            defaultValue: '{{ name }} logo',
+                                            name: decode(app.name),
+                                        })}
                                         className="w-full h-full object-contain"
                                     />
                                 </div>
@@ -98,28 +116,30 @@ export function ConnectedApps(): JSX.Element {
                             <span className="font-medium">{decode(app.name)}</span>
                             {app.is_first_party ? (
                                 <LemonTag type="highlight" size="small">
-                                    PostHog
+                                    {t('settings.user.connectedApps.firstParty', { defaultValue: 'PostHog' })}
                                 </LemonTag>
                             ) : app.is_verified ? (
                                 <LemonTag type="success" size="small">
-                                    Verified
+                                    {t('settings.user.connectedApps.verified', { defaultValue: 'Verified' })}
                                 </LemonTag>
                             ) : null}
                         </div>
                     ),
                 },
                 {
-                    title: 'Scopes',
+                    title: t('settings.apiKeys.columns.scopes', { defaultValue: 'Scopes' }),
                     dataIndex: 'scopes',
                     render: (_, app) =>
                         app.scopes.length > 0 ? (
                             <ScopesAccordion scopes={app.scopes} />
                         ) : (
-                            <span className="text-muted">No scopes</span>
+                            <span className="text-muted">
+                                {t('settings.user.connectedApps.noScopes', { defaultValue: 'No scopes' })}
+                            </span>
                         ),
                 },
                 {
-                    title: 'Authorized',
+                    title: t('settings.user.connectedApps.columns.authorized', { defaultValue: 'Authorized' }),
                     dataIndex: 'authorized_at',
                     render: (_, app) => humanFriendlyDetailedTime(app.authorized_at),
                 },
@@ -127,7 +147,7 @@ export function ConnectedApps(): JSX.Element {
                     title: '',
                     render: (_, app) => (
                         <LemonButton type="secondary" status="danger" size="small" onClick={() => handleRevoke(app)}>
-                            Revoke
+                            {t('settings.user.connectedApps.revoke', { defaultValue: 'Revoke' })}
                         </LemonButton>
                     ),
                 },
@@ -138,10 +158,12 @@ export function ConnectedApps(): JSX.Element {
                     <div>
                         <div className="flex items-center gap-2 font-semibold">
                             <IconKey className="text-xl text-secondary" />
-                            No connected applications
+                            {t('settings.user.connectedApps.empty', { defaultValue: 'No connected applications' })}
                         </div>
                         <p className="text-secondary mt-1 mb-0">
-                            Apps will appear here when third-party tools connect to your account.
+                            {t('settings.user.connectedApps.emptyDescription', {
+                                defaultValue: 'Apps will appear here when third-party tools connect to your account.',
+                            })}
                         </p>
                     </div>
                 </div>

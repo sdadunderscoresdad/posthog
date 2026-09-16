@@ -430,6 +430,16 @@
             "untitled": "洞察"
         }
     },
+    "integrations": {
+        "github": {
+            "disconnect": {
+                "accountStops": "你的账号将不再使用 GitHub。",
+                "lastReference": "这会在 GitHub 上从 {{ accountName }} 卸载 PostHog 应用，并断开它与所有使用它的 PostHog 项目和个人账号的连接。",
+                "projectStops": "此项目将不再使用 GitHub。",
+                "shared": "{{ subject }}由于其他项目或账号仍在使用，PostHog 应用会继续保留在 GitHub 上。"
+            }
+        }
+    },
     "interval": {
         "day": "",
         "hour": "",
@@ -699,6 +709,22 @@
                     "scopeRequired": "你的个人 API 密钥至少需要一个权限范围"
                 }
             },
+            "connectedApps": {
+                "columns": {
+                    "application": "应用",
+                    "authorized": "授权时间"
+                },
+                "empty": "没有已连接的应用",
+                "emptyDescription": "当第三方工具连接到你的账号时，应用会显示在这里。",
+                "firstParty": "PostHog",
+                "logoAlt": "{{ name }} 的图标",
+                "noScopes": "没有权限范围",
+                "revoke": "撤销授权",
+                "revokeDescription": "这将撤销授予 {{ name }} 的所有令牌和权限。该应用将无法再访问你的 PostHog 账号。你可以随时通过该应用自己的界面重新授权。",
+                "revokeTitle": "撤销对 {{ name }} 的授权？",
+                "showLess": "收起",
+                "verified": "已验证"
+            },
             "dangerZone": {
                 "accountDeletionWarning": "删除账号<b>不可撤销</b>。你将永久失去所有数据。",
                 "allAccess": "全部权限",
@@ -748,6 +774,54 @@
             "impersonation": {
                 "description": "PostHog 支持人员可能需要以你的身份登录，以便排查问题。如果你关闭此设置，支持人员将无法直接访问你的账号。请阅读我们的 <PolicyLink>用户身份模拟政策</PolicyLink>。",
                 "label": "允许支持人员以我的身份登录"
+            },
+            "integrations": {
+                "addAccount": "添加账号/组织",
+                "alsoUsedByProject": " · 此项目也在使用",
+                "connected": "已连接",
+                "connectGithub": "连接 GitHub",
+                "desktopRunsWarning": "正在<em>进行中</em>的 PostHog Desktop 智能体运行将无法在 GitHub 上推送提交或创建拉取请求。",
+                "disconnect": "断开连接",
+                "disconnectTitle": "断开 {{ name }}？",
+                "disconnectTooltip": "断开此安装",
+                "github": "GitHub",
+                "githubEmpty": "还没有连接 GitHub 安装",
+                "githubEmptyDescription": "连接后，PostHog 可以访问你的仓库、归属提交、创建拉取请求，并以你的身份分配议题。你可以为不同账号或组织添加多个安装。",
+                "githubHint": "提示：如果在流程最后 GitHub 的 <strong>Save</strong> 按钮不可点击，在 <strong>All repositories</strong> 和 <strong>Only select repositories</strong> 之间切换一下即可继续。",
+                "githubInstallation": "GitHub 安装",
+                "githubStarting": "正在启动 GitHub 安装…",
+                "linkAnotherWorkspace": "关联其他工作区",
+                "linked": "已关联",
+                "linkSlack": "关联我的 Slack 账号",
+                "orgBadge": "组织",
+                "personalBadge": "个人",
+                "pickWorkspaceDescription": "你的组织连接了多个 Slack 工作区。请选择要绑定 PostHog 身份的那一个。",
+                "pickWorkspaceTitle": "选择要关联的 Slack 工作区",
+                "slackConnected": "Slack 已连接。",
+                "slackEmpty": "还没有关联 Slack 账号",
+                "slackEmptyDescription": "关联你的 Slack 身份后，即使 Slack 邮箱与 PostHog 邮箱不一致，@PostHog 的提及也能送达到你。",
+                "slackErrors": {
+                    "accessDenied": "Slack 授权已取消。",
+                    "exchangeFailed": "Slack 拒绝了本次授权，请重试。",
+                    "fallback": "无法连接 Slack，请重试。",
+                    "flagOff": "你的组织未启用 Slack 身份关联。",
+                    "invalidState": "Slack 关联请求已过期或无法验证，请重试。",
+                    "notConfigured": "此 PostHog 实例未配置 Slack。",
+                    "orgMismatch": "你不是该 Slack 工作区所连接的 PostHog 组织的成员。",
+                    "sessionMismatch": "此 Slack 关联是在另一个 PostHog 会话中发起的。请从设置中重新发起。",
+                    "teamMismatch": "你登录了与该流程起始时不同的 Slack 工作区。",
+                    "workspaceNotFound": "该 Slack 工作区已不再连接到 PostHog。"
+                },
+                "slackLinkHint": "你将被重定向到 Slack 以授权此 PostHog 账号。关联会把你的 Slack 用户 ID 绑定到 PostHog 账号：重定向后不会保留任何 Slack 令牌。",
+                "slackStartFailed": "无法发起 Slack 关联。",
+                "slackUnlinkDescription": "PostHog 将恢复按邮箱匹配你。如果你的 Slack 邮箱与组织内任何 PostHog 账号都不匹配，在你重新关联之前，提及不会送达到你。",
+                "slackUnlinked": "已解除 Slack 账号关联",
+                "slackUnlinkFailed": "无法解除你的 Slack 账号关联。",
+                "slackUnlinkTitle": "解除 {{ name }} 的关联？",
+                "slackWorkspace": "Slack 工作区",
+                "thisSlackWorkspace": "此 Slack 工作区",
+                "unlink": "解除关联",
+                "unlinkTooltip": "解除此 Slack 账号的关联"
             },
             "passkeys": {
                 "add": "添加通行密钥",

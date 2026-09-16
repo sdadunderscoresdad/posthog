@@ -440,6 +440,16 @@
             "untitled": ""
         }
     },
+    "integrations": {
+        "github": {
+            "disconnect": {
+                "accountStops": "",
+                "lastReference": "",
+                "projectStops": "",
+                "shared": ""
+            }
+        }
+    },
     "interval": {
         "day": "",
         "hour": "",
@@ -709,6 +719,22 @@
                     "scopeRequired": ""
                 }
             },
+            "connectedApps": {
+                "columns": {
+                    "application": "",
+                    "authorized": ""
+                },
+                "empty": "",
+                "emptyDescription": "",
+                "firstParty": "",
+                "logoAlt": "",
+                "noScopes": "",
+                "revoke": "",
+                "revokeDescription": "",
+                "revokeTitle": "",
+                "showLess": "",
+                "verified": ""
+            },
             "dangerZone": {
                 "accountDeletionWarning": "",
                 "allAccess": "",
@@ -758,6 +784,54 @@
             "impersonation": {
                 "description": "",
                 "label": ""
+            },
+            "integrations": {
+                "addAccount": "",
+                "alsoUsedByProject": "",
+                "connected": "",
+                "connectGithub": "",
+                "desktopRunsWarning": "",
+                "disconnect": "",
+                "disconnectTitle": "",
+                "disconnectTooltip": "",
+                "github": "",
+                "githubEmpty": "",
+                "githubEmptyDescription": "",
+                "githubHint": "",
+                "githubInstallation": "",
+                "githubStarting": "",
+                "linkAnotherWorkspace": "",
+                "linked": "",
+                "linkSlack": "",
+                "orgBadge": "",
+                "personalBadge": "",
+                "pickWorkspaceDescription": "",
+                "pickWorkspaceTitle": "",
+                "slackConnected": "",
+                "slackEmpty": "",
+                "slackEmptyDescription": "",
+                "slackErrors": {
+                    "accessDenied": "",
+                    "exchangeFailed": "",
+                    "fallback": "",
+                    "flagOff": "",
+                    "invalidState": "",
+                    "notConfigured": "",
+                    "orgMismatch": "",
+                    "sessionMismatch": "",
+                    "teamMismatch": "",
+                    "workspaceNotFound": ""
+                },
+                "slackLinkHint": "",
+                "slackStartFailed": "",
+                "slackUnlinkDescription": "",
+                "slackUnlinked": "",
+                "slackUnlinkFailed": "",
+                "slackUnlinkTitle": "",
+                "slackWorkspace": "",
+                "thisSlackWorkspace": "",
+                "unlink": "",
+                "unlinkTooltip": ""
             },
             "passkeys": {
                 "add": "",

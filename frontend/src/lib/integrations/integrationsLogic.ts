@@ -6,6 +6,7 @@ import { LemonDialog, lemonToast } from '@posthog/lemon-ui'
 
 import api, { ApiError, getCookie } from 'lib/api'
 import { globalSetupLogic } from 'lib/components/ProductSetup'
+import { i18n } from 'lib/i18n/i18n'
 import { buildGithubDisconnectDescription } from 'lib/integrations/githubDisconnectCopy'
 import { describeGithubSetupError, GITHUB_INSTALL_PENDING_MESSAGE } from 'lib/integrations/githubSetupErrors'
 import { describeOAuthCallbackError, INTEGRATION_ERROR_PARAM } from 'lib/integrations/oauthCallbackErrors'
@@ -1095,6 +1096,7 @@ export const integrationsLogic = kea<integrationsLogicType>([
                 description:
                     integration.kind === 'github'
                         ? buildGithubDisconnectDescription(
+                              i18n.t.bind(i18n),
                               integration.config?.account?.name || integrationName,
                               !!integration.installation_shared
                           )

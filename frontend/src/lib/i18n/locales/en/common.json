@@ -435,6 +435,16 @@
             "untitled": "Insight"
         }
     },
+    "integrations": {
+        "github": {
+            "disconnect": {
+                "accountStops": "Your account stops using GitHub.",
+                "lastReference": "This uninstalls the PostHog app from {{ accountName }} on GitHub and disconnects it from every PostHog project and personal account that uses it.",
+                "projectStops": "This project stops using GitHub.",
+                "shared": "{{ subject }} The PostHog app stays installed on GitHub because other projects or accounts still use it."
+            }
+        }
+    },
     "interval": {
         "day": "day",
         "hour": "hour",
@@ -704,6 +714,22 @@
                     "scopeRequired": "Your personal API key needs at least one scope"
                 }
             },
+            "connectedApps": {
+                "columns": {
+                    "application": "Application",
+                    "authorized": "Authorized"
+                },
+                "empty": "No connected applications",
+                "emptyDescription": "Apps will appear here when third-party tools connect to your account.",
+                "firstParty": "PostHog",
+                "logoAlt": "{{ name }} logo",
+                "noScopes": "No scopes",
+                "revoke": "Revoke",
+                "revokeDescription": "This will revoke all tokens and permissions granted to {{ name }}. The app will no longer be able to access your PostHog account. You can re-authorize it at any time through the application's own interface.",
+                "revokeTitle": "Revoke access for {{ name }}?",
+                "showLess": "Show less",
+                "verified": "Verified"
+            },
             "dangerZone": {
                 "accountDeletionWarning": "Account deletion <b>cannot be undone</b>. You will lose all your data permanently.",
                 "allAccess": "All access",
@@ -753,6 +779,54 @@
             "impersonation": {
                 "description": "PostHog support staff may need to log in as you to help debug issues. If you disable this setting, support staff will not be able to access your account directly. Read our <PolicyLink>policy on user impersonation</PolicyLink>.",
                 "label": "Allow support to log in as me"
+            },
+            "integrations": {
+                "addAccount": "Add account/organization",
+                "alsoUsedByProject": " · Also used by this project",
+                "connected": "Connected",
+                "connectGithub": "Connect GitHub",
+                "desktopRunsWarning": "Any PostHog Desktop agent runs <em>currently in progress</em> will be unable to push commits or open pull requests on GitHub.",
+                "disconnect": "Disconnect",
+                "disconnectTitle": "Disconnect {{ name }}?",
+                "disconnectTooltip": "Disconnect this installation",
+                "github": "GitHub",
+                "githubEmpty": "No GitHub installations connected yet",
+                "githubEmptyDescription": "Connect to let PostHog access your repos, attribute commits, open pull requests, and assign issues as you. You can add multiple installations for different accounts or organizations.",
+                "githubHint": "Heads up: if GitHub's <strong>Save</strong> button is disabled at the end of the flow, flip between <strong>All repositories</strong> and <strong>Only select repositories</strong> to proceed.",
+                "githubInstallation": "GitHub installation",
+                "githubStarting": "Starting GitHub installation…",
+                "linkAnotherWorkspace": "Link another workspace",
+                "linked": "Linked",
+                "linkSlack": "Link my Slack account",
+                "orgBadge": "Org",
+                "personalBadge": "Personal",
+                "pickWorkspaceDescription": "Your organizations are connected to multiple Slack workspaces. Pick the one you want to bind your PostHog identity to.",
+                "pickWorkspaceTitle": "Pick a Slack workspace to link",
+                "slackConnected": "Slack connected.",
+                "slackEmpty": "No Slack account linked",
+                "slackEmptyDescription": "Link your Slack identity so @PostHog mentions route to you even when your Slack email and PostHog email don't match.",
+                "slackErrors": {
+                    "accessDenied": "Slack authorization was canceled.",
+                    "exchangeFailed": "Slack rejected the authorization. Please try again.",
+                    "fallback": "Could not connect Slack. Please try again.",
+                    "flagOff": "Slack identity linking isn't enabled for this organization.",
+                    "invalidState": "The Slack link request expired or could not be verified. Please try again.",
+                    "notConfigured": "Slack is not configured for this PostHog instance.",
+                    "orgMismatch": "You aren't a member of the PostHog organization connected to this Slack workspace.",
+                    "sessionMismatch": "This Slack link was started in a different PostHog session. Please start the link again from settings.",
+                    "teamMismatch": "You signed in to a different Slack workspace than the one that started this flow.",
+                    "workspaceNotFound": "The Slack workspace is no longer connected to PostHog."
+                },
+                "slackLinkHint": "You'll be redirected to Slack to authorize this PostHog account. The link binds your Slack user id to your PostHog account: no Slack token is kept after the redirect.",
+                "slackStartFailed": "Could not start Slack linking.",
+                "slackUnlinkDescription": "PostHog will go back to matching you by email. If your Slack email doesn't match any PostHog account in the organization, mentions won't route to you until you link again.",
+                "slackUnlinked": "Unlinked your Slack account",
+                "slackUnlinkFailed": "Could not unlink your Slack account.",
+                "slackUnlinkTitle": "Unlink {{ name }}?",
+                "slackWorkspace": "Slack workspace",
+                "thisSlackWorkspace": "this Slack workspace",
+                "unlink": "Unlink",
+                "unlinkTooltip": "Unlink this Slack account"
             },
             "passkeys": {
                 "add": "Add passkey",

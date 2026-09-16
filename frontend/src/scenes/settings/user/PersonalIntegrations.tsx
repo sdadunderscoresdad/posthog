@@ -1,4 +1,6 @@
+import type { TFunction } from 'i18next'
 import { useActions, useValues } from 'kea'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconGithub, IconPlus, IconTrash } from '@posthog/icons'
 import { LemonBanner, LemonButton, LemonDialog, LemonSkeleton } from '@posthog/lemon-ui'
@@ -20,6 +22,7 @@ import {
 } from './personalIntegrationsLogic'
 
 function GitHubInstallationRow({ integration }: { integration: PersonalGitHubIntegration }): JSX.Element {
+    const { t } = useTranslation()
     const { disconnectGitHub } = useActions(personalIntegrationsLogic)
 
     const installationId = integration.installation_id
@@ -35,15 +38,24 @@ function GitHubInstallationRow({ integration }: { integration: PersonalGitHubInt
 
     const handleDisconnect = (): void => {
         LemonDialog.open({
-            title: `Disconnect ${accountName || 'GitHub installation'}?`,
+            title: t('settings.user.integrations.disconnectTitle', {
+                defaultValue: 'Disconnect {{ name }}?',
+                name:
+                    accountName ||
+                    t('settings.user.integrations.githubInstallation', { defaultValue: 'GitHub installation' }),
+            }),
             description: (
                 <>
                     <LemonBanner type="warning" className="my-4 text-balance">
-                        Any PostHog Desktop agent runs <em>currently in progress</em> will be unable to push commits or
-                        open pull requests on GitHub.
+                        <Trans
+                            i18nKey="settings.user.integrations.desktopRunsWarning"
+                            components={{ em: <em /> }}
+                            defaults="Any PostHog Desktop agent runs <em>currently in progress</em> will be unable to push commits or open pull requests on GitHub."
+                        />
                     </LemonBanner>
                     <p>
                         {buildGithubDisconnectDescription(
+                            t,
                             accountName || 'this account',
                             !!integration.installation_shared,
                             'account'
@@ -52,11 +64,11 @@ function GitHubInstallationRow({ integration }: { integration: PersonalGitHubInt
                 </>
             ),
             primaryButton: {
-                children: 'Disconnect',
+                children: t('settings.user.integrations.disconnect', { defaultValue: 'Disconnect' }),
                 status: 'danger',
                 onClick: () => installationId && disconnectGitHub(installationId),
             },
-            secondaryButton: { children: 'Cancel' },
+            secondaryButton: { children: t('settings.cancel', { defaultValue: 'Cancel' }) },
         })
     }
 
@@ -69,22 +81,33 @@ function GitHubInstallationRow({ integration }: { integration: PersonalGitHubInt
             </div>
             <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
-                    <span className="font-semibold">{accountName || 'GitHub'}</span>
+                    <span className="font-semibold">
+                        {accountName || t('settings.user.integrations.github', { defaultValue: 'GitHub' })}
+                    </span>
                     {accountType === 'Organization' ? (
-                        <span className="text-xs text-muted bg-surface-secondary px-1.5 py-0.5 rounded">Org</span>
+                        <span className="text-xs text-muted bg-surface-secondary px-1.5 py-0.5 rounded">
+                            {t('settings.user.integrations.orgBadge', { defaultValue: 'Org' })}
+                        </span>
                     ) : (
-                        <span className="text-xs text-muted bg-surface-secondary px-1.5 py-0.5 rounded">Personal</span>
+                        <span className="text-xs text-muted bg-surface-secondary px-1.5 py-0.5 rounded">
+                            {t('settings.user.integrations.personalBadge', { defaultValue: 'Personal' })}
+                        </span>
                     )}
                 </div>
                 <div className="mt-0.5 text-xs text-secondary">
                     {integration.created_at ? (
                         <>
-                            Connected <TZLabel time={integration.created_at} className="align-baseline" />
+                            {t('settings.user.integrations.connected', { defaultValue: 'Connected' })}{' '}
+                            <TZLabel time={integration.created_at} className="align-baseline" />
                         </>
                     ) : (
-                        'Connected'
+                        t('settings.user.integrations.connected', { defaultValue: 'Connected' })
                     )}
-                    {integration.uses_shared_installation ? ' · Also used by this project' : ''}
+                    {integration.uses_shared_installation
+                        ? t('settings.user.integrations.alsoUsedByProject', {
+                              defaultValue: ' · Also used by this project',
+                          })
+                        : ''}
                 </div>
                 <div className="mt-1">
                     <GitHubRepoSummary
@@ -111,7 +134,9 @@ function GitHubInstallationRow({ integration }: { integration: PersonalGitHubInt
                     status="danger"
                     icon={<IconTrash />}
                     onClick={handleDisconnect}
-                    tooltip="Disconnect this installation"
+                    tooltip={t('settings.user.integrations.disconnectTooltip', {
+                        defaultValue: 'Disconnect this installation',
+                    })}
                 />
             </div>
         </div>
@@ -119,23 +144,31 @@ function GitHubInstallationRow({ integration }: { integration: PersonalGitHubInt
 }
 
 function SlackLinkRow({ integration }: { integration: PersonalSlackIntegration }): JSX.Element {
+    const { t } = useTranslation()
     const { disconnectSlack } = useActions(personalIntegrationsLogic)
 
     const handleUnlink = (): void => {
         LemonDialog.open({
-            title: `Unlink ${integration.slack_team_name || 'this Slack workspace'}?`,
+            title: t('settings.user.integrations.slackUnlinkTitle', {
+                defaultValue: 'Unlink {{ name }}?',
+                name:
+                    integration.slack_team_name ||
+                    t('settings.user.integrations.thisSlackWorkspace', { defaultValue: 'this Slack workspace' }),
+            }),
             description: (
                 <p>
-                    PostHog will go back to matching you by email. If your Slack email doesn't match any PostHog account
-                    in the organization, mentions won't route to you until you link again.
+                    {t('settings.user.integrations.slackUnlinkDescription', {
+                        defaultValue:
+                            "PostHog will go back to matching you by email. If your Slack email doesn't match any PostHog account in the organization, mentions won't route to you until you link again.",
+                    })}
                 </p>
             ),
             primaryButton: {
-                children: 'Unlink',
+                children: t('settings.user.integrations.unlink', { defaultValue: 'Unlink' }),
                 status: 'danger',
                 onClick: () => disconnectSlack(integration.slack_user_id),
             },
-            secondaryButton: { children: 'Cancel' },
+            secondaryButton: { children: t('settings.cancel', { defaultValue: 'Cancel' }) },
         })
     }
 
@@ -148,7 +181,10 @@ function SlackLinkRow({ integration }: { integration: PersonalSlackIntegration }
             </div>
             <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
-                    <span className="font-semibold">{integration.slack_team_name || 'Slack workspace'}</span>
+                    <span className="font-semibold">
+                        {integration.slack_team_name ||
+                            t('settings.user.integrations.slackWorkspace', { defaultValue: 'Slack workspace' })}
+                    </span>
                     <span className="text-xs text-muted bg-surface-secondary px-1.5 py-0.5 rounded font-mono">
                         {integration.slack_user_id}
                     </span>
@@ -156,10 +192,11 @@ function SlackLinkRow({ integration }: { integration: PersonalSlackIntegration }
                 <div className="mt-0.5 text-xs text-secondary">
                     {integration.created_at ? (
                         <>
-                            Linked <TZLabel time={integration.created_at} className="align-baseline" />
+                            {t('settings.user.integrations.linked', { defaultValue: 'Linked' })}{' '}
+                            <TZLabel time={integration.created_at} className="align-baseline" />
                         </>
                     ) : (
-                        'Linked'
+                        t('settings.user.integrations.linked', { defaultValue: 'Linked' })
                     )}
                     {integration.slack_email_at_link ? ` · ${integration.slack_email_at_link}` : ''}
                 </div>
@@ -171,7 +208,9 @@ function SlackLinkRow({ integration }: { integration: PersonalSlackIntegration }
                     status="danger"
                     icon={<IconTrash />}
                     onClick={handleUnlink}
-                    tooltip="Unlink this Slack account"
+                    tooltip={t('settings.user.integrations.unlinkTooltip', {
+                        defaultValue: 'Unlink this Slack account',
+                    })}
                 />
             </div>
         </div>
@@ -179,6 +218,7 @@ function SlackLinkRow({ integration }: { integration: PersonalSlackIntegration }
 }
 
 export function PersonalGitHubIntegrations(): JSX.Element {
+    const { t } = useTranslation()
     const { integrations, integrationsLoading, githubConnecting } = useValues(personalIntegrationsLogic)
     const { connectGitHub, startPolling, stopPolling } = useActions(personalIntegrationsLogic)
     const { reportPersonalIntegrationConnectClicked } = useActions(eventUsageLogic)
@@ -210,10 +250,16 @@ export function PersonalGitHubIntegrations(): JSX.Element {
                 {integrations.length === 0 ? (
                     <div className="px-4 py-6 text-center text-sm text-secondary">
                         <IconGithub className="text-3xl mb-2 opacity-40" />
-                        <p className="mb-1">No GitHub installations connected yet</p>
+                        <p className="mb-1">
+                            {t('settings.user.integrations.githubEmpty', {
+                                defaultValue: 'No GitHub installations connected yet',
+                            })}
+                        </p>
                         <p className="text-xs text-muted text-balance">
-                            Connect to let PostHog access your repos, attribute commits, open pull requests, and assign
-                            issues as you. You can add multiple installations for different accounts or organizations.
+                            {t('settings.user.integrations.githubEmptyDescription', {
+                                defaultValue:
+                                    'Connect to let PostHog access your repos, attribute commits, open pull requests, and assign issues as you. You can add multiple installations for different accounts or organizations.',
+                            })}
                         </p>
                     </div>
                 ) : (
@@ -231,14 +277,26 @@ export function PersonalGitHubIntegrations(): JSX.Element {
                             connectGitHub()
                         }}
                         loading={githubConnecting}
-                        disabledReason={githubConnecting ? 'Starting GitHub installation…' : undefined}
+                        disabledReason={
+                            githubConnecting
+                                ? t('settings.user.integrations.githubStarting', {
+                                      defaultValue: 'Starting GitHub installation…',
+                                  })
+                                : undefined
+                        }
                     >
-                        {integrations.length === 0 ? 'Connect GitHub' : 'Add account/organization'}
+                        {integrations.length === 0
+                            ? t('settings.user.integrations.connectGithub', { defaultValue: 'Connect GitHub' })
+                            : t('settings.user.integrations.addAccount', {
+                                  defaultValue: 'Add account/organization',
+                              })}
                     </LemonButton>
                     <span className="text-xs text-secondary text-balance">
-                        Heads up: if GitHub's <strong>Save</strong> button is disabled at the end of the flow, flip
-                        between <strong>All repositories</strong> and <strong>Only select repositories</strong> to
-                        proceed.
+                        <Trans
+                            i18nKey="settings.user.integrations.githubHint"
+                            components={{ strong: <strong /> }}
+                            defaults="Heads up: if GitHub's <strong>Save</strong> button is disabled at the end of the flow, flip between <strong>All repositories</strong> and <strong>Only select repositories</strong> to proceed."
+                        />
                     </span>
                 </div>
             </div>
@@ -247,16 +305,21 @@ export function PersonalGitHubIntegrations(): JSX.Element {
 }
 
 function openSlackWorkspacePicker(
+    t: TFunction,
     workspaces: LinkableSlackWorkspace[],
     connectSlack: (payload: { workspace: LinkableSlackWorkspace }) => void
 ): void {
     LemonDialog.open({
-        title: 'Pick a Slack workspace to link',
+        title: t('settings.user.integrations.pickWorkspaceTitle', {
+            defaultValue: 'Pick a Slack workspace to link',
+        }),
         description: (
             <div className="deprecated-space-y-2">
                 <p className="text-sm text-secondary">
-                    Your organizations are connected to multiple Slack workspaces. Pick the one you want to bind your
-                    PostHog identity to.
+                    {t('settings.user.integrations.pickWorkspaceDescription', {
+                        defaultValue:
+                            'Your organizations are connected to multiple Slack workspaces. Pick the one you want to bind your PostHog identity to.',
+                    })}
                 </p>
                 <div className="divide-y rounded border">
                     {workspaces.map((workspace) => (
@@ -282,11 +345,12 @@ function openSlackWorkspacePicker(
             </div>
         ),
         primaryButton: null,
-        secondaryButton: { children: 'Cancel' },
+        secondaryButton: { children: t('settings.cancel', { defaultValue: 'Cancel' }) },
     })
 }
 
 export function PersonalSlackIntegrations(): JSX.Element {
+    const { t } = useTranslation()
     const {
         slackIntegrations,
         slackIntegrationsLoading,
@@ -299,7 +363,7 @@ export function PersonalSlackIntegrations(): JSX.Element {
     const hasLinkableWorkspaces = linkableSlackWorkspaces.length > 0
     const onConnect = (): void => {
         if (linkableSlackWorkspaces.length > 1) {
-            openSlackWorkspacePicker(linkableSlackWorkspaces, connectSlack)
+            openSlackWorkspacePicker(t, linkableSlackWorkspaces, connectSlack)
         } else if (linkableSlackWorkspaces.length === 1) {
             connectSlack({ workspace: linkableSlackWorkspaces[0] })
         }
@@ -312,10 +376,14 @@ export function PersonalSlackIntegrations(): JSX.Element {
             ) : slackIntegrations.length === 0 ? (
                 <div className="px-4 py-6 text-center text-sm text-secondary">
                     <IconSlack className="text-3xl mb-2 opacity-40" />
-                    <p className="mb-1">No Slack account linked</p>
+                    <p className="mb-1">
+                        {t('settings.user.integrations.slackEmpty', { defaultValue: 'No Slack account linked' })}
+                    </p>
                     <p className="text-xs text-muted text-balance">
-                        Link your Slack identity so @PostHog mentions route to you even when your Slack email and
-                        PostHog email don't match.
+                        {t('settings.user.integrations.slackEmptyDescription', {
+                            defaultValue:
+                                "Link your Slack identity so @PostHog mentions route to you even when your Slack email and PostHog email don't match.",
+                        })}
                     </p>
                 </div>
             ) : (
@@ -334,13 +402,21 @@ export function PersonalSlackIntegrations(): JSX.Element {
                         icon={<IconPlus />}
                         onClick={onConnect}
                         loading={slackConnectLoading || linkableSlackWorkspacesLoading}
-                        disabledReason={!hasLinkableWorkspaces ? 'Loading…' : undefined}
+                        disabledReason={
+                            !hasLinkableWorkspaces ? t('settings.loading', { defaultValue: 'Loading...' }) : undefined
+                        }
                     >
-                        {slackIntegrations.length === 0 ? 'Link my Slack account' : 'Link another workspace'}
+                        {slackIntegrations.length === 0
+                            ? t('settings.user.integrations.linkSlack', { defaultValue: 'Link my Slack account' })
+                            : t('settings.user.integrations.linkAnotherWorkspace', {
+                                  defaultValue: 'Link another workspace',
+                              })}
                     </LemonButton>
                     <span className="text-xs text-secondary text-balance">
-                        You'll be redirected to Slack to authorize this PostHog account. The link binds your Slack user
-                        id to your PostHog account — no Slack token is kept after the redirect.
+                        {t('settings.user.integrations.slackLinkHint', {
+                            defaultValue:
+                                "You'll be redirected to Slack to authorize this PostHog account. The link binds your Slack user id to your PostHog account: no Slack token is kept after the redirect.",
+                        })}
                     </span>
                 </div>
             )}

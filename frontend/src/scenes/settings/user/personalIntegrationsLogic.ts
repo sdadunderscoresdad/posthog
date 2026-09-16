@@ -4,6 +4,7 @@ import { loaders } from 'kea-loaders'
 import { lemonToast } from '@posthog/lemon-ui'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { githubInstallRequestsLogic } from 'lib/integrations/githubInstallRequestsLogic'
 import { describeGithubLinkError } from 'lib/integrations/githubSetupErrors'
 import { integrationsLogic } from 'lib/integrations/integrationsLogic'
@@ -53,19 +54,53 @@ export interface LinkableSlackWorkspace {
     slack_team_name: string | null
 }
 
-const SLACK_LINK_ERROR_MESSAGES: Record<string, string> = {
-    access_denied: 'Slack authorization was canceled.',
-    invalid_state: 'The Slack link request expired or could not be verified. Please try again.',
-    workspace_not_found: 'The Slack workspace is no longer connected to PostHog.',
-    flag_off: "Slack identity linking isn't enabled for this organization.",
-    exchange_failed: 'Slack rejected the authorization. Please try again.',
-    team_mismatch: 'You signed in to a different Slack workspace than the one that started this flow.',
-    org_mismatch: "You aren't a member of the PostHog organization connected to this Slack workspace.",
-    session_mismatch:
-        'This Slack link was started in a different PostHog session. Please start the link again from settings.',
-    not_configured: 'Slack is not configured for this PostHog instance.',
+/**
+ * Resolved through `i18n` at call time rather than kept as a module constant, because a message read
+ * at import time keeps whatever language the module happened to load in.
+ */
+function slackLinkErrorMessage(code: string | undefined): string | undefined {
+    switch (code) {
+        case 'access_denied':
+            return i18n.t('settings.user.integrations.slackErrors.accessDenied', {
+                defaultValue: 'Slack authorization was canceled.',
+            })
+        case 'invalid_state':
+            return i18n.t('settings.user.integrations.slackErrors.invalidState', {
+                defaultValue: 'The Slack link request expired or could not be verified. Please try again.',
+            })
+        case 'workspace_not_found':
+            return i18n.t('settings.user.integrations.slackErrors.workspaceNotFound', {
+                defaultValue: 'The Slack workspace is no longer connected to PostHog.',
+            })
+        case 'flag_off':
+            return i18n.t('settings.user.integrations.slackErrors.flagOff', {
+                defaultValue: "Slack identity linking isn't enabled for this organization.",
+            })
+        case 'exchange_failed':
+            return i18n.t('settings.user.integrations.slackErrors.exchangeFailed', {
+                defaultValue: 'Slack rejected the authorization. Please try again.',
+            })
+        case 'team_mismatch':
+            return i18n.t('settings.user.integrations.slackErrors.teamMismatch', {
+                defaultValue: 'You signed in to a different Slack workspace than the one that started this flow.',
+            })
+        case 'org_mismatch':
+            return i18n.t('settings.user.integrations.slackErrors.orgMismatch', {
+                defaultValue: "You aren't a member of the PostHog organization connected to this Slack workspace.",
+            })
+        case 'session_mismatch':
+            return i18n.t('settings.user.integrations.slackErrors.sessionMismatch', {
+                defaultValue:
+                    'This Slack link was started in a different PostHog session. Please start the link again from settings.',
+            })
+        case 'not_configured':
+            return i18n.t('settings.user.integrations.slackErrors.notConfigured', {
+                defaultValue: 'Slack is not configured for this PostHog instance.',
+            })
+        default:
+            return undefined
+    }
 }
-const SLACK_LINK_ERROR_FALLBACK = 'Could not connect Slack. Please try again.'
 
 const PERSONAL_INTEGRATIONS_POLL_INTERVAL_MS = 30_000
 
@@ -317,7 +352,12 @@ export const personalIntegrationsLogic = kea<personalIntegrationsLogicType>([
                                   (Array.isArray((error as any).data) ? (error as any).data[0] : undefined) ||
                                   error.message
                                 : undefined
-                        lemonToast.error(message || 'Could not start Slack linking.')
+                        lemonToast.error(
+                            message ||
+                                i18n.t('settings.user.integrations.slackStartFailed', {
+                                    defaultValue: 'Could not start Slack linking.',
+                                })
+                        )
                         return false
                     }
                 },
@@ -367,13 +407,19 @@ export const personalIntegrationsLogic = kea<personalIntegrationsLogicType>([
         disconnectSlack: async ({ slackUserId }) => {
             try {
                 await usersIntegrationsSlackDestroy('@me', slackUserId)
-                lemonToast.success('Unlinked your Slack account')
+                lemonToast.success(
+                    i18n.t('settings.user.integrations.slackUnlinked', { defaultValue: 'Unlinked your Slack account' })
+                )
                 actions.loadSlackIntegrations()
                 // Refresh linkable so the just-unlinked workspace re-appears
                 // in the connect picker without a page reload.
                 actions.loadLinkableSlackWorkspaces()
             } catch {
-                lemonToast.error('Could not unlink your Slack account.')
+                lemonToast.error(
+                    i18n.t('settings.user.integrations.slackUnlinkFailed', {
+                        defaultValue: 'Could not unlink your Slack account.',
+                    })
+                )
             }
         },
         connectGitHub: async () => {
@@ -436,10 +482,17 @@ export const personalIntegrationsLogic = kea<personalIntegrationsLogicType>([
             }
 
             if (params.has('slack_link_success')) {
-                lemonToast.success('Slack connected.')
+                lemonToast.success(
+                    i18n.t('settings.user.integrations.slackConnected', { defaultValue: 'Slack connected.' })
+                )
             } else if (params.has('slack_link_error')) {
                 const reason = params.get('slack_link_error') ?? ''
-                lemonToast.error(SLACK_LINK_ERROR_MESSAGES[reason] ?? SLACK_LINK_ERROR_FALLBACK)
+                lemonToast.error(
+                    slackLinkErrorMessage(reason) ??
+                        i18n.t('settings.user.integrations.slackErrors.fallback', {
+                            defaultValue: 'Could not connect Slack. Please try again.',
+                        })
+                )
             }
         },
     })),

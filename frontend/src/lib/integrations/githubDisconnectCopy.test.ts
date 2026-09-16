@@ -1,3 +1,5 @@
+import { i18n } from 'lib/i18n/i18n'
+
 import { buildGithubDisconnectDescription } from './githubDisconnectCopy'
 
 describe('buildGithubDisconnectDescription', () => {
@@ -27,6 +29,6 @@ describe('buildGithubDisconnectDescription', () => {
             'This uninstalls the PostHog app from PostHog on GitHub and disconnects it from every PostHog project and personal account that uses it.',
         ],
     ])('%s', (_name, installationShared, scope, expected) => {
-        expect(buildGithubDisconnectDescription('PostHog', installationShared, scope)).toBe(expected)
+        expect(buildGithubDisconnectDescription(i18n.t.bind(i18n), 'PostHog', installationShared, scope)).toBe(expected)
     })
 })
