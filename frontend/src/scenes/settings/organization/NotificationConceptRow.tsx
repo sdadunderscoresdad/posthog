@@ -1,4 +1,5 @@
 import { useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonCollapse } from '@posthog/lemon-ui'
 
@@ -18,6 +19,7 @@ function CollapseHeader({ label, count }: { label: string; count: number }): JSX
 }
 
 export function NotificationConceptRow({ concept }: { concept: NotificationConcept }): JSX.Element {
+    const { t } = useTranslation()
     const { currentOrganization } = useValues(organizationLogic)
     const { ruleCountByList } = useValues(notificationGovernanceLogic)
 
@@ -43,8 +45,10 @@ export function NotificationConceptRow({ concept }: { concept: NotificationConce
                             {concept.perProject ? (
                                 <>
                                     <p className="text-muted text-xs mb-0">
-                                        Set per project, for named people. Someone added to a project later has no
-                                        override until you give them one.
+                                        {t('settings.organization.notifications.perProjectNote', {
+                                            defaultValue:
+                                                'Set per project, for named people. Someone added to a project later has no override until you give them one.',
+                                        })}
                                     </p>
                                     <LemonCollapse
                                         multiple

@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonInput } from '@posthog/lemon-ui'
 
@@ -12,11 +13,24 @@ import type { OrganizationPersonalAPIKeyApi } from 'products/platform_features/f
 import { organizationPersonalAPIKeysLogic } from './organizationPersonalAPIKeysLogic'
 
 function AccessScope({ accessScope }: { accessScope: OrganizationPersonalAPIKeyApi['access_scope'] }): JSX.Element {
+    const { t } = useTranslation()
     if (accessScope.type === 'all') {
-        return <span className="text-muted">All projects (unscoped)</span>
+        return (
+            <span className="text-muted">
+                {t('settings.organization.personalApiKeysTable.allProjects', {
+                    defaultValue: 'All projects (unscoped)',
+                })}
+            </span>
+        )
     }
     if (accessScope.type === 'organization') {
-        return <span>Organization-wide</span>
+        return (
+            <span>
+                {t('settings.organization.personalApiKeysTable.organizationWide', {
+                    defaultValue: 'Organization-wide',
+                })}
+            </span>
+        )
     }
     return <TagList tags={(accessScope.projects ?? []).map((project) => project.name)} />
 }
@@ -26,12 +40,13 @@ function ownerLabel(owner: OrganizationPersonalAPIKeyApi['owner']): string {
 }
 
 export function OrganizationPersonalAPIKeysTable(): JSX.Element {
+    const { t } = useTranslation()
     const { filteredKeys, keysLoading, search } = useValues(organizationPersonalAPIKeysLogic)
     const { setSearch } = useActions(organizationPersonalAPIKeysLogic)
 
     const columns: LemonTableColumns<OrganizationPersonalAPIKeyApi> = [
         {
-            title: 'Owner',
+            title: t('settings.organization.personalApiKeysTable.columns.owner', { defaultValue: 'Owner' }),
             key: 'owner',
             sorter: (a, b) => ownerLabel(a.owner).localeCompare(ownerLabel(b.owner)),
             render: (_, key) => (
@@ -42,30 +57,40 @@ export function OrganizationPersonalAPIKeysTable(): JSX.Element {
             ),
         },
         {
-            title: 'Masked value',
+            title: t('settings.organization.personalApiKeysTable.columns.maskedValue', {
+                defaultValue: 'Masked value',
+            }),
             key: 'mask_value',
             sorter: (a, b) => a.mask_value.localeCompare(b.mask_value),
             render: (_, key) => <span className="font-mono">{key.mask_value}</span>,
         },
         {
-            title: 'Scopes',
+            title: t('settings.apiKeys.columns.scopes', { defaultValue: 'Scopes' }),
             key: 'scopes',
             render: (_, key) => <TagList tags={[...key.scopes]} />,
         },
         {
-            title: 'Access scope',
+            title: t('settings.organization.personalApiKeysTable.columns.accessScope', {
+                defaultValue: 'Access scope',
+            }),
             key: 'access_scope',
             render: (_, key) => <AccessScope accessScope={key.access_scope} />,
         },
         {
-            title: 'Last used',
+            title: t('settings.apiKeys.columns.lastUsed', { defaultValue: 'Last used' }),
             key: 'last_used_at',
             sorter: (a, b) => new Date(a.last_used_at ?? 0).getTime() - new Date(b.last_used_at ?? 0).getTime(),
             render: (_, key) =>
-                key.last_used_at ? <TZLabel time={key.last_used_at} /> : <span className="text-muted">Never</span>,
+                key.last_used_at ? (
+                    <TZLabel time={key.last_used_at} />
+                ) : (
+                    <span className="text-muted">
+                        {t('settings.organization.members.never', { defaultValue: 'Never' })}
+                    </span>
+                ),
         },
         {
-            title: 'Created',
+            title: t('settings.apiKeys.columns.created', { defaultValue: 'Created' }),
             key: 'created_at',
             sorter: (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
             render: (_, key) => <TZLabel time={key.created_at} />,
@@ -77,7 +102,9 @@ export function OrganizationPersonalAPIKeysTable(): JSX.Element {
             <div className="mb-2">
                 <LemonInput
                     type="search"
-                    placeholder="Search by name, email, or scope"
+                    placeholder={t('settings.organization.personalApiKeysTable.searchPlaceholder', {
+                        defaultValue: 'Search by name, email, or scope',
+                    })}
                     value={search}
                     onChange={setSearch}
                     className="max-w-80"
@@ -91,8 +118,12 @@ export function OrganizationPersonalAPIKeysTable(): JSX.Element {
                 pagination={{ pageSize: 25 }}
                 emptyState={
                     search.trim()
-                        ? 'No personal API keys match your search.'
-                        : 'No personal API keys have access to this organization.'
+                        ? t('settings.organization.personalApiKeysTable.noMatch', {
+                              defaultValue: 'No personal API keys match your search.',
+                          })
+                        : t('settings.organization.personalApiKeysTable.empty', {
+                              defaultValue: 'No personal API keys have access to this organization.',
+                          })
                 }
             />
         </>

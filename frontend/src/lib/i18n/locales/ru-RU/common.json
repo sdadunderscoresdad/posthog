@@ -680,6 +680,10 @@
             "ipAnonymizationDefault": {
                 "label": ""
             },
+            "mcpAccess": {
+                "label": "",
+                "tooltip": ""
+            },
             "members": {
                 "addOwnerDescription": "",
                 "addOwnerTitle": "",
@@ -726,7 +730,123 @@
                 "upgradeTo": "",
                 "you": ""
             },
+            "notifications": {
+                "changeCount_one": "",
+                "changeCount_few": "",
+                "changeCount_many": "",
+                "changeCount_other": "",
+                "concepts": {
+                    "commentMentions": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "errorTrackingDigest": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "issueAssigned": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "matviewDaily": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "matviewFailures": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "matviewImmediate": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "memberJoined": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "pipelineErrors": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "webAnalyticsDigest": {
+                        "description": "",
+                        "label": ""
+                    },
+                    "weeklyDigest": {
+                        "description": "",
+                        "label": ""
+                    }
+                },
+                "discard": "",
+                "firstPage": "",
+                "higherAccess": "",
+                "lastPage": "",
+                "loadFailed": "",
+                "loadingMembers": "",
+                "memberCount_one": "",
+                "memberCount_few": "",
+                "memberCount_many": "",
+                "memberCount_other": "",
+                "next": "",
+                "noMatchingMembers": "",
+                "noMembers": "",
+                "noProjectNote": "",
+                "pageOf": "",
+                "pendingChanges": "",
+                "perProjectNote": "",
+                "previous": "",
+                "rules": {
+                    "none": "",
+                    "off": "",
+                    "on": ""
+                },
+                "saved": "",
+                "saveDescription_one": "",
+                "saveDescription_few": "",
+                "saveDescription_many": "",
+                "saveDescription_other": "",
+                "saveFailed": "",
+                "saveTitle": "",
+                "saving": "",
+                "scopeNotice": "",
+                "searchMembers": "",
+                "setAll_one": "",
+                "setAll_few": "",
+                "setAll_many": "",
+                "setAll_other": "",
+                "setMatching_one": "",
+                "setMatching_few": "",
+                "setMatching_many": "",
+                "setMatching_other": "",
+                "showing": "",
+                "showingMatching": "",
+                "tryAgain": ""
+            },
             "notLoaded": "",
+            "oauthApps": {
+                "clientId": "",
+                "clientIdLabel": "",
+                "connected": "",
+                "copyClientId": "",
+                "copyUri": "",
+                "empty": "",
+                "emptyDescription": "",
+                "none": "",
+                "redirectUriLabel": "",
+                "redirectUris": ""
+            },
+            "personalApiKeysTable": {
+                "allProjects": "",
+                "columns": {
+                    "accessScope": "",
+                    "maskedValue": "",
+                    "owner": ""
+                },
+                "empty": "",
+                "noMatch": "",
+                "organizationWide": "",
+                "searchPlaceholder": ""
+            },
             "security": {
                 "disableSharing": "",
                 "disableSharingParagraph1": "",

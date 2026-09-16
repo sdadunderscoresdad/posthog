@@ -1,18 +1,24 @@
+import type { TFunction } from 'i18next'
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonInput, LemonSegmentedButton, LemonTag } from '@posthog/lemon-ui'
 
 import { membershipLevelToName } from 'lib/utils/permissioning'
-import { pluralize } from 'lib/utils/strings'
 
 import type { NotificationConcept, NotificationRuleValue } from '../shared/notificationSettingDescriptors'
 import { MEMBERS_PER_PAGE, listKey, notificationGovernanceLogic, ruleFor } from './notificationGovernanceLogic'
 
-const OPTIONS: { value: NotificationRuleValue; label: string }[] = [
-    { value: 'none', label: 'No override' },
-    { value: 'on', label: 'Always on' },
-    { value: 'off', label: 'Always off' },
-]
+function ruleOptions(t: TFunction): { value: NotificationRuleValue; label: string }[] {
+    return [
+        {
+            value: 'none',
+            label: t('settings.organization.notifications.rules.none', { defaultValue: 'No override' }),
+        },
+        { value: 'on', label: t('settings.organization.notifications.rules.on', { defaultValue: 'Always on' }) },
+        { value: 'off', label: t('settings.organization.notifications.rules.off', { defaultValue: 'Always off' }) },
+    ]
+}
 
 export function NotificationMemberList({
     concept,
@@ -21,6 +27,7 @@ export function NotificationMemberList({
     concept: NotificationConcept
     scopeId: string
 }): JSX.Element {
+    const { t } = useTranslation()
     const { pendingRules, savedRules, savingChanges, memberListFor } = useValues(notificationGovernanceLogic)
     const { setRule, setRuleForMany, setListQuery, setListPage } = useActions(notificationGovernanceLogic)
 
@@ -33,7 +40,9 @@ export function NotificationMemberList({
                 <LemonInput
                     type="search"
                     size="small"
-                    placeholder="Search members"
+                    placeholder={t('settings.organization.notifications.searchMembers', {
+                        defaultValue: 'Search members',
+                    })}
                     value={query}
                     onChange={(next) => setListQuery(list, next)}
                     className="w-56"
@@ -41,16 +50,28 @@ export function NotificationMemberList({
                 />
                 <span className="text-muted text-xs ml-auto">
                     {searching
-                        ? `Set ${pluralize(editableIds.length, 'matching member')} to`
-                        : `Set all ${pluralize(editableIds.length, 'member')} to`}
+                        ? t('settings.organization.notifications.setMatching', {
+                              defaultValue: 'Set {{ count }} matching member to',
+                              defaultValue_other: 'Set {{ count }} matching members to',
+                              count: editableIds.length,
+                          })
+                        : t('settings.organization.notifications.setAll', {
+                              defaultValue: 'Set all {{ count }} member to',
+                              defaultValue_other: 'Set all {{ count }} members to',
+                              count: editableIds.length,
+                          })}
                 </span>
-                {OPTIONS.map((option) => (
+                {ruleOptions(t).map((option) => (
                     <LemonButton
                         key={option.value}
                         size="xsmall"
                         type="secondary"
                         onClick={() => setRuleForMany(concept.setting, scopeId, editableIds, option.value)}
-                        disabledReason={savingChanges ? 'Saving' : undefined}
+                        disabledReason={
+                            savingChanges
+                                ? t('settings.organization.notifications.saving', { defaultValue: 'Saving' })
+                                : undefined
+                        }
                         data-attr={`notification-governance-bulk-${option.value}`}
                     >
                         {option.label}
@@ -59,7 +80,11 @@ export function NotificationMemberList({
             </div>
 
             {shown.length === 0 ? (
-                <p className="text-muted text-sm">No members match that search.</p>
+                <p className="text-muted text-sm">
+                    {t('settings.organization.notifications.noMatchingMembers', {
+                        defaultValue: 'No members match that search.',
+                    })}
+                </p>
             ) : (
                 <div className="flex flex-col gap-1">
                     {shown.map((member) => {
@@ -77,12 +102,17 @@ export function NotificationMemberList({
                                     size="xsmall"
                                     value={ruleFor(pendingRules, savedRules, concept.setting, scopeId, member.user_id)}
                                     onChange={(value) => setRule(concept.setting, scopeId, member.user_id, value)}
-                                    options={OPTIONS}
+                                    options={ruleOptions(t)}
                                     disabledReason={
                                         !member.editable
-                                            ? 'This member has a higher organization access level than you'
+                                            ? t('settings.organization.notifications.higherAccess', {
+                                                  defaultValue:
+                                                      'This member has a higher organization access level than you',
+                                              })
                                             : savingChanges
-                                              ? 'Saving'
+                                              ? t('settings.organization.notifications.saving', {
+                                                    defaultValue: 'Saving',
+                                                })
                                               : undefined
                                     }
                                 />
@@ -95,28 +125,52 @@ export function NotificationMemberList({
             <div className="flex items-center gap-2 text-muted text-xs">
                 <span className="mr-auto">
                     {matching > 0 &&
-                        `Showing ${start + 1} to ${Math.min(start + MEMBERS_PER_PAGE, matching)} of ${matching}${
-                            searching ? ` matching, out of ${total}` : ''
-                        }`}
+                        (searching
+                            ? t('settings.organization.notifications.showingMatching', {
+                                  defaultValue:
+                                      'Showing {{ from }} to {{ to }} of {{ matching }} matching, out of {{ total }}',
+                                  from: start + 1,
+                                  to: Math.min(start + MEMBERS_PER_PAGE, matching),
+                                  matching,
+                                  total,
+                              })
+                            : t('settings.organization.notifications.showing', {
+                                  defaultValue: 'Showing {{ from }} to {{ to }} of {{ matching }}',
+                                  from: start + 1,
+                                  to: Math.min(start + MEMBERS_PER_PAGE, matching),
+                                  matching,
+                              }))}
                 </span>
                 <LemonButton
                     size="xsmall"
                     type="secondary"
                     onClick={() => setListPage(list, page - 1)}
-                    disabledReason={page === 0 ? 'On the first page' : undefined}
+                    disabledReason={
+                        page === 0
+                            ? t('settings.organization.notifications.firstPage', { defaultValue: 'On the first page' })
+                            : undefined
+                    }
                 >
-                    Previous
+                    {t('settings.organization.notifications.previous', { defaultValue: 'Previous' })}
                 </LemonButton>
                 <span>
-                    Page {page + 1} of {pages}
+                    {t('settings.organization.notifications.pageOf', {
+                        defaultValue: 'Page {{ page }} of {{ pages }}',
+                        page: page + 1,
+                        pages,
+                    })}
                 </span>
                 <LemonButton
                     size="xsmall"
                     type="secondary"
                     onClick={() => setListPage(list, page + 1)}
-                    disabledReason={page >= pages - 1 ? 'On the last page' : undefined}
+                    disabledReason={
+                        page >= pages - 1
+                            ? t('settings.organization.notifications.lastPage', { defaultValue: 'On the last page' })
+                            : undefined
+                    }
                 >
-                    Next
+                    {t('settings.organization.notifications.next', { defaultValue: 'Next' })}
                 </LemonButton>
             </div>
         </div>

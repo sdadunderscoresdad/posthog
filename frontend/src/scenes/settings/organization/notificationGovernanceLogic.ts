@@ -3,6 +3,7 @@ import { loaders } from 'kea-loaders'
 
 import { lemonToast } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { organizationLogic } from 'scenes/organizationLogic'
 
 import { notificationLocksBulkUpdateCreate, notificationLocksList } from '~/generated/core/api'
@@ -14,15 +15,19 @@ import type {
 import type { OrganizationType } from '~/types'
 
 import {
-    NOTIFICATION_CONCEPTS,
+    type NotificationConcept,
     type NotificationRuleValue,
+    notificationConcepts,
     ruleValueFor,
     storedValueFor,
 } from '../shared/notificationSettingDescriptors'
 
 export const MEMBERS_PER_PAGE = 20
 
-const CONCEPTS_BY_SETTING = new Map(NOTIFICATION_CONCEPTS.map((concept) => [concept.setting as string, concept]))
+/** Read through `t` on each lookup, so the labels follow the current language. */
+function conceptFor(setting: string): NotificationConcept | undefined {
+    return notificationConcepts(i18n.t.bind(i18n)).find((concept) => concept.setting === setting)
+}
 
 /** One list of people: a setting, and the project it is scoped to (empty when it is not). */
 export function listKey(setting: string, scopeId: string): string {
@@ -255,7 +260,7 @@ export const notificationGovernanceLogic = kea<notificationGovernanceLogicType>(
                 const saved: Record<string, NotificationRuleValue> = {}
                 for (const member of members ?? []) {
                     for (const lock of member.locks) {
-                        const concept = CONCEPTS_BY_SETTING.get(lock.setting)
+                        const concept = conceptFor(lock.setting)
                         if (concept) {
                             saved[ruleKey(lock.setting, lock.scope_id, member.user_id)] = ruleValueFor(
                                 concept,
@@ -287,8 +292,7 @@ export const notificationGovernanceLogic = kea<notificationGovernanceLogicType>(
                         user_id: userId,
                         setting: setting as SettingEnumApi,
                         scope_id: scopeId,
-                        locked_value:
-                            value === 'none' ? null : storedValueFor(CONCEPTS_BY_SETTING.get(setting)!, value),
+                        locked_value: value === 'none' ? null : storedValueFor(conceptFor(setting)!, value),
                     }))
             },
         ],
@@ -364,12 +368,19 @@ export const notificationGovernanceLogic = kea<notificationGovernanceLogicType>(
                 })
             } catch (error) {
                 actions.saveChangesFailure()
-                lemonToast.error("Couldn't save the changes. Try again, and if it keeps happening contact support.")
+                lemonToast.error(
+                    i18n.t('settings.organization.notifications.saveFailed', {
+                        defaultValue:
+                            "Couldn't save the changes. Try again, and if it keeps happening contact support.",
+                    })
+                )
                 throw error
             }
             actions.saveChangesSuccess()
             actions.loadMembers()
-            lemonToast.success('Notification settings saved')
+            lemonToast.success(
+                i18n.t('settings.organization.notifications.saved', { defaultValue: 'Notification settings saved' })
+            )
         },
     })),
     afterMount(({ actions }) => {

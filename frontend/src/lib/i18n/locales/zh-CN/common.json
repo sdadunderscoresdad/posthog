@@ -662,6 +662,10 @@
             "ipAnonymizationDefault": {
                 "label": "新项目默认丢弃客户端 IP 数据"
             },
+            "mcpAccess": {
+                "label": "将 MCP 访问限制为只读",
+                "tooltip": "启用后，任何通过 PostHog MCP 连接该组织的人都只能读取数据，无法修改。此限制适用于所有成员，包括管理员。每位成员自身的权限仍通过访问控制单独生效。在应用中使用 PostHog 或直接调用 API 不受影响。"
+            },
             "members": {
                 "addOwnerDescription": "请确认你要将 {{ member }} 设为 {{ organization }} 的所有者。",
                 "addOwnerTitle": "为 {{ organization }} 添加其他所有者？",
@@ -708,7 +712,108 @@
                 "upgradeTo": "升级为 {{ level }}",
                 "you": "{{ name }}（你）"
             },
+            "notifications": {
+                "changeCount_other": "{{ count }} 项更改",
+                "concepts": {
+                    "commentMentions": {
+                        "label": "评论提及",
+                        "description": "当有人在讨论中提及 TA 时发送邮件。"
+                    },
+                    "errorTrackingDigest": {
+                        "label": "错误跟踪每周摘要",
+                        "description": "项目内捕获异常的每周摘要。"
+                    },
+                    "issueAssigned": {
+                        "label": "议题被指派",
+                        "description": "当有错误跟踪议题指派给 TA 时发送邮件。"
+                    },
+                    "matviewDaily": {
+                        "label": "物化视图失败，每日摘要",
+                        "description": "每天一封邮件，汇总失败的视图。适用于接收失败通知的人。"
+                    },
+                    "matviewFailures": {
+                        "label": "物化视图同步失败",
+                        "description": "当物化视图同步失败时发送邮件。"
+                    },
+                    "matviewImmediate": {
+                        "label": "物化视图失败，立即通知",
+                        "description": "视图每次开始失败时发送邮件。适用于接收失败通知的人。"
+                    },
+                    "memberJoined": {
+                        "label": "新成员加入",
+                        "description": "当有人加入组织时发送邮件。"
+                    },
+                    "pipelineErrors": {
+                        "label": "数据管道错误",
+                        "description": "当目标、批量导出或转换失败时发送邮件。"
+                    },
+                    "webAnalyticsDigest": {
+                        "label": "Web 分析每周摘要",
+                        "description": "项目内网站流量的每周摘要。"
+                    },
+                    "weeklyDigest": {
+                        "label": "每周摘要",
+                        "description": "项目内每周发生事项的摘要。"
+                    }
+                },
+                "discard": "放弃",
+                "firstPage": "已在第一页",
+                "higherAccess": "该成员的组织访问级别高于你",
+                "lastPage": "已在最后一页",
+                "loadFailed": "无法加载成员。请重试；如果问题持续出现，请联系支持。",
+                "loadingMembers": "正在加载成员…",
+                "memberCount_other": "{{ count }} 位成员",
+                "next": "下一页",
+                "noMatchingMembers": "没有匹配该搜索的成员。",
+                "noMembers": "该组织还没有成员。",
+                "noProjectNote": "PostHog 对此项按人保存单一取值，因此无法按项目设置。",
+                "pageOf": "第 {{ page }} 页，共 {{ pages }} 页",
+                "pendingChanges": "{{ changes }} 待保存，影响 {{ members }}",
+                "perProjectNote": "按项目、针对具体成员设置。之后被加入项目的成员在你为其设置之前不会应用任何覆盖。",
+                "previous": "上一页",
+                "rules": {
+                    "none": "不覆盖",
+                    "off": "始终关闭",
+                    "on": "始终开启"
+                },
+                "saved": "通知设置已保存",
+                "saveDescription_other": "这会更改 {{ count }} 位成员的邮件通知。所有受影响的成员都会在应用内收到通知。",
+                "saveFailed": "保存更改失败。请重试；如果问题持续出现，请联系支持。",
+                "saveTitle": "保存这些通知设置？",
+                "saving": "正在保存",
+                "scopeNotice": "这些设置属于个人而不是某个组织，因此你在此设置的覆盖也会作用于该成员所属的其他组织（如果存在）。",
+                "searchMembers": "搜索成员",
+                "setAll_other": "将全部 {{ count }} 位成员设为",
+                "setMatching_other": "将 {{ count }} 位匹配成员设为",
+                "showing": "显示第 {{ from }} 至 {{ to }} 条，共 {{ matching }} 条",
+                "showingMatching": "显示匹配的 {{ matching }} 条中的第 {{ from }} 至 {{ to }} 条，共 {{ total }} 条",
+                "tryAgain": "重试"
+            },
             "notLoaded": "组织尚未加载",
+            "oauthApps": {
+                "clientId": "客户端 ID",
+                "clientIdLabel": "客户端 ID",
+                "connected": "接入时间",
+                "copyClientId": "复制客户端 ID",
+                "copyUri": "复制 URI",
+                "empty": "没有已连接的应用",
+                "emptyDescription": "当第三方工具连接到你的组织时，应用会显示在这里。",
+                "none": "无",
+                "redirectUriLabel": "重定向 URI",
+                "redirectUris": "重定向 URI"
+            },
+            "personalApiKeysTable": {
+                "allProjects": "所有项目（未限定范围）",
+                "columns": {
+                    "accessScope": "访问范围",
+                    "maskedValue": "掩码值",
+                    "owner": "所有者"
+                },
+                "empty": "没有个人 API 密钥可以访问该组织。",
+                "noMatch": "没有匹配你搜索的个人 API 密钥。",
+                "organizationWide": "整个组织",
+                "searchPlaceholder": "按名称、邮箱或权限范围搜索"
+            },
             "security": {
                 "disableSharing": "关闭公开分享",
                 "disableSharingParagraph1": "关闭公开分享会立即让该组织所有现有的分享链接和公开仪表盘失效。",

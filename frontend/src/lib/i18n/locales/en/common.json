@@ -668,6 +668,10 @@
             "ipAnonymizationDefault": {
                 "label": "Discard client IP data by default for new projects"
             },
+            "mcpAccess": {
+                "label": "Restrict MCP access to read-only",
+                "tooltip": "When enabled, anyone connecting to this organization through the PostHog MCP can read data but can't change it. This applies to every member, including admins. Each member's permissions still apply separately via access control. Using PostHog in the app or calling the API directly is not affected."
+            },
             "members": {
                 "addOwnerDescription": "Please confirm that you would like to make {{ member }} an owner of {{ organization }}.",
                 "addOwnerTitle": "Add additional owner to {{ organization }}?",
@@ -714,7 +718,113 @@
                 "upgradeTo": "Upgrade to {{ level }}",
                 "you": "{{ name }} (you)"
             },
+            "notifications": {
+                "changeCount_one": "{{ count }} change",
+                "changeCount_other": "{{ count }} changes",
+                "concepts": {
+                    "commentMentions": {
+                        "description": "An email when someone mentions them in a discussion.",
+                        "label": "Comment mentions"
+                    },
+                    "errorTrackingDigest": {
+                        "description": "A weekly summary of exceptions caught in a project.",
+                        "label": "Error tracking weekly digest"
+                    },
+                    "issueAssigned": {
+                        "description": "An email when an error tracking issue is assigned to them.",
+                        "label": "Issue assigned"
+                    },
+                    "matviewDaily": {
+                        "description": "One email a day summarizing failing views. Applies to people receiving the failures.",
+                        "label": "Materialized view failures, daily digest"
+                    },
+                    "matviewFailures": {
+                        "description": "Emails when a materialized view fails to sync.",
+                        "label": "Materialized view sync failures"
+                    },
+                    "matviewImmediate": {
+                        "description": "An email each time a view starts failing. Applies to people receiving the failures.",
+                        "label": "Materialized view failures, right away"
+                    },
+                    "memberJoined": {
+                        "description": "An email when someone joins the organization.",
+                        "label": "New member joined"
+                    },
+                    "pipelineErrors": {
+                        "description": "Emails when destinations, batch exports, or transformations fail.",
+                        "label": "Data pipeline errors"
+                    },
+                    "webAnalyticsDigest": {
+                        "description": "A weekly summary of web traffic in a project.",
+                        "label": "Web analytics weekly digest"
+                    },
+                    "weeklyDigest": {
+                        "description": "A weekly summary of what happened in a project.",
+                        "label": "Weekly digest"
+                    }
+                },
+                "discard": "Discard",
+                "firstPage": "On the first page",
+                "higherAccess": "This member has a higher organization access level than you",
+                "lastPage": "On the last page",
+                "loadFailed": "Couldn't load your members. Try again, and if it keeps happening contact support.",
+                "loadingMembers": "Loading members...",
+                "memberCount_one": "{{ count }} member",
+                "memberCount_other": "{{ count }} members",
+                "next": "Next",
+                "noMatchingMembers": "No members match that search.",
+                "noMembers": "This organization has no members yet.",
+                "noProjectNote": "PostHog stores this one as a single value per person, so it cannot be set per project.",
+                "pageOf": "Page {{ page }} of {{ pages }}",
+                "pendingChanges": "{{ changes }} pending for {{ members }}",
+                "perProjectNote": "Set per project, for named people. Someone added to a project later has no override until you give them one.",
+                "previous": "Previous",
+                "rules": {
+                    "none": "No override",
+                    "off": "Always off",
+                    "on": "Always on"
+                },
+                "saved": "Notification settings saved",
+                "saveDescription_one": "This changes email notifications for {{ count }} member. Everyone affected gets a notification in the app.",
+                "saveDescription_other": "This changes email notifications for {{ count }} members. Everyone affected gets a notification in the app.",
+                "saveFailed": "Couldn't save the changes. Try again, and if it keeps happening contact support.",
+                "saveTitle": "Save these notification settings?",
+                "saving": "Saving",
+                "scopeNotice": "These settings belong to the person rather than to one organization, so an override you set here also applies to that member's other organizations, if they belong to any.",
+                "searchMembers": "Search members",
+                "setAll_one": "Set all {{ count }} member to",
+                "setAll_other": "Set all {{ count }} members to",
+                "setMatching_one": "Set {{ count }} matching member to",
+                "setMatching_other": "Set {{ count }} matching members to",
+                "showing": "Showing {{ from }} to {{ to }} of {{ matching }}",
+                "showingMatching": "Showing {{ from }} to {{ to }} of {{ matching }} matching, out of {{ total }}",
+                "tryAgain": "Try again"
+            },
             "notLoaded": "Organization not loaded",
+            "oauthApps": {
+                "clientId": "Client ID",
+                "clientIdLabel": "client ID",
+                "connected": "Connected",
+                "copyClientId": "Copy client ID",
+                "copyUri": "Copy URI",
+                "empty": "No connected applications",
+                "emptyDescription": "Applications will appear here when third-party tools connect to your organization.",
+                "none": "None",
+                "redirectUriLabel": "redirect URI",
+                "redirectUris": "Redirect URIs"
+            },
+            "personalApiKeysTable": {
+                "allProjects": "All projects (unscoped)",
+                "columns": {
+                    "accessScope": "Access scope",
+                    "maskedValue": "Masked value",
+                    "owner": "Owner"
+                },
+                "empty": "No personal API keys have access to this organization.",
+                "noMatch": "No personal API keys match your search.",
+                "organizationWide": "Organization-wide",
+                "searchPlaceholder": "Search by name, email, or scope"
+            },
             "security": {
                 "disableSharing": "Disable sharing",
                 "disableSharingParagraph1": "Disabling public sharing will immediately break all existing sharing links and public dashboards for this organization.",
