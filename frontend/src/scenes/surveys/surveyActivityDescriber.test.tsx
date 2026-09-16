@@ -19,8 +19,8 @@ import {
     describeRatingChanges,
 } from './surveyActivityDescriber'
 
-const getTextContent = (jsxElement: JSX.Element): string => {
-    const { container } = render(jsxElement)
+const getTextContent = (jsxElement: JSX.Element | null): string => {
+    const { container } = render(<>{jsxElement}</>)
     return container.textContent || ''
 }
 

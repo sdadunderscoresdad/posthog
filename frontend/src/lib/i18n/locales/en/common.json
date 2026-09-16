@@ -3955,6 +3955,135 @@
         "yourName": "Your name",
         "yourTeam": "your team"
     },
+    "surveyActivity": {
+        "appearance": {
+            "allowGoBack": "back button",
+            "autoDisappear": "auto-disappear option",
+            "backButtonText": "back button text",
+            "backgroundColor": "background color",
+            "borderColor": "border color",
+            "borderRadius": "border radius",
+            "boxPadding": "box padding",
+            "boxShadow": "box shadow",
+            "disabledButtonOpacity": "disabled button opacity",
+            "displayThankYouMessage": "thank you message display",
+            "fontFamily": "font family",
+            "hideCancelButton": "hide cancel button",
+            "inputBackground": "input background",
+            "inputTextColor": "input text color",
+            "maxWidth": "max width",
+            "placeholder": "placeholder text",
+            "position": "survey position",
+            "ratingButtonActiveColor": "active rating button color",
+            "ratingButtonColor": "rating button color",
+            "shuffleQuestions": "question shuffling",
+            "submitButtonColor": "submit button color",
+            "submitButtonText": "submit button text",
+            "submitButtonTextColor": "submit button text color",
+            "surveyPopupDelaySeconds": "survey popup delay",
+            "tabPosition": "survey button position",
+            "textColor": "text color",
+            "textSubtleColor": "text subtle color",
+            "thankYouMessageCloseButtonText": "thank you message close button text",
+            "thankYouMessageDescription": "thank you message description",
+            "thankYouMessageDescriptionContentType": "thank you message content type",
+            "thankYouMessageHeader": "thank you message header",
+            "whiteLabel": "white label option",
+            "widgetColor": "widget color",
+            "widgetLabel": "widget label",
+            "widgetSelector": "widget selector",
+            "widgetType": "widget type",
+            "zIndex": "survey form zIndex"
+        },
+        "archived": "archived",
+        "conditions": {
+            "eventsModified": "modified event conditions",
+            "selector": "selector",
+            "url": "URL condition",
+            "urlMatchType": "URL match type",
+            "waitPeriod": "wait period"
+        },
+        "description": {
+            "changed": "updated the description from"
+        },
+        "emptyName": "(empty string)",
+        "field": {
+            "iterationCount": "iteration count",
+            "iterationFrequency": "iteration frequency",
+            "responsesLimit": "response limit"
+        },
+        "fieldChange": {
+            "changed": "changed {{ field }} from <Before>{{ before }}</Before> to <After>{{ after }}</After>",
+            "removed": "removed {{ field }} (was <Value>{{ value }}</Value>)",
+            "set": "set {{ field }} to <Value>{{ value }}</Value>"
+        },
+        "launched": "launched",
+        "madeMultipleChangesTo": "made multiple changes to",
+        "name": {
+            "changed": "changed the name from \"<Before>{{ before }}</Before>\" to \"<After>{{ after }}</After>\""
+        },
+        "preposition": {
+            "for": "for",
+            "of": "of"
+        },
+        "question": {
+            "branchingChanged": "updated branching logic",
+            "buttonTextChanged": "changed button text from \"<Before>{{ before }}</Before>\" to \"<After>{{ after }}</After>\"",
+            "choicesAdded": "added choices: <Choices>{{ choices }}</Choices>",
+            "choicesRemoved": "removed choices: <Choices>{{ choices }}</Choices>",
+            "descriptionChanged": "changed the question description from",
+            "linkChanged": "updated link from <Before>{{ before }}</Before> to <After>{{ after }}</After>",
+            "madeOptional": "made question optional",
+            "madeRequired": "made question required",
+            "openChoiceAdded": "added open choice option",
+            "openChoiceRemoved": "removed open choice option",
+            "ratingDisplayChanged": "changed rating display from <Before>{{ before }}</Before> to <After>{{ after }}</After>",
+            "ratingLabelsChanged": "updated rating labels from <LowerBefore>\"{{ lowerBefore }}\"</LowerBefore>-<UpperBefore>\"{{ upperBefore }}\"</UpperBefore> to <LowerAfter>\"{{ lowerAfter }}\"</LowerAfter>-<UpperAfter>\"{{ upperAfter }}\"</UpperAfter>",
+            "ratingScaleChanged": "changed rating scale from <Before>{{ before }}</Before> to <After>{{ after }}</After>",
+            "shufflingDisabled": "disabled option shuffling",
+            "shufflingEnabled": "enabled option shuffling",
+            "textChanged": "changed question text from \"<Before>{{ before }}</Before>\" to \"<After>{{ after }}</After>\"",
+            "typeChanged": "changed question type from <Before>{{ before }}</Before> to <After>{{ after }}</After>"
+        },
+        "questions": {
+            "countChanged": "changed the number of questions from <Before>{{ before }}</Before> to <After>{{ after }}</After>",
+            "label_one": "question",
+            "label_other": "questions",
+            "noChanges": "No changes to questions",
+            "question": "Question {{ index }}:",
+            "updated": "updated"
+        },
+        "questionType": {
+            "link": "Link",
+            "multipleChoice": "Multiple choice select",
+            "open": "Freeform text",
+            "rating": "Rating",
+            "singleChoice": "Single choice select"
+        },
+        "resumed": "resumed",
+        "stopped": "stopped",
+        "targetingFlag": {
+            "added": "added a targeting flag with key <Key>{{ key }}</Key>",
+            "keyChanged": "changed targeting flag key from <Before>{{ before }}</Before> to <After>{{ after }}</After>",
+            "removed": "removed the targeting flag with key <Key>{{ key }}</Key>",
+            "setConditions": "set new targeting conditions"
+        },
+        "targetingFlagFilter": {
+            "added": "added a targeting flag filter",
+            "changed": "changed targeting conditions",
+            "removed": "removed targeting flag filter"
+        },
+        "to": "to",
+        "type": {
+            "changed": "changed the type from <Before>{{ before }}</Before> to <After>{{ after }}</After>"
+        },
+        "unarchived": "unarchived",
+        "unit": {
+            "days": "days",
+            "responses": "responses"
+        },
+        "unset": "unset"
+    },
     "teamActivity": {
         "added": "added",
         "addedThe": "added the",

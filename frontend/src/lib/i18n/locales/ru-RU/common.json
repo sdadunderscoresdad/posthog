@@ -4019,6 +4019,137 @@
         "yourName": "",
         "yourTeam": ""
     },
+    "surveyActivity": {
+        "appearance": {
+            "allowGoBack": "",
+            "autoDisappear": "",
+            "backButtonText": "",
+            "backgroundColor": "",
+            "borderColor": "",
+            "borderRadius": "",
+            "boxPadding": "",
+            "boxShadow": "",
+            "disabledButtonOpacity": "",
+            "displayThankYouMessage": "",
+            "fontFamily": "",
+            "hideCancelButton": "",
+            "inputBackground": "",
+            "inputTextColor": "",
+            "maxWidth": "",
+            "placeholder": "",
+            "position": "",
+            "ratingButtonActiveColor": "",
+            "ratingButtonColor": "",
+            "shuffleQuestions": "",
+            "submitButtonColor": "",
+            "submitButtonText": "",
+            "submitButtonTextColor": "",
+            "surveyPopupDelaySeconds": "",
+            "tabPosition": "",
+            "textColor": "",
+            "textSubtleColor": "",
+            "thankYouMessageCloseButtonText": "",
+            "thankYouMessageDescription": "",
+            "thankYouMessageDescriptionContentType": "",
+            "thankYouMessageHeader": "",
+            "whiteLabel": "",
+            "widgetColor": "",
+            "widgetLabel": "",
+            "widgetSelector": "",
+            "widgetType": "",
+            "zIndex": ""
+        },
+        "archived": "",
+        "conditions": {
+            "eventsModified": "",
+            "selector": "",
+            "url": "",
+            "urlMatchType": "",
+            "waitPeriod": ""
+        },
+        "description": {
+            "changed": ""
+        },
+        "emptyName": "",
+        "field": {
+            "iterationCount": "",
+            "iterationFrequency": "",
+            "responsesLimit": ""
+        },
+        "fieldChange": {
+            "changed": "",
+            "removed": "",
+            "set": ""
+        },
+        "launched": "",
+        "madeMultipleChangesTo": "",
+        "name": {
+            "changed": ""
+        },
+        "preposition": {
+            "for": "",
+            "of": ""
+        },
+        "question": {
+            "branchingChanged": "",
+            "buttonTextChanged": "",
+            "choicesAdded": "",
+            "choicesRemoved": "",
+            "descriptionChanged": "",
+            "linkChanged": "",
+            "madeOptional": "",
+            "madeRequired": "",
+            "openChoiceAdded": "",
+            "openChoiceRemoved": "",
+            "ratingDisplayChanged": "",
+            "ratingLabelsChanged": "",
+            "ratingScaleChanged": "",
+            "shufflingDisabled": "",
+            "shufflingEnabled": "",
+            "textChanged": "",
+            "typeChanged": ""
+        },
+        "questions": {
+            "countChanged": "",
+            "label_one": "",
+            "label_few": "",
+            "label_many": "",
+            "label_other": "",
+            "noChanges": "",
+            "question": "",
+            "updated": ""
+        },
+        "questionType": {
+            "link": "",
+            "multipleChoice": "",
+            "open": "",
+            "rating": "",
+            "singleChoice": ""
+        },
+        "resumed": "",
+        "stopped": "",
+        "targetingFlag": {
+            "added": "",
+            "keyChanged": "",
+            "removed": "",
+            "setConditions": ""
+        },
+        "targetingFlagFilter": {
+            "added": "",
+            "changed": "",
+            "removed": ""
+        },
+        "to": "",
+        "type": {
+            "changed": ""
+        },
+        "unarchived": "",
+        "unit": {
+            "days": "",
+            "responses": ""
+        },
+        "unset": ""
+    },
     "teamActivity": {
         "added": "",
         "addedThe": "",
