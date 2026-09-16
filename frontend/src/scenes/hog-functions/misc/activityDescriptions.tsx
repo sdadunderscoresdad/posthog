@@ -6,6 +6,7 @@ import {
     HumanizedChange,
     defaultDescriber,
 } from 'lib/components/ActivityLog/humanizeActivity'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonDropdown } from 'lib/lemon-ui/LemonDropdown'
 import { Link } from 'lib/lemon-ui/Link'
 import { Spinner } from 'lib/lemon-ui/Spinner'
@@ -18,11 +19,50 @@ import { HogFunctionTypeType } from '~/types'
 import { humanizeHogFunctionType } from '../hog-function-utils'
 import type { DiffProps } from './Diff'
 
-const STAGED_CHANGES = 'changed the staged changes'
+const stagedChanges = (): string =>
+    i18n.t('hogFunctionActivity.stagedChanges', { defaultValue: 'changed the staged changes' })
 
 const nameOrLinkToHogFunction = (id?: string | null, name?: string | null): string | JSX.Element => {
-    const displayName = name?.trim() ? name : 'Untitled hog function'
+    const displayName = name?.trim()
+        ? name
+        : i18n.t('hogFunctionActivity.untitled', { defaultValue: 'Untitled hog function' })
     return id ? <Link to={urls.hogFunction(id)}>{displayName}</Link> : displayName
+}
+
+const DRAFT_ACTIVITIES = new Set(['draft_updated', 'published', 'draft_discarded', 'revision_restored'])
+
+/** The clause a draft activity reads as, naming the thing the change is staged on. */
+function draftActivityClause(activity: string, noun: string): string {
+    switch (activity) {
+        case 'draft_updated':
+            return i18n.t('hogFunctionActivity.draftUpdated', {
+                defaultValue: 'staged changes for review on the {{ noun }}:',
+                noun,
+            })
+        case 'published':
+            return i18n.t('hogFunctionActivity.published', {
+                defaultValue: 'published the staged changes to the {{ noun }}:',
+                noun,
+            })
+        case 'draft_discarded':
+            return i18n.t('hogFunctionActivity.draftDiscarded', {
+                defaultValue: 'discarded the staged changes on the {{ noun }}:',
+                noun,
+            })
+        default:
+            return i18n.t('hogFunctionActivity.revisionRestored', {
+                defaultValue: 'staged an earlier version for review on the {{ noun }}:',
+                noun,
+            })
+    }
+}
+
+/** The noun the backend type maps to, in the app's language where the type has one. */
+function objectNounFor(rawType: HogFunctionTypeType | undefined): string {
+    if (rawType) {
+        return humanizeHogFunctionType(rawType)
+    }
+    return i18n.t('hogFunctionActivity.hogFunction', { defaultValue: 'hog function' })
 }
 
 const LazyDiff = lazyWithRetry(() => import('./Diff').then((m) => ({ default: m.Diff })))
@@ -68,13 +108,17 @@ export function hogFunctionActivityDescriber(logItem: ActivityLogItem, asNotific
     }
 
     const rawType = logItem?.detail.type as HogFunctionTypeType | undefined
-    const objectNoun = rawType ? humanizeHogFunctionType(rawType) : 'hog function'
+    const objectNoun = objectNounFor(rawType)
 
     if (logItem.activity == 'created') {
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> created the {objectNoun}:{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('hogFunctionActivity.created', {
+                        defaultValue: 'created the {{ noun }}:',
+                        noun: objectNoun,
+                    })}{' '}
                     {nameOrLinkToHogFunction(logItem?.item_id, logItem?.detail.name)}
                 </>
             ),
@@ -85,7 +129,12 @@ export function hogFunctionActivityDescriber(logItem: ActivityLogItem, asNotific
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted the {objectNoun}: {logItem.detail.name}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('hogFunctionActivity.deleted', {
+                        defaultValue: 'deleted the {{ noun }}:',
+                        noun: objectNoun,
+                    })}{' '}
+                    {logItem.detail.name}
                 </>
             ),
         }
@@ -97,23 +146,22 @@ export function hogFunctionActivityDescriber(logItem: ActivityLogItem, asNotific
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> restored the {objectNoun}: {functionName}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('hogFunctionActivity.restored', {
+                        defaultValue: 'restored the {{ noun }}:',
+                        noun: objectNoun,
+                    })}{' '}
+                    {functionName}
                 </>
             ),
         }
     }
 
-    const draftActivities: Record<string, string> = {
-        draft_updated: 'staged changes for review on',
-        published: 'published the staged changes to',
-        draft_discarded: 'discarded the staged changes on',
-        revision_restored: 'staged an earlier version for review on',
-    }
-    if (logItem.activity in draftActivities) {
+    if (DRAFT_ACTIVITIES.has(logItem.activity)) {
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> {draftActivities[logItem.activity]} the {objectNoun}:{' '}
+                    <ActivityLogUserName logItem={logItem} /> {draftActivityClause(logItem.activity, objectNoun)}{' '}
                     {nameOrLinkToHogFunction(logItem?.item_id, logItem?.detail.name)}
                 </>
             ),
@@ -126,8 +174,12 @@ export function hogFunctionActivityDescriber(logItem: ActivityLogItem, asNotific
             switch (change.field) {
                 case 'encrypted_inputs': {
                     changes.push({
-                        inline: 'updated encrypted inputs for',
-                        inlist: 'updated encrypted inputs',
+                        inline: i18n.t('hogFunctionActivity.updatedEncryptedInputsInline', {
+                            defaultValue: 'updated encrypted inputs for',
+                        }),
+                        inlist: i18n.t('hogFunctionActivity.updatedEncryptedInputs', {
+                            defaultValue: 'updated encrypted inputs',
+                        }),
                     })
                     break
                 }
@@ -136,8 +188,15 @@ export function hogFunctionActivityDescriber(logItem: ActivityLogItem, asNotific
                 // both fields, so collapse them into one entry.
                 case 'draft':
                 case 'draft_encrypted_inputs': {
-                    if (!changes.some((c) => c.inlist === STAGED_CHANGES)) {
-                        changes.push({ inline: `${STAGED_CHANGES} on`, inlist: STAGED_CHANGES })
+                    const staged = stagedChanges()
+                    if (!changes.some((c) => c.inlist === staged)) {
+                        changes.push({
+                            inline: i18n.t('hogFunctionActivity.stagedChangesInline', {
+                                defaultValue: '{{ staged }} on',
+                                staged,
+                            }),
+                            inlist: staged,
+                        })
                     }
                     break
                 }
@@ -168,23 +227,31 @@ export function hogFunctionActivityDescriber(logItem: ActivityLogItem, asNotific
                     const changedSpans: JSX.Element[] = []
                     for (let index = 0; index < changedFields.length; index++) {
                         if (index !== 0 && index === changedFields.length - 1) {
-                            changedSpans.push(<>{' and '}</>)
+                            changedSpans.push(
+                                <>{` ${i18n.t('activityLog.listConjunction', { defaultValue: 'and' })} `}</>
+                            )
                         } else if (index > 0) {
-                            changedSpans.push(<>{', '}</>)
+                            changedSpans.push(<>{i18n.t('activityLog.listSeparator', { defaultValue: ', ' })}</>)
                         }
                         changedSpans.push(changedFields[index])
                     }
 
-                    const inputOrInputs = changedFields.length === 1 ? 'input' : 'inputs'
+                    const inputOrInputs =
+                        changedFields.length === 1
+                            ? i18n.t('hogFunctionActivity.input', { defaultValue: 'input' })
+                            : i18n.t('hogFunctionActivity.inputs', { defaultValue: 'inputs' })
                     changes.push({
                         inline: (
                             <>
-                                updated the {inputOrInputs} {changedSpans} for
+                                {i18n.t('hogFunctionActivity.updatedThe', { defaultValue: 'updated the' })}{' '}
+                                {inputOrInputs} {changedSpans}{' '}
+                                {i18n.t('hogFunctionActivity.for', { defaultValue: 'for' })}
                             </>
                         ),
                         inlist: (
                             <>
-                                updated {inputOrInputs}: {changedSpans}
+                                {i18n.t('hogFunctionActivity.updated', { defaultValue: 'updated' })} {inputOrInputs}:{' '}
+                                {changedSpans}
                             </>
                         ),
                     })
@@ -209,64 +276,109 @@ export function hogFunctionActivityDescriber(logItem: ActivityLogItem, asNotific
                             }
                         >
                             {change.field === 'hog'
-                                ? 'source code'
+                                ? i18n.t('hogFunctionActivity.sourceCode', { defaultValue: 'source code' })
                                 : change.field === 'inputs_schema'
-                                  ? 'inputs schema'
+                                  ? i18n.t('hogFunctionActivity.inputsSchema', { defaultValue: 'inputs schema' })
                                   : change.field}
                         </DiffLink>
                     )
-                    changes.push({ inline: <>updated {code} for</>, inlist: <>updated {code}</> })
+                    changes.push({
+                        inline: (
+                            <>
+                                {i18n.t('hogFunctionActivity.updated', { defaultValue: 'updated' })} {code}{' '}
+                                {i18n.t('hogFunctionActivity.for', { defaultValue: 'for' })}
+                            </>
+                        ),
+                        inlist: (
+                            <>
+                                {i18n.t('hogFunctionActivity.updated', { defaultValue: 'updated' })} {code}
+                            </>
+                        ),
+                    })
                     break
                 }
                 case 'deleted': {
                     if (change.after) {
-                        changes.push({ inline: 'deleted', inlist: `deleted the ${objectNoun}` })
+                        changes.push({
+                            inline: i18n.t('hogFunctionActivity.deletedInline', { defaultValue: 'deleted' }),
+                            inlist: i18n.t('hogFunctionActivity.deletedInlineList', {
+                                defaultValue: 'deleted the {{ noun }}',
+                                noun: objectNoun,
+                            }),
+                        })
                     } else {
-                        changes.push({ inline: 'undeleted', inlist: `undeleted the ${objectNoun}` })
+                        changes.push({
+                            inline: i18n.t('hogFunctionActivity.undeletedInline', { defaultValue: 'undeleted' }),
+                            inlist: i18n.t('hogFunctionActivity.undeletedInlineList', {
+                                defaultValue: 'undeleted the {{ noun }}',
+                                noun: objectNoun,
+                            }),
+                        })
                     }
                     break
                 }
                 case 'enabled': {
                     if (change.after) {
-                        changes.push({ inline: 'enabled', inlist: `enabled the ${objectNoun}` })
+                        changes.push({
+                            inline: i18n.t('hogFunctionActivity.enabledInline', { defaultValue: 'enabled' }),
+                            inlist: i18n.t('hogFunctionActivity.enabledInlineList', {
+                                defaultValue: 'enabled the {{ noun }}',
+                                noun: objectNoun,
+                            }),
+                        })
                     } else {
-                        changes.push({ inline: 'disabled', inlist: `disabled the ${objectNoun}` })
+                        changes.push({
+                            inline: i18n.t('hogFunctionActivity.disabledInline', { defaultValue: 'disabled' }),
+                            inlist: i18n.t('hogFunctionActivity.disabledInlineList', {
+                                defaultValue: 'disabled the {{ noun }}',
+                                noun: objectNoun,
+                            }),
+                        })
                     }
                     break
                 }
                 case 'priority': {
+                    const changedPriority = i18n.t('hogFunctionActivity.changedPriority', {
+                        defaultValue: 'changed priority from {{ before }} to {{ after }} for',
+                        before: change.before,
+                        after: change.after,
+                    })
                     changes.push({
-                        inline: (
-                            <>
-                                changed priority from {change.before} to {change.after} for{' '}
-                            </>
-                        ),
-                        inlist: (
-                            <>
-                                changed priority from {change.before} to {change.after} for{' '}
-                            </>
-                        ),
+                        inline: changedPriority,
+                        inlist: changedPriority,
                     })
                     break
                 }
                 default:
                     changes.push({
-                        inline: `updated unknown field: ${change.field}`,
-                        inlist: `updated unknown field: ${change.field}`,
+                        inline: i18n.t('hogFunctionActivity.updatedUnknownField', {
+                            defaultValue: 'updated unknown field: {{ field }}',
+                            field: change.field,
+                        }),
+                        inlist: i18n.t('hogFunctionActivity.updatedUnknownField', {
+                            defaultValue: 'updated unknown field: {{ field }}',
+                            field: change.field,
+                        }),
                     })
             }
         }
         const functionName = nameOrLinkToHogFunction(logItem?.item_id, logItem?.detail.name)
+        const updatedNoun = i18n.t('hogFunctionActivity.updatedNoun', {
+            defaultValue: 'updated the {{ noun }}:',
+            noun: objectNoun,
+        })
 
         return {
             description:
                 changes.length == 1 ? (
                     <>
-                        <ActivityLogUserName logItem={logItem} /> {changes[0].inline} the {objectNoun}: {functionName}
+                        <ActivityLogUserName logItem={logItem} /> {changes[0].inline}{' '}
+                        {i18n.t('hogFunctionActivity.theNoun', { defaultValue: 'the {{ noun }}:', noun: objectNoun })}{' '}
+                        {functionName}
                     </>
                 ) : (
                     <div>
-                        <ActivityLogUserName logItem={logItem} /> updated the {objectNoun}: {functionName}
+                        <ActivityLogUserName logItem={logItem} /> {updatedNoun} {functionName}
                         <ul className="ml-5 list-disc">
                             {changes.map((c, i) => (
                                 <li key={i}>{c.inlist}</li>
