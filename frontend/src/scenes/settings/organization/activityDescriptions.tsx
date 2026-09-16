@@ -6,12 +6,13 @@ import {
 } from 'lib/components/ActivityLog/humanizeActivity'
 import { UserNameWithEmail } from 'lib/components/ActivityLog/UserNameWithEmail'
 import { OrganizationMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { membershipLevelToName } from 'lib/utils/permissioning'
 import { urls } from 'scenes/urls'
 
 const nameOrLinkToOrganization = (name?: string | null): string | JSX.Element => {
-    let displayName = name || 'Organization'
+    let displayName = name || i18n.t('settingsActivity.organization', { defaultValue: 'Organization' })
 
     if (displayName.length > 32) {
         displayName = displayName.slice(0, 32) + '...'
@@ -31,7 +32,8 @@ export function organizationActivityDescriber(logItem: ActivityLogItem, asNotifi
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> created the organization{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('settingsActivity.organization.created', { defaultValue: 'created the organization' })}{' '}
                     <strong>{nameOrLinkToOrganization(logItem?.detail.name)}</strong>
                 </>
             ),
@@ -42,8 +44,12 @@ export function organizationActivityDescriber(logItem: ActivityLogItem, asNotifi
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted the organization{' '}
-                    <strong>{logItem.detail.name || 'Organization'}</strong>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('settingsActivity.organization.deleted', { defaultValue: 'deleted the organization' })}{' '}
+                    <strong>
+                        {logItem.detail.name ||
+                            i18n.t('settingsActivity.organization', { defaultValue: 'Organization' })}
+                    </strong>
                 </>
             ),
         }
@@ -56,14 +62,16 @@ export function organizationActivityDescriber(logItem: ActivityLogItem, asNotifi
             const change = changes[0]
             const changeDescription = (
                 <>
-                    updated the <strong>{change.field}</strong>
+                    {i18n.t('settingsActivity.updatedWithField', { defaultValue: 'updated the' })}{' '}
+                    <strong>{change.field}</strong>
                 </>
             )
 
             return {
                 description: (
                     <>
-                        <ActivityLogUserName logItem={logItem} /> {changeDescription} for organization{' '}
+                        <ActivityLogUserName logItem={logItem} /> {changeDescription}{' '}
+                        {i18n.t('settingsActivity.forOrganization', { defaultValue: 'for organization' })}{' '}
                         {nameOrLinkToOrganization(logItem?.detail.name)}
                     </>
                 ),
@@ -72,8 +80,17 @@ export function organizationActivityDescriber(logItem: ActivityLogItem, asNotifi
             return {
                 description: (
                     <>
-                        <ActivityLogUserName logItem={logItem} /> updated <strong>{changes.length} settings</strong> for
-                        organization {nameOrLinkToOrganization(logItem?.detail.name)}
+                        <ActivityLogUserName logItem={logItem} />{' '}
+                        {i18n.t('settingsActivity.updated', { defaultValue: 'updated' })}{' '}
+                        <strong>
+                            {i18n.t('settingsActivity.settingsCount', {
+                                count: changes.length,
+                                defaultValue_one: '{{ count }} setting',
+                                defaultValue_other: '{{ count }} settings',
+                            })}
+                        </strong>{' '}
+                        {i18n.t('settingsActivity.forOrganization', { defaultValue: 'for organization' })}
+                        {nameOrLinkToOrganization(logItem?.detail.name)}
                     </>
                 ),
             }
@@ -87,17 +104,20 @@ function organizationMembershipActivityDescriber(logItem: ActivityLogItem, asNot
     const context = logItem?.detail?.context
     const userEmail = context?.user_email || ''
     const userName = context?.user_name || userEmail
-    const organizationName = context?.organization_name || 'the organization'
+    const organizationName =
+        context?.organization_name || i18n.t('settingsActivity.theOrganization', { defaultValue: 'the organization' })
 
     if (logItem.activity == 'created') {
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> added user{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('settingsActivity.membership.addedUser', { defaultValue: 'added user' })}{' '}
                     <strong>
                         {userName} ({userEmail})
                     </strong>{' '}
-                    to organization{nameOrLinkToOrganization(organizationName)}
+                    {i18n.t('settingsActivity.membership.toOrganization', { defaultValue: 'to organization' })}
+                    {nameOrLinkToOrganization(organizationName)}
                 </>
             ),
         }
@@ -107,11 +127,13 @@ function organizationMembershipActivityDescriber(logItem: ActivityLogItem, asNot
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> removed user{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('settingsActivity.membership.removedUser', { defaultValue: 'removed user' })}{' '}
                     <strong>
                         {userName} ({userEmail})
                     </strong>{' '}
-                    from organization {nameOrLinkToOrganization(organizationName)}
+                    {i18n.t('settingsActivity.membership.fromOrganization', { defaultValue: 'from organization' })}{' '}
+                    {nameOrLinkToOrganization(organizationName)}
                 </>
             ),
         }
@@ -130,12 +152,17 @@ function organizationMembershipActivityDescriber(logItem: ActivityLogItem, asNot
             return {
                 description: (
                     <>
-                        <ActivityLogUserName logItem={logItem} /> changed{' '}
+                        <ActivityLogUserName logItem={logItem} />{' '}
+                        {i18n.t('settingsActivity.membership.changed', { defaultValue: 'changed' })}{' '}
                         <strong>
                             {userName} ({userEmail})
                         </strong>
-                        's role from <strong>{String(beforeLevel)}</strong> to <strong>{String(afterLevel)}</strong> in
-                        organization {nameOrLinkToOrganization(organizationName)}
+                        {i18n.t('settingsActivity.membership.roleFrom', { defaultValue: "'s role from" })}{' '}
+                        <strong>{String(beforeLevel)}</strong>{' '}
+                        {i18n.t('settingsActivity.membership.to', { defaultValue: 'to' })}{' '}
+                        <strong>{String(afterLevel)}</strong>{' '}
+                        {i18n.t('settingsActivity.membership.inOrganization', { defaultValue: 'in organization' })}
+                        {nameOrLinkToOrganization(organizationName)}
                     </>
                 ),
             }
@@ -144,11 +171,15 @@ function organizationMembershipActivityDescriber(logItem: ActivityLogItem, asNot
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> updated{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('settingsActivity.updated', { defaultValue: 'updated' })}{' '}
                     <strong>
                         {userName} ({userEmail})
                     </strong>
-                    's membership in organization {nameOrLinkToOrganization(organizationName)}
+                    {i18n.t('settingsActivity.membership.membershipInOrganization', {
+                        defaultValue: "'s membership in organization",
+                    })}{' '}
+                    {nameOrLinkToOrganization(organizationName)}
                 </>
             ),
         }
@@ -160,7 +191,8 @@ function organizationMembershipActivityDescriber(logItem: ActivityLogItem, asNot
 function organizationInviteActivityDescriber(logItem: ActivityLogItem, asNotification?: boolean): HumanizedChange {
     const context = logItem?.detail?.context
     const targetEmail = context?.target_email || ''
-    const organizationName = context?.organization_name || 'the organization'
+    const organizationName =
+        context?.organization_name || i18n.t('settingsActivity.theOrganization', { defaultValue: 'the organization' })
     const level = context?.level || 'member'
     // The context names whoever created the invite, who is not always the person who acted on this
     // row, so the email must come from the same context as the name. A system or impersonated row
@@ -176,8 +208,11 @@ function organizationInviteActivityDescriber(logItem: ActivityLogItem, asNotific
         return {
             description: (
                 <>
-                    {inviter} sent an invitation to <strong>{targetEmail}</strong> to join organization{' '}
-                    {nameOrLinkToOrganization(organizationName)} as <strong>{level}</strong>
+                    {inviter} {i18n.t('settingsActivity.invite.sent', { defaultValue: 'sent an invitation to' })}{' '}
+                    <strong>{targetEmail}</strong>{' '}
+                    {i18n.t('settingsActivity.invite.toJoinOrganization', { defaultValue: 'to join organization' })}{' '}
+                    {nameOrLinkToOrganization(organizationName)}{' '}
+                    {i18n.t('settingsActivity.invite.as', { defaultValue: 'as' })} <strong>{level}</strong>
                 </>
             ),
         }
@@ -187,7 +222,10 @@ function organizationInviteActivityDescriber(logItem: ActivityLogItem, asNotific
         return {
             description: (
                 <>
-                    {inviter} revoked the invitation for <strong>{targetEmail}</strong> to join organization{' '}
+                    {inviter}{' '}
+                    {i18n.t('settingsActivity.invite.revoked', { defaultValue: 'revoked the invitation for' })}{' '}
+                    <strong>{targetEmail}</strong>{' '}
+                    {i18n.t('settingsActivity.invite.toJoinOrganization', { defaultValue: 'to join organization' })}{' '}
                     {nameOrLinkToOrganization(organizationName)}
                 </>
             ),
@@ -201,15 +239,20 @@ function organizationInviteActivityDescriber(logItem: ActivityLogItem, asNotific
             const change = changes[0]
             const changeDescription = (
                 <>
-                    updated <strong>{change.field}</strong>
+                    {i18n.t('settingsActivity.updated', { defaultValue: 'updated' })} <strong>{change.field}</strong>
                 </>
             )
 
             return {
                 description: (
                     <>
-                        {inviter} {changeDescription} for the invitation sent to <strong>{targetEmail}</strong> to join
-                        organization {nameOrLinkToOrganization(organizationName)}
+                        {inviter} {changeDescription}{' '}
+                        {i18n.t('settingsActivity.invite.forInvitationSentTo', {
+                            defaultValue: 'for the invitation sent to',
+                        })}{' '}
+                        <strong>{targetEmail}</strong>{' '}
+                        {i18n.t('settingsActivity.invite.toJoinOrganization', { defaultValue: 'to join organization' })}
+                        {nameOrLinkToOrganization(organizationName)}
                     </>
                 ),
             }
@@ -217,8 +260,20 @@ function organizationInviteActivityDescriber(logItem: ActivityLogItem, asNotific
             return {
                 description: (
                     <>
-                        {inviter} updated <strong>{changes.length} settings</strong> for the invitation sent to{' '}
-                        <strong>{targetEmail}</strong> to join organization {nameOrLinkToOrganization(organizationName)}
+                        {inviter} {i18n.t('settingsActivity.updated', { defaultValue: 'updated' })}{' '}
+                        <strong>
+                            {i18n.t('settingsActivity.settingsCount', {
+                                count: changes.length,
+                                defaultValue_one: '{{ count }} setting',
+                                defaultValue_other: '{{ count }} settings',
+                            })}
+                        </strong>{' '}
+                        {i18n.t('settingsActivity.invite.forInvitationSentTo', {
+                            defaultValue: 'for the invitation sent to',
+                        })}{' '}
+                        <strong>{targetEmail}</strong>{' '}
+                        {i18n.t('settingsActivity.invite.toJoinOrganization', { defaultValue: 'to join organization' })}{' '}
+                        {nameOrLinkToOrganization(organizationName)}
                     </>
                 ),
             }
@@ -233,7 +288,7 @@ export function organizationDomainActivityDescriber(
     asNotification?: boolean
 ): HumanizedChange {
     const context = logItem.detail.context
-    const domainName = context?.domain || 'unknown domain'
+    const domainName = context?.domain || i18n.t('settingsActivity.domain.unknown', { defaultValue: 'unknown domain' })
 
     if (logItem.activity === 'updated') {
         const changes = logItem.detail.changes || []
@@ -244,7 +299,11 @@ export function organizationDomainActivityDescriber(
             if (change.field === 'SCIM provisioning') {
                 descriptions.push(
                     <>
-                        {change.after ? 'enabled' : 'disabled'} <strong>SCIM provisioning</strong> for domain{' '}
+                        {change.after
+                            ? i18n.t('settingsActivity.domain.enabled', { defaultValue: 'enabled' })
+                            : i18n.t('settingsActivity.domain.disabled', { defaultValue: 'disabled' })}{' '}
+                        <strong>SCIM provisioning</strong>{' '}
+                        {i18n.t('settingsActivity.domain.forDomain', { defaultValue: 'for domain' })}{' '}
                         <strong>{domainName}</strong>
                     </>
                 )
@@ -252,14 +311,20 @@ export function organizationDomainActivityDescriber(
                 if (!hasScimEnabledChange) {
                     descriptions.push(
                         <>
-                            rotated the <strong>SCIM bearer token</strong> for domain <strong>{domainName}</strong>
+                            {i18n.t('settingsActivity.domain.rotated', { defaultValue: 'rotated the' })}{' '}
+                            <strong>SCIM bearer token</strong>{' '}
+                            {i18n.t('settingsActivity.domain.forDomain', { defaultValue: 'for domain' })}{' '}
+                            <strong>{domainName}</strong>
                         </>
                     )
                 }
             } else {
                 descriptions.push(
                     <>
-                        updated <strong>{change.field}</strong> for domain <strong>{domainName}</strong>
+                        {i18n.t('settingsActivity.updated', { defaultValue: 'updated' })}{' '}
+                        <strong>{change.field}</strong>{' '}
+                        {i18n.t('settingsActivity.domain.forDomain', { defaultValue: 'for domain' })}{' '}
+                        <strong>{domainName}</strong>
                     </>
                 )
             }
@@ -289,7 +354,9 @@ export function organizationDomainActivityDescriber(
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted domain <strong>{domainName}</strong>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('settingsActivity.domain.deleted', { defaultValue: 'deleted domain' })}{' '}
+                    <strong>{domainName}</strong>
                 </>
             ),
         }
@@ -299,7 +366,9 @@ export function organizationDomainActivityDescriber(
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> added domain <strong>{domainName}</strong>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('settingsActivity.domain.added', { defaultValue: 'added domain' })}{' '}
+                    <strong>{domainName}</strong>
                 </>
             ),
         }
@@ -313,15 +382,24 @@ export function legalDocumentActivityDescriber(logItem: ActivityLogItem, asNotif
         name?: string | null
         context?: { document_type?: string; company_name?: string }
     }
-    const documentType = detail.context?.document_type || 'document'
-    const companyName = detail.context?.company_name || detail.name || 'company'
-    const article = documentType === 'BAA' || documentType === 'DPA' ? 'a' : 'the'
+    const documentType =
+        detail.context?.document_type || i18n.t('settingsActivity.legalDocument.document', { defaultValue: 'document' })
+    const companyName =
+        detail.context?.company_name ||
+        detail.name ||
+        i18n.t('settingsActivity.legalDocument.company', { defaultValue: 'company' })
+    const article =
+        documentType === 'BAA' || documentType === 'DPA'
+            ? i18n.t('settingsActivity.legalDocument.articleA', { defaultValue: 'a' })
+            : i18n.t('settingsActivity.legalDocument.articleThe', { defaultValue: 'the' })
 
     if (logItem.activity === 'created') {
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> generated {article} <strong>{documentType}</strong> for{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('settingsActivity.legalDocument.generated', { defaultValue: 'generated' })} {article}{' '}
+                    <strong>{documentType}</strong> {i18n.t('settingsActivity.for', { defaultValue: 'for' })}{' '}
                     <strong>{companyName}</strong>
                 </>
             ),
@@ -332,12 +410,22 @@ export function legalDocumentActivityDescriber(logItem: ActivityLogItem, asNotif
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted {article} <strong>{documentType}</strong> for{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('settingsActivity.legalDocument.deleted', { defaultValue: 'deleted' })} {article}{' '}
+                    <strong>{documentType}</strong> {i18n.t('settingsActivity.for', { defaultValue: 'for' })}{' '}
                     <strong>{companyName}</strong>
                 </>
             ),
         }
     }
 
-    return defaultDescriber(logItem, asNotification, `${documentType} for ${companyName}`)
+    return defaultDescriber(
+        logItem,
+        asNotification,
+        i18n.t('settingsActivity.legalDocument.descriptor', {
+            defaultValue: '{{ document }} for {{ company }}',
+            document: documentType,
+            company: companyName,
+        })
+    )
 }

@@ -5,14 +5,15 @@ import {
     HumanizedChange,
     defaultDescriber,
 } from 'lib/components/ActivityLog/humanizeActivity'
+import { i18n } from 'lib/i18n/i18n'
 
 const projectNameForLog = (logItem: ActivityLogItem): string => {
     const context = logItem.detail?.context
-    return context?.project_name || 'this project'
+    return context?.project_name || i18n.t('settingsActivity.project', { defaultValue: 'this project' })
 }
 
 const keyLabel = (logItem: ActivityLogItem): string => {
-    return logItem.detail?.name || 'Unknown key'
+    return logItem.detail?.name || i18n.t('settingsActivity.unknownKey', { defaultValue: 'Unknown key' })
 }
 
 export const projectSecretAPIKeyActivityDescriber: Describer = (logItem: ActivityLogItem): HumanizedChange => {
@@ -29,7 +30,9 @@ export const projectSecretAPIKeyActivityDescriber: Describer = (logItem: Activit
         return {
             description: (
                 <>
-                    {actor} created project secret API key {keyName} for {scopeName}
+                    {actor}{' '}
+                    {i18n.t('settingsActivity.projectApiKey.created', { defaultValue: 'created project API key' })}{' '}
+                    {keyName} {i18n.t('settingsActivity.for', { defaultValue: 'for' })} {scopeName}
                 </>
             ),
         }
@@ -42,7 +45,9 @@ export const projectSecretAPIKeyActivityDescriber: Describer = (logItem: Activit
             return {
                 description: (
                     <>
-                        {actor} rolled project secret API key {keyName} for {scopeName}
+                        {actor}{' '}
+                        {i18n.t('settingsActivity.projectApiKey.rolled', { defaultValue: 'rolled project API key' })}{' '}
+                        {keyName} {i18n.t('settingsActivity.for', { defaultValue: 'for' })} {scopeName}
                     </>
                 ),
             }
@@ -51,7 +56,9 @@ export const projectSecretAPIKeyActivityDescriber: Describer = (logItem: Activit
         return {
             description: (
                 <>
-                    {actor} updated project secret API key {keyName} for {scopeName}
+                    {actor}{' '}
+                    {i18n.t('settingsActivity.projectApiKey.updated', { defaultValue: 'updated project API key' })}{' '}
+                    {keyName} {i18n.t('settingsActivity.for', { defaultValue: 'for' })} {scopeName}
                 </>
             ),
         }
@@ -61,7 +68,9 @@ export const projectSecretAPIKeyActivityDescriber: Describer = (logItem: Activit
         return {
             description: (
                 <>
-                    {actor} deleted project secret API key {keyName} for {scopeName}
+                    {actor}{' '}
+                    {i18n.t('settingsActivity.projectApiKey.deleted', { defaultValue: 'deleted project API key' })}{' '}
+                    {keyName} {i18n.t('settingsActivity.for', { defaultValue: 'for' })} {scopeName}
                 </>
             ),
         }

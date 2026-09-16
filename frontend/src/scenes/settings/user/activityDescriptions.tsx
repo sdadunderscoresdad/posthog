@@ -5,6 +5,7 @@ import {
     HumanizedChange,
     defaultDescriber,
 } from 'lib/components/ActivityLog/humanizeActivity'
+import { i18n } from 'lib/i18n/i18n'
 
 export const personalAPIKeyActivityDescriber: Describer = (logItem: ActivityLogItem): HumanizedChange => {
     if (logItem.scope !== 'PersonalAPIKey') {
@@ -20,19 +21,21 @@ export const personalAPIKeyActivityDescriber: Describer = (logItem: ActivityLogI
         if (context?.organization_name) {
             return context.organization_name
         }
-        return 'Unknown scope'
+        return i18n.t('settingsActivity.unknownScope', { defaultValue: 'Unknown scope' })
     }
 
     const getKeyTitle = (): string => {
-        return logItem.detail.name || 'Unknown key'
+        return logItem.detail.name || i18n.t('settingsActivity.unknownKey', { defaultValue: 'Unknown key' })
     }
 
     if (logItem.activity === 'created') {
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> created personal API key <strong>{getKeyTitle()}</strong>{' '}
-                    for <strong>{getScopeDescription()}</strong>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('settingsActivity.personalApiKey.created', { defaultValue: 'created personal API key' })}{' '}
+                    <strong>{getKeyTitle()}</strong> {i18n.t('settingsActivity.for', { defaultValue: 'for' })}{' '}
+                    <strong>{getScopeDescription()}</strong>
                 </>
             ),
         }
@@ -42,8 +45,12 @@ export const personalAPIKeyActivityDescriber: Describer = (logItem: ActivityLogI
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> revoked access for personal API key{' '}
-                    <strong>{getKeyTitle()}</strong> to <strong>{getScopeDescription()}</strong>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('settingsActivity.personalApiKey.revoked', {
+                        defaultValue: 'revoked access for personal API key',
+                    })}{' '}
+                    <strong>{getKeyTitle()}</strong> {i18n.t('settingsActivity.to', { defaultValue: 'to' })}{' '}
+                    <strong>{getScopeDescription()}</strong>
                 </>
             ),
         }
@@ -56,8 +63,10 @@ export const personalAPIKeyActivityDescriber: Describer = (logItem: ActivityLogI
             return {
                 description: (
                     <>
-                        <ActivityLogUserName logItem={logItem} /> rolled personal API key{' '}
-                        <strong>{getKeyTitle()}</strong> for <strong>{getScopeDescription()}</strong>
+                        <ActivityLogUserName logItem={logItem} />{' '}
+                        {i18n.t('settingsActivity.personalApiKey.rolled', { defaultValue: 'rolled personal API key' })}{' '}
+                        <strong>{getKeyTitle()}</strong> {i18n.t('settingsActivity.for', { defaultValue: 'for' })}{' '}
+                        <strong>{getScopeDescription()}</strong>
                     </>
                 ),
             }
@@ -66,8 +75,10 @@ export const personalAPIKeyActivityDescriber: Describer = (logItem: ActivityLogI
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> updated personal API key <strong>{getKeyTitle()}</strong>{' '}
-                    for <strong>{getScopeDescription()}</strong>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('settingsActivity.personalApiKey.updated', { defaultValue: 'updated personal API key' })}{' '}
+                    <strong>{getKeyTitle()}</strong> {i18n.t('settingsActivity.for', { defaultValue: 'for' })}{' '}
+                    <strong>{getScopeDescription()}</strong>
                 </>
             ),
         }
@@ -77,8 +88,11 @@ export const personalAPIKeyActivityDescriber: Describer = (logItem: ActivityLogI
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted personal API key <strong>{getKeyTitle()}</strong>{' '}
-                    for access to <strong>{getScopeDescription()}</strong>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('settingsActivity.personalApiKey.deleted', { defaultValue: 'deleted personal API key' })}{' '}
+                    <strong>{getKeyTitle()}</strong>{' '}
+                    {i18n.t('settingsActivity.forAccessTo', { defaultValue: 'for access to' })}{' '}
+                    <strong>{getScopeDescription()}</strong>
                 </>
             ),
         }
@@ -110,7 +124,9 @@ export const oauthApplicationActivityDescriber: Describer = (logItem: ActivityLo
         return { description: null }
     }
 
-    const appName = logItem.detail.name || 'an OAuth application'
+    const appName =
+        logItem.detail.name ||
+        i18n.t('settingsActivity.oauthApplicationFallbackName', { defaultValue: 'an OAuth application' })
     const scopesChange = logItem.detail.changes?.find((change) => change.field === 'scopes')
     if (!scopesChange) {
         return defaultDescriber(logItem)
@@ -124,7 +140,14 @@ export const oauthApplicationActivityDescriber: Describer = (logItem: ActivityLo
         return {
             description: (
                 <>
-                    {actor} registered OAuth application <strong>{appName}</strong> with scope ceiling{' '}
+                    {actor}{' '}
+                    {i18n.t('settingsActivity.oauthApplication.registered', {
+                        defaultValue: 'registered OAuth application',
+                    })}{' '}
+                    <strong>{appName}</strong>{' '}
+                    {i18n.t('settingsActivity.oauthApplication.withScopeCeiling', {
+                        defaultValue: 'with scope ceiling',
+                    })}{' '}
                     <ScopeList scopes={after} />
                 </>
             ),
@@ -136,8 +159,17 @@ export const oauthApplicationActivityDescriber: Describer = (logItem: ActivityLo
             return {
                 description: (
                     <>
-                        {actor} removed the scope ceiling on <strong>{appName}</strong> (was{' '}
-                        <ScopeList scopes={before} />; default unprivileged scopes now apply)
+                        {actor}{' '}
+                        {i18n.t('settingsActivity.oauthApplication.removedCeiling', {
+                            defaultValue: 'removed the scope ceiling on',
+                        })}{' '}
+                        <strong>{appName}</strong>{' '}
+                        {i18n.t('settingsActivity.oauthApplication.was', { defaultValue: '(was' })}{' '}
+                        <ScopeList scopes={before} />
+                        {i18n.t('settingsActivity.oauthApplication.defaultScopesNote', {
+                            defaultValue: '; default unprivileged scopes now apply',
+                        })}
+                        )
                     </>
                 ),
             }
@@ -147,7 +179,13 @@ export const oauthApplicationActivityDescriber: Describer = (logItem: ActivityLo
             return {
                 description: (
                     <>
-                        {actor} set the scope ceiling on <strong>{appName}</strong> to <ScopeList scopes={after} />
+                        {actor}{' '}
+                        {i18n.t('settingsActivity.oauthApplication.setCeiling', {
+                            defaultValue: 'set the scope ceiling on',
+                        })}{' '}
+                        <strong>{appName}</strong>{' '}
+                        {i18n.t('settingsActivity.oauthApplication.to', { defaultValue: 'to' })}{' '}
+                        <ScopeList scopes={after} />
                     </>
                 ),
             }
@@ -160,8 +198,17 @@ export const oauthApplicationActivityDescriber: Describer = (logItem: ActivityLo
             return {
                 description: (
                     <>
-                        {actor} changed the scope ceiling on <strong>{appName}</strong>: added{' '}
-                        <ScopeList scopes={added} />, removed <ScopeList scopes={removed} />
+                        {actor}{' '}
+                        {i18n.t('settingsActivity.oauthApplication.changedCeiling', {
+                            defaultValue: 'changed the scope ceiling on',
+                        })}{' '}
+                        <strong>{appName}</strong>
+                        {i18n.t('settingsActivity.oauthApplication.addedRemovedLeadIn', {
+                            defaultValue: ': added',
+                        })}{' '}
+                        <ScopeList scopes={added} />
+                        {i18n.t('settingsActivity.oauthApplication.removed', { defaultValue: ', removed' })}{' '}
+                        <ScopeList scopes={removed} />
                     </>
                 ),
             }
@@ -170,7 +217,12 @@ export const oauthApplicationActivityDescriber: Describer = (logItem: ActivityLo
             return {
                 description: (
                     <>
-                        {actor} widened the scope ceiling on <strong>{appName}</strong>: added{' '}
+                        {actor}{' '}
+                        {i18n.t('settingsActivity.oauthApplication.widenedCeiling', {
+                            defaultValue: 'widened the scope ceiling on',
+                        })}{' '}
+                        <strong>{appName}</strong>
+                        {i18n.t('settingsActivity.oauthApplication.addedLeadIn', { defaultValue: ': added' })}{' '}
                         <ScopeList scopes={added} />
                     </>
                 ),
@@ -180,7 +232,12 @@ export const oauthApplicationActivityDescriber: Describer = (logItem: ActivityLo
             return {
                 description: (
                     <>
-                        {actor} narrowed the scope ceiling on <strong>{appName}</strong>: removed{' '}
+                        {actor}{' '}
+                        {i18n.t('settingsActivity.oauthApplication.narrowedCeiling', {
+                            defaultValue: 'narrowed the scope ceiling on',
+                        })}{' '}
+                        <strong>{appName}</strong>
+                        {i18n.t('settingsActivity.oauthApplication.removedLeadIn', { defaultValue: ': removed' })}{' '}
                         <ScopeList scopes={removed} />
                     </>
                 ),

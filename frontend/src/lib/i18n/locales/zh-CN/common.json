@@ -3640,6 +3640,86 @@
             "webAnalyticsAchievements": "显示 Web 分析成就"
         }
     },
+    "settingsActivity": {
+        "domain": {
+            "added": "添加了域名",
+            "deleted": "删除了域名",
+            "disabled": "关闭了",
+            "enabled": "启用了",
+            "forDomain": "，域名",
+            "rotated": "轮换了",
+            "unknown": "未知域名"
+        },
+        "for": "，对象为",
+        "forAccessTo": "，用于访问",
+        "forOrganization": "，组织",
+        "invite": {
+            "as": "，角色为",
+            "forInvitationSentTo": "，涉及发送给以下邮箱的邀请：",
+            "revoked": "撤销了对以下邮箱的邀请：",
+            "sent": "向以下邮箱发送了邀请：",
+            "toJoinOrganization": "加入组织"
+        },
+        "legalDocument": {
+            "articleA": "一份",
+            "articleThe": "该",
+            "company": "公司",
+            "deleted": "删除了",
+            "descriptor": "{{ company }} 的 {{ document }}",
+            "document": "文档",
+            "generated": "生成了"
+        },
+        "membership": {
+            "addedUser": "添加了用户",
+            "changed": "将",
+            "fromOrganization": "移出组织",
+            "inOrganization": "，组织",
+            "membershipInOrganization": "的成员身份，组织",
+            "removedUser": "移除了用户",
+            "roleFrom": "的角色从",
+            "to": "变更为",
+            "toOrganization": "加入组织"
+        },
+        "oauthApplication": {
+            "addedLeadIn": "，新增",
+            "addedRemovedLeadIn": "，新增",
+            "changedCeiling": "修改了以下应用的权限范围上限：",
+            "defaultScopesNote": "；现在适用默认的非特权权限",
+            "narrowedCeiling": "收窄了以下应用的权限范围上限：",
+            "registered": "注册了 OAuth 应用",
+            "removed": "，移除",
+            "removedCeiling": "取消了以下应用的权限范围上限：",
+            "removedLeadIn": "，移除",
+            "setCeiling": "为以下应用设置了权限范围上限：",
+            "to": "，上限为",
+            "was": "（原为",
+            "widenedCeiling": "放宽了以下应用的权限范围上限：",
+            "withScopeCeiling": "，权限范围上限为"
+        },
+        "oauthApplicationFallbackName": "某个 OAuth 应用",
+        "organization": "组织",
+        "personalApiKey": {
+            "created": "创建了个人 API 密钥",
+            "deleted": "删除了个人 API 密钥",
+            "revoked": "撤销了个人 API 密钥的访问权限：",
+            "rolled": "轮换了个人 API 密钥",
+            "updated": "更新了个人 API 密钥"
+        },
+        "project": "此项目",
+        "projectApiKey": {
+            "created": "创建了项目 API 密钥",
+            "deleted": "删除了项目 API 密钥",
+            "rolled": "轮换了项目 API 密钥",
+            "updated": "更新了项目 API 密钥"
+        },
+        "settingsCount_other": "{{ count }} 项设置",
+        "theOrganization": "该组织",
+        "to": "，对象为",
+        "unknownKey": "未知密钥",
+        "unknownScope": "未知范围",
+        "updated": "更新了",
+        "updatedWithField": "更新了"
+    },
     "signup": {
         "agreeToTerms": "通过{{ action }}，即表示你同意我们的",
         "alreadyInvited": "你已被邀请",

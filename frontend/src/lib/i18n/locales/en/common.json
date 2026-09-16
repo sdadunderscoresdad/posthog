@@ -3669,6 +3669,87 @@
             "webAnalyticsAchievements": "Show Web analytics achievements"
         }
     },
+    "settingsActivity": {
+        "domain": {
+            "added": "added domain",
+            "deleted": "deleted domain",
+            "disabled": "disabled",
+            "enabled": "enabled",
+            "forDomain": "for domain",
+            "rotated": "rotated the",
+            "unknown": "unknown domain"
+        },
+        "for": "for",
+        "forAccessTo": "for access to",
+        "forOrganization": "for organization",
+        "invite": {
+            "as": "as",
+            "forInvitationSentTo": "for the invitation sent to",
+            "revoked": "revoked the invitation for",
+            "sent": "sent an invitation to",
+            "toJoinOrganization": "to join organization"
+        },
+        "legalDocument": {
+            "articleA": "a",
+            "articleThe": "the",
+            "company": "company",
+            "deleted": "deleted",
+            "descriptor": "{{ document }} for {{ company }}",
+            "document": "document",
+            "generated": "generated"
+        },
+        "membership": {
+            "addedUser": "added user",
+            "changed": "changed",
+            "fromOrganization": "from organization",
+            "inOrganization": "in organization",
+            "membershipInOrganization": "'s membership in organization",
+            "removedUser": "removed user",
+            "roleFrom": "'s role from",
+            "to": "to",
+            "toOrganization": "to organization"
+        },
+        "oauthApplication": {
+            "addedLeadIn": ": added",
+            "addedRemovedLeadIn": ": added",
+            "changedCeiling": "changed the scope ceiling on",
+            "defaultScopesNote": "; default unprivileged scopes now apply",
+            "narrowedCeiling": "narrowed the scope ceiling on",
+            "registered": "registered OAuth application",
+            "removed": ", removed",
+            "removedCeiling": "removed the scope ceiling on",
+            "removedLeadIn": ": removed",
+            "setCeiling": "set the scope ceiling on",
+            "to": "to",
+            "was": "(was",
+            "widenedCeiling": "widened the scope ceiling on",
+            "withScopeCeiling": "with scope ceiling"
+        },
+        "oauthApplicationFallbackName": "an OAuth application",
+        "organization": "Organization",
+        "personalApiKey": {
+            "created": "created personal API key",
+            "deleted": "deleted personal API key",
+            "revoked": "revoked access for personal API key",
+            "rolled": "rolled personal API key",
+            "updated": "updated personal API key"
+        },
+        "project": "this project",
+        "projectApiKey": {
+            "created": "created project API key",
+            "deleted": "deleted project API key",
+            "rolled": "rolled project API key",
+            "updated": "updated project API key"
+        },
+        "settingsCount_one": "{{ count }} setting",
+        "settingsCount_other": "{{ count }} settings",
+        "theOrganization": "the organization",
+        "to": "to",
+        "unknownKey": "Unknown key",
+        "unknownScope": "Unknown scope",
+        "updated": "updated",
+        "updatedWithField": "updated the"
+    },
     "signup": {
         "agreeToTerms": "By {{ action }}, you agree to our",
         "alreadyInvited": "You've already been invited",

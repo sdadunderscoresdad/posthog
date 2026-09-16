@@ -3727,6 +3727,89 @@
             "webAnalyticsAchievements": ""
         }
     },
+    "settingsActivity": {
+        "domain": {
+            "added": "",
+            "deleted": "",
+            "disabled": "",
+            "enabled": "",
+            "forDomain": "",
+            "rotated": "",
+            "unknown": ""
+        },
+        "for": "",
+        "forAccessTo": "",
+        "forOrganization": "",
+        "invite": {
+            "as": "",
+            "forInvitationSentTo": "",
+            "revoked": "",
+            "sent": "",
+            "toJoinOrganization": ""
+        },
+        "legalDocument": {
+            "articleA": "",
+            "articleThe": "",
+            "company": "",
+            "deleted": "",
+            "descriptor": "",
+            "document": "",
+            "generated": ""
+        },
+        "membership": {
+            "addedUser": "",
+            "changed": "",
+            "fromOrganization": "",
+            "inOrganization": "",
+            "membershipInOrganization": "",
+            "removedUser": "",
+            "roleFrom": "",
+            "to": "",
+            "toOrganization": ""
+        },
+        "oauthApplication": {
+            "addedLeadIn": "",
+            "addedRemovedLeadIn": "",
+            "changedCeiling": "",
+            "defaultScopesNote": "",
+            "narrowedCeiling": "",
+            "registered": "",
+            "removed": "",
+            "removedCeiling": "",
+            "removedLeadIn": "",
+            "setCeiling": "",
+            "to": "",
+            "was": "",
+            "widenedCeiling": "",
+            "withScopeCeiling": ""
+        },
+        "oauthApplicationFallbackName": "",
+        "organization": "",
+        "personalApiKey": {
+            "created": "",
+            "deleted": "",
+            "revoked": "",
+            "rolled": "",
+            "updated": ""
+        },
+        "project": "",
+        "projectApiKey": {
+            "created": "",
+            "deleted": "",
+            "rolled": "",
+            "updated": ""
+        },
+        "settingsCount_one": "",
+        "settingsCount_few": "",
+        "settingsCount_many": "",
+        "settingsCount_other": "",
+        "theOrganization": "",
+        "to": "",
+        "unknownKey": "",
+        "unknownScope": "",
+        "updated": "",
+        "updatedWithField": ""
+    },
     "signup": {
         "agreeToTerms": "",
         "alreadyInvited": "",
