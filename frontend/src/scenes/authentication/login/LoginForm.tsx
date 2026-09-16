@@ -182,7 +182,12 @@ export function LoginForm(): JSX.Element {
                                 defaults="For your security, we've emailed a 6-digit verification code to <strong>{{ codeVerificationEmail }}</strong>."
                             />
                         ) : pendingConnection ? (
-                            reviewAccessCopy(pendingConnection, 'After you log in')
+                            reviewAccessCopy(
+                                pendingConnection,
+                                t('authentication.reviewAccess.leadAfterLogin', {
+                                    defaultValue: 'After you log in',
+                                })
+                            )
                         ) : (
                             t('login.welcomeBack', { defaultValue: "Welcome back. Let's go ship something." })
                         )

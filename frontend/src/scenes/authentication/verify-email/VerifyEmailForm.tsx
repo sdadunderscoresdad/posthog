@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import * as explorerPng from '@posthog/brand/hoggies/png/explorer'
 import * as magnifyingGlassPng from '@posthog/brand/hoggies/png/magnifying-glass-1'
@@ -7,6 +8,7 @@ import * as magnifyingGlassPng from '@posthog/brand/hoggies/png/magnifying-glass
 import { pngHoggie } from 'lib/brand/hoggies'
 import { SleepingHog } from 'lib/components/hedgehogs'
 import { supportLogic } from 'lib/components/Support/supportLogic'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonBanner } from 'lib/lemon-ui/LemonBanner'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { Link } from 'lib/lemon-ui/Link'
@@ -28,28 +30,43 @@ const NOTES: Record<string, string[]> = {
     invalid: ['// nothing to verify', "// let's start again"],
 }
 
-const CHECKLIST = [
-    'Wait 5 minutes, some email providers take a beat',
-    'Check spam and any firewalls you run',
-    'Channel your inner hedgehog and peek again',
+const checklistItems = (): string[] => [
+    i18n.t('verifyEmail.checklist.wait', { defaultValue: 'Wait 5 minutes, some email providers take a beat' }),
+    i18n.t('verifyEmail.checklist.spam', { defaultValue: 'Check spam and any firewalls you run' }),
+    i18n.t('verifyEmail.checklist.peekAgain', { defaultValue: 'Channel your inner hedgehog and peek again' }),
 ]
 
-const DEEP_LINK_NOTICE: Record<VerifyEmailReason, string> = {
-    stripe_deep_link:
-        "Stripe sent you to PostHog to set up analytics. Verify your email and we'll open your new project.",
-    partner_deep_link: "Your sign-in link needs a verified email. Verify it and we'll take you where you were going.",
+function deepLinkNotice(reason: VerifyEmailReason): string {
+    switch (reason) {
+        case 'stripe_deep_link':
+            return i18n.t('verifyEmail.deepLink.stripe', {
+                defaultValue:
+                    "Stripe sent you to PostHog to set up analytics. Verify your email and we'll open your new project.",
+            })
+        case 'partner_deep_link':
+            return i18n.t('verifyEmail.deepLink.partner', {
+                defaultValue:
+                    "Your sign-in link needs a verified email. Verify it and we'll take you where you were going.",
+            })
+    }
 }
 
 function NotSeeingIt(): JSX.Element {
+    const { t } = useTranslation()
     const { openSupportForm } = useActions(supportLogic)
     const { requestVerificationCode } = useActions(verifyEmailLogic)
     const { uuid, newlyRequestedVerificationCodeLoading } = useValues(verifyEmailLogic)
     const [open, setOpen] = useState(false)
     const [checked, setChecked] = useState<boolean[]>([])
-    const allChecked = CHECKLIST.every((_, i) => checked[i])
+    const checklist = checklistItems()
+    const allChecked = checklist.every((_, i) => checked[i])
     // Like legacy: the resend (and support) stay gated behind the checklist so they can't be spammed.
     const gateReason = !allChecked
-        ? `Confirm the checks above (${checked.filter(Boolean).length}/${CHECKLIST.length})`
+        ? t('verifyEmail.confirmChecks', {
+              defaultValue: 'Confirm the checks above ({{ done }}/{{ total }})',
+              done: checked.filter(Boolean).length,
+              total: checklist.length,
+          })
         : undefined
 
     return (
@@ -59,13 +76,15 @@ function NotSeeingIt(): JSX.Element {
                 className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-secondary text-xs"
                 onClick={() => setOpen((v) => !v)}
             >
-                Not seeing it?
+                {t('verifyEmail.notSeeingIt', { defaultValue: 'Not seeing it?' })}
             </button>
             {open && (
                 <div className="AuthScene__note mt-3 w-full py-3 px-3.5 text-xs leading-relaxed text-secondary text-left bg-[#fbfbf9] border border-dashed border-[#c5c6bd] rounded">
-                    <p className="m-0 mb-2.5 font-semibold text-primary">Before we resend, three quick checks:</p>
+                    <p className="m-0 mb-2.5 font-semibold text-primary">
+                        {t('verifyEmail.beforeResend', { defaultValue: 'Before we resend, three quick checks:' })}
+                    </p>
                     <div className="flex flex-col gap-2">
-                        {CHECKLIST.map((item, i) => (
+                        {checklist.map((item, i) => (
                             <label key={i} className="flex items-start gap-2.5">
                                 <input
                                     type="checkbox"
@@ -93,7 +112,7 @@ function NotSeeingIt(): JSX.Element {
                                 disabledReason={gateReason}
                                 onClick={() => requestVerificationCode(uuid)}
                             >
-                                Resend code
+                                {t('verifyEmail.resendCode', { defaultValue: 'Resend code' })}
                             </LemonButton>
                         )}
                         <LemonButton
@@ -107,7 +126,7 @@ function NotSeeingIt(): JSX.Element {
                                 })
                             }
                         >
-                            Contact support
+                            {t('verifyEmail.contactSupport', { defaultValue: 'Contact support' })}
                         </LemonButton>
                     </div>
                 </div>
@@ -117,6 +136,7 @@ function NotSeeingIt(): JSX.Element {
 }
 
 function VerificationCodeEntry(): JSX.Element {
+    const { t } = useTranslation()
     const { verificationCode, verificationCodeError, verificationResultLoading } = useValues(verifyEmailLogic)
     const { setVerificationCode, submitVerificationCode } = useActions(verifyEmailLogic)
 
@@ -158,17 +178,22 @@ function VerificationCodeEntry(): JSX.Element {
                 htmlType="submit"
                 loading={verificationResultLoading}
                 disabledReason={
-                    isValidVerificationCode(verificationCode) ? undefined : 'Enter the 6-digit code from your email'
+                    isValidVerificationCode(verificationCode)
+                        ? undefined
+                        : t('verifyEmail.enterCode', {
+                              defaultValue: 'Enter the 6-digit code from your email',
+                          })
                 }
                 data-attr="verify-email-code-submit"
             >
-                Verify email
+                {t('verifyEmail.verify', { defaultValue: 'Verify email' })}
             </LemonButton>
         </form>
     )
 }
 
 function CheckYourInbox(): JSX.Element {
+    const { t } = useTranslation()
     const { uuid, user, reason, verificationEmailSent } = useValues(verifyEmailLogic)
     const { pendingConnection } = useValues(pendingOAuthConnectionLogic)
 
@@ -181,34 +206,57 @@ function CheckYourInbox(): JSX.Element {
         <div className="flex flex-col items-center text-center">
             {reason && (
                 <LemonBanner type="info" className="w-full mb-4 text-left">
-                    {DEEP_LINK_NOTICE[reason]}
+                    {deepLinkNotice(reason)}
                 </LemonBanner>
             )}
             {!verificationEmailSent && (
                 <LemonBanner type="warning" className="w-full mb-4 text-left">
-                    We couldn't send your code just now. Open "Not seeing it?" below to send a new one.
+                    {t('verifyEmail.sendFailedNotice', {
+                        defaultValue:
+                            'We couldn\'t send your code just now. Open "Not seeing it?" below to send a new one.',
+                    })}
                 </LemonBanner>
             )}
             <HedgehogMagnifyingGlass className="block w-auto mx-auto h-28" />
             <h1 className="m-0 mt-3 font-title text-2xl font-extrabold leading-tight text-primary text-center tracking-tight">
-                {verificationEmailSent ? 'Check your inbox' : 'Enter your code'}
+                {verificationEmailSent
+                    ? t('verifyEmail.checkInbox', { defaultValue: 'Check your inbox' })
+                    : t('verifyEmail.enterYourCode', { defaultValue: 'Enter your code' })}
             </h1>
             <p className="AuthScene__sub mt-2 mb-4 text-sm text-secondary text-center text-pretty">
                 {!verificationEmailSent ? (
-                    <>Already have a code? Enter it below. Codes are valid for 30 minutes.</>
+                    <>
+                        {t('verifyEmail.alreadyHaveCode', {
+                            defaultValue: 'Already have a code? Enter it below. Codes are valid for 30 minutes.',
+                        })}
+                    </>
                 ) : verificationEmail ? (
                     <>
-                        We sent a 6-digit code to <strong>{verificationEmail}</strong>.
+                        <Trans
+                            i18nKey="verifyEmail.sentTo"
+                            values={{ email: verificationEmail }}
+                            components={{ Strong: <strong /> }}
+                            defaults="We sent a 6-digit code to <Strong>{{ email }}</Strong>."
+                        />
                         <br />
-                        It's valid for 30 minutes.
+                        {t('verifyEmail.validFor30', { defaultValue: "It's valid for 30 minutes." })}
                     </>
                 ) : (
-                    <>We sent you a 6-digit code. It's valid for 30 minutes.</>
+                    <>
+                        {t('verifyEmail.sentCode', {
+                            defaultValue: "We sent you a 6-digit code. It's valid for 30 minutes.",
+                        })}
+                    </>
                 )}
             </p>
             {pendingConnection && (
                 <p className="AuthScene__sub -mt-2 mb-4 text-sm text-secondary text-center text-pretty">
-                    {reviewAccessCopy(pendingConnection, 'After you verify')}
+                    {reviewAccessCopy(
+                        pendingConnection,
+                        t('authentication.reviewAccess.leadAfterVerify', {
+                            defaultValue: 'After you verify',
+                        })
+                    )}
                 </p>
             )}
             <VerificationCodeEntry />
@@ -220,6 +268,7 @@ function CheckYourInbox(): JSX.Element {
 }
 
 export function VerifyEmailForm(): JSX.Element {
+    const { t } = useTranslation()
     const { view, verificationEmailSent } = useValues(verifyEmailLogic)
     const { pendingConnection } = useValues(pendingOAuthConnectionLogic)
     const { openSupportForm } = useActions(supportLogic)
@@ -234,17 +283,29 @@ export function VerifyEmailForm(): JSX.Element {
                     <div className="flex flex-col items-center text-center">
                         <HedgehogExplorer className="block w-auto mx-auto h-32" />
                         <h1 className="m-0 mt-3 font-title text-2xl font-extrabold leading-tight text-primary text-center tracking-tight">
-                            {pendingConnection ? "You're verified" : "You're verified, go explore!"}
+                            {pendingConnection
+                                ? t('verifyEmail.verifiedPending', { defaultValue: "You're verified" })
+                                : t('verifyEmail.verifiedGoExplore', {
+                                      defaultValue: "You're verified, go explore!",
+                                  })}
                         </h1>
                         <p className="AuthScene__sub mt-2 mb-5 text-sm text-secondary text-center text-pretty">
                             {pendingConnection
-                                ? `Email confirmed. Next, review what ${pendingConnection.clientName} can access.`
-                                : 'Email confirmed. Next up: a quick setup. Your org, your team, your first events.'}
+                                ? t('verifyEmail.emailConfirmedReview', {
+                                      defaultValue: 'Email confirmed. Next, review what {{ client }} can access.',
+                                      client: pendingConnection.clientName,
+                                  })
+                                : t('verifyEmail.emailConfirmedNext', {
+                                      defaultValue:
+                                          'Email confirmed. Next up: a quick setup. Your org, your team, your first events.',
+                                  })}
                         </p>
                         <div className="AuthScene__progress mb-4 w-full h-1.5 overflow-hidden bg-[#e0e1d9] rounded-sm">
                             <div className="AuthScene__progress-fill w-full h-full bg-warning rounded-sm" />
                         </div>
-                        <p className="m-0 text-sm text-secondary text-center">Taking you to PostHog…</p>
+                        <p className="m-0 text-sm text-secondary text-center">
+                            {t('verifyEmail.takingYou', { defaultValue: 'Taking you to PostHog…' })}
+                        </p>
                     </div>
                 </AuthSceneCard>
             </AuthScene>
@@ -257,12 +318,12 @@ export function VerifyEmailForm(): JSX.Element {
                 <AuthSceneCard
                     footer={
                         <p className="mt-5 mb-0 text-sm text-secondary text-center">
-                            Already verified?{' '}
+                            {t('verifyEmail.alreadyVerified', { defaultValue: 'Already verified?' })}{' '}
                             <Link
                                 to={urls.login()}
                                 className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-warning"
                             >
-                                Log in →
+                                {t('verifyEmail.logIn', { defaultValue: 'Log in →' })}
                             </Link>
                         </p>
                     }
@@ -270,14 +331,17 @@ export function VerifyEmailForm(): JSX.Element {
                     <div className="flex flex-col items-center text-center">
                         <SleepingHog className="block w-auto mx-auto h-28" />
                         <h1 className="m-0 mt-3 font-title text-2xl font-extrabold leading-tight text-primary text-center tracking-tight">
-                            We don't know who to verify
+                            {t('verifyEmail.dontKnowWho', { defaultValue: "We don't know who to verify" })}
                         </h1>
                         <p className="AuthScene__sub mt-2 mb-5 text-sm text-secondary text-center text-pretty">
-                            Log in with your email and password and we'll send a new code to your inbox.
+                            {t('verifyEmail.logInPrompt', {
+                                defaultValue:
+                                    "Log in with your email and password and we'll send a new code to your inbox.",
+                            })}
                         </p>
                         <div className="flex w-full flex-col gap-2.5">
                             <LemonButton type="primary" size="large" center fullWidth to={urls.login()}>
-                                Log in
+                                {t('verifyEmail.logInShort', { defaultValue: 'Log in' })}
                             </LemonButton>
                             <LemonButton
                                 size="large"
@@ -289,7 +353,7 @@ export function VerifyEmailForm(): JSX.Element {
                                     })
                                 }
                             >
-                                Contact support
+                                {t('verifyEmail.contactSupport', { defaultValue: 'Contact support' })}
                             </LemonButton>
                         </div>
                     </div>
@@ -304,12 +368,12 @@ export function VerifyEmailForm(): JSX.Element {
             <AuthSceneCard
                 footer={
                     <p className="mt-5 mb-0 text-sm text-secondary text-center">
-                        Wrong address?{' '}
+                        {t('verifyEmail.wrongAddress', { defaultValue: 'Wrong address?' })}{' '}
                         <Link
                             to={urls.signup()}
                             className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-warning"
                         >
-                            Start over →
+                            {t('verifyEmail.startOver', { defaultValue: 'Start over →' })}
                         </Link>
                     </p>
                 }

@@ -69,6 +69,15 @@
             "featureFlag": ""
         }
     },
+    "authentication": {
+        "reviewAccess": {
+            "copy": "",
+            "goBack": "",
+            "leadAfterLogin": "",
+            "leadAfterVerify": "",
+            "leadOnceAccountReady": ""
+        }
+    },
     "common": {
         "no": "",
         "unknown": "",
@@ -3474,5 +3483,90 @@
             },
             "webAnalyticsAchievements": ""
         }
+    },
+    "signup": {
+        "agreeToTerms": "",
+        "alreadyInvited": "",
+        "and": "",
+        "contactUs": "",
+        "continue": "",
+        "createAccount": "",
+        "createOwnOrg": "",
+        "createToConnect": "",
+        "creatingAccount": "",
+        "emailLabel": "",
+        "enterDemo": "",
+        "enteringDemo": "",
+        "getStarted": "",
+        "haveAccount": "",
+        "invited": "",
+        "inviteInInbox": "",
+        "inviteLinkHint": "",
+        "inviteResent": "",
+        "joinExistingOrg": "",
+        "logIn": "",
+        "logInInstead": "",
+        "namePlaceholder": "",
+        "organizationName": "",
+        "organizationPlaceholder": "",
+        "orGoBack": "",
+        "orSignUpWith": "",
+        "orUsepassword": "",
+        "passkeyAlt": "",
+        "passkeyRegistered": "",
+        "PasswordLabel": "",
+        "preparingDemo": "",
+        "privacyPolicy": "",
+        "resendInvite": "",
+        "secureAccount": "",
+        "settingUpFor": "",
+        "signingUpAs": "",
+        "signupFailed": "",
+        "signUpWithPasskey": "",
+        "tagline": "",
+        "tellUsAboutYourself": "",
+        "terms": "",
+        "termsOfService": "",
+        "toResolveThis": "",
+        "useDifferentEmail": "",
+        "yourName": "",
+        "yourTeam": ""
+    },
+    "verifyEmail": {
+        "alreadyHaveCode": "",
+        "alreadyVerified": "",
+        "beforeResend": "",
+        "checkInbox": "",
+        "checklist": {
+            "peekAgain": "",
+            "spam": "",
+            "wait": ""
+        },
+        "confirmChecks": "",
+        "contactSupport": "",
+        "deepLink": {
+            "partner": "",
+            "stripe": ""
+        },
+        "dontKnowWho": "",
+        "emailConfirmedNext": "",
+        "emailConfirmedReview": "",
+        "enterCode": "",
+        "enterYourCode": "",
+        "logIn": "",
+        "logInPrompt": "",
+        "logInShort": "",
+        "notSeeingIt": "",
+        "resendCode": "",
+        "sendFailedNotice": "",
+        "sentCode": "",
+        "sentTo": "",
+        "startOver": "",
+        "takingYou": "",
+        "validFor30": "",
+        "verifiedGoExplore": "",
+        "verifiedPending": "",
+        "verify": "",
+        "wrongAddress": ""
     }
 }

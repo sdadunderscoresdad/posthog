@@ -1,6 +1,7 @@
 import { useActions, useMountedLogic, useValues } from 'kea'
 import { Form } from 'kea-forms'
 import { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { getCookie } from 'lib/api'
 import PasswordStrength from 'lib/components/PasswordStrength'
@@ -41,6 +42,7 @@ const NOTES: Record<number, string[]> = {
 
 /** Step 1 — email (+ region, social, pending-invite branch). */
 function SignupEmailPanel(): JSX.Element {
+    const { t } = useTranslation()
     const { isSignupPanelEmailSubmitting, signupPanelEmailManualErrors, pendingInvite, loginUrl, emailCaseNotice } =
         useValues(signupLogic)
     const { preflight } = useValues(preflightLogic)
@@ -55,13 +57,13 @@ function SignupEmailPanel(): JSX.Element {
 
     const footer = preflight?.demo ? undefined : (
         <p className="mt-5 mb-0 text-sm text-secondary text-center">
-            <span>Already have an account?</span>{' '}
+            <span>{t('signup.haveAccount', { defaultValue: 'Already have an account?' })}</span>{' '}
             <Link
                 to={loginUrl}
                 data-attr="signup-login-link"
                 className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-warning"
             >
-                Log in →
+                {t('signup.logIn', { defaultValue: 'Log in →' })}
             </Link>
         </p>
     )
@@ -70,19 +72,29 @@ function SignupEmailPanel(): JSX.Element {
         <AuthSceneCard footer={footer}>
             <AuthCardTitle
                 title={
-                    pendingConnection ? `Create your account to connect ${pendingConnection.clientName}` : 'Get started'
+                    pendingConnection
+                        ? t('signup.createToConnect', {
+                              defaultValue: 'Create your account to connect {{ client }}',
+                              client: pendingConnection.clientName,
+                          })
+                        : t('signup.getStarted', { defaultValue: 'Get started' })
                 }
                 sub={
                     pendingConnection
-                        ? reviewAccessCopy(pendingConnection, 'Once your account is ready')
-                        : 'Make your product self-driving.'
+                        ? reviewAccessCopy(
+                              pendingConnection,
+                              t('authentication.reviewAccess.leadOnceAccountReady', {
+                                  defaultValue: 'Once your account is ready',
+                              })
+                          )
+                        : t('signup.tagline', { defaultValue: 'Make your product self-driving.' })
                 }
             />
             <Form logic={signupLogic} formKey="signupPanelEmail" enableFormOnSubmit className="flex flex-col gap-4">
                 <RegionField />
                 <LemonField
                     name="email"
-                    label="Email"
+                    label={t('signup.emailLabel', { defaultValue: 'Email' })}
                     help={emailCaseNotice && <span className="text-warning">{emailCaseNotice}</span>}
                 >
                     {({ value, onChange, error, id }) => (
@@ -108,7 +120,7 @@ function SignupEmailPanel(): JSX.Element {
                             to={loginUrl}
                             className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-warning"
                         >
-                            Log in instead →
+                            {t('signup.logInInstead', { defaultValue: 'Log in instead →' })}
                         </Link>
                     </p>
                 )}
@@ -121,13 +133,13 @@ function SignupEmailPanel(): JSX.Element {
                     data-attr="signup-start"
                     loading={isSignupPanelEmailSubmitting}
                 >
-                    Continue
+                    {t('signup.continue', { defaultValue: 'Continue' })}
                 </LemonButton>
             </Form>
             {!preflight?.demo && (
                 <SocialLoginButtons
                     topDivider
-                    caption="or sign up with"
+                    caption={t('signup.orSignUpWith', { defaultValue: 'or sign up with' })}
                     lastUsedProvider={lastLoginMethod ?? undefined}
                     captionLocation="top"
                 />
@@ -140,12 +152,16 @@ function SignupEmailPanel(): JSX.Element {
                         className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-secondary text-xs"
                         onClick={() => setShowJoinOrg((v) => !v)}
                     >
-                        Trying to join an existing organization?
+                        {t('signup.joinExistingOrg', {
+                            defaultValue: 'Trying to join an existing organization?',
+                        })}
                     </button>
                     {showJoinOrg && (
                         <p className="AuthScene__note mt-3 py-3 px-3.5 text-xs leading-relaxed text-secondary text-left bg-[#fbfbf9] border border-dashed border-[#c5c6bd] rounded">
-                            You'll need your invite link. When a teammate invites you, we email you a personal link.
-                            Didn't get one? Check spam, or ask them to resend it from their members settings.
+                            {t('signup.inviteLinkHint', {
+                                defaultValue:
+                                    "You'll need your invite link. When a teammate invites you, we email you a personal link. Didn't get one? Check spam, or ask them to resend it from their members settings.",
+                            })}
                         </p>
                     )}
                 </div>
@@ -155,19 +171,25 @@ function SignupEmailPanel(): JSX.Element {
 }
 
 function PendingInvitePanel(): JSX.Element {
+    const { t } = useTranslation()
     const { signupPanelEmail, pendingInvite, pendingInviteResent, isPendingInviteResending } = useValues(signupLogic)
     const { resendPendingInvite, dismissPendingInvite } = useActions(signupLogic)
-    const org = pendingInvite?.organization_name ?? 'your team'
+    const org = pendingInvite?.organization_name ?? t('signup.yourTeam', { defaultValue: 'your team' })
 
     return (
         <AuthSceneCard>
             <AuthCardTitle
-                title="You've already been invited"
+                title={t('signup.alreadyInvited', { defaultValue: "You've already been invited" })}
                 sub={
                     <span>
-                        <b className="text-primary">{org}</b> <span>invited</span>{' '}
+                        <b className="text-primary">{org}</b>{' '}
+                        <span>{t('signup.invited', { defaultValue: 'invited' })}</span>{' '}
                         <span className="AuthScene__mono">{signupPanelEmail.email}</span>{' '}
-                        <span>to join them on PostHog. The invite link is in your inbox.</span>
+                        <span>
+                            {t('signup.inviteInInbox', {
+                                defaultValue: 'to join them on PostHog. The invite link is in your inbox.',
+                            })}
+                        </span>
                     </span>
                 }
                 className="mb-5"
@@ -175,7 +197,13 @@ function PendingInvitePanel(): JSX.Element {
             {pendingInviteResent ? (
                 <div className="flex gap-2 items-start py-2.5 px-3 text-sm text-primary text-left bg-success-highlight border border-success rounded">
                     <span className="font-bold text-success">✓</span>
-                    <span>Sent. Look for an email from {org}. The link inside takes you straight in.</span>
+                    <span>
+                        {t('signup.inviteResent', {
+                            defaultValue:
+                                'Sent. Look for an email from {{ org }}. The link inside takes you straight in.',
+                            org,
+                        })}
+                    </span>
                 </div>
             ) : (
                 <div className="flex flex-col gap-2.5">
@@ -188,7 +216,7 @@ function PendingInvitePanel(): JSX.Element {
                         loading={isPendingInviteResending}
                         onClick={() => resendPendingInvite(signupPanelEmail.email)}
                     >
-                        Resend invite email
+                        {t('signup.resendInvite', { defaultValue: 'Resend invite email' })}
                     </LemonButton>
                     <LemonButton
                         size="large"
@@ -197,7 +225,9 @@ function PendingInvitePanel(): JSX.Element {
                         data-attr="pending-invite-create-own-org"
                         onClick={() => dismissPendingInvite()}
                     >
-                        I'd rather create my own organization
+                        {t('signup.createOwnOrg', {
+                            defaultValue: "I'd rather create my own organization",
+                        })}
                     </LemonButton>
                 </div>
             )}
@@ -207,6 +237,7 @@ function PendingInvitePanel(): JSX.Element {
 
 /** Step 2 — passkey or password. */
 function SignupAuthPanel(): JSX.Element {
+    const { t } = useTranslation()
     const {
         signupPanelEmail,
         isSignupPanelAuthSubmitting,
@@ -220,22 +251,21 @@ function SignupAuthPanel(): JSX.Element {
     const footer = (
         <>
             <p className="AuthScene__terms mt-5 mb-0 text-xs leading-relaxed text-tertiary text-center">
-                <span>By creating an account, you agree to our</span>{' '}
-                <Link to="https://posthog.com/terms" target="_blank">
-                    Terms of Service ↗
-                </Link>{' '}
-                <span>and</span>{' '}
-                <Link to="https://posthog.com/privacy" target="_blank">
-                    Privacy Policy ↗
-                </Link>
-                <span>.</span>
+                <Trans
+                    i18nKey="signup.terms"
+                    components={{
+                        TermsLink: <Link to="https://posthog.com/terms" target="_blank" />,
+                        PrivacyLink: <Link to="https://posthog.com/privacy" target="_blank" />,
+                    }}
+                    defaults="By creating an account, you agree to our <TermsLink>Terms of Service ↗</TermsLink> and <PrivacyLink>Privacy Policy ↗</PrivacyLink>."
+                />
             </p>
             <p className="mt-3 mb-0 text-sm text-secondary text-center">
                 <Link
                     onClick={() => setPanel(0)}
                     className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-warning"
                 >
-                    ← Use a different email
+                    {t('signup.useDifferentEmail', { defaultValue: '← Use a different email' })}
                 </Link>
             </p>
         </>
@@ -244,10 +274,11 @@ function SignupAuthPanel(): JSX.Element {
     return (
         <AuthSceneCard footer={footer}>
             <AuthCardTitle
-                title="Secure your account"
+                title={t('signup.secureAccount', { defaultValue: 'Secure your account' })}
                 sub={
                     <span>
-                        <span>Signing up as</span> <span className="AuthScene__mono">{signupPanelEmail.email}</span>
+                        <span>{t('signup.signingUpAs', { defaultValue: 'Signing up as' })}</span>{' '}
+                        <span className="AuthScene__mono">{signupPanelEmail.email}</span>
                     </span>
                 }
             />
@@ -258,27 +289,35 @@ function SignupAuthPanel(): JSX.Element {
             )}
             {passkeyRegistered ? (
                 <div className="AuthScene__note text-center py-3 px-3.5 text-xs leading-relaxed text-secondary bg-[#fbfbf9] border border-dashed border-[#c5c6bd] rounded">
-                    Passkey registered. Continue below.
+                    {t('signup.passkeyRegistered', { defaultValue: 'Passkey registered. Continue below.' })}
                 </div>
             ) : (
                 <LemonButton
                     type="secondary"
                     size="large"
                     fullWidth
-                    icon={<img src={passkeyLogo} alt="Passkey" className="object-contain w-7 h-7" />}
+                    icon={
+                        <img
+                            src={passkeyLogo}
+                            alt={t('signup.passkeyAlt', { defaultValue: 'Passkey' })}
+                            className="object-contain w-7 h-7"
+                        />
+                    }
                     onClick={registerPasskey}
                     loading={isPasskeyRegistering}
                     disabled={isPasskeyRegistering}
                     data-attr="signup-passkey"
                     center
                 >
-                    Sign up with a passkey
+                    {t('signup.signUpWithPasskey', { defaultValue: 'Sign up with a passkey' })}
                 </LemonButton>
             )}
             {!passkeyRegistered && (
                 <div className="my-4 flex gap-3 items-center">
                     <span className="flex-1 h-px bg-[#e0e1d9]" />
-                    <span className="text-xs text-secondary whitespace-nowrap">or use a password</span>
+                    <span className="text-xs text-secondary whitespace-nowrap">
+                        {t('signup.orUsepassword', { defaultValue: 'or use a password' })}
+                    </span>
                     <span className="flex-1 h-px bg-[#e0e1d9]" />
                 </div>
             )}
@@ -288,7 +327,7 @@ function SignupAuthPanel(): JSX.Element {
                         name="password"
                         label={
                             <div className="flex items-baseline justify-between w-full">
-                                <span>Password</span>
+                                <span>{t('signup.PasswordLabel', { defaultValue: 'Password' })}</span>
                                 <PasswordStrength validatedPassword={validatedPassword} />
                             </div>
                         }
@@ -322,7 +361,7 @@ function SignupAuthPanel(): JSX.Element {
                         !passkeyRegistered && validatedPassword.feedback ? validatedPassword.feedback : undefined
                     }
                 >
-                    Create account
+                    {t('signup.createAccount', { defaultValue: 'Create account' })}
                 </LemonButton>
             </Form>
         </AuthSceneCard>
@@ -331,6 +370,7 @@ function SignupAuthPanel(): JSX.Element {
 
 /** Step 3 — profile (name, organization, role, referral), like the legacy onboarding. */
 function SignupProfilePanel(): JSX.Element {
+    const { t } = useTranslation()
     const {
         isSignupPanelOnboardingSubmitting,
         signupPanelOnboardingManualErrors,
@@ -344,23 +384,31 @@ function SignupProfilePanel(): JSX.Element {
     const { openSupportForm } = useActions(supportLogic)
 
     const submitLabel = !preflight?.demo
-        ? 'Create account'
+        ? t('signup.createAccount', { defaultValue: 'Create account' })
         : !isSignupPanelOnboardingSubmitting
-          ? 'Enter the demo environment'
-          : 'Preparing demo data…'
+          ? t('signup.enterDemo', { defaultValue: 'Enter the demo environment' })
+          : t('signup.preparingDemo', { defaultValue: 'Preparing demo data…' })
 
     const footer = (
         <>
             <p className="AuthScene__terms mt-5 mb-0 text-xs leading-relaxed text-tertiary text-center">
                 <span>
-                    By {preflight?.demo ? 'entering the demo environment' : 'creating an account'}, you agree to our
+                    <Trans
+                        i18nKey="signup.agreeToTerms"
+                        values={{
+                            action: preflight?.demo
+                                ? t('signup.enteringDemo', { defaultValue: 'entering the demo environment' })
+                                : t('signup.creatingAccount', { defaultValue: 'creating an account' }),
+                        }}
+                        defaults="By {{ action }}, you agree to our"
+                    />
                 </span>{' '}
                 <Link to="https://posthog.com/terms" target="_blank">
-                    Terms of Service ↗
+                    {t('signup.termsOfService', { defaultValue: 'Terms of Service ↗' })}
                 </Link>{' '}
-                <span>and</span>{' '}
+                <span>{t('signup.and', { defaultValue: 'and' })}</span>{' '}
                 <Link to="https://posthog.com/privacy" target="_blank">
-                    Privacy Policy ↗
+                    {t('signup.privacyPolicy', { defaultValue: 'Privacy Policy ↗' })}
                 </Link>
                 <span>.</span>
             </p>
@@ -370,7 +418,7 @@ function SignupProfilePanel(): JSX.Element {
                         onClick={() => setPanel(1)}
                         className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-warning"
                     >
-                        ← or go back
+                        {t('signup.orGoBack', { defaultValue: '← or go back' })}
                     </Link>
                 </p>
             )}
@@ -380,17 +428,20 @@ function SignupProfilePanel(): JSX.Element {
     return (
         <AuthSceneCard footer={footer}>
             <AuthCardTitle
-                title="Tell us about yourself"
+                title={t('signup.tellUsAboutYourself', { defaultValue: 'Tell us about yourself' })}
                 sub={
                     <span>
-                        <span>Setting up the account for</span>{' '}
+                        <span>{t('signup.settingUpFor', { defaultValue: 'Setting up the account for' })}</span>{' '}
                         <span className="AuthScene__mono">{signupPanelEmail.email}</span>
                     </span>
                 }
             />
             {signupPanelOnboardingManualErrors?.generic && (
                 <div className="mb-4 py-2.5 px-3 text-sm leading-normal text-primary text-left bg-danger-highlight border border-danger rounded">
-                    <span>{signupPanelOnboardingManualErrors.generic.detail || 'Could not complete your signup.'}</span>
+                    <span>
+                        {signupPanelOnboardingManualErrors.generic.detail ||
+                            t('signup.signupFailed', { defaultValue: 'Could not complete your signup.' })}
+                    </span>
                     {preflight?.cloud && (
                         <>
                             {' '}
@@ -407,9 +458,9 @@ function SignupProfilePanel(): JSX.Element {
                                 }}
                                 className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-warning"
                             >
-                                Contact us
+                                {t('signup.contactUs', { defaultValue: 'Contact us' })}
                             </Link>{' '}
-                            <span>to resolve this.</span>
+                            <span>{t('signup.toResolveThis', { defaultValue: 'to resolve this.' })}</span>
                         </>
                     )}
                 </div>
@@ -420,14 +471,14 @@ function SignupProfilePanel(): JSX.Element {
                 enableFormOnSubmit
                 className="flex flex-col gap-4"
             >
-                <LemonField name="name" label="Your name">
+                <LemonField name="name" label={t('signup.yourName', { defaultValue: 'Your name' })}>
                     {({ value, onChange, error, id }) => (
                         <LemonInput
                             id={id}
                             className="ph-ignore-input"
                             data-attr="signup-name"
                             autoFocus
-                            placeholder="Jane Doe"
+                            placeholder={t('signup.namePlaceholder', { defaultValue: 'Jane Doe' })}
                             autoComplete="name"
                             value={value ?? ''}
                             onChange={onChange}
@@ -436,13 +487,16 @@ function SignupProfilePanel(): JSX.Element {
                         />
                     )}
                 </LemonField>
-                <LemonField name="organization_name" label="Organization name">
+                <LemonField
+                    name="organization_name"
+                    label={t('signup.organizationName', { defaultValue: 'Organization name' })}
+                >
                     {({ value, onChange, error, id }) => (
                         <LemonInput
                             id={id}
                             className="ph-ignore-input"
                             data-attr="signup-organization-name"
-                            placeholder="Hogflix Movies"
+                            placeholder={t('signup.organizationPlaceholder', { defaultValue: 'Hogflix Movies' })}
                             value={value ?? ''}
                             onChange={onChange}
                             status={error ? 'danger' : 'default'}

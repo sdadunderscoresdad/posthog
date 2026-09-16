@@ -68,6 +68,15 @@
             "featureFlag": "Feature flag"
         }
     },
+    "authentication": {
+        "reviewAccess": {
+            "copy": "{{ lead }}, you'll review what {{ client }} can access{{ back }}.",
+            "goBack": ", then go back to {{ host }}",
+            "leadAfterLogin": "After you log in",
+            "leadAfterVerify": "After you verify",
+            "leadOnceAccountReady": "Once your account is ready"
+        }
+    },
     "common": {
         "no": "No",
         "unknown": "Unknown",
@@ -3447,5 +3456,90 @@
             },
             "webAnalyticsAchievements": "Show Web analytics achievements"
         }
+    },
+    "signup": {
+        "agreeToTerms": "By {{ action }}, you agree to our",
+        "alreadyInvited": "You've already been invited",
+        "and": "and",
+        "contactUs": "Contact us",
+        "continue": "Continue",
+        "createAccount": "Create account",
+        "createOwnOrg": "I'd rather create my own organization",
+        "createToConnect": "Create your account to connect {{ client }}",
+        "creatingAccount": "creating an account",
+        "emailLabel": "Email",
+        "enterDemo": "Enter the demo environment",
+        "enteringDemo": "entering the demo environment",
+        "getStarted": "Get started",
+        "haveAccount": "Already have an account?",
+        "invited": "invited",
+        "inviteInInbox": "to join them on PostHog. The invite link is in your inbox.",
+        "inviteLinkHint": "You'll need your invite link. When a teammate invites you, we email you a personal link. Didn't get one? Check spam, or ask them to resend it from their members settings.",
+        "inviteResent": "Sent. Look for an email from {{ org }}. The link inside takes you straight in.",
+        "joinExistingOrg": "Trying to join an existing organization?",
+        "logIn": "Log in →",
+        "logInInstead": "Log in instead →",
+        "namePlaceholder": "Jane Doe",
+        "organizationName": "Organization name",
+        "organizationPlaceholder": "Hogflix Movies",
+        "orGoBack": "← or go back",
+        "orSignUpWith": "or sign up with",
+        "orUsepassword": "or use a password",
+        "passkeyAlt": "Passkey",
+        "passkeyRegistered": "Passkey registered. Continue below.",
+        "PasswordLabel": "Password",
+        "preparingDemo": "Preparing demo data…",
+        "privacyPolicy": "Privacy Policy ↗",
+        "resendInvite": "Resend invite email",
+        "secureAccount": "Secure your account",
+        "settingUpFor": "Setting up the account for",
+        "signingUpAs": "Signing up as",
+        "signupFailed": "Could not complete your signup.",
+        "signUpWithPasskey": "Sign up with a passkey",
+        "tagline": "Make your product self-driving.",
+        "tellUsAboutYourself": "Tell us about yourself",
+        "terms": "By creating an account, you agree to our <TermsLink>Terms of Service ↗</TermsLink> and <PrivacyLink>Privacy Policy ↗</PrivacyLink>.",
+        "termsOfService": "Terms of Service ↗",
+        "toResolveThis": "to resolve this.",
+        "useDifferentEmail": "← Use a different email",
+        "yourName": "Your name",
+        "yourTeam": "your team"
+    },
+    "verifyEmail": {
+        "alreadyHaveCode": "Already have a code? Enter it below. Codes are valid for 30 minutes.",
+        "alreadyVerified": "Already verified?",
+        "beforeResend": "Before we resend, three quick checks:",
+        "checkInbox": "Check your inbox",
+        "checklist": {
+            "peekAgain": "Channel your inner hedgehog and peek again",
+            "spam": "Check spam and any firewalls you run",
+            "wait": "Wait 5 minutes, some email providers take a beat"
+        },
+        "confirmChecks": "Confirm the checks above ({{ done }}/{{ total }})",
+        "contactSupport": "Contact support",
+        "deepLink": {
+            "partner": "Your sign-in link needs a verified email. Verify it and we'll take you where you were going.",
+            "stripe": "Stripe sent you to PostHog to set up analytics. Verify your email and we'll open your new project."
+        },
+        "dontKnowWho": "We don't know who to verify",
+        "emailConfirmedNext": "Email confirmed. Next up: a quick setup. Your org, your team, your first events.",
+        "emailConfirmedReview": "Email confirmed. Next, review what {{ client }} can access.",
+        "enterCode": "Enter the 6-digit code from your email",
+        "enterYourCode": "Enter your code",
+        "logIn": "Log in →",
+        "logInPrompt": "Log in with your email and password and we'll send a new code to your inbox.",
+        "logInShort": "Log in",
+        "notSeeingIt": "Not seeing it?",
+        "resendCode": "Resend code",
+        "sendFailedNotice": "We couldn't send your code just now. Open \"Not seeing it?\" below to send a new one.",
+        "sentCode": "We sent you a 6-digit code. It's valid for 30 minutes.",
+        "sentTo": "We sent a 6-digit code to <Strong>{{ email }}</Strong>.",
+        "startOver": "Start over →",
+        "takingYou": "Taking you to PostHog…",
+        "validFor30": "It's valid for 30 minutes.",
+        "verifiedGoExplore": "You're verified, go explore!",
+        "verifiedPending": "You're verified",
+        "verify": "Verify email",
+        "wrongAddress": "Wrong address?"
     }
 }

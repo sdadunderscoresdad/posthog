@@ -67,6 +67,15 @@
             "featureFlag": "功能开关"
         }
     },
+    "authentication": {
+        "reviewAccess": {
+            "copy": "{{ lead }}，你会先确认 {{ client }} 可以访问哪些内容{{ back }}。",
+            "goBack": "，然后回到 {{ host }}",
+            "leadAfterLogin": "登录后",
+            "leadAfterVerify": "验证后",
+            "leadOnceAccountReady": "账户准备就绪后"
+        }
+    },
     "common": {
         "no": "否",
         "unknown": "未知",
@@ -3420,5 +3429,90 @@
             },
             "webAnalyticsAchievements": "显示 Web 分析成就"
         }
+    },
+    "signup": {
+        "agreeToTerms": "通过{{ action }}，即表示你同意我们的",
+        "alreadyInvited": "你已被邀请",
+        "and": "和",
+        "contactUs": "联系我们",
+        "continue": "继续",
+        "createAccount": "创建账户",
+        "createOwnOrg": "我更想创建自己的组织",
+        "createToConnect": "创建账户以连接 {{ client }}",
+        "creatingAccount": "创建账户",
+        "emailLabel": "邮箱",
+        "enterDemo": "进入演示环境",
+        "enteringDemo": "进入演示环境",
+        "getStarted": "开始使用",
+        "haveAccount": "已经有账户了？",
+        "invited": "邀请你",
+        "inviteInInbox": "加入他们的 PostHog。邀请链接已发送到你的邮箱。",
+        "inviteLinkHint": "你需要自己的邀请链接。当队友邀请你时，我们会给你发送一封包含专属链接的邮件。没有收到？请检查垃圾邮件，或请他们从成员设置中重新发送。",
+        "inviteResent": "已发送。请查收来自 {{ org }} 的邮件，点击邮件中的链接即可直接进入。",
+        "joinExistingOrg": "想加入已有的组织？",
+        "logIn": "登录 →",
+        "logInInstead": "改为登录 →",
+        "namePlaceholder": "Jane Doe",
+        "organizationName": "组织名称",
+        "organizationPlaceholder": "Hogflix Movies",
+        "orGoBack": "← 或返回上一步",
+        "orSignUpWith": "或使用以下方式注册",
+        "orUsepassword": "或使用密码",
+        "passkeyAlt": "通行密钥",
+        "passkeyRegistered": "通行密钥已注册。请继续。",
+        "PasswordLabel": "密码",
+        "preparingDemo": "正在准备演示数据…",
+        "privacyPolicy": "隐私政策 ↗",
+        "resendInvite": "重新发送邀请邮件",
+        "secureAccount": "保护你的账户",
+        "settingUpFor": "正在为以下邮箱创建账户",
+        "signingUpAs": "正在以此身份注册",
+        "signupFailed": "无法完成你的注册。",
+        "signUpWithPasskey": "使用通行密钥注册",
+        "tagline": "让你的产品实现自驱动。",
+        "tellUsAboutYourself": "介绍一下你自己",
+        "terms": "创建账户即表示你同意我们的<TermsLink>服务条款 ↗</TermsLink>和<PrivacyLink>隐私政策 ↗</PrivacyLink>。",
+        "termsOfService": "服务条款 ↗",
+        "toResolveThis": "来解决此问题。",
+        "useDifferentEmail": "← 使用其他邮箱",
+        "yourName": "你的名字",
+        "yourTeam": "你的团队"
+    },
+    "verifyEmail": {
+        "alreadyHaveCode": "已经有验证码了？在下方输入即可。验证码有效期为 30 分钟。",
+        "alreadyVerified": "已经验证过了？",
+        "beforeResend": "重新发送前，请先快速确认三件事：",
+        "checkInbox": "请查收邮箱",
+        "checklist": {
+            "peekAgain": "像刺猬一样鼓起勇气再看一眼",
+            "spam": "检查垃圾邮件和你启用的防火墙",
+            "wait": "等 5 分钟，有些邮箱服务商会有延迟"
+        },
+        "confirmChecks": "请先勾选上面的检查项（{{ done }}/{{ total }}）",
+        "contactSupport": "联系支持",
+        "deepLink": {
+            "partner": "你的登录链接需要一个已验证的邮箱。验证后我们会带你回到之前的位置。",
+            "stripe": "Stripe 把你带到了 PostHog 以设置分析。验证你的邮箱，我们会打开你的新项目。"
+        },
+        "dontKnowWho": "我们不知道要验证谁",
+        "emailConfirmedNext": "邮箱已确认。接下来是快速设置：你的组织、你的团队、你的第一批事件。",
+        "emailConfirmedReview": "邮箱已确认。接下来请确认 {{ client }} 可以访问哪些内容。",
+        "enterCode": "请输入邮件中的 6 位验证码",
+        "enterYourCode": "输入你的验证码",
+        "logIn": "登录 →",
+        "logInPrompt": "使用你的邮箱和密码登录，我们会把新的验证码发送到你的邮箱。",
+        "logInShort": "登录",
+        "notSeeingIt": "没有收到？",
+        "resendCode": "重新发送验证码",
+        "sendFailedNotice": "刚才没能发送你的验证码。请打开下方的「没有收到？」重新发送。",
+        "sentCode": "我们已向你发送 6 位验证码，有效期为 30 分钟。",
+        "sentTo": "我们已将 6 位验证码发送到 <Strong>{{ email }}</Strong>。",
+        "startOver": "重新开始 →",
+        "takingYou": "正在带你前往 PostHog…",
+        "validFor30": "有效期为 30 分钟。",
+        "verifiedGoExplore": "验证成功，去探索吧！",
+        "verifiedPending": "验证成功",
+        "verify": "验证邮箱",
+        "wrongAddress": "邮箱地址不对？"
     }
 }

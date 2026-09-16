@@ -4,6 +4,7 @@ import { router } from 'kea-router'
 import posthog from 'posthog-js'
 
 import { getCookie } from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { tryJsonParse } from 'lib/utils/json'
 import { urls } from 'scenes/urls'
 
@@ -55,8 +56,18 @@ export function readPendingOAuthConnection(): PendingOAuthConnection | null {
 
 /** `lead` opens the sentence, for example "After you log in". */
 export function reviewAccessCopy(connection: PendingOAuthConnection, lead: string): string {
-    const back = connection.redirectHost ? `, then go back to ${connection.redirectHost}` : ''
-    return `${lead}, you'll review what ${connection.clientName} can access${back}.`
+    const back = connection.redirectHost
+        ? i18n.t('authentication.reviewAccess.goBack', {
+              defaultValue: ', then go back to {{ host }}',
+              host: connection.redirectHost,
+          })
+        : ''
+    return i18n.t('authentication.reviewAccess.copy', {
+        defaultValue: "{{ lead }}, you'll review what {{ client }} can access{{ back }}.",
+        lead,
+        client: connection.clientName,
+        back,
+    })
 }
 
 /** Taken from the path so that a component mounting this logic outside the three auth screens
