@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonInput } from '@posthog/lemon-ui'
 
@@ -10,6 +11,7 @@ import { LemonModal } from 'lib/lemon-ui/LemonModal'
 import { verifiedDomainsLogic } from './verifiedDomainsLogic'
 
 export function AddDomainModal(): JSX.Element {
+    const { t } = useTranslation()
     const { addModalShown, verifiedDomainsLoading } = useValues(verifiedDomainsLogic)
     const { hideAddDomainModal, addVerifiedDomain } = useActions(verifiedDomainsLogic)
     const [newDomain, setNewDomain] = useState('')
@@ -39,19 +41,23 @@ export function AddDomainModal(): JSX.Element {
         <LemonModal
             onClose={handleClose}
             isOpen={addModalShown}
-            title="Add authentication domain"
+            title={t('settings.organization.verifiedDomains.addModalTitle', {
+                defaultValue: 'Add authentication domain',
+            })}
             footer={
                 <LemonButton
                     type="primary"
                     disabled={newDomain === '' || (submitted && errored) || verifiedDomainsLoading}
                     onClick={handleSubmit}
                 >
-                    Add domain
+                    {t('settings.organization.verifiedDomains.addDomain', { defaultValue: 'Add domain' })}
                 </LemonButton>
             }
         >
             <LemonInput
-                placeholder="posthog.com"
+                placeholder={t('settings.organization.verifiedDomains.domainPlaceholder', {
+                    defaultValue: 'posthog.com',
+                })}
                 autoFocus
                 value={newDomain}
                 onChange={setNewDomain}
@@ -59,7 +65,9 @@ export function AddDomainModal(): JSX.Element {
             />
             {submitted && errored && (
                 <span className="text-danger text-xs">
-                    Please enter a valid domain or subdomain name (e.g. my.posthog.com)
+                    {t('settings.organization.verifiedDomains.invalidDomain', {
+                        defaultValue: 'Please enter a valid domain or subdomain name (e.g. my.posthog.com)',
+                    })}
                 </span>
             )}
         </LemonModal>

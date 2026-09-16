@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { useTranslation } from 'react-i18next'
 
 import { Link } from '@posthog/lemon-ui'
 
@@ -16,6 +17,7 @@ import { preflightLogic } from 'scenes/PreflightCheck/preflightLogic'
 import { verifiedDomainsLogic } from './verifiedDomainsLogic'
 
 export function ConfigureSAMLModal(): JSX.Element {
+    const { t } = useTranslation()
     const { configureSAMLModalId, configureSAMLModalLoading, isSamlConfigSubmitting, samlConfig } =
         useValues(verifiedDomainsLogic)
     const { setConfigureSAMLModalId } = useActions(verifiedDomainsLogic)
@@ -33,7 +35,11 @@ export function ConfigureSAMLModal(): JSX.Element {
         <LemonModal onClose={handleClose} isOpen={!!configureSAMLModalId} title="" simple>
             <Form logic={verifiedDomainsLogic} formKey="samlConfig" enableFormOnSubmit className="LemonModal__layout ">
                 <LemonModal.Header>
-                    <h3>Configure SAML authentication and provisioning</h3>
+                    <h3>
+                        {t('settings.organization.verifiedDomains.saml.title', {
+                            defaultValue: 'Configure SAML authentication and provisioning',
+                        })}
+                    </h3>
                 </LemonModal.Header>
                 <LemonModal.Content className="deprecated-space-y-2">
                     {configureSAMLModalLoading ? (
@@ -48,30 +54,69 @@ export function ConfigureSAMLModal(): JSX.Element {
                                     target="_blank"
                                     targetBlankIcon
                                 >
-                                    Read the docs
+                                    {t('settings.organization.verifiedDomains.readDocs', {
+                                        defaultValue: 'Read the docs',
+                                    })}
                                 </Link>
                             </p>
-                            <LemonField label="ACS Consumer URL" name="_ACSConsumerUrl">
+                            <LemonField
+                                label={t('settings.organization.verifiedDomains.saml.acsConsumerUrl', {
+                                    defaultValue: 'ACS Consumer URL',
+                                })}
+                                name="_ACSConsumerUrl"
+                            >
                                 <CopyToClipboardInline>{`${siteUrl}/complete/saml/`}</CopyToClipboardInline>
                             </LemonField>
-                            <LemonField label="RelayState" name="_RelayState">
+                            <LemonField
+                                label={t('settings.organization.verifiedDomains.saml.relayState', {
+                                    defaultValue: 'RelayState',
+                                })}
+                                name="_RelayState"
+                            >
                                 <CopyToClipboardInline>
                                     {samlConfig.saml_relay_state || 'unknown'}
                                 </CopyToClipboardInline>
                             </LemonField>
-                            <LemonField label="Audience / Entity ID" name="_Audience">
+                            <LemonField
+                                label={t('settings.organization.verifiedDomains.saml.audience', {
+                                    defaultValue: 'Audience / Entity ID',
+                                })}
+                                name="_Audience"
+                            >
                                 <CopyToClipboardInline>{siteUrl}</CopyToClipboardInline>
                             </LemonField>
-                            <LemonField name="saml_acs_url" label="SAML ACS URL">
+                            <LemonField
+                                name="saml_acs_url"
+                                label={t('settings.organization.verifiedDomains.saml.acsUrl', {
+                                    defaultValue: 'SAML ACS URL',
+                                })}
+                            >
                                 <LemonInput
                                     className="ph-ignore-input"
-                                    placeholder="Your IdP's ACS or single sign-on URL."
+                                    placeholder={t('settings.organization.verifiedDomains.saml.acsUrlPlaceholder', {
+                                        defaultValue: "Your IdP's ACS or single sign-on URL.",
+                                    })}
                                 />
                             </LemonField>
-                            <LemonField name="saml_entity_id" label="SAML Entity ID">
-                                <LemonInput className="ph-ignore-input" placeholder="Entity ID provided by your IdP." />
+                            <LemonField
+                                name="saml_entity_id"
+                                label={t('settings.organization.verifiedDomains.saml.entityId', {
+                                    defaultValue: 'SAML Entity ID',
+                                })}
+                            >
+                                <LemonInput
+                                    className="ph-ignore-input"
+                                    placeholder={t('settings.organization.verifiedDomains.saml.entityIdPlaceholder', {
+                                        defaultValue: 'Entity ID provided by your IdP.',
+                                    })}
+                                />
                             </LemonField>
-                            <LemonField name="saml_x509_cert" label="SAML X.509 Certificate">
+                            <LemonField
+                                name="saml_x509_cert"
+                                label={t('settings.organization.verifiedDomains.saml.certificate', {
+                                    defaultValue: 'SAML X.509 Certificate',
+                                })}
+                            >
                                 <LemonTextArea
                                     className="ph-ignore-input"
                                     minRows={10}
@@ -80,8 +125,10 @@ export function ConfigureSAMLModal(): JSX.Element {
                             </LemonField>
                             {!samlReady && (
                                 <LemonBanner type="info">
-                                    SAML will not be enabled unless you enter all attributes above. However you can
-                                    still settings as draft.
+                                    {t('settings.organization.verifiedDomains.saml.incomplete', {
+                                        defaultValue:
+                                            'SAML will not be enabled unless you enter all attributes above. However you can still save the settings as a draft.',
+                                    })}
                                 </LemonBanner>
                             )}
                         </>
@@ -94,7 +141,7 @@ export function ConfigureSAMLModal(): JSX.Element {
                         type="primary"
                         htmlType="submit"
                     >
-                        Save settings
+                        {t('settings.organization.verifiedDomains.saveSettings', { defaultValue: 'Save settings' })}
                     </LemonButton>
                 </LemonModal.Footer>
             </Form>

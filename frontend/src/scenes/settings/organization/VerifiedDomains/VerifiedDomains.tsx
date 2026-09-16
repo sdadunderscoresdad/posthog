@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconInfo, IconLock, IconPeople, IconShieldLock, IconShuffle, IconTrash, IconWarning } from '@posthog/icons'
 
@@ -73,6 +74,7 @@ function IntegrationBadge({
 }
 
 export function VerifiedDomains(): JSX.Element {
+    const { t } = useTranslation()
     const { verifiedDomainsLoading, updatingDomainLoading } = useValues(verifiedDomainsLogic)
     const { showAddDomainModal } = useActions(verifiedDomainsLogic)
 
@@ -84,8 +86,10 @@ export function VerifiedDomains(): JSX.Element {
     return (
         <PayGateMini feature={AvailableFeature.AUTOMATIC_PROVISIONING} featureDetail="verified-domains">
             <p>
-                Enable users to sign up automatically with an email address on verified domains and enforce SSO for
-                accounts under your domains.
+                {t('settings.organization.verifiedDomains.description', {
+                    defaultValue:
+                        'Enable users to sign up automatically with an email address on verified domains and enforce SSO for accounts under your domains.',
+                })}
             </p>
 
             <VerifiedDomainsTable />
@@ -93,15 +97,20 @@ export function VerifiedDomains(): JSX.Element {
                 type="primary"
                 onClick={() => showAddDomainModal()}
                 className="mt-4"
-                disabledReason={verifiedDomainsLoading || updatingDomainLoading ? 'loading...' : restrictionReason}
+                disabledReason={
+                    verifiedDomainsLoading || updatingDomainLoading
+                        ? t('settings.organization.verifiedDomains.loading', { defaultValue: 'loading...' })
+                        : restrictionReason
+                }
             >
-                Add domain
+                {t('settings.organization.verifiedDomains.addDomain', { defaultValue: 'Add domain' })}
             </LemonButton>
         </PayGateMini>
     )
 }
 
 function VerifiedDomainsTable(): JSX.Element {
+    const { t } = useTranslation()
     const {
         verifiedDomains,
         verifiedDomainsLoading,
@@ -146,13 +155,16 @@ function VerifiedDomainsTable(): JSX.Element {
         }
         return ownVerifiedDomain && ownVerifiedDomain.id !== domain.id
             ? undefined
-            : 'Your own email address would no longer be allowed. Turn off the domain restriction first'
+            : t('settings.organization.verifiedDomains.removeBlocked', {
+                  defaultValue:
+                      'Your own email address would no longer be allowed. Turn off the domain restriction first',
+              })
     }
 
     const verifiedColumns: LemonTableColumns<OrganizationDomainType> = [
         {
             key: 'domain',
-            title: 'Domain name',
+            title: t('settings.organization.verifiedDomains.columns.domain', { defaultValue: 'Domain name' }),
             dataIndex: 'domain',
             render: function RenderDomainName(_, { domain }) {
                 return <LemonTag>{domain}</LemonTag>
@@ -162,11 +174,21 @@ function VerifiedDomainsTable(): JSX.Element {
             key: 'jit_provisioning_enabled',
             title: (
                 <div className="flex items-center gap-1">
-                    <span>Automatic provisioning</span>
+                    <span>
+                        {t('settings.organization.verifiedDomains.automaticProvisioning', {
+                            defaultValue: 'Automatic provisioning',
+                        })}
+                    </span>
                     <Tooltip
-                        title={`Enables just-in-time provisioning. If a user logs in with SSO with an email address on this domain an account will be created in ${
-                            currentOrganization?.name || 'this organization'
-                        } if it does not exist.`}
+                        title={t('settings.organization.verifiedDomains.automaticProvisioningTooltip', {
+                            defaultValue:
+                                'Enables just-in-time provisioning. If a user logs in with SSO with an email address on this domain an account will be created in {{ organization }} if it does not exist.',
+                            organization:
+                                currentOrganization?.name ||
+                                t('settings.organization.verifiedDomains.thisOrganization', {
+                                    defaultValue: 'this organization',
+                                }),
+                        })}
                     >
                         <IconInfo />
                     </Tooltip>
@@ -180,7 +202,9 @@ function VerifiedDomainsTable(): JSX.Element {
                             disabled={updatingDomainLoading}
                             disabledReason={restrictionReason}
                             onChange={(checked) => updateDomain({ id, jit_provisioning_enabled: checked })}
-                            label="Automatic provisioning"
+                            label={t('settings.organization.verifiedDomains.automaticProvisioning', {
+                                defaultValue: 'Automatic provisioning',
+                            })}
                         />
                     </div>
                 )
@@ -191,8 +215,15 @@ function VerifiedDomainsTable(): JSX.Element {
             className: 'py-2',
             title: (
                 <div className="flex items-center gap-1">
-                    <span>Enforce SSO</span>
-                    <Tooltip title="Require users with email addresses on this domain to always log in using a specific SSO provider.">
+                    <span>
+                        {t('settings.organization.verifiedDomains.enforceSso', { defaultValue: 'Enforce SSO' })}
+                    </span>
+                    <Tooltip
+                        title={t('settings.organization.verifiedDomains.enforceSsoTooltip', {
+                            defaultValue:
+                                'Require users with email addresses on this domain to always log in using a specific SSO provider.',
+                        })}
+                    >
                         <IconInfo />
                     </Tooltip>
                 </div>
@@ -207,7 +238,10 @@ function VerifiedDomainsTable(): JSX.Element {
                             to={urls.organizationBilling([ProductKey.PLATFORM_AND_SUPPORT])}
                             className="flex items-center gap-1"
                         >
-                            <IconLock className="text-warning text-lg" /> Upgrade to enable
+                            <IconLock className="text-warning text-lg" />{' '}
+                            {t('settings.organization.verifiedDomains.upgradeToEnable', {
+                                defaultValue: 'Upgrade to enable',
+                            })}
                         </Link>
                     )
                 }
@@ -224,7 +258,7 @@ function VerifiedDomainsTable(): JSX.Element {
         },
         {
             key: 'integrations',
-            title: 'Integrations',
+            title: t('settings.organization.verifiedDomains.columns.integrations', { defaultValue: 'Integrations' }),
             render: function Integrations(_, { id }) {
                 const samlConfig = getIdentityProviderConfigForDomain(
                     identityProviderConfigs,
@@ -251,7 +285,9 @@ function VerifiedDomainsTable(): JSX.Element {
                             label="SAML"
                             type="muted"
                             icon={SAML_ICON}
-                            tooltip="Upgrade your plan to enable SAML"
+                            tooltip={t('settings.organization.verifiedDomains.saml.upgradeTooltip', {
+                                defaultValue: 'Upgrade your plan to enable SAML',
+                            })}
                             to={billingLink}
                         />
                     )
@@ -262,7 +298,9 @@ function VerifiedDomainsTable(): JSX.Element {
                             label="SAML"
                             type="success"
                             icon={SAML_ICON}
-                            tooltip="SAML is enabled"
+                            tooltip={t('settings.organization.verifiedDomains.saml.enabled', {
+                                defaultValue: 'SAML is enabled',
+                            })}
                         />
                     )
                 } else {
@@ -272,7 +310,9 @@ function VerifiedDomainsTable(): JSX.Element {
                             label="SAML"
                             type="muted"
                             icon={SAML_ICON}
-                            tooltip="SAML is not enabled"
+                            tooltip={t('settings.organization.verifiedDomains.saml.notEnabled', {
+                                defaultValue: 'SAML is not enabled',
+                            })}
                         />
                     )
                 }
@@ -284,7 +324,9 @@ function VerifiedDomainsTable(): JSX.Element {
                             label="SCIM"
                             type="muted"
                             icon={SCIM_ICON}
-                            tooltip="Upgrade your plan to enable SCIM"
+                            tooltip={t('settings.organization.verifiedDomains.scim.upgradeTooltip', {
+                                defaultValue: 'Upgrade your plan to enable SCIM',
+                            })}
                             to={billingLink}
                         />
                     )
@@ -295,7 +337,9 @@ function VerifiedDomainsTable(): JSX.Element {
                             label="SCIM"
                             type="success"
                             icon={SCIM_ICON}
-                            tooltip="SCIM is enabled"
+                            tooltip={t('settings.organization.verifiedDomains.scim.enabled', {
+                                defaultValue: 'SCIM is enabled',
+                            })}
                         />
                     )
                 } else {
@@ -305,7 +349,9 @@ function VerifiedDomainsTable(): JSX.Element {
                             label="SCIM"
                             type="muted"
                             icon={SCIM_ICON}
-                            tooltip="SCIM is not enabled"
+                            tooltip={t('settings.organization.verifiedDomains.scim.notEnabled', {
+                                defaultValue: 'SCIM is not enabled',
+                            })}
                         />
                     )
                 }
@@ -317,13 +363,21 @@ function VerifiedDomainsTable(): JSX.Element {
                             label="XAA"
                             type="success"
                             icon={XAA_ICON}
-                            tooltip="XAA is enabled"
+                            tooltip={t('settings.organization.verifiedDomains.idJag.enabled', {
+                                defaultValue: 'XAA is enabled',
+                            })}
                         />
                     )
                 }
 
                 if (badges.length === 0) {
-                    return <span className="text-muted">Not configured</span>
+                    return (
+                        <span className="text-muted">
+                            {t('settings.organization.verifiedDomains.notConfigured', {
+                                defaultValue: 'Not configured',
+                            })}
+                        </span>
+                    )
                 }
 
                 return <div className="flex items-center gap-1 flex-wrap">{badges}</div>
@@ -346,20 +400,32 @@ function VerifiedDomainsTable(): JSX.Element {
                                             fullWidth
                                             disabledReason={
                                                 restrictionReason ||
-                                                (!isSAMLAvailable ? 'Upgrade to enable SAML' : undefined)
+                                                (!isSAMLAvailable
+                                                    ? t('settings.organization.verifiedDomains.upgradeToEnableSaml', {
+                                                          defaultValue: 'Upgrade to enable SAML',
+                                                      })
+                                                    : undefined)
                                             }
                                         >
-                                            Configure SAML
+                                            {t('settings.organization.verifiedDomains.configureSaml', {
+                                                defaultValue: 'Configure SAML',
+                                            })}
                                         </LemonButton>
                                         <LemonButton
                                             onClick={() => setConfigureSCIMModalId(id)}
                                             fullWidth
                                             disabledReason={
                                                 restrictionReason ||
-                                                (!isSCIMAvailable ? 'Upgrade to enable SCIM' : undefined)
+                                                (!isSCIMAvailable
+                                                    ? t('settings.organization.verifiedDomains.upgradeToEnableScim', {
+                                                          defaultValue: 'Upgrade to enable SCIM',
+                                                      })
+                                                    : undefined)
                                             }
                                         >
-                                            Configure SCIM
+                                            {t('settings.organization.verifiedDomains.configureScim', {
+                                                defaultValue: 'Configure SCIM',
+                                            })}
                                         </LemonButton>
                                         {showXAAControls && (
                                             <LemonButton
@@ -367,7 +433,9 @@ function VerifiedDomainsTable(): JSX.Element {
                                                 fullWidth
                                                 disabledReason={restrictionReason}
                                             >
-                                                Configure XAA
+                                                {t('settings.organization.verifiedDomains.configureXaa', {
+                                                    defaultValue: 'Configure XAA',
+                                                })}
                                             </LemonButton>
                                         )}
                                         {isSCIMAvailable && (
@@ -376,7 +444,9 @@ function VerifiedDomainsTable(): JSX.Element {
                                                 fullWidth
                                                 disabledReason={restrictionReason}
                                             >
-                                                View SCIM logs
+                                                {t('settings.organization.verifiedDomains.viewScimLogs', {
+                                                    defaultValue: 'View SCIM logs',
+                                                })}
                                             </LemonButton>
                                         )}
                                     </>
@@ -388,7 +458,9 @@ function VerifiedDomainsTable(): JSX.Element {
                                     icon={<IconTrash />}
                                     disabledReason={restrictionReason ?? removeBlockedReason(domainRecord)}
                                 >
-                                    Remove domain
+                                    {t('settings.organization.verifiedDomains.removeDomain', {
+                                        defaultValue: 'Remove domain',
+                                    })}
                                 </LemonButton>
                             </>
                         }
@@ -404,7 +476,7 @@ function VerifiedDomainsTable(): JSX.Element {
     const unverifiedColumns: LemonTableColumns<OrganizationDomainType> = [
         {
             key: 'domain',
-            title: 'Domain name',
+            title: t('settings.organization.verifiedDomains.columns.domain', { defaultValue: 'Domain name' }),
             dataIndex: 'domain',
             render: function RenderDomainName(_, { domain }) {
                 return <LemonTag>{domain}</LemonTag>
@@ -414,15 +486,21 @@ function VerifiedDomainsTable(): JSX.Element {
             ? ([
                   {
                       key: 'is_verified',
-                      title: 'Status',
+                      title: t('settings.organization.verifiedDomains.columns.status', { defaultValue: 'Status' }),
                       render: function Verified(_, { verified_at }) {
                           return verified_at ? (
                               <div className="flex items-center gap-1 text-danger">
-                                  <IconExclamation className="text-lg" /> Verification expired
+                                  <IconExclamation className="text-lg" />{' '}
+                                  {t('settings.organization.verifiedDomains.verificationExpired', {
+                                      defaultValue: 'Verification expired',
+                                  })}
                               </div>
                           ) : (
                               <div className="flex items-center gap-1 text-warning">
-                                  <IconWarning className="text-lg" /> Pending verification
+                                  <IconWarning className="text-lg" />{' '}
+                                  {t('settings.organization.verifiedDomains.pendingVerification', {
+                                      defaultValue: 'Pending verification',
+                                  })}
                               </div>
                           )
                       },
@@ -437,7 +515,7 @@ function VerifiedDomainsTable(): JSX.Element {
             render: function RenderVerify(_, { id }) {
                 return (
                     <LemonButton type="primary" onClick={() => setVerifyModal(id)} disabledReason={restrictionReason}>
-                        Verify
+                        {t('settings.organization.verifiedDomains.verify', { defaultValue: 'Verify' })}
                     </LemonButton>
                 )
             },
@@ -457,7 +535,9 @@ function VerifiedDomainsTable(): JSX.Element {
                                 icon={<IconTrash />}
                                 disabledReason={restrictionReason}
                             >
-                                Remove domain
+                                {t('settings.organization.verifiedDomains.removeDomain', {
+                                    defaultValue: 'Remove domain',
+                                })}
                             </LemonButton>
                         }
                     />
@@ -473,11 +553,15 @@ function VerifiedDomainsTable(): JSX.Element {
                 columns={visibleVerifiedColumns}
                 loading={verifiedDomainsLoading || identityProviderConfigsLoading}
                 rowKey="id"
-                emptyState="You haven't registered any authentication domains yet."
+                emptyState={t('settings.organization.verifiedDomains.empty', {
+                    defaultValue: "You haven't registered any authentication domains yet.",
+                })}
             />
             {unverifiedDomainsList.length > 0 && (
                 <>
-                    <h4>Pending domains</h4>
+                    <h4>
+                        {t('settings.organization.verifiedDomains.pendingDomains', { defaultValue: 'Pending domains' })}
+                    </h4>
                     <LemonTable
                         dataSource={unverifiedDomainsList}
                         columns={unverifiedColumns}

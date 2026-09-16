@@ -5,6 +5,7 @@ import { loaders } from 'kea-loaders'
 
 import api from 'lib/api'
 import { SECURE_URL_REGEX } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { bindModalToUrl } from 'lib/logic/bindModalToUrl'
 import { organizationLogic } from 'scenes/organizationLogic'
@@ -892,7 +893,11 @@ export const verifiedDomainsLogic = kea<verifiedDomainsLogicType>([
                         `api/organizations/${values.currentOrganizationId}/domains/${payload.id}`,
                         { ...payload, id: undefined }
                     )
-                    lemonToast.success('Domain updated successfully! Changes will take effect immediately.')
+                    lemonToast.success(
+                        i18n.t('settings.organization.verifiedDomains.domainUpdated', {
+                            defaultValue: 'Domain updated successfully! Changes will take effect immediately.',
+                        })
+                    )
                     actions.replaceDomain(response)
                     return false
                 },
@@ -901,10 +906,17 @@ export const verifiedDomainsLogic = kea<verifiedDomainsLogicType>([
                         `api/organizations/${values.currentOrganizationId}/domains/${values.verifyModal}/verify`
                     )
                     if (response.is_verified) {
-                        lemonToast.success('Domain verified successfully.')
+                        lemonToast.success(
+                            i18n.t('settings.organization.verifiedDomains.domainVerified', {
+                                defaultValue: 'Domain verified successfully.',
+                            })
+                        )
                     } else {
                         lemonToast.warning(
-                            'We could not verify your domain yet. DNS propagation may take up to 72 hours. Please try again later.'
+                            i18n.t('settings.organization.verifiedDomains.verificationFailed', {
+                                defaultValue:
+                                    'We could not verify your domain yet. DNS propagation may take up to 72 hours. Please try again later.',
+                            })
                         )
                     }
                     actions.replaceDomain(response)
@@ -944,7 +956,11 @@ export const verifiedDomainsLogic = kea<verifiedDomainsLogicType>([
                     })
                     actions.loadIdentityProviderConfigs()
                     const refreshed = await refreshDomain(orgId, domainId, actions.replaceDomain)
-                    lemonToast.success('SCIM enabled successfully!')
+                    lemonToast.success(
+                        i18n.t('settings.organization.verifiedDomains.scim.enabledToast', {
+                            defaultValue: 'SCIM enabled successfully!',
+                        })
+                    )
                     return {
                         id: domainId,
                         scim_enabled: config.scim_enabled,
@@ -964,7 +980,11 @@ export const verifiedDomainsLogic = kea<verifiedDomainsLogicType>([
                     })
                     actions.loadIdentityProviderConfigs()
                     const refreshed = await refreshDomain(orgId, domainId, actions.replaceDomain)
-                    lemonToast.success('SCIM disabled successfully!')
+                    lemonToast.success(
+                        i18n.t('settings.organization.verifiedDomains.scim.disabledToast', {
+                            defaultValue: 'SCIM disabled successfully!',
+                        })
+                    )
                     return {
                         id: domainId,
                         scim_enabled: config.scim_enabled,
@@ -985,7 +1005,11 @@ export const verifiedDomainsLogic = kea<verifiedDomainsLogicType>([
                         return values.scimConfig
                     }
                     const response = await identityProviderConfigsScimTokenCreate(orgId, config.id)
-                    lemonToast.success('SCIM token regenerated successfully!')
+                    lemonToast.success(
+                        i18n.t('settings.organization.verifiedDomains.scim.tokenRegenerated', {
+                            defaultValue: 'SCIM token regenerated successfully!',
+                        })
+                    )
                     return {
                         id: domainId,
                         scim_enabled: response.scim_enabled,
@@ -1067,7 +1091,11 @@ export const verifiedDomainsLogic = kea<verifiedDomainsLogicType>([
                     })
                     actions.setConfigureSAMLModalLoading(false)
                 } catch {
-                    lemonToast.error('Could not load the SAML configuration for this domain. Please try again.')
+                    lemonToast.error(
+                        i18n.t('settings.organization.verifiedDomains.saml.loadFailed', {
+                            defaultValue: 'Could not load the SAML configuration for this domain. Please try again.',
+                        })
+                    )
                     actions.setConfigureSAMLModalId(null)
                 }
             },
@@ -1090,7 +1118,11 @@ export const verifiedDomainsLogic = kea<verifiedDomainsLogicType>([
                     })
                     actions.setConfigureIdJagModalLoading(false)
                 } catch {
-                    lemonToast.error('Could not load the ID-JAG configuration for this domain. Please try again.')
+                    lemonToast.error(
+                        i18n.t('settings.organization.verifiedDomains.idJag.loadFailed', {
+                            defaultValue: 'Could not load the ID-JAG configuration for this domain. Please try again.',
+                        })
+                    )
                     actions.setConfigureIdJagModalId(null)
                 }
             },
@@ -1170,7 +1202,9 @@ export const verifiedDomainsLogic = kea<verifiedDomainsLogicType>([
             errors: (payload) => ({
                 saml_acs_url:
                     payload.saml_acs_url && !payload.saml_acs_url.match(SECURE_URL_REGEX)
-                        ? 'Please enter a valid URL, including https://'
+                        ? i18n.t('settings.organization.verifiedDomains.invalidUrl', {
+                              defaultValue: 'Please enter a valid URL, including https://',
+                          })
                         : undefined,
             }),
             submit: async (payload, breakpoint) => {
@@ -1202,11 +1236,15 @@ export const verifiedDomainsLogic = kea<verifiedDomainsLogicType>([
             errors: (payload) => ({
                 id_jag_issuer_url:
                     payload.id_jag_issuer_url && !payload.id_jag_issuer_url.match(SECURE_URL_REGEX)
-                        ? 'Please enter a valid URL, including https://'
+                        ? i18n.t('settings.organization.verifiedDomains.invalidUrl', {
+                              defaultValue: 'Please enter a valid URL, including https://',
+                          })
                         : undefined,
                 id_jag_jwks_url:
                     payload.id_jag_jwks_url && !payload.id_jag_jwks_url.match(SECURE_URL_REGEX)
-                        ? 'Please enter a valid URL, including https://'
+                        ? i18n.t('settings.organization.verifiedDomains.invalidUrl', {
+                              defaultValue: 'Please enter a valid URL, including https://',
+                          })
                         : undefined,
             }),
             submit: async (payload, breakpoint) => {

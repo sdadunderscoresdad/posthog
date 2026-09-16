@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconRefresh } from '@posthog/icons'
 import { Link } from '@posthog/lemon-ui'
@@ -16,6 +17,7 @@ import { Spinner } from 'lib/lemon-ui/Spinner'
 import { verifiedDomainsLogic } from './verifiedDomainsLogic'
 
 export function ConfigureSCIMModal(): JSX.Element {
+    const { t } = useTranslation()
     const { configureSCIMModalId, scimConfig, scimConfigLoading } = useValues(verifiedDomainsLogic)
     const { setConfigureSCIMModalId, enableScim, disableScim, regenerateScimToken } = useActions(verifiedDomainsLogic)
     const [tokenJustRevealed, setTokenJustRevealed] = useState(false)
@@ -81,7 +83,11 @@ export function ConfigureSCIMModal(): JSX.Element {
         <LemonModal onClose={handleClose} isOpen={!!configureSCIMModalId} title="" simple>
             <div className="LemonModal__layout">
                 <LemonModal.Header>
-                    <h3>Configure SCIM provisioning</h3>
+                    <h3>
+                        {t('settings.organization.verifiedDomains.scim.title', {
+                            defaultValue: 'Configure SCIM provisioning',
+                        })}
+                    </h3>
                 </LemonModal.Header>
                 <LemonModal.Content className="space-y-2">
                     {scimConfigLoading ? (
@@ -96,7 +102,9 @@ export function ConfigureSCIMModal(): JSX.Element {
                                     target="_blank"
                                     targetBlankIcon
                                 >
-                                    Read the docs
+                                    {t('settings.organization.verifiedDomains.readDocs', {
+                                        defaultValue: 'Read the docs',
+                                    })}
                                 </Link>
                             </p>
 
@@ -104,33 +112,57 @@ export function ConfigureSCIMModal(): JSX.Element {
                                 checked={scimConfig.scim_enabled ?? false}
                                 onChange={handleToggleScim}
                                 disabled={scimConfigLoading}
-                                label="Enable SCIM"
+                                label={t('settings.organization.verifiedDomains.scim.enable', {
+                                    defaultValue: 'Enable SCIM',
+                                })}
                             />
 
                             {scimConfig.scim_enabled && (
                                 <>
                                     <div>
-                                        <LemonLabel className="block mb-1">SCIM Base URL</LemonLabel>
-                                        <CopyToClipboardInline description="SCIM base URL">
+                                        <LemonLabel className="block mb-1">
+                                            {t('settings.organization.verifiedDomains.scim.baseUrl', {
+                                                defaultValue: 'SCIM Base URL',
+                                            })}
+                                        </LemonLabel>
+                                        <CopyToClipboardInline
+                                            description={t('settings.organization.verifiedDomains.scim.baseUrl', {
+                                                defaultValue: 'SCIM Base URL',
+                                            })}
+                                        >
                                             {scimConfig.scim_base_url || ''}
                                         </CopyToClipboardInline>
                                     </div>
 
                                     <div>
-                                        <LemonLabel className="block mb-1">Bearer Token</LemonLabel>
+                                        <LemonLabel className="block mb-1">
+                                            {t('settings.organization.verifiedDomains.scim.bearerToken', {
+                                                defaultValue: 'Bearer Token',
+                                            })}
+                                        </LemonLabel>
                                         {showToken ? (
                                             <>
-                                                <CopyToClipboardInline description="Bearer token">
+                                                <CopyToClipboardInline
+                                                    description={t(
+                                                        'settings.organization.verifiedDomains.scim.bearerTokenDescription',
+                                                        { defaultValue: 'Bearer token' }
+                                                    )}
+                                                >
                                                     {scimConfig.scim_bearer_token || ''}
                                                 </CopyToClipboardInline>
                                                 <LemonBanner type="warning" className="my-2">
-                                                    Save this token, it will only be shown once.
+                                                    {t('settings.organization.verifiedDomains.scim.saveToken', {
+                                                        defaultValue: 'Save this token, it will only be shown once.',
+                                                    })}
                                                 </LemonBanner>
                                             </>
                                         ) : (
                                             <>
                                                 <p className="text-muted">
-                                                    The bearer token is only displayed once when generated.
+                                                    {t('settings.organization.verifiedDomains.scim.tokenOnce', {
+                                                        defaultValue:
+                                                            'The bearer token is only displayed once when generated.',
+                                                    })}
                                                 </p>
                                                 <LemonButton
                                                     type="secondary"
@@ -138,7 +170,9 @@ export function ConfigureSCIMModal(): JSX.Element {
                                                     icon={<IconRefresh />}
                                                     loading={scimConfigLoading}
                                                 >
-                                                    Regenerate token
+                                                    {t('settings.organization.verifiedDomains.scim.regenerate', {
+                                                        defaultValue: 'Regenerate token',
+                                                    })}
                                                 </LemonButton>
                                             </>
                                         )}
@@ -150,7 +184,7 @@ export function ConfigureSCIMModal(): JSX.Element {
                 </LemonModal.Content>
                 <LemonModal.Footer>
                     <LemonButton type="secondary" onClick={handleClose}>
-                        Close
+                        {t('settings.organization.verifiedDomains.close', { defaultValue: 'Close' })}
                     </LemonButton>
                 </LemonModal.Footer>
             </div>

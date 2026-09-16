@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { LemonBanner } from 'lib/lemon-ui/LemonBanner'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
@@ -12,6 +13,7 @@ import { Spinner } from 'lib/lemon-ui/Spinner'
 import { verifiedDomainsLogic } from './verifiedDomainsLogic'
 
 export function ConfigureIdJagModal(): JSX.Element {
+    const { t } = useTranslation()
     const { configureIdJagModalId, configureIdJagModalLoading, isIdJagConfigSubmitting, idJagConfig } =
         useValues(verifiedDomainsLogic)
     const { setConfigureIdJagModalId } = useActions(verifiedDomainsLogic)
@@ -26,7 +28,11 @@ export function ConfigureIdJagModal(): JSX.Element {
         <LemonModal onClose={handleClose} isOpen={!!configureIdJagModalId} title="" simple>
             <Form logic={verifiedDomainsLogic} formKey="idJagConfig" enableFormOnSubmit className="LemonModal__layout ">
                 <LemonModal.Header>
-                    <h3>Configure XAA (ID-JAG)</h3>
+                    <h3>
+                        {t('settings.organization.verifiedDomains.idJag.title', {
+                            defaultValue: 'Configure XAA (ID-JAG)',
+                        })}
+                    </h3>
                 </LemonModal.Header>
                 <LemonModal.Content className="deprecated-space-y-2">
                     {configureIdJagModalLoading ? (
@@ -37,8 +43,13 @@ export function ConfigureIdJagModal(): JSX.Element {
                         <>
                             <LemonField
                                 name="id_jag_issuer_url"
-                                label="IdP issuer URL"
-                                info="The trusted identity provider issuer URL. Must match the iss claim on ID-JAG tokens for users on this domain."
+                                label={t('settings.organization.verifiedDomains.idJag.issuerUrl', {
+                                    defaultValue: 'IdP issuer URL',
+                                })}
+                                info={t('settings.organization.verifiedDomains.idJag.issuerUrlInfo', {
+                                    defaultValue:
+                                        'The trusted identity provider issuer URL. Must match the iss claim on ID-JAG tokens for users on this domain.',
+                                })}
                             >
                                 <LemonInput
                                     className="ph-ignore-input"
@@ -48,8 +59,13 @@ export function ConfigureIdJagModal(): JSX.Element {
                             </LemonField>
                             <LemonField
                                 name="id_jag_jwks_url"
-                                label="JWKS URL (optional)"
-                                info="Override JWKS discovery. Leave empty to use OIDC discovery at the issuer URL."
+                                label={t('settings.organization.verifiedDomains.idJag.jwksUrl', {
+                                    defaultValue: 'JWKS URL (optional)',
+                                })}
+                                info={t('settings.organization.verifiedDomains.idJag.jwksUrlInfo', {
+                                    defaultValue:
+                                        'Override JWKS discovery. Leave empty to use OIDC discovery at the issuer URL.',
+                                })}
                             >
                                 <LemonInput
                                     className="ph-ignore-input"
@@ -59,14 +75,21 @@ export function ConfigureIdJagModal(): JSX.Element {
                             </LemonField>
                             <LemonField
                                 name="id_jag_allowed_clients"
-                                label="Allowed client IDs (optional)"
-                                info="Restrict which client_id values are accepted. Leave empty to allow any client_id."
+                                label={t('settings.organization.verifiedDomains.idJag.allowedClients', {
+                                    defaultValue: 'Allowed client IDs (optional)',
+                                })}
+                                info={t('settings.organization.verifiedDomains.idJag.allowedClientsInfo', {
+                                    defaultValue:
+                                        'Restrict which client_id values are accepted. Leave empty to allow any client_id.',
+                                })}
                             >
                                 {({ value, onChange }) => (
                                     <LemonInputSelect
                                         value={value ?? []}
                                         onChange={onChange}
-                                        placeholder="Add client IDs..."
+                                        placeholder={t('settings.organization.verifiedDomains.idJag.addClientIds', {
+                                            defaultValue: 'Add client IDs...',
+                                        })}
                                         mode="multiple"
                                         allowCustomValues
                                         options={[]}
@@ -75,15 +98,18 @@ export function ConfigureIdJagModal(): JSX.Element {
                             </LemonField>
                             {!idJagReady && (
                                 <LemonBanner type="info">
-                                    XAA will not be enabled until you enter an IdP issuer URL. You can save partial
-                                    settings as a draft.
+                                    {t('settings.organization.verifiedDomains.idJag.incomplete', {
+                                        defaultValue:
+                                            'XAA will not be enabled until you enter an IdP issuer URL. You can save partial settings as a draft.',
+                                    })}
                                 </LemonBanner>
                             )}
                             <LemonBanner type="info">
-                                Configure your IdP to grant <code>user:read</code> plus the scopes each integration
-                                needs (for project-scoped APIs, also <code>organization:read</code> and{' '}
-                                <code>project:read</code>). Tokens issued without the required scopes are rejected with
-                                an insufficient-scope error.
+                                <Trans
+                                    i18nKey="settings.organization.verifiedDomains.idJag.scopesNotice"
+                                    components={{ code: <code /> }}
+                                    defaults="Configure your IdP to grant <code>user:read</code> plus the scopes each integration needs (for project-scoped APIs, also <code>organization:read</code> and <code>project:read</code>). Tokens issued without the required scopes are rejected with an insufficient-scope error."
+                                />
                             </LemonBanner>
                         </>
                     )}
@@ -95,7 +121,7 @@ export function ConfigureIdJagModal(): JSX.Element {
                         type="primary"
                         htmlType="submit"
                     >
-                        Save settings
+                        {t('settings.organization.verifiedDomains.saveSettings', { defaultValue: 'Save settings' })}
                     </LemonButton>
                 </LemonModal.Footer>
             </Form>

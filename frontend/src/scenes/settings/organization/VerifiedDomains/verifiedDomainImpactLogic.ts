@@ -3,6 +3,7 @@ import { loaders } from 'kea-loaders'
 
 import api, { CountedPaginatedResponse } from 'lib/api'
 import { OrganizationMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { membersLogic } from 'scenes/organization/membersLogic'
 import { organizationLogic } from 'scenes/organizationLogic'
@@ -264,9 +265,12 @@ export const verifiedDomainImpactLogic = kea<verifiedDomainImpactLogicType>([
         confirmEnforceVerifiedDomainsSuccess: ({ enforcementRemoval }) => {
             const removed = enforcementRemoval?.removed_members ?? 0
             lemonToast.success(
-                removed === 1
-                    ? 'Logins restricted to verified email domains. 1 member was removed.'
-                    : `Logins restricted to verified email domains. ${removed} members were removed.`
+                i18n.t('settings.organization.verifiedDomains.enforcedRemovedMembers', {
+                    defaultValue: 'Logins restricted to verified email domains. {{ count }} member was removed.',
+                    defaultValue_other:
+                        'Logins restricted to verified email domains. {{ count }} members were removed.',
+                    count: removed,
+                })
             )
             actions.loadCurrentOrganization()
             membersLogic.findMounted()?.actions.loadAllMembers()

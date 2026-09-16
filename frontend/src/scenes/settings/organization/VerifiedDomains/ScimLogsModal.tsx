@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconRefresh } from '@posthog/icons'
 
@@ -29,17 +30,26 @@ function statusTagType(status: number): LemonTagType {
 }
 
 function LogDetailExpanded({ log }: { log: SCIMRequestLogApi }): JSX.Element {
+    const { t } = useTranslation()
     return (
         <div className="space-y-4 p-4">
             <div>
-                <h4 className="font-semibold mb-1">Request headers</h4>
+                <h4 className="font-semibold mb-1">
+                    {t('settings.organization.verifiedDomains.scimLogs.requestHeaders', {
+                        defaultValue: 'Request headers',
+                    })}
+                </h4>
                 <CodeSnippet language={Language.JSON} wrap>
                     {JSON.stringify(log.request_headers, null, 2)}
                 </CodeSnippet>
             </div>
             {log.request_body ? (
                 <div>
-                    <h4 className="font-semibold mb-1">Request body</h4>
+                    <h4 className="font-semibold mb-1">
+                        {t('settings.organization.verifiedDomains.scimLogs.requestBody', {
+                            defaultValue: 'Request body',
+                        })}
+                    </h4>
                     <CodeSnippet language={Language.JSON} wrap>
                         {JSON.stringify(log.request_body, null, 2)}
                     </CodeSnippet>
@@ -47,7 +57,11 @@ function LogDetailExpanded({ log }: { log: SCIMRequestLogApi }): JSX.Element {
             ) : null}
             {log.response_body ? (
                 <div>
-                    <h4 className="font-semibold mb-1">Response body</h4>
+                    <h4 className="font-semibold mb-1">
+                        {t('settings.organization.verifiedDomains.scimLogs.responseBody', {
+                            defaultValue: 'Response body',
+                        })}
+                    </h4>
                     <CodeSnippet language={Language.JSON} wrap>
                         {JSON.stringify(log.response_body, null, 2)}
                     </CodeSnippet>
@@ -62,6 +76,7 @@ export function ScimLogsModal({
 }: {
     emptyStateScope?: 'domain' | 'configuration'
 }): JSX.Element {
+    const { t } = useTranslation()
     const { scimLogsModalId, scimLogs, scimLogsLoading, scimLogsStatusFilter, scimLogsSearch, scimLogsPage } =
         useValues(verifiedDomainsLogic)
     const { setScimLogsModalId, setScimLogsStatusFilter, setScimLogsSearch, setScimLogsPage, reloadScimLogs } =
@@ -70,34 +85,34 @@ export function ScimLogsModal({
     const columns: LemonTableColumns<SCIMRequestLogApi> = [
         {
             key: 'created_at',
-            title: 'Time',
+            title: t('settings.organization.verifiedDomains.scimLogs.columns.time', { defaultValue: 'Time' }),
             render: (_, { created_at }) => new Date(created_at).toLocaleString(),
         },
         {
             key: 'request_method',
-            title: 'Method',
+            title: t('settings.organization.verifiedDomains.scimLogs.columns.method', { defaultValue: 'Method' }),
             dataIndex: 'request_method',
         },
         {
             key: 'request_path',
-            title: 'Path',
+            title: t('settings.organization.verifiedDomains.scimLogs.columns.path', { defaultValue: 'Path' }),
             dataIndex: 'request_path',
         },
         {
             key: 'response_status',
-            title: 'Status',
+            title: t('settings.organization.verifiedDomains.scimLogs.columns.status', { defaultValue: 'Status' }),
             render: (_, { response_status }) => (
                 <LemonTag type={statusTagType(response_status)}>{response_status}</LemonTag>
             ),
         },
         {
             key: 'identity_provider',
-            title: 'IdP',
+            title: t('settings.organization.verifiedDomains.scimLogs.columns.idp', { defaultValue: 'IdP' }),
             dataIndex: 'identity_provider',
         },
         {
             key: 'duration_ms',
-            title: 'Duration',
+            title: t('settings.organization.verifiedDomains.scimLogs.columns.duration', { defaultValue: 'Duration' }),
             render: (_, { duration_ms }) => (duration_ms !== null ? `${duration_ms}ms` : '–'),
         },
     ]
@@ -116,15 +131,30 @@ export function ScimLogsModal({
     const handleClose = (): void => setScimLogsModalId(null)
 
     return (
-        <LemonModal onClose={handleClose} isOpen={!!scimLogsModalId} title="SCIM request logs" width={960}>
+        <LemonModal
+            onClose={handleClose}
+            isOpen={!!scimLogsModalId}
+            title={t('settings.organization.verifiedDomains.scimLogs.title', { defaultValue: 'SCIM request logs' })}
+            width={960}
+        >
             <div className="space-y-4">
                 <div className="flex items-center gap-2">
                     <LemonSegmentedButton
                         value={scimLogsStatusFilter}
                         onChange={(value) => setScimLogsStatusFilter(value)}
                         options={[
-                            { value: 'all', label: 'All' },
-                            { value: 'success', label: 'Success' },
+                            {
+                                value: 'all',
+                                label: t('settings.organization.verifiedDomains.scimLogs.filters.all', {
+                                    defaultValue: 'All',
+                                }),
+                            },
+                            {
+                                value: 'success',
+                                label: t('settings.organization.verifiedDomains.scimLogs.filters.success', {
+                                    defaultValue: 'Success',
+                                }),
+                            },
                             { value: '4xx', label: '4xx' },
                             { value: '5xx', label: '5xx' },
                         ]}
@@ -132,7 +162,9 @@ export function ScimLogsModal({
                     />
                     <LemonInput
                         type="search"
-                        placeholder="Search by path or email..."
+                        placeholder={t('settings.organization.verifiedDomains.scimLogs.searchPlaceholder', {
+                            defaultValue: 'Search by path or email...',
+                        })}
                         value={scimLogsSearch}
                         onChange={setScimLogsSearch}
                         className="max-w-60"
@@ -146,7 +178,7 @@ export function ScimLogsModal({
                         onClick={reloadScimLogs}
                         loading={scimLogsLoading}
                     >
-                        Refresh
+                        {t('settings.organization.verifiedDomains.scimLogs.refresh', { defaultValue: 'Refresh' })}
                     </LemonButton>
                 </div>
 
@@ -161,8 +193,20 @@ export function ScimLogsModal({
                     }}
                     emptyState={
                         scimLogsStatusFilter !== 'all' || scimLogsSearch
-                            ? 'No SCIM requests match the current filters.'
-                            : `No SCIM requests logged yet for this ${emptyStateScope}.`
+                            ? t('settings.organization.verifiedDomains.scimLogs.noMatches', {
+                                  defaultValue: 'No SCIM requests match the current filters.',
+                              })
+                            : t('settings.organization.verifiedDomains.scimLogs.empty', {
+                                  defaultValue: 'No SCIM requests logged yet for this {{ scope }}.',
+                                  scope:
+                                      emptyStateScope === 'domain'
+                                          ? t('settings.organization.verifiedDomains.scimLogs.scopeDomain', {
+                                                defaultValue: 'domain',
+                                            })
+                                          : t('settings.organization.verifiedDomains.scimLogs.scopeConfiguration', {
+                                                defaultValue: 'configuration',
+                                            }),
+                              })
                     }
                 />
             </div>

@@ -716,44 +716,44 @@
                 "changeCount_other": "{{ count }} 项更改",
                 "concepts": {
                     "commentMentions": {
-                        "label": "评论提及",
-                        "description": "当有人在讨论中提及 TA 时发送邮件。"
+                        "description": "当有人在讨论中提及 TA 时发送邮件。",
+                        "label": "评论提及"
                     },
                     "errorTrackingDigest": {
-                        "label": "错误跟踪每周摘要",
-                        "description": "项目内捕获异常的每周摘要。"
+                        "description": "项目内捕获异常的每周摘要。",
+                        "label": "错误跟踪每周摘要"
                     },
                     "issueAssigned": {
-                        "label": "议题被指派",
-                        "description": "当有错误跟踪议题指派给 TA 时发送邮件。"
+                        "description": "当有错误跟踪议题指派给 TA 时发送邮件。",
+                        "label": "议题被指派"
                     },
                     "matviewDaily": {
-                        "label": "物化视图失败，每日摘要",
-                        "description": "每天一封邮件，汇总失败的视图。适用于接收失败通知的人。"
+                        "description": "每天一封邮件，汇总失败的视图。适用于接收失败通知的人。",
+                        "label": "物化视图失败，每日摘要"
                     },
                     "matviewFailures": {
-                        "label": "物化视图同步失败",
-                        "description": "当物化视图同步失败时发送邮件。"
+                        "description": "当物化视图同步失败时发送邮件。",
+                        "label": "物化视图同步失败"
                     },
                     "matviewImmediate": {
-                        "label": "物化视图失败，立即通知",
-                        "description": "视图每次开始失败时发送邮件。适用于接收失败通知的人。"
+                        "description": "视图每次开始失败时发送邮件。适用于接收失败通知的人。",
+                        "label": "物化视图失败，立即通知"
                     },
                     "memberJoined": {
-                        "label": "新成员加入",
-                        "description": "当有人加入组织时发送邮件。"
+                        "description": "当有人加入组织时发送邮件。",
+                        "label": "新成员加入"
                     },
                     "pipelineErrors": {
-                        "label": "数据管道错误",
-                        "description": "当目标、批量导出或转换失败时发送邮件。"
+                        "description": "当目标、批量导出或转换失败时发送邮件。",
+                        "label": "数据管道错误"
                     },
                     "webAnalyticsDigest": {
-                        "label": "Web 分析每周摘要",
-                        "description": "项目内网站流量的每周摘要。"
+                        "description": "项目内网站流量的每周摘要。",
+                        "label": "Web 分析每周摘要"
                     },
                     "weeklyDigest": {
-                        "label": "每周摘要",
-                        "description": "项目内每周发生事项的摘要。"
+                        "description": "项目内每周发生事项的摘要。",
+                        "label": "每周摘要"
                     }
                 },
                 "discard": "放弃",
@@ -828,6 +828,149 @@
             "variables": {
                 "description": "使用此 ID 在 <ApiLink>PostHog API</ApiLink> 中标识你的组织。",
                 "thing": "组织 ID"
+            },
+            "verifiedDomains": {
+                "addDomain": "添加域名",
+                "addModalTitle": "添加认证域名",
+                "automaticProvisioning": "自动预配",
+                "automaticProvisioningTooltip": "启用即时预配。如果用户通过 SSO 登录，且邮箱地址属于此域名，而 {{ organization }} 中尚不存在该账号，系统会自动创建。",
+                "close": "关闭",
+                "columns": {
+                    "domain": "域名",
+                    "integrations": "集成",
+                    "status": "状态"
+                },
+                "configureSaml": "配置 SAML",
+                "configureScim": "配置 SCIM",
+                "configureXaa": "配置 XAA",
+                "defaultTtl": "默认或 3600",
+                "description": "允许邮箱地址属于已验证域名的用户自动注册，并对你域名下的账号强制使用 SSO。",
+                "domainFallback": "域名",
+                "domainPlaceholder": "posthog.com",
+                "domainUpdated": "域名更新成功！更改会立即生效。",
+                "domainVerified": "域名验证成功。",
+                "empty": "你还没有注册任何认证域名。",
+                "enforceDescription": "只允许邮箱地址属于已验证域名的人加入该组织。发往其他域名的邀请会被阻止，其他域名的现有成员将失去访问权限。",
+                "enforcedRemovedMembers_other": "登录已限制为已验证的邮箱域名，共移除 {{ count }} 位成员。",
+                "enforceImpact_other": "{{ count }} 位成员的邮箱地址不属于你的已验证域名，将无法再登录。确认后也会把他们从该组织中移除。",
+                "enforceLabel": "将成员限制为已验证的邮箱域名",
+                "enforceModalTitle": "将登录限制为已验证的邮箱域名？",
+                "enforceSso": "强制使用 SSO",
+                "enforceSsoTooltip": "要求邮箱地址属于此域名的用户始终通过指定的 SSO 提供方登录。",
+                "idJag": {
+                    "addClientIds": "添加客户端 ID…",
+                    "allowedClients": "允许的客户端 ID（可选）",
+                    "allowedClientsInfo": "限制可接受的 client_id 取值。留空则允许任何 client_id。",
+                    "enabled": "XAA 已启用",
+                    "incomplete": "除非填写 IdP 发行方 URL，否则不会启用 XAA。你可以先将部分设置保存为草稿。",
+                    "issuerUrl": "IdP 发行方 URL",
+                    "issuerUrlInfo": "受信任的身份提供方发行方 URL。必须与此域名下用户 ID-JAG 令牌中的 iss 声明一致。",
+                    "jwksUrl": "JWKS URL（可选）",
+                    "jwksUrlInfo": "覆盖 JWKS 发现。留空则使用发行方 URL 的 OIDC 发现。",
+                    "loadFailed": "无法加载该域名的 ID-JAG 配置，请重试。",
+                    "scopesNotice": "将你的 IdP 配置为授予 <code>user:read</code>，以及其他集成所需的权限范围（对于项目级 API，还需要 <code>organization:read</code> 和 <code>project:read</code>）。未携带所需权限范围签发的令牌会因权限范围不足而被拒绝。",
+                    "title": "配置 XAA（ID-JAG）"
+                },
+                "impact": {
+                    "showingMembers": "显示 {{ total }} 位成员中的 {{ shown }} 位。"
+                },
+                "invalidDomain": "请输入有效的域名或子域名（例如 my.posthog.com）",
+                "invalidUrl": "请输入有效的 URL，需包含 https://",
+                "loading": "加载中…",
+                "name": "名称",
+                "notConfigured": "未配置",
+                "pendingDomains": "待验证的域名",
+                "pendingVerification": "等待验证",
+                "readDocs": "阅读文档",
+                "removeAndRestrict_other": "移除 {{ count }} 位成员并开启限制",
+                "removeBlocked": "你自己的邮箱地址将不再被允许。请先关闭域名限制",
+                "removeDomain": "移除域名",
+                "removeDomainTitle": "移除 {{ domain }}？",
+                "removeImpactMany_other": "登录被限制为已验证的邮箱域名。移除该域名意味着这 {{ count }} 位成员将无法再登录：",
+                "removeImpactOne": "登录被限制为已验证的邮箱域名。移除该域名意味着该成员将无法再登录：",
+                "removeVerifiedWarning": "此操作无法撤销。如果你配置了 SAML 或强制了 SSO，它们会立即被关闭。",
+                "removeWarning": "此操作无法撤销。",
+                "removingMembers": "正在移除成员…",
+                "saml": {
+                    "acsConsumerUrl": "ACS 消费者 URL",
+                    "acsUrl": "SAML ACS URL",
+                    "acsUrlPlaceholder": "你的 IdP 的 ACS 或单点登录 URL。",
+                    "audience": "受众 / 实体 ID",
+                    "certificate": "SAML X.509 证书",
+                    "enabled": "SAML 已启用",
+                    "entityId": "SAML 实体 ID",
+                    "entityIdPlaceholder": "由你的 IdP 提供的实体 ID。",
+                    "incomplete": "除非填写上面所有属性，否则不会启用 SAML。你也可以先保存为草稿。",
+                    "loadFailed": "无法加载该域名的 SAML 配置，请重试。",
+                    "notEnabled": "SAML 未启用",
+                    "relayState": "RelayState",
+                    "title": "配置 SAML 认证与预配",
+                    "upgradeTooltip": "升级套餐以启用 SAML"
+                },
+                "saveSettings": "保存设置",
+                "scim": {
+                    "baseUrl": "SCIM 基础 URL",
+                    "bearerToken": "Bearer 令牌",
+                    "bearerTokenDescription": "Bearer 令牌",
+                    "disabledToast": "SCIM 已成功停用！",
+                    "enable": "启用 SCIM",
+                    "enabled": "SCIM 已启用",
+                    "enabledToast": "SCIM 已成功启用！",
+                    "notEnabled": "SCIM 未启用",
+                    "regenerate": "重新生成令牌",
+                    "saveToken": "请保存此令牌，它只会显示一次。",
+                    "title": "配置 SCIM 预配",
+                    "tokenOnce": "Bearer 令牌仅在生成时显示一次。",
+                    "tokenRegenerated": "SCIM 令牌已成功重新生成！",
+                    "upgradeTooltip": "升级套餐以启用 SCIM"
+                },
+                "scimLogs": {
+                    "columns": {
+                        "duration": "耗时",
+                        "idp": "IdP",
+                        "method": "方法",
+                        "path": "路径",
+                        "status": "状态",
+                        "time": "时间"
+                    },
+                    "empty": "还没有记录到该{{ scope }}的 SCIM 请求。",
+                    "filters": {
+                        "all": "全部",
+                        "success": "成功"
+                    },
+                    "noMatches": "没有匹配当前筛选条件的 SCIM 请求。",
+                    "refresh": "刷新",
+                    "requestBody": "请求正文",
+                    "requestHeaders": "请求头",
+                    "responseBody": "响应正文",
+                    "scopeConfiguration": "配置",
+                    "scopeDomain": "域名",
+                    "searchPlaceholder": "按路径或邮箱搜索…",
+                    "title": "SCIM 请求日志"
+                },
+                "sso": {
+                    "cannotChangeWhileLoading": "加载中无法修改",
+                    "doNotEnforce": "不强制",
+                    "notConfigured": "该提供方未配置。"
+                },
+                "stepAddRecord": "添加以下 TXT 记录。",
+                "stepPressVerify": "点击下方的验证。",
+                "stepSignIn": "登录你的 DNS 服务商。",
+                "thisOrganization": "该组织",
+                "ttl": "TTL",
+                "upgradeToEnable": "升级以启用",
+                "upgradeToEnableSaml": "升级以启用 SAML",
+                "upgradeToEnableScim": "升级以启用 SCIM",
+                "value": "值或内容",
+                "verificationExpired": "验证已过期",
+                "verificationFailed": "我们暂时无法验证你的域名。DNS 传播最多可能需要 72 小时，请稍后再试。",
+                "verify": "验证",
+                "verifyDescription": "要验证域名，你需要在 DNS 区域中添加一条记录。",
+                "verifyLater": "稍后验证",
+                "verifyOneDomainFirst": "请先验证至少一个域名以启用此设置",
+                "verifyOwnDomainFirst": "请先验证你自己邮箱地址所属的域名，否则这会把你锁在外面",
+                "verifyTitle": "验证你的域名",
+                "viewScimLogs": "查看 SCIM 日志"
             }
         },
         "project": {

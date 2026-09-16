@@ -1,4 +1,6 @@
+import type { TFunction } from 'i18next'
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { CountedPaginatedResponse } from 'lib/api'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
@@ -13,7 +15,7 @@ import { OrganizationMemberType } from '~/types'
 
 import { verifiedDomainImpactLogic } from './verifiedDomainImpactLogic'
 
-function impactedMemberColumns(currentUserUuid?: string): LemonTableColumns<OrganizationMemberType> {
+function impactedMemberColumns(t: TFunction, currentUserUuid?: string): LemonTableColumns<OrganizationMemberType> {
     return [
         {
             key: 'user_profile_picture',
@@ -24,13 +26,16 @@ function impactedMemberColumns(currentUserUuid?: string): LemonTableColumns<Orga
         },
         {
             key: 'user',
-            title: 'Name',
+            title: t('settings.organization.members.columns.name', { defaultValue: 'Name' }),
             render: function NameRender(_, member) {
                 return (
                     <div className="ph-no-capture">
                         <div>
                             {member.user.uuid === currentUserUuid
-                                ? `${fullName(member.user)} (you)`
+                                ? t('settings.organization.members.you', {
+                                      defaultValue: '{{ name }} (you)',
+                                      name: fullName(member.user),
+                                  })
                                 : fullName(member.user)}
                         </div>
                         <div className="text-secondary">{member.user.email}</div>
@@ -40,7 +45,7 @@ function impactedMemberColumns(currentUserUuid?: string): LemonTableColumns<Orga
         },
         {
             key: 'level',
-            title: 'Level',
+            title: t('settings.organization.members.columns.level', { defaultValue: 'Level' }),
             render: function LevelRender(_, member) {
                 return membershipLevelToName.get(member.level) ?? `unknown (${member.level})`
             },
@@ -55,6 +60,7 @@ function ImpactedMembersTable({
     impact: CountedPaginatedResponse<OrganizationMemberType> | null
     loading: boolean
 }): JSX.Element {
+    const { t } = useTranslation()
     const { user } = useValues(userLogic)
     const members = impact?.results ?? []
     const count = impact?.count ?? members.length
@@ -62,7 +68,7 @@ function ImpactedMembersTable({
         <>
             <LemonTable
                 dataSource={members}
-                columns={impactedMemberColumns(user?.uuid)}
+                columns={impactedMemberColumns(t, user?.uuid)}
                 loading={loading}
                 rowKey="id"
                 size="small"
@@ -71,7 +77,11 @@ function ImpactedMembersTable({
             />
             {count > members.length && (
                 <div className="text-secondary text-xs mt-1">
-                    Showing {members.length} of {count} members.
+                    {t('settings.organization.verifiedDomains.impact.showingMembers', {
+                        defaultValue: 'Showing {{ shown }} of {{ total }} members.',
+                        shown: members.length,
+                        total: count,
+                    })}
                 </div>
             )}
         </>
@@ -79,6 +89,7 @@ function ImpactedMembersTable({
 }
 
 export function RemoveDomainModal(): JSX.Element {
+    const { t } = useTranslation()
     const { removeDomainPrompt, domainImpact, domainImpactLoading, currentOrganization } =
         useValues(verifiedDomainImpactLogic)
     const { closeRemoveDomainPrompt, confirmRemoveDomain } = useActions(verifiedDomainImpactLogic)
@@ -91,14 +102,19 @@ export function RemoveDomainModal(): JSX.Element {
 
     return (
         <LemonModal
-            title={`Remove ${removeDomainPrompt?.domain ?? 'domain'}?`}
+            title={t('settings.organization.verifiedDomains.removeDomainTitle', {
+                defaultValue: 'Remove {{ domain }}?',
+                domain:
+                    removeDomainPrompt?.domain ??
+                    t('settings.organization.verifiedDomains.domainFallback', { defaultValue: 'domain' }),
+            })}
             isOpen={!!removeDomainPrompt}
             onClose={closeRemoveDomainPrompt}
             width={showImpact ? 600 : undefined}
             footer={
                 <>
                     <LemonButton type="secondary" onClick={closeRemoveDomainPrompt}>
-                        Cancel
+                        {t('settings.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         status="danger"
@@ -106,7 +122,7 @@ export function RemoveDomainModal(): JSX.Element {
                         onClick={confirmRemoveDomain}
                         loading={domainImpactLoading}
                     >
-                        Remove domain
+                        {t('settings.organization.verifiedDomains.removeDomain', { defaultValue: 'Remove domain' })}
                     </LemonButton>
                 </>
             }
@@ -114,15 +130,27 @@ export function RemoveDomainModal(): JSX.Element {
             <div className="space-y-2">
                 <p>
                     {removeDomainPrompt?.is_verified
-                        ? 'This cannot be undone. If you have SAML configured or SSO enforced, it will be immediately disabled.'
-                        : 'This cannot be undone.'}
+                        ? t('settings.organization.verifiedDomains.removeVerifiedWarning', {
+                              defaultValue:
+                                  'This cannot be undone. If you have SAML configured or SSO enforced, it will be immediately disabled.',
+                          })
+                        : t('settings.organization.verifiedDomains.removeWarning', {
+                              defaultValue: 'This cannot be undone.',
+                          })}
                 </p>
                 {showImpact && (
                     <>
                         <p>
-                            Logins are restricted to verified email domains. Removing this domain means{' '}
-                            {impactedCount === 1 ? 'this member' : `these ${impactedCount} members`} can no longer log
-                            in:
+                            {impactedCount === 1
+                                ? t('settings.organization.verifiedDomains.removeImpactOne', {
+                                      defaultValue:
+                                          'Logins are restricted to verified email domains. Removing this domain means this member can no longer log in:',
+                                  })
+                                : t('settings.organization.verifiedDomains.removeImpactMany', {
+                                      defaultValue:
+                                          'Logins are restricted to verified email domains. Removing this domain means these {{ count }} members can no longer log in:',
+                                      count: impactedCount,
+                                  })}
                         </p>
                         <ImpactedMembersTable impact={domainImpact} loading={domainImpactLoading} />
                     </>
@@ -133,6 +161,7 @@ export function RemoveDomainModal(): JSX.Element {
 }
 
 export function EnforceVerifiedDomainsModal(): JSX.Element {
+    const { t } = useTranslation()
     const { enforcementPromptOpen, enforcementImpact, enforcementImpactLoading, enforcementRemovalLoading } =
         useValues(verifiedDomainImpactLogic)
     const { closeEnforcementPrompt, confirmEnforceVerifiedDomains } = useActions(verifiedDomainImpactLogic)
@@ -141,7 +170,9 @@ export function EnforceVerifiedDomainsModal(): JSX.Element {
 
     return (
         <LemonModal
-            title="Restrict logins to verified email domains?"
+            title={t('settings.organization.verifiedDomains.enforceModalTitle', {
+                defaultValue: 'Restrict logins to verified email domains?',
+            })}
             isOpen={enforcementPromptOpen}
             onClose={closeEnforcementPrompt}
             width={600}
@@ -150,9 +181,15 @@ export function EnforceVerifiedDomainsModal(): JSX.Element {
                     <LemonButton
                         type="secondary"
                         onClick={closeEnforcementPrompt}
-                        disabledReason={enforcementRemovalLoading ? 'Removing members...' : undefined}
+                        disabledReason={
+                            enforcementRemovalLoading
+                                ? t('settings.organization.verifiedDomains.removingMembers', {
+                                      defaultValue: 'Removing members...',
+                                  })
+                                : undefined
+                        }
                     >
-                        Cancel
+                        {t('settings.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         status="danger"
@@ -160,18 +197,24 @@ export function EnforceVerifiedDomainsModal(): JSX.Element {
                         onClick={confirmEnforceVerifiedDomains}
                         loading={enforcementRemovalLoading}
                     >
-                        {impactedCount === 1
-                            ? 'Remove 1 member and restrict'
-                            : `Remove ${impactedCount} members and restrict`}
+                        {t('settings.organization.verifiedDomains.removeAndRestrict', {
+                            defaultValue: 'Remove {{ count }} member and restrict',
+                            defaultValue_other: 'Remove {{ count }} members and restrict',
+                            count: impactedCount,
+                        })}
                     </LemonButton>
                 </>
             }
         >
             <div className="space-y-2">
                 <p>
-                    {impactedCount === 1 ? '1 member has' : `${impactedCount} members have`} an email address outside
-                    your verified domains and will no longer be able to log in. Confirming also removes them from this
-                    organization.
+                    {t('settings.organization.verifiedDomains.enforceImpact', {
+                        defaultValue:
+                            '{{ count }} member has an email address outside your verified domains and will no longer be able to log in. Confirming also removes them from this organization.',
+                        defaultValue_other:
+                            '{{ count }} members have an email address outside your verified domains and will no longer be able to log in. Confirming also removes them from this organization.',
+                        count: impactedCount,
+                    })}
                 </p>
                 <ImpactedMembersTable impact={enforcementImpact} loading={enforcementImpactLoading} />
             </div>
