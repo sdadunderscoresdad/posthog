@@ -1406,6 +1406,850 @@
             }
         },
         "loading": "Loading...",
+        "map": {
+            "2fa": {
+                "description": "Add an extra layer of security to your account using an authenticator app or passkeys."
+            },
+            "activity-log-notifications": {
+                "description": "Get notified about activity log events via configured destinations.",
+                "title": "Notifications"
+            },
+            "activity-log-org-level-settings": {
+                "description": "Configure organization-level activity log settings.",
+                "title": "Settings"
+            },
+            "activity-log-settings": {
+                "description": "View a log of changes made to this environment by team members.",
+                "title": "Activity logs"
+            },
+            "ai-observability-byok": {
+                "description": "Add and manage provider API keys for AI observability features, including evaluations and playground.",
+                "title": "Bring your own key (BYOK)"
+            },
+            "ai-observability-parser-recipes": {
+                "description": "Add recipes that normalize provider message shapes the built-in recipes don't cover. They apply when rendering traces.",
+                "title": "Custom parsing"
+            },
+            "allow-impersonation": {
+                "title": "Support access"
+            },
+            "approval-policies": {
+                "description": "Configure which actions require approval before being applied.",
+                "title": "Policies"
+            },
+            "authentication-domains": {
+                "title": "Authentication Domains"
+            },
+            "autocapture": {
+                "description": "Automatically capture frontend events such as clicks, input changes, and form submissions when using the web JavaScript SDK. Also available for React Native and iOS via code configuration.",
+                "title": "Autocapture"
+            },
+            "autocapture-data-attributes": {
+                "description": "Specify data attributes used in your app (e.g. data-attr, data-custom-id). These attributes help the toolbar and action definitions match unique elements on your pages. Use * as a wildcard.",
+                "title": "Data attributes"
+            },
+            "base-currency": {
+                "description": "Set the default currency used for revenue and monetary calculations.",
+                "title": "Base currency"
+            },
+            "bounce-rate-duration": {
+                "description": "Set how long a user can stay on a page (in seconds) before the session is not counted as a bounce. Default is 10 seconds.",
+                "title": "Bounce rate duration"
+            },
+            "bounce-rate-page-view-mode": {
+                "description": "Choose how pageviews are counted as part of the bounce rate calculation. Other factors like autocaptures and session duration are also considered.",
+                "title": "Bounce rate page view mode"
+            },
+            "business-knowledge-learn-from-support": {
+                "description": "When on, PostHog learns reusable answers from public human replies on resolved support tickets.",
+                "title": "Self-learning"
+            },
+            "business-model": {
+                "description": "Set whether this project serves B2B or B2C customers so PostHog can tailor the experience and recommendations."
+            },
+            "change-requests": {
+                "description": "Review and approve pending change requests.",
+                "title": "Change requests"
+            },
+            "changelog": {
+                "description": "See the latest PostHog AI features and control whether the changelog appears in the main UI.",
+                "title": "Changelog"
+            },
+            "channel-type": {
+                "description": "Define custom rules for categorizing traffic sources into channels.",
+                "title": "Custom channel type"
+            },
+            "connected-apps": {
+                "description": "Applications that have been granted access to your PostHog account via OAuth. You can revoke access at any time.",
+                "title": "Connected applications"
+            },
+            "conversations-ai": {
+                "beta": "Beta",
+                "description": "Automatically generate AI-powered reply suggestions grounded in your business knowledge sources.",
+                "title": "AI agent"
+            },
+            "conversations-general": {
+                "title": "General"
+            },
+            "conversations-imports": {
+                "beta": "Beta",
+                "description": "Import historical support data from external tools into Support.",
+                "title": "Imports"
+            },
+            "conversations-notifications": {
+                "description": "We recommend setting up a workflow for fine-grained automation — Slack pings, SLA escalations, auto-tagging. For the basics, configure email or browser notifications.",
+                "title": "Notifications"
+            },
+            "cookieless-server-hash-mode": {
+                "description": "Count unique users with a privacy-preserving hash instead of cookies. Enable this here, then enable cookieless mode in posthog-js.",
+                "title": "Cookieless tracking"
+            },
+            "core-memory": {
+                "description": "PostHog AI automatically remembers details about your company and product. This context helps our AI assistant provide relevant answers and suggestions. If there are any details you don't want PostHog AI to remember, you can edit or remove them below.",
+                "title": "Memory"
+            },
+            "correlation-analysis": {
+                "description": "Correlation analysis automatically surfaces relevant signals for conversion. Exclude events or properties that do not provide useful signals.",
+                "title": "Correlation analysis exclusions"
+            },
+            "csp-reporting": {
+                "description": "Collect Content Security Policy violation reports to monitor and debug CSP issues on your site.",
+                "title": "CSP reporting"
+            },
+            "custom-bot-definitions": {
+                "description": "Add your own crawlers and scripts to the bots PostHog already detects, so you can tell them apart from real visitors.",
+                "title": "Custom bots"
+            },
+            "customer-analytics-accounts": {
+                "description": "Select which group type represents an account in customer analytics.",
+                "title": "Accounts"
+            },
+            "customer-analytics-calendar-sync": {
+                "description": "Connect your Google account to sync customer meetings and email to matching accounts. Each team member connects their own account.",
+                "title": "Google account sync"
+            },
+            "customer-analytics-dashboard-events": {
+                "description": "Configure which events appear on customer analytics dashboards.",
+                "title": "Dashboard events"
+            },
+            "customer-analytics-event-stream": {
+                "description": "Stream selected customers' events to a Slack channel of your choice in real time. Each team member configures their own stream: pick your events and channel here, then add customers from their account profiles.",
+                "title": "Event stream"
+            },
+            "customer-analytics-group-properties": {
+                "description": "Sync warehouse table columns onto matching groups as group properties, and manage their schedule, backfills, and run history.",
+                "title": "Group properties"
+            },
+            "customer-analytics-person-properties": {
+                "description": "Sync warehouse table columns onto matching people as person properties, and manage their schedule, backfills, and run history.",
+                "title": "Person properties"
+            },
+            "customer-analytics-track-rules": {
+                "description": "Choose which active accounts appear in Customer analytics.",
+                "title": "Track rules"
+            },
+            "customer-analytics-usage-metrics": {
+                "description": "Configure which events and properties are tracked as usage metrics for your customers.",
+                "title": "Usage metrics"
+            },
+            "customization-irl": {
+                "title": "Customization IRL"
+            },
+            "data-theme": {
+                "description": "Customize the color palette used in charts and visualizations.",
+                "title": "Chart color themes"
+            },
+            "datacapture": {
+                "description": "When enabled, client IP addresses will not be stored with your events. Transformations like GeoIP enrichment and bot detection can still use the IP before it is discarded. Note: this does not apply when Cookieless server hash mode is enabled, which strips the IP before transformations run.",
+                "title": "IP data capture configuration"
+            },
+            "date-and-time": {
+                "description": "Set the timezone and week start day used for displaying and bucketing time-series data in insights and dashboards. You may need to refresh insights for changes to apply.",
+                "title": "Date & time"
+            },
+            "dead-clicks-autocapture": {
+                "description": "Track clicks that don't result in any action (no scroll, text selection, or DOM mutation). Dead clicks help you find elements users expect to be interactive but aren't.",
+                "title": "Dead clicks autocapture"
+            },
+            "details": {
+                "title": "Details"
+            },
+            "discussion-mention-integrations": {
+                "description": "Configure how discussion mentions are delivered via integrations."
+            },
+            "display-name": {
+                "description": "Name this project and label it so you can group and find it across your organization.",
+                "title": "Project details"
+            },
+            "enforce-verified-domains": {
+                "title": "Domain enforcement"
+            },
+            "environment-access-control": {
+                "description": "Manage who has access to this environment and what they can do.",
+                "title": "Access control"
+            },
+            "environment-activity-logs": {
+                "title": "Activity logs"
+            },
+            "environment-ai-observability": {
+                "title": "AI observability"
+            },
+            "environment-autocapture": {
+                "title": "Autocapture"
+            },
+            "environment-business-knowledge": {
+                "title": "Business knowledge"
+            },
+            "environment-conversations": {
+                "title": "Support"
+            },
+            "environment-csp-reporting": {
+                "title": "CSP reporting"
+            },
+            "environment-customer-analytics": {
+                "title": "Customer analytics"
+            },
+            "environment-customization": {
+                "title": "Customization"
+            },
+            "environment-delete": {
+                "description": "Permanently delete this environment and all its data. This action cannot be undone.",
+                "title": "Delete environment"
+            },
+            "environment-details": {
+                "title": "General"
+            },
+            "environment-discussions": {
+                "title": "Discussions"
+            },
+            "environment-error-tracking": {
+                "title": "Error tracking"
+            },
+            "environment-error-tracking-configuration": {
+                "title": "Error tracking"
+            },
+            "environment-experiment-confidence-level": {
+                "description": "Higher confidence level reduces false positives but requires more data. Can be overridden per experiment.",
+                "title": "Default confidence level"
+            },
+            "environment-experiment-cuped-enabled": {
+                "description": "When enabled, experiments will use CUPED variance reduction. CUPED uses pre-experiment data to detect significant effects faster on supported metrics. Can be overridden per experiment.",
+                "title": "Default CUPED variance reduction"
+            },
+            "environment-experiment-cuped-lookback-days": {
+                "description": "Number of days before the experiment start to use as the pre-experiment window for CUPED. Must be between {{ min }} and {{ max }} days. Can be overridden per experiment.",
+                "title": "Default CUPED lookback window"
+            },
+            "environment-experiment-matured-users": {
+                "description": "When enabled, new experiments will only count participants whose full conversion window has elapsed. Can be overridden per experiment.",
+                "title": "Default conversion window filter"
+            },
+            "environment-experiment-mde": {
+                "description": "The smallest effect size you want to detect with statistical significance. Lower values require more data and longer run times. Can be overridden per experiment.",
+                "title": "Default minimum detectable effect"
+            },
+            "environment-experiment-recalculation-time": {
+                "description": "Select the time of day when experiment metrics should be recalculated. This time is in your project's timezone.",
+                "title": "Daily recalculation time"
+            },
+            "environment-experiment-sequential-testing-enabled": {
+                "description": "When enabled, frequentist experiments will use sequential testing by default, producing always-valid p-values that are robust to peeking. Confidence intervals are wider in exchange. Only applies to the frequentist statistical method. Can be overridden per experiment.",
+                "title": "Default sequential testing"
+            },
+            "environment-experiment-sequential-tuning-parameter": {
+                "description": "Roughly the sample size at which the always-valid confidence sequence is tightest. Set close to the expected total sample size of new experiments to minimize the width penalty. Can be overridden per experiment.",
+                "title": "Default sequential testing tuning parameter"
+            },
+            "environment-experiment-stats-method": {
+                "description": "Choose which statistical method to use by default for new experiments in this environment. Individual experiments can override this setting.",
+                "title": "Default statistical method"
+            },
+            "environment-experiments": {
+                "title": "Experiments"
+            },
+            "environment-exports": {
+                "title": "Exports"
+            },
+            "environment-feature-flags": {
+                "title": "Feature flags"
+            },
+            "environment-heatmaps": {
+                "title": "Heatmaps"
+            },
+            "environment-logs": {
+                "title": "Logs"
+            },
+            "environment-marketing-analytics": {
+                "title": "Marketing analytics"
+            },
+            "environment-max": {
+                "title": "PostHog AI"
+            },
+            "environment-privacy": {
+                "title": "Privacy"
+            },
+            "environment-product-analytics": {
+                "title": "Product analytics"
+            },
+            "environment-replay": {
+                "title": "Session replay"
+            },
+            "environment-revenue-analytics": {
+                "title": "Revenue analytics"
+            },
+            "environment-secret-api-keys": {
+                "description": "These keys allow access to a select set of API endpoints, intended to be accessed exclusively by your systems. Only give keys the permissions they need, and delete unused keys promptly.",
+                "title": "Project secret API keys"
+            },
+            "environment-surveys": {
+                "title": "Surveys"
+            },
+            "environment-task-agents": {
+                "title": "Model preferences"
+            },
+            "environment-tracing": {
+                "title": "Tracing"
+            },
+            "environment-web-analytics": {
+                "title": "Web analytics"
+            },
+            "environment-workflows": {
+                "title": "Workflows"
+            },
+            "error-tracking-alerting": {
+                "description": "Configure alerts to get notified when new errors occur or error rates spike.",
+                "title": "Alerting"
+            },
+            "error-tracking-auto-assignment": {
+                "description": "Automatically assign errors to team members based on rules you define.",
+                "title": "Assignment rules"
+            },
+            "error-tracking-custom-grouping": {
+                "description": "Define rules for how errors are grouped together into issues.",
+                "title": "Grouping rules"
+            },
+            "error-tracking-exception-autocapture": {
+                "description": "Automatically capture frontend exceptions using onError and onUnhandledRejection listeners in the web JavaScript SDK.",
+                "title": "Exception autocapture"
+            },
+            "error-tracking-integrations": {
+                "description": "Connect error tracking with external services like GitHub or Linear."
+            },
+            "error-tracking-rate-limits": {
+                "title": "Rate limits"
+            },
+            "error-tracking-releases": {
+                "description": "Track releases to see which version introduced errors and monitor deployment health.",
+                "title": "Releases"
+            },
+            "error-tracking-severity-rules": {
+                "description": "Set the initial severity of new issues based on rules you define.",
+                "title": "Severity rules"
+            },
+            "error-tracking-spike-detection": {
+                "title": "Spike detection"
+            },
+            "error-tracking-suppression-rules": {
+                "description": "Filter out exceptions that match the given filters.",
+                "title": "Suppression rules"
+            },
+            "error-tracking-symbol-sets": {
+                "description": "Upload source maps to get readable stack traces from minified code.",
+                "title": "Symbol sets"
+            },
+            "feature-flag-confirmation": {
+                "description": "Show a confirmation modal before saving changes to existing feature flags, helping prevent accidental changes to release conditions.",
+                "title": "Flag change confirmation"
+            },
+            "feature-flag-default-evaluation-contexts": {
+                "description": "Automatically apply default evaluation context tags to newly created feature flags. Users can still modify them during flag creation.",
+                "title": "Default evaluation contexts"
+            },
+            "feature-flag-default-release-conditions": {
+                "description": "Automatically apply default release conditions to newly created feature flags. Users can still modify them during flag creation.",
+                "title": "Default release conditions"
+            },
+            "feature-flag-evaluation-context-suggestions": {
+                "description": "Manage which evaluation context names are suggested when scoping a feature flag. Hide stale or mistyped names from the suggestion list without affecting flags that already use them.",
+                "title": "Evaluation context suggestions"
+            },
+            "feature-flag-require-evaluation-contexts": {
+                "description": "Require all new feature flags to have at least one evaluation context before they can be created, preventing flags that are not properly scoped.",
+                "title": "Require evaluation contexts"
+            },
+            "feature-flag-require-tags": {
+                "description": "Require every new feature flag to have at least one tag, and stop a tagged flag losing its last one, so flags stay attributable to a team or workstream. Flags created for surveys, experiments, early access features, product tours, and web experiments are exempt.",
+                "title": "Require tags"
+            },
+            "feature-flag-secure-api-key": {
+                "description": "Use this key for local evaluation of feature flags or remote config settings. Replaces personal API keys for local evaluation.",
+                "title": "Feature flags secure API key"
+            },
+            "feature-flags-interface": {
+                "description": "When enabled, all new feature flags will have persistence enabled by default. This ensures consistent user experiences across authentication steps.",
+                "title": "Flag persistence"
+            },
+            "feature-previews": {
+                "description": "Try out upcoming PostHog features before they are generally available. Toggling a preview enables it for your account only.",
+                "title": "Feature previews"
+            },
+            "feature-previews-coming-soon": {
+                "description": "Get notified when upcoming features are ready for preview.",
+                "title": "Coming soon"
+            },
+            "group-analytics": {
+                "description": "Configure group types for analyzing user behavior at the company or team level.",
+                "title": "Group analytics"
+            },
+            "heatmaps": {
+                "description": "Capture general clicks, mouse movements, and scrolling to create heatmaps. No additional events are created. Heatmaps are generated based on overall mouse or touch positions, useful for understanding general user behavior.",
+                "title": "Heatmaps"
+            },
+            "hedgehog-mode": {
+                "description": "Enable the PostHog hedgehog companion that follows you around the app.",
+                "title": "Hedgehog mode"
+            },
+            "homepage": {
+                "description": "The page that opens when you open PostHog or select Home in the sidebar. This applies to the current project.",
+                "title": "Homepage"
+            },
+            "human-friendly-comparison-periods": {
+                "description": "When comparing against a previous month or year, compare against the same day of the week instead of the same calendar date. A year comparison becomes 52 weeks, and a month comparison becomes 4 weeks.",
+                "title": "Human friendly comparison periods"
+            },
+            "integration-github": {
+                "description": "Connect GitHub to link issues and pull requests with PostHog insights.",
+                "title": "GitHub integration"
+            },
+            "integration-ip-allowlist": {
+                "description": "PostHog Cloud uses static IP addresses for outbound traffic. Add these to your firewall allowlist if needed.",
+                "title": "Static IP addresses"
+            },
+            "integration-linear": {
+                "description": "Connect Linear to create and link issues directly from PostHog.",
+                "title": "Linear integration"
+            },
+            "integration-other": {
+                "description": "Integrations connected from other product areas, such as pipeline destinations, data warehouse sources, error tracking, and marketing analytics.",
+                "title": "Other integrations"
+            },
+            "integration-slack": {
+                "description": "Integrate with Slack to subscribe to insights or dashboards for regular reports to channels of your choice.",
+                "title": "Slack integration"
+            },
+            "internal-user-filtering": {
+                "description": "Define filters to exclude internal users and test accounts from your analytics. Filtered users will not appear in insights by default.",
+                "title": "Filter out internal and test users"
+            },
+            "invites": {
+                "description": "Manage pending invitations to join your organization.",
+                "title": "Pending invites"
+            },
+            "js-snippet-version": {
+                "description": "Pin the snippet to a specific version of posthog-js. Defaults to the latest v1 release.",
+                "experimental": "Experimental",
+                "title": "Snippet version"
+            },
+            "login-sessions": {
+                "description": "Devices and browsers currently signed in to your PostHog account.",
+                "title": "Web sessions"
+            },
+            "logs": {
+                "description": "Automatically capture browser console logs and send them to the Logs product for analysis and debugging. This is separate from session replay console log capture.",
+                "title": "Logs"
+            },
+            "logs-alerting": {
+                "description": "Configure alerts to get notified when log volumes breach thresholds.",
+                "title": "Alerting"
+            },
+            "logs-distinct-id-attribute-key": {
+                "title": "Link to person"
+            },
+            "logs-drop-rules": {
+                "description": "Drop matching log lines before storage using ordered rules. Rules run in ingestion order (after optional scrub and JSON parse).",
+                "title": "Drop rules"
+            },
+            "logs-json-parse": {
+                "description": "Parse log lines that are valid JSON and add their fields as log attributes that can be used in filters."
+            },
+            "logs-metric-rules": {
+                "description": "Generate metrics from your logs at ingestion time. Metrics are computed before drop rules, so you can drop noisy logs and keep the trend.",
+                "title": "Log-based metrics"
+            },
+            "logs-pattern-message-keys": {
+                "description": "Choose which JSON keys provide the message used to group logs into patterns. Keys are matched literally at the top level, in order. This does not change the stored log body.",
+                "title": "Pattern message extraction"
+            },
+            "logs-pii-scrub": {
+                "description": "Remove or mask common personally identifiable information from log payloads during ingestion.",
+                "title": "PII scrubbing"
+            },
+            "logs-retention-rules": {
+                "description": "Keep matching logs longer or shorter than the environment default using ordered rules. The first matching rule sets a log's retention; retention is applied at ingest.",
+                "title": "Retention rules"
+            },
+            "logs-session-id-attribute-keys": {
+                "title": "Link to session"
+            },
+            "marketing-settings": {
+                "description": "Configure tracking and attribution settings for marketing analytics.",
+                "title": "Marketing settings"
+            },
+            "mcp-hints": {
+                "description": "After you take an action in PostHog (creating a feature flag, building a dashboard, etc.), show a small hint that the same action can be done from your IDE via the PostHog MCP. Rate-limited to once a week.",
+                "title": "MCP hints"
+            },
+            "mcp-servers": {
+                "title": "MCP servers"
+            },
+            "member-notifications": {
+                "description": "Choose which email notifications your members receive. Anything you set here they cannot change back themselves.",
+                "title": "Member notifications"
+            },
+            "members": {
+                "description": "View and manage current members of your organization and their roles.",
+                "title": "Organization members"
+            },
+            "notifications": {
+                "description": "Choose which email notifications you receive from PostHog.",
+                "title": "Notifications"
+            },
+            "optout": {
+                "description": "PostHog uses PostHog to capture information about how people use the product. Anonymize your usage data if you prefer not to share it.",
+                "title": "Anonymize data collection"
+            },
+            "organization-access-resolution": {
+                "title": "Access resolution preview"
+            },
+            "organization-access-resolution-preview": {
+                "description": "PostHog is changing how access levels combine: the most specific rule will decide, instead of the highest one. Review what will be different for your organization before the change takes effect.",
+                "title": "Access resolution preview"
+            },
+            "organization-ai-consent": {
+                "dataTransfer": "This <Italic>can</Italic> involve transfer of identifying user data, so we ask for your org-wide consent below.",
+                "description": "PostHog AI features, such as the PostHog AI chat, use <Providers><dfn>external AI services</dfn></Providers> for data analysis.",
+                "noThirdPartyTraining": "<Strong>Your data will not be used for training third-party models.</Strong>",
+                "title": "AI service providers"
+            },
+            "organization-ai-training-opt-out": {
+                "title": "Internal AI training"
+            },
+            "organization-authentication": {
+                "title": "Authentication"
+            },
+            "organization-billing": {
+                "title": "Billing"
+            },
+            "organization-cimd-verification-tokens": {
+                "title": "CIMD verification tokens"
+            },
+            "organization-cimd-verification-tokens-list": {
+                "description": "Link CIMD partner applications to this organization for higher rate limits and identity.",
+                "title": "CIMD verification tokens"
+            },
+            "organization-default-role": {
+                "description": "Automatically assign a role to new members when they join the organization. New users will inherit all permissions from this role.",
+                "title": "Default role for new members"
+            },
+            "organization-delete": {
+                "description": "Permanently delete your organization and all its projects and data. This action cannot be undone."
+            },
+            "organization-desktop-beta-terms": {
+                "description": "Accept the additional data-processing terms for the PostHog Desktop beta.",
+                "proceeding": "Your organization agrees to proceed notwithstanding that status. If this feature becomes generally available, PostHog will update the DPA and provide notice. This beta may change or be discontinued.",
+                "processing": "PostHog Desktop uses Baseten and Modal to process customer data, personal data, and PII. They are not currently listed as PostHog subprocessors for this feature.",
+                "subprocessorsLink": "<SubprocessorsLink>View PostHog subprocessors</SubprocessorsLink>",
+                "title": "PostHog Desktop beta terms"
+            },
+            "organization-details": {
+                "title": "General"
+            },
+            "organization-display-name": {
+                "description": "Your organization's name and logo are shown across the PostHog interface. Click the avatar to upload a custom logo.",
+                "title": "Name & logo"
+            },
+            "organization-id": {
+                "description": "Your organization's unique identifier, used in the PostHog API.",
+                "title": "Organization ID"
+            },
+            "organization-integrations-list": {
+                "description": "Manage integrations connected at the organization level.",
+                "title": "Connected integrations"
+            },
+            "organization-ip-anonymization-default": {
+                "description": "When enabled, new projects will automatically have \"Discard client IP data\" turned on. This is recommended for GDPR compliance. Existing projects are not affected.",
+                "title": "IP data capture default"
+            },
+            "organization-legal-documents": {
+                "title": "Legal documents"
+            },
+            "organization-mcp-access": {
+                "description": "Control what the PostHog MCP can do in this organization.",
+                "title": "MCP access"
+            },
+            "organization-oauth-apps": {
+                "title": "OAuth applications"
+            },
+            "organization-oauth-apps-list": {
+                "description": "View applications that have been authorized to connect to your organization.",
+                "title": "OAuth applications"
+            },
+            "organization-personal-api-keys": {
+                "description": "See which members' personal API keys can reach this organization or its projects, who owns them, and the scopes they grant.",
+                "title": "Personal API key access"
+            },
+            "organization-proxy": {
+                "title": "Managed reverse proxy"
+            },
+            "organization-roles": {
+                "description": "Use roles to group your organization members and assign them permissions. Roles are used for access control across your organization.",
+                "title": "Roles"
+            },
+            "organization-security": {
+                "description": "Configure organization-wide security policies.",
+                "title": "Security"
+            },
+            "organization-startup-program": {
+                "title": "Startup program"
+            },
+            "passkeys": {
+                "description": "Manage your passkeys for passwordless sign-in and two-factor authentication."
+            },
+            "path-cleaning": {
+                "description": "Define regex rules to normalize URLs in path analysis. Useful for removing IDs or query parameters from paths.",
+                "title": "Path cleaning rules"
+            },
+            "person-display-name": {
+                "description": "Choose which person properties are used to display names in the UI (e.g. email, name, username).",
+                "title": "Person display name"
+            },
+            "person-last-seen-at": {
+                "description": "When enabled, PostHog tracks when each person was last active. The value updates hourly and is visible in the People list.",
+                "title": "Person last seen tracking"
+            },
+            "personal-api-keys": {
+                "description": "These keys allow full access to your personal account through the API. Only give keys the permissions they need, and delete unused keys promptly.",
+                "title": "Personal API keys"
+            },
+            "personal-integrations-github": {
+                "description": "Your personal GitHub integrations for repo access, code attribution, and pull request authorship. You can connect multiple GitHub accounts or organizations."
+            },
+            "personal-integrations-posthog": {
+                "description": "Connect another PostHog project (in another region or your own) to act in it through its API, for example to dispatch tasks that must run there.",
+                "title": "PostHog project"
+            },
+            "personal-integrations-slack": {
+                "description": "Bind your Slack identity to this PostHog account so @PostHog mentions route to you even when your Slack email and PostHog email differ.",
+                "title": "Slack"
+            },
+            "persons-join-mode": {
+                "description": "Choose how persons are joined to events. Do not change this setting unless you know what you are doing.",
+                "title": "Persons join mode"
+            },
+            "persons-on-events": {
+                "description": "Choose the behavior of person property filters. For best performance, use person properties from the time of the event.",
+                "title": "Person properties mode"
+            },
+            "posthog-mcp": {
+                "title": "PostHog MCP"
+            },
+            "posthog-mcp-configure": {
+                "description": "Connect PostHog to AI tools like Claude, Cursor, and Copilot via the MCP protocol for data-driven AI assistance.",
+                "title": "Model Context Protocol (MCP) server"
+            },
+            "profile-picture": {
+                "title": "Profile picture"
+            },
+            "project-move": {
+                "description": "Move this project to a different organization.",
+                "title": "Move project"
+            },
+            "realtime-notifications": {
+                "description": "Choose which real-time notifications you receive in the PostHog app, per project.",
+                "title": "In-app notifications"
+            },
+            "reminders": {
+                "description": "Schedule one-off or recurring nudges that notify you in-app when they are due.",
+                "title": "Reminders"
+            },
+            "replay": {
+                "description": "Watch recordings of how users interact with your web app to diagnose issues and understand user behavior.",
+                "title": "Session replay"
+            },
+            "replay-authorized-domains": {
+                "description": "This setting is deprecated. Use URL triggers in recording conditions to control which domains are recorded.",
+                "title": "Authorized domains for replay"
+            },
+            "replay-canvas-capture": {
+                "description": "Capture HTML canvas elements in session recordings. Useful for apps that render charts, games, or other canvas-based content.",
+                "title": "Canvas capture"
+            },
+            "replay-integrations": {
+                "description": "Configure integrations to create and link issues from session replays."
+            },
+            "replay-log-capture": {
+                "description": "Capture browser console logs alongside session recordings to help debug issues.",
+                "title": "Log capture"
+            },
+            "replay-masking": {
+                "description": "Choose what data gets masked in your session recordings. For more control, configure masking directly in your code.",
+                "title": "Privacy and masking"
+            },
+            "replay-network": {
+                "description": "Capture network request timings alongside session recordings to identify slow or failing API calls.",
+                "title": "Network capture"
+            },
+            "replay-network-headers-payloads": {
+                "description": "Capture request and response headers and body content alongside network timings. Sensitive data is automatically scrubbed.",
+                "title": "Network headers & payloads"
+            },
+            "replay-retention": {
+                "description": "Control how long your recordings are stored. Changes only affect the retention period for future recordings.",
+                "title": "Data retention"
+            },
+            "replay-triggers": {
+                "description": "Control when recordings start and stop. Use URL triggers, event triggers, or sampling to manage recording volume."
+            },
+            "revenue-analytics-events": {
+                "description": "Configure which events represent revenue-generating actions.",
+                "title": "Revenue events"
+            },
+            "revenue-analytics-external-data-sources": {
+                "description": "Connect external data sources like Stripe for revenue tracking.",
+                "title": "External data sources"
+            },
+            "revenue-analytics-filter-test-accounts": {
+                "description": "Exclude test accounts from revenue calculations and reports."
+            },
+            "revenue-base-currency": {
+                "description": "Set the base currency for revenue analytics calculations.",
+                "title": "Base currency"
+            },
+            "saml-configuration": {
+                "description": "Authenticate members through your identity provider using Security Assertion Markup Language (SAML)."
+            },
+            "scim-configuration": {
+                "description": "Provision and deprovision organization members through your identity provider using System for Cross-domain Identity Management (SCIM)."
+            },
+            "session-join-mode": {
+                "description": "Choose which join mode to use for sessions. Don't change this unless you know what you're doing.",
+                "title": "Session join mode"
+            },
+            "session-table-version": {
+                "description": "Choose which version of the sessions table to use. V2 is faster but requires uuidv7 session IDs. Use auto unless you know what you are doing.",
+                "title": "Sessions table version"
+            },
+            "sidebar-auto-suggest": {
+                "description": "When we detect you are using a new tool, we'll automatically add it to your sidebar as a suggestion. We might also suggest tools that are related to the ones you are using when we launch a new one."
+            },
+            "sidebar-items": {
+                "description": "Choose which items appear in your sidebar. These preferences only apply to you. Activity and Settings always stay visible.",
+                "title": "Navigation items"
+            },
+            "sidebar-layout": {
+                "description": "Control how dense the sidebar rows are.",
+                "title": "Layout"
+            },
+            "sidebar-my-tools": {
+                "description": "Choose which tools appear in the My Tools section of your sidebar. This selection applies to the current project.",
+                "title": "My Tools"
+            },
+            "snippet": {
+                "description": "Install PostHog in your app using one of our SDKs. Select your platform to see the setup instructions.",
+                "title": "SDK setup"
+            },
+            "surveys-default-appearance": {
+                "description": "Configure the default look and feel for new surveys. Individual surveys can override these settings.",
+                "title": "Default survey appearance"
+            },
+            "surveys-interface": {
+                "description": "Enable or disable surveys in your web application. When disabled, surveys will not be rendered automatically.",
+                "title": "Surveys"
+            },
+            "task-agent-my-preference": {
+                "description": "The model your own runs launch with, overriding the project default. Applies in the new PostHog AI view, in Slack, and in PostHog Desktop.",
+                "title": "My default model"
+            },
+            "task-agent-project-default": {
+                "description": "The model agent runs launch with when nobody picks one. Everyone on this project inherits it in the new PostHog AI view, in Slack, and in PostHog Desktop.",
+                "title": "Project default model"
+            },
+            "theme": {
+                "title": "Theme"
+            },
+            "tracing-distinct-id-attribute-keys": {
+                "title": "Link to person"
+            },
+            "tracing-session-id-attribute-keys": {
+                "title": "Link to session"
+            },
+            "user-api-keys": {
+                "title": "Personal API keys"
+            },
+            "user-connected-apps": {
+                "title": "Connected applications"
+            },
+            "user-customization": {
+                "title": "Customization"
+            },
+            "user-delete": {
+                "description": "Permanently delete your PostHog account. This action cannot be undone."
+            },
+            "user-feature-previews": {
+                "title": "Feature previews"
+            },
+            "user-navigation": {
+                "title": "Navigation"
+            },
+            "user-notifications": {
+                "title": "Notifications"
+            },
+            "user-personal-integrations": {
+                "title": "Personal integrations"
+            },
+            "user-profile": {
+                "title": "Profile"
+            },
+            "user-reminders": {
+                "title": "Reminders"
+            },
+            "variables": {
+                "description": "Your project token and ID used to connect SDKs and APIs to this environment. Integrations often call the token your project API key.",
+                "title": "Project token & ID"
+            },
+            "web-analytics-achievements": {
+                "description": "Show playful achievement badges and streaks on the Web analytics dashboard. Applies to your current project.",
+                "title": "Web analytics achievements"
+            },
+            "web-analytics-authorized-urls": {
+                "description": "Configure which domains are tracked in web analytics. Wildcards are not allowed — URLs must be concrete and launchable.",
+                "title": "Web analytics domains"
+            },
+            "web-analytics-opt-in-pre-aggregated-tables-and-api": {
+                "description": "Enable the new pre-aggregated query engine for faster web analytics.",
+                "title": "New query engine"
+            },
+            "web-analytics-pre-aggregated-tables": {
+                "description": "Configure pre-aggregated tables to speed up web analytics queries.",
+                "title": "Pre-aggregated tables"
+            },
+            "web-vitals-autocapture": {
+                "description": "Capture Google Chrome's web vitals metrics for web analytics performance tracking.",
+                "title": "Web vitals autocapture"
+            },
+            "workflows-ai-task-limits": {
+                "description": "How many AI tasks your workflows can create in a rolling 24 hours. One limit applies to each workflow on its own, the other to every workflow in the project together. Leave a limit empty to use the default. Set it to zero to pause task creation. Contact support to raise a limit above 500 per workflow or 2,500 per project.",
+                "title": "AI task limits"
+            },
+            "workflows-email-tracking-consent": {
+                "description": "Controls whether open and click tracking on marketing workflow emails requires recipient consent. Untracked emails contain no tracking pixel and no rewritten links, and never record opens or clicks. Transactional emails are exempt. Delivery, bounce, and unsubscribe events are always recorded.",
+                "title": "Email tracking consent"
+            },
+            "workflows-engagement-events": {
+                "description": "When enabled, email engagement activity (sent, delivered, opened, link clicked, bounced, blocked, failed) is captured as standard PostHog events alongside the existing workflow metrics. This lets you build insights, funnels, and dashboards from workflows data. These events count toward your event usage and are billed like any other event. This setting only controls event capture: it does not disable open and click tracking itself. To stop tracking opens and clicks for an email, turn off \"Track opens and link clicks\" on that email step.",
+                "title": "Engagement events"
+            }
+        },
         "nav": {
             "menu": "Settings menu",
             "title": "Settings navigation"

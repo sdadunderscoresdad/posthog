@@ -1,5 +1,5 @@
 import { matchesFlagDefinition } from './flagGating'
-import { SETTINGS_MAP } from './SettingsMap'
+import { getSettingsMap } from './SettingsMap'
 import { buildSettingsSearchIndex, createSettingsSearchFuse, searchSettingsIndex } from './settingsSearch'
 import { Setting, SettingSection } from './types'
 
@@ -117,7 +117,7 @@ describe('settingsSearch', () => {
     // the shipped map, not a fixture, because the synonyms have to stay on the setting itself.
     test.each(['client api key', 'public api key', 'write key'])('puts the project token first for "%s"', (term) => {
         const visible = (definition: Pick<Setting, 'flag'>): boolean => matchesFlagDefinition(definition.flag, {})
-        const fuse = createSettingsSearchFuse(buildSettingsSearchIndex(SETTINGS_MAP.filter(visible), visible))
+        const fuse = createSettingsSearchFuse(buildSettingsSearchIndex(getSettingsMap().filter(visible), visible))
 
         expect(searchSettingsIndex(fuse, term)[0]?.settingId).toBe('variables')
     })

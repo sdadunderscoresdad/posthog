@@ -1391,6 +1391,850 @@
             }
         },
         "loading": "",
+        "map": {
+            "2fa": {
+                "description": ""
+            },
+            "activity-log-notifications": {
+                "description": "",
+                "title": ""
+            },
+            "activity-log-org-level-settings": {
+                "description": "",
+                "title": ""
+            },
+            "activity-log-settings": {
+                "description": "",
+                "title": ""
+            },
+            "ai-observability-byok": {
+                "description": "",
+                "title": ""
+            },
+            "ai-observability-parser-recipes": {
+                "description": "",
+                "title": ""
+            },
+            "allow-impersonation": {
+                "title": ""
+            },
+            "approval-policies": {
+                "description": "",
+                "title": ""
+            },
+            "authentication-domains": {
+                "title": ""
+            },
+            "autocapture": {
+                "description": "",
+                "title": ""
+            },
+            "autocapture-data-attributes": {
+                "description": "",
+                "title": ""
+            },
+            "base-currency": {
+                "description": "",
+                "title": ""
+            },
+            "bounce-rate-duration": {
+                "description": "",
+                "title": ""
+            },
+            "bounce-rate-page-view-mode": {
+                "description": "",
+                "title": ""
+            },
+            "business-knowledge-learn-from-support": {
+                "description": "",
+                "title": ""
+            },
+            "business-model": {
+                "description": ""
+            },
+            "change-requests": {
+                "description": "",
+                "title": ""
+            },
+            "changelog": {
+                "description": "",
+                "title": ""
+            },
+            "channel-type": {
+                "description": "",
+                "title": ""
+            },
+            "connected-apps": {
+                "description": "",
+                "title": ""
+            },
+            "conversations-ai": {
+                "beta": "",
+                "description": "",
+                "title": ""
+            },
+            "conversations-general": {
+                "title": ""
+            },
+            "conversations-imports": {
+                "beta": "",
+                "description": "",
+                "title": ""
+            },
+            "conversations-notifications": {
+                "description": "",
+                "title": ""
+            },
+            "cookieless-server-hash-mode": {
+                "description": "",
+                "title": ""
+            },
+            "core-memory": {
+                "description": "",
+                "title": ""
+            },
+            "correlation-analysis": {
+                "description": "",
+                "title": ""
+            },
+            "csp-reporting": {
+                "description": "",
+                "title": ""
+            },
+            "custom-bot-definitions": {
+                "description": "",
+                "title": ""
+            },
+            "customer-analytics-accounts": {
+                "description": "",
+                "title": ""
+            },
+            "customer-analytics-calendar-sync": {
+                "description": "",
+                "title": ""
+            },
+            "customer-analytics-dashboard-events": {
+                "description": "",
+                "title": ""
+            },
+            "customer-analytics-event-stream": {
+                "description": "",
+                "title": ""
+            },
+            "customer-analytics-group-properties": {
+                "description": "",
+                "title": ""
+            },
+            "customer-analytics-person-properties": {
+                "description": "",
+                "title": ""
+            },
+            "customer-analytics-track-rules": {
+                "description": "",
+                "title": ""
+            },
+            "customer-analytics-usage-metrics": {
+                "description": "",
+                "title": ""
+            },
+            "customization-irl": {
+                "title": ""
+            },
+            "data-theme": {
+                "description": "",
+                "title": ""
+            },
+            "datacapture": {
+                "description": "",
+                "title": ""
+            },
+            "date-and-time": {
+                "description": "",
+                "title": ""
+            },
+            "dead-clicks-autocapture": {
+                "description": "",
+                "title": ""
+            },
+            "details": {
+                "title": ""
+            },
+            "discussion-mention-integrations": {
+                "description": ""
+            },
+            "display-name": {
+                "description": "",
+                "title": ""
+            },
+            "enforce-verified-domains": {
+                "title": ""
+            },
+            "environment-access-control": {
+                "description": "",
+                "title": ""
+            },
+            "environment-activity-logs": {
+                "title": ""
+            },
+            "environment-ai-observability": {
+                "title": ""
+            },
+            "environment-autocapture": {
+                "title": ""
+            },
+            "environment-business-knowledge": {
+                "title": ""
+            },
+            "environment-conversations": {
+                "title": ""
+            },
+            "environment-csp-reporting": {
+                "title": ""
+            },
+            "environment-customer-analytics": {
+                "title": ""
+            },
+            "environment-customization": {
+                "title": ""
+            },
+            "environment-delete": {
+                "description": "",
+                "title": ""
+            },
+            "environment-details": {
+                "title": ""
+            },
+            "environment-discussions": {
+                "title": ""
+            },
+            "environment-error-tracking": {
+                "title": ""
+            },
+            "environment-error-tracking-configuration": {
+                "title": ""
+            },
+            "environment-experiment-confidence-level": {
+                "description": "",
+                "title": ""
+            },
+            "environment-experiment-cuped-enabled": {
+                "description": "",
+                "title": ""
+            },
+            "environment-experiment-cuped-lookback-days": {
+                "description": "",
+                "title": ""
+            },
+            "environment-experiment-matured-users": {
+                "description": "",
+                "title": ""
+            },
+            "environment-experiment-mde": {
+                "description": "",
+                "title": ""
+            },
+            "environment-experiment-recalculation-time": {
+                "description": "",
+                "title": ""
+            },
+            "environment-experiment-sequential-testing-enabled": {
+                "description": "",
+                "title": ""
+            },
+            "environment-experiment-sequential-tuning-parameter": {
+                "description": "",
+                "title": ""
+            },
+            "environment-experiment-stats-method": {
+                "description": "",
+                "title": ""
+            },
+            "environment-experiments": {
+                "title": ""
+            },
+            "environment-exports": {
+                "title": ""
+            },
+            "environment-feature-flags": {
+                "title": ""
+            },
+            "environment-heatmaps": {
+                "title": ""
+            },
+            "environment-logs": {
+                "title": ""
+            },
+            "environment-marketing-analytics": {
+                "title": ""
+            },
+            "environment-max": {
+                "title": ""
+            },
+            "environment-privacy": {
+                "title": ""
+            },
+            "environment-product-analytics": {
+                "title": ""
+            },
+            "environment-replay": {
+                "title": ""
+            },
+            "environment-revenue-analytics": {
+                "title": ""
+            },
+            "environment-secret-api-keys": {
+                "description": "",
+                "title": ""
+            },
+            "environment-surveys": {
+                "title": ""
+            },
+            "environment-task-agents": {
+                "title": ""
+            },
+            "environment-tracing": {
+                "title": ""
+            },
+            "environment-web-analytics": {
+                "title": ""
+            },
+            "environment-workflows": {
+                "title": ""
+            },
+            "error-tracking-alerting": {
+                "description": "",
+                "title": ""
+            },
+            "error-tracking-auto-assignment": {
+                "description": "",
+                "title": ""
+            },
+            "error-tracking-custom-grouping": {
+                "description": "",
+                "title": ""
+            },
+            "error-tracking-exception-autocapture": {
+                "description": "",
+                "title": ""
+            },
+            "error-tracking-integrations": {
+                "description": ""
+            },
+            "error-tracking-rate-limits": {
+                "title": ""
+            },
+            "error-tracking-releases": {
+                "description": "",
+                "title": ""
+            },
+            "error-tracking-severity-rules": {
+                "description": "",
+                "title": ""
+            },
+            "error-tracking-spike-detection": {
+                "title": ""
+            },
+            "error-tracking-suppression-rules": {
+                "description": "",
+                "title": ""
+            },
+            "error-tracking-symbol-sets": {
+                "description": "",
+                "title": ""
+            },
+            "feature-flag-confirmation": {
+                "description": "",
+                "title": ""
+            },
+            "feature-flag-default-evaluation-contexts": {
+                "description": "",
+                "title": ""
+            },
+            "feature-flag-default-release-conditions": {
+                "description": "",
+                "title": ""
+            },
+            "feature-flag-evaluation-context-suggestions": {
+                "description": "",
+                "title": ""
+            },
+            "feature-flag-require-evaluation-contexts": {
+                "description": "",
+                "title": ""
+            },
+            "feature-flag-require-tags": {
+                "description": "",
+                "title": ""
+            },
+            "feature-flag-secure-api-key": {
+                "description": "",
+                "title": ""
+            },
+            "feature-flags-interface": {
+                "description": "",
+                "title": ""
+            },
+            "feature-previews": {
+                "description": "",
+                "title": ""
+            },
+            "feature-previews-coming-soon": {
+                "description": "",
+                "title": ""
+            },
+            "group-analytics": {
+                "description": "",
+                "title": ""
+            },
+            "heatmaps": {
+                "description": "",
+                "title": ""
+            },
+            "hedgehog-mode": {
+                "description": "",
+                "title": ""
+            },
+            "homepage": {
+                "description": "",
+                "title": ""
+            },
+            "human-friendly-comparison-periods": {
+                "description": "",
+                "title": ""
+            },
+            "integration-github": {
+                "description": "",
+                "title": ""
+            },
+            "integration-ip-allowlist": {
+                "description": "",
+                "title": ""
+            },
+            "integration-linear": {
+                "description": "",
+                "title": ""
+            },
+            "integration-other": {
+                "description": "",
+                "title": ""
+            },
+            "integration-slack": {
+                "description": "",
+                "title": ""
+            },
+            "internal-user-filtering": {
+                "description": "",
+                "title": ""
+            },
+            "invites": {
+                "description": "",
+                "title": ""
+            },
+            "js-snippet-version": {
+                "description": "",
+                "experimental": "",
+                "title": ""
+            },
+            "login-sessions": {
+                "description": "",
+                "title": ""
+            },
+            "logs": {
+                "description": "",
+                "title": ""
+            },
+            "logs-alerting": {
+                "description": "",
+                "title": ""
+            },
+            "logs-distinct-id-attribute-key": {
+                "title": ""
+            },
+            "logs-drop-rules": {
+                "description": "",
+                "title": ""
+            },
+            "logs-json-parse": {
+                "description": ""
+            },
+            "logs-metric-rules": {
+                "description": "",
+                "title": ""
+            },
+            "logs-pattern-message-keys": {
+                "description": "",
+                "title": ""
+            },
+            "logs-pii-scrub": {
+                "description": "",
+                "title": ""
+            },
+            "logs-retention-rules": {
+                "description": "",
+                "title": ""
+            },
+            "logs-session-id-attribute-keys": {
+                "title": ""
+            },
+            "marketing-settings": {
+                "description": "",
+                "title": ""
+            },
+            "mcp-hints": {
+                "description": "",
+                "title": ""
+            },
+            "mcp-servers": {
+                "title": ""
+            },
+            "member-notifications": {
+                "description": "",
+                "title": ""
+            },
+            "members": {
+                "description": "",
+                "title": ""
+            },
+            "notifications": {
+                "description": "",
+                "title": ""
+            },
+            "optout": {
+                "description": "",
+                "title": ""
+            },
+            "organization-access-resolution": {
+                "title": ""
+            },
+            "organization-access-resolution-preview": {
+                "description": "",
+                "title": ""
+            },
+            "organization-ai-consent": {
+                "dataTransfer": "",
+                "description": "",
+                "noThirdPartyTraining": "",
+                "title": ""
+            },
+            "organization-ai-training-opt-out": {
+                "title": ""
+            },
+            "organization-authentication": {
+                "title": ""
+            },
+            "organization-billing": {
+                "title": ""
+            },
+            "organization-cimd-verification-tokens": {
+                "title": ""
+            },
+            "organization-cimd-verification-tokens-list": {
+                "description": "",
+                "title": ""
+            },
+            "organization-default-role": {
+                "description": "",
+                "title": ""
+            },
+            "organization-delete": {
+                "description": ""
+            },
+            "organization-desktop-beta-terms": {
+                "description": "",
+                "proceeding": "",
+                "processing": "",
+                "subprocessorsLink": "",
+                "title": ""
+            },
+            "organization-details": {
+                "title": ""
+            },
+            "organization-display-name": {
+                "description": "",
+                "title": ""
+            },
+            "organization-id": {
+                "description": "",
+                "title": ""
+            },
+            "organization-integrations-list": {
+                "description": "",
+                "title": ""
+            },
+            "organization-ip-anonymization-default": {
+                "description": "",
+                "title": ""
+            },
+            "organization-legal-documents": {
+                "title": ""
+            },
+            "organization-mcp-access": {
+                "description": "",
+                "title": ""
+            },
+            "organization-oauth-apps": {
+                "title": ""
+            },
+            "organization-oauth-apps-list": {
+                "description": "",
+                "title": ""
+            },
+            "organization-personal-api-keys": {
+                "description": "",
+                "title": ""
+            },
+            "organization-proxy": {
+                "title": ""
+            },
+            "organization-roles": {
+                "description": "",
+                "title": ""
+            },
+            "organization-security": {
+                "description": "",
+                "title": ""
+            },
+            "organization-startup-program": {
+                "title": ""
+            },
+            "passkeys": {
+                "description": ""
+            },
+            "path-cleaning": {
+                "description": "",
+                "title": ""
+            },
+            "person-display-name": {
+                "description": "",
+                "title": ""
+            },
+            "person-last-seen-at": {
+                "description": "",
+                "title": ""
+            },
+            "personal-api-keys": {
+                "description": "",
+                "title": ""
+            },
+            "personal-integrations-github": {
+                "description": ""
+            },
+            "personal-integrations-posthog": {
+                "description": "",
+                "title": ""
+            },
+            "personal-integrations-slack": {
+                "description": "",
+                "title": ""
+            },
+            "persons-join-mode": {
+                "description": "",
+                "title": ""
+            },
+            "persons-on-events": {
+                "description": "",
+                "title": ""
+            },
+            "posthog-mcp": {
+                "title": ""
+            },
+            "posthog-mcp-configure": {
+                "description": "",
+                "title": ""
+            },
+            "profile-picture": {
+                "title": ""
+            },
+            "project-move": {
+                "description": "",
+                "title": ""
+            },
+            "realtime-notifications": {
+                "description": "",
+                "title": ""
+            },
+            "reminders": {
+                "description": "",
+                "title": ""
+            },
+            "replay": {
+                "description": "",
+                "title": ""
+            },
+            "replay-authorized-domains": {
+                "description": "",
+                "title": ""
+            },
+            "replay-canvas-capture": {
+                "description": "",
+                "title": ""
+            },
+            "replay-integrations": {
+                "description": ""
+            },
+            "replay-log-capture": {
+                "description": "",
+                "title": ""
+            },
+            "replay-masking": {
+                "description": "",
+                "title": ""
+            },
+            "replay-network": {
+                "description": "",
+                "title": ""
+            },
+            "replay-network-headers-payloads": {
+                "description": "",
+                "title": ""
+            },
+            "replay-retention": {
+                "description": "",
+                "title": ""
+            },
+            "replay-triggers": {
+                "description": ""
+            },
+            "revenue-analytics-events": {
+                "description": "",
+                "title": ""
+            },
+            "revenue-analytics-external-data-sources": {
+                "description": "",
+                "title": ""
+            },
+            "revenue-analytics-filter-test-accounts": {
+                "description": ""
+            },
+            "revenue-base-currency": {
+                "description": "",
+                "title": ""
+            },
+            "saml-configuration": {
+                "description": ""
+            },
+            "scim-configuration": {
+                "description": ""
+            },
+            "session-join-mode": {
+                "description": "",
+                "title": ""
+            },
+            "session-table-version": {
+                "description": "",
+                "title": ""
+            },
+            "sidebar-auto-suggest": {
+                "description": ""
+            },
+            "sidebar-items": {
+                "description": "",
+                "title": ""
+            },
+            "sidebar-layout": {
+                "description": "",
+                "title": ""
+            },
+            "sidebar-my-tools": {
+                "description": "",
+                "title": ""
+            },
+            "snippet": {
+                "description": "",
+                "title": ""
+            },
+            "surveys-default-appearance": {
+                "description": "",
+                "title": ""
+            },
+            "surveys-interface": {
+                "description": "",
+                "title": ""
+            },
+            "task-agent-my-preference": {
+                "description": "",
+                "title": ""
+            },
+            "task-agent-project-default": {
+                "description": "",
+                "title": ""
+            },
+            "theme": {
+                "title": ""
+            },
+            "tracing-distinct-id-attribute-keys": {
+                "title": ""
+            },
+            "tracing-session-id-attribute-keys": {
+                "title": ""
+            },
+            "user-api-keys": {
+                "title": ""
+            },
+            "user-connected-apps": {
+                "title": ""
+            },
+            "user-customization": {
+                "title": ""
+            },
+            "user-delete": {
+                "description": ""
+            },
+            "user-feature-previews": {
+                "title": ""
+            },
+            "user-navigation": {
+                "title": ""
+            },
+            "user-notifications": {
+                "title": ""
+            },
+            "user-personal-integrations": {
+                "title": ""
+            },
+            "user-profile": {
+                "title": ""
+            },
+            "user-reminders": {
+                "title": ""
+            },
+            "variables": {
+                "description": "",
+                "title": ""
+            },
+            "web-analytics-achievements": {
+                "description": "",
+                "title": ""
+            },
+            "web-analytics-authorized-urls": {
+                "description": "",
+                "title": ""
+            },
+            "web-analytics-opt-in-pre-aggregated-tables-and-api": {
+                "description": "",
+                "title": ""
+            },
+            "web-analytics-pre-aggregated-tables": {
+                "description": "",
+                "title": ""
+            },
+            "web-vitals-autocapture": {
+                "description": "",
+                "title": ""
+            },
+            "workflows-ai-task-limits": {
+                "description": "",
+                "title": ""
+            },
+            "workflows-email-tracking-consent": {
+                "description": "",
+                "title": ""
+            },
+            "workflows-engagement-events": {
+                "description": "",
+                "title": ""
+            }
+        },
         "nav": {
             "menu": "",
             "title": ""

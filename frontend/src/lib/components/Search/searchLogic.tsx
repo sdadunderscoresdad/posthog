@@ -8,6 +8,7 @@ import { IconBell, IconBuilding, IconClock, IconDownload, IconLeave, IconNotific
 import api, { isAbortError } from 'lib/api'
 import { commandLogic } from 'lib/components/Command/commandLogic'
 import { FEATURE_FLAGS } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 import { preflightLogic } from 'lib/logic/preflightLogic'
 import { getEntryAccessDisabledReason, getProductAccessDisabledReason } from 'lib/utils/accessControlUtils'
@@ -1882,35 +1883,45 @@ export const searchLogic = kea<searchLogicType>([
             actions.loadPlaylistSearchResults({ searchTerm: search })
         },
     })),
-    afterMount(({ actions }) => {
-        import('~/scenes/settings/SettingsMap')
-            .then(({ SETTINGS_MAP }) => {
-                actions.setSettingsSections(
-                    SETTINGS_MAP.map((section) => ({
-                        id: section.id,
-                        level: section.level,
-                        titleString: getTitleText(section.title) || null,
-                        hideFromNavigation: section.hideFromNavigation,
-                        flag: section.flag,
-                        to: section.to,
-                        keywords: section.keywords,
-                        settings: section.settings.map((setting) => ({
-                            id: setting.id,
-                            // A setting can render a title that getTitleText cannot read, such as a
-                            // whole component, and it must stay findable via its id token.
-                            // hasTitle preserves that distinction.
-                            hasTitle: !!setting.title,
-                            titleString: getTitleText(setting.title) || null,
-                            descriptionString:
-                                setting.searchDescription ??
-                                (typeof setting.description === 'string' ? setting.description : null),
-                            keywords: setting.keywords,
-                        })),
-                    }))
-                )
-            })
-            .catch((error) => {
-                console.error('Failed to load SETTINGS_MAP for settings search:', error)
-            })
+    afterMount(({ actions, cache }) => {
+        // The settings map is built in the active language, so the projection search matches against
+        // has to be rebuilt when the language changes.
+        const loadSettingsSections = (): void => {
+            import('~/scenes/settings/SettingsMap')
+                .then(({ getSettingsMap }) => {
+                    actions.setSettingsSections(
+                        getSettingsMap().map((section) => ({
+                            id: section.id,
+                            level: section.level,
+                            titleString: getTitleText(section.title) || null,
+                            hideFromNavigation: section.hideFromNavigation,
+                            flag: section.flag,
+                            to: section.to,
+                            keywords: section.keywords,
+                            settings: section.settings.map((setting) => ({
+                                id: setting.id,
+                                // A setting can render a title that getTitleText cannot read, such as a
+                                // whole component, and it must stay findable via its id token.
+                                // hasTitle preserves that distinction.
+                                hasTitle: !!setting.title,
+                                titleString: getTitleText(setting.title) || null,
+                                descriptionString:
+                                    setting.searchDescription ??
+                                    (typeof setting.description === 'string' ? setting.description : null),
+                                keywords: setting.keywords,
+                            })),
+                        }))
+                    )
+                })
+                .catch((error) => {
+                    console.error('Failed to load the settings map for settings search:', error)
+                })
+        }
+        loadSettingsSections()
+        i18n.on('languageChanged', loadSettingsSections)
+        cache.disposables.add(
+            () => i18n.off('languageChanged', loadSettingsSections),
+            'settingsSectionsLanguageListener'
+        )
     }),
 ])

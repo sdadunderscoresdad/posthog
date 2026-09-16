@@ -1391,6 +1391,850 @@
             }
         },
         "loading": "加载中…",
+        "map": {
+            "2fa": {
+                "description": "使用验证器应用或通行密钥为你的账户增加一层安全保护。"
+            },
+            "activity-log-notifications": {
+                "description": "通过已配置的目标接收活动日志事件的通知。",
+                "title": "通知"
+            },
+            "activity-log-org-level-settings": {
+                "description": "配置组织级活动日志设置。",
+                "title": "设置"
+            },
+            "activity-log-settings": {
+                "description": "查看成员对此环境所做更改的日志。",
+                "title": "活动日志"
+            },
+            "ai-observability-byok": {
+                "description": "添加和管理 AI 可观测性功能（包括评估和调试场）所需的服务商 API 密钥。",
+                "title": "自带密钥（BYOK）"
+            },
+            "ai-observability-parser-recipes": {
+                "description": "添加用于规范化服务商消息结构的内置方案未覆盖的解析方案。渲染追踪时会应用这些方案。",
+                "title": "自定义解析"
+            },
+            "allow-impersonation": {
+                "title": "支持访问"
+            },
+            "approval-policies": {
+                "description": "配置哪些操作在生效前需要审批。",
+                "title": "策略"
+            },
+            "authentication-domains": {
+                "title": "身份验证域名"
+            },
+            "autocapture": {
+                "description": "使用 Web JavaScript SDK 时自动捕获点击、输入变化和表单提交等前端事件。React Native 和 iOS 也可通过代码配置启用。",
+                "title": "自动捕获"
+            },
+            "autocapture-data-attributes": {
+                "description": "指定应用中使用的 data 属性（例如 data-attr、data-custom-id）。这些属性可帮助工具栏和操作定义匹配页面上的唯一元素。可使用 * 作为通配符。",
+                "title": "data 属性"
+            },
+            "base-currency": {
+                "description": "设置收入及金额计算使用的默认货币。",
+                "title": "基础货币"
+            },
+            "bounce-rate-duration": {
+                "description": "设置用户在页面上停留多久（秒）后，该会话才不被计为跳出。默认为 10 秒。",
+                "title": "跳出率时长"
+            },
+            "bounce-rate-page-view-mode": {
+                "description": "选择页面浏览量在跳出率计算中的计入方式。自动捕获和会话时长等其他因素也会被考虑。",
+                "title": "跳出率页面浏览量计算方式"
+            },
+            "business-knowledge-learn-from-support": {
+                "description": "开启后，PostHog 会从已解决支持工单里的公开人工回复中学习可复用的答案。",
+                "title": "自我学习"
+            },
+            "business-model": {
+                "description": "设置此项目面向 B2B 还是 B2C 客户，以便 PostHog 调整体验和推荐内容。"
+            },
+            "change-requests": {
+                "description": "审核并批准待处理的变更请求。",
+                "title": "变更请求"
+            },
+            "changelog": {
+                "description": "查看 PostHog AI 的最新功能，并控制更新日志是否显示在主界面中。",
+                "title": "更新日志"
+            },
+            "channel-type": {
+                "description": "定义将流量来源归类到渠道的自定义规则。",
+                "title": "自定义渠道类型"
+            },
+            "connected-apps": {
+                "description": "已通过 OAuth 获得你的 PostHog 账户访问权限的应用。你可以随时撤销访问权限。",
+                "title": "已连接的应用"
+            },
+            "conversations-ai": {
+                "beta": "Beta",
+                "description": "基于你的业务知识来源，自动生成 AI 回复建议。",
+                "title": "AI 智能体"
+            },
+            "conversations-general": {
+                "title": "通用"
+            },
+            "conversations-imports": {
+                "beta": "Beta",
+                "description": "从外部工具导入历史支持数据到支持产品。",
+                "title": "导入"
+            },
+            "conversations-notifications": {
+                "description": "我们建议设置工作流来实现细粒度自动化，例如 Slack 提醒、SLA 升级、自动打标签。如果只需要基础功能，可以配置邮件或浏览器通知。",
+                "title": "通知"
+            },
+            "cookieless-server-hash-mode": {
+                "description": "使用保护隐私的哈希值而不是 Cookie 来统计唯一用户。先在此启用，然后在 posthog-js 中启用无 Cookie 模式。",
+                "title": "无 Cookie 跟踪"
+            },
+            "core-memory": {
+                "description": "PostHog AI 会自动记住关于你公司和产品的细节。这些上下文能帮助我们的 AI 助手给出相关的回答和建议。如果有不希望 PostHog AI 记住的内容，你可以在下方编辑或删除。",
+                "title": "记忆"
+            },
+            "correlation-analysis": {
+                "description": "相关性分析会自动呈现对转化有意义的信号。你可以排除无法提供有用信号的事件或属性。",
+                "title": "相关性分析排除项"
+            },
+            "csp-reporting": {
+                "description": "收集内容安全策略（CSP）违规报告，用于监控和排查你网站上的 CSP 问题。",
+                "title": "CSP 报告"
+            },
+            "custom-bot-definitions": {
+                "description": "把你自己的爬虫和脚本加入 PostHog 已检测的机器人中，从而将它们与真实访客区分开。",
+                "title": "自定义机器人"
+            },
+            "customer-analytics-accounts": {
+                "description": "选择在客户分析中代表账户的分组类型。",
+                "title": "账户"
+            },
+            "customer-analytics-calendar-sync": {
+                "description": "连接你的 Google 账户，将客户会议和邮件同步到匹配的账户。每位成员连接自己的账户。",
+                "title": "Google 账户同步"
+            },
+            "customer-analytics-dashboard-events": {
+                "description": "配置在客户分析仪表盘上显示哪些事件。",
+                "title": "仪表盘事件"
+            },
+            "customer-analytics-event-stream": {
+                "description": "将选定客户的事件实时推送到你选择的 Slack 频道。每位成员配置自己的推送流：在这里选择事件和频道，然后在客户资料页中添加客户。",
+                "title": "事件流"
+            },
+            "customer-analytics-group-properties": {
+                "description": "把数据仓库表的列同步到匹配的分组，作为分组属性，并管理同步计划、回填和运行历史。",
+                "title": "分组属性"
+            },
+            "customer-analytics-person-properties": {
+                "description": "把数据仓库表的列同步到匹配的人员，作为人员属性，并管理同步计划、回填和运行历史。",
+                "title": "人员属性"
+            },
+            "customer-analytics-track-rules": {
+                "description": "选择哪些活跃账户会出现在客户分析中。",
+                "title": "跟踪规则"
+            },
+            "customer-analytics-usage-metrics": {
+                "description": "配置哪些事件和属性会作为你客户的使用指标被跟踪。",
+                "title": "使用指标"
+            },
+            "customization-irl": {
+                "title": "个性化设置"
+            },
+            "data-theme": {
+                "description": "自定义图表和可视化中使用的配色方案。",
+                "title": "图表配色主题"
+            },
+            "datacapture": {
+                "description": "启用后，客户端 IP 地址不会与事件一起存储。GeoIP 增强和机器人检测等转换仍可在 IP 被丢弃前使用它。注意：启用无 Cookie 服务端哈希模式时不适用，该模式会在转换执行前剥离 IP。",
+                "title": "IP 数据采集配置"
+            },
+            "date-and-time": {
+                "description": "设置用于展示和聚合洞察与仪表盘中时间序列数据的时区及每周起始日。你可能需要刷新洞察才能使更改生效。",
+                "title": "日期与时间"
+            },
+            "dead-clicks-autocapture": {
+                "description": "跟踪没有产生任何操作的点击（没有滚动、文本选择或 DOM 变化）。无效点击有助于发现用户以为可交互但实际不可交互的元素。",
+                "title": "无效点击自动捕获"
+            },
+            "details": {
+                "title": "详情"
+            },
+            "discussion-mention-integrations": {
+                "description": "配置讨论提及如何通过集成发送。"
+            },
+            "display-name": {
+                "description": "为项目命名并添加标签，以便在组织中归类和查找。",
+                "title": "项目详情"
+            },
+            "enforce-verified-domains": {
+                "title": "域名强制"
+            },
+            "environment-access-control": {
+                "description": "管理谁可以访问此环境以及他们可以做什么。",
+                "title": "访问控制"
+            },
+            "environment-activity-logs": {
+                "title": "活动日志"
+            },
+            "environment-ai-observability": {
+                "title": "AI 可观测性"
+            },
+            "environment-autocapture": {
+                "title": "自动捕获"
+            },
+            "environment-business-knowledge": {
+                "title": "业务知识"
+            },
+            "environment-conversations": {
+                "title": "支持"
+            },
+            "environment-csp-reporting": {
+                "title": "CSP 报告"
+            },
+            "environment-customer-analytics": {
+                "title": "客户分析"
+            },
+            "environment-customization": {
+                "title": "个性化"
+            },
+            "environment-delete": {
+                "description": "永久删除此环境及其所有数据。此操作无法撤销。",
+                "title": "删除环境"
+            },
+            "environment-details": {
+                "title": "通用"
+            },
+            "environment-discussions": {
+                "title": "讨论"
+            },
+            "environment-error-tracking": {
+                "title": "错误跟踪"
+            },
+            "environment-error-tracking-configuration": {
+                "title": "错误跟踪"
+            },
+            "environment-experiment-confidence-level": {
+                "description": "更高的置信水平可以减少假阳性，但需要更多数据。可按实验单独覆盖。",
+                "title": "默认置信水平"
+            },
+            "environment-experiment-cuped-enabled": {
+                "description": "启用后，实验将使用 CUPED 方差缩减。CUPED 利用实验前数据，在支持的指标上更快地检测出显著效果。可按实验单独覆盖。",
+                "title": "默认 CUPED 方差缩减"
+            },
+            "environment-experiment-cuped-lookback-days": {
+                "description": "使用实验开始前多少天作为 CUPED 的实验前窗口。必须在 {{ min }} 到 {{ max }} 天之间。可按实验单独覆盖。",
+                "title": "默认 CUPED 回看窗口"
+            },
+            "environment-experiment-matured-users": {
+                "description": "启用后，新实验只统计完整转化窗口已经结束的参与者。可按实验单独覆盖。",
+                "title": "默认转化窗口过滤"
+            },
+            "environment-experiment-mde": {
+                "description": "你希望以统计显著性检测出的最小效果大小。数值越小需要越多数据和越长运行时间。可按实验单独覆盖。",
+                "title": "默认最小可检测效果"
+            },
+            "environment-experiment-recalculation-time": {
+                "description": "选择每天重新计算实验指标的时间。该时间使用你项目的时区。",
+                "title": "每日重算时间"
+            },
+            "environment-experiment-sequential-testing-enabled": {
+                "description": "启用后，频率学派实验将默认使用序贯检验，产生对反复查看稳健的始终有效 p 值，代价是置信区间更宽。仅适用于频率学派统计方法。可按实验单独覆盖。",
+                "title": "默认序贯检验"
+            },
+            "environment-experiment-sequential-tuning-parameter": {
+                "description": "大致为使始终有效的置信序列最紧的样本量。设置得接近新实验的预期总样本量，可将宽度代价降到最低。可按实验单独覆盖。",
+                "title": "默认序贯检验调优参数"
+            },
+            "environment-experiment-stats-method": {
+                "description": "选择此环境中新实验默认使用的统计方法。单个实验可以覆盖此设置。",
+                "title": "默认统计方法"
+            },
+            "environment-experiments": {
+                "title": "实验"
+            },
+            "environment-exports": {
+                "title": "导出"
+            },
+            "environment-feature-flags": {
+                "title": "功能开关"
+            },
+            "environment-heatmaps": {
+                "title": "热图"
+            },
+            "environment-logs": {
+                "title": "日志"
+            },
+            "environment-marketing-analytics": {
+                "title": "营销分析"
+            },
+            "environment-max": {
+                "title": "PostHog AI"
+            },
+            "environment-privacy": {
+                "title": "隐私"
+            },
+            "environment-product-analytics": {
+                "title": "产品分析"
+            },
+            "environment-replay": {
+                "title": "会话重放"
+            },
+            "environment-revenue-analytics": {
+                "title": "收入分析"
+            },
+            "environment-secret-api-keys": {
+                "description": "这些密钥可访问一组精选的 API 端点，仅供你的系统调用。请只授予所需的权限，并及时删除不再使用的密钥。",
+                "title": "项目 API 密钥"
+            },
+            "environment-surveys": {
+                "title": "问卷"
+            },
+            "environment-task-agents": {
+                "title": "模型偏好"
+            },
+            "environment-tracing": {
+                "title": "追踪"
+            },
+            "environment-web-analytics": {
+                "title": "Web 分析"
+            },
+            "environment-workflows": {
+                "title": "工作流"
+            },
+            "error-tracking-alerting": {
+                "description": "配置告警，在新的错误出现或错误率突增时收到通知。",
+                "title": "告警"
+            },
+            "error-tracking-auto-assignment": {
+                "description": "根据你定义的规则自动把错误分配给团队成员。",
+                "title": "分配规则"
+            },
+            "error-tracking-custom-grouping": {
+                "description": "定义错误如何被归并到同一个问题中。",
+                "title": "分组规则"
+            },
+            "error-tracking-exception-autocapture": {
+                "description": "在 Web JavaScript SDK 中通过 onError 和 onUnhandledRejection 监听器自动捕获前端异常。",
+                "title": "异常自动捕获"
+            },
+            "error-tracking-integrations": {
+                "description": "将错误跟踪与 GitHub、Linear 等外部服务连接起来。"
+            },
+            "error-tracking-rate-limits": {
+                "title": "速率限制"
+            },
+            "error-tracking-releases": {
+                "description": "跟踪版本发布，查看哪个版本引入了错误并监控部署健康状况。",
+                "title": "版本"
+            },
+            "error-tracking-severity-rules": {
+                "description": "根据你定义的规则设置新问题的初始严重程度。",
+                "title": "严重程度规则"
+            },
+            "error-tracking-spike-detection": {
+                "title": "突增检测"
+            },
+            "error-tracking-suppression-rules": {
+                "description": "过滤掉符合给定条件的异常。",
+                "title": "抑制规则"
+            },
+            "error-tracking-symbol-sets": {
+                "description": "上传 source map，以便从压缩后的代码获得可读的堆栈信息。",
+                "title": "符号集"
+            },
+            "feature-flag-confirmation": {
+                "description": "在保存对已有功能开关的更改前显示确认弹窗，帮助避免误改发布条件。",
+                "title": "功能开关变更确认"
+            },
+            "feature-flag-default-evaluation-contexts": {
+                "description": "自动为新建的功能开关应用默认评估上下文标签。用户在创建开关时仍可修改。",
+                "title": "默认评估上下文"
+            },
+            "feature-flag-default-release-conditions": {
+                "description": "自动为新建的功能开关应用默认发布条件。用户在创建开关时仍可修改。",
+                "title": "默认发布条件"
+            },
+            "feature-flag-evaluation-context-suggestions": {
+                "description": "管理在为功能开关划定范围时建议哪些评估上下文名称。可以从建议列表中隐藏过期或拼错的名称，且不影响已使用它们的开关。",
+                "title": "评估上下文建议"
+            },
+            "feature-flag-require-evaluation-contexts": {
+                "description": "要求所有新建功能开关至少有一个评估上下文才能创建，避免出现未正确划定范围的开关。",
+                "title": "要求评估上下文"
+            },
+            "feature-flag-require-tags": {
+                "description": "要求每个新建功能开关至少有一个标签，并阻止已加标签的开关失去最后一个标签，这样开关始终可归属到某个团队或工作流。为问卷、实验、抢先体验功能、产品导览和 Web 实验创建的开关不在此限。",
+                "title": "要求标签"
+            },
+            "feature-flag-secure-api-key": {
+                "description": "用于本地评估功能开关或远程配置的密钥。可替代用于本地评估的个人 API 密钥。",
+                "title": "功能开关安全 API 密钥"
+            },
+            "feature-flags-interface": {
+                "description": "启用后，所有新建功能开关将默认开启持久化。这可确保跨身份验证环节的用户体验保持一致。",
+                "title": "开关持久化"
+            },
+            "feature-previews": {
+                "description": "在正式发布前抢先体验即将推出的 PostHog 功能。开启预览只对你的账户生效。",
+                "title": "功能预览"
+            },
+            "feature-previews-coming-soon": {
+                "description": "当即将发布的功能可以预览时收到通知。",
+                "title": "即将推出"
+            },
+            "group-analytics": {
+                "description": "配置用于在团队或公司层面分析用户行为的分组类型。",
+                "title": "分组分析"
+            },
+            "heatmaps": {
+                "description": "捕获常规点击、鼠标移动和滚动来生成热图。不会创建额外事件。热图基于整体的鼠标或触摸位置生成，适合了解用户的整体行为。",
+                "title": "热图"
+            },
+            "hedgehog-mode": {
+                "description": "启用会跟随你在应用中到处走的 PostHog 刺猬伙伴。",
+                "title": "刺猬模式"
+            },
+            "homepage": {
+                "description": "打开 PostHog 或从侧边栏选择「首页」时打开的页面。此项对当前项目生效。",
+                "title": "首页"
+            },
+            "human-friendly-comparison-periods": {
+                "description": "在与上个月或上一年对比时，改为对比同一星期的同一天，而不是同一日历日期。按年对比会变成 52 周，按月对比会变成 4 周。",
+                "title": "更易懂的对比周期"
+            },
+            "integration-github": {
+                "description": "连接 GitHub，把 issue 和 pull request 与 PostHog 洞察关联起来。",
+                "title": "GitHub 集成"
+            },
+            "integration-ip-allowlist": {
+                "description": "PostHog Cloud 的出站流量使用静态 IP 地址。如有需要，请将它们加入你的防火墙允许列表。",
+                "title": "静态 IP 地址"
+            },
+            "integration-linear": {
+                "description": "连接 Linear，直接通过 PostHog 创建和关联 issue。",
+                "title": "Linear 集成"
+            },
+            "integration-other": {
+                "description": "从其他产品区域连接的集成，例如数据管道目标、数据仓库来源、错误跟踪和营销分析。",
+                "title": "其他集成"
+            },
+            "integration-slack": {
+                "description": "集成 Slack，将洞察或仪表盘定期发送到你选择的频道。",
+                "title": "Slack 集成"
+            },
+            "internal-user-filtering": {
+                "description": "定义过滤条件，把内部用户和测试账户排除在分析之外。被过滤的用户默认不会出现在洞察中。",
+                "title": "过滤内部和测试用户"
+            },
+            "invites": {
+                "description": "管理加入你组织的待处理邀请。",
+                "title": "待处理邀请"
+            },
+            "js-snippet-version": {
+                "description": "将代码片段固定到特定版本的 posthog-js。默认为最新的 v1 版本。",
+                "experimental": "实验性",
+                "title": "代码片段版本"
+            },
+            "login-sessions": {
+                "description": "当前已登录你 PostHog 账户的设备和浏览器。",
+                "title": "Web 会话"
+            },
+            "logs": {
+                "description": "自动捕获浏览器控制台日志并发送到日志产品，用于分析和调试。这与会话重放的控制台日志捕获相互独立。",
+                "title": "日志"
+            },
+            "logs-alerting": {
+                "description": "配置告警，在日志量超过阈值时收到通知。",
+                "title": "告警"
+            },
+            "logs-distinct-id-attribute-key": {
+                "title": "关联到人员"
+            },
+            "logs-drop-rules": {
+                "description": "在存储前使用有序规则丢弃匹配的日志行。规则按采集顺序执行（在可选的清除和 JSON 解析之后）。",
+                "title": "丢弃规则"
+            },
+            "logs-json-parse": {
+                "description": "解析合法的 JSON 日志行，并将其字段添加为可在过滤中使用的日志属性。"
+            },
+            "logs-metric-rules": {
+                "description": "在采集时基于日志生成指标。指标在丢弃规则之前计算，因此你可以丢弃嘈杂的日志同时保留趋势。",
+                "title": "基于日志的指标"
+            },
+            "logs-pattern-message-keys": {
+                "description": "选择哪些 JSON 键提供用于把日志归并为模式的消息。键会按顺序在顶层进行字面匹配。这不会改变已存储的日志正文。",
+                "title": "模式消息提取"
+            },
+            "logs-pii-scrub": {
+                "description": "在采集时从日志负载中移除或屏蔽常见的个人身份信息。",
+                "title": "个人信息清除"
+            },
+            "logs-retention-rules": {
+                "description": "使用有序规则，让匹配的日志比环境默认值保留更久或更短。第一条匹配的规则决定日志的保留期；保留策略在写入时生效。",
+                "title": "保留规则"
+            },
+            "logs-session-id-attribute-keys": {
+                "title": "关联到会话"
+            },
+            "marketing-settings": {
+                "description": "配置营销分析的跟踪和归因设置。",
+                "title": "营销设置"
+            },
+            "mcp-hints": {
+                "description": "当你在 PostHog 中执行某项操作（创建功能开关、搭建仪表盘等）后，显示一个小提示，说明同样的操作也可以通过 PostHog MCP 在你的 IDE 中完成。每周最多提示一次。",
+                "title": "MCP 提示"
+            },
+            "mcp-servers": {
+                "title": "MCP 服务器"
+            },
+            "member-notifications": {
+                "description": "选择你的成员会收到哪些邮件通知。你在这里设置的选项，成员自己无法改回去。",
+                "title": "成员通知"
+            },
+            "members": {
+                "description": "查看和管理组织的当前成员及其角色。",
+                "title": "组织成员"
+            },
+            "notifications": {
+                "description": "选择你希望从 PostHog 收到哪些邮件通知。",
+                "title": "通知"
+            },
+            "optout": {
+                "description": "PostHog 使用 PostHog 来采集人们如何使用产品的信息。如果你不希望分享这些数据，可以对使用数据做匿名化处理。",
+                "title": "使用数据匿名化"
+            },
+            "organization-access-resolution": {
+                "title": "访问解析预览"
+            },
+            "organization-access-resolution-preview": {
+                "description": "PostHog 正在改变访问级别的合并方式：将由最具体的规则决定，而不是级别最高的规则。请在变更生效前查看你的组织会发生哪些不同。",
+                "title": "访问解析预览"
+            },
+            "organization-ai-consent": {
+                "dataTransfer": "这<Italic>可能</Italic>涉及传输可识别用户身份的数据，因此我们会在下方征求你所在组织的同意。",
+                "description": "PostHog AI 功能（例如 PostHog AI 对话）会使用<Providers><dfn>外部 AI 服务</dfn></Providers>进行数据分析。",
+                "noThirdPartyTraining": "<Strong>你的数据不会被用于训练第三方模型。</Strong>",
+                "title": "AI 服务商"
+            },
+            "organization-ai-training-opt-out": {
+                "title": "内部 AI 训练"
+            },
+            "organization-authentication": {
+                "title": "身份验证"
+            },
+            "organization-billing": {
+                "title": "账单"
+            },
+            "organization-cimd-verification-tokens": {
+                "title": "CIMD 验证令牌"
+            },
+            "organization-cimd-verification-tokens-list": {
+                "description": "将 CIMD 合作方应用关联到此组织，以获得更高的速率限制和身份标识。",
+                "title": "CIMD 验证令牌"
+            },
+            "organization-default-role": {
+                "description": "成员加入组织时自动为其分配一个角色。新用户将继承该角色的全部权限。",
+                "title": "新成员默认角色"
+            },
+            "organization-delete": {
+                "description": "永久删除你的组织及其所有项目和数据。此操作无法撤销。"
+            },
+            "organization-desktop-beta-terms": {
+                "description": "接受 PostHog Desktop 测试版附加的数据处理条款。",
+                "proceeding": "你的组织同意在此状态下继续使用。如果该功能正式发布，PostHog 将更新 DPA 并发出通知。此测试版可能变更或停止提供。",
+                "processing": "PostHog Desktop 使用 Baseten 和 Modal 处理客户数据、个人数据和 PII。它们目前并未被列为该功能的 PostHog 子处理者。",
+                "subprocessorsLink": "<SubprocessorsLink>查看 PostHog 子处理者</SubprocessorsLink>",
+                "title": "PostHog Desktop 测试版条款"
+            },
+            "organization-details": {
+                "title": "通用"
+            },
+            "organization-display-name": {
+                "description": "你组织的名称和标志会显示在 PostHog 界面各处。点击头像可上传自定义标志。",
+                "title": "名称和标志"
+            },
+            "organization-id": {
+                "description": "你组织的唯一标识符，用于 PostHog API。",
+                "title": "组织 ID"
+            },
+            "organization-integrations-list": {
+                "description": "管理在组织级别连接的集成。",
+                "title": "已连接的集成"
+            },
+            "organization-ip-anonymization-default": {
+                "description": "启用后，新项目将自动开启「丢弃客户端 IP 数据」。建议为符合 GDPR 而开启。已有项目不受影响。",
+                "title": "IP 数据采集默认值"
+            },
+            "organization-legal-documents": {
+                "title": "法律文档"
+            },
+            "organization-mcp-access": {
+                "description": "控制 PostHog MCP 在此组织中可以做什么。",
+                "title": "MCP 访问"
+            },
+            "organization-oauth-apps": {
+                "title": "OAuth 应用"
+            },
+            "organization-oauth-apps-list": {
+                "description": "查看已获授权连接你组织的应用。",
+                "title": "OAuth 应用"
+            },
+            "organization-personal-api-keys": {
+                "description": "查看哪些成员的个人 API 密钥可以访问此组织或其项目，以及密钥的所有者和授予的范围。",
+                "title": "个人 API 密钥访问"
+            },
+            "organization-proxy": {
+                "title": "托管反向代理"
+            },
+            "organization-roles": {
+                "description": "使用角色对组织成员进行分组并分配权限。角色用于整个组织的访问控制。",
+                "title": "角色"
+            },
+            "organization-security": {
+                "description": "配置整个组织的安全策略。",
+                "title": "安全"
+            },
+            "organization-startup-program": {
+                "title": "初创企业计划"
+            },
+            "passkeys": {
+                "description": "管理用于无密码登录和双重验证的通行密钥。"
+            },
+            "path-cleaning": {
+                "description": "定义正则规则来规范化路径分析中的 URL。适合从路径中移除 ID 或查询参数。",
+                "title": "路径清理规则"
+            },
+            "person-display-name": {
+                "description": "选择使用哪些人员属性在界面中显示姓名（例如邮箱、姓名、用户名）。",
+                "title": "人员显示名称"
+            },
+            "person-last-seen-at": {
+                "description": "启用后，PostHog 会跟踪每个人的最后活跃时间。该值每小时更新一次，并显示在人员列表中。",
+                "title": "人员最后活跃时间跟踪"
+            },
+            "personal-api-keys": {
+                "description": "这些密钥可以完全访问你的个人账户 API。请只授予密钥所需的权限，并及时删除不再使用的密钥。",
+                "title": "个人 API 密钥"
+            },
+            "personal-integrations-github": {
+                "description": "用于仓库访问、代码归属和 pull request 署名的个人 GitHub 集成。你可以连接多个 GitHub 账户或组织。"
+            },
+            "personal-integrations-posthog": {
+                "description": "连接另一个 PostHog 项目（位于其他区域或你自己的实例），通过其 API 在该项目中操作，例如派发必须在当地运行的任务。",
+                "title": "PostHog 项目"
+            },
+            "personal-integrations-slack": {
+                "description": "将你的 Slack 身份绑定到此 PostHog 账户，这样即使 Slack 邮箱与 PostHog 邮箱不同，@PostHog 提及也会转到你这里。",
+                "title": "Slack"
+            },
+            "persons-join-mode": {
+                "description": "选择人员与事件的关联方式。除非你明确知道自己要做什么，否则不要修改此设置。",
+                "title": "人员关联模式"
+            },
+            "persons-on-events": {
+                "description": "选择人员属性过滤的生效方式。为获得最佳性能，建议使用事件发生时的人员属性。",
+                "title": "人员属性模式"
+            },
+            "posthog-mcp": {
+                "title": "PostHog MCP"
+            },
+            "posthog-mcp-configure": {
+                "description": "通过 MCP 协议把 PostHog 连接到 Claude、Cursor、Copilot 等 AI 工具，实现数据驱动的 AI 辅助。",
+                "title": "模型上下文协议（MCP）服务器"
+            },
+            "profile-picture": {
+                "title": "头像"
+            },
+            "project-move": {
+                "description": "将此项目移动到其他组织。",
+                "title": "移动项目"
+            },
+            "realtime-notifications": {
+                "description": "选择你在 PostHog 应用中会收到哪些实时通知，按项目分别设置。",
+                "title": "应用内通知"
+            },
+            "reminders": {
+                "description": "安排一次性或周期性的提醒，在到期时于应用内通知你。",
+                "title": "提醒"
+            },
+            "replay": {
+                "description": "观看用户如何与你的 Web 应用交互的录制，以诊断问题并了解用户行为。",
+                "title": "会话重放"
+            },
+            "replay-authorized-domains": {
+                "description": "此设置已弃用。请使用录制条件中的 URL 触发器来控制录制哪些域名。",
+                "title": "重放的授权域名"
+            },
+            "replay-canvas-capture": {
+                "description": "在会话重放中捕获 HTML 画布元素。适用于渲染图表、游戏等基于画布内容的应用。",
+                "title": "画布捕获"
+            },
+            "replay-integrations": {
+                "description": "配置集成，从会话重放中创建和关联 issue。"
+            },
+            "replay-log-capture": {
+                "description": "在会话重放的同时捕获浏览器控制台日志，帮助排查问题。",
+                "title": "日志捕获"
+            },
+            "replay-masking": {
+                "description": "选择会话重放中要屏蔽哪些数据。如需更精细的控制，请直接在代码中配置屏蔽。",
+                "title": "隐私与屏蔽"
+            },
+            "replay-network": {
+                "description": "在会话重放的同时捕获网络请求耗时，用于找出缓慢或失败的 API 调用。",
+                "title": "网络捕获"
+            },
+            "replay-network-headers-payloads": {
+                "description": "在捕获网络耗时的同时，捕获请求和响应头及正文内容。敏感数据会被自动清除。",
+                "title": "网络请求头和正文"
+            },
+            "replay-retention": {
+                "description": "控制录制的保存时长。更改只影响此后录制的保留期。",
+                "title": "数据保留"
+            },
+            "replay-triggers": {
+                "description": "控制录制何时开始和停止。可以使用 URL 触发器、事件触发器或采样来管理录制量。"
+            },
+            "revenue-analytics-events": {
+                "description": "配置哪些事件代表产生收入的操作。",
+                "title": "收入事件"
+            },
+            "revenue-analytics-external-data-sources": {
+                "description": "连接 Stripe 等外部数据源以进行收入跟踪。",
+                "title": "外部数据源"
+            },
+            "revenue-analytics-filter-test-accounts": {
+                "description": "从收入计算和报表中排除测试账户。"
+            },
+            "revenue-base-currency": {
+                "description": "设置收入分析计算使用的基础货币。",
+                "title": "基础货币"
+            },
+            "saml-configuration": {
+                "description": "使用安全断言标记语言（SAML）通过你的身份提供商对成员进行身份验证。"
+            },
+            "scim-configuration": {
+                "description": "使用跨域身份管理系统（SCIM）通过你的身份提供商配置和取消配置组织成员。"
+            },
+            "session-join-mode": {
+                "description": "选择会话使用的关联模式。除非你明确知道自己要做什么，否则不要修改。",
+                "title": "会话关联模式"
+            },
+            "session-table-version": {
+                "description": "选择使用哪个版本的会话表。V2 更快，但需要 uuidv7 会话 ID。除非你明确知道自己要做什么，否则请使用 auto。",
+                "title": "会话表版本"
+            },
+            "sidebar-auto-suggest": {
+                "description": "当我们检测到你正在使用新工具时，会自动把它作为建议添加到你的侧边栏。在新工具发布时，我们也可能推荐与你正在使用的工具相关的工具。"
+            },
+            "sidebar-items": {
+                "description": "选择侧边栏中显示哪些条目。这些偏好只对你生效。活动和设置始终可见。",
+                "title": "导航条目"
+            },
+            "sidebar-layout": {
+                "description": "控制侧边栏行的疏密程度。",
+                "title": "布局"
+            },
+            "sidebar-my-tools": {
+                "description": "选择侧边栏「我的工具」区域中显示哪些工具。此选择对当前项目生效。",
+                "title": "我的工具"
+            },
+            "snippet": {
+                "description": "使用我们的某个 SDK 在你的应用中安装 PostHog。选择你的平台即可查看安装说明。",
+                "title": "SDK 安装"
+            },
+            "surveys-default-appearance": {
+                "description": "配置新问卷的默认外观和体验。单个问卷可以覆盖这些设置。",
+                "title": "默认问卷外观"
+            },
+            "surveys-interface": {
+                "description": "在你的 Web 应用中启用或关闭问卷。关闭后，问卷不会自动展示。",
+                "title": "问卷"
+            },
+            "task-agent-my-preference": {
+                "description": "你自己的运行所使用的模型，会覆盖项目默认值。适用于新版 PostHog AI 界面、Slack 和 PostHog Desktop。",
+                "title": "我的默认模型"
+            },
+            "task-agent-project-default": {
+                "description": "当没有人选择模型时，智能体运行所使用的模型。此项目中的所有人在新版 PostHog AI 界面、Slack 和 PostHog Desktop 中都会继承它。",
+                "title": "项目默认模型"
+            },
+            "theme": {
+                "title": "主题"
+            },
+            "tracing-distinct-id-attribute-keys": {
+                "title": "关联到人员"
+            },
+            "tracing-session-id-attribute-keys": {
+                "title": "关联到会话"
+            },
+            "user-api-keys": {
+                "title": "个人 API 密钥"
+            },
+            "user-connected-apps": {
+                "title": "已连接的应用"
+            },
+            "user-customization": {
+                "title": "个性化"
+            },
+            "user-delete": {
+                "description": "永久删除你的 PostHog 账户。此操作无法撤销。"
+            },
+            "user-feature-previews": {
+                "title": "功能预览"
+            },
+            "user-navigation": {
+                "title": "导航"
+            },
+            "user-notifications": {
+                "title": "通知"
+            },
+            "user-personal-integrations": {
+                "title": "个人集成"
+            },
+            "user-profile": {
+                "title": "个人资料"
+            },
+            "user-reminders": {
+                "title": "提醒"
+            },
+            "variables": {
+                "description": "用于将 SDK 和 API 连接到此环境的项目令牌和 ID。集成通常把该令牌称为项目 API 密钥。",
+                "title": "项目令牌和 ID"
+            },
+            "web-analytics-achievements": {
+                "description": "在 Web 分析仪表盘上显示有趣的成就徽章和连续记录。对当前项目生效。",
+                "title": "Web 分析成就"
+            },
+            "web-analytics-authorized-urls": {
+                "description": "配置 Web 分析中跟踪哪些域名。不允许使用通配符：URL 必须是具体且可访问的。",
+                "title": "Web 分析域名"
+            },
+            "web-analytics-opt-in-pre-aggregated-tables-and-api": {
+                "description": "启用新的预聚合查询引擎，让 Web 分析更快。",
+                "title": "新查询引擎"
+            },
+            "web-analytics-pre-aggregated-tables": {
+                "description": "配置预聚合表以加速 Web 分析查询。",
+                "title": "预聚合表"
+            },
+            "web-vitals-autocapture": {
+                "description": "捕获 Google Chrome 的 Web 关键指标，用于 Web 分析性能跟踪。",
+                "title": "Web 关键指标自动捕获"
+            },
+            "workflows-ai-task-limits": {
+                "description": "你的工作流在任意 24 小时内可以创建多少个 AI 任务。一个限制针对单个工作流，另一个限制针对项目中的全部工作流。留空则使用默认值。设为 0 可暂停任务创建。如需将单个工作流的限制提高到 500 以上或项目的限制提高到 2,500 以上，请联系支持。",
+                "title": "控制营销工作流邮件的打开和点击跟踪是否需要收件人同意。未跟踪的邮件不包含跟踪像素，也不重写链接，并且不会记录打开或点击。事务性邮件不在此限。投递、退信和取消订阅事件始终会被记录。"
+            },
+            "workflows-email-tracking-consent": {
+                "description": "邮件跟踪同意",
+                "title": "启用后，邮件互动活动（发送、投递、打开、点击链接、退信、被阻止、失败）会作为标准 PostHog 事件与现有的工作流指标一起采集。这样你可以基于工作流数据构建洞察、漏斗和仪表盘。这些事件会计入你的事件用量并按普通事件计费。此设置只控制事件采集，不会关闭打开和点击跟踪本身。要停止跟踪某封邮件的打开和点击，请在该邮件步骤中关闭「跟踪打开和链接点击」。"
+            },
+            "workflows-engagement-events": {
+                "description": "互动事件",
+                "title": "任务限制"
+            }
+        },
         "nav": {
             "menu": "设置菜单",
             "title": "设置导航"

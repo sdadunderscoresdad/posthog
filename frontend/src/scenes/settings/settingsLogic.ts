@@ -5,6 +5,8 @@ import { actionToUrl, router, urlToAction } from 'kea-router'
 import posthog from 'posthog-js'
 
 import api from 'lib/api'
+import { getActiveLocale, i18n } from 'lib/i18n/i18n'
+import type { LocaleCode } from 'lib/i18n/supportedLocales'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 import { createFuse } from 'lib/utils/fuseSearch'
@@ -19,7 +21,7 @@ import type { FeatureFlagsSet } from '../../lib/logic/featureFlagLogic'
 import type { IntegrationType, PreflightStatus, TeamPublicType, TeamType } from '../../types'
 import type { AvailableFeature, OrganizationType } from '../../types'
 import { matchesFlagDefinition } from './flagGating'
-import { SETTINGS_MAP } from './SettingsMap'
+import { getSettingsMap } from './SettingsMap'
 import {
     FUSE_THRESHOLD,
     GlobalSearchFuse,
@@ -91,6 +93,7 @@ export interface settingsLogicValues {
     isCompactNavigationOpen: boolean
     isSearching: boolean
     levels: SettingLevelId[]
+    locale: LocaleCode
     searchResults: SearchResultGroup[]
     searchTerm: string
     sections: SettingSection[]
@@ -166,6 +169,9 @@ export interface settingsLogicActions {
     selectSetting: (setting: SettingId) => {
         setting: SettingId
     }
+    setLocale: (locale: LocaleCode) => {
+        locale: LocaleCode
+    }
     setSearchTerm: (searchTerm: string) => {
         searchTerm: string
     }
@@ -183,6 +189,7 @@ export interface settingsLogicMeta {
     __keaTypeGenInternalSelectorTypes: {
         levels: (sections: SettingSection[]) => SettingLevelId[]
         sections: (
+            locale: LocaleCode,
             doesMatchFlags: (flagDefinition: Pick<Setting, 'flag'>) => boolean,
             isCloudOrDev: boolean | undefined,
             currentTeam: TeamPublicType | TeamType | null,
@@ -283,9 +290,18 @@ export const settingsLogic = kea<settingsLogicType>([
         expandGroup: (group: string) => ({ group }),
         loadSettingsAsOf: (at: string, scope?: string | string[]) => ({ at, scope }),
         navigateToSetting: (sectionId: SettingSectionId, settingId: SettingId) => ({ sectionId, settingId }),
+        setLocale: (locale: LocaleCode) => ({ locale }),
     }),
 
     reducers(({ props }) => ({
+        // The settings map and its search index are built from the active language, so a language
+        // change has to invalidate them the same way a flag or a team change does.
+        locale: [
+            getActiveLocale(),
+            {
+                setLocale: (_, { locale }) => locale,
+            },
+        ],
         selectedLevelRaw: [
             props.settingLevelId ?? 'project',
             {
@@ -383,7 +399,14 @@ export const settingsLogic = kea<settingsLogicType>([
         ],
     })),
 
-    listeners(({ actions, values }) => ({
+    listeners(({ actions, values, cache }) => ({
+        afterMount: () => {
+            const onLanguageChanged = (next: string): void => {
+                actions.setLocale(next as LocaleCode)
+            }
+            i18n.on('languageChanged', onLanguageChanged)
+            cache.disposables.add(() => i18n.off('languageChanged', onLanguageChanged), 'languageChangedListener')
+        },
         selectSection: ({ section, level }) => {
             // Expand the collapsible group containing the selected section so it's visible
             // (e.g. when navigating via URL or settings search into a collapsed group)
@@ -449,6 +472,7 @@ export const settingsLogic = kea<settingsLogicType>([
         ],
         sections: [
             (s) => [
+                s.locale,
                 s.doesMatchFlags,
                 s.isCloudOrDev,
                 s.currentTeam,
@@ -459,6 +483,7 @@ export const settingsLogic = kea<settingsLogicType>([
                 s.isAdminOrOwner,
             ],
             (
+                _locale: LocaleCode,
                 doesMatchFlags: (flagDefinition: Pick<Setting, 'flag'>) => boolean,
                 isCloudOrDev: boolean | undefined,
                 currentTeam: null | import('../../types').TeamPublicType | import('../../types').TeamType,
@@ -481,30 +506,32 @@ export const settingsLogic = kea<settingsLogicType>([
                     return true
                 }
 
-                const sections = SETTINGS_MAP.filter(doesMatchFlags).filter((section) => {
-                    if (section.hideSelfHost && !isCloudOrDev) {
-                        return false
-                    }
-                    if (
-                        section.id === 'organization-integrations' &&
-                        (!organizationIntegrations || organizationIntegrations.length === 0)
-                    ) {
-                        return false
-                    }
+                const sections = getSettingsMap()
+                    .filter(doesMatchFlags)
+                    .filter((section) => {
+                        if (section.hideSelfHost && !isCloudOrDev) {
+                            return false
+                        }
+                        if (
+                            section.id === 'organization-integrations' &&
+                            (!organizationIntegrations || organizationIntegrations.length === 0)
+                        ) {
+                            return false
+                        }
 
-                    // Explicit gates to avoid showing this in the sidebar when the use doesn't have access to it
-                    if (section.id === 'organization-billing' && !billingEntryUrl) {
-                        return false
-                    }
-                    if (section.id === 'organization-legal-documents' && !isAdminOrOwner) {
-                        return false
-                    }
-                    if (section.id === 'organization-access-resolution' && !isAdminOrOwner) {
-                        return false
-                    }
+                        // Explicit gates to avoid showing this in the sidebar when the use doesn't have access to it
+                        if (section.id === 'organization-billing' && !billingEntryUrl) {
+                            return false
+                        }
+                        if (section.id === 'organization-legal-documents' && !isAdminOrOwner) {
+                            return false
+                        }
+                        if (section.id === 'organization-access-resolution' && !isAdminOrOwner) {
+                            return false
+                        }
 
-                    return true
-                })
+                        return true
+                    })
 
                 // If there's no current organization, hide everything except user sections
                 if (!currentOrganization) {
