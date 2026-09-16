@@ -85,6 +85,17 @@ function placeholdersOf(message) {
     return [...message.matchAll(/\{\{\s*([\w.]+)/g)].map((match) => match[1]).sort()
 }
 
+/**
+ * The markup names a message wraps parts of itself in (`<1>`, `</1>`, `<strong>`).
+ *
+ * i18next resolves each one to the JSX child at that position, so a translation that renames or drops
+ * a tag renders without the element the message was built around: a link stays plain text, or the
+ * whole child disappears. Indices are positional, which makes them easy to get wrong by hand.
+ */
+function tagsOf(message) {
+    return [...message.matchAll(/<\/?([\w$]+)\s*\/?>/g)].map((match) => match[1]).sort()
+}
+
 const PLURAL_SUFFIXES = ['_zero', '_one', '_two', '_few', '_many', '_other']
 
 /**
@@ -218,6 +229,13 @@ function checkAgainstSource(localeCodes, namespaces, sourceLocale, catalogs, pro
                 if (expected !== actual) {
                     problems.push(
                         `locales/${code}/${namespace}.json changes the placeholders of "${key}": expected [${expected}], found [${actual}].`
+                    )
+                }
+                const expectedTags = tagsOf(sourceMessage).join(',')
+                const actualTags = tagsOf(message).join(',')
+                if (expectedTags !== actualTags) {
+                    problems.push(
+                        `locales/${code}/${namespace}.json changes the markup of "${key}": expected [${expectedTags}], found [${actualTags}].`
                     )
                 }
             }

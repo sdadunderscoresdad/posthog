@@ -1,6 +1,7 @@
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
 import { useEffect } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import * as magnifyingGlassPng from '@posthog/brand/hoggies/png/magnifying-glass-1'
 import { IconCheckCircle } from '@posthog/icons'
@@ -20,7 +21,7 @@ import { isEmail } from 'lib/utils/url'
 import { AuthCardTitle } from 'scenes/authentication/shared/authScene/AuthCardTitle'
 import { AuthScene, AuthSceneCard } from 'scenes/authentication/shared/authScene/AuthScene'
 import { RegionField } from 'scenes/authentication/shared/authScene/RegionField'
-import { ERROR_MESSAGES } from 'scenes/authentication/shared/loginErrorMessages'
+import { loginErrorMessages } from 'scenes/authentication/shared/loginErrorMessages'
 import { OtherRegionHint } from 'scenes/authentication/shared/OtherRegionHint'
 import { pendingOAuthConnectionLogic, reviewAccessCopy } from 'scenes/authentication/shared/pendingOAuthConnectionLogic'
 import { RedirectIfLoggedInOtherInstance } from 'scenes/authentication/shared/RedirectToLoggedInInstance'
@@ -97,6 +98,7 @@ function buildLoginSupportMessage({
 // insertBefore NotFoundError, see react#11538). Text that is its own element's only child is
 // already safe, so only text sharing a parent with element siblings needs wrapping.
 export function LoginForm(): JSX.Element {
+    const { t } = useTranslation()
     const { precheck, exitCodeVerification, resendCodeBasedVerification, submitCodeVerification } =
         useActions(loginLogic)
     const { openSupportForm } = useActions(supportLogic)
@@ -139,13 +141,13 @@ export function LoginForm(): JSX.Element {
 
     const footer = (
         <p className="mt-5 mb-0 text-sm text-secondary text-center">
-            <span>New to PostHog?</span>{' '}
+            <span>{t('login.newToPosthog', { defaultValue: 'New to PostHog?' })}</span>{' '}
             <Link
                 to={[signupUrl, { email: login.email }]}
                 data-attr="signup"
                 className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-warning"
             >
-                Create an account →
+                {t('login.createAccount', { defaultValue: 'Create an account →' })}
             </Link>
         </p>
     )
@@ -173,14 +175,16 @@ export function LoginForm(): JSX.Element {
                     }
                     sub={
                         isCodeSent ? (
-                            <>
-                                For your security, we've emailed a 6-digit verification code to{' '}
-                                <strong>{codeVerificationEmail}</strong>.
-                            </>
+                            <Trans
+                                i18nKey="login.codeSentTo"
+                                values={{ codeVerificationEmail }}
+                                components={{ strong: <strong /> }}
+                                defaults="For your security, we've emailed a 6-digit verification code to <strong>{{ codeVerificationEmail }}</strong>."
+                            />
                         ) : pendingConnection ? (
                             reviewAccessCopy(pendingConnection, 'After you log in')
                         ) : (
-                            "Welcome back. Let's go ship something."
+                            t('login.welcomeBack', { defaultValue: "Welcome back. Let's go ship something." })
                         )
                     }
                 />
@@ -189,15 +193,17 @@ export function LoginForm(): JSX.Element {
                     <div className="mb-5 flex flex-col items-center gap-1 text-sm">
                         <Link
                             onClick={() => resendCodeBasedVerification(null)}
-                            disabledReason={resendResponseLoading ? 'Sending...' : undefined}
+                            disabledReason={
+                                resendResponseLoading ? t('login.sending', { defaultValue: 'Sending...' }) : undefined
+                            }
                             className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-secondary"
                         >
-                            Resend code
+                            {t('login.resendCode', { defaultValue: 'Resend code' })}
                         </Link>
                         {resendResponse?.success && (
                             <p className="flex items-center gap-1 text-success mb-0" role="status">
                                 <IconCheckCircle />
-                                <span>Code sent</span>
+                                <span>{t('login.codeSent', { defaultValue: 'Code sent' })}</span>
                             </p>
                         )}
                     </div>
@@ -206,8 +212,10 @@ export function LoginForm(): JSX.Element {
                     <div className="mb-4 py-2.5 px-3 text-sm leading-normal text-primary text-left bg-danger-highlight border border-danger rounded">
                         <span>
                             {generalError.detail ||
-                                ERROR_MESSAGES[generalError.code] ||
-                                'Could not complete your login. Please try again.'}
+                                loginErrorMessages(t)[generalError.code] ||
+                                t('login.error.generic', {
+                                    defaultValue: 'Could not complete your login. Please try again.',
+                                })}
                         </span>
                         {preflight?.cloud && (
                             <>
@@ -243,7 +251,7 @@ export function LoginForm(): JSX.Element {
                                     }}
                                     className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-warning"
                                 >
-                                    Need help?
+                                    {t('login.needHelp', { defaultValue: 'Need help?' })}
                                 </Link>
                             </>
                         )}
@@ -266,7 +274,7 @@ export function LoginForm(): JSX.Element {
                     >
                         <LemonField
                             name="code"
-                            label="Verification code"
+                            label={t('login.verificationCode', { defaultValue: 'Verification code' })}
                             labelClassName="sr-only"
                             // Plain centered text without an icon, like the signup verify screen's error
                             renderError={(error) => (
@@ -300,21 +308,21 @@ export function LoginForm(): JSX.Element {
                                     : 'Enter the 6-digit code from your email'
                             }
                         >
-                            Verify and log in
+                            {t('login.verifyAndLogIn', { defaultValue: 'Verify and log in' })}
                         </LemonButton>
                         <div className="flex flex-col items-center gap-3">
                             <Link
                                 onClick={() => exitCodeVerification()}
                                 className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-secondary"
                             >
-                                Back to login
+                                {t('login.backToLogin', { defaultValue: 'Back to login' })}
                             </Link>
                         </div>
                     </Form>
                 ) : (
                     <Form logic={loginLogic} formKey="login" enableFormOnSubmit className="flex flex-col gap-4">
                         <RegionField />
-                        <LemonField name="email" label="Email">
+                        <LemonField name="email" label={t('login.email', { defaultValue: 'Email' })}>
                             {({ value, onChange, error, id }) => (
                                 <LemonInput
                                     id={id}
@@ -322,7 +330,9 @@ export function LoginForm(): JSX.Element {
                                     data-attr="login-email"
                                     type="email"
                                     autoFocus
-                                    placeholder="you@yourcompany.com"
+                                    placeholder={t('login.emailPlaceholder', {
+                                        defaultValue: 'you@yourcompany.com',
+                                    })}
                                     // The `webauthn` token enables passkey autofill (conditional UI),
                                     // which we only offer on WebKit; elsewhere the auto-modal handles passkeys.
                                     autoComplete={isWebKitBrowser() ? 'username webauthn' : 'email'}
@@ -342,14 +352,14 @@ export function LoginForm(): JSX.Element {
                                 name="password"
                                 label={
                                     <div className="flex items-baseline justify-between w-full">
-                                        <span>Password</span>
+                                        <span>{t('login.password', { defaultValue: 'Password' })}</span>
                                         <Link
                                             to={[urls.passwordReset(), { email: login.email }]}
                                             data-attr="forgot-password"
                                             className="text-xs font-semibold text-warning"
                                             tabIndex={-1}
                                         >
-                                            Forgot password?
+                                            {t('login.forgotPassword', { defaultValue: 'Forgot password?' })}
                                         </Link>
                                     </div>
                                 }
@@ -372,22 +382,27 @@ export function LoginForm(): JSX.Element {
                         )}
                         {hasNoConfiguredLoginMethod && (
                             <div className="py-2.5 px-3 text-sm leading-normal text-primary text-left bg-warning-highlight border border-warning rounded">
-                                <span>No sign-in method is set up for this account. Use</span>{' '}
-                                <Link
-                                    to={[urls.passwordReset(), { email: login.email }]}
-                                    // Autocapture reports the click. Each reset entry point has its
-                                    // own `data-attr`, so one funnel can tell them apart.
-                                    data-attr="login-no-method-reset-password"
-                                    className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-warning"
-                                >
-                                    Forgot password?
-                                </Link>{' '}
-                                <span>to set a password by email.</span>
+                                <Trans i18nKey="login.noSignInMethod">
+                                    No sign-in method is set up for this account. Use{' '}
+                                    <Link
+                                        to={[urls.passwordReset(), { email: login.email }]}
+                                        // Autocapture reports the click. Each reset entry point has its
+                                        // own `data-attr`, so one funnel can tell them apart.
+                                        data-attr="login-no-method-reset-password"
+                                        className="font-semibold no-underline cursor-pointer hover:underline hover:underline-offset-2 text-warning"
+                                    >
+                                        Forgot password?
+                                    </Link>{' '}
+                                    to set a password by email.
+                                </Trans>
                             </div>
                         )}
                         {autoRedirectingToProvider && (
                             <p className="text-sm text-secondary text-center mb-0">
-                                Redirecting to {SSO_PROVIDER_NAMES[autoRedirectingToProvider]}…
+                                {t('login.redirectingTo', {
+                                    defaultValue: 'Redirecting to {{ provider }}…',
+                                    provider: SSO_PROVIDER_NAMES[autoRedirectingToProvider],
+                                })}
                             </p>
                         )}
                         {/* No password to submit means this button would do nothing */}
@@ -401,7 +416,7 @@ export function LoginForm(): JSX.Element {
                                 data-attr="password-login"
                                 loading={isLoginSubmitting || precheckResponseLoading}
                             >
-                                Log in
+                                {t('login.logIn', { defaultValue: 'Log in' })}
                             </LemonButton>
                         )}
                         {precheckResponse.sso_enforcement && (

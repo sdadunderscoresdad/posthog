@@ -15,9 +15,10 @@ import { lemonToast } from '@posthog/lemon-ui'
 
 import api, { ApiError } from 'lib/api'
 import { Dayjs, dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 import { apiStatusLogic } from 'lib/logic/apiStatusLogic'
 import { PrecheckResponseType } from 'scenes/authentication/login/loginLogic'
-import { ERROR_MESSAGES } from 'scenes/authentication/shared/loginErrorMessages'
+import { loginErrorMessages } from 'scenes/authentication/shared/loginErrorMessages'
 import { userLogic } from 'scenes/userLogic'
 
 import type { UserType } from '../../../types'
@@ -414,10 +415,11 @@ export const timeSensitiveAuthenticationLogic = kea<timeSensitiveAuthenticationL
             // A failed SSO re-auth keeps the session and comes back to the page that opened the modal,
             // carrying the reason as a query param (see posthog.helpers.sso.sso_failure_redirect_url).
             const { error_code, error_detail, ...remainingParams } = router.values.searchParams
-            if (!error_code || !(error_code in ERROR_MESSAGES)) {
+            const errorMessages = loginErrorMessages(i18n.t.bind(i18n))
+            if (!error_code || !(error_code in errorMessages)) {
                 return
             }
-            lemonToast.error(ERROR_MESSAGES[error_code])
+            lemonToast.error(errorMessages[error_code])
             router.actions.replace(router.values.location.pathname, remainingParams, router.values.hashParams)
         },
         checkReauthentication: () => {

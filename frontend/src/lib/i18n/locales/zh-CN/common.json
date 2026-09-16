@@ -5,7 +5,7 @@
                 "description": "随此事件发送的“仅设置一次”用户属性。会替换该用户档案中此前从未设置过的任何属性值。<2>了解更多</2>"
             },
             "setProperties": {
-                "description": "随此事件发送的用户属性。会替换该用户档案中此前可能已设置的任何属性值。<1>了解更多</1>"
+                "description": "随此事件发送的用户属性。会替换该用户档案中此前可能已设置的任何属性值。<2>了解更多</2>"
             }
         },
         "live": {
@@ -32,7 +32,7 @@
             "filterByProperty": "按属性筛选",
             "pause": "暂停",
             "play": "继续",
-            "terminalBanner": "使用 <1>posthog-live</1> 在终端中直接流式查看实时事件。<3>了解更多</3>"
+            "terminalBanner": "使用 <1>posthog-live</1> 在终端中直接流式查看实时事件。<4>了解更多</4>"
         },
         "sessions": {
             "columns": {
@@ -430,6 +430,84 @@
             "untitled": "洞察"
         }
     },
+    "interval": {
+        "day": "",
+        "hour": "",
+        "month": "",
+        "week": ""
+    },
+    "login": {
+        "backToLogin": "返回登录",
+        "codeSent": "验证码已发送",
+        "codeSentTo": "为了你的安全，我们已向 <strong>{{ codeVerificationEmail }}</strong> 发送了一封包含 6 位验证码的邮件。",
+        "createAccount": "创建账号 →",
+        "email": "邮箱",
+        "emailPlaceholder": "",
+        "error": {
+            "generic": "无法完成登录，请重试。",
+            "githubSsoEnforced": "你的组织不允许使用此验证方式。请使用 GitHub 登录。",
+            "gitlabSsoEnforced": "你的组织不允许使用此验证方式。请使用 GitLab 登录。",
+            "googleSsoEnforced": "你的组织不允许使用此验证方式。请使用 Google 登录。",
+            "improperlyConfiguredSso": "无法使用 SSO 提供方登录，因为该提供方未配置，或你的实例缺少所需的许可证。请访问 <2>https://posthog.com/sso</2> 查看详情。",
+            "invalidInvite": "该邀请链接已失效，可能已过期或被撤销。请联系管理员获取新的邀请。",
+            "invalidSsoProvider": "你指定的 SSO 提供方无效。请访问 <2>https://posthog.com/sso</2> 查看详情。",
+            "jitNotEnabled": "我们找不到与你的邮箱地址关联的账号，且你的组织不支持自动注册。请联系管理员获取邀请。",
+            "noNewOrganizations": "你的邮箱地址未关联任何账号。请联系管理员获取邀请。",
+            "oauthCancelled": "登录已取消。准备好后请重试。",
+            "reauthUserMismatch": "你使用了其他账号登录。请使用当前登录的账号重试。",
+            "samlSsoEnforced": "你的组织要求使用 SAML SSO 验证。请输入你的邮箱地址以访问账号。",
+            "socialLoginFailure": "登录失败。请重试或联系管理员。",
+            "ssoEnforced": "请使用你的组织要求的 SSO 方式登录。",
+            "verifiedDomainRequired": "你的组织仅允许邮箱域名已验证的成员访问。请联系组织管理员获取访问权限。"
+        },
+        "forgotPassword": "忘记密码？",
+        "logIn": "登录",
+        "needHelp": "需要帮助？",
+        "newToPosthog": "初次使用 PostHog？",
+        "noSignInMethod": "此账号未设置登录方式。请使用 <2>忘记密码？</2> 通过邮箱设置密码。",
+        "otherRegionHint": "已有 PostHog Cloud 账号？它可能位于我们的 {{ otherRegion }} 区域。你当前在 {{ currentRegion }}。<RegionLink>前往 {{ otherRegionHost }} 登录</RegionLink>",
+        "password": "密码",
+        "redirect": {
+            "alreadyLoggedIn": "你已在 {{ region }} 区域登录了 PostHog Cloud。",
+            "cancel": "取消跳转",
+            "letsGo": "现在前往 {{ region }} 区域",
+            "takingYouIn": "将在 {{ seconds }} 秒后带你前往……",
+            "takingYouNow": "正在带你前往。",
+            "title": "正在跳转到你已登录的账号"
+        },
+        "redirectingTo": "正在跳转到 {{ provider }}……",
+        "region": {
+            "chooseDescription": "之后可以迁移到其他区域。",
+            "chooseTitle": "你想选择哪个区域？",
+            "dataRegion": "数据区域",
+            "euFeature1": "如果你和你的用户位于欧洲，速度更快",
+            "euFeature2": "将数据保留在欧盟，以满足 GDPR 要求",
+            "euFeature3": "托管于德国法兰克福",
+            "euHosting": "欧盟托管",
+            "europeanUnion": "欧盟",
+            "pinnedReason": "此连接从 {{ region }} 区域发起。如需使用其他区域，请从 {{ client }} 重新开始。",
+            "unitedStates": "美国",
+            "usFeature1": "如果你和你的用户位于美国，速度更快",
+            "usFeature2": "更容易满足部分美国的合规要求",
+            "usFeature3": "托管于美国弗吉尼亚",
+            "usHosting": "美国托管"
+        },
+        "resendCode": "重新发送验证码",
+        "sending": "发送中…",
+        "sessionRiskBanner": "为了你的安全，我们已将你登出，因为此会话出现了异常活动。请重新登录以继续。",
+        "twoFactor": {
+            "authenticatorToken": "身份验证器令牌",
+            "description": "输入身份验证器应用中的令牌，使用通行密钥，或输入备用代码。",
+            "noneAvailable": "没有可用的两步验证方式。如果你认为这是错误，请联系支持。",
+            "or": "或",
+            "passkey": "通行密钥",
+            "title": "两步验证",
+            "usePasskey": "使用通行密钥"
+        },
+        "verificationCode": "验证码",
+        "verifyAndLogIn": "验证并登录",
+        "welcomeBack": "欢迎回来，开始发布点什么吧。"
+    },
     "mcp": {
         "columns": {
             "key": "键",
@@ -459,5 +537,10 @@
             "show": "显示 {{ size }}",
             "showAria": "显示值（{{ size }}）"
         }
+    },
+    "sceneActivity": {
+        "by": "",
+        "created": "",
+        "lastModified": ""
     }
 }

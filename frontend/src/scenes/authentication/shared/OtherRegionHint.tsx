@@ -1,4 +1,5 @@
 import { useValues } from 'kea'
+import { Trans } from 'react-i18next'
 
 import { CLOUD_HOSTNAMES } from 'lib/constants'
 import { LemonBanner } from 'lib/lemon-ui/LemonBanner'
@@ -33,15 +34,24 @@ export function OtherRegionHint(): JSX.Element | null {
 
     return (
         <LemonBanner type="info">
-            Already have a PostHog Cloud account? It may live in our {otherRegion} region. You're currently on{' '}
-            {preflight.region}.{' '}
-            <Link
-                to={otherRegionLoginUrl(preflight.region, location.search)}
-                disableClientSideRouting
-                data-attr="other-region-login"
-            >
-                Log in on {CLOUD_HOSTNAMES[otherRegion]}
-            </Link>
+            <Trans
+                i18nKey="login.otherRegionHint"
+                values={{
+                    otherRegion,
+                    currentRegion: preflight.region,
+                    otherRegionHost: CLOUD_HOSTNAMES[otherRegion],
+                }}
+                components={{
+                    RegionLink: (
+                        <Link
+                            to={otherRegionLoginUrl(preflight.region, location.search)}
+                            disableClientSideRouting
+                            data-attr="other-region-login"
+                        />
+                    ),
+                }}
+                defaults="Already have a PostHog Cloud account? It may live in our {{ otherRegion }} region. You're currently on {{ currentRegion }}. <RegionLink>Log in on {{ otherRegionHost }}</RegionLink>"
+            />
         </LemonBanner>
     )
 }

@@ -22,6 +22,7 @@
  */
 import { posthog } from 'posthog-js'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonModal } from '@posthog/lemon-ui'
 
@@ -71,6 +72,7 @@ function regionFromSubdomain(subdomain: Subdomain): 'EU' | 'US' {
 const REDIRECT_TIMEOUT_SECONDS = 7 // 7 seconds seems to be just right to actually read what's happening
 
 export function RedirectIfLoggedInOtherInstance(): JSX.Element | null {
+    const { t } = useTranslation()
     const [isOpen, setIsOpen] = useState(false)
     const [redirectUrl, setRedirectUrl] = useState<URL | null>(null)
     const [loggedInSubdomainValue, setLoggedInSubdomainValue] = useState<Subdomain | null>(null)
@@ -143,15 +145,18 @@ export function RedirectIfLoggedInOtherInstance(): JSX.Element | null {
     return (
         <LemonModal
             isOpen={isOpen}
-            title="Redirecting to your logged-in account"
+            title={t('login.redirect.title', { defaultValue: 'Redirecting to your logged-in account' })}
             footer={
                 redirectProgress < 100 && (
                     <div className="flex items-center justify-end gap-2">
                         <LemonButton type="secondary" onClick={() => setIsOpen(false)}>
-                            Cancel redirect
+                            {t('login.redirect.cancel', { defaultValue: 'Cancel redirect' })}
                         </LemonButton>
                         <LemonButton type="primary" onClick={() => window.location.assign(redirectUrl.href)}>
-                            Let's go to the {regionFromSubdomain(loggedInSubdomainValue)} region now
+                            {t('login.redirect.letsGo', {
+                                defaultValue: "Let's go to the {{ region }} region now",
+                                region: regionFromSubdomain(loggedInSubdomainValue),
+                            })}
                         </LemonButton>
                     </div>
                 )
@@ -160,14 +165,18 @@ export function RedirectIfLoggedInOtherInstance(): JSX.Element | null {
         >
             <div className="space-y-4">
                 <p className="mb-2">
-                    You're already logged into PostHog Cloud in the {regionFromSubdomain(loggedInSubdomainValue)}{' '}
-                    region.
+                    {t('login.redirect.alreadyLoggedIn', {
+                        defaultValue: "You're already logged into PostHog Cloud in the {{ region }} region.",
+                        region: regionFromSubdomain(loggedInSubdomainValue),
+                    })}
                 </p>
                 <p className="mb-2">
-                    Taking you there{' '}
                     {secondsLeft === 0
-                        ? 'now.'
-                        : `in ${roundToDecimal(secondsLeft, secondsLeft > 1 ? 0 : 1)} seconds...`}
+                        ? t('login.redirect.takingYouNow', { defaultValue: 'Taking you there now.' })
+                        : t('login.redirect.takingYouIn', {
+                              defaultValue: 'Taking you there in {{ seconds }} seconds...',
+                              seconds: roundToDecimal(secondsLeft, secondsLeft > 1 ? 0 : 1),
+                          })}
                 </p>
                 <LemonProgress percent={redirectProgress} smoothing={false} />
             </div>

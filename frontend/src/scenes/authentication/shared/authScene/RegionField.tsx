@@ -1,6 +1,8 @@
+import type { TFunction } from 'i18next'
 import { useValues } from 'kea'
 import { router } from 'kea-router'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconCheckCircle } from '@posthog/icons'
 import { LemonLabel, LemonModal, LemonSelect, LemonSelectOptions } from '@posthog/lemon-ui'
@@ -12,35 +14,50 @@ import { preflightLogic } from 'scenes/PreflightCheck/preflightLogic'
 
 import { Region } from '~/types'
 
-const REGION_SECTIONS = [
-    {
-        title: 'US hosting',
-        features: [
-            'Faster if you and your users are based in the US',
-            'Easier to comply with some US regulations',
-            'Hosted in Virginia, USA',
-        ],
-    },
-    {
-        title: 'EU hosting',
-        features: [
-            'Faster if you and your users are based in Europe',
-            'Keeps data in the EU to comply with GDPR requirements',
-            'Hosted in Frankfurt, Germany',
-        ],
-    },
-]
+/**
+ * Built from `t` rather than kept as a module constant, because a message read at import time never
+ * follows a language change.
+ */
+function regionSections(t: TFunction): { title: string; features: string[] }[] {
+    return [
+        {
+            title: t('login.region.usHosting', { defaultValue: 'US hosting' }),
+            features: [
+                t('login.region.usFeature1', {
+                    defaultValue: 'Faster if you and your users are based in the US',
+                }),
+                t('login.region.usFeature2', { defaultValue: 'Easier to comply with some US regulations' }),
+                t('login.region.usFeature3', { defaultValue: 'Hosted in Virginia, USA' }),
+            ],
+        },
+        {
+            title: t('login.region.euHosting', { defaultValue: 'EU hosting' }),
+            features: [
+                t('login.region.euFeature1', {
+                    defaultValue: 'Faster if you and your users are based in Europe',
+                }),
+                t('login.region.euFeature2', {
+                    defaultValue: 'Keeps data in the EU to comply with GDPR requirements',
+                }),
+                t('login.region.euFeature3', { defaultValue: 'Hosted in Frankfurt, Germany' }),
+            ],
+        },
+    ]
+}
 
 function RegionModal({ open, onClose }: { open: boolean; onClose: () => void }): JSX.Element {
+    const { t } = useTranslation()
     return (
         <LemonModal
-            title="Which region would you like to choose?"
-            description="It's possible to migrate to another region later."
+            title={t('login.region.chooseTitle', { defaultValue: 'Which region would you like to choose?' })}
+            description={t('login.region.chooseDescription', {
+                defaultValue: "It's possible to migrate to another region later.",
+            })}
             isOpen={open}
             onClose={onClose}
         >
             <ul className="list-none">
-                {REGION_SECTIONS.map((section) => (
+                {regionSections(t).map((section) => (
                     <li
                         key={section.title}
                         className="border-t first:border-t-0 border-dashed border-gray-accent mt-2 first:mt-0"
@@ -78,12 +95,15 @@ function MiniFlag({ region }: { region: Region }): JSX.Element {
     )
 }
 
-const REGIONS: { value: Region; label: string }[] = [
-    { value: Region.US, label: 'United States' },
-    { value: Region.EU, label: 'European Union' },
-]
+function regionOptions(t: TFunction): { value: Region; label: string }[] {
+    return [
+        { value: Region.US, label: t('login.region.unitedStates', { defaultValue: 'United States' }) },
+        { value: Region.EU, label: t('login.region.europeanUnion', { defaultValue: 'European Union' }) },
+    ]
+}
 
 export function RegionField(): JSX.Element | null {
+    const { t } = useTranslation()
     const { preflight } = useValues(preflightLogic)
     const { pendingConnection } = useValues(pendingOAuthConnectionLogic)
     const [devRegion, setDevRegion] = useState<Region>(Region.US)
@@ -110,10 +130,15 @@ export function RegionField(): JSX.Element | null {
     // An OAuth client is registered in one region only, so an account created elsewhere could
     // never finish the connection that brought the person here.
     const pinnedReason = pendingConnection
-        ? `This connection started in the ${REGIONS.find((r) => r.value === activeRegion)?.label ?? activeRegion} region. To use another region, start again from ${pendingConnection.clientName}.`
+        ? t('login.region.pinnedReason', {
+              defaultValue:
+                  'This connection started in the {{ region }} region. To use another region, start again from {{ client }}.',
+              region: regionOptions(t).find((r) => r.value === activeRegion)?.label ?? activeRegion,
+              client: pendingConnection.clientName,
+          })
         : undefined
 
-    const options: LemonSelectOptions<Region> = REGIONS.map((region) => ({
+    const options: LemonSelectOptions<Region> = regionOptions(t).map((region) => ({
         value: region.value,
         label: (
             <span className="flex items-center gap-2">
@@ -127,7 +152,9 @@ export function RegionField(): JSX.Element | null {
         <>
             <RegionModal open={modalOpen} onClose={() => setModalOpen(false)} />
             <div className="flex flex-col gap-2">
-                <LemonLabel onExplanationClick={() => setModalOpen(true)}>Data region</LemonLabel>
+                <LemonLabel onExplanationClick={() => setModalOpen(true)}>
+                    {t('login.region.dataRegion', { defaultValue: 'Data region' })}
+                </LemonLabel>
                 <LemonSelect<Region>
                     value={activeRegion}
                     options={options}
@@ -139,7 +166,7 @@ export function RegionField(): JSX.Element | null {
                         return (
                             <span className="flex items-center gap-2">
                                 <MiniFlag region={region} />
-                                <span>{REGIONS.find((r) => r.value === region)?.label}</span>
+                                <span>{regionOptions(t).find((r) => r.value === region)?.label}</span>
                             </span>
                         )
                     }}

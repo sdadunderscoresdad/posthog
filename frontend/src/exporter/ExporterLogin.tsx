@@ -4,13 +4,14 @@ import clsx from 'clsx'
 import { MakeLogicType, actions, kea, path, reducers, useValues } from 'kea'
 import { Form, forms } from 'kea-forms'
 import type { DeepPartial, DeepPartialMap, FieldName, ValidationErrorType } from 'kea-forms'
+import { useTranslation } from 'react-i18next'
 
 import { BridgePage } from 'lib/components/BridgePage/BridgePage'
 import { LemonBanner } from 'lib/lemon-ui/LemonBanner'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonField } from 'lib/lemon-ui/LemonField'
 import { LemonInput } from 'lib/lemon-ui/LemonInput'
-import { ERROR_MESSAGES } from 'scenes/authentication/shared/loginErrorMessages'
+import { loginErrorMessages } from 'scenes/authentication/shared/loginErrorMessages'
 import { SupportModalButton } from 'scenes/authentication/shared/SupportModalButton'
 
 export interface LoginForm {
@@ -149,6 +150,7 @@ export interface ExporterLoginProps {
 }
 
 export function ExporterLogin(props: ExporterLoginProps): JSX.Element {
+    const { t } = useTranslation()
     const { isLoginSubmitting, generalError, isSuccess } = useValues(loginLogic())
 
     const login = (
@@ -156,7 +158,7 @@ export function ExporterLogin(props: ExporterLoginProps): JSX.Element {
             <h2>Access share</h2>
             {generalError && (
                 <LemonBanner type="error">
-                    {generalError.detail || ERROR_MESSAGES[generalError.code] || (
+                    {generalError.detail || loginErrorMessages(t)[generalError.code] || (
                         <>
                             Could not unlock the content.
                             <br />

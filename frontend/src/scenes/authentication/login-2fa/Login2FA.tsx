@@ -1,5 +1,6 @@
 import { useActions, useMountedLogic, useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonDivider, LemonInput } from '@posthog/lemon-ui'
 
@@ -26,13 +27,19 @@ export function Login2FA(): JSX.Element {
     const { beginPasskey2FA } = useActions(login2FALogic)
     const { preflight } = useValues(preflightLogic)
     const { openSupportForm } = useActions(supportLogic)
+    const { t } = useTranslation()
 
     return (
         <BridgePage view="login">
             <div className="deprecated-space-y-2">
-                <h2>Two-Factor Authentication</h2>
+                <h2>{t('login.twoFactor.title', { defaultValue: 'Two-Factor Authentication' })}</h2>
                 <p>
-                    <span>Enter a token from your authenticator app, use your passkey, or enter a backup code.</span>
+                    <span>
+                        {t('login.twoFactor.description', {
+                            defaultValue:
+                                'Enter a token from your authenticator app, use your passkey, or enter a backup code.',
+                        })}
+                    </span>
                     {preflight?.cloud && (
                         <>
                             {' '}
@@ -45,7 +52,7 @@ export function Login2FA(): JSX.Element {
                                     })
                                 }}
                             >
-                                Need help?
+                                {t('login.needHelp', { defaultValue: 'Need help?' })}
                             </Link>
                         </>
                     )}
@@ -61,11 +68,19 @@ export function Login2FA(): JSX.Element {
                             fullWidth
                             center
                             size="large"
-                            icon={<img src={passkeyLogo} alt="Passkey" className="object-contain w-6 h-6" />}
+                            icon={
+                                <img
+                                    src={passkeyLogo}
+                                    alt={t('login.twoFactor.passkey', { defaultValue: 'Passkey' })}
+                                    className="object-contain w-6 h-6"
+                                />
+                            }
                         >
-                            Use passkey
+                            {t('login.twoFactor.usePasskey', { defaultValue: 'Use passkey' })}
                         </LemonButton>
-                        {totpAvailable && <LemonDivider className="my-4" label="Or" />}
+                        {totpAvailable && (
+                            <LemonDivider className="my-4" label={t('login.twoFactor.or', { defaultValue: 'Or' })} />
+                        )}
                     </>
                 )}
 
@@ -77,7 +92,10 @@ export function Login2FA(): JSX.Element {
                         className="deprecated-space-y-4"
                     >
                         {generalError && <LemonBanner type="error">{generalError.detail}</LemonBanner>}
-                        <LemonField name="token" label="Authenticator token">
+                        <LemonField
+                            name="token"
+                            label={t('login.twoFactor.authenticatorToken', { defaultValue: 'Authenticator token' })}
+                        >
                             <LemonInput
                                 className="ph-ignore-input"
                                 autoFocus={!passkeysAvailable}
@@ -97,14 +115,17 @@ export function Login2FA(): JSX.Element {
                             loading={isTwofactortokenSubmitting}
                             size="large"
                         >
-                            Login
+                            {t('login.logIn', { defaultValue: 'Log in' })}
                         </LemonButton>
                     </Form>
                 )}
 
                 {!passkeysAvailable && !totpAvailable && (
                     <LemonBanner type="error">
-                        No 2FA methods available. Please contact support if you believe this is an error.
+                        {t('login.twoFactor.noneAvailable', {
+                            defaultValue:
+                                'No 2FA methods available. Please contact support if you believe this is an error.',
+                        })}
                     </LemonBanner>
                 )}
             </div>

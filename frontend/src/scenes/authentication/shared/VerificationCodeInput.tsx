@@ -3,6 +3,7 @@ import './VerificationCodeInput.scss'
 import { OTPField } from '@base-ui/react/otp-field'
 import clsx from 'clsx'
 import { useId } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { normalizeVerificationCode } from './verificationCode'
 
@@ -29,6 +30,7 @@ export function VerificationCodeInput({
     id,
     'data-attr': dataAttr,
 }: VerificationCodeInputProps): JSX.Element {
+    const { t } = useTranslation()
     const generatedId = useId()
     const inputId = id ?? generatedId
     return (
@@ -50,7 +52,7 @@ export function VerificationCodeInput({
                 // Base UI does not accept aria-label on the first slot and expects a <label> for it.
                 // When LemonField provides the id, the LemonField label already labels the first slot.
                 <label htmlFor={inputId} className="sr-only">
-                    Verification code
+                    {t('login.verificationCode', { defaultValue: 'Verification code' })}
                 </label>
             )}
             {Array.from({ length: VERIFICATION_CODE_LENGTH }, (_, index) => (

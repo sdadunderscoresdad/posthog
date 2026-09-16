@@ -6,8 +6,9 @@ import { expectLogic } from 'kea-test-utils'
 import { lemonToast } from '@posthog/lemon-ui'
 
 import { dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 import { apiStatusLogic } from 'lib/logic/apiStatusLogic'
-import { ERROR_MESSAGES } from 'scenes/authentication/shared/loginErrorMessages'
+import { loginErrorMessages } from 'scenes/authentication/shared/loginErrorMessages'
 import { userLogic } from 'scenes/userLogic'
 
 import { initKeaTests } from '~/test/init'
@@ -180,7 +181,7 @@ describe('timeSensitiveAuthenticationLogic', () => {
 
             logic.actions.showSsoReauthenticationError()
 
-            expect(lemonToast.error).toHaveBeenCalledWith(ERROR_MESSAGES.reauth_user_mismatch)
+            expect(lemonToast.error).toHaveBeenCalledWith(loginErrorMessages(i18n.t.bind(i18n)).reauth_user_mismatch)
             expect(router.values.searchParams).toEqual({})
         })
 
