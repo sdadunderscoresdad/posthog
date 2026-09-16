@@ -5,6 +5,7 @@ import {
     HumanizedChange,
     defaultDescriber,
 } from 'lib/components/ActivityLog/humanizeActivity'
+import { i18n } from 'lib/i18n/i18n'
 
 import { ActivityScope } from '~/types'
 
@@ -52,7 +53,9 @@ export const instanceSettingActivityDescriber: Describer = (
         return {
             description: (
                 <>
-                    {actor} {transition} instance setting <code>{key}</code>
+                    {actor} {transition}{' '}
+                    {i18n.t('activityLog.instanceSettings.instanceSetting', { defaultValue: 'instance setting' })}{' '}
+                    <code>{key}</code>
                 </>
             ),
         }
@@ -64,7 +67,9 @@ export const instanceSettingActivityDescriber: Describer = (
         return {
             description: (
                 <>
-                    {actor} updated instance setting <code>{key}</code>
+                    {actor}{' '}
+                    {i18n.t('activityLog.instanceSettings.updated', { defaultValue: 'updated instance setting' })}{' '}
+                    <code>{key}</code>
                 </>
             ),
         }
@@ -73,7 +78,9 @@ export const instanceSettingActivityDescriber: Describer = (
     return {
         description: (
             <>
-                {actor} changed instance setting <code>{key}</code> from <code>{JSON.stringify(change.before)}</code> to{' '}
+                {actor} {i18n.t('activityLog.instanceSettings.changed', { defaultValue: 'changed instance setting' })}{' '}
+                <code>{key}</code> {i18n.t('activityLog.from', { defaultValue: 'from' })}{' '}
+                <code>{JSON.stringify(change.before)}</code> {i18n.t('activityLog.to', { defaultValue: 'to' })}{' '}
                 <code>{JSON.stringify(change.after)}</code>
             </>
         ),

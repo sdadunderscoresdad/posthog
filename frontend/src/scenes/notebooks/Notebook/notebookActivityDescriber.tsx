@@ -8,6 +8,7 @@ import {
     defaultDescriber,
 } from 'lib/components/ActivityLog/humanizeActivity'
 import { SentenceList } from 'lib/components/ActivityLog/SentenceList'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { urls } from 'scenes/urls'
 
@@ -20,18 +21,20 @@ const notebookActionsMapping: Record<
     version: () => null, // version will always change, but we don't show it to users
     content: () => {
         return {
-            description: [<>changed content</>],
+            description: [<>{i18n.t('notebookActivity.changedContent', { defaultValue: 'changed content' })}</>],
         }
     },
 }
 
 function nameAndLink(logItem?: ActivityLogItem): JSX.Element {
     return logItem?.detail?.short_id ? (
-        <Link to={urls.notebook(logItem.detail.short_id)}>{logItem?.detail.name || 'unknown'}</Link>
+        <Link to={urls.notebook(logItem.detail.short_id)}>
+            {logItem?.detail.name || i18n.t('notebookActivity.unknown', { defaultValue: 'unknown' })}
+        </Link>
     ) : logItem?.detail.name ? (
         <>{logItem?.detail.name}</>
     ) : (
-        <i>Untitled</i>
+        <i>{i18n.t('notebookActivity.untitled', { defaultValue: 'Untitled' })}</i>
     )
 }
 
@@ -43,7 +46,11 @@ export function notebookActivityDescriber(logItem: ActivityLogItem, asNotificati
 
     if (logItem.activity == 'changed' || logItem.activity == 'updated') {
         let changes: Description[] = []
-        let changeSuffix: Description = <>on {nameAndLink(logItem)}</>
+        let changeSuffix: Description = (
+            <>
+                {i18n.t('notebookActivity.on', { defaultValue: 'on' })} {nameAndLink(logItem)}
+            </>
+        )
 
         for (const change of logItem.detail.changes || []) {
             if (!change?.field || !notebookActionsMapping[change.field]) {

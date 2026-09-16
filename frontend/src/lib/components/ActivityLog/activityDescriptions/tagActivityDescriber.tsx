@@ -5,6 +5,7 @@ import {
     defaultDescriber,
 } from 'lib/components/ActivityLog/humanizeActivity'
 import { TaxonomicFilterGroupType } from 'lib/components/TaxonomicFilter/types'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { getDisplayNameFromEntityFilter } from 'scenes/insights/utils'
 import { urls } from 'scenes/urls'
@@ -107,7 +108,8 @@ export function tagActivityDescriber(logItem: ActivityLogItem, asNotification?: 
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> created the tag{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('activityLog.tags.createdTheTag', { defaultValue: 'created the tag' })}{' '}
                     <strong>{nameOrId(logItem?.detail?.name, logItem?.item_id)}</strong>
                 </>
             ),
@@ -118,7 +120,8 @@ export function tagActivityDescriber(logItem: ActivityLogItem, asNotification?: 
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted the tag{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('activityLog.tags.deletedTheTag', { defaultValue: 'deleted the tag' })}{' '}
                     <strong>{nameOrId(logItem?.detail?.name, logItem?.item_id)}</strong>
                 </>
             ),
@@ -129,7 +132,8 @@ export function tagActivityDescriber(logItem: ActivityLogItem, asNotification?: 
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> updated the tag{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('activityLog.tags.updatedTheTag', { defaultValue: 'updated the tag' })}{' '}
                     <strong>{nameOrId(logItem?.detail?.name, logItem?.item_id)}</strong>
                 </>
             ),
@@ -149,8 +153,9 @@ function taggedItemActivityDescriber(logItem: ActivityLogItem, asNotification?: 
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> tagged {relatedObjectDesc} with tag{' '}
-                    <strong>{tagName}</strong>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('activityLog.tags.tagged', { defaultValue: 'tagged' })} {relatedObjectDesc}{' '}
+                    {i18n.t('activityLog.tags.withTag', { defaultValue: 'with tag' })} <strong>{tagName}</strong>
                 </>
             ),
         }
@@ -160,7 +165,8 @@ function taggedItemActivityDescriber(logItem: ActivityLogItem, asNotification?: 
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> removed tag <strong>{tagName}</strong>{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('activityLog.tags.removedTag', { defaultValue: 'removed tag' })} <strong>{tagName}</strong>{' '}
                     {relatedObjectDescFrom}
                 </>
             ),

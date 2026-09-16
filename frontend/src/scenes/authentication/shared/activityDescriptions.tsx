@@ -4,6 +4,7 @@ import {
     HumanizedChange,
     defaultDescriber,
 } from 'lib/components/ActivityLog/humanizeActivity'
+import { i18n } from 'lib/i18n/i18n'
 
 export function userActivityDescriber(logItem: ActivityLogItem, asNotification?: boolean): HumanizedChange {
     if (logItem.scope !== 'User') {
@@ -14,14 +15,23 @@ export function userActivityDescriber(logItem: ActivityLogItem, asNotification?:
     const context = logItem?.detail?.context as any
 
     if (logItem.activity === 'logged_in') {
-        const loginMethod = context?.login_method || 'an unknown method'
+        const loginMethod =
+            context?.login_method || i18n.t('userActivity.unknownMethod', { defaultValue: 'an unknown method' })
         const reauthSensitiveOps = context?.reauth
 
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> logged in using {loginMethod}
-                    {reauthSensitiveOps && <> (re-authenticated for sensitive operations)</>}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('userActivity.loggedInUsing', { defaultValue: 'logged in using' })} {loginMethod}
+                    {reauthSensitiveOps && (
+                        <>
+                            {' '}
+                            {i18n.t('userActivity.reauthenticatedSensitiveOps', {
+                                defaultValue: '(re-authenticated for sensitive operations)',
+                            })}
+                        </>
+                    )}
                 </>
             ),
         }
@@ -31,7 +41,8 @@ export function userActivityDescriber(logItem: ActivityLogItem, asNotification?:
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> logged out
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('userActivity.loggedOut', { defaultValue: 'logged out' })}
                 </>
             ),
         }

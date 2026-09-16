@@ -75,6 +75,32 @@
             "sessions": "Sessions"
         }
     },
+    "activityLog": {
+        "commented": "commented",
+        "copied": "copied",
+        "created": "created",
+        "deleted": "deleted",
+        "from": "from",
+        "instanceSettings": {
+            "changed": "changed instance setting",
+            "instanceSetting": "instance setting",
+            "updated": "updated instance setting"
+        },
+        "onA": "on a",
+        "repliedToA": "replied to a",
+        "restored": "restored",
+        "tags": {
+            "createdTheTag": "created the tag",
+            "deletedTheTag": "deleted the tag",
+            "removedTag": "removed tag",
+            "tagged": "tagged",
+            "updatedTheTag": "updated the tag",
+            "withTag": "with tag"
+        },
+        "to": "to",
+        "toAnotherProject": "to another project",
+        "updated": "updated"
+    },
     "approvals": {
         "actions": {
             "disableFlag": "Disable feature flag",
@@ -751,6 +777,12 @@
             "show": "Show {{ size }}",
             "showAria": "Show value ({{ size }})"
         }
+    },
+    "notebookActivity": {
+        "changedContent": "changed content",
+        "on": "on",
+        "unknown": "unknown",
+        "untitled": "Untitled"
     },
     "passwordReset": {
         "backToLogin": "Back to login",
@@ -4001,6 +4033,12 @@
         "project": "Project",
         "timezoneConversion": "Timezone conversion",
         "yourDevice": "Your device"
+    },
+    "userActivity": {
+        "loggedInUsing": "logged in using",
+        "loggedOut": "logged out",
+        "reauthenticatedSensitiveOps": "(re-authenticated for sensitive operations)",
+        "unknownMethod": "an unknown method"
     },
     "vercelConnect": {
         "allLinked": "All your organizations are already linked to Vercel.",

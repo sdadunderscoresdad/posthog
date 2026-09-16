@@ -1,5 +1,6 @@
 import { UserNameWithEmail } from 'lib/components/ActivityLog/UserNameWithEmail'
 import { dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonMarkdown } from 'lib/lemon-ui/LemonMarkdown'
 import { fullName } from 'lib/utils/strings'
 
@@ -247,7 +248,8 @@ export function defaultDescriber(
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted <b>{resource}</b>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('activityLog.deleted', { defaultValue: 'deleted' })} <b>{resource}</b>
                 </>
             ),
         }
@@ -257,7 +259,8 @@ export function defaultDescriber(
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> created <b>{resource}</b>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('activityLog.created', { defaultValue: 'created' })} <b>{resource}</b>
                 </>
             ),
         }
@@ -267,7 +270,8 @@ export function defaultDescriber(
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> restored <b>{resource}</b>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('activityLog.restored', { defaultValue: 'restored' })} <b>{resource}</b>
                 </>
             ),
         }
@@ -277,7 +281,8 @@ export function defaultDescriber(
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> updated <b>{resource}</b>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('activityLog.updated', { defaultValue: 'updated' })} <b>{resource}</b>
                 </>
             ),
         }
@@ -287,7 +292,8 @@ export function defaultDescriber(
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> copied <b>{resource}</b> to another project
+                    <ActivityLogUserName logItem={logItem} /> {i18n.t('activityLog.copied', { defaultValue: 'copied' })}{' '}
+                    <b>{resource}</b> {i18n.t('activityLog.toAnotherProject', { defaultValue: 'to another project' })}
                 </>
             ),
         }
@@ -299,14 +305,22 @@ export function defaultDescriber(
         if (logItem.scope === 'Comment') {
             description = (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> replied to a {humanizeScope(logItem.scope, true)}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('activityLog.repliedToA', { defaultValue: 'replied to a' })}{' '}
+                    {humanizeScope(logItem.scope, true)}
                 </>
             )
         } else {
             description = (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> commented
-                    {asNotification ? <> on a {humanizeScope(logItem.scope, true)}</> : null}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('activityLog.commented', { defaultValue: 'commented' })}
+                    {asNotification ? (
+                        <>
+                            {' '}
+                            {i18n.t('activityLog.onA', { defaultValue: 'on a' })} {humanizeScope(logItem.scope, true)}
+                        </>
+                    ) : null}
                 </>
             )
         }

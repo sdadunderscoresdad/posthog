@@ -74,6 +74,32 @@
             "sessions": "会话"
         }
     },
+    "activityLog": {
+        "commented": "评论了",
+        "copied": "复制了",
+        "created": "创建了",
+        "deleted": "删除了",
+        "from": "从",
+        "instanceSettings": {
+            "changed": "修改了实例设置",
+            "instanceSetting": "实例设置",
+            "updated": "更新了实例设置"
+        },
+        "onA": "，对象为",
+        "repliedToA": "回复了",
+        "restored": "恢复了",
+        "tags": {
+            "createdTheTag": "创建了标签",
+            "deletedTheTag": "删除了标签",
+            "removedTag": "移除了标签",
+            "tagged": "为以下对象添加了标签：",
+            "updatedTheTag": "更新了标签",
+            "withTag": "，标签为"
+        },
+        "to": "改为",
+        "toAnotherProject": "并复制到另一个项目",
+        "updated": "更新了"
+    },
     "approvals": {
         "actions": {
             "disableFlag": "停用功能开关",
@@ -744,6 +770,12 @@
             "show": "显示 {{ size }}",
             "showAria": "显示值（{{ size }}）"
         }
+    },
+    "notebookActivity": {
+        "changedContent": "修改了内容",
+        "on": "，对象为",
+        "unknown": "未知",
+        "untitled": "未命名"
     },
     "passwordReset": {
         "backToLogin": "返回登录",
@@ -3971,6 +4003,12 @@
         "project": "项目",
         "timezoneConversion": "时区换算",
         "yourDevice": "你的设备"
+    },
+    "userActivity": {
+        "loggedInUsing": "使用了以下方式登录：",
+        "loggedOut": "已退出登录",
+        "reauthenticatedSensitiveOps": "（为敏感操作重新验证了身份）",
+        "unknownMethod": "未知方式"
     },
     "vercelConnect": {
         "allLinked": "你的所有组织都已关联到 Vercel。",

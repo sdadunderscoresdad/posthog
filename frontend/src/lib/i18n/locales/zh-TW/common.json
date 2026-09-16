@@ -74,6 +74,32 @@
             "sessions": ""
         }
     },
+    "activityLog": {
+        "commented": "",
+        "copied": "",
+        "created": "",
+        "deleted": "",
+        "from": "",
+        "instanceSettings": {
+            "changed": "",
+            "instanceSetting": "",
+            "updated": ""
+        },
+        "onA": "",
+        "repliedToA": "",
+        "restored": "",
+        "tags": {
+            "createdTheTag": "",
+            "deletedTheTag": "",
+            "removedTag": "",
+            "tagged": "",
+            "updatedTheTag": "",
+            "withTag": ""
+        },
+        "to": "",
+        "toAnotherProject": "",
+        "updated": ""
+    },
     "approvals": {
         "actions": {
             "disableFlag": "",
@@ -744,6 +770,12 @@
             "show": "",
             "showAria": ""
         }
+    },
+    "notebookActivity": {
+        "changedContent": "",
+        "on": "",
+        "unknown": "",
+        "untitled": ""
     },
     "passwordReset": {
         "backToLogin": "",
@@ -3971,6 +4003,12 @@
         "project": "",
         "timezoneConversion": "",
         "yourDevice": ""
+    },
+    "userActivity": {
+        "loggedInUsing": "",
+        "loggedOut": "",
+        "reauthenticatedSensitiveOps": "",
+        "unknownMethod": ""
     },
     "vercelConnect": {
         "allLinked": "",
