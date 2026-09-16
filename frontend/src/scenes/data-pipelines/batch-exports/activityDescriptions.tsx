@@ -1,3 +1,5 @@
+import { Trans } from 'react-i18next'
+
 import {
     ActivityChange,
     ActivityLogItem,
@@ -5,13 +7,14 @@ import {
     HumanizedChange,
     defaultDescriber,
 } from 'lib/components/ActivityLog/humanizeActivity'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { urls } from 'scenes/urls'
 
 import { dayOptions, formatHourString } from './utils'
 
 const nameOrLinkToBatchExport = (id?: string | null, name?: string | null): string | JSX.Element => {
-    const displayName = name || '(unnamed export)'
+    const displayName = name || i18n.t('batchExport.unnamed', { defaultValue: '(unnamed export)' })
     return id ? <Link to={urls.batchExport(id)}>{displayName}</Link> : `${displayName}`
 }
 
@@ -70,6 +73,26 @@ function isSubDayInterval(interval: string | undefined): boolean {
     return interval === 'hour' || (!!interval && interval.startsWith('every'))
 }
 
+/** The weekday a weekly schedule starts on, in the language the app is rendering. */
+function weekdayLabel(day: number): string {
+    switch (day) {
+        case 0:
+            return i18n.t('batchExport.weekday.sunday', { defaultValue: 'Sunday' })
+        case 1:
+            return i18n.t('batchExport.weekday.monday', { defaultValue: 'Monday' })
+        case 2:
+            return i18n.t('batchExport.weekday.tuesday', { defaultValue: 'Tuesday' })
+        case 3:
+            return i18n.t('batchExport.weekday.wednesday', { defaultValue: 'Wednesday' })
+        case 4:
+            return i18n.t('batchExport.weekday.thursday', { defaultValue: 'Thursday' })
+        case 5:
+            return i18n.t('batchExport.weekday.friday', { defaultValue: 'Friday' })
+        default:
+            return i18n.t('batchExport.weekday.saturday', { defaultValue: 'Saturday' })
+    }
+}
+
 function formatOffsetTime(seconds: number): string {
     return formatHourString(Math.floor((seconds % 86400) / 3600))
 }
@@ -84,20 +107,32 @@ export function formatSchedule(interval: string | undefined, offset?: number, ti
     }
 
     if (isSubDayInterval(interval)) {
-        return interval === 'hour' ? 'hourly' : interval
+        return interval === 'hour' ? i18n.t('batchExport.schedule.hourly', { defaultValue: 'hourly' }) : interval
     }
 
-    let schedule = interval === 'day' ? 'daily' : interval === 'week' ? 'weekly' : interval
+    let schedule =
+        interval === 'day'
+            ? i18n.t('batchExport.schedule.daily', { defaultValue: 'daily' })
+            : interval === 'week'
+              ? i18n.t('batchExport.schedule.weekly', { defaultValue: 'weekly' })
+              : interval
 
     if (offset !== undefined) {
         const day = Math.floor(offset / 86400)
         const hourStr = formatOffsetTime(offset)
 
         if (interval === 'week') {
-            const dayName = dayOptions.find((d) => d.value === day)?.label ?? dayOptions[0].label
-            schedule += ` on ${dayName} at ${hourStr}`
+            const dayValue = dayOptions.find((d) => d.value === day)?.value ?? dayOptions[0].value
+            schedule += i18n.t('batchExport.schedule.onDayAt', {
+                defaultValue: ' on {{ day }} at {{ time }}',
+                day: weekdayLabel(dayValue),
+                time: hourStr,
+            })
         } else {
-            schedule += ` at ${hourStr}`
+            schedule += i18n.t('batchExport.schedule.at', {
+                defaultValue: ' at {{ time }}',
+                time: hourStr,
+            })
         }
     }
 
@@ -143,24 +178,51 @@ function describeScheduleChanges(scheduleChanges: ActivityChange[]): ChangeDescr
         )
 
         if (beforeStr && afterStr && beforeStr !== afterStr) {
-            return [describeFieldChange('schedule', beforeStr, afterStr)]
+            return [
+                describeFieldChange(
+                    i18n.t('batchExport.field.schedule', { defaultValue: 'schedule' }),
+                    beforeStr,
+                    afterStr
+                ),
+            ]
         }
         if (afterStr) {
-            return [describeFieldChange('schedule', null, afterStr)]
+            return [
+                describeFieldChange(i18n.t('batchExport.field.schedule', { defaultValue: 'schedule' }), null, afterStr),
+            ]
         }
-        return [{ inline: <>updated the schedule for</>, inlist: <>updated schedule</> }]
+        return [
+            {
+                inline: (
+                    <>{i18n.t('batchExport.updatedTheScheduleFor', { defaultValue: 'updated the schedule for' })}</>
+                ),
+                inlist: <>{i18n.t('batchExport.updatedSchedule', { defaultValue: 'updated schedule' })}</>,
+            },
+        ]
     }
 
     // No interval change — describe each schedule field individually
     const descriptions: ChangeDescription[] = []
 
     if (before.timezone !== undefined || after.timezone !== undefined) {
-        descriptions.push(describeFieldChange('schedule timezone', before.timezone ?? null, after.timezone ?? null))
+        descriptions.push(
+            describeFieldChange(
+                i18n.t('batchExport.field.scheduleTimezone', { defaultValue: 'schedule timezone' }),
+                before.timezone ?? null,
+                after.timezone ?? null
+            )
+        )
     }
     if (before.offset !== undefined || after.offset !== undefined) {
         const beforeStr = before.offset !== undefined ? formatOffsetTime(before.offset) : null
         const afterStr = after.offset !== undefined ? formatOffsetTime(after.offset) : null
-        descriptions.push(describeFieldChange('schedule start time', beforeStr, afterStr))
+        descriptions.push(
+            describeFieldChange(
+                i18n.t('batchExport.field.scheduleStartTime', { defaultValue: 'schedule start time' }),
+                beforeStr,
+                afterStr
+            )
+        )
     }
 
     return descriptions
@@ -184,14 +246,17 @@ function humanizeValue(value: unknown): string | null {
     return JSON.stringify(value)
 }
 
-const FIELD_LABELS: Record<string, string> = {
-    destination: 'destination config',
-    start_at: 'start time',
-    end_at: 'end time',
-}
-
 function humanizeFieldName(field: string): string {
-    return FIELD_LABELS[field] ?? field.replace(/_/g, ' ')
+    switch (field) {
+        case 'destination':
+            return i18n.t('batchExport.field.destination', { defaultValue: 'destination config' })
+        case 'start_at':
+            return i18n.t('batchExport.field.startAt', { defaultValue: 'start time' })
+        case 'end_at':
+            return i18n.t('batchExport.field.endAt', { defaultValue: 'end time' })
+        default:
+            return field.replace(/_/g, ' ')
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -204,34 +269,54 @@ function describeFieldChange(label: string, before: string | null, after: string
     if (before && after) {
         return {
             inline: (
-                <>
-                    changed the {label} from <strong>{before}</strong> to <strong>{after}</strong> for
-                </>
+                <Trans
+                    i18nKey="batchExport.fieldChange.changedInline"
+                    values={{ label, before, after }}
+                    components={{ Before: <strong />, After: <strong /> }}
+                    defaults="changed the {{ label }} from <Before>{{ before }}</Before> to <After>{{ after }}</After> for"
+                />
             ),
             inlist: (
-                <>
-                    changed {label} from <strong>{before}</strong> to <strong>{after}</strong>
-                </>
+                <Trans
+                    i18nKey="batchExport.fieldChange.changedInList"
+                    values={{ label, before, after }}
+                    components={{ Before: <strong />, After: <strong /> }}
+                    defaults="changed {{ label }} from <Before>{{ before }}</Before> to <After>{{ after }}</After>"
+                />
             ),
         }
     }
     if (after) {
         return {
             inline: (
-                <>
-                    changed the {label} to <strong>{after}</strong> for
-                </>
+                <Trans
+                    i18nKey="batchExport.fieldChange.setInline"
+                    values={{ label, after }}
+                    components={{ After: <strong /> }}
+                    defaults="changed the {{ label }} to <After>{{ after }}</After> for"
+                />
             ),
             inlist: (
-                <>
-                    changed {label} to <strong>{after}</strong>
-                </>
+                <Trans
+                    i18nKey="batchExport.fieldChange.setInList"
+                    values={{ label, after }}
+                    components={{ After: <strong /> }}
+                    defaults="changed {{ label }} to <After>{{ after }}</After>"
+                />
             ),
         }
     }
     return {
-        inline: <>updated the {label} for</>,
-        inlist: <>updated {label}</>,
+        inline: (
+            <Trans
+                i18nKey="batchExport.fieldChange.updatedInline"
+                values={{ label }}
+                defaults="updated the {{ label }} for"
+            />
+        ),
+        inlist: (
+            <Trans i18nKey="batchExport.fieldChange.updatedInList" values={{ label }} defaults="updated {{ label }}" />
+        ),
     }
 }
 
@@ -246,18 +331,22 @@ export function batchExportActivityDescriber(logItem: ActivityLogItem, asNotific
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> created batch export {exportName}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('batchExport.created', { defaultValue: 'created' })}{' '}
+                    {i18n.t('batchExport.noun', { defaultValue: 'batch export' })} {exportName}
                 </>
             ),
         }
     }
 
     if (logItem.detail?.changes?.some((change) => change.field === 'deleted')) {
-        const displayName = logItem.detail.name || '(unnamed export)'
+        const displayName = logItem.detail.name || i18n.t('batchExport.unnamed', { defaultValue: '(unnamed export)' })
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted batch export <strong>{displayName}</strong>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('batchExport.deleted', { defaultValue: 'deleted' })}{' '}
+                    {i18n.t('batchExport.noun', { defaultValue: 'batch export' })} <strong>{displayName}</strong>
                 </>
             ),
         }
@@ -277,14 +366,23 @@ export function batchExportActivityDescriber(logItem: ActivityLogItem, asNotific
                 case 'enabled': {
                     // Raw value is "paused" — true means paused/disabled
                     if (change.after) {
-                        changes.push({ inline: 'disabled', inlist: 'disabled the batch export' })
+                        changes.push({
+                            inline: i18n.t('batchExport.disabled', { defaultValue: 'disabled' }),
+                            inlist: `${i18n.t('batchExport.disabled', { defaultValue: 'disabled' })} ${i18n.t('batchExport.theNoun', { defaultValue: 'the batch export' })}`,
+                        })
                     } else {
-                        changes.push({ inline: 'enabled', inlist: 'enabled the batch export' })
+                        changes.push({
+                            inline: i18n.t('batchExport.enabled', { defaultValue: 'enabled' }),
+                            inlist: `${i18n.t('batchExport.enabled', { defaultValue: 'enabled' })} ${i18n.t('batchExport.theNoun', { defaultValue: 'the batch export' })}`,
+                        })
                     }
                     break
                 }
                 case 'deleted': {
-                    changes.push({ inline: 'deleted', inlist: 'deleted the batch export' })
+                    changes.push({
+                        inline: i18n.t('batchExport.deletedInline', { defaultValue: 'deleted' }),
+                        inlist: `${i18n.t('batchExport.deletedInline', { defaultValue: 'deleted' })} ${i18n.t('batchExport.theNoun', { defaultValue: 'the batch export' })}`,
+                    })
                     break
                 }
                 default: {
@@ -305,21 +403,28 @@ export function batchExportActivityDescriber(logItem: ActivityLogItem, asNotific
             return {
                 description: (
                     <>
-                        <ActivityLogUserName logItem={logItem} /> updated batch export {exportName}
+                        <ActivityLogUserName logItem={logItem} />{' '}
+                        {i18n.t('batchExport.updated', { defaultValue: 'updated' })}{' '}
+                        {i18n.t('batchExport.noun', { defaultValue: 'batch export' })} {exportName}
                     </>
                 ),
             }
         }
 
+        const updatedExport = `${i18n.t('batchExport.updated', { defaultValue: 'updated' })} ${i18n.t(
+            'batchExport.noun',
+            { defaultValue: 'batch export' }
+        )}`
         return {
             description:
                 changes.length === 1 ? (
                     <>
-                        <ActivityLogUserName logItem={logItem} /> {changes[0].inline} batch export {exportName}
+                        <ActivityLogUserName logItem={logItem} /> {changes[0].inline}{' '}
+                        {i18n.t('batchExport.noun', { defaultValue: 'batch export' })} {exportName}
                     </>
                 ) : (
                     <div>
-                        <ActivityLogUserName logItem={logItem} /> updated batch export {exportName}
+                        <ActivityLogUserName logItem={logItem} /> {updatedExport} {exportName}
                         <ul className="ml-5 list-disc">
                             {changes.map((c, i) => (
                                 <li key={i}>{c.inlist}</li>

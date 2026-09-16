@@ -128,6 +128,51 @@
             "leadOnceAccountReady": "Once your account is ready"
         }
     },
+    "batchExport": {
+        "created": "created",
+        "deleted": "deleted",
+        "deletedInline": "deleted",
+        "disabled": "disabled",
+        "enabled": "enabled",
+        "field": {
+            "destination": "destination config",
+            "endAt": "end time",
+            "schedule": "schedule",
+            "scheduleStartTime": "schedule start time",
+            "scheduleTimezone": "schedule timezone",
+            "startAt": "start time"
+        },
+        "fieldChange": {
+            "changedInline": "changed the {{ label }} from <Before>{{ before }}</Before> to <After>{{ after }}</After> for",
+            "changedInList": "changed {{ label }} from <Before>{{ before }}</Before> to <After>{{ after }}</After>",
+            "setInline": "changed the {{ label }} to <After>{{ after }}</After> for",
+            "setInList": "changed {{ label }} to <After>{{ after }}</After>",
+            "updatedInline": "updated the {{ label }} for",
+            "updatedInList": "updated {{ label }}"
+        },
+        "noun": "batch export",
+        "schedule": {
+            "at": " at {{ time }}",
+            "daily": "daily",
+            "hourly": "hourly",
+            "onDayAt": " on {{ day }} at {{ time }}",
+            "weekly": "weekly"
+        },
+        "theNoun": "the batch export",
+        "unnamed": "(unnamed export)",
+        "updated": "updated",
+        "updatedSchedule": "updated schedule",
+        "updatedTheScheduleFor": "updated the schedule for",
+        "weekday": {
+            "friday": "Friday",
+            "monday": "Monday",
+            "saturday": "Saturday",
+            "sunday": "Sunday",
+            "thursday": "Thursday",
+            "tuesday": "Tuesday",
+            "wednesday": "Wednesday"
+        }
+    },
     "batchImport": {
         "source": "source {{ source }}",
         "sourceWithContent": "source {{ source }} ({{ content }})",

@@ -127,6 +127,51 @@
             "leadOnceAccountReady": "账户准备就绪后"
         }
     },
+    "batchExport": {
+        "created": "创建了",
+        "deleted": "删除了",
+        "deletedInline": "删除了",
+        "disabled": "关闭了",
+        "enabled": "启用了",
+        "field": {
+            "destination": "目标配置",
+            "endAt": "结束时间",
+            "schedule": "计划",
+            "scheduleStartTime": "计划的开始时间",
+            "scheduleTimezone": "计划的时区",
+            "startAt": "开始时间"
+        },
+        "fieldChange": {
+            "changedInline": "将 {{ label }} 从 <Before>{{ before }}</Before> 改为 <After>{{ after }}</After>，对象为",
+            "changedInList": "将 {{ label }} 从 <Before>{{ before }}</Before> 改为 <After>{{ after }}</After>",
+            "setInline": "将 {{ label }} 改为 <After>{{ after }}</After>，对象为",
+            "setInList": "将 {{ label }} 改为 <After>{{ after }}</After>",
+            "updatedInline": "更新了 {{ label }}，对象为",
+            "updatedInList": "更新了 {{ label }}"
+        },
+        "noun": "批量导出",
+        "schedule": {
+            "at": " {{ time }}",
+            "daily": "每天",
+            "hourly": "每小时",
+            "onDayAt": " {{ day }} {{ time }}",
+            "weekly": "每周"
+        },
+        "theNoun": "该批量导出",
+        "unnamed": "（未命名导出）",
+        "updated": "更新了",
+        "updatedSchedule": "更新了计划",
+        "updatedTheScheduleFor": "更新了计划，对象为",
+        "weekday": {
+            "friday": "周五",
+            "monday": "周一",
+            "saturday": "周六",
+            "sunday": "周日",
+            "thursday": "周四",
+            "tuesday": "周二",
+            "wednesday": "周三"
+        }
+    },
     "batchImport": {
         "source": "来源 {{ source }}",
         "sourceWithContent": "来源 {{ source }}（{{ content }}）",

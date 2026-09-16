@@ -130,6 +130,51 @@
             "leadOnceAccountReady": ""
         }
     },
+    "batchExport": {
+        "created": "",
+        "deleted": "",
+        "deletedInline": "",
+        "disabled": "",
+        "enabled": "",
+        "field": {
+            "destination": "",
+            "endAt": "",
+            "schedule": "",
+            "scheduleStartTime": "",
+            "scheduleTimezone": "",
+            "startAt": ""
+        },
+        "fieldChange": {
+            "changedInline": "",
+            "changedInList": "",
+            "setInline": "",
+            "setInList": "",
+            "updatedInline": "",
+            "updatedInList": ""
+        },
+        "noun": "",
+        "schedule": {
+            "at": "",
+            "daily": "",
+            "hourly": "",
+            "onDayAt": "",
+            "weekly": ""
+        },
+        "theNoun": "",
+        "unnamed": "",
+        "updated": "",
+        "updatedSchedule": "",
+        "updatedTheScheduleFor": "",
+        "weekday": {
+            "friday": "",
+            "monday": "",
+            "saturday": "",
+            "sunday": "",
+            "thursday": "",
+            "tuesday": "",
+            "wednesday": ""
+        }
+    },
     "batchImport": {
         "source": "",
         "sourceWithContent": "",
