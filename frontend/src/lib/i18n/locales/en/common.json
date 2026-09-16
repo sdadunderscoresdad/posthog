@@ -649,6 +649,61 @@
             "placeholder": "Search settings..."
         },
         "user": {
+            "apiKeys": {
+                "active": "Active",
+                "addDescription": "Add description",
+                "allAccess": "All access",
+                "columns": {
+                    "access": "Organization & project access",
+                    "status": "Status"
+                },
+                "createKey": "Create key",
+                "createTitle": "Create personal API key",
+                "deleted": "Personal API key deleted",
+                "deleteDescription": "This action cannot be undone. Make sure to have removed the key from any live integrations first.",
+                "description": "Description",
+                "descriptionPlaceholder": "What is this key used for, and where? For example a link to the integration using it",
+                "disabled": "Disabled",
+                "editTitle": "Edit personal API key",
+                "fullAccessWarning": "<b>This personal API key has full access to all supported endpoints!</b> We highly recommend scoping this to only what it needs.",
+                "labelPlaceholder": "For example \"Reports bot\" or \"Zapier\"",
+                "legacy": "Legacy",
+                "legacyBanner": "Some of your personal API keys use legacy hashing. Consider rolling or deleting them to upgrade.",
+                "legacyHashing": "<b>This key uses legacy hashing.</b> Roll it to upgrade to the new secure format. Your existing key value will become invalid.",
+                "legacyTooltip": "This key uses legacy hashing. Roll or delete it to upgrade.",
+                "limitReached": "You can only have {{ number }} personal API keys. Remove an existing key before creating a new one.",
+                "localDevKey": "Local development key. Its full value is shown because this instance has DEBUG and ALLOW_DEV_API_KEY_REVEAL set.",
+                "notAllowed": "Your organization does not allow members using personal API keys.",
+                "noun": "personal API key",
+                "partialRestrictions": "Partial restrictions",
+                "permissionsHint": "Your personal API key can never take actions for which your account is missing permissions.",
+                "previousKeyInvalid": "Your previous key \"{{ key }}\" is no longer valid.",
+                "readyDescription": "You can now use key \"{{ label }}\" for authentication:",
+                "readyTitle": "Personal API key ready",
+                "reset": "Reset",
+                "restrictedByMultipleOrgs": "Multiple organizations have restricted personal API keys. This key will not work for projects: <strong>{{ teams }}</strong>.",
+                "restrictedByOrg": "Organization <strong>{{ org }}</strong> has restricted the use of personal API keys.",
+                "restrictedByOrgForProject": "Organization <strong>{{ org }}</strong> has restricted the use of personal API keys. This key will not work for project <strong>{{ team }}</strong>.",
+                "restrictedByOrgForProjects": "Organization <strong>{{ org }}</strong> has restricted the use of personal API keys. This key will not work for projects: <strong>{{ teams }}</strong>.",
+                "restrictedByOrgs": "Organizations <strong>{{ orgs }}</strong> have restricted the use of personal API keys.",
+                "rolledDescription": "Your key \"{{ label }}\" has been rolled:",
+                "rolledTitle": "Personal API key rolled",
+                "rollKey": "Roll key",
+                "rollUpgradeTitle": "Roll key to upgrade hashing?",
+                "saveKey": "Save key",
+                "scopeNotApplicable": "Does not apply to this resource",
+                "scopeProjectOnly": "Not available for project scoped keys",
+                "scopesHint": "Personal API keys are scoped to limit what actions they are able to do. We highly recommend you only give the key the permissions it needs to do its job. You can add or revoke scopes later.",
+                "selectAccessMode": "Select access mode",
+                "selectOrganization": "Select at least one organization",
+                "selectProject": "Select at least one project",
+                "showOnceCopy": "Copy it to your destination right away.",
+                "showOnceWarning": "For security reasons the value above <em>will never be shown again</em>.",
+                "validation": {
+                    "labelRequired": "Your personal API key needs a label",
+                    "scopeRequired": "Your personal API key needs at least one scope"
+                }
+            },
             "dangerZone": {
                 "accountDeletionWarning": "Account deletion <b>cannot be undone</b>. You will lose all your data permanently.",
                 "allAccess": "All access",
@@ -781,6 +836,17 @@
                 "missing": "No picture yet. Add one on Gravatar for <Email>{{ email }}</Email> and it shows here and anywhere teammates see you.",
                 "recheck": "Check again",
                 "yourEmail": "your email"
+            },
+            "scopes": {
+                "allAccessHint": "This will allow access to all organizations and projects you're in.",
+                "organizations": "Organizations",
+                "organizationsHint": "This will only allow access to selected organizations and all projects within them.",
+                "projects": "Projects",
+                "projectsHint": "This will only allow access to selected projects.",
+                "selectOrganization": "Select an organization...",
+                "selectOrganizations": "Select organizations...",
+                "selectProject": "Select a project...",
+                "selectProjects": "Select projects..."
             },
             "sessions": {
                 "columns": {

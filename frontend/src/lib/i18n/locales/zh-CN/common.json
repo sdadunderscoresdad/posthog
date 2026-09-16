@@ -644,6 +644,61 @@
             "placeholder": "搜索设置…"
         },
         "user": {
+            "apiKeys": {
+                "active": "生效中",
+                "addDescription": "添加说明",
+                "allAccess": "全部权限",
+                "columns": {
+                    "access": "组织与项目访问范围",
+                    "status": "状态"
+                },
+                "createKey": "创建密钥",
+                "createTitle": "创建个人 API 密钥",
+                "deleted": "个人 API 密钥已删除",
+                "deleteDescription": "此操作无法撤销。请先确认已从所有正在使用的集成中移除该密钥。",
+                "description": "说明",
+                "descriptionPlaceholder": "这个密钥用于什么、用在哪里？例如指向使用它的集成的链接",
+                "disabled": "已禁用",
+                "editTitle": "编辑个人 API 密钥",
+                "fullAccessWarning": "<b>此个人 API 密钥对所有支持的端点拥有完整访问权限！</b>强烈建议只授予它实际需要的权限。",
+                "labelPlaceholder": "例如 “报表机器人” 或 “Zapier”",
+                "legacy": "旧版",
+                "legacyBanner": "你有部分个人 API 密钥在使用旧版哈希。建议轮换或删除它们以完成升级。",
+                "legacyHashing": "<b>此密钥使用旧版哈希。</b>轮换它即可升级为新的安全格式。你现有的密钥值将失效。",
+                "legacyTooltip": "此密钥使用旧版哈希。轮换或删除它即可完成升级。",
+                "limitReached": "你最多只能拥有 {{ number }} 个个人 API 密钥。请先删除一个已有密钥再创建新的。",
+                "localDevKey": "本地开发密钥。此实例设置了 DEBUG 和 ALLOW_DEV_API_KEY_REVEAL，因此显示完整值。",
+                "notAllowed": "你的组织不允许成员使用个人 API 密钥。",
+                "noun": "个人 API 密钥",
+                "partialRestrictions": "部分受限",
+                "permissionsHint": "个人 API 密钥无法执行你的账号本身没有权限执行的操作。",
+                "previousKeyInvalid": "你之前的密钥 “{{ key }}” 已失效。",
+                "readyDescription": "现在可以使用密钥 “{{ label }}” 进行身份验证：",
+                "readyTitle": "个人 API 密钥已就绪",
+                "reset": "重置",
+                "restrictedByMultipleOrgs": "多个组织限制了个人 API 密钥的使用。此密钥对以下项目无效：<strong>{{ teams }}</strong>。",
+                "restrictedByOrg": "组织 <strong>{{ org }}</strong> 限制了个人 API 密钥的使用。",
+                "restrictedByOrgForProject": "组织 <strong>{{ org }}</strong> 限制了个人 API 密钥的使用。此密钥对项目 <strong>{{ team }}</strong> 无效。",
+                "restrictedByOrgForProjects": "组织 <strong>{{ org }}</strong> 限制了个人 API 密钥的使用。此密钥对以下项目无效：<strong>{{ teams }}</strong>。",
+                "restrictedByOrgs": "组织 <strong>{{ orgs }}</strong> 限制了个人 API 密钥的使用。",
+                "rolledDescription": "你的密钥 “{{ label }}” 已轮换：",
+                "rolledTitle": "个人 API 密钥已轮换",
+                "rollKey": "轮换密钥",
+                "rollUpgradeTitle": "轮换密钥以升级哈希算法？",
+                "saveKey": "保存密钥",
+                "scopeNotApplicable": "不适用于此资源",
+                "scopeProjectOnly": "项目范围的密钥无法使用",
+                "scopesHint": "个人 API 密钥通过权限范围限制它能执行的操作。强烈建议只授予它完成工作所需的权限，之后可以随时添加或撤销权限范围。",
+                "selectAccessMode": "选择访问模式",
+                "selectOrganization": "至少选择一个组织",
+                "selectProject": "至少选择一个项目",
+                "showOnceCopy": "请立即把它复制到目标位置。",
+                "showOnceWarning": "出于安全原因，上面的值<em>不会再次显示</em>。",
+                "validation": {
+                    "labelRequired": "你的个人 API 密钥需要一个标签",
+                    "scopeRequired": "你的个人 API 密钥至少需要一个权限范围"
+                }
+            },
             "dangerZone": {
                 "accountDeletionWarning": "删除账号<b>不可撤销</b>。你将永久失去所有数据。",
                 "allAccess": "全部权限",
@@ -776,6 +831,17 @@
                 "missing": "还没有头像。为 <Email>{{ email }}</Email> 在 Gravatar 上添加一个，它就会显示在这里以及团队成员看到你的地方。",
                 "recheck": "重新检查",
                 "yourEmail": "你的邮箱"
+            },
+            "scopes": {
+                "allAccessHint": "这将允许访问你所属的所有组织和项目。",
+                "organizations": "组织",
+                "organizationsHint": "这将只允许访问所选组织及其下的所有项目。",
+                "projects": "项目",
+                "projectsHint": "这将只允许访问所选项目。",
+                "selectOrganization": "选择组织…",
+                "selectOrganizations": "选择组织…",
+                "selectProject": "选择项目…",
+                "selectProjects": "选择项目…"
             },
             "sessions": {
                 "columns": {

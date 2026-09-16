@@ -649,6 +649,61 @@
             "placeholder": ""
         },
         "user": {
+            "apiKeys": {
+                "active": "",
+                "addDescription": "",
+                "allAccess": "",
+                "columns": {
+                    "access": "",
+                    "status": ""
+                },
+                "createKey": "",
+                "createTitle": "",
+                "deleted": "",
+                "deleteDescription": "",
+                "description": "",
+                "descriptionPlaceholder": "",
+                "disabled": "",
+                "editTitle": "",
+                "fullAccessWarning": "",
+                "labelPlaceholder": "",
+                "legacy": "",
+                "legacyBanner": "",
+                "legacyHashing": "",
+                "legacyTooltip": "",
+                "limitReached": "",
+                "localDevKey": "",
+                "notAllowed": "",
+                "noun": "",
+                "partialRestrictions": "",
+                "permissionsHint": "",
+                "previousKeyInvalid": "",
+                "readyDescription": "",
+                "readyTitle": "",
+                "reset": "",
+                "restrictedByMultipleOrgs": "",
+                "restrictedByOrg": "",
+                "restrictedByOrgForProject": "",
+                "restrictedByOrgForProjects": "",
+                "restrictedByOrgs": "",
+                "rolledDescription": "",
+                "rolledTitle": "",
+                "rollKey": "",
+                "rollUpgradeTitle": "",
+                "saveKey": "",
+                "scopeNotApplicable": "",
+                "scopeProjectOnly": "",
+                "scopesHint": "",
+                "selectAccessMode": "",
+                "selectOrganization": "",
+                "selectProject": "",
+                "showOnceCopy": "",
+                "showOnceWarning": "",
+                "validation": {
+                    "labelRequired": "",
+                    "scopeRequired": ""
+                }
+            },
             "dangerZone": {
                 "accountDeletionWarning": "",
                 "allAccess": "",
@@ -781,6 +836,17 @@
                 "missing": "",
                 "recheck": "",
                 "yourEmail": ""
+            },
+            "scopes": {
+                "allAccessHint": "",
+                "organizations": "",
+                "organizationsHint": "",
+                "projects": "",
+                "projectsHint": "",
+                "selectOrganization": "",
+                "selectOrganizations": "",
+                "selectProject": "",
+                "selectProjects": ""
             },
             "sessions": {
                 "columns": {

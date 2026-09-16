@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 import { LemonLabel } from '@posthog/lemon-ui'
 
 import { LemonField } from 'lib/lemon-ui/LemonField'
@@ -18,23 +20,31 @@ export const UserDefinedAccessSelector = ({
     organizations,
     teams,
 }: UserDefinedAccessSelectorProps): JSX.Element => {
+    const { t } = useTranslation()
     return (
         <div className="flex flex-col gap-2">
             <LemonField name="access_type" className="mt-4 mb-2">
                 {({ value, onChange }) => (
                     <div className="flex flex-col gap-2 md:flex-row items-start md:items-center justify-between">
-                        <LemonLabel>Organization & project access</LemonLabel>
+                        <LemonLabel>
+                            {t('settings.user.apiKeys.columns.access', {
+                                defaultValue: 'Organization & project access',
+                            })}
+                        </LemonLabel>
                         <LemonSegmentedButton
                             onChange={onChange}
                             value={value}
                             options={[
-                                { label: 'All access', value: 'all' },
                                 {
-                                    label: 'Organizations',
+                                    label: t('settings.user.apiKeys.allAccess', { defaultValue: 'All access' }),
+                                    value: 'all',
+                                },
+                                {
+                                    label: t('settings.user.scopes.organizations', { defaultValue: 'Organizations' }),
                                     value: 'organizations',
                                 },
                                 {
-                                    label: 'Projects',
+                                    label: t('settings.user.scopes.projects', { defaultValue: 'Projects' }),
                                     value: 'teams',
                                 },
                             ]}
@@ -45,11 +55,18 @@ export const UserDefinedAccessSelector = ({
             </LemonField>
 
             {accessType === 'all' ? (
-                <p className="mb-0">This will allow access to all organizations and projects you're in.</p>
+                <p className="mb-0">
+                    {t('settings.user.scopes.allAccessHint', {
+                        defaultValue: "This will allow access to all organizations and projects you're in.",
+                    })}
+                </p>
             ) : accessType === 'organizations' ? (
                 <>
                     <p className="mb-2">
-                        This will only allow access to selected organizations and all projects within them.
+                        {t('settings.user.scopes.organizationsHint', {
+                            defaultValue:
+                                'This will only allow access to selected organizations and all projects within them.',
+                        })}
                     </p>
 
                     <LemonField name="scoped_organizations">
@@ -58,7 +75,11 @@ export const UserDefinedAccessSelector = ({
                 </>
             ) : accessType === 'teams' ? (
                 <>
-                    <p className="mb-2">This will only allow access to selected projects.</p>
+                    <p className="mb-2">
+                        {t('settings.user.scopes.projectsHint', {
+                            defaultValue: 'This will only allow access to selected projects.',
+                        })}
+                    </p>
                     <LemonField name="scoped_teams">
                         {({ value, onChange }) => (
                             <TeamSelector

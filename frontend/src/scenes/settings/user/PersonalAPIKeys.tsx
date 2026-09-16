@@ -1,6 +1,7 @@
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
 import { useEffect } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconInfo, IconPlus } from '@posthog/icons'
 import {
@@ -36,6 +37,7 @@ interface EditKeyModalProps {
 }
 
 export function EditKeyModal({ zIndex }: EditKeyModalProps): JSX.Element {
+    const { t } = useTranslation()
     const {
         editingKeyId,
         isEditingKeySubmitting,
@@ -64,23 +66,27 @@ export function EditKeyModal({ zIndex }: EditKeyModalProps): JSX.Element {
     const isNew = editingKeyId === 'new'
 
     const submitDisabledReason = !editingKeyChanged
-        ? 'No changes to save'
+        ? t('settings.noChangesToSave', { defaultValue: 'No changes to save' })
         : !editingKey.label
-          ? 'Add a label'
+          ? t('settings.project.apiKeys.addLabel', { defaultValue: 'Add a label' })
           : !editingKey.scopes?.length
-            ? 'Select at least one scope'
+            ? t('settings.project.apiKeys.selectScope', { defaultValue: 'Select at least one scope' })
             : !editingKey.access_type
-              ? 'Select access mode'
+              ? t('settings.user.apiKeys.selectAccessMode', { defaultValue: 'Select access mode' })
               : editingKey.access_type === 'organizations' && !editingKey.scoped_organizations?.length
-                ? 'Select at least one organization'
+                ? t('settings.user.apiKeys.selectOrganization', { defaultValue: 'Select at least one organization' })
                 : editingKey.access_type === 'teams' && !editingKey.scoped_teams?.length
-                  ? 'Select at least one project'
+                  ? t('settings.user.apiKeys.selectProject', { defaultValue: 'Select at least one project' })
                   : undefined
 
     return (
         <Form logic={personalAPIKeysLogic} formKey="editingKey">
             <LemonModal
-                title={`${isNew ? 'Create' : 'Edit'} personal API key`}
+                title={
+                    isNew
+                        ? t('settings.user.apiKeys.createTitle', { defaultValue: 'Create personal API key' })
+                        : t('settings.user.apiKeys.editTitle', { defaultValue: 'Edit personal API key' })
+                }
                 onClose={() => setEditingKeyId(null)}
                 isOpen={!!editingKeyId}
                 width="40rem"
@@ -89,7 +95,7 @@ export function EditKeyModal({ zIndex }: EditKeyModalProps): JSX.Element {
                 footer={
                     <>
                         <LemonButton type="secondary" onClick={() => setEditingKeyId(null)}>
-                            Cancel
+                            {t('settings.cancel', { defaultValue: 'Cancel' })}
                         </LemonButton>
 
                         <LemonButton
@@ -99,7 +105,9 @@ export function EditKeyModal({ zIndex }: EditKeyModalProps): JSX.Element {
                             disabledReason={submitDisabledReason}
                             onClick={() => submitEditingKey()}
                         >
-                            {isNew ? 'Create key' : 'Save key'}
+                            {isNew
+                                ? t('settings.user.apiKeys.createKey', { defaultValue: 'Create key' })
+                                : t('settings.user.apiKeys.saveKey', { defaultValue: 'Save key' })}
                         </LemonButton>
                     </>
                 }
@@ -110,17 +118,21 @@ export function EditKeyModal({ zIndex }: EditKeyModalProps): JSX.Element {
                             type="warning"
                             className="mb-4"
                             action={{
-                                children: 'Roll key',
+                                children: t('settings.user.apiKeys.rollKey', { defaultValue: 'Roll key' }),
                                 onClick: () => {
                                     if (editingKeyId) {
                                         const id = editingKeyId
                                         LemonDialog.open({
-                                            title: 'Roll key to upgrade hashing?',
-                                            description:
-                                                'This will generate a new key. The old key will immediately stop working.',
+                                            title: t('settings.user.apiKeys.rollUpgradeTitle', {
+                                                defaultValue: 'Roll key to upgrade hashing?',
+                                            }),
+                                            description: t('settings.apiKeys.rollDialog.description', {
+                                                defaultValue:
+                                                    'This will generate a new key. The old key will immediately stop working.',
+                                            }),
                                             primaryButton: {
                                                 status: 'danger',
-                                                children: 'Roll',
+                                                children: t('settings.apiKeys.actions.roll', { defaultValue: 'Roll' }),
                                                 type: 'primary',
                                                 onClick: () => {
                                                     // Close the edit modal first so the post-roll new key value
@@ -130,7 +142,7 @@ export function EditKeyModal({ zIndex }: EditKeyModalProps): JSX.Element {
                                                 },
                                             },
                                             secondaryButton: {
-                                                children: 'Cancel',
+                                                children: t('settings.cancel', { defaultValue: 'Cancel' }),
                                                 type: 'secondary',
                                             },
                                         })
@@ -138,17 +150,33 @@ export function EditKeyModal({ zIndex }: EditKeyModalProps): JSX.Element {
                                 },
                             }}
                         >
-                            <b>This key uses legacy hashing.</b> Roll it to upgrade to the new secure format. Your
-                            existing key value will become invalid.
+                            <Trans
+                                i18nKey="settings.user.apiKeys.legacyHashing"
+                                components={{ b: <b /> }}
+                                defaults="<b>This key uses legacy hashing.</b> Roll it to upgrade to the new secure format. Your existing key value will become invalid."
+                            />
                         </LemonBanner>
                     )}
-                    <LemonField name="label" label="Label">
-                        <LemonInput placeholder='For example "Reports bot" or "Zapier"' maxLength={40} />
+                    <LemonField name="label" label={t('settings.project.apiKeys.label', { defaultValue: 'Label' })}>
+                        <LemonInput
+                            placeholder={t('settings.user.apiKeys.labelPlaceholder', {
+                                defaultValue: 'For example "Reports bot" or "Zapier"',
+                            })}
+                            maxLength={40}
+                        />
                     </LemonField>
                     {isDescriptionFieldVisible ? (
-                        <LemonField name="description" label="Description" showOptional className="mt-2">
+                        <LemonField
+                            name="description"
+                            label={t('settings.user.apiKeys.description', { defaultValue: 'Description' })}
+                            showOptional
+                            className="mt-2"
+                        >
                             <LemonTextArea
-                                placeholder="What is this key used for, and where? For example a link to the integration using it"
+                                placeholder={t('settings.user.apiKeys.descriptionPlaceholder', {
+                                    defaultValue:
+                                        'What is this key used for, and where? For example a link to the integration using it',
+                                })}
                                 maxLength={1000}
                                 minRows={2}
                                 data-attr="personal-api-key-description"
@@ -163,7 +191,7 @@ export function EditKeyModal({ zIndex }: EditKeyModalProps): JSX.Element {
                                 onClick={() => showDescriptionField()}
                                 data-attr="personal-api-key-add-description"
                             >
-                                Add description
+                                {t('settings.user.apiKeys.addDescription', { defaultValue: 'Add description' })}
                             </LemonButton>
                         </div>
                     )}
@@ -173,11 +201,13 @@ export function EditKeyModal({ zIndex }: EditKeyModalProps): JSX.Element {
                         teams={allTeams ?? undefined}
                     />
                     <div className="flex items-center justify-between mt-4 mb-2">
-                        <LemonLabel>Scopes</LemonLabel>
+                        <LemonLabel>{t('settings.apiKeys.columns.scopes', { defaultValue: 'Scopes' })}</LemonLabel>
                         <LemonField name="preset">
                             <LemonSelect
                                 size="small"
-                                placeholder="Select preset"
+                                placeholder={t('settings.project.apiKeys.selectPreset', {
+                                    defaultValue: 'Select preset',
+                                })}
                                 options={API_KEY_SCOPE_PRESETS.filter((preset) => !preset.isCloudOnly || isCloudOrDev)}
                                 dropdownMatchSelectWidth={false}
                                 dropdownPlacement="bottom-end"
@@ -189,31 +219,39 @@ export function EditKeyModal({ zIndex }: EditKeyModalProps): JSX.Element {
                         {() => (
                             <>
                                 <p className="mb-0">
-                                    Personal API keys are scoped to limit what actions they are able to do. We highly
-                                    recommend you only give the key the permissions it needs to do its job. You can add
-                                    or revoke scopes later.
+                                    {t('settings.user.apiKeys.scopesHint', {
+                                        defaultValue:
+                                            'Personal API keys are scoped to limit what actions they are able to do. We highly recommend you only give the key the permissions it needs to do its job. You can add or revoke scopes later.',
+                                    })}
                                 </p>
                                 <p className="m-0">
-                                    Your personal API key can never take actions for which your account is missing
-                                    permissions.
+                                    {t('settings.user.apiKeys.permissionsHint', {
+                                        defaultValue:
+                                            'Your personal API key can never take actions for which your account is missing permissions.',
+                                    })}
                                 </p>
 
                                 {allAccessSelected ? (
                                     <LemonBanner
                                         type="warning"
                                         action={{
-                                            children: 'Reset',
+                                            children: t('settings.user.apiKeys.reset', { defaultValue: 'Reset' }),
                                             onClick: () => resetScopes(),
                                         }}
                                     >
-                                        <b>This personal API key has full access to all supported endpoints!</b> We
-                                        highly recommend scoping this to only what it needs.
+                                        <Trans
+                                            i18nKey="settings.user.apiKeys.fullAccessWarning"
+                                            components={{ b: <b /> }}
+                                            defaults="<b>This personal API key has full access to all supported endpoints!</b> We highly recommend scoping this to only what it needs."
+                                        />
                                     </LemonBanner>
                                 ) : (
                                     <div>
                                         <LemonInput
                                             type="search"
-                                            placeholder="Search scopes..."
+                                            placeholder={t('settings.project.apiKeys.searchScopes', {
+                                                defaultValue: 'Search scopes...',
+                                            })}
                                             value={searchTerm}
                                             onChange={setSearchTerm}
                                             className="mb-2"
@@ -222,7 +260,10 @@ export function EditKeyModal({ zIndex }: EditKeyModalProps): JSX.Element {
                                         <div className="max-h-[50vh] overflow-y-auto">
                                             {filteredScopes.length === 0 ? (
                                                 <div className="text-muted text-sm py-2">
-                                                    No scopes match "{searchTerm}"
+                                                    {t('settings.project.apiKeys.noScopesMatch', {
+                                                        defaultValue: 'No scopes match "{{ term }}"',
+                                                        term: searchTerm,
+                                                    })}
                                                 </div>
                                             ) : (
                                                 filteredScopes.map(
@@ -253,16 +294,40 @@ export function EditKeyModal({ zIndex }: EditKeyModalProps): JSX.Element {
                                                                 onChange={(value) => setScopeRadioValue(key, value)}
                                                                 readDisabledReason={
                                                                     disabledActions?.includes('read')
-                                                                        ? 'Does not apply to this resource'
+                                                                        ? t(
+                                                                              'settings.user.apiKeys.scopeNotApplicable',
+                                                                              {
+                                                                                  defaultValue:
+                                                                                      'Does not apply to this resource',
+                                                                              }
+                                                                          )
                                                                         : disabledDueToProjectScope
-                                                                          ? 'Not available for project scoped keys'
+                                                                          ? t(
+                                                                                'settings.user.apiKeys.scopeProjectOnly',
+                                                                                {
+                                                                                    defaultValue:
+                                                                                        'Not available for project scoped keys',
+                                                                                }
+                                                                            )
                                                                           : undefined
                                                                 }
                                                                 writeDisabledReason={
                                                                     disabledActions?.includes('write')
-                                                                        ? 'Does not apply to this resource'
+                                                                        ? t(
+                                                                              'settings.user.apiKeys.scopeNotApplicable',
+                                                                              {
+                                                                                  defaultValue:
+                                                                                      'Does not apply to this resource',
+                                                                              }
+                                                                          )
                                                                         : disabledDueToProjectScope
-                                                                          ? 'Not available for project scoped keys'
+                                                                          ? t(
+                                                                                'settings.user.apiKeys.scopeProjectOnly',
+                                                                                {
+                                                                                    defaultValue:
+                                                                                        'Not available for project scoped keys',
+                                                                                }
+                                                                            )
                                                                           : undefined
                                                                 }
                                                                 warning={
@@ -290,6 +355,7 @@ export function EditKeyModal({ zIndex }: EditKeyModalProps): JSX.Element {
 type TagListProps = { onMoreClick?: () => void; tags: string[] }
 
 export function TagList({ tags, onMoreClick }: TagListProps): JSX.Element {
+    const { t } = useTranslation()
     return (
         <span className="flex flex-wrap gap-1">
             {tags.slice(0, 4).map((x) => (
@@ -300,7 +366,10 @@ export function TagList({ tags, onMoreClick }: TagListProps): JSX.Element {
             {tags.length > 4 && (
                 <Tooltip title={tags.slice(4).join(', ')}>
                     <LemonTag onClick={onMoreClick} forceClickable={!!onMoreClick}>
-                        +{tags.length - 4} more
+                        {t('settings.apiKeys.moreTags', {
+                            defaultValue: '+{{ number }} more',
+                            number: tags.length - 4,
+                        })}
                     </LemonTag>
                 </Tooltip>
             )}
@@ -314,6 +383,7 @@ type TagListWithRestrictionsProps = {
 }
 
 export function TagListWithRestrictions({ tags, onMoreClick }: TagListWithRestrictionsProps): JSX.Element {
+    const { t } = useTranslation()
     return (
         <span className="flex flex-wrap gap-1 items-center">
             {tags.slice(0, 4).map((tag) => (
@@ -329,7 +399,10 @@ export function TagListWithRestrictions({ tags, onMoreClick }: TagListWithRestri
                         .join(', ')}
                 >
                     <LemonTag onClick={onMoreClick} forceClickable>
-                        +{tags.length - 4} more
+                        {t('settings.apiKeys.moreTags', {
+                            defaultValue: '+{{ number }} more',
+                            number: tags.length - 4,
+                        })}
                     </LemonTag>
                 </Tooltip>
             )}
@@ -338,6 +411,7 @@ export function TagListWithRestrictions({ tags, onMoreClick }: TagListWithRestri
 }
 
 function PersonalAPIKeysTable(): JSX.Element {
+    const { t } = useTranslation()
     const {
         keys,
         keysLoading,
@@ -352,7 +426,7 @@ function PersonalAPIKeysTable(): JSX.Element {
     useEffect(() => loadKeys(), [loadKeys])
 
     const statusColumn: LemonTableColumn<PersonalAPIKeyType, any> = {
-        title: 'Status',
+        title: t('settings.user.apiKeys.columns.status', { defaultValue: 'Status' }),
         key: 'status',
         dataIndex: 'id',
         render: function RenderStatus(_, key) {
@@ -362,8 +436,12 @@ function PersonalAPIKeysTable(): JSX.Element {
             const hasPartialRestrictions = (restrictedOrgs.length > 0 || restrictedTeams.length > 0) && !keyDisabled
 
             const legacyTag = key.is_legacy_hashing ? (
-                <Tooltip title="This key uses legacy hashing. Roll or delete it to upgrade.">
-                    <LemonTag type="caution">Legacy</LemonTag>
+                <Tooltip
+                    title={t('settings.user.apiKeys.legacyTooltip', {
+                        defaultValue: 'This key uses legacy hashing. Roll or delete it to upgrade.',
+                    })}
+                >
+                    <LemonTag type="caution">{t('settings.user.apiKeys.legacy', { defaultValue: 'Legacy' })}</LemonTag>
                 </Tooltip>
             ) : null
 
@@ -376,19 +454,25 @@ function PersonalAPIKeysTable(): JSX.Element {
                     <Tooltip
                         title={
                             orgNames.length === 1 ? (
-                                <span>
-                                    Organization <strong>{orgNames[0]}</strong> has restricted the use of personal API
-                                    keys.
-                                </span>
+                                <Trans
+                                    i18nKey="settings.user.apiKeys.restrictedByOrg"
+                                    values={{ org: orgNames[0] }}
+                                    components={{ strong: <strong /> }}
+                                    defaults="Organization <strong>{{ org }}</strong> has restricted the use of personal API keys."
+                                />
                             ) : (
-                                <span>
-                                    Organizations <strong>{orgNames.join(', ')}</strong> have restricted the use of
-                                    personal API keys.
-                                </span>
+                                <Trans
+                                    i18nKey="settings.user.apiKeys.restrictedByOrgs"
+                                    values={{ orgs: orgNames.join(', ') }}
+                                    components={{ strong: <strong /> }}
+                                    defaults="Organizations <strong>{{ orgs }}</strong> have restricted the use of personal API keys."
+                                />
                             )
                         }
                     >
-                        <LemonTag type="danger">Disabled</LemonTag>
+                        <LemonTag type="danger">
+                            {t('settings.user.apiKeys.disabled', { defaultValue: 'Disabled' })}
+                        </LemonTag>
                     </Tooltip>
                 )
             } else if (hasPartialRestrictions) {
@@ -400,25 +484,30 @@ function PersonalAPIKeysTable(): JSX.Element {
 
                     if (restrictedOrgNames.length === 1 && restrictedTeamNames.length === 1) {
                         tooltipMessage = (
-                            <span>
-                                Organization <strong>{restrictedOrgNames[0]}</strong> has restricted the use of personal
-                                API keys. This key will not work for project <strong>{restrictedTeamNames[0]}</strong>.
-                            </span>
+                            <Trans
+                                i18nKey="settings.user.apiKeys.restrictedByOrgForProject"
+                                values={{ org: restrictedOrgNames[0], team: restrictedTeamNames[0] }}
+                                components={{ strong: <strong /> }}
+                                defaults="Organization <strong>{{ org }}</strong> has restricted the use of personal API keys. This key will not work for project <strong>{{ team }}</strong>."
+                            />
                         )
                     } else if (restrictedOrgNames.length === 1) {
                         tooltipMessage = (
-                            <span>
-                                Organization <strong>{restrictedOrgNames[0]}</strong> has restricted the use of personal
-                                API keys. This key will not work for projects:{' '}
-                                <strong>{restrictedTeamNames.join(', ')}</strong>.
-                            </span>
+                            <Trans
+                                i18nKey="settings.user.apiKeys.restrictedByOrgForProjects"
+                                values={{ org: restrictedOrgNames[0], teams: restrictedTeamNames.join(', ') }}
+                                components={{ strong: <strong /> }}
+                                defaults="Organization <strong>{{ org }}</strong> has restricted the use of personal API keys. This key will not work for projects: <strong>{{ teams }}</strong>."
+                            />
                         )
                     } else {
                         tooltipMessage = (
-                            <span>
-                                Multiple organizations have restricted personal API keys. This key will not work for
-                                projects: <strong>{restrictedTeamNames.join(', ')}</strong>.
-                            </span>
+                            <Trans
+                                i18nKey="settings.user.apiKeys.restrictedByMultipleOrgs"
+                                values={{ teams: restrictedTeamNames.join(', ') }}
+                                components={{ strong: <strong /> }}
+                                defaults="Multiple organizations have restricted personal API keys. This key will not work for projects: <strong>{{ teams }}</strong>."
+                            />
                         )
                     }
                 } else if (restrictedOrgs.length > 0) {
@@ -426,21 +515,27 @@ function PersonalAPIKeysTable(): JSX.Element {
 
                     tooltipMessage =
                         restrictedOrgNames.length === 1 ? (
-                            <span>
-                                Organization <strong>{restrictedOrgNames[0]}</strong> has restricted the use of personal
-                                API keys.
-                            </span>
+                            <Trans
+                                i18nKey="settings.user.apiKeys.restrictedByOrg"
+                                values={{ org: restrictedOrgNames[0] }}
+                                components={{ strong: <strong /> }}
+                                defaults="Organization <strong>{{ org }}</strong> has restricted the use of personal API keys."
+                            />
                         ) : (
-                            <span>
-                                Organizations <strong>{restrictedOrgNames.join(', ')}</strong> have restricted the use
-                                of personal API keys.
-                            </span>
+                            <Trans
+                                i18nKey="settings.user.apiKeys.restrictedByOrgs"
+                                values={{ orgs: restrictedOrgNames.join(', ') }}
+                                components={{ strong: <strong /> }}
+                                defaults="Organizations <strong>{{ orgs }}</strong> have restricted the use of personal API keys."
+                            />
                         )
                 }
 
                 statusTag = (
                     <Tooltip title={tooltipMessage}>
-                        <LemonTag type="warning">Partial restrictions</LemonTag>
+                        <LemonTag type="warning">
+                            {t('settings.user.apiKeys.partialRestrictions', { defaultValue: 'Partial restrictions' })}
+                        </LemonTag>
                     </Tooltip>
                 )
             }
@@ -454,12 +549,17 @@ function PersonalAPIKeysTable(): JSX.Element {
                 )
             }
 
-            return statusTag ?? legacyTag ?? <LemonTag type="success">Active</LemonTag>
+            return (
+                statusTag ??
+                legacyTag ?? (
+                    <LemonTag type="success">{t('settings.user.apiKeys.active', { defaultValue: 'Active' })}</LemonTag>
+                )
+            )
         },
     }
 
     const accessColumn: LemonTableColumn<PersonalAPIKeyType, any> = {
-        title: 'Organization & project access',
+        title: t('settings.user.apiKeys.columns.access', { defaultValue: 'Organization & project access' }),
         key: 'access',
         dataIndex: 'id',
         render: function RenderAccess(_, key) {
@@ -491,7 +591,11 @@ function PersonalAPIKeysTable(): JSX.Element {
 
                 return <TagListWithRestrictions tags={teamTags} onMoreClick={() => setEditingKeyId(key.id)} />
             }
-            return <LemonTag type="warning">All access</LemonTag>
+            return (
+                <LemonTag type="warning">
+                    {t('settings.user.apiKeys.allAccess', { defaultValue: 'All access' })}
+                </LemonTag>
+            )
         },
     }
 
@@ -499,19 +603,25 @@ function PersonalAPIKeysTable(): JSX.Element {
         <>
             {keys.some((key) => key.is_legacy_hashing) && (
                 <LemonBanner type="info" className="mt-2">
-                    Some of your personal API keys use legacy hashing. Consider rolling or deleting them to upgrade.
+                    {t('settings.user.apiKeys.legacyBanner', {
+                        defaultValue:
+                            'Some of your personal API keys use legacy hashing. Consider rolling or deleting them to upgrade.',
+                    })}
                 </LemonBanner>
             )}
             <APIKeyTable<PersonalAPIKeyType>
                 keys={keys}
                 loading={keysLoading}
-                noun="personal API key"
+                noun={t('settings.user.apiKeys.noun', { defaultValue: 'personal API key' })}
                 onEdit={setEditingKeyId}
                 onRoll={rollKey}
                 onDelete={deleteKey}
                 showActions
                 rowClassName={(key) => (isPersonalApiKeyIdDisabled(key.id) ? 'opacity-50' : '')}
-                deleteDescription="This action cannot be undone. Make sure to have removed the key from any live integrations first."
+                deleteDescription={t('settings.user.apiKeys.deleteDescription', {
+                    defaultValue:
+                        'This action cannot be undone. Make sure to have removed the key from any live integrations first.',
+                })}
                 renderLabel={(key) => (
                     <div className="flex flex-col">
                         <Link
@@ -531,8 +641,11 @@ function PersonalAPIKeysTable(): JSX.Element {
                 renderMaskValue={(key) =>
                     key.local_dev_value ? (
                         <CopyToClipboardInline
-                            description="personal API key"
-                            tooltipMessage="Local development key. Its full value is shown because this instance has DEBUG and ALLOW_DEV_API_KEY_REVEAL set."
+                            description={t('settings.user.apiKeys.noun', { defaultValue: 'personal API key' })}
+                            tooltipMessage={t('settings.user.apiKeys.localDevKey', {
+                                defaultValue:
+                                    'Local development key. Its full value is shown because this instance has DEBUG and ALLOW_DEV_API_KEY_REVEAL set.',
+                            })}
                             selectable
                             isValueSensitive
                             iconSize="xsmall"
@@ -543,9 +656,14 @@ function PersonalAPIKeysTable(): JSX.Element {
                     ) : key.mask_value ? (
                         <span className="font-mono ph-no-capture">{key.mask_value}</span>
                     ) : (
-                        <Tooltip title="This key was created before the introduction of previews" placement="right">
+                        <Tooltip
+                            title={t('settings.apiKeys.noPreviewReason', {
+                                defaultValue: 'This key was created before the introduction of previews',
+                            })}
+                            placement="right"
+                        >
                             <span className="inline-flex items-center gap-1 cursor-default">
-                                <span>No preview</span>
+                                <span>{t('settings.apiKeys.noPreview', { defaultValue: 'No preview' })}</span>
                                 <IconInfo className="text-base" />
                             </span>
                         </Tooltip>
@@ -553,7 +671,9 @@ function PersonalAPIKeysTable(): JSX.Element {
                 }
                 renderScopes={(key) =>
                     key.scopes[0] === '*' ? (
-                        <LemonTag type="warning">All access</LemonTag>
+                        <LemonTag type="warning">
+                            {t('settings.user.apiKeys.allAccess', { defaultValue: 'All access' })}
+                        </LemonTag>
                     ) : (
                         <TagList tags={key.scopes} onMoreClick={() => setEditingKeyId(key.id)} />
                     )
@@ -566,6 +686,7 @@ function PersonalAPIKeysTable(): JSX.Element {
 }
 
 export function PersonalAPIKeys(): JSX.Element {
+    const { t } = useTranslation()
     const { keys, canUsePersonalApiKeys } = useValues(personalAPIKeysLogic)
     const { setEditingKeyId } = useActions(personalAPIKeysLogic)
 
@@ -577,13 +698,19 @@ export function PersonalAPIKeys(): JSX.Element {
                 onClick={() => setEditingKeyId('new')}
                 disabledReason={
                     !canUsePersonalApiKeys
-                        ? 'Your organization does not allow members using personal API keys.'
+                        ? t('settings.user.apiKeys.notAllowed', {
+                              defaultValue: 'Your organization does not allow members using personal API keys.',
+                          })
                         : keys.length >= MAX_API_KEYS_PER_USER
-                          ? `You can only have ${MAX_API_KEYS_PER_USER} personal API keys. Remove an existing key before creating a new one.`
+                          ? t('settings.user.apiKeys.limitReached', {
+                                defaultValue:
+                                    'You can only have {{ number }} personal API keys. Remove an existing key before creating a new one.',
+                                number: MAX_API_KEYS_PER_USER,
+                            })
                           : false
                 }
             >
-                Create personal API key
+                {t('settings.user.apiKeys.createTitle', { defaultValue: 'Create personal API key' })}
             </LemonButton>
 
             <PersonalAPIKeysTable />

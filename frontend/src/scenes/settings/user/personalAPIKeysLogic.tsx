@@ -3,12 +3,14 @@ import { forms } from 'kea-forms'
 import type { DeepPartial, DeepPartialMap, FieldName, ValidationErrorType } from 'kea-forms'
 import { loaders } from 'kea-loaders'
 import { actionToUrl, router, urlToAction } from 'kea-router'
+import { Trans } from 'react-i18next'
 
 import { LemonBanner, LemonDialog } from '@posthog/lemon-ui'
 
 import api from 'lib/api'
 import { CodeSnippet } from 'lib/components/CodeSnippet'
 import { FEATURE_FLAGS, OrganizationMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 import {
@@ -360,16 +362,30 @@ export const personalAPIKeysLogic = kea<personalAPIKeysLogicType>([
                 access_type: undefined,
             } as EditingKeyFormValues,
             errors: ({ label, access_type, scopes, scoped_organizations, scoped_teams }) => ({
-                label: !label ? 'Your personal API key needs a label' : undefined,
-                scopes: !scopes?.length ? ('Your personal API key needs at least one scope' as any) : undefined,
-                access_type: !access_type ? ('Select access mode' as any) : undefined,
+                label: !label
+                    ? i18n.t('settings.user.apiKeys.validation.labelRequired', {
+                          defaultValue: 'Your personal API key needs a label',
+                      })
+                    : undefined,
+                scopes: !scopes?.length
+                    ? (i18n.t('settings.user.apiKeys.validation.scopeRequired', {
+                          defaultValue: 'Your personal API key needs at least one scope',
+                      }) as any)
+                    : undefined,
+                access_type: !access_type
+                    ? (i18n.t('settings.user.apiKeys.selectAccessMode', { defaultValue: 'Select access mode' }) as any)
+                    : undefined,
                 scoped_organizations:
                     access_type === 'organizations' && !scoped_organizations?.length
-                        ? ('Select at least one organization' as any)
+                        ? (i18n.t('settings.user.apiKeys.selectOrganization', {
+                              defaultValue: 'Select at least one organization',
+                          }) as any)
                         : undefined,
                 scoped_teams:
                     access_type === 'teams' && !scoped_teams?.length
-                        ? ('Select at least one project' as any)
+                        ? (i18n.t('settings.user.apiKeys.selectProject', {
+                              defaultValue: 'Select at least one project',
+                          }) as any)
                         : undefined,
             }),
             submit: async (payload, breakpoint) => {
@@ -734,21 +750,35 @@ export const personalAPIKeysLogic = kea<personalAPIKeysLogicType>([
             }
 
             LemonDialog.open({
-                title: 'Personal API key ready',
+                title: i18n.t('settings.user.apiKeys.readyTitle', { defaultValue: 'Personal API key ready' }),
                 width: 536,
                 zIndex: '1168',
                 content: (
                     <>
-                        <p className="mb-4">You can now use key "{key.label}" for authentication:</p>
+                        <p className="mb-4">
+                            {i18n.t('settings.user.apiKeys.readyDescription', {
+                                defaultValue: 'You can now use key "{{ label }}" for authentication:',
+                                label: key.label,
+                            })}
+                        </p>
 
-                        <CodeSnippet className="ph-no-capture" thing="personal API key">
+                        <CodeSnippet
+                            className="ph-no-capture"
+                            thing={i18n.t('settings.user.apiKeys.noun', { defaultValue: 'personal API key' })}
+                        >
                             {value}
                         </CodeSnippet>
 
                         <LemonBanner type="warning" className="mt-4">
-                            For security reasons the value above <em>will never be shown again</em>.
+                            <Trans
+                                i18nKey="settings.user.apiKeys.showOnceWarning"
+                                components={{ em: <em /> }}
+                                defaults="For security reasons the value above <em>will never be shown again</em>."
+                            />
                             <br />
-                            Copy it to your destination right away.
+                            {i18n.t('settings.user.apiKeys.showOnceCopy', {
+                                defaultValue: 'Copy it to your destination right away.',
+                            })}
                         </LemonBanner>
                     </>
                 ),
@@ -762,25 +792,36 @@ export const personalAPIKeysLogic = kea<personalAPIKeysLogicType>([
             }
 
             LemonDialog.open({
-                title: 'Personal API key rolled',
+                title: i18n.t('settings.user.apiKeys.rolledTitle', { defaultValue: 'Personal API key rolled' }),
                 width: 536,
                 content: (
                     <>
-                        <p className="mb-4">Your key "{key.label}" has been rolled:</p>
+                        <p className="mb-4">
+                            {i18n.t('settings.user.apiKeys.rolledDescription', {
+                                defaultValue: 'Your key "{{ label }}" has been rolled:',
+                                label: key.label,
+                            })}
+                        </p>
 
-                        <CodeSnippet className="ph-no-capture" thing="personal API key">
+                        <CodeSnippet
+                            className="ph-no-capture"
+                            thing={i18n.t('settings.user.apiKeys.noun', { defaultValue: 'personal API key' })}
+                        >
                             {value}
                         </CodeSnippet>
 
                         <LemonBanner type="warning" className="mt-4">
-                            Your previous key{prevMaskedValue ? ` "${prevMaskedValue}"` : ''} is no longer valid.
+                            {i18n.t('settings.user.apiKeys.previousKeyInvalid', {
+                                defaultValue: 'Your previous key "{{ key }}" is no longer valid.',
+                                key: prevMaskedValue,
+                            })}
                         </LemonBanner>
                     </>
                 ),
             })
         },
         deleteKeySuccess: () => {
-            lemonToast.success(`Personal API key deleted`)
+            lemonToast.success(i18n.t('settings.user.apiKeys.deleted', { defaultValue: 'Personal API key deleted' }))
         },
     })),
     urlToAction(({ actions }) => ({
