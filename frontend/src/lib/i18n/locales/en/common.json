@@ -718,6 +718,90 @@
         "unknownName": "(unknown)",
         "updated": "updated"
     },
+    "featureFlagActivity": {
+        "added": {
+            "count": "added",
+            "one": "added a condition set for",
+            "other": "added condition sets for"
+        },
+        "allGroups": "all groups",
+        "allUsers": "all users",
+        "archived": "archived",
+        "aspect": {
+            "criteria": "changed the criteria for",
+            "description": "changed the description of",
+            "rollout": "changed the rollout for",
+            "variant": "changed the variant for"
+        },
+        "aspectNoun": {
+            "criteria": "criteria",
+            "description": "description",
+            "rollout": "rollout",
+            "variant": "variant"
+        },
+        "at": "at",
+        "bucketingIdentifier": {
+            "device": "Device",
+            "user": "User"
+        },
+        "changedBucketingIdentifier": "changed the bucketing identifier from <Before>{{ before }}</Before> to <After>{{ after }}</After>",
+        "changedDescription": "changed the description",
+        "changedEvaluationRuntime": "changed the evaluation runtime from <Before>{{ before }}</Before> to <After>{{ after }}</After>",
+        "changedKey": "changed flag key on {{ previous }} to",
+        "changedLinkedCohortConditions": "changed the conditions of linked cohort",
+        "changedLinkedFlagDefinition": "changed the definition of linked flag",
+        "changedPayloadOnVariant": "changed payload on <Variant>variant: {{ key }}</Variant> to",
+        "changedPayloadTo": "changed payload to",
+        "changedRolloutPercentage": "changed the rollout percentage for the variants to",
+        "conditionSetIndex": "condition set {{ index }}",
+        "conditionSets_one": "{{ count }} condition set",
+        "conditionSets_other": "{{ count }} condition sets",
+        "created": "created a new feature flag:",
+        "deleted": "deleted",
+        "disabled": "disabled",
+        "emptyName": "(empty string)",
+        "enabled": "enabled",
+        "evaluationContexts": {
+            "added_one": "added {{ count }} evaluation context",
+            "added_other": "added {{ count }} evaluation contexts",
+            "removed_one": "removed {{ count }} evaluation context",
+            "removed_other": "removed {{ count }} evaluation contexts"
+        },
+        "evaluationRuntime": {
+            "all": "both client and server",
+            "client": "client-side only",
+            "server": "server-side only"
+        },
+        "experienceContinuity": "experience continuity",
+        "from": "from",
+        "its": "its",
+        "moreConditions_one": "and {{ count }} more condition",
+        "moreConditions_other": "and {{ count }} more conditions",
+        "none": "none",
+        "on": "on",
+        "onTheFlag": "on the flag",
+        "releaseConditions": "Release conditions",
+        "removed": {
+            "count": "removed",
+            "theSet": "removed the condition set for"
+        },
+        "removedAllVariants": "removed all variants",
+        "removedLastVariant": "removed the last variant",
+        "removedVariants_one": "removed variant",
+        "removedVariants_other": "removed variants",
+        "reordered": "reordered the condition sets",
+        "restored": "restored",
+        "tags": {
+            "added_one": "added {{ count }} tag",
+            "added_other": "added {{ count }} tags",
+            "removed_one": "removed {{ count }} tag",
+            "removed_other": "removed {{ count }} tags"
+        },
+        "to": "to",
+        "unarchived": "unarchived",
+        "unknown": "unknown",
+        "viaScheduledChange": "(via scheduled change)"
+    },
     "homepage": {
         "ai": {
             "allowAnalysis": "I allow AI analysis in this organization",

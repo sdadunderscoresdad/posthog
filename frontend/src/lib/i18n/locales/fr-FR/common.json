@@ -727,6 +727,97 @@
         "unknownName": "",
         "updated": ""
     },
+    "featureFlagActivity": {
+        "added": {
+            "count": "",
+            "one": "",
+            "other": ""
+        },
+        "allGroups": "",
+        "allUsers": "",
+        "archived": "",
+        "aspect": {
+            "criteria": "",
+            "description": "",
+            "rollout": "",
+            "variant": ""
+        },
+        "aspectNoun": {
+            "criteria": "",
+            "description": "",
+            "rollout": "",
+            "variant": ""
+        },
+        "at": "",
+        "bucketingIdentifier": {
+            "device": "",
+            "user": ""
+        },
+        "changedBucketingIdentifier": "",
+        "changedDescription": "",
+        "changedEvaluationRuntime": "",
+        "changedKey": "",
+        "changedLinkedCohortConditions": "",
+        "changedLinkedFlagDefinition": "",
+        "changedPayloadOnVariant": "",
+        "changedPayloadTo": "",
+        "changedRolloutPercentage": "",
+        "conditionSetIndex": "",
+        "conditionSets_one": "",
+        "conditionSets_many": "",
+        "conditionSets_other": "",
+        "created": "",
+        "deleted": "",
+        "disabled": "",
+        "emptyName": "",
+        "enabled": "",
+        "evaluationContexts": {
+            "added_one": "",
+            "added_many": "",
+            "added_other": "",
+            "removed_one": "",
+            "removed_many": "",
+            "removed_other": ""
+        },
+        "evaluationRuntime": {
+            "all": "",
+            "client": "",
+            "server": ""
+        },
+        "experienceContinuity": "",
+        "from": "",
+        "its": "",
+        "moreConditions_one": "",
+        "moreConditions_many": "",
+        "moreConditions_other": "",
+        "none": "",
+        "on": "",
+        "onTheFlag": "",
+        "releaseConditions": "",
+        "removed": {
+            "count": "",
+            "theSet": ""
+        },
+        "removedAllVariants": "",
+        "removedLastVariant": "",
+        "removedVariants_one": "",
+        "removedVariants_many": "",
+        "removedVariants_other": "",
+        "reordered": "",
+        "restored": "",
+        "tags": {
+            "added_one": "",
+            "added_many": "",
+            "added_other": "",
+            "removed_one": "",
+            "removed_many": "",
+            "removed_other": ""
+        },
+        "to": "",
+        "unarchived": "",
+        "unknown": "",
+        "viaScheduledChange": ""
+    },
     "homepage": {
         "ai": {
             "allowAnalysis": "",

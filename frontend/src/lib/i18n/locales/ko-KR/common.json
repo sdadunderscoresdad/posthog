@@ -709,6 +709,83 @@
         "unknownName": "",
         "updated": ""
     },
+    "featureFlagActivity": {
+        "added": {
+            "count": "",
+            "one": "",
+            "other": ""
+        },
+        "allGroups": "",
+        "allUsers": "",
+        "archived": "",
+        "aspect": {
+            "criteria": "",
+            "description": "",
+            "rollout": "",
+            "variant": ""
+        },
+        "aspectNoun": {
+            "criteria": "",
+            "description": "",
+            "rollout": "",
+            "variant": ""
+        },
+        "at": "",
+        "bucketingIdentifier": {
+            "device": "",
+            "user": ""
+        },
+        "changedBucketingIdentifier": "",
+        "changedDescription": "",
+        "changedEvaluationRuntime": "",
+        "changedKey": "",
+        "changedLinkedCohortConditions": "",
+        "changedLinkedFlagDefinition": "",
+        "changedPayloadOnVariant": "",
+        "changedPayloadTo": "",
+        "changedRolloutPercentage": "",
+        "conditionSetIndex": "",
+        "conditionSets_other": "",
+        "created": "",
+        "deleted": "",
+        "disabled": "",
+        "emptyName": "",
+        "enabled": "",
+        "evaluationContexts": {
+            "added_other": "",
+            "removed_other": ""
+        },
+        "evaluationRuntime": {
+            "all": "",
+            "client": "",
+            "server": ""
+        },
+        "experienceContinuity": "",
+        "from": "",
+        "its": "",
+        "moreConditions_other": "",
+        "none": "",
+        "on": "",
+        "onTheFlag": "",
+        "releaseConditions": "",
+        "removed": {
+            "count": "",
+            "theSet": ""
+        },
+        "removedAllVariants": "",
+        "removedLastVariant": "",
+        "removedVariants_other": "",
+        "reordered": "",
+        "restored": "",
+        "tags": {
+            "added_other": "",
+            "removed_other": ""
+        },
+        "to": "",
+        "unarchived": "",
+        "unknown": "",
+        "viaScheduledChange": ""
+    },
     "homepage": {
         "ai": {
             "allowAnalysis": "",

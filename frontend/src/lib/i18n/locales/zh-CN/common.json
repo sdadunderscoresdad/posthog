@@ -711,6 +711,90 @@
         "unknownName": "（未知）",
         "updated": "更新了"
     },
+    "featureFlagActivity": {
+        "added": {
+            "count": "添加了",
+            "one": "为以下对象添加了条件集",
+            "other": "为以下对象添加了条件集"
+        },
+        "allGroups": "所有分组",
+        "allUsers": "所有用户",
+        "archived": "已归档",
+        "aspect": {
+            "criteria": "修改了条件集的规则，对象为",
+            "description": "修改了以下条件集的描述，对象为",
+            "rollout": "修改了条件集的发布比例，对象为",
+            "variant": "修改了条件集的变体，对象为"
+        },
+        "aspectNoun": {
+            "criteria": "规则",
+            "description": "描述",
+            "rollout": "发布比例",
+            "variant": "变体"
+        },
+        "at": "，发布比例为",
+        "bucketingIdentifier": {
+            "device": "设备",
+            "user": "用户"
+        },
+        "changedBucketingIdentifier": "将分桶标识从 <Before>{{ before }}</Before> 改为 <After>{{ after }}</After>",
+        "changedDescription": "修改了描述",
+        "changedEvaluationRuntime": "将评估运行时从 <Before>{{ before }}</Before> 改为 <After>{{ after }}</After>",
+        "changedKey": "将功能开关的 key 从 {{ previous }} 改为",
+        "changedLinkedCohortConditions": "修改了关联分群的过滤条件",
+        "changedLinkedFlagDefinition": "修改了关联功能开关的定义",
+        "changedPayloadOnVariant": "将 <Variant>变体 {{ key }}</Variant> 的负载改为",
+        "changedPayloadTo": "将负载改为",
+        "changedRolloutPercentage": "将以下变体的发布比例改为",
+        "conditionSetIndex": "条件集 {{ index }}",
+        "conditionSets_one": "{{ count }} 个条件集",
+        "conditionSets_other": "{{ count }} 个条件集",
+        "created": "创建了新的功能开关：",
+        "deleted": "删除了",
+        "disabled": "关闭了",
+        "emptyName": "（空字符串）",
+        "enabled": "启用了",
+        "evaluationContexts": {
+            "added_one": "添加了 {{ count }} 个评估上下文",
+            "added_other": "添加了 {{ count }} 个评估上下文",
+            "removed_one": "移除了 {{ count }} 个评估上下文",
+            "removed_other": "移除了 {{ count }} 个评估上下文"
+        },
+        "evaluationRuntime": {
+            "all": "客户端和服务端",
+            "client": "仅客户端",
+            "server": "仅服务端"
+        },
+        "experienceContinuity": "体验连续性",
+        "from": "从",
+        "its": "其",
+        "moreConditions_one": "以及另外 {{ count }} 个条件",
+        "moreConditions_other": "以及另外 {{ count }} 个条件",
+        "none": "无",
+        "on": "，对象为",
+        "onTheFlag": "，对象为该功能开关",
+        "releaseConditions": "发布条件",
+        "removed": {
+            "count": "移除了",
+            "theSet": "移除了以下条件集"
+        },
+        "removedAllVariants": "移除了所有变体",
+        "removedLastVariant": "移除了最后一个变体",
+        "removedVariants_one": "移除了变体",
+        "removedVariants_other": "移除了变体",
+        "reordered": "调整了条件集的顺序",
+        "restored": "还原了",
+        "tags": {
+            "added_one": "添加了 {{ count }} 个标签",
+            "added_other": "添加了 {{ count }} 个标签",
+            "removed_one": "移除了 {{ count }} 个标签",
+            "removed_other": "移除了 {{ count }} 个标签"
+        },
+        "to": "改为",
+        "unarchived": "已取消归档",
+        "unknown": "未知",
+        "viaScheduledChange": "（通过计划变更）"
+    },
     "homepage": {
         "ai": {
             "allowAnalysis": "我允许在此组织中使用 AI 分析",
