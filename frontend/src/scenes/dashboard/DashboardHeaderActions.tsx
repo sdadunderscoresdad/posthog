@@ -229,7 +229,7 @@ export function DashboardEditSaveCancelButtons({
             <Shortcut
                 name="CancelDashboardEdit"
                 keybind={[keyBinds.escape]}
-                intent="Cancel edit mode"
+                intent={t('dashboard.header.cancelEditMode', { defaultValue: 'Cancel edit mode' })}
                 interaction="click"
                 scope={Scene.Dashboard}
             >
@@ -239,7 +239,7 @@ export function DashboardEditSaveCancelButtons({
             <Shortcut
                 name="SaveDashboard"
                 keybind={[keyBinds.edit, keyBinds.save]}
-                intent="Save dashboard layout"
+                intent={t('dashboard.header.saveLayout', { defaultValue: 'Save dashboard layout' })}
                 interaction="click"
                 scope={Scene.Dashboard}
                 disabled={!canEditDashboard}
@@ -264,7 +264,7 @@ export function EditModeActions(): JSX.Element {
                     name="EnterEditMode"
                     scope={Scene.Dashboard}
                     keybind={[keyBinds.edit]}
-                    intent="Enter edit mode"
+                    intent={t('dashboard.header.enterEditMode', { defaultValue: 'Enter edit mode' })}
                     interaction="click"
                 >
                     <DashboardCustomizeButton />
@@ -351,7 +351,7 @@ export function ViewModeActions(): JSX.Element {
                     name="EnterEditMode"
                     scope={Scene.Dashboard}
                     keybind={[keyBinds.edit]}
-                    intent="Enter edit mode"
+                    intent={t('dashboard.header.enterEditMode', { defaultValue: 'Enter edit mode' })}
                     interaction="click"
                 >
                     <DashboardCustomizeButton />

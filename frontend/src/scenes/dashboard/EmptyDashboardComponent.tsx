@@ -9,6 +9,7 @@ import { DashboardLoadingState } from '@posthog/products-dashboards/frontend/com
 import { pngHoggie } from 'lib/brand/hoggies'
 import { AccessControlAction } from 'lib/components/AccessControlAction'
 import { ProductIntroduction } from 'lib/components/ProductIntroduction/ProductIntroduction'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonMenuOverlay } from 'lib/lemon-ui/LemonMenu'
 import { eventUsageLogic } from 'lib/utils/eventUsageLogic'
@@ -26,13 +27,15 @@ import {
 
 import { addInsightToDashboardLogic } from './addInsightToDashboardModalLogic'
 import { DashboardAiPromptComposer } from './DashboardAiPromptComposer'
-import { DASHBOARD_CANNOT_EDIT_MESSAGE } from './DashboardHeader'
+import { dashboardCannotEditMessage } from './DashboardHeader'
 import { getAddTileMenuItems } from './DashboardHeaderActions'
 import { dashboardLogic } from './dashboardLogic'
 
 const HedgehogChart = pngHoggie(chartPng)
 
-const BASE_TEXT = 'Add a chart from your library, or start with a question about what matters to your product.'
+const BASE_TEXT = i18n.t('dashboard.empty.baseText', {
+    defaultValue: 'Add a chart from your library, or start with a question about what matters to your product.',
+})
 
 function DashboardEmptyActions({
     canEdit,
@@ -61,7 +64,7 @@ function DashboardEmptyActions({
 }): JSX.Element {
     const { t } = useTranslation()
     const { reportDashboardEmptyAddChartClicked, reportDashboardEmptyWebAnalyticsClicked } = useActions(eventUsageLogic)
-    const chipDisabledReason = !canEdit ? DASHBOARD_CANNOT_EDIT_MESSAGE : aiDisabledReason || undefined
+    const chipDisabledReason = !canEdit ? dashboardCannotEditMessage() : aiDisabledReason || undefined
     const handleAddInsight = (): void => {
         reportDashboardEmptyAddChartClicked(dashboard?.id)
         onAddInsight()
@@ -88,7 +91,7 @@ function DashboardEmptyActions({
                             type="primary"
                             icon={<IconPlus />}
                             onClick={handleAddInsight}
-                            disabledReason={canEdit ? null : DASHBOARD_CANNOT_EDIT_MESSAGE}
+                            disabledReason={canEdit ? null : dashboardCannotEditMessage()}
                             sideAction={{
                                 dropdown: {
                                     placement: 'bottom-end',
@@ -108,7 +111,7 @@ function DashboardEmptyActions({
                                     ),
                                 },
                                 disabled: !canEdit,
-                                disabledReason: canEdit ? null : DASHBOARD_CANNOT_EDIT_MESSAGE,
+                                disabledReason: canEdit ? null : dashboardCannotEditMessage(),
                                 'data-attr': 'dashboard-add-dropdown',
                             }}
                         >
@@ -138,7 +141,10 @@ function EmptyDashboardContent({ canEdit }: { canEdit: boolean }): JSX.Element {
     const { dataProcessingAccepted, dataProcessingApprovalDisabledReason } = useValues(maxGlobalLogic)
     const aiDisabledReason =
         !dataProcessingAccepted &&
-        (dataProcessingApprovalDisabledReason ?? 'Approve AI data processing to use PostHog AI')
+        (dataProcessingApprovalDisabledReason ??
+            i18n.t('dashboard.ai.approveDataProcessing', {
+                defaultValue: 'Approve AI data processing to use PostHog AI',
+            }))
 
     const onOpenAiWithPrompt = (prompt: string): void => {
         const trimmed = prompt.trim()
@@ -153,8 +159,12 @@ function EmptyDashboardContent({ canEdit }: { canEdit: boolean }): JSX.Element {
     return (
         <ProductIntroduction
             thingName="insight"
-            titleOverride="Build your dashboard"
-            description={dataProcessingAccepted ? BASE_TEXT : 'Add a chart from your library.'}
+            titleOverride={i18n.t('dashboard.empty.buildTitle', { defaultValue: 'Build your dashboard' })}
+            description={
+                dataProcessingAccepted
+                    ? BASE_TEXT
+                    : i18n.t('dashboard.empty.addChart', { defaultValue: 'Add a chart from your library.' })
+            }
             isEmpty={true}
             customHog={HedgehogChart}
             hogLayout="responsive"

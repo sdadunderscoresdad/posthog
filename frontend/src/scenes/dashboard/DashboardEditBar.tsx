@@ -10,6 +10,7 @@ import { PropertyFilters } from 'lib/components/PropertyFilters/PropertyFilters'
 import { Shortcut } from 'lib/components/Shortcuts/Shortcut'
 import { keyBinds } from 'lib/components/Shortcuts/shortcuts'
 import { TaxonomicFilterGroupType } from 'lib/components/TaxonomicFilter/types'
+import { i18n } from 'lib/i18n/i18n'
 import { DashboardEventSource } from 'lib/utils/eventUsageLogic'
 import { getProjectEventExistence } from 'lib/utils/getAppContext'
 import { DashboardEditBarAdvancedFilters } from 'scenes/dashboard/DashboardEditBarAdvancedFilters'
@@ -47,11 +48,16 @@ export function DashboardIntervalFilter(): JSX.Element {
                     setInterval(interval)
                 }}
                 options={[
-                    { value: null, label: "each insight's interval" },
-                    { value: 'hour', label: 'hour' },
-                    { value: 'day', label: 'day' },
-                    { value: 'week', label: 'week' },
-                    { value: 'month', label: 'month' },
+                    {
+                        value: null,
+                        label: i18n.t('dashboard.editBar.eachInsightInterval', {
+                            defaultValue: "each insight's interval",
+                        }),
+                    },
+                    { value: 'hour', label: i18n.t('interval.hour', { defaultValue: 'hour' }) },
+                    { value: 'day', label: i18n.t('interval.day', { defaultValue: 'day' }) },
+                    { value: 'week', label: i18n.t('interval.week', { defaultValue: 'week' }) },
+                    { value: 'month', label: i18n.t('interval.month', { defaultValue: 'month' }) },
                 ]}
             />
         </span>
@@ -95,7 +101,7 @@ export function DashboardEditBar({ showDateFilter = true, className }: Dashboard
                     <Shortcut
                         name="DashboardDateFilter"
                         keybind={[keyBinds.dateFilter]}
-                        intent="Date filter"
+                        intent={i18n.t('dashboard.editBar.dateFilter', { defaultValue: 'Date filter' })}
                         interaction="click"
                         scope={Scene.Dashboard}
                     >

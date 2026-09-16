@@ -1,5 +1,6 @@
 import { TZLabel } from 'lib/components/TZLabel'
 import { Dayjs, dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 
 import { UserBasicType } from '~/types'
 
@@ -40,11 +41,17 @@ export function atColumn<T extends Record<string, any>>(
     }
 }
 export function createdAtColumn<T extends { created_at?: string | Dayjs | null }>(): LemonTableColumn<T, 'created_at'> {
-    return atColumn('created_at', 'Created') as LemonTableColumn<T, 'created_at'>
+    return atColumn('created_at', i18n.t('table.created', { defaultValue: 'Created' })) as LemonTableColumn<
+        T,
+        'created_at'
+    >
 }
 
 export function updatedAtColumn<T extends { updated_at?: string | Dayjs | null }>(): LemonTableColumn<T, 'updated_at'> {
-    return atColumn('updated_at', 'Updated') as LemonTableColumn<T, 'updated_at'>
+    return atColumn('updated_at', i18n.t('table.updated', { defaultValue: 'Updated' })) as LemonTableColumn<
+        T,
+        'updated_at'
+    >
 }
 
 export function createdByColumn<T extends { created_by?: UserBasicType | null }>(): LemonTableColumn<T, 'created_by'> {

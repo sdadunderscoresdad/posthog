@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonModal } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { CodeEditor } from 'lib/monaco/CodeEditor'
 
 import type { MonacoMarker } from '~/types'
@@ -28,7 +29,11 @@ export function DashboardTemplateEditor({ inline = false }: DashboardTemplateEdi
 
     return (
         <LemonModal
-            title={id ? 'Edit dashboard template' : 'New dashboard template'}
+            title={
+                id
+                    ? i18n.t('dashboard.templates.editTitle', { defaultValue: 'Edit dashboard template' })
+                    : i18n.t('dashboard.templates.newTitle', { defaultValue: 'New dashboard template' })
+            }
             isOpen={isOpenNewDashboardTemplateModal}
             width={1000}
             onClose={() => {

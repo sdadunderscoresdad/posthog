@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { LemonBanner } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { urls } from 'scenes/urls'
 
 import { DashboardPlacement, DashboardType, QueryBasedInsightModel } from '~/types'
@@ -34,7 +35,7 @@ export function DashboardPublicAccessBanner({
             className="mb-4"
             dismissKey={`dashboard-public-access-banner-${dashboard.id}`}
             action={{
-                children: 'Manage sharing',
+                children: i18n.t('dashboard.sharing.manage', { defaultValue: 'Manage sharing' }),
                 onClick: () => push(urls.dashboardSharing(dashboard.id)),
             }}
         >

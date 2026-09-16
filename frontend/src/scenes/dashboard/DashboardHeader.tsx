@@ -1,6 +1,7 @@
 import { useActions, useValues } from 'kea'
 
 import { FullScreen } from 'lib/components/FullScreen'
+import { i18n } from 'lib/i18n/i18n'
 import { DashboardEventSource } from 'lib/utils/eventUsageLogic'
 import { sceneConfigurations } from 'scenes/scenes'
 import { Scene } from 'scenes/sceneTypes'
@@ -18,8 +19,13 @@ import { DashboardModals } from './DashboardModals'
 import { DashboardSceneMenuBar } from './DashboardSceneMenuBar'
 import { DashboardScenePanel } from './DashboardScenePanel'
 
-export const DASHBOARD_CANNOT_EDIT_MESSAGE =
-    "You don't have edit permissions for this dashboard. Ask a dashboard collaborator with edit access to add you."
+/** Why a person cannot edit the dashboard they are looking at, in the app's language. */
+export function dashboardCannotEditMessage(): string {
+    return i18n.t('dashboard.noEditPermissions', {
+        defaultValue:
+            "You don't have edit permissions for this dashboard. Ask a dashboard collaborator with edit access to add you.",
+    })
+}
 
 export function insightIsAddedToDashboard(input: Record<string, unknown> | null, dashboardId: number): boolean {
     return Array.isArray(input?.dashboards) && input.dashboards.some((id) => Number(id) === dashboardId)

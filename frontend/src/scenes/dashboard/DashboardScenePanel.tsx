@@ -15,6 +15,7 @@ import { SceneSubscribeButton } from 'lib/components/Scenes/SceneSubscribeButton
 import { SceneTags } from 'lib/components/Scenes/SceneTags'
 import { SceneActivityIndicator } from 'lib/components/Scenes/SceneUpdateActivityInfo'
 import { useFeatureFlag } from 'lib/hooks/useFeatureFlag'
+import { i18n } from 'lib/i18n/i18n'
 import { ButtonPrimitive } from 'lib/ui/Button/ButtonPrimitives'
 import { DashboardEventSource } from 'lib/utils/eventUsageLogic'
 import { slugify } from 'lib/utils/strings'
@@ -158,7 +159,7 @@ export function DashboardScenePanel(): JSX.Element | null {
                                               format: ExporterFormat.JSON,
                                               context: {
                                                   localData: JSON.stringify(asDashboardTemplate),
-                                                  filename: `dashboard-${slugify(dashboard?.name || 'nameless dashboard')}.json`,
+                                                  filename: `dashboard-${slugify(dashboard?.name || i18n.t('dashboard.nameless', { defaultValue: 'nameless dashboard' }))}.json`,
                                                   mediaType: ExporterFormat.JSON,
                                               },
                                               dataAttr: `${RESOURCE_TYPE}-export-json`,

@@ -11,6 +11,7 @@ import { keyBinds } from 'lib/components/Shortcuts/shortcuts'
 import { TZLabel } from 'lib/components/TZLabel'
 import { dayjs } from 'lib/dayjs'
 import { usePageVisibilityCb } from 'lib/hooks/usePageVisibility'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonMenuOverlay } from 'lib/lemon-ui/LemonMenu/LemonMenu'
 import { LemonRadio } from 'lib/lemon-ui/LemonRadio'
 import { humanFriendlyDuration } from 'lib/utils/durations'
@@ -126,7 +127,7 @@ export function DashboardReloadAction(): JSX.Element {
             <Shortcut
                 name="DashboardRefresh"
                 keybind={[keyBinds.refresh]}
-                intent="Refresh dashboard"
+                intent={i18n.t('dashboard.refresh.intent', { defaultValue: 'Refresh dashboard' })}
                 interaction="click"
                 scope={Scene.Dashboard}
             >
@@ -147,7 +148,11 @@ export function DashboardReloadAction(): JSX.Element {
                         }
                         size="small"
                         data-attr="dashboard-items-action-refresh"
-                        tooltip={itemsLoading ? 'Cancel refresh' : undefined}
+                        tooltip={
+                            itemsLoading
+                                ? i18n.t('dashboard.refresh.cancel', { defaultValue: 'Cancel refresh' })
+                                : undefined
+                        }
                         disabledReason={refreshDisabledReason}
                         sideAction={{
                             'data-attr': 'dashboard-items-action-refresh-dropdown',
@@ -175,7 +180,9 @@ export function DashboardReloadAction(): JSX.Element {
                                             ...(autoRefresh.enabled
                                                 ? [
                                                       {
-                                                          title: 'Refresh interval',
+                                                          title: i18n.t('dashboard.refresh.interval', {
+                                                              defaultValue: 'Refresh interval',
+                                                          }),
                                                           items: [
                                                               {
                                                                   label: () => (

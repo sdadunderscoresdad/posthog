@@ -315,6 +315,9 @@
             "testAccountInfo": "对每个洞察强制开启或关闭测试账号过滤，或让每个洞察保留自己的设置。",
             "title": "高级选项"
         },
+        "ai": {
+            "approveDataProcessing": "批准 AI 数据处理后才能使用 PostHog AI"
+        },
         "aiPrompt": {
             "buildItForMe": "帮我搭建",
             "enterQuestion": "请输入问题",
@@ -385,6 +388,8 @@
             "title": "复制仪表盘"
         },
         "editBar": {
+            "dateFilter": "日期筛选",
+            "eachInsightInterval": "各洞察自身的间隔",
             "groupedBy": "按此分组"
         },
         "editMode": {
@@ -397,7 +402,10 @@
             "waitForLoading": "请等待仪表盘加载完成"
         },
         "empty": {
+            "addChart": "从图表库添加一个图表。",
             "addExistingChart": "添加已有图表",
+            "baseText": "从图表库添加图表，或直接提问你关心的问题。",
+            "buildTitle": "搭建你的仪表盘",
             "viewWebAnalytics": "或查看网站分析"
         },
         "errorTile": {
@@ -407,6 +415,8 @@
         "filters": {
             "clearFolder": "清除文件夹筛选",
             "clearSelection": "清除选择",
+            "edit": "编辑仪表盘",
+            "editTemplate": "编辑仪表盘模板",
             "filterTo": "筛选：",
             "loadingTags": "正在加载标签",
             "noMatchingTags": "没有匹配的标签",
@@ -420,9 +430,32 @@
         "fullscreen": {
             "exit": "退出全屏"
         },
+        "header": {
+            "cancelEditMode": "退出编辑模式",
+            "enterEditMode": "进入编辑模式",
+            "saveLayout": "保存仪表盘布局"
+        },
         "items": {
             "layoutEditingDisabled": "屏幕较小时无法编辑布局。请缩小页面，或使用更大的屏幕来移动、调整图表块。",
             "loadingTiles": "正在加载图表块..."
+        },
+        "list": {
+            "all": "所有仪表盘",
+            "empty": "没有符合筛选条件的仪表盘！",
+            "filterToFolder": "筛选 {{ folder }} 中的仪表盘",
+            "lastAccessedAt": "上次访问时间",
+            "mine": "我的仪表盘",
+            "moveToFolder": "移动到文件夹",
+            "moveToFolderCount_other": "将 {{ count }} 个移动到文件夹",
+            "new": "新建仪表盘",
+            "noneFiled": "所选仪表盘都还没有归档到文件夹",
+            "pin": "置顶仪表盘",
+            "projectRoot": "项目根目录",
+            "selectAll": "选中本页所有仪表盘",
+            "selectRow": "选中仪表盘 {{ name }}",
+            "someNotFiled": "所选的 {{ total }} 个中有 {{ skipped }} 个尚未归档，将保持原位",
+            "unpin": "取消置顶",
+            "youLastViewed": "你上次查看时间"
         },
         "loadError": "加载该仪表盘时出错",
         "menuBar": {
@@ -455,6 +488,7 @@
         "move": {
             "movedTo": "{{label}} 已移动到 <link>{{dashboard}}</link>"
         },
+        "nameless": "未命名仪表盘",
         "new": {
             "action": "新建仪表盘",
             "back": "返回",
@@ -466,6 +500,7 @@
             "templateRequiresEvents_other": "<em>{{templateName}}</em> 模板需要你先选择 {{count}} 个事件。",
             "templatesDescription": "这里有一些现成的模板，可以帮你快速上手。挑一个用，或从空白开始。"
         },
+        "noEditPermissions": "你没有该仪表盘的编辑权限。请联系有编辑权限的协作者将你加入。",
         "notFound": {
             "invalidLink": "该仪表盘链接无效。<1>前往你的仪表盘</1>。",
             "staleLink": "它可能已被删除，或链接已过期。<2>前往你的仪表盘</2>。"
@@ -475,6 +510,17 @@
             "createNotebook": "从仪表盘创建笔记本"
         },
         "publicAccessBanner": "该仪表盘已公开分享。你在这里做的修改可能会被任何拿到公开链接的人看到，请避免添加敏感数据。",
+        "queryScan": {
+            "multiple_other": "该仪表盘上有 {{ count }} 个洞察读取了大量事件，可能拖慢仪表盘加载：",
+            "multipleAdvice": "。打开洞察即可查看建议。",
+            "single": "该仪表盘上有 1 个洞察读取了大量事件，可能拖慢仪表盘加载：",
+            "singleAdvice": "。打开它即可查看建议。"
+        },
+        "refresh": {
+            "cancel": "取消刷新",
+            "intent": "刷新仪表盘",
+            "interval": "刷新间隔"
+        },
         "reload": {
             "autoRefresh": "停留在此页面时自动刷新",
             "enableToSetInterval": "启用自动刷新后才能设置刷新间隔",
@@ -498,6 +544,9 @@
         },
         "share": {
             "action": "分享"
+        },
+        "sharing": {
+            "manage": "管理共享"
         },
         "subscribe": {
             "action": "订阅"
@@ -550,25 +599,32 @@
         "templates": {
             "allInPopular": "所有匹配的模板都在上方的“热门”里。",
             "blankDashboard": "空白仪表盘",
+            "blankDescription": "创建一个空白仪表盘",
             "blankHint": "从空白仪表盘开始，或稍后再来看看新模板。",
+            "blankName": "空白仪表盘",
             "cannotDeleteBuiltIn": "内置官方模板无法删除",
             "cannotDeleteGlobal": "全局模板必须先改为仅团队可见才能删除",
             "clearFilter": "清除筛选",
+            "copyTitle": "复制模板到其它项目",
             "coverPhoto": "封面图",
             "createdBy": "创建者",
             "delete": "删除",
             "deleteOrgDescription": "该模板与组织内的每个项目共享。删除后所有项目都将失去它。",
             "deleteOrgTitle": "删除这个组织级模板？",
+            "editTitle": "编辑仪表盘模板",
             "empty": "还没有仪表盘模板。",
+            "insightCount": "洞察数量",
             "loved": "用户很喜欢这个模板",
             "makeOrgWide": "设为整个组织可见",
             "makeTeamOnly": "设为仅此团队可见",
             "makeVisibleEveryone": "设为所有人可见",
             "moreTags_other": "还有 {{ count }} 个",
+            "newTitle": "新建仪表盘模板",
             "noMatches": "没有匹配的模板",
             "noMatchesHint": "换个关键词试试，清除筛选以重新看到所有模板，或者从空白仪表盘开始。",
             "none": "这里没有可显示的模板",
             "noneInContext": "当前场景下没有可用的模板。",
+            "notReady": "模板数据尚未就绪。请稍后再试。",
             "official": "官方模板",
             "officialHint": "在下方浏览官方模板。",
             "officialShort": "官方",
@@ -578,6 +634,7 @@
             "popularDescription": "用户很喜欢这些模板，作为仪表盘的起点很不错。",
             "popularTooltip": "我们最受欢迎的模板之一",
             "posthog": "PostHog",
+            "saveNoAccess": "需要仪表盘模板的编辑权限才能保存模板。",
             "searchPlaceholder": "搜索仪表盘模板（至少 3 个字符）",
             "sharedWithOrganization": "与组织内所有人共享",
             "team": "团队",
@@ -587,6 +644,7 @@
         },
         "tileFilters": {
             "breakdown": "细分",
+            "breakdownUnsupported": "该洞察类型不支持覆盖拆解维度",
             "dateRange": "日期范围",
             "description": "为该图表块设置自定义筛选。属性筛选会叠加在仪表盘的筛选之上，而图表块自己的日期范围、间隔、细分和测试账号过滤会替换掉仪表盘的设置。",
             "display": "显示",
@@ -615,6 +673,7 @@
         "zoom": {
             "collapse": "收起视图",
             "expand": "展开视图",
+            "intent": "在编辑时切换仪表盘布局缩放",
             "tooltip": "收起/展开视图。图表较多时更方便编辑布局。"
         }
     },
@@ -665,6 +724,41 @@
             "changed": "修改了仪表盘变量"
         },
         "your": "你的"
+    },
+    "dashboardLogic": {
+        "buttonTileCopyUnsupported": "",
+        "changeMode": "",
+        "changesSaved": "",
+        "changeTileMovementDescription": "",
+        "changeTileMovementTitle": "",
+        "clearAllOverrides": "",
+        "couldNotAddWidgets": "",
+        "couldNotDuplicateTile": "",
+        "couldNotLoad": "",
+        "couldNotRemoveTile": "",
+        "couldNotRestoreTile": "",
+        "couldNotSaveChanges": "",
+        "couldNotUpdate": "",
+        "couldNotUpdateWidget": "",
+        "dashboardSaved": "",
+        "discardChanges": "",
+        "discardChangesDescription": "",
+        "discardChangesTitle": "",
+        "discardUnsavedLayoutChanges": "",
+        "failedToUpdateTile": "",
+        "failedToUpdateTileColor": "",
+        "hasBeenRestored": "",
+        "keepEditing": "",
+        "leaveDashboard": "",
+        "notFound": "",
+        "nowEditing": "",
+        "overrideTileFilters": "",
+        "streamingFailed": "",
+        "tileDensityFailed": "",
+        "tileFiltersSaved": "",
+        "tileMovementFailed": "",
+        "widgetRestored": "",
+        "widgetsAdded_other": ""
     },
     "dataManagementActivity": {
         "as": "标记为",
@@ -4419,6 +4513,10 @@
             "responses": "条响应"
         },
         "unset": "未设置"
+    },
+    "table": {
+        "created": "创建时间",
+        "updated": "更新时间"
     },
     "teamActivity": {
         "added": "添加了",

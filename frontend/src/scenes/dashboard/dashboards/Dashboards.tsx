@@ -6,6 +6,7 @@ import { LemonButton } from '@posthog/lemon-ui'
 import { AccessControlAction } from 'lib/components/AccessControlAction'
 import { Shortcut } from 'lib/components/Shortcuts/Shortcut'
 import { keyBinds } from 'lib/components/Shortcuts/shortcuts'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonTab, LemonTabs } from 'lib/lemon-ui/LemonTabs'
 import { DashboardsTab, dashboardsLogic } from 'scenes/dashboard/dashboards/dashboardsLogic'
 import { DashboardTemplateModal } from 'scenes/dashboard/dashboards/templates/DashboardTemplateModal'
@@ -45,9 +46,9 @@ export function Dashboards(): JSX.Element {
     const enabledTabs: LemonTab<DashboardsTab>[] = [
         {
             key: DashboardsTab.All,
-            label: 'All dashboards',
+            label: i18n.t('dashboard.list.all', { defaultValue: 'All dashboards' }),
         },
-        { key: DashboardsTab.Yours, label: 'My dashboards' },
+        { key: DashboardsTab.Yours, label: i18n.t('dashboard.list.mine', { defaultValue: 'My dashboards' }) },
         {
             key: DashboardsTab.Templates,
             label: 'Templates',
@@ -77,7 +78,7 @@ export function Dashboards(): JSX.Element {
                             <Shortcut
                                 name="NewDashboard"
                                 keybind={[keyBinds.new]}
-                                intent="New dashboard"
+                                intent={i18n.t('dashboard.list.new', { defaultValue: 'New dashboard' })}
                                 interaction="click"
                                 scope={Scene.Dashboards}
                             >

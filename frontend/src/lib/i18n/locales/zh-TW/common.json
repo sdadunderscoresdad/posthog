@@ -315,6 +315,9 @@
             "testAccountInfo": "",
             "title": ""
         },
+        "ai": {
+            "approveDataProcessing": ""
+        },
         "aiPrompt": {
             "buildItForMe": "",
             "enterQuestion": "",
@@ -385,6 +388,8 @@
             "title": ""
         },
         "editBar": {
+            "dateFilter": "",
+            "eachInsightInterval": "",
             "groupedBy": ""
         },
         "editMode": {
@@ -397,7 +402,10 @@
             "waitForLoading": ""
         },
         "empty": {
+            "addChart": "",
             "addExistingChart": "",
+            "baseText": "",
+            "buildTitle": "",
             "viewWebAnalytics": ""
         },
         "errorTile": {
@@ -407,6 +415,8 @@
         "filters": {
             "clearFolder": "",
             "clearSelection": "",
+            "edit": "",
+            "editTemplate": "",
             "filterTo": "",
             "loadingTags": "",
             "noMatchingTags": "",
@@ -420,9 +430,32 @@
         "fullscreen": {
             "exit": ""
         },
+        "header": {
+            "cancelEditMode": "",
+            "enterEditMode": "",
+            "saveLayout": ""
+        },
         "items": {
             "layoutEditingDisabled": "",
             "loadingTiles": ""
+        },
+        "list": {
+            "all": "",
+            "empty": "",
+            "filterToFolder": "",
+            "lastAccessedAt": "",
+            "mine": "",
+            "moveToFolder": "",
+            "moveToFolderCount_other": "",
+            "new": "",
+            "noneFiled": "",
+            "pin": "",
+            "projectRoot": "",
+            "selectAll": "",
+            "selectRow": "",
+            "someNotFiled": "",
+            "unpin": "",
+            "youLastViewed": ""
         },
         "loadError": "",
         "menuBar": {
@@ -455,6 +488,7 @@
         "move": {
             "movedTo": ""
         },
+        "nameless": "",
         "new": {
             "action": "",
             "back": "",
@@ -466,6 +500,7 @@
             "templateRequiresEvents_other": "",
             "templatesDescription": ""
         },
+        "noEditPermissions": "",
         "notFound": {
             "invalidLink": "",
             "staleLink": ""
@@ -475,6 +510,17 @@
             "createNotebook": ""
         },
         "publicAccessBanner": "",
+        "queryScan": {
+            "multiple_other": "",
+            "multipleAdvice": "",
+            "single": "",
+            "singleAdvice": ""
+        },
+        "refresh": {
+            "cancel": "",
+            "intent": "",
+            "interval": ""
+        },
         "reload": {
             "autoRefresh": "",
             "enableToSetInterval": "",
@@ -498,6 +544,9 @@
         },
         "share": {
             "action": ""
+        },
+        "sharing": {
+            "manage": ""
         },
         "subscribe": {
             "action": ""
@@ -550,25 +599,32 @@
         "templates": {
             "allInPopular": "",
             "blankDashboard": "",
+            "blankDescription": "",
             "blankHint": "",
+            "blankName": "",
             "cannotDeleteBuiltIn": "",
             "cannotDeleteGlobal": "",
             "clearFilter": "",
+            "copyTitle": "",
             "coverPhoto": "",
             "createdBy": "",
             "delete": "",
             "deleteOrgDescription": "",
             "deleteOrgTitle": "",
+            "editTitle": "",
             "empty": "",
+            "insightCount": "",
             "loved": "",
             "makeOrgWide": "",
             "makeTeamOnly": "",
             "makeVisibleEveryone": "",
             "moreTags_other": "",
+            "newTitle": "",
             "noMatches": "",
             "noMatchesHint": "",
             "none": "",
             "noneInContext": "",
+            "notReady": "",
             "official": "",
             "officialHint": "",
             "officialShort": "",
@@ -578,6 +634,7 @@
             "popularDescription": "",
             "popularTooltip": "",
             "posthog": "",
+            "saveNoAccess": "",
             "searchPlaceholder": "",
             "sharedWithOrganization": "",
             "team": "",
@@ -587,6 +644,7 @@
         },
         "tileFilters": {
             "breakdown": "",
+            "breakdownUnsupported": "",
             "dateRange": "",
             "description": "",
             "display": "",
@@ -615,6 +673,7 @@
         "zoom": {
             "collapse": "",
             "expand": "",
+            "intent": "",
             "tooltip": ""
         }
     },
@@ -665,6 +724,41 @@
             "changed": ""
         },
         "your": ""
+    },
+    "dashboardLogic": {
+        "buttonTileCopyUnsupported": "",
+        "changeMode": "",
+        "changesSaved": "",
+        "changeTileMovementDescription": "",
+        "changeTileMovementTitle": "",
+        "clearAllOverrides": "",
+        "couldNotAddWidgets": "",
+        "couldNotDuplicateTile": "",
+        "couldNotLoad": "",
+        "couldNotRemoveTile": "",
+        "couldNotRestoreTile": "",
+        "couldNotSaveChanges": "",
+        "couldNotUpdate": "",
+        "couldNotUpdateWidget": "",
+        "dashboardSaved": "",
+        "discardChanges": "",
+        "discardChangesDescription": "",
+        "discardChangesTitle": "",
+        "discardUnsavedLayoutChanges": "",
+        "failedToUpdateTile": "",
+        "failedToUpdateTileColor": "",
+        "hasBeenRestored": "",
+        "keepEditing": "",
+        "leaveDashboard": "",
+        "notFound": "",
+        "nowEditing": "",
+        "overrideTileFilters": "",
+        "streamingFailed": "",
+        "tileDensityFailed": "",
+        "tileFiltersSaved": "",
+        "tileMovementFailed": "",
+        "widgetRestored": "",
+        "widgetsAdded_other": ""
     },
     "dataManagementActivity": {
         "as": "",
@@ -4406,6 +4500,10 @@
             "responses": ""
         },
         "unset": ""
+    },
+    "table": {
+        "created": "",
+        "updated": ""
     },
     "teamActivity": {
         "added": "",

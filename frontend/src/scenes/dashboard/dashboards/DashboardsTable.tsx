@@ -6,6 +6,7 @@ import { IconFolder, IconHome, IconLock, IconPin, IconPinFilled, IconShare } fro
 import { AccessControlAction } from 'lib/components/AccessControlAction'
 import { BulkUpdateTagsButton } from 'lib/components/BulkActions/BulkUpdateTagsButton'
 import { ObjectTags } from 'lib/components/ObjectTags/ObjectTags'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { More } from 'lib/lemon-ui/LemonButton/More'
 import { LemonDivider } from 'lib/lemon-ui/LemonDivider'
@@ -28,7 +29,7 @@ import { dashboardsModel, nameCompareFunction } from '~/models/dashboardsModel'
 import { AccessControlLevel, AccessControlResourceType, DashboardBasicType, DashboardType } from '~/types'
 
 import { UNFILED_DASHBOARDS_FOLDER } from '../dashboardConstants'
-import { DASHBOARD_CANNOT_EDIT_MESSAGE } from '../DashboardHeader'
+import { dashboardCannotEditMessage } from '../DashboardHeader'
 import { DashboardsFiltersBar } from './DashboardsFiltersBar'
 
 function BulkMoveToFolderButton({
@@ -47,15 +48,31 @@ function BulkMoveToFolderButton({
             size="small"
             type="secondary"
             onClick={() => onMove([...ctx.selectedKeys], 'bulk', ctx.setSelectedKeys)}
-            disabledReason={movable.length === 0 ? 'None of the selected dashboards are filed anywhere yet' : undefined}
+            disabledReason={
+                movable.length === 0
+                    ? i18n.t('dashboard.list.noneFiled', {
+                          defaultValue: 'None of the selected dashboards are filed anywhere yet',
+                      })
+                    : undefined
+            }
             tooltip={
                 skipped > 0 && movable.length > 0
-                    ? `${skipped} of the ${ctx.selectedKeys.length} selected are not filed anywhere yet, so they stay put`
+                    ? i18n.t('dashboard.list.someNotFiled', {
+                          defaultValue:
+                              '{{ skipped }} of the {{ total }} selected are not filed anywhere yet, so they stay put',
+                          skipped,
+                          total: ctx.selectedKeys.length,
+                      })
                     : undefined
             }
             data-attr="dashboards-bulk-move-to-folder"
         >
-            {skipped > 0 && movable.length > 0 ? `Move ${movable.length} to folder` : 'Move to folder'}
+            {skipped > 0 && movable.length > 0
+                ? i18n.t('dashboard.list.moveToFolderCount', {
+                      defaultValue: 'Move {{ count }} to folder',
+                      count: movable.length,
+                  })
+                : i18n.t('dashboard.list.moveToFolder', { defaultValue: 'Move to folder' })}
         </LemonButton>
     )
 }
@@ -106,7 +123,11 @@ export function DashboardsTable({
                                 ? () => unpinDashboard(id, DashboardEventSource.DashboardsList)
                                 : () => pinDashboard(id, DashboardEventSource.DashboardsList)
                         }
-                        tooltip={pinned ? 'Unpin dashboard' : 'Pin dashboard'}
+                        tooltip={
+                            pinned
+                                ? i18n.t('dashboard.list.unpin', { defaultValue: 'Unpin dashboard' })
+                                : i18n.t('dashboard.list.pin', { defaultValue: 'Pin dashboard' })
+                        }
                         icon={pinned ? <IconPinFilled /> : <IconPin />}
                     />
                 )
@@ -147,7 +168,7 @@ export function DashboardsTable({
                                         </Tooltip>
                                     )}
                                     {!canEditDashboard && (
-                                        <Tooltip title={DASHBOARD_CANNOT_EDIT_MESSAGE}>
+                                        <Tooltip title={dashboardCannotEditMessage()}>
                                             <IconLock className="ml-1 text-base text-secondary" />
                                         </Tooltip>
                                     )}
@@ -202,9 +223,14 @@ export function DashboardsTable({
                 if (folder === null || folder === undefined || folder === UNFILED_DASHBOARDS_FOLDER) {
                     return <span className="text-secondary">—</span>
                 }
-                const label = folder || 'Project root'
+                const label = folder || i18n.t('dashboard.list.projectRoot', { defaultValue: 'Project root' })
                 return (
-                    <Tooltip title={`Filter to dashboards in ${label}`}>
+                    <Tooltip
+                        title={i18n.t('dashboard.list.filterToFolder', {
+                            defaultValue: 'Filter to dashboards in {{ folder }}',
+                            folder: label,
+                        })}
+                    >
                         <Link
                             className="flex items-center gap-1 text-secondary max-w-[10rem]"
                             onClick={() => setFilters({ folder })}
@@ -218,14 +244,14 @@ export function DashboardsTable({
         } as LemonTableColumn<DashboardType, keyof DashboardType | undefined>,
         createdByColumn<DashboardType>() as LemonTableColumn<DashboardType, keyof DashboardType | undefined>,
         createdAtColumn<DashboardType>() as LemonTableColumn<DashboardType, keyof DashboardType | undefined>,
-        atColumn<DashboardType>('last_accessed_at', 'Last accessed at') as LemonTableColumn<
-            DashboardType,
-            keyof DashboardType | undefined
-        >,
-        atColumn<DashboardType>('last_viewed_at', 'You last viewed') as LemonTableColumn<
-            DashboardType,
-            keyof DashboardType | undefined
-        >,
+        atColumn<DashboardType>(
+            'last_accessed_at',
+            i18n.t('dashboard.list.lastAccessedAt', { defaultValue: 'Last accessed at' })
+        ) as LemonTableColumn<DashboardType, keyof DashboardType | undefined>,
+        atColumn<DashboardType>(
+            'last_viewed_at',
+            i18n.t('dashboard.list.youLastViewed', { defaultValue: 'You last viewed' })
+        ) as LemonTableColumn<DashboardType, keyof DashboardType | undefined>,
         hideActions
             ? {}
             : {
@@ -355,7 +381,7 @@ export function DashboardsTable({
                 loading={dashboardsLoading}
                 defaultSorting={effectiveTableSorting}
                 onSort={tableSortingChanged}
-                emptyState="No dashboards matching your filters!"
+                emptyState={i18n.t('dashboard.list.empty', { defaultValue: 'No dashboards matching your filters!' })}
                 nouns={['dashboard', 'dashboards']}
                 bulkSelection={{
                     barClassName: 'mb-2',
@@ -367,9 +393,15 @@ export function DashboardsTable({
                             AccessControlLevel.Editor
                         )
                             ? true
-                            : { disabledReason: DASHBOARD_CANNOT_EDIT_MESSAGE },
-                    rowAriaLabel: (dashboard: DashboardType) => `Select dashboard ${dashboard.name}`,
-                    headerAriaLabel: 'Select all dashboards on this page',
+                            : { disabledReason: dashboardCannotEditMessage() },
+                    rowAriaLabel: (dashboard: DashboardType) =>
+                        i18n.t('dashboard.list.selectRow', {
+                            defaultValue: 'Select dashboard {{ name }}',
+                            name: dashboard.name,
+                        }),
+                    headerAriaLabel: i18n.t('dashboard.list.selectAll', {
+                        defaultValue: 'Select all dashboards on this page',
+                    }),
                     renderActions: (ctx) => (
                         <>
                             <BulkMoveToFolderButton

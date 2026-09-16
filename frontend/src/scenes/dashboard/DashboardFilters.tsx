@@ -4,6 +4,7 @@ import { useValues } from 'kea'
 import { IconEllipsis } from '@posthog/icons'
 import { LemonButton, LemonMenu } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { urls } from 'scenes/urls'
 
 import { DashboardPlacement } from '~/types'
@@ -65,8 +66,12 @@ export function DashboardFilterBar({ backTo }: DashboardFilterBarProps): JSX.Ele
                                         {
                                             label:
                                                 placement === DashboardPlacement.Group
-                                                    ? 'Edit dashboard template'
-                                                    : 'Edit dashboard',
+                                                    ? i18n.t('dashboard.filters.editTemplate', {
+                                                          defaultValue: 'Edit dashboard template',
+                                                      })
+                                                    : i18n.t('dashboard.filters.edit', {
+                                                          defaultValue: 'Edit dashboard',
+                                                      }),
                                             to: backTo
                                                 ? `${urls.dashboard(dashboard.id)}?backUrl=${encodeURIComponent(backTo.url)}&backName=${encodeURIComponent(backTo.name)}`
                                                 : urls.dashboard(dashboard.id),

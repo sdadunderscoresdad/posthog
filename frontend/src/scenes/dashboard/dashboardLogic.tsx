@@ -1734,7 +1734,12 @@ export const dashboardLogic = kea<dashboardLogicType>([
                         cache.dashboardChangesPersisted = true
                         return getQueryBasedDashboard(updatedDashboard)
                     } catch (e) {
-                        lemonToast.error('Could not update dashboard: ' + String(e))
+                        lemonToast.error(
+                            i18n.t('dashboardLogic.couldNotUpdate', {
+                                defaultValue: 'Could not update dashboard: {{ error }}',
+                                error: String(e),
+                            })
+                        )
                         return values.dashboard
                     }
                 },
@@ -1751,7 +1756,12 @@ export const dashboardLogic = kea<dashboardLogicType>([
 
                         return values.dashboard
                     } catch (e) {
-                        lemonToast.error('Could not remove tile from dashboard: ' + String(e))
+                        lemonToast.error(
+                            i18n.t('dashboardLogic.couldNotRemoveTile', {
+                                defaultValue: 'Could not remove tile from dashboard: {{ error }}',
+                                error: String(e),
+                            })
+                        )
                         // Re-insert the tile (its layout puts it back in place) and suppress the undo toast.
                         cache.removedTileForUndo = undefined
                         return {
@@ -1799,7 +1809,13 @@ export const dashboardLogic = kea<dashboardLogicType>([
                     } catch (e) {
                         // Re-throw so duplicateTileFailure fires. Swallowing the error resolved it as a
                         // success, so the tile refreshed with no copy and the user kept clicking.
-                        lemonToast.error(e instanceof ApiError ? (e.detail ?? e.message) : 'Could not duplicate tile')
+                        lemonToast.error(
+                            e instanceof ApiError
+                                ? (e.detail ?? e.message)
+                                : i18n.t('dashboardLogic.couldNotDuplicateTile', {
+                                      defaultValue: 'Could not duplicate tile',
+                                  })
+                        )
                         throw e
                     }
                 },
@@ -1825,7 +1841,11 @@ export const dashboardLogic = kea<dashboardLogicType>([
                         return values.dashboard
                     }
                     if (tile.button_tile && !tile.insight && !tile.text && !tile.widget) {
-                        lemonToast.error('Copying button tiles to another dashboard is not supported')
+                        lemonToast.error(
+                            i18n.t('dashboardLogic.buttonTileCopyUnsupported', {
+                                defaultValue: 'Copying button tiles to another dashboard is not supported',
+                            })
+                        )
                         return values.dashboard
                     }
                     if (fromDashboard === toDashboard) {
@@ -1947,7 +1967,13 @@ export const dashboardLogic = kea<dashboardLogicType>([
                         if (config !== undefined && isWidgetConfigValidationError(e)) {
                             throw e
                         }
-                        lemonToast.error(e instanceof ApiError ? (e.detail ?? e.message) : 'Could not update widget')
+                        lemonToast.error(
+                            e instanceof ApiError
+                                ? (e.detail ?? e.message)
+                                : i18n.t('dashboardLogic.couldNotUpdateWidget', {
+                                      defaultValue: 'Could not update widget',
+                                  })
+                        )
                         throw e
                     }
                 },
@@ -3278,9 +3304,9 @@ export const dashboardLogic = kea<dashboardLogicType>([
                         name: dashboard?.id
                             ? dashboard.name
                             : dashboardFailedToLoad
-                              ? 'Could not load'
+                              ? i18n.t('dashboardLogic.couldNotLoad', { defaultValue: 'Could not load' })
                               : error404
-                                ? 'Not found'
+                                ? i18n.t('dashboardLogic.notFound', { defaultValue: 'Not found' })
                                 : '...',
                         iconType: 'dashboard',
                     },
@@ -3539,7 +3565,9 @@ export const dashboardLogic = kea<dashboardLogicType>([
                 })
             } catch {
                 actions.setTileProperty(tileId, { color: previousColor })
-                lemonToast.error('Failed to update tile color')
+                lemonToast.error(
+                    i18n.t('dashboardLogic.failedToUpdateTileColor', { defaultValue: 'Failed to update tile color' })
+                )
             }
         },
         toggleTileDescription: async ({ tileId }) => {
@@ -3557,7 +3585,7 @@ export const dashboardLogic = kea<dashboardLogicType>([
                 })
             } catch {
                 actions.setTileProperty(tileId, { show_description: previousValue })
-                lemonToast.error('Failed to update tile')
+                lemonToast.error(i18n.t('dashboardLogic.failedToUpdateTile', { defaultValue: 'Failed to update tile' }))
             }
         },
         setRefreshError: sharedListeners.reportRefreshTiming,
@@ -3592,7 +3620,9 @@ export const dashboardLogic = kea<dashboardLogicType>([
                 actions.setAccessDeniedToDashboard()
             } else {
                 // Show error toast for other errors (500s, network issues, etc.)
-                const errorMessage = error?.message || 'Dashboard streaming failed'
+                const errorMessage =
+                    error?.message ||
+                    i18n.t('dashboardLogic.streamingFailed', { defaultValue: 'Dashboard streaming failed' })
                 lemonToast.error(`Failed to load dashboard: ${errorMessage}`)
                 // If the stream died before any metadata arrived there is no dashboard to render.
                 // The empty-state gate would otherwise fall through to the "Dashboard not found" screen,
@@ -3805,12 +3835,20 @@ export const dashboardLogic = kea<dashboardLogicType>([
 
                     lemonToast.success(
                         <>
-                            <b>{tileName}</b> {isWidgetTile ? 'widget restored' : 'has been restored'}
+                            <b>{tileName}</b>{' '}
+                            {isWidgetTile
+                                ? i18n.t('dashboardLogic.widgetRestored', { defaultValue: 'widget restored' })
+                                : i18n.t('dashboardLogic.hasBeenRestored', { defaultValue: 'has been restored' })}
                         </>,
                         { toastId }
                     )
                 } catch (e) {
-                    lemonToast.error('Could not restore tile: ' + String(e))
+                    lemonToast.error(
+                        i18n.t('dashboardLogic.couldNotRestoreTile', {
+                            defaultValue: 'Could not restore tile: {{ error }}',
+                            error: String(e),
+                        })
+                    )
                 }
             }
 
@@ -3983,7 +4021,11 @@ export const dashboardLogic = kea<dashboardLogicType>([
                 if (!cache.pendingDashboardTileSpacing) {
                     actions.setDashboardTileSpacing(persistedTileSpacing)
                     actions.loadDashboard({ action: DashboardLoadAction.Update })
-                    lemonToast.error("Couldn't update tile density. Try again.")
+                    lemonToast.error(
+                        i18n.t('dashboardLogic.tileDensityFailed', {
+                            defaultValue: "Couldn't update tile density. Try again.",
+                        })
+                    )
                 }
             } finally {
                 cache.dashboardTileSpacingSaveInFlight = false
@@ -4026,7 +4068,11 @@ export const dashboardLogic = kea<dashboardLogicType>([
                     actions.setDashboardGridCompaction(persistedLayoutCompaction)
                     actions.loadDashboard({ action: DashboardLoadAction.Update })
                 }
-                lemonToast.error("Couldn't update tile movement. Try again.")
+                lemonToast.error(
+                    i18n.t('dashboardLogic.tileMovementFailed', {
+                        defaultValue: "Couldn't update tile movement. Try again.",
+                    })
+                )
             } finally {
                 cache.dashboardGridCompactionSaveInFlight = false
                 const pendingLayoutCompaction = cache.pendingDashboardGridCompaction as
@@ -4419,10 +4465,20 @@ export const dashboardLogic = kea<dashboardLogicType>([
 
                 const count = createdTiles.length
                 if (count > 1) {
-                    lemonToast.success(`Added ${count} widgets`)
+                    lemonToast.success(
+                        i18n.t('dashboardLogic.widgetsAdded', {
+                            count,
+                            defaultValue_one: 'Added {{ count }} widget',
+                            defaultValue_other: 'Added {{ count }} widgets',
+                        })
+                    )
                 }
             } catch (e) {
-                lemonToast.error(e instanceof ApiError ? (e.detail ?? e.message) : 'Could not add widgets')
+                lemonToast.error(
+                    e instanceof ApiError
+                        ? (e.detail ?? e.message)
+                        : i18n.t('dashboardLogic.couldNotAddWidgets', { defaultValue: 'Could not add widgets' })
+                )
                 throw e
             } finally {
                 actions.addWidgetTileFinished()
@@ -4449,10 +4505,15 @@ export const dashboardLogic = kea<dashboardLogicType>([
                         forceRefresh: false,
                     })
                 }
-                lemonToast.success('Dashboard changes saved')
+                lemonToast.success(i18n.t('dashboardLogic.changesSaved', { defaultValue: 'Dashboard changes saved' }))
             } catch (error) {
                 actions.saveDashboardChangesFailure(String(error))
-                lemonToast.error('Could not save dashboard changes: ' + String(error))
+                lemonToast.error(
+                    i18n.t('dashboardLogic.couldNotSaveChanges', {
+                        defaultValue: 'Could not save dashboard changes: {{ error }}',
+                        error: String(error),
+                    })
+                )
             }
         },
         discardDashboardChanges: () => {
@@ -4504,7 +4565,7 @@ export const dashboardLogic = kea<dashboardLogicType>([
             // Only toast when changes were actually persisted — the no-op exit path skips the PATCH.
             if (cache.dashboardChangesPersisted) {
                 cache.dashboardChangesPersisted = false
-                lemonToast.success('Dashboard saved')
+                lemonToast.success(i18n.t('dashboardLogic.dashboardSaved', { defaultValue: 'Dashboard saved' }))
             }
             if (cache.shouldRefreshTilesAfterSave) {
                 cache.shouldRefreshTilesAfterSave = false
@@ -4519,7 +4580,10 @@ export const dashboardLogic = kea<dashboardLogicType>([
             if (values.dashboardEditing?.layout && values.hasUnsavedLayoutChanges) {
                 if (
                     !window.confirm(
-                        'Discard unsaved layout changes?\nAdding an insight reloads the dashboard and discards them.'
+                        i18n.t('dashboardLogic.discardUnsavedLayoutChanges', {
+                            defaultValue:
+                                'Discard unsaved layout changes?\nAdding an insight reloads the dashboard and discards them.',
+                        })
                     )
                 ) {
                     return
@@ -4541,11 +4605,15 @@ export const dashboardLogic = kea<dashboardLogicType>([
             }
             eventUsageLogic.actions.reportDashboardEditModeDiscardPrompt(values.dashboard, 'shown')
             LemonDialog.open({
-                title: 'Discard unsaved changes?',
-                description:
-                    'You have unsaved layout or color changes. If you discard now, the dashboard will revert to its last saved state.',
+                title: i18n.t('dashboardLogic.discardChangesTitle', {
+                    defaultValue: 'Discard unsaved changes?',
+                }),
+                description: i18n.t('dashboardLogic.discardChangesDescription', {
+                    defaultValue:
+                        'You have unsaved layout or color changes. If you discard now, the dashboard will revert to its last saved state.',
+                }),
                 primaryButton: {
-                    children: 'Discard changes',
+                    children: i18n.t('dashboardLogic.discardChanges', { defaultValue: 'Discard changes' }),
                     status: 'danger',
                     onClick: () => {
                         eventUsageLogic.actions.reportDashboardEditModeDiscardPrompt(values.dashboard, 'discarded')
@@ -4554,7 +4622,7 @@ export const dashboardLogic = kea<dashboardLogicType>([
                     'data-attr': 'dashboard-edit-mode-discard-confirm',
                 },
                 secondaryButton: {
-                    children: 'Keep editing',
+                    children: i18n.t('dashboardLogic.keepEditing', { defaultValue: 'Keep editing' }),
                     onClick: () => {
                         eventUsageLogic.actions.reportDashboardEditModeDiscardPrompt(values.dashboard, 'kept_editing')
                     },
@@ -4580,10 +4648,14 @@ export const dashboardLogic = kea<dashboardLogicType>([
 
             actions.setDashboardCustomizeMenuOpen(false)
             LemonDialog.open({
-                title: 'Change tile movement?',
-                description: 'Changing this setting discards your unsaved tile layout changes.',
+                title: i18n.t('dashboardLogic.changeTileMovementTitle', {
+                    defaultValue: 'Change tile movement?',
+                }),
+                description: i18n.t('dashboardLogic.changeTileMovementDescription', {
+                    defaultValue: 'Changing this setting discards your unsaved tile layout changes.',
+                }),
                 primaryButton: {
-                    children: 'Change mode',
+                    children: i18n.t('dashboardLogic.changeMode', { defaultValue: 'Change mode' }),
                     onClick: () => changeCompaction(true),
                 },
                 secondaryButton: {
@@ -4594,7 +4666,11 @@ export const dashboardLogic = kea<dashboardLogicType>([
         setDashboardEditing: async ({ editing, source }) => {
             if (editing?.layout && source !== DashboardEventSource.DashboardHeaderDiscardChanges) {
                 clearDOMTextSelection()
-                lemonToast.info('Now editing the dashboard – press E or click Save to persist changes')
+                lemonToast.info(
+                    i18n.t('dashboardLogic.nowEditing', {
+                        defaultValue: 'Now editing the dashboard – press E or click Save to persist changes',
+                    })
+                )
             } else if (
                 editing === null &&
                 (source === DashboardEventSource.DashboardHeaderSaveDashboard ||
@@ -4941,7 +5017,7 @@ export const dashboardLogic = kea<dashboardLogicType>([
             const logic = tileLogic(tileLogicProps)
 
             LemonDialog.openForm({
-                title: 'Override Tile Filters',
+                title: i18n.t('dashboardLogic.overrideTileFilters', { defaultValue: 'Override Tile Filters' }),
                 maxWidth: '40rem',
                 initialValues: {},
                 content: (
@@ -4950,7 +5026,7 @@ export const dashboardLogic = kea<dashboardLogicType>([
                     </BindLogic>
                 ),
                 tertiaryButton: {
-                    children: 'Clear All Overrides',
+                    children: i18n.t('dashboardLogic.clearAllOverrides', { defaultValue: 'Clear All Overrides' }),
                     onClick: () => {
                         logic.actions.resetOverrides()
                     },
@@ -4974,7 +5050,9 @@ export const dashboardLogic = kea<dashboardLogicType>([
                         )
                     }
                     actions.refreshDashboardItem({ tile })
-                    lemonToast.success('Tile filters saved')
+                    lemonToast.success(
+                        i18n.t('dashboardLogic.tileFiltersSaved', { defaultValue: 'Tile filters saved' })
+                    )
                 },
             })
         },
@@ -4991,7 +5069,9 @@ export const dashboardLogic = kea<dashboardLogicType>([
             }
             return true
         },
-        message: 'Leave dashboard?\nChanges you made to the layout will be discarded.',
+        message: i18n.t('dashboardLogic.leaveDashboard', {
+            defaultValue: 'Leave dashboard?\nChanges you made to the layout will be discarded.',
+        }),
         onConfirm: () => {
             actions.setDashboardEditing(null, DashboardEventSource.DashboardHeaderDiscardChanges)
         },

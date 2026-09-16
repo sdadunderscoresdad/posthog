@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { IconPlus } from '@posthog/icons'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { cn } from 'lib/utils/css-classes'
 import { newDashboardLogic } from 'scenes/dashboard/newDashboardLogic'
@@ -84,8 +85,10 @@ export function FeaturedTemplatesChooser({
                 ) : !hasFeaturedTiles && showBlankDashboardAction ? (
                     <TemplateItem
                         template={{
-                            template_name: 'Blank dashboard',
-                            dashboard_description: 'Create a blank dashboard',
+                            template_name: i18n.t('dashboard.templates.blankName', { defaultValue: 'Blank dashboard' }),
+                            dashboard_description: i18n.t('dashboard.templates.blankDescription', {
+                                defaultValue: 'Create a blank dashboard',
+                            }),
                             image_url: BlankDashboardHog,
                         }}
                         onClick={createBlankDashboard}

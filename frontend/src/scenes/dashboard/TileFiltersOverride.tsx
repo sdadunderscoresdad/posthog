@@ -11,6 +11,7 @@ import { LemonButton, LemonDivider, LemonSegmentedButton, LemonSelect, LemonSwit
 import { DateFilter } from 'lib/components/DateFilter/DateFilter'
 import { PropertyFilters } from 'lib/components/PropertyFilters/PropertyFilters'
 import { TaxonomicFilterGroupType } from 'lib/components/TaxonomicFilter/types'
+import { i18n } from 'lib/i18n/i18n'
 import { getProjectEventExistence } from 'lib/utils/getAppContext'
 import { TaxonomicBreakdownFilter } from 'scenes/insights/filters/BreakdownFilter/TaxonomicBreakdownFilter'
 import { insightLogic } from 'scenes/insights/insightLogic'
@@ -267,7 +268,9 @@ export function TileFiltersOverride({ tile }: { tile: DashboardTile<QueryBasedIn
                                 disabledReason={
                                     supportsBreakdown
                                         ? undefined
-                                        : "This insight type doesn't support a breakdown override"
+                                        : i18n.t('dashboard.tileFilters.breakdownUnsupported', {
+                                              defaultValue: "This insight type doesn't support a breakdown override",
+                                          })
                                 }
                                 updateBreakdownFilter={(breakdown_filter) => {
                                     let newBreakdownFilter: BreakdownFilter | null = breakdown_filter

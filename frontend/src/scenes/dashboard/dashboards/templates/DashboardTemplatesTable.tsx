@@ -7,6 +7,7 @@ import { IconBuilding, IconChevronDown, IconGlobe, IconPeople, IconThumbsUpFille
 import { LemonButton, LemonDialog, LemonDivider, LemonInput, LemonMenu, LemonTag } from '@posthog/lemon-ui'
 
 import { ObjectTags } from 'lib/components/ObjectTags/ObjectTags'
+import { i18n } from 'lib/i18n/i18n'
 import { More } from 'lib/lemon-ui/LemonButton/More'
 import { LemonTable, LemonTableColumn, LemonTableColumns } from 'lib/lemon-ui/LemonTable'
 import type { Sorting } from 'lib/lemon-ui/LemonTable'
@@ -254,7 +255,7 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
             },
         },
         {
-            title: 'Insight count',
+            title: i18n.t('dashboard.templates.insightCount', { defaultValue: 'Insight count' }),
             key: 'insight_tile_count',
             align: 'right',
             width: '6rem',

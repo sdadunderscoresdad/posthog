@@ -319,6 +319,9 @@
             "testAccountInfo": "Force test account filtering on or off for every insight, or let each insight keep its own setting.",
             "title": "Advanced options"
         },
+        "ai": {
+            "approveDataProcessing": "Approve AI data processing to use PostHog AI"
+        },
         "aiPrompt": {
             "buildItForMe": "Build it for me",
             "enterQuestion": "Enter a question",
@@ -389,6 +392,8 @@
             "title": "Duplicate dashboard"
         },
         "editBar": {
+            "dateFilter": "Date filter",
+            "eachInsightInterval": "each insight's interval",
             "groupedBy": "grouped by"
         },
         "editMode": {
@@ -401,7 +406,10 @@
             "waitForLoading": "Wait for dashboard to finish loading"
         },
         "empty": {
+            "addChart": "Add a chart from your library.",
             "addExistingChart": "Add an existing chart",
+            "baseText": "Add a chart from your library, or start with a question about what matters to your product.",
+            "buildTitle": "Build your dashboard",
             "viewWebAnalytics": "or View Web Analytics"
         },
         "errorTile": {
@@ -411,6 +419,8 @@
         "filters": {
             "clearFolder": "Clear folder filter",
             "clearSelection": "Clear selection",
+            "edit": "Edit dashboard",
+            "editTemplate": "Edit dashboard template",
             "filterTo": "Filter to:",
             "loadingTags": "Loading tags",
             "noMatchingTags": "No matching tags",
@@ -424,9 +434,33 @@
         "fullscreen": {
             "exit": "Exit full screen"
         },
+        "header": {
+            "cancelEditMode": "Cancel edit mode",
+            "enterEditMode": "Enter edit mode",
+            "saveLayout": "Save dashboard layout"
+        },
         "items": {
             "layoutEditingDisabled": "Layout editing is disabled on smaller screens. Please zoom out or use a larger screen to move or resize tiles.",
             "loadingTiles": "Loading tiles..."
+        },
+        "list": {
+            "all": "All dashboards",
+            "empty": "No dashboards matching your filters!",
+            "filterToFolder": "Filter to dashboards in {{ folder }}",
+            "lastAccessedAt": "Last accessed at",
+            "mine": "My dashboards",
+            "moveToFolder": "Move to folder",
+            "moveToFolderCount_one": "Move {{ count }} to folder",
+            "moveToFolderCount_other": "Move {{ count }} to folder",
+            "new": "New dashboard",
+            "noneFiled": "None of the selected dashboards are filed anywhere yet",
+            "pin": "Pin dashboard",
+            "projectRoot": "Project root",
+            "selectAll": "Select all dashboards on this page",
+            "selectRow": "Select dashboard {{ name }}",
+            "someNotFiled": "{{ skipped }} of the {{ total }} selected are not filed anywhere yet, so they stay put",
+            "unpin": "Unpin dashboard",
+            "youLastViewed": "You last viewed"
         },
         "loadError": "There was an error loading this dashboard",
         "menuBar": {
@@ -459,6 +493,7 @@
         "move": {
             "movedTo": "{{label}} moved to <link>{{dashboard}}</link>"
         },
+        "nameless": "nameless dashboard",
         "new": {
             "action": "New dashboard",
             "back": "Back",
@@ -471,6 +506,7 @@
             "templateRequiresEvents_other": "The <em>{{templateName}}</em> template requires you to choose {{count}} events.",
             "templatesDescription": "Here are some ready-made templates to help you get started quickly. Pick one below or start from scratch."
         },
+        "noEditPermissions": "You don't have edit permissions for this dashboard. Ask a dashboard collaborator with edit access to add you.",
         "notFound": {
             "invalidLink": "This dashboard link is not valid. <1>Go to your dashboards</1>.",
             "staleLink": "It may have been deleted, or the link is out of date. <2>Go to your dashboards</2>."
@@ -480,6 +516,18 @@
             "createNotebook": "Create notebook from dashboard"
         },
         "publicAccessBanner": "This dashboard is shared publicly. Updates you make here may be visible to anyone with the public link. Avoid adding sensitive data.",
+        "queryScan": {
+            "multiple_one": "{{ count }} insights on this dashboard read a large number of events, which can slow down dashboard loads: ",
+            "multiple_other": "{{ count }} insights on this dashboard read a large number of events, which can slow down dashboard loads: ",
+            "multipleAdvice": ". Open an insight to see the advice.",
+            "single": "1 insight on this dashboard reads a large number of events, which can slow down dashboard loads: ",
+            "singleAdvice": ". Open it to see the advice."
+        },
+        "refresh": {
+            "cancel": "Cancel refresh",
+            "intent": "Refresh dashboard",
+            "interval": "Refresh interval"
+        },
         "reload": {
             "autoRefresh": "Auto refresh while on page",
             "enableToSetInterval": "Enable auto refresh to set the interval",
@@ -503,6 +551,9 @@
         },
         "share": {
             "action": "Share"
+        },
+        "sharing": {
+            "manage": "Manage sharing"
         },
         "subscribe": {
             "action": "Subscribe"
@@ -557,26 +608,33 @@
         "templates": {
             "allInPopular": "Every template that matches is in Popular above.",
             "blankDashboard": "Blank dashboard",
+            "blankDescription": "Create a blank dashboard",
             "blankHint": "Start with a blank dashboard, or check back later for new templates.",
+            "blankName": "Blank dashboard",
             "cannotDeleteBuiltIn": "Built-in official templates cannot be deleted",
             "cannotDeleteGlobal": "Cannot delete a global template until it is team-only",
             "clearFilter": "Clear filter",
+            "copyTitle": "Copy template to another project",
             "coverPhoto": "cover photo",
             "createdBy": "Created by",
             "delete": "Delete",
             "deleteOrgDescription": "This template is shared with every project in your organization. Deleting it removes it for all of them.",
             "deleteOrgTitle": "Delete this organization-wide template?",
+            "editTitle": "Edit dashboard template",
             "empty": "There are no dashboard templates.",
+            "insightCount": "Insight count",
             "loved": "Users love this template",
             "makeOrgWide": "Make visible to whole organization",
             "makeTeamOnly": "Make visible to this team only",
             "makeVisibleEveryone": "Make visible to everyone",
             "moreTags_one": "+{{ count }} more",
             "moreTags_other": "+{{ count }} more",
+            "newTitle": "New dashboard template",
             "noMatches": "No templates match your search",
             "noMatchesHint": "Try different keywords, clear the filter to see every template again, or start with a blank dashboard.",
             "none": "No templates to show here",
             "noneInContext": "No templates are available in this context.",
+            "notReady": "Template data is not ready yet. Try again in a moment.",
             "official": "Official templates",
             "officialHint": "Browse official templates below.",
             "officialShort": "Official",
@@ -586,6 +644,7 @@
             "popularDescription": "Users love these templates! Great starting points for your dashboards.",
             "popularTooltip": "One of our most popular templates",
             "posthog": "PostHog",
+            "saveNoAccess": "You need edit access to dashboard templates to save a template.",
             "searchPlaceholder": "Search dashboard templates (min. 3 characters)",
             "sharedWithOrganization": "Shared with everyone in your organization",
             "team": "Team",
@@ -595,6 +654,7 @@
         },
         "tileFilters": {
             "breakdown": "Breakdown",
+            "breakdownUnsupported": "This insight type doesn't support a breakdown override",
             "dateRange": "Date range",
             "description": "Set custom filters for this tile. Property filters apply on top of the dashboard's, while the tile's date range, interval, breakdown, and test account filtering replace the dashboard's.",
             "display": "Display",
@@ -623,6 +683,7 @@
         "zoom": {
             "collapse": "Collapse view",
             "expand": "Expand view",
+            "intent": "Toggle dashboard layout zoom while editing",
             "tooltip": "Collapse/Expand view. Makes it easier to edit the layout for busier dashboards."
         }
     },
@@ -675,6 +736,42 @@
             "changed": "changed the dashboard variables"
         },
         "your": "your"
+    },
+    "dashboardLogic": {
+        "buttonTileCopyUnsupported": "Copying button tiles to another dashboard is not supported",
+        "changeMode": "Change mode",
+        "changesSaved": "Dashboard changes saved",
+        "changeTileMovementDescription": "Changing this setting discards your unsaved tile layout changes.",
+        "changeTileMovementTitle": "Change tile movement?",
+        "clearAllOverrides": "Clear All Overrides",
+        "couldNotAddWidgets": "Could not add widgets",
+        "couldNotDuplicateTile": "Could not duplicate tile",
+        "couldNotLoad": "Could not load",
+        "couldNotRemoveTile": "Could not remove tile from dashboard: {{ error }}",
+        "couldNotRestoreTile": "Could not restore tile: {{ error }}",
+        "couldNotSaveChanges": "Could not save dashboard changes: {{ error }}",
+        "couldNotUpdate": "Could not update dashboard: {{ error }}",
+        "couldNotUpdateWidget": "Could not update widget",
+        "dashboardSaved": "Dashboard saved",
+        "discardChanges": "Discard changes",
+        "discardChangesDescription": "You have unsaved layout or color changes. If you discard now, the dashboard will revert to its last saved state.",
+        "discardChangesTitle": "Discard unsaved changes?",
+        "discardUnsavedLayoutChanges": "Discard unsaved layout changes?\nAdding an insight reloads the dashboard and discards them.",
+        "failedToUpdateTile": "Failed to update tile",
+        "failedToUpdateTileColor": "Failed to update tile color",
+        "hasBeenRestored": "has been restored",
+        "keepEditing": "Keep editing",
+        "leaveDashboard": "Leave dashboard?\nChanges you made to the layout will be discarded.",
+        "notFound": "Not found",
+        "nowEditing": "Now editing the dashboard – press E or click Save to persist changes",
+        "overrideTileFilters": "Override Tile Filters",
+        "streamingFailed": "Dashboard streaming failed",
+        "tileDensityFailed": "Couldn't update tile density. Try again.",
+        "tileFiltersSaved": "Tile filters saved",
+        "tileMovementFailed": "Couldn't update tile movement. Try again.",
+        "widgetRestored": "widget restored",
+        "widgetsAdded_one": "Added {{ count }} widget",
+        "widgetsAdded_other": "Added {{ count }} widgets"
     },
     "dataManagementActivity": {
         "as": "as",
@@ -4452,6 +4549,10 @@
             "responses": "responses"
         },
         "unset": "unset"
+    },
+    "table": {
+        "created": "Created",
+        "updated": "Updated"
     },
     "teamActivity": {
         "added": "added",

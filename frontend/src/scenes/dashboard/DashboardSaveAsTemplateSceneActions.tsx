@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { IconScreen } from '@posthog/icons'
 
+import { i18n } from 'lib/i18n/i18n'
 import { ButtonPrimitive } from 'lib/ui/Button/ButtonPrimitives'
 import { getAccessControlDisabledReason, userHasAccess } from 'lib/utils/accessControlUtils'
 import { dashboardLogic } from 'scenes/dashboard/dashboardLogic'
@@ -30,9 +31,14 @@ export function DashboardSaveAsTemplateSceneActions(): JSX.Element | null {
     const missingTemplatePayload = !asDashboardTemplate
     const disabled = !customerTemplateEditorAccess || missingTemplatePayload
     const tooltip = !customerTemplateEditorAccess
-        ? (customerTemplateDisabledReason ?? 'You need edit access to dashboard templates to save a template.')
+        ? (customerTemplateDisabledReason ??
+          i18n.t('dashboard.templates.saveNoAccess', {
+              defaultValue: 'You need edit access to dashboard templates to save a template.',
+          }))
         : missingTemplatePayload
-          ? 'Template data is not ready yet. Try again in a moment.'
+          ? i18n.t('dashboard.templates.notReady', {
+                defaultValue: 'Template data is not ready yet. Try again in a moment.',
+            })
           : undefined
 
     return (

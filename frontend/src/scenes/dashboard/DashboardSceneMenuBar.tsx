@@ -23,6 +23,7 @@ import { SceneMenuBarFileItems } from 'lib/components/Scenes/SceneMenuBarFileIte
 import { SceneTagsCombobox } from 'lib/components/Scenes/SceneTagsCombobox'
 import { SceneActivityIndicator } from 'lib/components/Scenes/SceneUpdateActivityInfo'
 import { FEATURE_FLAGS } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 import { getAccessControlDisabledReason, userHasAccess } from 'lib/utils/accessControlUtils'
 import { DashboardEventSource } from 'lib/utils/eventUsageLogic'
@@ -242,7 +243,10 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
                                             export_context: {
                                                 localData: JSON.stringify(asDashboardTemplate),
                                                 filename: `dashboard-${slugify(
-                                                    dashboard?.name || 'nameless dashboard'
+                                                    dashboard?.name ||
+                                                        i18n.t('dashboard.nameless', {
+                                                            defaultValue: 'nameless dashboard',
+                                                        })
                                                 )}.json`,
                                                 mediaType: ExporterFormat.JSON,
                                             },

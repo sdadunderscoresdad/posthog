@@ -1,6 +1,7 @@
 import { useValues } from 'kea'
 import { Fragment } from 'react'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonBanner } from 'lib/lemon-ui/LemonBanner'
 import { Link } from 'lib/lemon-ui/Link'
 import { urls } from 'scenes/urls'
@@ -24,15 +25,26 @@ export function DashboardQueryScanBanner(): JSX.Element | null {
     return (
         <LemonBanner type="warning" className="mt-4 mb-2">
             {single
-                ? '1 insight on this dashboard reads a large number of events, which can slow down dashboard loads: '
-                : `${entries.length} insights on this dashboard read a large number of events, which can slow down dashboard loads: `}
+                ? i18n.t('dashboard.queryScan.single', {
+                      defaultValue:
+                          '1 insight on this dashboard reads a large number of events, which can slow down dashboard loads: ',
+                  })
+                : i18n.t('dashboard.queryScan.multiple', {
+                      defaultValue:
+                          '{{ count }} insights on this dashboard read a large number of events, which can slow down dashboard loads: ',
+                      count: entries.length,
+                  })}
             {entries.map((entry, index) => (
                 <Fragment key={entry.tileId}>
                     {index > 0 ? ', ' : ''}
                     <Link to={urls.insightView(entry.shortId)}>{entry.name}</Link>
                 </Fragment>
             ))}
-            {single ? '. Open it to see the advice.' : '. Open an insight to see the advice.'}
+            {single
+                ? i18n.t('dashboard.queryScan.singleAdvice', { defaultValue: '. Open it to see the advice.' })
+                : i18n.t('dashboard.queryScan.multipleAdvice', {
+                      defaultValue: '. Open an insight to see the advice.',
+                  })}
         </LemonBanner>
     )
 }

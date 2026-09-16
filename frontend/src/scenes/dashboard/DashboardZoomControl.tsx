@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { LemonButton } from '@posthog/lemon-ui'
 
 import { Shortcut } from 'lib/components/Shortcuts/Shortcut'
+import { i18n } from 'lib/i18n/i18n'
 import { eventUsageLogic } from 'lib/utils/eventUsageLogic'
 import { Scene } from 'scenes/sceneTypes'
 
@@ -27,7 +28,7 @@ export function DashboardZoomControl({ layoutZoom, setLayoutZoom }: DashboardZoo
             <Shortcut
                 name="DashboardLayoutZoomToggle"
                 keybind={[['z']]}
-                intent="Toggle dashboard layout zoom while editing"
+                intent={i18n.t('dashboard.zoom.intent', { defaultValue: 'Toggle dashboard layout zoom while editing' })}
                 interaction="click"
                 scope={Scene.Dashboard}
             >

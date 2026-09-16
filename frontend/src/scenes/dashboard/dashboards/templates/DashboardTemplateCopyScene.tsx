@@ -5,6 +5,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { LemonBanner, LemonButton, LemonSelect, LemonSkeleton, Link } from '@posthog/lemon-ui'
 
 import { EmptyMessage } from 'lib/components/EmptyMessage/EmptyMessage'
+import { i18n } from 'lib/i18n/i18n'
 import { DashboardsTab } from 'scenes/dashboard/dashboards/dashboardsLogic'
 import { SceneExport } from 'scenes/sceneTypes'
 import { urls } from 'scenes/urls'
@@ -54,7 +55,7 @@ export function DashboardTemplateCopyScene(props: DashboardTemplateCopyLogicProp
 
     const title = sourceTemplate?.template_name
         ? `Copy "${sourceTemplate.template_name}" to another project`
-        : 'Copy template to another project'
+        : i18n.t('dashboard.templates.copyTitle', { defaultValue: 'Copy template to another project' })
 
     const templatesListUrl = combineUrl(urls.dashboards(), { tab: DashboardsTab.Templates }).url
     const loadFailed = sourceTemplateLoadFailed
