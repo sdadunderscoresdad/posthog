@@ -125,7 +125,7 @@ function ValueCell({ value, bytes }: { value: unknown; bytes: number }): JSX.Ele
     )
     const copyButton = (
         <CopyToClipboardInline
-            description="property value"
+            description={t('activity.explore.copyPropertyValue', { defaultValue: 'property value' })}
             explicitValue={fullSerialized}
             iconSize="xsmall"
             selectable

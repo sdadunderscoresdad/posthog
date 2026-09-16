@@ -21,12 +21,15 @@
     },
     "activity": {
         "explore": {
+            "copyPropertyValue": "属性值",
+            "exceptionPropertiesBanner": "这些是 PostHog 用来展示异常信息的内部属性。",
             "setOnceProperties": {
                 "description": "随此事件发送的“仅设置一次”用户属性。会替换该用户档案中此前从未设置过的任何属性值。<2>了解更多</2>"
             },
             "setProperties": {
                 "description": "随此事件发送的用户属性。会替换该用户档案中此前可能已设置的任何属性值。<2>了解更多</2>"
-            }
+            },
+            "viewLlmTrace": "查看 LLM 追踪"
         },
         "live": {
             "bots": {
@@ -500,6 +503,54 @@
             "expand": "展开视图",
             "tooltip": "收起/展开视图。图表较多时更方便编辑布局。"
         }
+    },
+    "dashboardActivity": {
+        "created": "创建了仪表盘",
+        "customization": {
+            "and": "，并且",
+            "tileDensity": "将磁贴密度改为",
+            "tileMovement": "将磁贴移动方式改为"
+        },
+        "deleted": "删除了",
+        "deletedSharedLinkFor": "删除了以下仪表盘的分享链接：",
+        "description": {
+            "changed": "将描述",
+            "ofDashboard": "（该仪表盘）",
+            "to": "改为"
+        },
+        "filters": {
+            "changed": "修改了仪表盘过滤条件"
+        },
+        "name": {
+            "renamed": "将",
+            "renamedOnDashboard": "将该仪表盘",
+            "to": "重命名为"
+        },
+        "pinned": "固定了",
+        "refreshedSharedLinkFor": "刷新了以下仪表盘的分享链接：",
+        "restored": "恢复了",
+        "shared": "分享了",
+        "sharedDashboard": "仪表盘",
+        "shareLoginFailed": "<Bold>匿名用户</Bold>未能通过共享仪表盘 <NameBold><NameLink></NameLink></NameBold> 的身份验证，来源 IP 为 {{ ip }}",
+        "shareLoginSuccess": "<Bold>匿名用户</Bold>已成功通过共享仪表盘 <NameBold><NameLink></NameLink></NameBold> 的身份验证，来源 IP 为 {{ ip }}，使用的密码为 <Bold>{{ password }}</Bold>",
+        "suffix": {
+            "on": "，所在仪表盘 ",
+            "to": "改为"
+        },
+        "tags": {
+            "added_other": "添加了 {{ count }} 个标签",
+            "removed_other": "移除了 {{ count }} 个标签"
+        },
+        "the": "该",
+        "theDashboard": "仪表盘",
+        "unknownDashboard": "未知仪表盘",
+        "unknownIp": "未知 IP",
+        "unknownpassword": "未知密码",
+        "unpinned": "取消固定",
+        "variables": {
+            "changed": "修改了仪表盘变量"
+        },
+        "your": "你的"
     },
     "devLoginPanel": {
         "createFresh": "创建新的演示账户",

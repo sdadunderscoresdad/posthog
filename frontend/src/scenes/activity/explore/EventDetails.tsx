@@ -1,4 +1,4 @@
-import { Trans } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconLlmAnalytics } from '@posthog/icons'
 
@@ -32,6 +32,7 @@ interface EventDetailsProps {
 }
 
 export function EventDetails({ event, tableProps }: EventDetailsProps): JSX.Element {
+    const { t } = useTranslation()
     const getEventId = (event: ErrorPropertyTabEvent): string => {
         if ('uuid' in event && event.uuid) {
             return event.uuid
@@ -66,7 +67,7 @@ export function EventDetails({ event, tableProps }: EventDetailsProps): JSX.Elem
                                                 sideIcon={<IconLlmAnalytics />}
                                                 data-attr="conversation-view-trace-button"
                                             >
-                                                View LLM trace
+                                                {t('activity.explore.viewLlmTrace', { defaultValue: 'View LLM trace' })}
                                             </LemonButton>
                                         ) : null}
                                         {properties.$session_id ? (
@@ -132,8 +133,10 @@ export function EventDetails({ event, tableProps }: EventDetailsProps): JSX.Elem
                         return (
                             <div className="mx-3 -mt-4">
                                 <LemonBanner type="info" dismissKey="event-details-exception-properties-why-banner">
-                                    These are the internal properties that PostHog uses to display information about
-                                    exceptions.
+                                    {t('activity.explore.exceptionPropertiesBanner', {
+                                        defaultValue:
+                                            'These are the internal properties that PostHog uses to display information about exceptions.',
+                                    })}
                                 </LemonBanner>
                                 <PropertiesTable
                                     type={PropertyDefinitionType.Event}

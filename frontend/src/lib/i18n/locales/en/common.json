@@ -21,12 +21,15 @@
     },
     "activity": {
         "explore": {
+            "copyPropertyValue": "property value",
+            "exceptionPropertiesBanner": "These are the internal properties that PostHog uses to display information about exceptions.",
             "setOnceProperties": {
                 "description": "\"Set once\" person properties sent with this event. Will replace any property value that has never been set on this person profile before now. <2>Learn more</2>"
             },
             "setProperties": {
                 "description": "Person properties sent with this event. Will replace any property value that may have been set on this person profile before now. <2>Learn more</2>"
-            }
+            },
+            "viewLlmTrace": "View LLM trace"
         },
         "live": {
             "bots": {
@@ -505,6 +508,56 @@
             "expand": "Expand view",
             "tooltip": "Collapse/Expand view. Makes it easier to edit the layout for busier dashboards."
         }
+    },
+    "dashboardActivity": {
+        "created": "created the dashboard",
+        "customization": {
+            "and": " and ",
+            "tileDensity": "changed tile density to ",
+            "tileMovement": "changed tile movement to "
+        },
+        "deleted": "deleted",
+        "deletedSharedLinkFor": "deleted shared link for",
+        "description": {
+            "changed": "changed the description",
+            "ofDashboard": " of the dashboard ",
+            "to": "to"
+        },
+        "filters": {
+            "changed": "changed the dashboard filters"
+        },
+        "name": {
+            "renamed": "renamed ",
+            "renamedOnDashboard": "renamed the dashboard ",
+            "to": "to"
+        },
+        "pinned": "pinned",
+        "refreshedSharedLinkFor": "refreshed the shared link for",
+        "restored": "restored",
+        "shared": "shared",
+        "sharedDashboard": "dashboard",
+        "shareLoginFailed": "<Bold>Anonymous user</Bold> failed to authenticate to shared dashboard <NameBold><NameLink></NameLink></NameBold> from {{ ip }}",
+        "shareLoginSuccess": "<Bold>Anonymous user</Bold> successfully authenticated to shared dashboard <NameBold><NameLink></NameLink></NameBold> from {{ ip }} using password <Bold>{{ password }}</Bold>",
+        "suffix": {
+            "on": "on the dashboard ",
+            "to": "to"
+        },
+        "tags": {
+            "added_one": "added {{ count }} tag",
+            "added_other": "added {{ count }} tags",
+            "removed_one": "removed {{ count }} tag",
+            "removed_other": "removed {{ count }} tags"
+        },
+        "the": "the",
+        "theDashboard": " the dashboard ",
+        "unknownDashboard": "Unknown dashboard",
+        "unknownIp": "unknown IP",
+        "unknownpassword": "unknown password",
+        "unpinned": "un-pinned",
+        "variables": {
+            "changed": "changed the dashboard variables"
+        },
+        "your": "your"
     },
     "devLoginPanel": {
         "createFresh": "Create fresh demo account",

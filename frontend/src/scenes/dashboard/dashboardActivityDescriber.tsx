@@ -1,4 +1,5 @@
 import posthog from 'posthog-js'
+import { Trans } from 'react-i18next'
 import { DashboardFilter, HogQLVariable } from 'src/queries/schema/schema-general'
 
 import { Link } from '@posthog/lemon-ui'
@@ -25,19 +26,23 @@ import {
     VariablesSummary,
 } from 'lib/components/Cards/InsightCard/InsightDetails'
 import { ObjectTags } from 'lib/components/ObjectTags/ObjectTags'
+import { i18n } from 'lib/i18n/i18n'
 import { isKeyOf } from 'lib/utils/guards'
-import { pluralize } from 'lib/utils/strings'
 import { urls } from 'scenes/urls'
 
 import { DashboardType } from '~/types'
 
+function unknownDashboard(): string {
+    return i18n.t('dashboardActivity.unknownDashboard', { defaultValue: 'Unknown dashboard' })
+}
+
 function nameAndLink(logItem?: ActivityLogItem): JSX.Element {
     return logItem?.item_id ? (
-        <Link to={urls.dashboard(logItem.item_id)}>{logItem?.detail?.name || 'Unknown dashboard'}</Link>
+        <Link to={urls.dashboard(logItem.item_id)}>{logItem?.detail?.name || unknownDashboard()}</Link>
     ) : logItem?.detail?.name ? (
         <>{logItem.detail.name}</>
     ) : (
-        <i>Unknown dashboard</i>
+        <i>{unknownDashboard()}</i>
     )
 }
 
@@ -49,7 +54,12 @@ const dashboardActionsMapping: Record<
         return {
             description: [
                 <>
-                    renamed {asNotification && 'the dashboard '}"{change?.before}" to{' '}
+                    {asNotification
+                        ? i18n.t('dashboardActivity.name.renamedOnDashboard', {
+                              defaultValue: 'renamed the dashboard ',
+                          })
+                        : i18n.t('dashboardActivity.name.renamed', { defaultValue: 'renamed ' })}
+                    "{change?.before}" {i18n.t('dashboardActivity.name.to', { defaultValue: 'to' })}{' '}
                     <strong>"{nameAndLink(logItem)}"</strong>
                 </>,
             ],
@@ -58,12 +68,16 @@ const dashboardActionsMapping: Record<
     },
     deleted: function onSoftDelete(change, logItem, asNotification) {
         const isDeleted = detectBoolean(change?.after)
-        const describeChange = isDeleted ? 'deleted' : 'restored'
+        const describeChange = isDeleted
+            ? i18n.t('dashboardActivity.deleted', { defaultValue: 'deleted' })
+            : i18n.t('dashboardActivity.restored', { defaultValue: 'restored' })
         return {
             description: [
                 <>
                     {describeChange}
-                    {asNotification && ' the dashboard '}
+                    {asNotification
+                        ? i18n.t('dashboardActivity.theDashboard', { defaultValue: ' the dashboard ' })
+                        : ''}
                 </>,
             ],
             suffix: <>{nameAndLink(logItem)}</>,
@@ -73,7 +87,11 @@ const dashboardActionsMapping: Record<
         return {
             description: [
                 <>
-                    changed the description {asNotification && ' of the dashboard '}to{' '}
+                    {i18n.t('dashboardActivity.description.changed', { defaultValue: 'changed the description' })}
+                    {asNotification
+                        ? i18n.t('dashboardActivity.description.ofDashboard', { defaultValue: ' of the dashboard ' })
+                        : ' '}
+                    {i18n.t('dashboardActivity.description.to', { defaultValue: 'to' })}{' '}
                     <strong>"{change?.after as string}"</strong>
                 </>,
             ],
@@ -89,7 +107,11 @@ const dashboardActionsMapping: Record<
         if (addedTags.length) {
             changes.push(
                 <>
-                    added {pluralize(addedTags.length, 'tag', 'tags', false)}{' '}
+                    {i18n.t('dashboardActivity.tags.added', {
+                        count: addedTags.length,
+                        defaultValue_one: 'added {{ count }} tag',
+                        defaultValue_other: 'added {{ count }} tags',
+                    })}{' '}
                     <ObjectTags tags={addedTags} saving={false} style={{ display: 'inline' }} staticOnly />
                 </>
             )
@@ -97,7 +119,11 @@ const dashboardActionsMapping: Record<
         if (removedTags.length) {
             changes.push(
                 <>
-                    removed {pluralize(removedTags.length, 'tag', 'tags', false)}{' '}
+                    {i18n.t('dashboardActivity.tags.removed', {
+                        count: removedTags.length,
+                        defaultValue_one: 'removed {{ count }} tag',
+                        defaultValue_other: 'removed {{ count }} tags',
+                    })}{' '}
                     <ObjectTags tags={removedTags} saving={false} style={{ display: 'inline' }} staticOnly />
                 </>
             )
@@ -111,7 +137,12 @@ const dashboardActionsMapping: Record<
             description: [
                 <>
                     <div className="highlighted-activity">
-                        {isFavoriteAfter ? '' : 'un-'}pinned{asNotification && ' the dashboard '}
+                        {isFavoriteAfter
+                            ? i18n.t('dashboardActivity.pinned', { defaultValue: 'pinned' })
+                            : i18n.t('dashboardActivity.unpinned', { defaultValue: 'un-pinned' })}
+                        {asNotification
+                            ? i18n.t('dashboardActivity.theDashboard', { defaultValue: ' the dashboard ' })
+                            : ''}
                     </div>
                 </>,
             ],
@@ -121,7 +152,9 @@ const dashboardActionsMapping: Record<
     filters: function onChangedFilters(change, logItem) {
         const filtersAfter = change?.after as DashboardFilter
         return {
-            description: ['changed the dashboard filters'],
+            description: [
+                i18n.t('dashboardActivity.filters.changed', { defaultValue: 'changed the dashboard filters' }),
+            ],
             extendedDescription: (
                 <div className="ActivityDescription">
                     <PropertiesSummary properties={filtersAfter.properties} />
@@ -129,19 +162,31 @@ const dashboardActionsMapping: Record<
                     <DateRangeSummary dateFrom={filtersAfter.date_from} dateTo={filtersAfter.date_to} />
                 </div>
             ),
-            suffix: <>on the dashboard {nameAndLink(logItem)} to</>,
+            suffix: (
+                <>
+                    {i18n.t('dashboardActivity.suffix.on', { defaultValue: 'on the dashboard ' })}
+                    {nameAndLink(logItem)} {i18n.t('dashboardActivity.suffix.to', { defaultValue: 'to' })}
+                </>
+            ),
         }
     },
     variables: function onChangedVariables(change, logItem) {
         const variablesAfter = change?.after as Record<string, HogQLVariable>
         return {
-            description: ['changed the dashboard variables'],
+            description: [
+                i18n.t('dashboardActivity.variables.changed', { defaultValue: 'changed the dashboard variables' }),
+            ],
             extendedDescription: (
                 <div className="ActivityDescription">
                     <VariablesSummary variables={variablesAfter} />
                 </div>
             ),
-            suffix: <>on the dashboard {nameAndLink(logItem)} to</>,
+            suffix: (
+                <>
+                    {i18n.t('dashboardActivity.suffix.on', { defaultValue: 'on the dashboard ' })}
+                    {nameAndLink(logItem)} {i18n.t('dashboardActivity.suffix.to', { defaultValue: 'to' })}
+                </>
+            ),
         }
     },
     id: () => null,
@@ -170,18 +215,23 @@ const dashboardActionsMapping: Record<
         if (after?.layout_compaction && after.layout_compaction !== before?.layout_compaction) {
             description.push(
                 <>
-                    changed tile movement to{' '}
+                    {i18n.t('dashboardActivity.customization.tileMovement', {
+                        defaultValue: 'changed tile movement to ',
+                    })}
                     <strong>{DASHBOARD_GRID_COMPACTION_LABELS[after.layout_compaction]}</strong>
                 </>
             )
         }
         if (after?.tile_spacing && after.tile_spacing !== before?.tile_spacing) {
             if (description.length > 0) {
-                description.push(' and ')
+                description.push(i18n.t('dashboardActivity.customization.and', { defaultValue: ' and ' }))
             }
             description.push(
                 <>
-                    changed tile density to <strong>{DASHBOARD_TILE_SPACING_LABELS[after.tile_spacing]}</strong>
+                    {i18n.t('dashboardActivity.customization.tileDensity', {
+                        defaultValue: 'changed tile density to ',
+                    })}
+                    <strong>{DASHBOARD_TILE_SPACING_LABELS[after.tile_spacing]}</strong>
                 </>
             )
         }
@@ -199,7 +249,9 @@ export function dashboardActivityDescriber(logItem: ActivityLogItem, asNotificat
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> created the dashboard {nameAndLink(logItem)}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('dashboardActivity.created', { defaultValue: 'created the dashboard' })}{' '}
+                    {nameAndLink(logItem)}
                 </>
             ),
         }
@@ -210,7 +262,8 @@ export function dashboardActivityDescriber(logItem: ActivityLogItem, asNotificat
         let extendedDescription: JSX.Element | undefined
         let changeSuffix: Description = (
             <>
-                on {asNotification && ' the dashboard '}
+                {i18n.t('dashboardActivity.suffix.on', { defaultValue: 'on the dashboard ' })}
+                {asNotification ? i18n.t('dashboardActivity.theDashboard', { defaultValue: ' the dashboard ' }) : ''}
                 {nameAndLink(logItem)}
             </>
         )
@@ -261,8 +314,12 @@ export function dashboardActivityDescriber(logItem: ActivityLogItem, asNotificat
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> shared {asNotification ? 'your' : 'the'} dashboard{' '}
-                    {nameAndLink(logItem)}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('dashboardActivity.shared', { defaultValue: 'shared' })}{' '}
+                    {asNotification
+                        ? i18n.t('dashboardActivity.your', { defaultValue: 'your' })
+                        : i18n.t('dashboardActivity.the', { defaultValue: 'the' })}{' '}
+                    {i18n.t('dashboardActivity.sharedDashboard', { defaultValue: 'dashboard' })} {nameAndLink(logItem)}
                 </>
             ),
         }
@@ -272,8 +329,12 @@ export function dashboardActivityDescriber(logItem: ActivityLogItem, asNotificat
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted shared link for {asNotification ? 'your' : 'the'}{' '}
-                    dashboard {nameAndLink(logItem)}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('dashboardActivity.deletedSharedLinkFor', { defaultValue: 'deleted shared link for' })}{' '}
+                    {asNotification
+                        ? i18n.t('dashboardActivity.your', { defaultValue: 'your' })
+                        : i18n.t('dashboardActivity.the', { defaultValue: 'the' })}{' '}
+                    {i18n.t('dashboardActivity.sharedDashboard', { defaultValue: 'dashboard' })} {nameAndLink(logItem)}
                 </>
             ),
         }
@@ -283,8 +344,14 @@ export function dashboardActivityDescriber(logItem: ActivityLogItem, asNotificat
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> refreshed the shared link for{' '}
-                    {asNotification ? 'your' : 'the'} dashboard {nameAndLink(logItem)}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('dashboardActivity.refreshedSharedLinkFor', {
+                        defaultValue: 'refreshed the shared link for',
+                    })}{' '}
+                    {asNotification
+                        ? i18n.t('dashboardActivity.your', { defaultValue: 'your' })
+                        : i18n.t('dashboardActivity.the', { defaultValue: 'the' })}{' '}
+                    {i18n.t('dashboardActivity.sharedDashboard', { defaultValue: 'dashboard' })} {nameAndLink(logItem)}
                 </>
             ),
         }
@@ -292,29 +359,39 @@ export function dashboardActivityDescriber(logItem: ActivityLogItem, asNotificat
 
     if (logItem.activity === 'share_login_success') {
         const afterData = logItem.detail.changes?.[0]?.after as any
-        const clientIp = afterData?.client_ip || 'unknown IP'
-        const passwordNote = afterData?.password_note || 'unknown password'
+        const clientIp = afterData?.client_ip || i18n.t('dashboardActivity.unknownIp', { defaultValue: 'unknown IP' })
+        const passwordNote =
+            afterData?.password_note ||
+            i18n.t('dashboardActivity.unknownpassword', { defaultValue: 'unknown password' })
 
         return {
             description: (
-                <>
-                    <strong>Anonymous user</strong> successfully authenticated to shared dashboard{' '}
-                    <b>{nameAndLink(logItem)}</b> from {clientIp} using password <strong>{passwordNote}</strong>
-                </>
+                <Trans
+                    i18nKey="dashboardActivity.shareLoginSuccess"
+                    values={{ ip: clientIp, password: passwordNote }}
+                    components={{
+                        Bold: <strong />,
+                        NameBold: <b />,
+                        NameLink: <>{nameAndLink(logItem)}</>,
+                    }}
+                    defaults="<Bold>Anonymous user</Bold> successfully authenticated to shared dashboard <NameBold><NameLink></NameLink></NameBold> from {{ ip }} using password <Bold>{{ password }}</Bold>"
+                />
             ),
         }
     }
 
     if (logItem.activity === 'share_login_failed') {
         const afterData = logItem.detail.changes?.[0]?.after as any
-        const clientIp = afterData?.client_ip || 'unknown IP'
+        const clientIp = afterData?.client_ip || i18n.t('dashboardActivity.unknownIp', { defaultValue: 'unknown IP' })
 
         return {
             description: (
-                <>
-                    <strong>Anonymous user</strong> failed to authenticate to shared dashboard{' '}
-                    <b>{nameAndLink(logItem)}</b> from {clientIp}
-                </>
+                <Trans
+                    i18nKey="dashboardActivity.shareLoginFailed"
+                    values={{ ip: clientIp }}
+                    components={{ Bold: <strong />, NameBold: <b />, NameLink: <>{nameAndLink(logItem)}</> }}
+                    defaults="<Bold>Anonymous user</Bold> failed to authenticate to shared dashboard <NameBold><NameLink></NameLink></NameBold> from {{ ip }}"
+                />
             ),
         }
     }

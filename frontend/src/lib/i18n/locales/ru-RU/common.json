@@ -21,12 +21,15 @@
     },
     "activity": {
         "explore": {
+            "copyPropertyValue": "",
+            "exceptionPropertiesBanner": "",
             "setOnceProperties": {
                 "description": ""
             },
             "setProperties": {
                 "description": ""
-            }
+            },
+            "viewLlmTrace": ""
         },
         "live": {
             "bots": {
@@ -515,6 +518,60 @@
             "expand": "",
             "tooltip": ""
         }
+    },
+    "dashboardActivity": {
+        "created": "",
+        "customization": {
+            "and": "",
+            "tileDensity": "",
+            "tileMovement": ""
+        },
+        "deleted": "",
+        "deletedSharedLinkFor": "",
+        "description": {
+            "changed": "",
+            "ofDashboard": "",
+            "to": ""
+        },
+        "filters": {
+            "changed": ""
+        },
+        "name": {
+            "renamed": "",
+            "renamedOnDashboard": "",
+            "to": ""
+        },
+        "pinned": "",
+        "refreshedSharedLinkFor": "",
+        "restored": "",
+        "shared": "",
+        "sharedDashboard": "",
+        "shareLoginFailed": "",
+        "shareLoginSuccess": "",
+        "suffix": {
+            "on": "",
+            "to": ""
+        },
+        "tags": {
+            "added_one": "",
+            "added_few": "",
+            "added_many": "",
+            "added_other": "",
+            "removed_one": "",
+            "removed_few": "",
+            "removed_many": "",
+            "removed_other": ""
+        },
+        "the": "",
+        "theDashboard": "",
+        "unknownDashboard": "",
+        "unknownIp": "",
+        "unknownpassword": "",
+        "unpinned": "",
+        "variables": {
+            "changed": ""
+        },
+        "your": ""
     },
     "devLoginPanel": {
         "createFresh": "",
