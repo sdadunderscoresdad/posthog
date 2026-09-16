@@ -585,6 +585,23 @@
         },
         "your": ""
     },
+    "dataManagementActivity": {
+        "as": "",
+        "changedDescriptionTo": "",
+        "eventDefinition": "",
+        "marked": "",
+        "on": "",
+        "propertyDefinition": "",
+        "tags": {
+            "added_one": "",
+            "added_other": "",
+            "removed_one": "",
+            "removed_other": ""
+        },
+        "unknown": "",
+        "unverified": "",
+        "verified": ""
+    },
     "devLoginPanel": {
         "createFresh": "",
         "createFreshTooltip": "",

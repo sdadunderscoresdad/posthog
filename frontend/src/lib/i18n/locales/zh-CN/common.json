@@ -578,6 +578,23 @@
         },
         "your": "你的"
     },
+    "dataManagementActivity": {
+        "as": "标记为",
+        "changedDescriptionTo": "将描述改为",
+        "eventDefinition": "事件定义",
+        "marked": "将",
+        "on": "，对象为",
+        "propertyDefinition": "属性定义",
+        "tags": {
+            "added_one": "添加了 {{ count }} 个标签",
+            "added_other": "添加了 {{ count }} 个标签",
+            "removed_one": "移除了 {{ count }} 个标签",
+            "removed_other": "移除了 {{ count }} 个标签"
+        },
+        "unknown": "未知",
+        "unverified": "未验证",
+        "verified": "已验证"
+    },
     "devLoginPanel": {
         "createFresh": "创建新的演示账户",
         "createFreshTooltip": "创建一个随机名称的一次性账户和组织，密码为 12345678，然后打开上手引导。",

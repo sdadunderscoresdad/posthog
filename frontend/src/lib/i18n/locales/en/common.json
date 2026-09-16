@@ -585,6 +585,23 @@
         },
         "your": "your"
     },
+    "dataManagementActivity": {
+        "as": "as",
+        "changedDescriptionTo": "changed description to",
+        "eventDefinition": "event definition",
+        "marked": "marked",
+        "on": "on",
+        "propertyDefinition": "property definition",
+        "tags": {
+            "added_one": "added {{ count }} tag",
+            "added_other": "added {{ count }} tags",
+            "removed_one": "removed {{ count }} tag",
+            "removed_other": "removed {{ count }} tags"
+        },
+        "unknown": "unknown",
+        "unverified": "unverified",
+        "verified": "verified"
+    },
     "devLoginPanel": {
         "createFresh": "Create fresh demo account",
         "createFreshTooltip": "Creates a throwaway account and organization with a random name and the password 12345678, then opens onboarding.",

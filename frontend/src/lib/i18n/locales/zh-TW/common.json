@@ -578,6 +578,21 @@
         },
         "your": ""
     },
+    "dataManagementActivity": {
+        "as": "",
+        "changedDescriptionTo": "",
+        "eventDefinition": "",
+        "marked": "",
+        "on": "",
+        "propertyDefinition": "",
+        "tags": {
+            "added_other": "",
+            "removed_other": ""
+        },
+        "unknown": "",
+        "unverified": "",
+        "verified": ""
+    },
     "devLoginPanel": {
         "createFresh": "",
         "createFreshTooltip": "",
