@@ -1,5 +1,6 @@
 import { useValues } from 'kea'
 import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonModal, LemonSelect, LemonSelectSection, LemonSkeleton } from '@posthog/lemon-ui'
 import {
@@ -338,6 +339,7 @@ export function SDKSetupInstructions(): JSX.Element {
     const [selectedSDK, setSelectedSDK] = useState<SDKKey>(SDKKey.JS_WEB)
     const [showFullSetup, setShowFullSetup] = useState(false)
 
+    const { t } = useTranslation()
     const config = useMemo(() => SDK_CONFIGS[selectedSDK], [selectedSDK])
 
     if (currentTeamLoading && !currentTeam) {
@@ -372,16 +374,18 @@ export function SDKSetupInstructions(): JSX.Element {
             </OnboardingDocsContentWrapper>
             <div className="flex items-center gap-2">
                 <LemonButton type="secondary" size="small" onClick={() => setShowFullSetup(true)}>
-                    View full setup instructions
+                    {t('settings.environment.sdkSetup.viewFullInstructions', {
+                        defaultValue: 'View full setup instructions',
+                    })}
                 </LemonButton>
                 <Link to={docsLink} target="_blank" className="text-sm">
-                    {name} docs
+                    {t('settings.environment.sdkSetup.docsLink', { defaultValue: '{{ name }} docs', name })}
                 </Link>
             </div>
             <LemonModal
                 isOpen={showFullSetup}
                 onClose={() => setShowFullSetup(false)}
-                title={`${name} setup`}
+                title={t('settings.environment.sdkSetup.modalTitle', { defaultValue: '{{ name }} setup', name })}
                 width={640}
             >
                 {wizardIntegrationName && <SetupWizardBanner integrationName={wizardIntegrationName} />}
@@ -390,7 +394,10 @@ export function SDKSetupInstructions(): JSX.Element {
                 </OnboardingDocsContentWrapper>
                 <div className="mt-4">
                     <Link to={docsLink} target="_blank">
-                        View full {name} documentation
+                        {t('settings.environment.sdkSetup.viewFullDocs', {
+                            defaultValue: 'View full {{ name }} documentation',
+                            name,
+                        })}
                     </Link>
                 </div>
             </LemonModal>

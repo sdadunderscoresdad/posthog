@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconInfo } from '@posthog/icons'
 import { LemonButton, LemonSwitch, Tooltip } from '@posthog/lemon-ui'
@@ -15,6 +16,7 @@ import { userLogic } from 'scenes/userLogic'
 // `environment-activity-logs` section in SettingsMap, not on each component here.
 
 export function ActivityLogSettings(): JSX.Element {
+    const { t } = useTranslation()
     const { user } = useValues(userLogic)
     const restrictedReason = useRestrictedArea({
         scope: RestrictionScope.Project,
@@ -26,7 +28,7 @@ export function ActivityLogSettings(): JSX.Element {
         <div className="flex">
             <p>
                 <LemonButton to={urls.advancedActivityLogs()} type="primary" disabledReason={effectiveRestriction}>
-                    Browse all activity logs
+                    {t('settings.environment.activityLog.browseAll', { defaultValue: 'Browse all activity logs' })}
                 </LemonButton>
             </p>
         </div>
@@ -34,6 +36,7 @@ export function ActivityLogSettings(): JSX.Element {
 }
 
 export function ActivityLogOrgLevelSettings(): JSX.Element {
+    const { t } = useTranslation()
     const { currentTeam } = useValues(teamLogic)
     const { updateCurrentTeam } = useActions(teamLogic)
     const { reportActivityLogSettingToggled } = useActions(eventUsageLogic)
@@ -48,13 +51,16 @@ export function ActivityLogOrgLevelSettings(): JSX.Element {
     return (
         <div>
             <p className="flex items-center gap-1">
-                Include organization-level activity logs in this project.
+                {t('settings.environment.activityLog.orgLevelDescription', {
+                    defaultValue: 'Include organization-level activity logs in this project.',
+                })}
                 <Tooltip
                     title={
                         <>
-                            When enabled, activity logs from organization-level changes (such as organization settings,
-                            domains, and members) will be included in this project's activity logs page, exports, and
-                            notifications subscriptions.
+                            {t('settings.environment.activityLog.orgLevelTooltip', {
+                                defaultValue:
+                                    "When enabled, activity logs from organization-level changes (such as organization settings, domains, and members) will be included in this project's activity logs page, exports, and notifications subscriptions.",
+                            })}
                         </>
                     }
                 >
@@ -67,7 +73,9 @@ export function ActivityLogOrgLevelSettings(): JSX.Element {
                 onChange={handleToggle}
                 checked={!!currentTeam?.receive_org_level_activity_logs}
                 disabledReason={restrictionReason || undefined}
-                label="Include organization-level activity"
+                label={t('settings.environment.activityLog.orgLevelLabel', {
+                    defaultValue: 'Include organization-level activity',
+                })}
                 bordered
             />
         </div>
@@ -75,6 +83,7 @@ export function ActivityLogOrgLevelSettings(): JSX.Element {
 }
 
 export function ActivityLogNotifications(): JSX.Element | null {
+    const { t } = useTranslation()
     const restrictedReason = useRestrictedArea({
         scope: RestrictionScope.Project,
         minimumAccessLevel: TeamMembershipLevel.Admin,
@@ -87,12 +96,16 @@ export function ActivityLogNotifications(): JSX.Element | null {
     return (
         <div>
             <p className="flex items-center gap-1">
-                Create notifications to get notified of activity logs.
+                {t('settings.environment.activityLog.notificationsDescription', {
+                    defaultValue: 'Create notifications to get notified of activity logs.',
+                })}
                 <Tooltip
                     title={
                         <>
-                            You can filter by activity type, resource, and other properties to receive only the
-                            notifications you need.
+                            {t('settings.environment.activityLog.notificationsTooltip', {
+                                defaultValue:
+                                    'You can filter by activity type, resource, and other properties to receive only the notifications you need.',
+                            })}
                         </>
                     }
                 >

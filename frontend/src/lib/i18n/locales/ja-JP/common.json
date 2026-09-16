@@ -603,6 +603,14 @@
         "cancel": "",
         "docsLink": "",
         "environment": {
+            "activityLog": {
+                "browseAll": "",
+                "notificationsDescription": "",
+                "notificationsTooltip": "",
+                "orgLevelDescription": "",
+                "orgLevelLabel": "",
+                "orgLevelTooltip": ""
+            },
             "dataColorTheme": {
                 "addColor": "",
                 "addTheme": "",
@@ -613,6 +621,20 @@
                 "name": "",
                 "namePlaceholder": "",
                 "officialTheme": ""
+            },
+            "jsSnippetVersion": {
+                "acceptedFormats": "",
+                "currentlyResolves": "",
+                "placeholder": ""
+            },
+            "maxChangelog": {
+                "empty": ""
+            },
+            "mcpServers": {
+                "description": "",
+                "installHint": "",
+                "learnMoreLink": "",
+                "learnMorePrefix": ""
             },
             "personsJoinMode": {
                 "innerDescription": "",
@@ -628,6 +650,12 @@
                 "queryTimeDescription": "",
                 "queryTimeLabel": "",
                 "recommended": ""
+            },
+            "sdkSetup": {
+                "docsLink": "",
+                "modalTitle": "",
+                "viewFullDocs": "",
+                "viewFullInstructions": ""
             },
             "team": {
                 "businessModel": {

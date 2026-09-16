@@ -603,6 +603,14 @@
         "cancel": "取消",
         "docsLink": "文档",
         "environment": {
+            "activityLog": {
+                "browseAll": "浏览全部活动日志",
+                "notificationsDescription": "创建通知，以便在产生活动日志时收到提醒。",
+                "notificationsTooltip": "你可以按活动类型、资源和其他属性进行筛选，只接收你需要的通知。",
+                "orgLevelDescription": "在此项目中包含组织级别的活动日志。",
+                "orgLevelLabel": "包含组织级别的活动",
+                "orgLevelTooltip": "启用后，组织级别变更（例如组织设置、域名和成员）产生的活动日志会纳入此项目的活动日志页面、导出和通知订阅。"
+            },
             "dataColorTheme": {
                 "addColor": "添加颜色",
                 "addTheme": "添加主题",
@@ -614,28 +622,55 @@
                 "namePlaceholder": "我的自定义主题",
                 "officialTheme": "官方主题"
             },
+            "jsSnippetVersion": {
+                "acceptedFormats": "支持的格式：主版本（<code>1</code>）、次版本（<code>1.358</code>）或精确版本（<code>1.358.0</code>）。",
+                "currentlyResolves": "当前解析为：",
+                "placeholder": "1（默认）"
+            },
+            "maxChangelog": {
+                "empty": "暂时没有更新日志。稍后再来看看 PostHog AI 的新功能。"
+            },
+            "mcpServers": {
+                "description": "MCP 服务器让 AI 助手可以直接连接到你的 PostHog 实例，从而检索洞察并代表你执行操作。",
+                "installHint": "你可以在 Cursor、Claude Code、Claude Desktop、VS Code 和 Zed 中运行以下命令来安装 PostHog MCP 服务器：",
+                "learnMoreLink": "这里",
+                "learnMorePrefix": "你可以在这里了解更多可用工具和其他安装方式"
+            },
             "personsJoinMode": {
-                "innerLabel": "使用内连接",
                 "innerDescription": "这是默认选项。除非你清楚自己在做什么，否则就选它。",
-                "leftLabel": "使用左连接",
-                "leftDescription": "面向无人员事件的实验模式"
+                "innerLabel": "使用内连接",
+                "leftDescription": "面向无人员事件的实验模式",
+                "leftLabel": "使用左连接"
             },
             "personsOnEvents": {
-                "eventTimeLabel": "使用事件发生时的人员属性",
                 "eventTimeDescription": "查询更快。如果人员属性被更新，过去数据的查询结果<em>不会</em>改变。",
-                "queryTimeLabel": "使用运行查询时的人员属性",
-                "queryTimeDescription": "查询较慢。如果人员属性被更新，过去数据的查询结果会<em>相应</em>改变。",
-                "idsEventTimeLabel": "使用事件发生时的人员 ID 和人员属性",
+                "eventTimeLabel": "使用事件发生时的人员属性",
                 "idsEventTimeDescription": "查询最快，<Span>但漏斗和独立用户数会不准确</Span>。如果人员属性被更新，过去数据的查询结果<em>不会</em>改变。",
+                "idsEventTimeLabel": "使用事件发生时的人员 ID 和人员属性",
+                "queryTimeDescription": "查询较慢。如果人员属性被更新，过去数据的查询结果会<em>相应</em>改变。",
+                "queryTimeLabel": "使用运行查询时的人员属性",
                 "recommended": "推荐"
             },
+            "sdkSetup": {
+                "docsLink": "{{ name }} 文档",
+                "modalTitle": "{{ name }} 接入设置",
+                "viewFullDocs": "查看完整的 {{ name }} 文档",
+                "viewFullInstructions": "查看完整接入说明"
+            },
             "team": {
+                "businessModel": {
+                    "label": "商业模式"
+                },
                 "displayName": {
                     "enterName": "请输入名称",
                     "loadingProject": "正在加载项目",
                     "nameTaken": "该组织中已存在同名项目，请换一个名称。",
                     "rename": "重命名项目",
                     "sameName": "这已经是该项目的名称"
+                },
+                "timezone": {
+                    "label": "时区",
+                    "weekStartsOn": "每周起始日"
                 },
                 "variables": {
                     "projectIdHint": "在 <ApiLink>PostHog API</ApiLink> 中使用此 ID。",
@@ -651,13 +686,6 @@
                     "tokenLabel": "项目令牌",
                     "tokenThing": "项目令牌",
                     "typeToConfirm": "输入 “{{ phrase }}” 以确认"
-                },
-                "timezone": {
-                    "label": "时区",
-                    "weekStartsOn": "每周起始日"
-                },
-                "businessModel": {
-                    "label": "商业模式"
                 }
             }
         },

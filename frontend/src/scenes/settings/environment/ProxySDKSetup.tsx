@@ -1,5 +1,6 @@
 import { useValues } from 'kea'
 import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonModal, LemonSelect, LemonSkeleton } from '@posthog/lemon-ui'
 
@@ -20,6 +21,7 @@ import {
 const PROXY_SDK_OPTIONS = buildSDKSelectOptions(['web', 'mobile'])
 
 export function ProxySDKSetup(): JSX.Element {
+    const { t } = useTranslation()
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
     const [selectedSDK, setSelectedSDK] = useState<SDKKey>(SDKKey.JS_WEB)
     const [showFullSetup, setShowFullSetup] = useState(false)
@@ -57,10 +59,12 @@ export function ProxySDKSetup(): JSX.Element {
             </OnboardingDocsContentWrapper>
             <div className="flex items-center gap-2">
                 <LemonButton type="secondary" size="small" onClick={() => setShowFullSetup(true)}>
-                    View full setup instructions
+                    {t('settings.environment.sdkSetup.viewFullInstructions', {
+                        defaultValue: 'View full setup instructions',
+                    })}
                 </LemonButton>
                 <Link to={docsLink} target="_blank" className="text-sm">
-                    {name} docs
+                    {t('settings.environment.sdkSetup.docsLink', { defaultValue: '{{ name }} docs', name })}
                 </Link>
             </div>
             <LemonModal
@@ -75,7 +79,10 @@ export function ProxySDKSetup(): JSX.Element {
                 </OnboardingDocsContentWrapper>
                 <div className="mt-4">
                     <Link to={docsLink} target="_blank">
-                        View full {name} documentation
+                        {t('settings.environment.sdkSetup.viewFullDocs', {
+                            defaultValue: 'View full {{ name }} documentation',
+                            name,
+                        })}
                     </Link>
                 </div>
             </LemonModal>

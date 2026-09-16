@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonSwitch, LemonTag, Link } from '@posthog/lemon-ui'
 
@@ -6,6 +7,7 @@ import { getTagProps } from 'scenes/max/components/MaxChangelog'
 import { ChangelogEntry, maxChangelogLogic } from 'scenes/max/maxChangelogLogic'
 
 export function MaxChangelogSettings(): JSX.Element {
+    const { t } = useTranslation()
     const { entries, isDismissed, hasEntries } = useValues(maxChangelogLogic)
     const { enableChangelog, dismissChangelog } = useActions(maxChangelogLogic)
 
@@ -20,7 +22,10 @@ export function MaxChangelogSettings(): JSX.Element {
     if (!hasEntries) {
         return (
             <div className="text-muted text-sm">
-                No changelog entries available. Check back later for updates on new PostHog AI features.
+                {t('settings.environment.maxChangelog.empty', {
+                    defaultValue:
+                        'No changelog entries available. Check back later for updates on new PostHog AI features.',
+                })}
             </div>
         )
     }

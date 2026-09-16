@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonInput } from '@posthog/lemon-ui'
 
@@ -8,6 +9,7 @@ import { TeamMembershipLevel } from 'lib/constants'
 import { jsSnippetVersionPinLogic } from './jsSnippetVersionPinLogic'
 
 export function JsSnippetVersionPin(): JSX.Element {
+    const { t } = useTranslation()
     const { versionPinResponse, versionPinResponseLoading, localPin } = useValues(jsSnippetVersionPinLogic)
     const { saveVersionPin, setLocalPin } = useActions(jsSnippetVersionPinLogic)
     const restrictedReason = useRestrictedArea({
@@ -26,7 +28,9 @@ export function JsSnippetVersionPin(): JSX.Element {
                     className="w-32"
                     value={localPin}
                     onChange={setLocalPin}
-                    placeholder="1 (default)"
+                    placeholder={t('settings.environment.jsSnippetVersion.placeholder', {
+                        defaultValue: '1 (default)',
+                    })}
                     disabled={versionPinResponseLoading || !!restrictedReason}
                 />
                 <LemonButton
@@ -36,17 +40,23 @@ export function JsSnippetVersionPin(): JSX.Element {
                     loading={versionPinResponseLoading}
                     disabledReason={restrictedReason}
                 >
-                    Save
+                    {t('settings.save', { defaultValue: 'Save' })}
                 </LemonButton>
             </div>
             {resolvedVersion && (
                 <p className="text-muted text-xs">
-                    Currently resolves to: <strong>{resolvedVersion}</strong>
+                    {t('settings.environment.jsSnippetVersion.currentlyResolves', {
+                        defaultValue: 'Currently resolves to:',
+                    })}{' '}
+                    <strong>{resolvedVersion}</strong>
                 </p>
             )}
             <p className="text-muted text-xs">
-                Accepted formats: major version (<code>1</code>), minor version (<code>1.358</code>), or exact version (
-                <code>1.358.0</code>).
+                <Trans
+                    i18nKey="settings.environment.jsSnippetVersion.acceptedFormats"
+                    components={{ code: <code /> }}
+                    defaults="Accepted formats: major version (<code>1</code>), minor version (<code>1.358</code>), or exact version (<code>1.358.0</code>)."
+                />
             </p>
         </div>
     )

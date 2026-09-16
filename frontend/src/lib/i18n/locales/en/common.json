@@ -608,6 +608,14 @@
         "cancel": "Cancel",
         "docsLink": "Docs",
         "environment": {
+            "activityLog": {
+                "browseAll": "Browse all activity logs",
+                "notificationsDescription": "Create notifications to get notified of activity logs.",
+                "notificationsTooltip": "You can filter by activity type, resource, and other properties to receive only the notifications you need.",
+                "orgLevelDescription": "Include organization-level activity logs in this project.",
+                "orgLevelLabel": "Include organization-level activity",
+                "orgLevelTooltip": "When enabled, activity logs from organization-level changes (such as organization settings, domains, and members) will be included in this project's activity logs page, exports, and notifications subscriptions."
+            },
             "dataColorTheme": {
                 "addColor": "Add color",
                 "addTheme": "Add theme",
@@ -618,6 +626,20 @@
                 "name": "Name",
                 "namePlaceholder": "My custom theme",
                 "officialTheme": "Official theme"
+            },
+            "jsSnippetVersion": {
+                "acceptedFormats": "Accepted formats: major version (<code>1</code>), minor version (<code>1.358</code>), or exact version (<code>1.358.0</code>).",
+                "currentlyResolves": "Currently resolves to:",
+                "placeholder": "1 (default)"
+            },
+            "maxChangelog": {
+                "empty": "No changelog entries available. Check back later for updates on new PostHog AI features."
+            },
+            "mcpServers": {
+                "description": "MCP servers allow AI assistants to connect directly to your PostHog instance, enabling them to retrieve insights and perform actions on your behalf.",
+                "installHint": "You can install the PostHog MCP server in Cursor, Claude Code, Claude Desktop, VS Code, and Zed by running the following command:",
+                "learnMoreLink": "here",
+                "learnMorePrefix": "You can learn more about what tools are available and other installation options"
             },
             "personsJoinMode": {
                 "innerDescription": "This is the default. You want this one unless you know what you are doing.",
@@ -633,6 +655,12 @@
                 "queryTimeDescription": "Slower queries. If the person property is updated, query results on past data <em>will</em> change accordingly.",
                 "queryTimeLabel": "Use person properties as of running the query",
                 "recommended": "RECOMMENDED"
+            },
+            "sdkSetup": {
+                "docsLink": "{{ name }} docs",
+                "modalTitle": "{{ name }} setup",
+                "viewFullDocs": "View full {{ name }} documentation",
+                "viewFullInstructions": "View full setup instructions"
             },
             "team": {
                 "businessModel": {
