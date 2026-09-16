@@ -1,6 +1,7 @@
 import { MakeLogicType, actions, afterMount, kea, listeners, path, reducers } from 'kea'
 import { loaders } from 'kea-loaders'
 
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { organizationLogic } from 'scenes/organizationLogic'
 
@@ -22,10 +23,14 @@ export type CIMDVerificationTokenWithValue = CIMDVerificationTokenWithValueApi
  */
 export function validateCimdUrl(url: string): string | null {
     if (!url) {
-        return 'Please enter your CIMD metadata URL'
+        return i18n.t('settings.organization.cimd.urlRequired', {
+            defaultValue: 'Please enter your CIMD metadata URL',
+        })
     }
     if (!url.startsWith('https://')) {
-        return 'The metadata URL must start with https://'
+        return i18n.t('settings.organization.cimd.httpsRequired', {
+            defaultValue: 'The metadata URL must start with https://',
+        })
     }
     let parsed: URL
     try {

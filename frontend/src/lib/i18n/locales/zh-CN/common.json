@@ -610,6 +610,42 @@
                 "signedBaaReason": "签署了 BAA 的组织会保持退出 AI 训练。如需调整，请联系我们。",
                 "whatsThis": "这是什么？"
             },
+            "cimd": {
+                "addToMetadata": "把它作为 <code>verification_token</code> 添加到你的 CIMD 元数据文档中 <code>com.posthog</code> 对象内。",
+                "bindDescription": "“{{ label }}” 签发于 URL 绑定功能之前，已无法完成验证。请设置它应当用于验证的元数据 URL 以恢复验证。",
+                "columns": {
+                    "label": "标签",
+                    "metadataUrl": "元数据 URL",
+                    "token": "令牌"
+                },
+                "copyNow": "请立即复制此令牌——之后将无法再次查看。如果丢失，你需要撤销并重新创建一个。",
+                "create": "创建令牌",
+                "createdTitle": "令牌已创建",
+                "createTitle": "创建 CIMD 验证令牌",
+                "createToken": "创建验证令牌",
+                "description": "验证令牌用于把 CIMD 合作方应用与该组织关联起来。请把令牌作为 <code>verification_token</code> 添加到你的 CIMD 元数据文档中 <code>com.posthog</code> 对象内。已验证的合作方在账号预配时享有更高的默认速率上限，并留下清晰的身份记录。每个令牌只在你创建时指定的元数据 URL 上生效。元数据格式见 <DocsLink>文档</DocsLink>。",
+                "done": "完成",
+                "empty": "没有验证令牌",
+                "emptyDescription": "创建一个令牌，把 CIMD 合作方应用与该组织关联起来。",
+                "fields": {
+                    "label": "标签",
+                    "metadataUrl": "CIMD 元数据 URL"
+                },
+                "httpsRequired": "元数据 URL 必须以 https:// 开头",
+                "labelHint": "请选择一个便于之后识别该令牌的标签。明文值只会显示一次。",
+                "labelPlaceholder": "例如：生产环境 CIMD 合作方",
+                "labelRequired": "请输入标签",
+                "notVerifying": "未在验证",
+                "revoke": "撤销",
+                "revokeDescription": "在 CIMD 元数据中使用该令牌的合作方将不再被识别，并会回落到匿名速率上限档位。",
+                "revokeTitle": "撤销令牌 “{{ label }}”？",
+                "revokeToken": "撤销令牌",
+                "setMetadataUrl": "设置元数据 URL",
+                "setUrl": "设置 URL",
+                "unboundWarning": "部分令牌签发于 URL 绑定功能之前，已无法完成验证。请在下方为它们设置元数据 URL 以恢复验证。",
+                "urlHint": "令牌只在此 URL 上生效，因此在其他地方发布的副本会被忽略。必须是 HTTPS 且包含路径，路径区分大小写。",
+                "urlRequired": "请输入你的 CIMD 元数据 URL"
+            },
             "dangerZone": {
                 "confirmPrompt": "请输入 <strong>{{ name }}</strong> 以确认。",
                 "currentOrganization": "当前组织",

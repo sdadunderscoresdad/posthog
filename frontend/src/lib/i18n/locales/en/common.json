@@ -615,6 +615,42 @@
                 "signedBaaReason": "Organizations with a signed BAA stay opted out of AI training. Contact us if this needs to change.",
                 "whatsThis": "What's this?"
             },
+            "cimd": {
+                "addToMetadata": "Add it to your CIMD metadata document as <code>verification_token</code> inside the <code>com.posthog</code> object.",
+                "bindDescription": "\"{{ label }}\" was issued before URL binding and has stopped verifying. Set the metadata URL it should verify at to restore verification.",
+                "columns": {
+                    "label": "Label",
+                    "metadataUrl": "Metadata URL",
+                    "token": "Token"
+                },
+                "copyNow": "Copy this token now - you won't be able to see it again. If you lose it, you'll need to revoke and create a new one.",
+                "create": "Create token",
+                "createdTitle": "Token created",
+                "createTitle": "Create CIMD verification token",
+                "createToken": "Create verification token",
+                "description": "Verification tokens link a CIMD partner application to this organization. Add the token to your CIMD metadata document as <code>verification_token</code> inside the <code>com.posthog</code> object. Verified partners get a higher default rate limit for account provisioning and a clear identity trail. Each token verifies only at the metadata URL you name when creating it. See the <DocsLink>docs</DocsLink> for the metadata format.",
+                "done": "Done",
+                "empty": "No verification tokens",
+                "emptyDescription": "Create one to link a CIMD partner app to this organization.",
+                "fields": {
+                    "label": "Label",
+                    "metadataUrl": "CIMD metadata URL"
+                },
+                "httpsRequired": "The metadata URL must start with https://",
+                "labelHint": "Pick a label that helps you identify this token later. You'll only see the plaintext value once.",
+                "labelPlaceholder": "e.g. Production CIMD partner",
+                "labelRequired": "Please enter a label",
+                "notVerifying": "Not verifying",
+                "revoke": "Revoke",
+                "revokeDescription": "Partners using this token in their CIMD metadata will no longer be recognized and will fall back to the anonymous rate limit tier.",
+                "revokeTitle": "Revoke token \"{{ label }}\"?",
+                "revokeToken": "Revoke token",
+                "setMetadataUrl": "Set metadata URL",
+                "setUrl": "Set URL",
+                "unboundWarning": "Some tokens were issued before URL binding and have stopped verifying. Set a metadata URL on each one below to restore verification.",
+                "urlHint": "The token only verifies at this URL, so a copy published anywhere else is ignored. Must be HTTPS and include a path, and the path is case-sensitive.",
+                "urlRequired": "Please enter your CIMD metadata URL"
+            },
             "dangerZone": {
                 "confirmPrompt": "Please type <strong>{{ name }}</strong> to confirm.",
                 "currentOrganization": "the current organization",

@@ -615,6 +615,42 @@
                 "signedBaaReason": "",
                 "whatsThis": ""
             },
+            "cimd": {
+                "addToMetadata": "",
+                "bindDescription": "",
+                "columns": {
+                    "label": "",
+                    "metadataUrl": "",
+                    "token": ""
+                },
+                "copyNow": "",
+                "create": "",
+                "createdTitle": "",
+                "createTitle": "",
+                "createToken": "",
+                "description": "",
+                "done": "",
+                "empty": "",
+                "emptyDescription": "",
+                "fields": {
+                    "label": "",
+                    "metadataUrl": ""
+                },
+                "httpsRequired": "",
+                "labelHint": "",
+                "labelPlaceholder": "",
+                "labelRequired": "",
+                "notVerifying": "",
+                "revoke": "",
+                "revokeDescription": "",
+                "revokeTitle": "",
+                "revokeToken": "",
+                "setMetadataUrl": "",
+                "setUrl": "",
+                "unboundWarning": "",
+                "urlHint": "",
+                "urlRequired": ""
+            },
             "dangerZone": {
                 "confirmPrompt": "",
                 "currentOrganization": "",

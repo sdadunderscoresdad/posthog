@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconPencil, IconTrash } from '@posthog/icons'
 import { LemonButton, LemonDialog, LemonInput, LemonModal, LemonTable, LemonTag, Link } from '@posthog/lemon-ui'
@@ -11,6 +12,7 @@ import { humanFriendlyDetailedTime } from 'lib/utils/datetime'
 import { cimdVerificationTokensLogic, validateCimdUrl, CIMDVerificationToken } from './cimdVerificationTokensLogic'
 
 export function CIMDVerificationTokens(): JSX.Element {
+    const { t } = useTranslation()
     const {
         tokens,
         tokensLoading,
@@ -41,37 +43,47 @@ export function CIMDVerificationTokens(): JSX.Element {
     return (
         <div className="space-y-4">
             <p className="text-secondary">
-                Verification tokens link a CIMD partner application to this organization. Add the token to your CIMD
-                metadata document as <code>verification_token</code> inside the <code>com.posthog</code> object.
-                Verified partners get a higher default rate limit for account provisioning and a clear identity trail.
-                Each token verifies only at the metadata URL you name when creating it. See the{' '}
-                <Link
-                    to="https://posthog.com/docs/integrate/provisioning#host-a-cimd-metadata-document"
-                    target="_blank"
-                >
-                    docs
-                </Link>{' '}
-                for the metadata format.
+                <Trans
+                    i18nKey="settings.organization.cimd.description"
+                    components={{
+                        code: <code />,
+                        DocsLink: (
+                            <Link
+                                to="https://posthog.com/docs/integrate/provisioning#host-a-cimd-metadata-document"
+                                target="_blank"
+                            />
+                        ),
+                    }}
+                    defaults="Verification tokens link a CIMD partner application to this organization. Add the token to your CIMD metadata document as <code>verification_token</code> inside the <code>com.posthog</code> object. Verified partners get a higher default rate limit for account provisioning and a clear identity trail. Each token verifies only at the metadata URL you name when creating it. See the <DocsLink>docs</DocsLink> for the metadata format."
+                />
             </p>
 
             <div className="flex justify-end">
                 <LemonButton type="primary" onClick={showCreateDialog} data-attr="create-cimd-verification-token">
-                    Create verification token
+                    {t('settings.organization.cimd.createToken', { defaultValue: 'Create verification token' })}
                 </LemonButton>
             </div>
 
             {hasUnboundToken && (
                 <LemonBanner type="warning">
-                    Some tokens were issued before URL binding and have stopped verifying. Set a metadata URL on each
-                    one below to restore verification.
+                    {t('settings.organization.cimd.unboundWarning', {
+                        defaultValue:
+                            'Some tokens were issued before URL binding and have stopped verifying. Set a metadata URL on each one below to restore verification.',
+                    })}
                 </LemonBanner>
             )}
 
             {!tokensLoading && tokens.length === 0 ? (
                 <div className="border border-dashed rounded-lg p-8 text-center">
                     <IconKey className="text-4xl text-secondary mx-auto mb-3" />
-                    <h3 className="text-base font-semibold mb-1">No verification tokens</h3>
-                    <p className="text-secondary">Create one to link a CIMD partner app to this organization.</p>
+                    <h3 className="text-base font-semibold mb-1">
+                        {t('settings.organization.cimd.empty', { defaultValue: 'No verification tokens' })}
+                    </h3>
+                    <p className="text-secondary">
+                        {t('settings.organization.cimd.emptyDescription', {
+                            defaultValue: 'Create one to link a CIMD partner app to this organization.',
+                        })}
+                    </p>
                 </div>
             ) : (
                 <LemonTable
@@ -79,24 +91,30 @@ export function CIMDVerificationTokens(): JSX.Element {
                     dataSource={tokens}
                     columns={[
                         {
-                            title: 'Label',
+                            title: t('settings.organization.cimd.columns.label', { defaultValue: 'Label' }),
                             key: 'label',
                             render: (_, row: CIMDVerificationToken) => (
                                 <span className="font-semibold">{row.label}</span>
                             ),
                         },
                         {
-                            title: 'Metadata URL',
+                            title: t('settings.organization.cimd.columns.metadataUrl', {
+                                defaultValue: 'Metadata URL',
+                            }),
                             key: 'cimd_url',
                             render: (_, row: CIMDVerificationToken) =>
                                 row.cimd_url ? (
                                     <span className="text-xs font-mono break-all">{row.cimd_url}</span>
                                 ) : (
-                                    <LemonTag type="warning">Not verifying</LemonTag>
+                                    <LemonTag type="warning">
+                                        {t('settings.organization.cimd.notVerifying', {
+                                            defaultValue: 'Not verifying',
+                                        })}
+                                    </LemonTag>
                                 ),
                         },
                         {
-                            title: 'Token',
+                            title: t('settings.organization.cimd.columns.token', { defaultValue: 'Token' }),
                             key: 'mask_value',
                             render: (_, row: CIMDVerificationToken) => (
                                 <code className="text-xs bg-fill-primary rounded px-1.5 py-0.5 font-mono">
@@ -105,18 +123,20 @@ export function CIMDVerificationTokens(): JSX.Element {
                             ),
                         },
                         {
-                            title: 'Created',
+                            title: t('settings.apiKeys.columns.created', { defaultValue: 'Created' }),
                             key: 'created_at',
                             render: (_, row: CIMDVerificationToken) => (
                                 <span className="text-muted text-sm">{humanFriendlyDetailedTime(row.created_at)}</span>
                             ),
                         },
                         {
-                            title: 'Last used',
+                            title: t('settings.apiKeys.columns.lastUsed', { defaultValue: 'Last used' }),
                             key: 'last_used_at',
                             render: (_, row: CIMDVerificationToken) => (
                                 <span className="text-muted text-sm">
-                                    {row.last_used_at ? humanFriendlyDetailedTime(row.last_used_at) : 'Never'}
+                                    {row.last_used_at
+                                        ? humanFriendlyDetailedTime(row.last_used_at)
+                                        : t('settings.organization.members.never', { defaultValue: 'Never' })}
                                 </span>
                             ),
                         },
@@ -130,7 +150,9 @@ export function CIMDVerificationTokens(): JSX.Element {
                                         <LemonButton
                                             icon={<IconPencil />}
                                             size="small"
-                                            tooltip="Set metadata URL"
+                                            tooltip={t('settings.organization.cimd.setMetadataUrl', {
+                                                defaultValue: 'Set metadata URL',
+                                            })}
                                             onClick={() => showBindDialog(row)}
                                         />
                                     )}
@@ -138,18 +160,29 @@ export function CIMDVerificationTokens(): JSX.Element {
                                         icon={<IconTrash />}
                                         size="small"
                                         status="danger"
-                                        tooltip="Revoke token"
+                                        tooltip={t('settings.organization.cimd.revokeToken', {
+                                            defaultValue: 'Revoke token',
+                                        })}
                                         onClick={() =>
                                             LemonDialog.open({
-                                                title: `Revoke token "${row.label}"?`,
-                                                description:
-                                                    'Partners using this token in their CIMD metadata will no longer be recognized and will fall back to the anonymous rate limit tier.',
+                                                title: t('settings.organization.cimd.revokeTitle', {
+                                                    defaultValue: 'Revoke token "{{ label }}"?',
+                                                    label: row.label,
+                                                }),
+                                                description: t('settings.organization.cimd.revokeDescription', {
+                                                    defaultValue:
+                                                        'Partners using this token in their CIMD metadata will no longer be recognized and will fall back to the anonymous rate limit tier.',
+                                                }),
                                                 primaryButton: {
-                                                    children: 'Revoke',
+                                                    children: t('settings.organization.cimd.revoke', {
+                                                        defaultValue: 'Revoke',
+                                                    }),
                                                     status: 'danger',
                                                     onClick: () => deleteToken(row),
                                                 },
-                                                secondaryButton: { children: 'Cancel' },
+                                                secondaryButton: {
+                                                    children: t('settings.cancel', { defaultValue: 'Cancel' }),
+                                                },
                                             })
                                         }
                                     />
@@ -163,11 +196,13 @@ export function CIMDVerificationTokens(): JSX.Element {
             <LemonModal
                 isOpen={isCreateDialogOpen}
                 onClose={hideCreateDialog}
-                title="Create CIMD verification token"
+                title={t('settings.organization.cimd.createTitle', {
+                    defaultValue: 'Create CIMD verification token',
+                })}
                 footer={
                     <>
                         <LemonButton type="secondary" onClick={hideCreateDialog}>
-                            Cancel
+                            {t('settings.cancel', { defaultValue: 'Cancel' })}
                         </LemonButton>
                         <LemonButton
                             type="primary"
@@ -175,33 +210,40 @@ export function CIMDVerificationTokens(): JSX.Element {
                             loading={isCreatingToken}
                             disabledReason={
                                 !newTokenLabel.trim()
-                                    ? 'Please enter a label'
+                                    ? t('settings.organization.cimd.labelRequired', {
+                                          defaultValue: 'Please enter a label',
+                                      })
                                     : (validateCimdUrl(newTokenUrl.trim()) ?? undefined)
                             }
                             data-attr="confirm-create-cimd-verification-token"
                         >
-                            Create token
+                            {t('settings.organization.cimd.create', { defaultValue: 'Create token' })}
                         </LemonButton>
                     </>
                 }
             >
                 <div className="space-y-2">
                     <label className="text-sm font-semibold" htmlFor="cimd-token-label">
-                        Label
+                        {t('settings.organization.cimd.fields.label', { defaultValue: 'Label' })}
                     </label>
                     <LemonInput
                         id="cimd-token-label"
-                        placeholder="e.g. Production CIMD partner"
+                        placeholder={t('settings.organization.cimd.labelPlaceholder', {
+                            defaultValue: 'e.g. Production CIMD partner',
+                        })}
                         value={newTokenLabel}
                         onChange={setNewTokenLabel}
                         autoFocus
                     />
                     <p className="text-secondary text-xs">
-                        Pick a label that helps you identify this token later. You'll only see the plaintext value once.
+                        {t('settings.organization.cimd.labelHint', {
+                            defaultValue:
+                                "Pick a label that helps you identify this token later. You'll only see the plaintext value once.",
+                        })}
                     </p>
 
                     <label className="text-sm font-semibold pt-2 block" htmlFor="cimd-token-url">
-                        CIMD metadata URL
+                        {t('settings.organization.cimd.fields.metadataUrl', { defaultValue: 'CIMD metadata URL' })}
                     </label>
                     <LemonInput
                         id="cimd-token-url"
@@ -210,8 +252,10 @@ export function CIMDVerificationTokens(): JSX.Element {
                         onChange={setNewTokenUrl}
                     />
                     <p className="text-secondary text-xs">
-                        The token only verifies at this URL, so a copy published anywhere else is ignored. Must be HTTPS
-                        and include a path, and the path is case-sensitive.
+                        {t('settings.organization.cimd.urlHint', {
+                            defaultValue:
+                                'The token only verifies at this URL, so a copy published anywhere else is ignored. Must be HTTPS and include a path, and the path is case-sensitive.',
+                        })}
                     </p>
                 </div>
             </LemonModal>
@@ -220,22 +264,27 @@ export function CIMDVerificationTokens(): JSX.Element {
                 isOpen={!!justCreatedToken}
                 onClose={() => setJustCreatedToken(null)}
                 closable={false}
-                title="Token created"
+                title={t('settings.organization.cimd.createdTitle', { defaultValue: 'Token created' })}
                 footer={
                     <LemonButton type="primary" onClick={() => setJustCreatedToken(null)}>
-                        Done
+                        {t('settings.organization.cimd.done', { defaultValue: 'Done' })}
                     </LemonButton>
                 }
             >
                 {justCreatedToken && (
                     <div className="space-y-3">
                         <LemonBanner type="warning">
-                            Copy this token now - you won't be able to see it again. If you lose it, you'll need to
-                            revoke and create a new one.
+                            {t('settings.organization.cimd.copyNow', {
+                                defaultValue:
+                                    "Copy this token now - you won't be able to see it again. If you lose it, you'll need to revoke and create a new one.",
+                            })}
                         </LemonBanner>
                         <p className="text-secondary">
-                            Add it to your CIMD metadata document as <code>verification_token</code> inside the{' '}
-                            <code>com.posthog</code> object.
+                            <Trans
+                                i18nKey="settings.organization.cimd.addToMetadata"
+                                components={{ code: <code /> }}
+                                defaults="Add it to your CIMD metadata document as <code>verification_token</code> inside the <code>com.posthog</code> object."
+                            />
                         </p>
                         <CodeSnippet language={Language.Text}>{justCreatedToken.value}</CodeSnippet>
                     </div>
@@ -245,11 +294,11 @@ export function CIMDVerificationTokens(): JSX.Element {
             <LemonModal
                 isOpen={!!bindingToken}
                 onClose={hideBindDialog}
-                title="Set metadata URL"
+                title={t('settings.organization.cimd.setMetadataUrl', { defaultValue: 'Set metadata URL' })}
                 footer={
                     <>
                         <LemonButton type="secondary" onClick={hideBindDialog}>
-                            Cancel
+                            {t('settings.cancel', { defaultValue: 'Cancel' })}
                         </LemonButton>
                         <LemonButton
                             type="primary"
@@ -258,7 +307,7 @@ export function CIMDVerificationTokens(): JSX.Element {
                             disabledReason={validateCimdUrl(bindUrl.trim()) ?? undefined}
                             data-attr="confirm-bind-cimd-verification-token"
                         >
-                            Set URL
+                            {t('settings.organization.cimd.setUrl', { defaultValue: 'Set URL' })}
                         </LemonButton>
                     </>
                 }
@@ -266,11 +315,14 @@ export function CIMDVerificationTokens(): JSX.Element {
                 {bindingToken && (
                     <div className="space-y-2">
                         <p className="text-secondary text-sm">
-                            "{bindingToken.label}" was issued before URL binding and has stopped verifying. Set the
-                            metadata URL it should verify at to restore verification.
+                            {t('settings.organization.cimd.bindDescription', {
+                                defaultValue:
+                                    '"{{ label }}" was issued before URL binding and has stopped verifying. Set the metadata URL it should verify at to restore verification.',
+                                label: bindingToken.label,
+                            })}
                         </p>
                         <label className="text-sm font-semibold" htmlFor="cimd-token-bind-url">
-                            CIMD metadata URL
+                            {t('settings.organization.cimd.fields.metadataUrl', { defaultValue: 'CIMD metadata URL' })}
                         </label>
                         <LemonInput
                             id="cimd-token-bind-url"
@@ -280,8 +332,10 @@ export function CIMDVerificationTokens(): JSX.Element {
                             autoFocus
                         />
                         <p className="text-secondary text-xs">
-                            The token only verifies at this URL, so a copy published anywhere else is ignored. Must be
-                            HTTPS and include a path, and the path is case-sensitive.
+                            {t('settings.organization.cimd.urlHint', {
+                                defaultValue:
+                                    'The token only verifies at this URL, so a copy published anywhere else is ignored. Must be HTTPS and include a path, and the path is case-sensitive.',
+                            })}
                         </p>
                     </div>
                 )}
