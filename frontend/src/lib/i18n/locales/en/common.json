@@ -649,6 +649,27 @@
             "placeholder": "Search settings..."
         },
         "user": {
+            "dangerZone": {
+                "accountDeletionWarning": "Account deletion <b>cannot be undone</b>. You will lose all your data permanently.",
+                "allAccess": "All access",
+                "columns": {
+                    "label": "Label",
+                    "lastUsed": "Last Used",
+                    "organization": "Organization",
+                    "scopes": "Scopes"
+                },
+                "confirmPhrase": "permanently delete data",
+                "confirmPrompt": "Please type <strong>{{ phrase }}</strong> to confirm account deletion.",
+                "deleteAccount": "Delete account",
+                "deleteAccountTitle": "Delete your account",
+                "deleteOrganization": "Delete organization",
+                "keysWillBeDeleted": "The following personal API keys will be deleted",
+                "leave": "Leave",
+                "leaveOrganization": "Leave organization",
+                "leaveOrganizationsFirst": "You must leave or delete all organizations before deleting your account.",
+                "leaveOrganizationTitle": "Leave organization {{ name }}?",
+                "transferOwnership": "Transfer ownership"
+            },
             "details": {
                 "cancelChange": "Cancel change",
                 "email": "Email",
@@ -677,6 +698,59 @@
             "impersonation": {
                 "description": "PostHog support staff may need to log in as you to help debug issues. If you disable this setting, support staff will not be able to access your account directly. Read our <PolicyLink>policy on user impersonation</PolicyLink>.",
                 "label": "Allow support to log in as me"
+            },
+            "passkeys": {
+                "add": "Add passkey",
+                "added": "Passkey added and verified successfully!",
+                "addedSuccessfully": "Passkey added successfully!",
+                "addNew": "Add a new passkey",
+                "columns": {
+                    "added": "Added",
+                    "name": "Name",
+                    "status": "Status",
+                    "type": "Type"
+                },
+                "defaultName": "My Passkey",
+                "delete": "Delete",
+                "deleted": "Passkey deleted",
+                "deleteDescription": "Are you sure you want to delete this passkey? You won't be able to use it to sign in anymore.",
+                "deleteTitle": "Delete passkey?",
+                "description": "Passkeys provide a faster, more seamless sign-in experience. Use your device's biometric authentication or a security key to sign in without passwords.",
+                "empty": "No passkeys",
+                "errors": {
+                    "aborted": "Operation was cancelled.",
+                    "generic": "Passkey authentication failed. Please try again.",
+                    "invalidState": "This passkey is already registered.",
+                    "notAllowed": "Operation was cancelled or timed out.",
+                    "security": "Security error occurred. Please try again."
+                },
+                "nameOptionalPlaceholder": "Passkey name (optional)",
+                "namePlaceholder": "Passkey name",
+                "nameRequired": "Name is required",
+                "registerFailed": "Failed to register passkey. Please try again.",
+                "registrationInProgress": "Registration in progress...",
+                "rename": "Rename",
+                "renamed": "Passkey renamed",
+                "renameTitle": "Rename passkey",
+                "ssoBlocked": "Passkeys can't be added because your organization requires SSO.",
+                "status": {
+                    "notVerified": "Not verified",
+                    "verified": "Verified",
+                    "verifying": "Verifying"
+                },
+                "title": "Passkeys",
+                "types": {
+                    "hardware": "Hardware",
+                    "hybrid": "Hybrid",
+                    "platform": "Platform",
+                    "unknown": "Unknown"
+                },
+                "verified": "Passkey verified successfully!",
+                "verify": "Verify",
+                "verifyFailed": "Failed to verify passkey. Please try again.",
+                "verifying": "Verifying...",
+                "verifyToComplete": "Please verify your passkey to complete registration...",
+                "verifyTooltip": "Verify this passkey"
             },
             "password": {
                 "changed": "Password changed",
@@ -733,6 +807,38 @@
                 "unknown": "Unknown",
                 "unknownDevice": "Unknown device",
                 "working": "Working…"
+            },
+            "twoFactor": {
+                "addPasskeyToEnable": "Add a passkey in Passkeys settings to enable this method",
+                "addPasskeyToEnableShort": "Add a passkey to enable this method",
+                "authenticatorApp": "Authenticator app",
+                "authenticatorHint": "Use an authenticator app (like Google Authenticator, Authy, or 1Password) to generate time-based codes for 2FA.",
+                "authenticatorHintEnabled": "When enabled, you'll be asked for a code from your authenticator app when signing in.",
+                "backupCodesDescription": "Save these backup codes in a secure location. Each code can only be used once to sign in if you lose access to your authentication device.",
+                "backupCodesTitle": "Backup Codes",
+                "copy": "Copy",
+                "disable": "Disable 2FA",
+                "disableButton": "Disable",
+                "disableDescription": "Are you sure you want to disable 2FA using an authenticator app? This will make your account less secure.",
+                "disablePasskeys": "Disable passkeys for 2FA",
+                "disableTitle": "Disable authenticator app",
+                "enabled": "2FA enabled",
+                "enablePasskeys": "Enable passkeys for 2FA",
+                "generateBackupCodes": "Generate backup codes",
+                "generateNewCodes": "Generate new codes",
+                "noBackupCodes": "No backup codes generated",
+                "notEnabled": "2FA not enabled",
+                "passkeysDisabled": "Passkeys are disabled for 2FA. Enable the switch above to use passkeys for 2FA.",
+                "passkeysEnabled": "Passkeys are enabled for 2FA. Manage your passkeys in the Passkeys settings.",
+                "passkeysHint": "Passkeys provide a secure, passwordless way to sign in and can be used for 2FA authentication.",
+                "passkeysNone": "No passkeys set up. Add a passkey to use this method for 2FA.",
+                "passkeysNotSetUp": "Add a passkey in the Passkeys settings to enable this method for 2FA.",
+                "passkeysSetUp": "You have passkeys set up. They are automatically used for 2FA when available.",
+                "passkeyUpdateFailed": "Failed to update passkey 2FA setting",
+                "setup": "Setup",
+                "totpNotSetUp": "Set up an authenticator app to use time-based codes for 2FA.",
+                "totpSetUp": "Authenticator app is set up and enabled for 2FA.",
+                "viewBackupCodes": "View backup codes"
             }
         }
     }

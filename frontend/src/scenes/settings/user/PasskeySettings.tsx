@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonBanner, LemonSkeleton } from '@posthog/lemon-ui'
 
@@ -11,6 +12,7 @@ import { PasskeyModals } from './PasskeyModals'
 import { passkeySettingsLogic } from './passkeySettingsLogic'
 
 export function PasskeySettings(): JSX.Element {
+    const { t } = useTranslation()
     const { passkeys, passkeysLoading } = useValues(passkeySettingsLogic)
     const { user } = useValues(userLogic)
     const { loadPasskeys } = useActions(passkeySettingsLogic)
@@ -35,7 +37,9 @@ export function PasskeySettings(): JSX.Element {
         <div className="space-y-4">
             {hasSSOEnforcement && (
                 <LemonBanner type="warning">
-                    Passkeys can't be added because your organization requires SSO.
+                    {t('settings.user.passkeys.ssoBlocked', {
+                        defaultValue: "Passkeys can't be added because your organization requires SSO.",
+                    })}
                 </LemonBanner>
             )}
             {!hasSSOEnforcement && (hasExistingPasskeys ? <PasskeyAddForm /> : <PasskeyAddFormEmpty />)}

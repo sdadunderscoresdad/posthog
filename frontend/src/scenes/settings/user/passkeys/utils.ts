@@ -1,8 +1,28 @@
-const WEBAUTHN_ERROR_MESSAGES: Record<string, string> = {
-    NotAllowedError: 'Operation was cancelled or timed out.',
-    InvalidStateError: 'This passkey is already registered.',
-    SecurityError: 'Security error occurred. Please try again.',
-    AbortError: 'Operation was cancelled.',
+import { i18n } from 'lib/i18n/i18n'
+
+/**
+ * Read through `i18n` rather than kept as a module constant, because a message resolved at import
+ * time keeps whatever language the module happened to load in.
+ */
+function webAuthnErrorMessage(name: string): string | undefined {
+    switch (name) {
+        case 'NotAllowedError':
+            return i18n.t('settings.user.passkeys.errors.notAllowed', {
+                defaultValue: 'Operation was cancelled or timed out.',
+            })
+        case 'InvalidStateError':
+            return i18n.t('settings.user.passkeys.errors.invalidState', {
+                defaultValue: 'This passkey is already registered.',
+            })
+        case 'SecurityError':
+            return i18n.t('settings.user.passkeys.errors.security', {
+                defaultValue: 'Security error occurred. Please try again.',
+            })
+        case 'AbortError':
+            return i18n.t('settings.user.passkeys.errors.aborted', { defaultValue: 'Operation was cancelled.' })
+        default:
+            return undefined
+    }
 }
 
 const WEBAUTHN_CANCELLATION_ERROR_NAMES = new Set(['NotAllowedError', 'AbortError'])
@@ -24,8 +44,11 @@ export function isWebAuthnCancellation(error: unknown): boolean {
 }
 
 export function getPasskeyErrorMessage(error: any, defaultMessage?: string): string {
-    if (error?.name && WEBAUTHN_ERROR_MESSAGES[error.name]) {
-        return WEBAUTHN_ERROR_MESSAGES[error.name]
+    if (error?.name) {
+        const message = webAuthnErrorMessage(error.name)
+        if (message) {
+            return message
+        }
     }
 
     if (error?.detail) {
@@ -36,5 +59,10 @@ export function getPasskeyErrorMessage(error: any, defaultMessage?: string): str
         return error.message
     }
 
-    return defaultMessage ?? 'Passkey authentication failed. Please try again.'
+    return (
+        defaultMessage ??
+        i18n.t('settings.user.passkeys.errors.generic', {
+            defaultValue: 'Passkey authentication failed. Please try again.',
+        })
+    )
 }

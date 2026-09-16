@@ -1,4 +1,6 @@
+import type { TFunction } from 'i18next'
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconCheckCircle, IconChip, IconClock, IconLaptop, IconLock, IconPencil, IconTrash } from '@posthog/icons'
 import { LemonButton, LemonTable, Spinner } from '@posthog/lemon-ui'
@@ -31,30 +33,31 @@ function AuthenticatorTypeIcon({ type }: { type: 'platform' | 'hardware' | 'hybr
     }
 }
 
-function getAuthenticatorTypeText(type: 'platform' | 'hardware' | 'hybrid' | 'unknown'): string {
+function getAuthenticatorTypeText(t: TFunction, type: 'platform' | 'hardware' | 'hybrid' | 'unknown'): string {
     switch (type) {
         case 'hardware':
-            return 'Hardware'
+            return t('settings.user.passkeys.types.hardware', { defaultValue: 'Hardware' })
         case 'platform':
-            return 'Platform'
+            return t('settings.user.passkeys.types.platform', { defaultValue: 'Platform' })
         case 'hybrid':
-            return 'Hybrid'
+            return t('settings.user.passkeys.types.hybrid', { defaultValue: 'Hybrid' })
         default:
-            return 'Unknown'
+            return t('settings.user.passkeys.types.unknown', { defaultValue: 'Unknown' })
     }
 }
 
-function getVerificationStatusText(verified: boolean, verifying: boolean): string {
+function getVerificationStatusText(t: TFunction, verified: boolean, verifying: boolean): string {
     if (verifying) {
-        return 'Verifying'
+        return t('settings.user.passkeys.status.verifying', { defaultValue: 'Verifying' })
     }
     if (verified) {
-        return 'Verified'
+        return t('settings.user.passkeys.status.verified', { defaultValue: 'Verified' })
     }
-    return 'Not verified'
+    return t('settings.user.passkeys.status.notVerified', { defaultValue: 'Not verified' })
 }
 
 export function PasskeyList(): JSX.Element {
+    const { t } = useTranslation()
     const { passkeys, passkeysLoading, verifyingPasskeyId } = useValues(passkeySettingsLogic)
     const { verifyPasskey, openDeleteModal, openRenameModal } = useActions(passkeySettingsLogic)
 
@@ -71,7 +74,7 @@ export function PasskeyList(): JSX.Element {
             dataSource={passkeys}
             columns={[
                 {
-                    title: 'Name',
+                    title: t('settings.user.passkeys.columns.name', { defaultValue: 'Name' }),
                     dataIndex: 'label',
                     key: 'label',
                     render: (_, record: PasskeyCredential) => (
@@ -82,23 +85,23 @@ export function PasskeyList(): JSX.Element {
                     ),
                 },
                 {
-                    title: 'Type',
+                    title: t('settings.user.passkeys.columns.type', { defaultValue: 'Type' }),
                     key: 'authenticator_type',
                     width: 120,
                     render: (_: any, record: PasskeyCredential) => (
                         <div className="flex items-center gap-2">
                             <AuthenticatorTypeIcon type={record.authenticator_type} />
-                            <span className="text-sm">{getAuthenticatorTypeText(record.authenticator_type)}</span>
+                            <span className="text-sm">{getAuthenticatorTypeText(t, record.authenticator_type)}</span>
                         </div>
                     ),
                 },
                 {
-                    title: 'Status',
+                    title: t('settings.user.passkeys.columns.status', { defaultValue: 'Status' }),
                     key: 'verified',
                     width: 180,
                     render: (_: any, record: PasskeyCredential) => {
                         const verifying = verifyingPasskeyId === record.id
-                        const statusText = getVerificationStatusText(record.verified, verifying)
+                        const statusText = getVerificationStatusText(t, record.verified, verifying)
                         return (
                             <div className="flex items-center gap-2">
                                 <VerificationStatusIcon verified={record.verified} verifying={verifying} />
@@ -107,9 +110,11 @@ export function PasskeyList(): JSX.Element {
                                     <LemonButton
                                         size="small"
                                         onClick={() => verifyPasskey(record.id)}
-                                        tooltip="Verify this passkey"
+                                        tooltip={t('settings.user.passkeys.verifyTooltip', {
+                                            defaultValue: 'Verify this passkey',
+                                        })}
                                     >
-                                        Verify
+                                        {t('settings.user.passkeys.verify', { defaultValue: 'Verify' })}
                                     </LemonButton>
                                 )}
                             </div>
@@ -117,7 +122,7 @@ export function PasskeyList(): JSX.Element {
                     },
                 },
                 {
-                    title: 'Added',
+                    title: t('settings.user.passkeys.columns.added', { defaultValue: 'Added' }),
                     dataIndex: 'created_at',
                     key: 'created_at',
                     render: (_: any, record: PasskeyCredential) => humanFriendlyDetailedTime(record.created_at),
@@ -131,14 +136,14 @@ export function PasskeyList(): JSX.Element {
                             <LemonButton
                                 icon={<IconPencil />}
                                 size="small"
-                                tooltip="Rename"
+                                tooltip={t('settings.user.passkeys.rename', { defaultValue: 'Rename' })}
                                 onClick={() => openRenameModal(record.id, record.label)}
                             />
                             <LemonButton
                                 icon={<IconTrash />}
                                 size="small"
                                 status="danger"
-                                tooltip="Delete"
+                                tooltip={t('settings.user.passkeys.delete', { defaultValue: 'Delete' })}
                                 onClick={() => openDeleteModal(record.id)}
                             />
                         </div>
@@ -146,7 +151,7 @@ export function PasskeyList(): JSX.Element {
                 },
             ]}
             loading={passkeysLoading}
-            emptyState="No passkeys"
+            emptyState={t('settings.user.passkeys.empty', { defaultValue: 'No passkeys' })}
         />
     )
 }

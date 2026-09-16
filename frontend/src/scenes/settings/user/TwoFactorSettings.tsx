@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconCheckCircle, IconCopy, IconInfo, IconWarning } from '@posthog/icons'
 import { LemonButton, LemonModal, LemonSwitch, Tooltip, lemonToast } from '@posthog/lemon-ui'
@@ -11,6 +12,7 @@ import { userLogic } from 'scenes/userLogic'
 import { UserType } from '~/types'
 
 export function TwoFactorSettings(): JSX.Element {
+    const { t } = useTranslation()
     const { status, isDisable2FAModalOpen, isBackupCodesModalOpen } = useValues(twoFactorLogic)
 
     const { updateUser } = useActions(userLogic)
@@ -37,11 +39,13 @@ export function TwoFactorSettings(): JSX.Element {
         <div className="flex flex-col items-start space-y-4">
             {isDisable2FAModalOpen && (
                 <LemonModal
-                    title="Disable authenticator app"
+                    title={t('settings.user.twoFactor.disableTitle', { defaultValue: 'Disable authenticator app' })}
                     onClose={() => toggleDisable2FAModal(false)}
                     footer={
                         <>
-                            <LemonButton onClick={() => toggleDisable2FAModal(false)}>Cancel</LemonButton>
+                            <LemonButton onClick={() => toggleDisable2FAModal(false)}>
+                                {t('settings.cancel', { defaultValue: 'Cancel' })}
+                            </LemonButton>
                             <LemonButton
                                 type="primary"
                                 status="danger"
@@ -51,26 +55,33 @@ export function TwoFactorSettings(): JSX.Element {
                                     handleSuccess()
                                 }}
                             >
-                                Disable 2FA
+                                {t('settings.user.twoFactor.disable', { defaultValue: 'Disable 2FA' })}
                             </LemonButton>
                         </>
                     }
                 >
                     <p>
-                        Are you sure you want to disable 2FA using an authenticator app? This will make your account
-                        less secure.
+                        {t('settings.user.twoFactor.disableDescription', {
+                            defaultValue:
+                                'Are you sure you want to disable 2FA using an authenticator app? This will make your account less secure.',
+                        })}
                     </p>
                 </LemonModal>
             )}
 
             {isBackupCodesModalOpen && (
-                <LemonModal title="Backup Codes" onClose={() => toggleBackupCodesModal(false)}>
+                <LemonModal
+                    title={t('settings.user.twoFactor.backupCodesTitle', { defaultValue: 'Backup Codes' })}
+                    onClose={() => toggleBackupCodesModal(false)}
+                >
                     <div className="deprecated-space-y-4 max-w-md">
                         {status?.backup_codes?.length ? (
                             <>
                                 <p>
-                                    Save these backup codes in a secure location. Each code can only be used once to
-                                    sign in if you lose access to your authentication device.
+                                    {t('settings.user.twoFactor.backupCodesDescription', {
+                                        defaultValue:
+                                            'Save these backup codes in a secure location. Each code can only be used once to sign in if you lose access to your authentication device.',
+                                    })}
                                 </p>
                                 <div className="bg-primary p-4 rounded font-mono deprecated-space-y-1 relative">
                                     <LemonButton
@@ -81,7 +92,7 @@ export function TwoFactorSettings(): JSX.Element {
                                             void copyToClipboard(status.backup_codes.join('\n') || '', 'backup codes')
                                         }}
                                     >
-                                        Copy
+                                        {t('settings.user.twoFactor.copy', { defaultValue: 'Copy' })}
                                     </LemonButton>
                                     {status.backup_codes.map((code) => (
                                         <div key={code}>{code}</div>
@@ -90,7 +101,11 @@ export function TwoFactorSettings(): JSX.Element {
                             </>
                         ) : (
                             <div className="bg-primary p-4 rounded font-mono deprecated-space-y-1 relative">
-                                <p className="text-secondary mb-0">No backup codes generated</p>
+                                <p className="text-secondary mb-0">
+                                    {t('settings.user.twoFactor.noBackupCodes', {
+                                        defaultValue: 'No backup codes generated',
+                                    })}
+                                </p>
                             </div>
                         )}
                         <LemonButton
@@ -99,7 +114,11 @@ export function TwoFactorSettings(): JSX.Element {
                                 generateBackupCodes()
                             }}
                         >
-                            {status?.backup_codes?.length ? 'Generate new codes' : 'Generate backup codes'}
+                            {status?.backup_codes?.length
+                                ? t('settings.user.twoFactor.generateNewCodes', { defaultValue: 'Generate new codes' })
+                                : t('settings.user.twoFactor.generateBackupCodes', {
+                                      defaultValue: 'Generate backup codes',
+                                  })}
                         </LemonButton>
                     </div>
                 </LemonModal>
@@ -111,12 +130,16 @@ export function TwoFactorSettings(): JSX.Element {
                     {status?.is_enabled ? (
                         <>
                             <IconCheckCircle color="green" className="text-xl" />
-                            <span className="font-medium">2FA enabled</span>
+                            <span className="font-medium">
+                                {t('settings.user.twoFactor.enabled', { defaultValue: '2FA enabled' })}
+                            </span>
                         </>
                     ) : (
                         <>
                             <IconWarning color="orange" className="text-xl" />
-                            <span className="font-medium">2FA not enabled</span>
+                            <span className="font-medium">
+                                {t('settings.user.twoFactor.notEnabled', { defaultValue: '2FA not enabled' })}
+                            </span>
                         </>
                     )}
                 </div>
@@ -127,17 +150,25 @@ export function TwoFactorSettings(): JSX.Element {
                         <div className="flex items-center justify-between">
                             <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-1">
-                                    <span className="font-medium">Authenticator app</span>
+                                    <span className="font-medium">
+                                        {t('settings.user.twoFactor.authenticatorApp', {
+                                            defaultValue: 'Authenticator app',
+                                        })}
+                                    </span>
                                     <Tooltip
                                         title={
                                             <div className="space-y-2">
                                                 <p>
-                                                    Use an authenticator app (like Google Authenticator, Authy, or
-                                                    1Password) to generate time-based codes for 2FA.
+                                                    {t('settings.user.twoFactor.authenticatorHint', {
+                                                        defaultValue:
+                                                            'Use an authenticator app (like Google Authenticator, Authy, or 1Password) to generate time-based codes for 2FA.',
+                                                    })}
                                                 </p>
                                                 <p>
-                                                    When enabled, you'll be asked for a code from your authenticator app
-                                                    when signing in.
+                                                    {t('settings.user.twoFactor.authenticatorHintEnabled', {
+                                                        defaultValue:
+                                                            "When enabled, you'll be asked for a code from your authenticator app when signing in.",
+                                                    })}
                                                 </p>
                                             </div>
                                         }
@@ -147,8 +178,13 @@ export function TwoFactorSettings(): JSX.Element {
                                 </div>
                                 <p className="text-sm text-muted">
                                     {hasTotp
-                                        ? 'Authenticator app is set up and enabled for 2FA.'
-                                        : 'Set up an authenticator app to use time-based codes for 2FA.'}
+                                        ? t('settings.user.twoFactor.totpSetUp', {
+                                              defaultValue: 'Authenticator app is set up and enabled for 2FA.',
+                                          })
+                                        : t('settings.user.twoFactor.totpNotSetUp', {
+                                              defaultValue:
+                                                  'Set up an authenticator app to use time-based codes for 2FA.',
+                                          })}
                                 </p>
                             </div>
                             <div className="ml-4 flex items-center gap-2">
@@ -159,7 +195,9 @@ export function TwoFactorSettings(): JSX.Element {
                                             size="small"
                                             onClick={() => toggleBackupCodesModal(true)}
                                         >
-                                            View backup codes
+                                            {t('settings.user.twoFactor.viewBackupCodes', {
+                                                defaultValue: 'View backup codes',
+                                            })}
                                         </LemonButton>
                                         <LemonButton
                                             type="secondary"
@@ -167,12 +205,12 @@ export function TwoFactorSettings(): JSX.Element {
                                             status="danger"
                                             onClick={() => toggleDisable2FAModal(true)}
                                         >
-                                            Disable
+                                            {t('settings.user.twoFactor.disableButton', { defaultValue: 'Disable' })}
                                         </LemonButton>
                                     </>
                                 ) : (
                                     <LemonButton type="primary" onClick={() => openTwoFactorSetupModal()}>
-                                        Setup
+                                        {t('settings.user.twoFactor.setup', { defaultValue: 'Setup' })}
                                     </LemonButton>
                                 )}
                             </div>
@@ -184,18 +222,28 @@ export function TwoFactorSettings(): JSX.Element {
                         <div className="flex items-center justify-between">
                             <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-1">
-                                    <span className={`font-medium ${!hasPasskeys ? 'text-muted' : ''}`}>Passkeys</span>
+                                    <span className={`font-medium ${!hasPasskeys ? 'text-muted' : ''}`}>
+                                        {t('settings.user.passkeys.title', { defaultValue: 'Passkeys' })}
+                                    </span>
                                     <Tooltip
                                         title={
                                             <div className="space-y-2">
                                                 <p>
-                                                    Passkeys provide a secure, passwordless way to sign in and can be
-                                                    used for 2FA authentication.
+                                                    {t('settings.user.twoFactor.passkeysHint', {
+                                                        defaultValue:
+                                                            'Passkeys provide a secure, passwordless way to sign in and can be used for 2FA authentication.',
+                                                    })}
                                                 </p>
                                                 <p>
                                                     {hasPasskeys
-                                                        ? 'You have passkeys set up. They are automatically used for 2FA when available.'
-                                                        : 'Add a passkey in the Passkeys settings to enable this method for 2FA.'}
+                                                        ? t('settings.user.twoFactor.passkeysSetUp', {
+                                                              defaultValue:
+                                                                  'You have passkeys set up. They are automatically used for 2FA when available.',
+                                                          })
+                                                        : t('settings.user.twoFactor.passkeysNotSetUp', {
+                                                              defaultValue:
+                                                                  'Add a passkey in the Passkeys settings to enable this method for 2FA.',
+                                                          })}
                                                 </p>
                                             </div>
                                         }
@@ -206,9 +254,18 @@ export function TwoFactorSettings(): JSX.Element {
                                 <p className={`text-sm ${!hasPasskeys ? 'text-muted' : 'text-muted'}`}>
                                     {hasPasskeys
                                         ? passkeysEnabled
-                                            ? 'Passkeys are enabled for 2FA. Manage your passkeys in the Passkeys settings.'
-                                            : 'Passkeys are disabled for 2FA. Enable the switch above to use passkeys for 2FA.'
-                                        : 'No passkeys set up. Add a passkey to use this method for 2FA.'}
+                                            ? t('settings.user.twoFactor.passkeysEnabled', {
+                                                  defaultValue:
+                                                      'Passkeys are enabled for 2FA. Manage your passkeys in the Passkeys settings.',
+                                              })
+                                            : t('settings.user.twoFactor.passkeysDisabled', {
+                                                  defaultValue:
+                                                      'Passkeys are disabled for 2FA. Enable the switch above to use passkeys for 2FA.',
+                                              })
+                                        : t('settings.user.twoFactor.passkeysNone', {
+                                              defaultValue:
+                                                  'No passkeys set up. Add a passkey to use this method for 2FA.',
+                                          })}
                                 </p>
                             </div>
                             <div className="ml-4">
@@ -216,7 +273,10 @@ export function TwoFactorSettings(): JSX.Element {
                                     checked={passkeysEnabled}
                                     disabledReason={
                                         !hasPasskeys
-                                            ? 'Add a passkey in Passkeys settings to enable this method'
+                                            ? t('settings.user.twoFactor.addPasskeyToEnable', {
+                                                  defaultValue:
+                                                      'Add a passkey in Passkeys settings to enable this method',
+                                              })
                                             : undefined
                                     }
                                     onChange={async () => {
@@ -233,16 +293,27 @@ export function TwoFactorSettings(): JSX.Element {
                                                 )
                                             } catch (e: any) {
                                                 const { detail } = e as Record<string, any>
-                                                lemonToast.error(detail || 'Failed to update passkey 2FA setting')
+                                                lemonToast.error(
+                                                    detail ||
+                                                        t('settings.user.twoFactor.passkeyUpdateFailed', {
+                                                            defaultValue: 'Failed to update passkey 2FA setting',
+                                                        })
+                                                )
                                             }
                                         }
                                     }}
                                     tooltip={
                                         hasPasskeys
                                             ? passkeysEnabled
-                                                ? 'Disable passkeys for 2FA'
-                                                : 'Enable passkeys for 2FA'
-                                            : 'Add a passkey to enable this method'
+                                                ? t('settings.user.twoFactor.disablePasskeys', {
+                                                      defaultValue: 'Disable passkeys for 2FA',
+                                                  })
+                                                : t('settings.user.twoFactor.enablePasskeys', {
+                                                      defaultValue: 'Enable passkeys for 2FA',
+                                                  })
+                                            : t('settings.user.twoFactor.addPasskeyToEnableShort', {
+                                                  defaultValue: 'Add a passkey to enable this method',
+                                              })
                                     }
                                     size="medium"
                                 />

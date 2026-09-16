@@ -644,6 +644,27 @@
             "placeholder": "搜索设置…"
         },
         "user": {
+            "dangerZone": {
+                "accountDeletionWarning": "删除账号<b>不可撤销</b>。你将永久失去所有数据。",
+                "allAccess": "全部权限",
+                "columns": {
+                    "label": "标签",
+                    "lastUsed": "最近使用",
+                    "organization": "组织",
+                    "scopes": "权限范围"
+                },
+                "confirmPhrase": "永久删除数据",
+                "confirmPrompt": "请输入 <strong>{{ phrase }}</strong> 以确认删除账号。",
+                "deleteAccount": "删除账号",
+                "deleteAccountTitle": "删除你的账号",
+                "deleteOrganization": "删除组织",
+                "keysWillBeDeleted": "以下个人 API 密钥将被删除",
+                "leave": "退出",
+                "leaveOrganization": "退出组织",
+                "leaveOrganizationsFirst": "删除账号前，你必须先退出或删除所有组织。",
+                "leaveOrganizationTitle": "退出组织 {{ name }}？",
+                "transferOwnership": "转移所有权"
+            },
             "details": {
                 "cancelChange": "取消更改",
                 "email": "邮箱",
@@ -672,6 +693,59 @@
             "impersonation": {
                 "description": "PostHog 支持人员可能需要以你的身份登录，以便排查问题。如果你关闭此设置，支持人员将无法直接访问你的账号。请阅读我们的 <PolicyLink>用户身份模拟政策</PolicyLink>。",
                 "label": "允许支持人员以我的身份登录"
+            },
+            "passkeys": {
+                "add": "添加通行密钥",
+                "added": "通行密钥已添加并验证成功！",
+                "addedSuccessfully": "通行密钥添加成功！",
+                "addNew": "添加新的通行密钥",
+                "columns": {
+                    "added": "添加时间",
+                    "name": "名称",
+                    "status": "状态",
+                    "type": "类型"
+                },
+                "defaultName": "我的通行密钥",
+                "delete": "删除",
+                "deleted": "通行密钥已删除",
+                "deleteDescription": "确定要删除此通行密钥吗？删除后你将无法再用它登录。",
+                "deleteTitle": "删除通行密钥？",
+                "description": "通行密钥让登录更快更顺畅。使用设备的生物识别或安全密钥即可登录，无需输入密码。",
+                "empty": "没有通行密钥",
+                "errors": {
+                    "aborted": "操作已取消。",
+                    "generic": "通行密钥验证失败，请重试。",
+                    "invalidState": "此通行密钥已注册。",
+                    "notAllowed": "操作已取消或超时。",
+                    "security": "发生安全错误，请重试。"
+                },
+                "nameOptionalPlaceholder": "通行密钥名称（可选）",
+                "namePlaceholder": "通行密钥名称",
+                "nameRequired": "请填写名称",
+                "registerFailed": "注册通行密钥失败，请重试。",
+                "registrationInProgress": "正在注册…",
+                "rename": "重命名",
+                "renamed": "通行密钥已重命名",
+                "renameTitle": "重命名通行密钥",
+                "ssoBlocked": "你的组织要求使用 SSO，因此无法添加通行密钥。",
+                "status": {
+                    "notVerified": "未验证",
+                    "verified": "已验证",
+                    "verifying": "验证中"
+                },
+                "title": "通行密钥",
+                "types": {
+                    "hardware": "硬件密钥",
+                    "hybrid": "混合认证",
+                    "platform": "平台内置",
+                    "unknown": "未知"
+                },
+                "verified": "通行密钥验证成功！",
+                "verify": "验证",
+                "verifyFailed": "验证通行密钥失败，请重试。",
+                "verifying": "验证中…",
+                "verifyToComplete": "请验证你的通行密钥以完成注册…",
+                "verifyTooltip": "验证此通行密钥"
             },
             "password": {
                 "changed": "密码已更改",
@@ -727,6 +801,38 @@
                 "unknown": "未知",
                 "unknownDevice": "未知设备",
                 "working": "处理中…"
+            },
+            "twoFactor": {
+                "addPasskeyToEnable": "在通行密钥设置中添加一个通行密钥即可启用此方式",
+                "addPasskeyToEnableShort": "添加通行密钥即可启用此方式",
+                "authenticatorApp": "身份验证器应用",
+                "authenticatorHint": "使用身份验证器应用（如 Google Authenticator、Authy 或 1Password）生成基于时间的 2FA 验证码。",
+                "authenticatorHintEnabled": "启用后，登录时系统会要求你输入身份验证器应用中的验证码。",
+                "backupCodesDescription": "请把这些备用代码保存在安全的地方。如果你无法使用验证设备，每个代码只能用于登录一次。",
+                "backupCodesTitle": "备用代码",
+                "copy": "复制",
+                "disable": "停用 2FA",
+                "disableButton": "停用",
+                "disableDescription": "确定要停用基于身份验证器应用的 2FA 吗？这会降低你账号的安全性。",
+                "disablePasskeys": "停用通行密钥 2FA",
+                "disableTitle": "停用身份验证器应用",
+                "enabled": "已启用 2FA",
+                "enablePasskeys": "启用通行密钥 2FA",
+                "generateBackupCodes": "生成备用代码",
+                "generateNewCodes": "生成新的代码",
+                "noBackupCodes": "还没有生成备用代码",
+                "notEnabled": "未启用 2FA",
+                "passkeysDisabled": "通行密钥 2FA 已停用。打开上面的开关即可使用通行密钥进行 2FA。",
+                "passkeysEnabled": "通行密钥 2FA 已启用。可在通行密钥设置中管理。",
+                "passkeysHint": "通行密钥提供安全、无需密码的登录方式，也可用于两步验证。",
+                "passkeysNone": "还没有通行密钥。添加一个通行密钥即可使用此方式进行 2FA。",
+                "passkeysNotSetUp": "在通行密钥设置中添加一个通行密钥即可启用此方式用于 2FA。",
+                "passkeysSetUp": "你已设置通行密钥，可用时会自动用于 2FA。",
+                "passkeyUpdateFailed": "更新通行密钥 2FA 设置失败",
+                "setup": "设置",
+                "totpNotSetUp": "设置身份验证器应用以使用基于时间的 2FA 验证码。",
+                "totpSetUp": "身份验证器应用已设置并用于 2FA。",
+                "viewBackupCodes": "查看备用代码"
             }
         }
     }

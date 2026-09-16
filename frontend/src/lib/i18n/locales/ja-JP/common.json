@@ -644,6 +644,27 @@
             "placeholder": ""
         },
         "user": {
+            "dangerZone": {
+                "accountDeletionWarning": "",
+                "allAccess": "",
+                "columns": {
+                    "label": "",
+                    "lastUsed": "",
+                    "organization": "",
+                    "scopes": ""
+                },
+                "confirmPhrase": "",
+                "confirmPrompt": "",
+                "deleteAccount": "",
+                "deleteAccountTitle": "",
+                "deleteOrganization": "",
+                "keysWillBeDeleted": "",
+                "leave": "",
+                "leaveOrganization": "",
+                "leaveOrganizationsFirst": "",
+                "leaveOrganizationTitle": "",
+                "transferOwnership": ""
+            },
             "details": {
                 "cancelChange": "",
                 "email": "",
@@ -672,6 +693,59 @@
             "impersonation": {
                 "description": "",
                 "label": ""
+            },
+            "passkeys": {
+                "add": "",
+                "added": "",
+                "addedSuccessfully": "",
+                "addNew": "",
+                "columns": {
+                    "added": "",
+                    "name": "",
+                    "status": "",
+                    "type": ""
+                },
+                "defaultName": "",
+                "delete": "",
+                "deleted": "",
+                "deleteDescription": "",
+                "deleteTitle": "",
+                "description": "",
+                "empty": "",
+                "errors": {
+                    "aborted": "",
+                    "generic": "",
+                    "invalidState": "",
+                    "notAllowed": "",
+                    "security": ""
+                },
+                "nameOptionalPlaceholder": "",
+                "namePlaceholder": "",
+                "nameRequired": "",
+                "registerFailed": "",
+                "registrationInProgress": "",
+                "rename": "",
+                "renamed": "",
+                "renameTitle": "",
+                "ssoBlocked": "",
+                "status": {
+                    "notVerified": "",
+                    "verified": "",
+                    "verifying": ""
+                },
+                "title": "",
+                "types": {
+                    "hardware": "",
+                    "hybrid": "",
+                    "platform": "",
+                    "unknown": ""
+                },
+                "verified": "",
+                "verify": "",
+                "verifyFailed": "",
+                "verifying": "",
+                "verifyToComplete": "",
+                "verifyTooltip": ""
             },
             "password": {
                 "changed": "",
@@ -727,6 +801,38 @@
                 "unknown": "",
                 "unknownDevice": "",
                 "working": ""
+            },
+            "twoFactor": {
+                "addPasskeyToEnable": "",
+                "addPasskeyToEnableShort": "",
+                "authenticatorApp": "",
+                "authenticatorHint": "",
+                "authenticatorHintEnabled": "",
+                "backupCodesDescription": "",
+                "backupCodesTitle": "",
+                "copy": "",
+                "disable": "",
+                "disableButton": "",
+                "disableDescription": "",
+                "disablePasskeys": "",
+                "disableTitle": "",
+                "enabled": "",
+                "enablePasskeys": "",
+                "generateBackupCodes": "",
+                "generateNewCodes": "",
+                "noBackupCodes": "",
+                "notEnabled": "",
+                "passkeysDisabled": "",
+                "passkeysEnabled": "",
+                "passkeysHint": "",
+                "passkeysNone": "",
+                "passkeysNotSetUp": "",
+                "passkeysSetUp": "",
+                "passkeyUpdateFailed": "",
+                "setup": "",
+                "totpNotSetUp": "",
+                "totpSetUp": "",
+                "viewBackupCodes": ""
             }
         }
     }

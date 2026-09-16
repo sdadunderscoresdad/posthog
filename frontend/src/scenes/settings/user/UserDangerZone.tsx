@@ -1,6 +1,7 @@
 import { useActions, useValues } from 'kea'
 import { router } from 'kea-router'
 import { useEffect } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconTrash } from '@posthog/icons'
 import { LemonButton, LemonDialog, LemonInput, LemonModal, LemonTable, LemonTag, Tooltip } from '@posthog/lemon-ui'
@@ -16,8 +17,6 @@ import { TagList } from './PersonalAPIKeys'
 import { personalAPIKeysLogic } from './personalAPIKeysLogic'
 import { userDangerZoneLogic } from './userDangerZoneLogic'
 
-const DELETE_CONFIRMATION_TEXT = 'permanently delete data'
-
 export function DeleteUserModal({
     isOpen,
     setIsOpen,
@@ -25,6 +24,7 @@ export function DeleteUserModal({
     isOpen: boolean
     setIsOpen: (open: boolean) => void
 }): JSX.Element {
+    const { t } = useTranslation()
     const { user } = useValues(userLogic)
     const { push } = useActions(router)
     const { updateCurrentOrganization, deleteUser } = useActions(userLogic)
@@ -37,6 +37,10 @@ export function DeleteUserModal({
     const { keys } = useValues(personalAPIKeysLogic)
     const { loadKeys } = useActions(personalAPIKeysLogic)
 
+    const deleteConfirmationText = t('settings.user.dangerZone.confirmPhrase', {
+        defaultValue: 'permanently delete data',
+    })
+
     useEffect(() => {
         loadKeys()
     }, [loadKeys])
@@ -44,16 +48,16 @@ export function DeleteUserModal({
     return (
         <>
             <LemonModal
-                title="Delete your account"
+                title={t('settings.user.dangerZone.deleteAccountTitle', { defaultValue: 'Delete your account' })}
                 onClose={!userLoading ? () => setIsOpen(false) : undefined}
                 footer={
                     <>
                         <LemonButton
-                            disabledReason={userLoading && 'Loading...'}
+                            disabledReason={userLoading && t('settings.loading', { defaultValue: 'Loading...' })}
                             type="secondary"
                             onClick={() => setIsOpen(false)}
                         >
-                            Cancel
+                            {t('settings.cancel', { defaultValue: 'Cancel' })}
                         </LemonButton>
                         <LemonButton
                             type="secondary"
@@ -63,7 +67,7 @@ export function DeleteUserModal({
                             status="danger"
                             onClick={() => deleteUser()}
                         >
-                            Delete account
+                            {t('settings.user.dangerZone.deleteAccount', { defaultValue: 'Delete account' })}
                         </LemonButton>
                     </>
                 }
@@ -72,14 +76,19 @@ export function DeleteUserModal({
                 {organizations.length > 0 && (
                     <>
                         <p className="text-danger font-semibold">
-                            You must leave or delete all organizations before deleting your account.
+                            {t('settings.user.dangerZone.leaveOrganizationsFirst', {
+                                defaultValue:
+                                    'You must leave or delete all organizations before deleting your account.',
+                            })}
                         </p>
                         <LemonTable
                             dataSource={organizations}
                             size="small"
                             columns={[
                                 {
-                                    title: 'Organization',
+                                    title: t('settings.user.dangerZone.columns.organization', {
+                                        defaultValue: 'Organization',
+                                    }),
                                     render: function RenderOrganizationName(_, organization) {
                                         return <div className="text-md font-semibold">{organization.name}</div>
                                     },
@@ -106,7 +115,9 @@ export function DeleteUserModal({
                                                             }
                                                         }}
                                                     >
-                                                        Transfer ownership
+                                                        {t('settings.user.dangerZone.transferOwnership', {
+                                                            defaultValue: 'Transfer ownership',
+                                                        })}
                                                     </LemonButton>
                                                 )}
                                                 {organization.membership_level !==
@@ -117,19 +128,31 @@ export function DeleteUserModal({
                                                         status="default"
                                                         onClick={() => {
                                                             LemonDialog.open({
-                                                                title: `Leave organization ${organization.name}?`,
+                                                                title: t(
+                                                                    'settings.user.dangerZone.leaveOrganizationTitle',
+                                                                    {
+                                                                        defaultValue: 'Leave organization {{ name }}?',
+                                                                        name: organization.name,
+                                                                    }
+                                                                ),
                                                                 primaryButton: {
-                                                                    children: 'Leave',
+                                                                    children: t('settings.user.dangerZone.leave', {
+                                                                        defaultValue: 'Leave',
+                                                                    }),
                                                                     status: 'danger',
                                                                     onClick: () => leaveOrganization(organization.id),
                                                                 },
                                                                 secondaryButton: {
-                                                                    children: 'Cancel',
+                                                                    children: t('settings.cancel', {
+                                                                        defaultValue: 'Cancel',
+                                                                    }),
                                                                 },
                                                             })
                                                         }}
                                                     >
-                                                        Leave organization
+                                                        {t('settings.user.dangerZone.leaveOrganization', {
+                                                            defaultValue: 'Leave organization',
+                                                        })}
                                                     </LemonButton>
                                                 )}
                                                 {organization.membership_level ===
@@ -142,7 +165,9 @@ export function DeleteUserModal({
                                                             setOrganizationToDelete(organization)
                                                         }}
                                                     >
-                                                        Delete organization
+                                                        {t('settings.user.dangerZone.deleteOrganization', {
+                                                            defaultValue: 'Delete organization',
+                                                        })}
                                                     </LemonButton>
                                                 )}
                                             </div>
@@ -156,13 +181,19 @@ export function DeleteUserModal({
                 {organizations.length === 0 && (
                     <>
                         <p>
-                            Account deletion <b>cannot be undone</b>. You will lose all your data permanently.
+                            <Trans
+                                i18nKey="settings.user.dangerZone.accountDeletionWarning"
+                                components={{ b: <b /> }}
+                                defaults="Account deletion <b>cannot be undone</b>. You will lose all your data permanently."
+                            />
                         </p>
 
                         {keys.length > 0 && (
                             <>
                                 <p className="text-danger font-semibold mt-4">
-                                    The following personal API keys will be deleted
+                                    {t('settings.user.dangerZone.keysWillBeDeleted', {
+                                        defaultValue: 'The following personal API keys will be deleted',
+                                    })}
                                 </p>
                                 <LemonTable
                                     dataSource={keys}
@@ -170,13 +201,17 @@ export function DeleteUserModal({
                                     className="mt-2"
                                     columns={[
                                         {
-                                            title: 'Label',
+                                            title: t('settings.user.dangerZone.columns.label', {
+                                                defaultValue: 'Label',
+                                            }),
                                             dataIndex: 'label',
                                             key: 'label',
                                             render: (label) => <span className="font-semibold">{String(label)}</span>,
                                         },
                                         {
-                                            title: 'Last Used',
+                                            title: t('settings.user.dangerZone.columns.lastUsed', {
+                                                defaultValue: 'Last Used',
+                                            }),
                                             dataIndex: 'last_used_at',
                                             key: 'lastUsedAt',
                                             render: (_, key) => {
@@ -192,12 +227,18 @@ export function DeleteUserModal({
                                             },
                                         },
                                         {
-                                            title: 'Scopes',
+                                            title: t('settings.user.dangerZone.columns.scopes', {
+                                                defaultValue: 'Scopes',
+                                            }),
                                             key: 'scopes',
                                             dataIndex: 'scopes',
                                             render: (_, key) =>
                                                 key.scopes[0] === '*' ? (
-                                                    <LemonTag type="warning">All access</LemonTag>
+                                                    <LemonTag type="warning">
+                                                        {t('settings.user.dangerZone.allAccess', {
+                                                            defaultValue: 'All access',
+                                                        })}
+                                                    </LemonTag>
                                                 ) : (
                                                     <TagList tags={key.scopes} onMoreClick={() => {}} />
                                                 ),
@@ -208,15 +249,17 @@ export function DeleteUserModal({
                         )}
 
                         <p className="mt-4">
-                            Please type <strong className="select-none">{DELETE_CONFIRMATION_TEXT}</strong> to confirm
-                            account deletion.
+                            <Trans
+                                i18nKey="settings.user.dangerZone.confirmPrompt"
+                                values={{ phrase: deleteConfirmationText }}
+                                components={{ strong: <strong className="select-none" /> }}
+                                defaults="Please type <strong>{{ phrase }}</strong> to confirm account deletion."
+                            />
                         </p>
                         <LemonInput
                             type="text"
                             onChange={(value) => {
-                                setIsUserDeletionConfirmed(
-                                    value.toLowerCase() === DELETE_CONFIRMATION_TEXT.toLowerCase()
-                                )
+                                setIsUserDeletionConfirmed(value.toLowerCase() === deleteConfirmationText.toLowerCase())
                             }}
                         />
                     </>

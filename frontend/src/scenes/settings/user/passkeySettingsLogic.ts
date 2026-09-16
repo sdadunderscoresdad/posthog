@@ -5,6 +5,7 @@ import { loaders } from 'kea-loaders'
 import { lemonToast } from '@posthog/lemon-ui'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { twoFactorLogic } from 'scenes/authentication/two-factor-setup/twoFactorLogic'
 import { userLogic } from 'scenes/userLogic'
 
@@ -283,12 +284,12 @@ export const passkeySettingsLogic = kea<passkeySettingsLogicType>([
                 },
                 deletePasskey: async ({ id }) => {
                     await api.delete(`api/webauthn/credentials/${id}/`)
-                    lemonToast.success('Passkey deleted')
+                    lemonToast.success(i18n.t('settings.user.passkeys.deleted', { defaultValue: 'Passkey deleted' }))
                     return values.passkeys.filter((p: PasskeyCredential) => p.id !== id)
                 },
                 renamePasskey: async ({ id, label }) => {
                     const updated = await api.update<PasskeyCredential>(`api/webauthn/credentials/${id}/`, { label })
-                    lemonToast.success('Passkey renamed')
+                    lemonToast.success(i18n.t('settings.user.passkeys.renamed', { defaultValue: 'Passkey renamed' }))
                     return values.passkeys.map((p: PasskeyCredential) => (p.id === id ? updated : p))
                 },
                 verifyPasskey: async ({ id }) => {
@@ -315,10 +316,21 @@ export const passkeySettingsLogic = kea<passkeySettingsLogicType>([
                             assertion
                         )
 
-                        lemonToast.success('Passkey verified successfully!')
+                        lemonToast.success(
+                            i18n.t('settings.user.passkeys.verified', {
+                                defaultValue: 'Passkey verified successfully!',
+                            })
+                        )
                         return values.passkeys.map((p: PasskeyCredential) => (p.id === id ? updated : p))
                     } catch (e: any) {
-                        actions.setError(getPasskeyErrorMessage(e, 'Failed to verify passkey. Please try again.'))
+                        actions.setError(
+                            getPasskeyErrorMessage(
+                                e,
+                                i18n.t('settings.user.passkeys.verifyFailed', {
+                                    defaultValue: 'Failed to verify passkey. Please try again.',
+                                })
+                            )
+                        )
                         throw e
                     }
                 },
@@ -381,7 +393,11 @@ export const passkeySettingsLogic = kea<passkeySettingsLogicType>([
                         await api.create(`api/webauthn/credentials/${credentialId}/verify_complete`, assertion)
 
                         actions.setRegistrationStep('complete')
-                        lemonToast.success('Passkey added successfully!')
+                        lemonToast.success(
+                            i18n.t('settings.user.passkeys.addedSuccessfully', {
+                                defaultValue: 'Passkey added successfully!',
+                            })
+                        )
                         actions.loadPasskeys()
                         actions.loadUser()
                         actions.loadStatus()
@@ -389,7 +405,14 @@ export const passkeySettingsLogic = kea<passkeySettingsLogicType>([
                         return null
                     } catch (e: any) {
                         actions.setRegistrationStep('idle')
-                        actions.setError(getPasskeyErrorMessage(e, 'Failed to register passkey. Please try again.'))
+                        actions.setError(
+                            getPasskeyErrorMessage(
+                                e,
+                                i18n.t('settings.user.passkeys.registerFailed', {
+                                    defaultValue: 'Failed to register passkey. Please try again.',
+                                })
+                            )
+                        )
                         // Load passkeys in case the passkey was created but verification failed
                         actions.loadPasskeys()
                         throw e
