@@ -173,6 +173,10 @@ catalog:
     '@types/query-selector-shadow-dom': ^1.0.0
     ts-pattern: '4.3'
     use-debounce: ^9.0.3
+    # i18n
+    i18next: ^26.4.2
+    react-i18next: ^17.0.13
+    i18next-cli: ^1.73.1
     # React types
     '@types/react': ^18.3.27
     '@types/react-dom': ^18.3.7

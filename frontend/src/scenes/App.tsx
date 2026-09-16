@@ -10,6 +10,7 @@ import { productSetupPreloadLogic } from 'lib/components/ProductEmptyState/produ
 import { MOCK_NODE_PROCESS } from 'lib/constants'
 import { useCancelAnimationsOnUnmount } from 'lib/hooks/useCancelAnimationsOnUnmount'
 import { useThemedHtml } from 'lib/hooks/useThemedHtml'
+import { I18nProvider } from 'lib/i18n/I18nProvider'
 import { ToastCloseButton } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { SpinnerOverlay } from 'lib/lemon-ui/Spinner/Spinner'
 import { autofillReleaseLogic } from 'lib/memory/autofillReleaseLogic'
@@ -104,11 +105,13 @@ export function App(): JSX.Element | null {
     // screen here (oauthLogic's urlToAction performs the token exchange), before normal routing.
     if (window.location.pathname === '/oauth/callback') {
         return (
-            <ErrorBoundary>
-                <PostHogProvider client={posthog}>
-                    <OAuthCallback />
-                </PostHogProvider>
-            </ErrorBoundary>
+            <I18nProvider>
+                <ErrorBoundary>
+                    <PostHogProvider client={posthog}>
+                        <OAuthCallback />
+                    </PostHogProvider>
+                </ErrorBoundary>
+            </I18nProvider>
         )
     }
 
@@ -129,7 +132,7 @@ export function App(): JSX.Element | null {
         </ErrorBoundary>
     )
 
-    return sceneContent
+    return <I18nProvider>{sceneContent}</I18nProvider>
 }
 
 function AppScene(): JSX.Element | null {
