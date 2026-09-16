@@ -616,6 +616,101 @@
                 "orgLevelLabel": "Include organization-level activity",
                 "orgLevelTooltip": "When enabled, activity logs from organization-level changes (such as organization settings, domains, and members) will be included in this project's activity logs page, exports, and notifications subscriptions."
             },
+            "customBotRules": {
+                "addBot": "Add bot",
+                "addCondition": "Add condition",
+                "categories": {
+                    "aiAssistant": "AI assistant",
+                    "aiCrawler": "AI crawler",
+                    "aiSearch": "AI search",
+                    "custom": "Custom",
+                    "headlessBrowser": "Headless browser",
+                    "httpClient": "HTTP client",
+                    "monitoring": "Monitoring",
+                    "searchCrawler": "Search crawler",
+                    "seoCrawler": "SEO crawler",
+                    "socialCrawler": "Social crawler"
+                },
+                "changesApplyNote": "Changes apply to new and existing data. Refresh an insight or dashboard to see them applied.",
+                "combiners": {
+                    "all": "all",
+                    "any": "any"
+                },
+                "combinerSentence": "When {{ combiner }} of these conditions are met:",
+                "droppedRules_one": "One saved rule could not be read and will be removed if you save. Contact support if you did not expect this.",
+                "droppedRules_other": "{{ count }} saved rules could not be read and will be removed if you save. Contact support if you did not expect this.",
+                "fields": {
+                    "browser": "Browser",
+                    "browserLanguage": "Browser language",
+                    "countryCode": "Country code",
+                    "currentUrl": "Current URL",
+                    "host": "Host",
+                    "ip": "IP address",
+                    "lib": "Library",
+                    "os": "OS",
+                    "pathname": "Path name",
+                    "rawUserAgent": "Raw user agent",
+                    "referrer": "Referrer",
+                    "referringDomain": "Referring domain",
+                    "screenHeight": "Screen height",
+                    "screenWidth": "Screen width"
+                },
+                "fixErrorsFirst": "Fix the errors above first",
+                "intro": "A bot you add here counts as a bot everywhere <code>Is bot</code> is available, including insights, web analytics, and SQL. PostHog's built-in list already covers crawlers that identify themselves, like GPTBot and Googlebot. Your rules are checked first, so you can give one of those a different name or category.",
+                "ipRulesAreDead": "This project anonymizes IP addresses, so events arrive without one and a condition on the IP address never matches. Turn off \"Discard client IP data\" in your project settings, or match on another property.",
+                "matchers": {
+                    "cidr": "is in range",
+                    "contains": "contains",
+                    "exact": "equals",
+                    "regex": "matches regex"
+                },
+                "matcherTooltips": {
+                    "caseInsensitive": "Case-insensitive",
+                    "caseSensitive": "Case-sensitive, matches the whole value"
+                },
+                "matchingHint": "Match the user agent to catch a crawler that names itself, the IP address to catch one that sends a browser user agent from a range you know, or combine conditions to catch one that only stands out through a combination, like an 800x600 screen. <DocsLink>Read more about bot detection</DocsLink>",
+                "noBotsYet": "No bots added yet. PostHog's built-in list still applies. Add one to extend it.",
+                "rule": {
+                    "flagAsBot": "Flag as bot",
+                    "inCategory": "in category",
+                    "multipleConditions": "conditions are met",
+                    "namePlaceholder": "Acme scraper",
+                    "singleCondition": "when this condition is met",
+                    "when": "when"
+                },
+                "saving": "Saving",
+                "tester": {
+                    "matches": "Matches",
+                    "noMatch": "No custom rule matched. PostHog's built-in list still applies.",
+                    "placeholder": "Paste a {{ field }}",
+                    "title": "Test a value",
+                    "tooltip": "Only your own bots are checked here. A real query also matches PostHog's built-in list, after your rules."
+                },
+                "unsupportedConstructs": {
+                    "atomicGroup": "atomic group",
+                    "backreference": "backreference",
+                    "conditionalGroup": "conditional group",
+                    "lookahead": "lookahead",
+                    "lookbehind": "lookbehind",
+                    "recursion": "recursion",
+                    "unsupportedEscape": "unsupported escape"
+                },
+                "validation": {
+                    "addIpOrRange": "Add an IP address or range to match.",
+                    "addValue": "Add a value to match.",
+                    "invalidIpOrRange": "This is not a valid IP address or range.",
+                    "invalidRegex": "This is not a valid regular expression.",
+                    "nameRequired": "Give this bot a name.",
+                    "nameTooLong": "Name cannot be longer than {{ max }} characters.",
+                    "needsCondition": "Add at least one condition.",
+                    "patternTooLong": "Pattern cannot be longer than {{ max }} characters.",
+                    "rangesOnlyForIp": "Ranges only work with the IP address property.",
+                    "tooManyConditionsInRule": "A rule can have at most {{ max }} conditions.",
+                    "tooManyConditionsTotal": "You can have at most {{ max }} conditions across all rules.",
+                    "tooManyRules": "You can define at most {{ max }} bots",
+                    "unsupportedConstruct": "This uses a {{ construct }}, which is not supported here."
+                }
+            },
             "dataColorTheme": {
                 "addColor": "Add color",
                 "addTheme": "Add theme",
@@ -724,6 +819,22 @@
                 "installHint": "You can install the PostHog MCP server in Cursor, Claude Code, Claude Desktop, VS Code, and Zed by running the following command:",
                 "learnMoreLink": "here",
                 "learnMorePrefix": "You can learn more about what tools are available and other installation options"
+            },
+            "pathCleaningSuggestions": {
+                "applyAll": "Apply all",
+                "bannerSummary_one": "We analyzed your traffic and suggest <Strong>{{ count }}</Strong> path cleaning {{ rules }} to group similar pages. Review and apply them:",
+                "bannerSummary_other": "We analyzed your traffic and suggest <Strong>{{ count }}</Strong> path cleaning {{ rules }} to group similar pages. Review and apply them:",
+                "close": "Close",
+                "previewDescription": "Your most-viewed paths from the last 30 days, with all suggested rules applied in order. Nothing changes until you apply.",
+                "previewOnYourPaths": "Preview on your paths",
+                "previewSummary": "These rules group <Strong>{{ changed }}</Strong> of your top <Strong>{{ sampled }}</Strong> paths",
+                "previewSummaryTruncated": "(showing the first {{ shown }})",
+                "previewTitle": "Preview on your real paths",
+                "ruleCount_one": "rule",
+                "ruleCount_other": "rules",
+                "ruleMatchSummary": "groups {{ matched }} of your top {{ sampled }} paths",
+                "views_one": "{{ value }} view",
+                "views_other": "{{ value }} views"
             },
             "personsJoinMode": {
                 "innerDescription": "This is the default. You want this one unless you know what you are doing.",
@@ -896,6 +1007,39 @@
                     "tokenLabel": "Project token",
                     "tokenThing": "project token",
                     "typeToConfirm": "Type \"{{ phrase }}\" to confirm"
+                }
+            },
+            "testAccountFilters": {
+                "cdpCohortHint": "When filtering out internal users, inline person property filters (e.g., \"email does not contain your-domain.com\") work everywhere, including real-time CDP destinations. Alternatively, you can create a cohort and add it with a \"not in\" operator - this works well for analytics queries (insights, dashboards) and also works in CDP destinations if the cohort contains <Strong>exclusively person property filters</Strong>. Cohorts with behavioral filters or no properties defined will cause CDP destinations to error.",
+                "cohortLabel": "Cohort {{ name }}",
+                "enableOnNewInsights": "Enable this filter on all new insights",
+                "existingInsights": {
+                    "applyButton": "Turn the filter {{ state }}",
+                    "applying": "Applying your last change",
+                    "confirmBody": "Every insight in this project will {{ action }} filtering out internal and test users, including insights other people created. This replaces whatever each insight is set to now.",
+                    "confirmTitle": "Turn the internal and test user filter {{ state }} for every insight in this project?",
+                    "dashboardsNote": "Dashboards follow their insights, unless a dashboard sets its own override. The default for new insights doesn't change.",
+                    "description": "Turn the internal and test user filter on or off for every insight in this project. This doesn't change the default for new insights.",
+                    "heading": "Existing insights",
+                    "leftAloneLeadIn": "Left as they are:",
+                    "leftAloneNoEdit": "Insights you can't edit. An organization admin can run this to cover those, or you can ask for edit access to them. <DocsLink>About access control</DocsLink>",
+                    "leftAloneOldFormat": "Insights saved in an older format. Open and save one to convert it, then run this again.",
+                    "leftAloneSql": "SQL insights, which have no such filter",
+                    "noBulkUndo": "There's no bulk undo. Running it the other way later would set every insight to {{ state }}, not restore what each one had before. To get a single insight back, check its activity log for the previous setting.",
+                    "noFilters": "Add at least one filter above first",
+                    "turnOff": "Turn off for existing insights",
+                    "turnOn": "Turn on for existing insights"
+                },
+                "filterRevenueAnalytics": "Filter out internal and test users from revenue analytics",
+                "frequentMistakeItem": "{{ key }} is a {{ type }} property, but {{ fix }}.",
+                "frequentMistakeNotice": "Your filter contains a setting that is likely to exclude or include unexpected users.",
+                "inclusiveFilterListLead": "Inclusive filters are currently set for the following properties:",
+                "inclusiveFilterNotice": "You've added an <Strong>inclusive</Strong> filter, which means only matching events will be included. Filters are normally <Strong>exclusive</Strong>, such as <Italic>does not contain</Italic>, to filter out unwanted results.",
+                "states": {
+                    "off": "off",
+                    "on": "on",
+                    "start": "start",
+                    "stop": "stop"
                 }
             }
         },

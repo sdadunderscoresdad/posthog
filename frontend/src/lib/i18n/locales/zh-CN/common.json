@@ -611,6 +611,100 @@
                 "orgLevelLabel": "包含组织级别的活动",
                 "orgLevelTooltip": "启用后，组织级别变更（例如组织设置、域名和成员）产生的活动日志会纳入此项目的活动日志页面、导出和通知订阅。"
             },
+            "customBotRules": {
+                "addBot": "添加机器人",
+                "addCondition": "添加条件",
+                "categories": {
+                    "aiAssistant": "AI 助手",
+                    "aiCrawler": "AI 抓取器",
+                    "aiSearch": "AI 搜索",
+                    "custom": "自定义",
+                    "headlessBrowser": "无头浏览器",
+                    "httpClient": "HTTP 客户端",
+                    "monitoring": "监控",
+                    "searchCrawler": "搜索爬虫",
+                    "seoCrawler": "SEO 爬虫",
+                    "socialCrawler": "社交爬虫"
+                },
+                "changesApplyNote": "更改会同时应用于新数据和已有数据。刷新某个洞察或仪表盘即可看到更改生效。",
+                "combiners": {
+                    "all": "全部",
+                    "any": "任意"
+                },
+                "combinerSentence": "当以下条件{{ combiner }}满足时：",
+                "droppedRules_other": "有 {{ count }} 条已保存的规则无法读取，保存后会被移除。如果这不是你预期的结果，请联系支持。",
+                "fields": {
+                    "browser": "浏览器",
+                    "browserLanguage": "浏览器语言",
+                    "countryCode": "国家代码",
+                    "currentUrl": "当前 URL",
+                    "host": "主机",
+                    "ip": "IP 地址",
+                    "lib": "客户端库",
+                    "os": "操作系统",
+                    "pathname": "路径名",
+                    "rawUserAgent": "原始 user agent",
+                    "referrer": "来源网址",
+                    "referringDomain": "来源域名",
+                    "screenHeight": "屏幕高度",
+                    "screenWidth": "屏幕宽度"
+                },
+                "fixErrorsFirst": "请先修复上面的错误",
+                "intro": "你在这里添加的机器人，在所有提供 <code>Is bot</code> 的地方都会被识别为机器人，包括洞察、Web 分析和 SQL。PostHog 内置列表已经覆盖了会自我标识的爬虫，例如 GPTBot 和 Googlebot。系统会优先检查你的规则，因此你可以为其中某个爬虫指定不同的名称或类别。",
+                "ipRulesAreDead": "此项目会对 IP 地址做匿名化处理，因此事件到达时没有 IP 地址，针对 IP 地址的条件永远不会匹配。请在项目设置中关闭「丢弃客户端 IP 数据」，或改为匹配其他属性。",
+                "matchers": {
+                    "cidr": "在范围内",
+                    "contains": "包含",
+                    "exact": "等于",
+                    "regex": "匹配正则"
+                },
+                "matcherTooltips": {
+                    "caseInsensitive": "不区分大小写",
+                    "caseSensitive": "区分大小写，匹配整个值"
+                },
+                "matchingHint": "可以匹配 user agent 来识别自报身份的爬虫，匹配 IP 地址来识别从你已知网段发出浏览器 user agent 的爬虫，也可以组合多个条件来识别只有通过组合才暴露特征的爬虫，例如 800x600 的屏幕。 <DocsLink>详细了解机器人检测</DocsLink>",
+                "noBotsYet": "还没有添加机器人。PostHog 内置列表仍然生效，添加一个即可扩展它。",
+                "rule": {
+                    "flagAsBot": "标记为机器人",
+                    "inCategory": "类别为",
+                    "multipleConditions": "条件满足时",
+                    "namePlaceholder": "Acme 爬虫",
+                    "singleCondition": "满足此条件时",
+                    "when": "当"
+                },
+                "saving": "保存中",
+                "tester": {
+                    "matches": "匹配",
+                    "noMatch": "没有自定义规则匹配。PostHog 内置列表仍然生效。",
+                    "placeholder": "粘贴一个{{ field }}",
+                    "title": "测试一个值",
+                    "tooltip": "这里只检查你自己的机器人。真实查询还会在你的规则之后匹配 PostHog 内置列表。"
+                },
+                "unsupportedConstructs": {
+                    "atomicGroup": "原子组",
+                    "backreference": "反向引用",
+                    "conditionalGroup": "条件组",
+                    "lookahead": "先行断言",
+                    "lookbehind": "后行断言",
+                    "recursion": "递归",
+                    "unsupportedEscape": "不支持的转义"
+                },
+                "validation": {
+                    "addIpOrRange": "添加要匹配的 IP 地址或网段。",
+                    "addValue": "添加要匹配的值。",
+                    "invalidIpOrRange": "这不是有效的 IP 地址或网段。",
+                    "invalidRegex": "这不是有效的正则表达式。",
+                    "nameRequired": "请为该机器人命名。",
+                    "nameTooLong": "名称不能超过 {{ max }} 个字符。",
+                    "needsCondition": "请至少添加一个条件。",
+                    "patternTooLong": "匹配内容不能超过 {{ max }} 个字符。",
+                    "rangesOnlyForIp": "网段只能用于 IP 地址属性。",
+                    "tooManyConditionsInRule": "每条规则最多可以有 {{ max }} 个条件。",
+                    "tooManyConditionsTotal": "所有规则合计最多可以有 {{ max }} 个条件。",
+                    "tooManyRules": "最多可以定义 {{ max }} 个机器人",
+                    "unsupportedConstruct": "这里用到了{{ construct }}，此处不支持。"
+                }
+            },
             "dataColorTheme": {
                 "addColor": "添加颜色",
                 "addTheme": "添加主题",
@@ -718,6 +812,19 @@
                 "installHint": "你可以在 Cursor、Claude Code、Claude Desktop、VS Code 和 Zed 中运行以下命令来安装 PostHog MCP 服务器：",
                 "learnMoreLink": "这里",
                 "learnMorePrefix": "你可以在这里了解更多可用工具和其他安装方式"
+            },
+            "pathCleaningSuggestions": {
+                "applyAll": "全部应用",
+                "bannerSummary_other": "我们分析了你的流量，建议添加 <Strong>{{ count }}</Strong> 条路径清理{{ rules }}，把相似页面归为一组。请检查并应用：",
+                "close": "关闭",
+                "previewDescription": "你最近 30 天访问量最高的路径，已按顺序应用所有建议规则。在你应用之前不会有任何变化。",
+                "previewOnYourPaths": "在你的路径上预览",
+                "previewSummary": "这些规则将你的前 <Strong>{{ sampled }}</Strong> 个热门路径中的 <Strong>{{ changed }}</Strong> 个归为一组",
+                "previewSummaryTruncated": "（仅显示前 {{ shown }} 个）",
+                "previewTitle": "在你的真实路径上预览",
+                "ruleCount_other": "规则",
+                "ruleMatchSummary": "将你的前 {{ sampled }} 个路径中的 {{ matched }} 个归为一组",
+                "views_other": "{{ value }} 次浏览"
             },
             "personsJoinMode": {
                 "innerDescription": "这是默认选项。除非你清楚自己在做什么，否则就选它。",
@@ -886,6 +993,39 @@
                     "tokenLabel": "项目令牌",
                     "tokenThing": "项目令牌",
                     "typeToConfirm": "输入 “{{ phrase }}” 以确认"
+                }
+            },
+            "testAccountFilters": {
+                "cdpCohortHint": "在过滤内部用户时，内联的人员属性过滤（例如「email does not contain your-domain.com」）在所有场景下都有效，包括实时 CDP 目标。你也可以创建一个分群，并用「not in」运算符添加它：这对分析类查询（洞察、仪表盘）效果很好，如果该分群<Strong>只包含人员属性过滤</Strong>，在 CDP 目标中同样有效。包含行为过滤或未定义任何属性的分群会导致 CDP 目标报错。",
+                "cohortLabel": "分群 {{ name }}",
+                "enableOnNewInsights": "在所有新建洞察中启用此过滤",
+                "existingInsights": {
+                    "applyButton": "将过滤切换为{{ state }}",
+                    "applying": "正在应用你的上一次更改",
+                    "confirmBody": "此项目中的每个洞察都会{{ action }}过滤内部和测试用户，包括其他人创建的洞察。这会替换每个洞察当前的设置。",
+                    "confirmTitle": "要将此项目所有洞察的内部和测试用户过滤切换为{{ state }}吗？",
+                    "dashboardsNote": "仪表盘会跟随其洞察的设置，除非仪表盘自己设置了覆盖项。新建洞察的默认设置不会改变。",
+                    "description": "为此项目中的每个洞察打开或关闭内部和测试用户过滤。这不会改变新建洞察的默认设置。",
+                    "heading": "已有洞察",
+                    "leftAloneLeadIn": "以下内容保持不变：",
+                    "leftAloneNoEdit": "你无法编辑的洞察。组织管理员可以执行此操作来覆盖这些洞察，或者你可以申请它们的编辑权限。 <DocsLink>关于访问控制</DocsLink>",
+                    "leftAloneOldFormat": "以旧格式保存的洞察。打开并保存其中一个即可完成转换，然后再执行一次。",
+                    "leftAloneSql": "SQL 洞察，它们没有这种过滤",
+                    "noBulkUndo": "此操作无法批量撤销。之后反向执行只会把每个洞察设置为{{ state }}，而不会恢复它们各自原来的设置。如果要恢复单个洞察，请在它的活动日志中查看之前的设置。",
+                    "noFilters": "请先在上方添加至少一个过滤条件",
+                    "turnOff": "为已有洞察关闭",
+                    "turnOn": "为已有洞察打开"
+                },
+                "filterRevenueAnalytics": "从收入分析中过滤内部和测试用户",
+                "frequentMistakeItem": "{{ key }} 是{{ type }}属性，但{{ fix }}。",
+                "frequentMistakeNotice": "你的过滤中包含可能导致意外排除或包含用户的设置。",
+                "inclusiveFilterListLead": "目前为以下属性设置了包含式过滤：",
+                "inclusiveFilterNotice": "你添加了一个<Strong>包含式</Strong>过滤，这意味着只有匹配的事件会被包含进来。过滤通常是<Strong>排除式</Strong>的，例如<Italic>不包含</Italic>，用于排除不需要的结果。",
+                "states": {
+                    "off": "关闭",
+                    "on": "打开",
+                    "start": "开始",
+                    "stop": "停止"
                 }
             }
         },

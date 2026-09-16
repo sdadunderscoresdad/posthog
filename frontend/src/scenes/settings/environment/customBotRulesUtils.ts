@@ -1,3 +1,5 @@
+import { i18n } from 'lib/i18n/i18n'
+
 import { CustomBotCondition, CustomBotField, CustomBotMatcher, CustomBotRule } from '~/queries/schema/schema-general'
 import { FilterLogicalOperator } from '~/types'
 
@@ -12,53 +14,199 @@ export const MAX_NAME_LENGTH = 100
 // Mirrors CUSTOM_BOT_FIELDS in
 // products/web_analytics/backend/hogql_queries/custom_bot_definitions.py
 export const CUSTOM_BOT_FIELD_OPTIONS: { value: CustomBotField; label: string }[] = [
-    { value: CustomBotField.RawUserAgent, label: 'Raw user agent' },
-    { value: CustomBotField.IP, label: 'IP address' },
-    { value: CustomBotField.Lib, label: 'Library' },
-    { value: CustomBotField.Host, label: 'Host' },
-    { value: CustomBotField.Pathname, label: 'Path name' },
-    { value: CustomBotField.CurrentURL, label: 'Current URL' },
-    { value: CustomBotField.Browser, label: 'Browser' },
-    { value: CustomBotField.OS, label: 'OS' },
-    { value: CustomBotField.BrowserLanguage, label: 'Browser language' },
-    { value: CustomBotField.ScreenWidth, label: 'Screen width' },
-    { value: CustomBotField.ScreenHeight, label: 'Screen height' },
-    { value: CustomBotField.CountryCode, label: 'Country code' },
-    { value: CustomBotField.Referrer, label: 'Referrer' },
-    { value: CustomBotField.ReferringDomain, label: 'Referring domain' },
+    {
+        value: CustomBotField.RawUserAgent,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.fields.rawUserAgent', {
+                defaultValue: 'Raw user agent',
+            })
+        },
+    },
+    {
+        value: CustomBotField.IP,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.fields.ip', { defaultValue: 'IP address' })
+        },
+    },
+    {
+        value: CustomBotField.Lib,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.fields.lib', { defaultValue: 'Library' })
+        },
+    },
+    {
+        value: CustomBotField.Host,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.fields.host', { defaultValue: 'Host' })
+        },
+    },
+    {
+        value: CustomBotField.Pathname,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.fields.pathname', { defaultValue: 'Path name' })
+        },
+    },
+    {
+        value: CustomBotField.CurrentURL,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.fields.currentUrl', { defaultValue: 'Current URL' })
+        },
+    },
+    {
+        value: CustomBotField.Browser,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.fields.browser', { defaultValue: 'Browser' })
+        },
+    },
+    {
+        value: CustomBotField.OS,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.fields.os', { defaultValue: 'OS' })
+        },
+    },
+    {
+        value: CustomBotField.BrowserLanguage,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.fields.browserLanguage', {
+                defaultValue: 'Browser language',
+            })
+        },
+    },
+    {
+        value: CustomBotField.ScreenWidth,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.fields.screenWidth', { defaultValue: 'Screen width' })
+        },
+    },
+    {
+        value: CustomBotField.ScreenHeight,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.fields.screenHeight', { defaultValue: 'Screen height' })
+        },
+    },
+    {
+        value: CustomBotField.CountryCode,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.fields.countryCode', { defaultValue: 'Country code' })
+        },
+    },
+    {
+        value: CustomBotField.Referrer,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.fields.referrer', { defaultValue: 'Referrer' })
+        },
+    },
+    {
+        value: CustomBotField.ReferringDomain,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.fields.referringDomain', {
+                defaultValue: 'Referring domain',
+            })
+        },
+    },
 ]
 
-const MATCHER_LABELS: Record<CustomBotMatcher, string> = {
-    [CustomBotMatcher.Contains]: 'contains',
-    [CustomBotMatcher.Exact]: 'equals',
-    [CustomBotMatcher.Regex]: 'matches regex',
-    [CustomBotMatcher.Cidr]: 'is in range',
+const matcherKeys: Record<CustomBotMatcher, () => string> = {
+    [CustomBotMatcher.Contains]: () =>
+        i18n.t('settings.environment.customBotRules.matchers.contains', { defaultValue: 'contains' }),
+    [CustomBotMatcher.Exact]: () =>
+        i18n.t('settings.environment.customBotRules.matchers.exact', { defaultValue: 'equals' }),
+    [CustomBotMatcher.Regex]: () =>
+        i18n.t('settings.environment.customBotRules.matchers.regex', { defaultValue: 'matches regex' }),
+    [CustomBotMatcher.Cidr]: () =>
+        i18n.t('settings.environment.customBotRules.matchers.cidr', { defaultValue: 'is in range' }),
 }
 
 // "equals" and "contains" sit next to each other in the same select but differ in case handling,
 // so each says which it is.
-const MATCHER_TOOLTIPS: Partial<Record<CustomBotMatcher, string>> = {
-    [CustomBotMatcher.Contains]: 'Case-insensitive',
-    [CustomBotMatcher.Exact]: 'Case-sensitive, matches the whole value',
+const matcherTooltips: Partial<Record<CustomBotMatcher, () => string>> = {
+    [CustomBotMatcher.Contains]: () =>
+        i18n.t('settings.environment.customBotRules.matcherTooltips.caseInsensitive', {
+            defaultValue: 'Case-insensitive',
+        }),
+    [CustomBotMatcher.Exact]: () =>
+        i18n.t('settings.environment.customBotRules.matcherTooltips.caseSensitive', {
+            defaultValue: 'Case-sensitive, matches the whole value',
+        }),
 }
 
 export function matcherLabel(matcher: CustomBotMatcher): string {
-    return MATCHER_LABELS[matcher]
+    return matcherKeys[matcher]()
 }
 
 // Mirrors TRAFFIC_TYPE_BY_CATEGORY in
 // products/web_analytics/backend/hogql_queries/custom_bot_definitions.py
 export const CUSTOM_BOT_CATEGORY_OPTIONS: { value: string; label: string }[] = [
-    { value: CUSTOM_BOT_CATEGORY, label: 'Custom' },
-    { value: 'ai_crawler', label: 'AI crawler' },
-    { value: 'ai_search', label: 'AI search' },
-    { value: 'ai_assistant', label: 'AI assistant' },
-    { value: 'search_crawler', label: 'Search crawler' },
-    { value: 'seo_crawler', label: 'SEO crawler' },
-    { value: 'social_crawler', label: 'Social crawler' },
-    { value: 'monitoring', label: 'Monitoring' },
-    { value: 'http_client', label: 'HTTP client' },
-    { value: 'headless_browser', label: 'Headless browser' },
+    {
+        value: CUSTOM_BOT_CATEGORY,
+        get label() {
+            return i18n.t('settings.environment.customBotRules.categories.custom', { defaultValue: 'Custom' })
+        },
+    },
+    {
+        value: 'ai_crawler',
+        get label() {
+            return i18n.t('settings.environment.customBotRules.categories.aiCrawler', { defaultValue: 'AI crawler' })
+        },
+    },
+    {
+        value: 'ai_search',
+        get label() {
+            return i18n.t('settings.environment.customBotRules.categories.aiSearch', { defaultValue: 'AI search' })
+        },
+    },
+    {
+        value: 'ai_assistant',
+        get label() {
+            return i18n.t('settings.environment.customBotRules.categories.aiAssistant', {
+                defaultValue: 'AI assistant',
+            })
+        },
+    },
+    {
+        value: 'search_crawler',
+        get label() {
+            return i18n.t('settings.environment.customBotRules.categories.searchCrawler', {
+                defaultValue: 'Search crawler',
+            })
+        },
+    },
+    {
+        value: 'seo_crawler',
+        get label() {
+            return i18n.t('settings.environment.customBotRules.categories.seoCrawler', {
+                defaultValue: 'SEO crawler',
+            })
+        },
+    },
+    {
+        value: 'social_crawler',
+        get label() {
+            return i18n.t('settings.environment.customBotRules.categories.socialCrawler', {
+                defaultValue: 'Social crawler',
+            })
+        },
+    },
+    {
+        value: 'monitoring',
+        get label() {
+            return i18n.t('settings.environment.customBotRules.categories.monitoring', { defaultValue: 'Monitoring' })
+        },
+    },
+    {
+        value: 'http_client',
+        get label() {
+            return i18n.t('settings.environment.customBotRules.categories.httpClient', { defaultValue: 'HTTP client' })
+        },
+    },
+    {
+        value: 'headless_browser',
+        get label() {
+            return i18n.t('settings.environment.customBotRules.categories.headlessBrowser', {
+                defaultValue: 'Headless browser',
+            })
+        },
+    },
 ]
 
 const NUMERIC_FIELDS = [CustomBotField.ScreenWidth, CustomBotField.ScreenHeight]
@@ -75,8 +223,8 @@ export function matcherOptionsFor(key: CustomBotField): { value: CustomBotMatche
             : [CustomBotMatcher.Contains, CustomBotMatcher.Exact, CustomBotMatcher.Regex]
     return matchers.map((matcher) => ({
         value: matcher,
-        label: MATCHER_LABELS[matcher],
-        tooltip: MATCHER_TOOLTIPS[matcher],
+        label: matcherLabel(matcher),
+        tooltip: matcherTooltips[matcher]?.(),
     }))
 }
 
@@ -122,16 +270,70 @@ export function patternPlaceholderFor(key: CustomBotField, matcher: CustomBotMat
 // ClickHouse matches these patterns with hyperscan, which supports less than JavaScript does.
 // Mirrors _UNSUPPORTED_CONSTRUCTS in the Python module above, so a person sees the problem while
 // typing instead of on save.
-const UNSUPPORTED_CONSTRUCTS: { pattern: RegExp; label: string }[] = [
-    { pattern: /\(\?=/, label: 'lookahead' },
-    { pattern: /\(\?!/, label: 'lookahead' },
-    { pattern: /\(\?<=/, label: 'lookbehind' },
-    { pattern: /\(\?<!/, label: 'lookbehind' },
-    { pattern: /\(\?>/, label: 'atomic group' },
-    { pattern: /\(\?\(/, label: 'conditional group' },
-    { pattern: /\(\?R/, label: 'recursion' },
-    { pattern: /\\[1-9]/, label: 'backreference' },
-    { pattern: /\\[zZGKCRX]/, label: 'unsupported escape' },
+const unsupportedConstructs: { pattern: RegExp; describe: () => string }[] = [
+    {
+        pattern: /\(\?=/,
+        describe: () =>
+            i18n.t('settings.environment.customBotRules.unsupportedConstructs.lookahead', {
+                defaultValue: 'lookahead',
+            }),
+    },
+    {
+        pattern: /\(\?!/,
+        describe: () =>
+            i18n.t('settings.environment.customBotRules.unsupportedConstructs.lookahead', {
+                defaultValue: 'lookahead',
+            }),
+    },
+    {
+        pattern: /\(\?<=/,
+        describe: () =>
+            i18n.t('settings.environment.customBotRules.unsupportedConstructs.lookbehind', {
+                defaultValue: 'lookbehind',
+            }),
+    },
+    {
+        pattern: /\(\?<!/,
+        describe: () =>
+            i18n.t('settings.environment.customBotRules.unsupportedConstructs.lookbehind', {
+                defaultValue: 'lookbehind',
+            }),
+    },
+    {
+        pattern: /\(\?>/,
+        describe: () =>
+            i18n.t('settings.environment.customBotRules.unsupportedConstructs.atomicGroup', {
+                defaultValue: 'atomic group',
+            }),
+    },
+    {
+        pattern: /\(\?\(/,
+        describe: () =>
+            i18n.t('settings.environment.customBotRules.unsupportedConstructs.conditionalGroup', {
+                defaultValue: 'conditional group',
+            }),
+    },
+    {
+        pattern: /\(\?R/,
+        describe: () =>
+            i18n.t('settings.environment.customBotRules.unsupportedConstructs.recursion', {
+                defaultValue: 'recursion',
+            }),
+    },
+    {
+        pattern: /\\[1-9]/,
+        describe: () =>
+            i18n.t('settings.environment.customBotRules.unsupportedConstructs.backreference', {
+                defaultValue: 'backreference',
+            }),
+    },
+    {
+        pattern: /\\[zZGKCRX]/,
+        describe: () =>
+            i18n.t('settings.environment.customBotRules.unsupportedConstructs.unsupportedEscape', {
+                defaultValue: 'unsupported escape',
+            }),
+    },
 ]
 
 // Python's re (and re2) take regex flags as a leading inline group like (?i), which JavaScript
@@ -229,49 +431,77 @@ function parseCidr(pattern: string): { value: bigint; width: bigint; prefix: big
 export function validateCustomBotCondition(condition: CustomBotCondition): string | null {
     if (!condition.pattern.trim()) {
         return condition.matcher === CustomBotMatcher.Cidr
-            ? 'Add an IP address or range to match.'
-            : 'Add a value to match.'
+            ? i18n.t('settings.environment.customBotRules.validation.addIpOrRange', {
+                  defaultValue: 'Add an IP address or range to match.',
+              })
+            : i18n.t('settings.environment.customBotRules.validation.addValue', {
+                  defaultValue: 'Add a value to match.',
+              })
     }
     if (condition.pattern.length > MAX_PATTERN_LENGTH) {
-        return `Pattern cannot be longer than ${MAX_PATTERN_LENGTH} characters.`
+        return i18n.t('settings.environment.customBotRules.validation.patternTooLong', {
+            defaultValue: 'Pattern cannot be longer than {{ max }} characters.',
+            max: MAX_PATTERN_LENGTH,
+        })
     }
 
     if (condition.matcher === CustomBotMatcher.Cidr) {
         if (condition.key !== CustomBotField.IP) {
-            return 'Ranges only work with the IP address property.'
+            return i18n.t('settings.environment.customBotRules.validation.rangesOnlyForIp', {
+                defaultValue: 'Ranges only work with the IP address property.',
+            })
         }
-        return parseCidr(condition.pattern) ? null : 'This is not a valid IP address or range.'
+        return parseCidr(condition.pattern)
+            ? null
+            : i18n.t('settings.environment.customBotRules.validation.invalidIpOrRange', {
+                  defaultValue: 'This is not a valid IP address or range.',
+              })
     }
 
     if (condition.matcher !== CustomBotMatcher.Regex) {
         return null
     }
-    for (const { pattern, label } of UNSUPPORTED_CONSTRUCTS) {
+    for (const { pattern, describe } of unsupportedConstructs) {
         if (pattern.test(condition.pattern)) {
-            return `This uses a ${label}, which is not supported here.`
+            return i18n.t('settings.environment.customBotRules.validation.unsupportedConstruct', {
+                defaultValue: 'This uses a {{ construct }}, which is not supported here.',
+                construct: describe(),
+            })
         }
     }
     try {
         compileCustomBotRegex(condition.pattern)
     } catch {
-        return 'This is not a valid regular expression.'
+        return i18n.t('settings.environment.customBotRules.validation.invalidRegex', {
+            defaultValue: 'This is not a valid regular expression.',
+        })
     }
     return null
 }
 
 export function validateCustomBotRule(rule: CustomBotRule): string | null {
     if (!rule.name.trim()) {
-        return 'Give this bot a name.'
+        return i18n.t('settings.environment.customBotRules.validation.nameRequired', {
+            defaultValue: 'Give this bot a name.',
+        })
     }
     if (rule.name.length > MAX_NAME_LENGTH) {
-        return `Name cannot be longer than ${MAX_NAME_LENGTH} characters.`
+        return i18n.t('settings.environment.customBotRules.validation.nameTooLong', {
+            defaultValue: 'Name cannot be longer than {{ max }} characters.',
+            max: MAX_NAME_LENGTH,
+        })
     }
     if (rule.items.length === 0) {
-        return 'Add at least one condition.'
+        return i18n.t('settings.environment.customBotRules.validation.needsCondition', {
+            defaultValue: 'Add at least one condition.',
+        })
     }
     // Dragging a condition into a rule can exceed the cap without ever using the add button.
     if (rule.items.length > MAX_CONDITIONS_PER_RULE) {
-        return `A rule can have at most ${MAX_CONDITIONS_PER_RULE} conditions.`
+        return i18n.t('settings.environment.customBotRules.validation.tooManyConditionsInRule', {
+            defaultValue: 'A rule can have at most {{ max }} conditions.',
+            max: MAX_CONDITIONS_PER_RULE,
+        })
     }
     for (const condition of rule.items) {
         const error = validateCustomBotCondition(condition)
@@ -285,7 +515,10 @@ export function validateCustomBotRule(rule: CustomBotRule): string | null {
 export function validateCustomBotRuleSet(rules: CustomBotRule[]): string | null {
     const total = rules.reduce((sum, rule) => sum + rule.items.length, 0)
     if (total > MAX_TOTAL_CONDITIONS) {
-        return `You can have at most ${MAX_TOTAL_CONDITIONS} conditions across all rules.`
+        return i18n.t('settings.environment.customBotRules.validation.tooManyConditionsTotal', {
+            defaultValue: 'You can have at most {{ max }} conditions across all rules.',
+            max: MAX_TOTAL_CONDITIONS,
+        })
     }
     return null
 }

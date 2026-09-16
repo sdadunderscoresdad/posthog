@@ -611,6 +611,100 @@
                 "orgLevelLabel": "",
                 "orgLevelTooltip": ""
             },
+            "customBotRules": {
+                "addBot": "",
+                "addCondition": "",
+                "categories": {
+                    "aiAssistant": "",
+                    "aiCrawler": "",
+                    "aiSearch": "",
+                    "custom": "",
+                    "headlessBrowser": "",
+                    "httpClient": "",
+                    "monitoring": "",
+                    "searchCrawler": "",
+                    "seoCrawler": "",
+                    "socialCrawler": ""
+                },
+                "changesApplyNote": "",
+                "combiners": {
+                    "all": "",
+                    "any": ""
+                },
+                "combinerSentence": "",
+                "droppedRules_other": "",
+                "fields": {
+                    "browser": "",
+                    "browserLanguage": "",
+                    "countryCode": "",
+                    "currentUrl": "",
+                    "host": "",
+                    "ip": "",
+                    "lib": "",
+                    "os": "",
+                    "pathname": "",
+                    "rawUserAgent": "",
+                    "referrer": "",
+                    "referringDomain": "",
+                    "screenHeight": "",
+                    "screenWidth": ""
+                },
+                "fixErrorsFirst": "",
+                "intro": "",
+                "ipRulesAreDead": "",
+                "matchers": {
+                    "cidr": "",
+                    "contains": "",
+                    "exact": "",
+                    "regex": ""
+                },
+                "matcherTooltips": {
+                    "caseInsensitive": "",
+                    "caseSensitive": ""
+                },
+                "matchingHint": "",
+                "noBotsYet": "",
+                "rule": {
+                    "flagAsBot": "",
+                    "inCategory": "",
+                    "multipleConditions": "",
+                    "namePlaceholder": "",
+                    "singleCondition": "",
+                    "when": ""
+                },
+                "saving": "",
+                "tester": {
+                    "matches": "",
+                    "noMatch": "",
+                    "placeholder": "",
+                    "title": "",
+                    "tooltip": ""
+                },
+                "unsupportedConstructs": {
+                    "atomicGroup": "",
+                    "backreference": "",
+                    "conditionalGroup": "",
+                    "lookahead": "",
+                    "lookbehind": "",
+                    "recursion": "",
+                    "unsupportedEscape": ""
+                },
+                "validation": {
+                    "addIpOrRange": "",
+                    "addValue": "",
+                    "invalidIpOrRange": "",
+                    "invalidRegex": "",
+                    "nameRequired": "",
+                    "nameTooLong": "",
+                    "needsCondition": "",
+                    "patternTooLong": "",
+                    "rangesOnlyForIp": "",
+                    "tooManyConditionsInRule": "",
+                    "tooManyConditionsTotal": "",
+                    "tooManyRules": "",
+                    "unsupportedConstruct": ""
+                }
+            },
             "dataColorTheme": {
                 "addColor": "",
                 "addTheme": "",
@@ -718,6 +812,19 @@
                 "installHint": "",
                 "learnMoreLink": "",
                 "learnMorePrefix": ""
+            },
+            "pathCleaningSuggestions": {
+                "applyAll": "",
+                "bannerSummary_other": "",
+                "close": "",
+                "previewDescription": "",
+                "previewOnYourPaths": "",
+                "previewSummary": "",
+                "previewSummaryTruncated": "",
+                "previewTitle": "",
+                "ruleCount_other": "",
+                "ruleMatchSummary": "",
+                "views_other": ""
             },
             "personsJoinMode": {
                 "innerDescription": "",
@@ -886,6 +993,39 @@
                     "tokenLabel": "",
                     "tokenThing": "",
                     "typeToConfirm": ""
+                }
+            },
+            "testAccountFilters": {
+                "cdpCohortHint": "",
+                "cohortLabel": "",
+                "enableOnNewInsights": "",
+                "existingInsights": {
+                    "applyButton": "",
+                    "applying": "",
+                    "confirmBody": "",
+                    "confirmTitle": "",
+                    "dashboardsNote": "",
+                    "description": "",
+                    "heading": "",
+                    "leftAloneLeadIn": "",
+                    "leftAloneNoEdit": "",
+                    "leftAloneOldFormat": "",
+                    "leftAloneSql": "",
+                    "noBulkUndo": "",
+                    "noFilters": "",
+                    "turnOff": "",
+                    "turnOn": ""
+                },
+                "filterRevenueAnalytics": "",
+                "frequentMistakeItem": "",
+                "frequentMistakeNotice": "",
+                "inclusiveFilterListLead": "",
+                "inclusiveFilterNotice": "",
+                "states": {
+                    "off": "",
+                    "on": "",
+                    "start": "",
+                    "stop": ""
                 }
             }
         },

@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { LemonSwitch } from '@posthog/lemon-ui'
 
@@ -7,6 +8,7 @@ import { PROPERTY_FILTER_TYPE_TO_TAXONOMIC_FILTER_GROUP_TYPE } from 'lib/compone
 import { RestrictionScope, useRestrictedArea } from 'lib/components/RestrictedArea'
 import { TaxonomicFilterGroupType } from 'lib/components/TaxonomicFilter/types'
 import { TeamMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonBanner } from 'lib/lemon-ui/LemonBanner'
 import { eventUsageLogic } from 'lib/utils/eventUsageLogic'
 import { teamLogic } from 'scenes/teamLogic'
@@ -47,7 +49,10 @@ function createTestAccountFilterWarningLabels(
             // person properties can be checked for a label as if they were event properties
             // so, we can check each acceptable type and see if it returns a value
             if (filter.type === 'cohort') {
-                return `Cohort ${cohortsById[filter.value]?.name || filter.value}`
+                return i18n.t('settings.environment.testAccountFilters.cohortLabel', {
+                    defaultValue: 'Cohort {{ name }}',
+                    name: cohortsById[filter.value]?.name || filter.value,
+                })
             }
             return (
                 getFilterLabel(filter.key, PROPERTY_FILTER_TYPE_TO_TAXONOMIC_FILTER_GROUP_TYPE[filter.type]) ||
@@ -59,6 +64,7 @@ function createTestAccountFilterWarningLabels(
 }
 
 function TestAccountFiltersConfig(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { setTeamDefault } = useActions(filterTestAccountsDefaultsLogic)
     const { reportTestAccountFiltersUpdated } = useActions(eventUsageLogic)
@@ -84,21 +90,26 @@ function TestAccountFiltersConfig(): JSX.Element {
         <div className="mb-4 flex flex-col gap-2">
             <div className="mb-4 flex flex-col gap-2">
                 <LemonBanner type="info">
-                    When filtering out internal users, inline person property filters (e.g., "email does not contain
-                    your-domain.com") work everywhere, including real-time CDP destinations. Alternatively, you can
-                    create a cohort and add it with a "not in" operator - this works well for analytics queries
-                    (insights, dashboards) and also works in CDP destinations if the cohort contains{' '}
-                    <strong>exclusively person property filters</strong>. Cohorts with behavioral filters or no
-                    properties defined will cause CDP destinations to error.
+                    <Trans
+                        i18nKey="settings.environment.testAccountFilters.cdpCohortHint"
+                        components={{ Strong: <strong /> }}
+                        defaults='When filtering out internal users, inline person property filters (e.g., "email does not contain your-domain.com") work everywhere, including real-time CDP destinations. Alternatively, you can create a cohort and add it with a "not in" operator - this works well for analytics queries (insights, dashboards) and also works in CDP destinations if the cohort contains <Strong>exclusively person property filters</Strong>. Cohorts with behavioral filters or no properties defined will cause CDP destinations to error.'
+                    />
                 </LemonBanner>
                 {!!testAccountFilterWarningLabels && testAccountFilterWarningLabels.length > 0 && (
                     <LemonBanner type="warning" className="m-2">
                         <p>
-                            You've added an <strong>inclusive</strong> filter, which means only matching events will be
-                            included. Filters are normally <strong>exclusive</strong>, such as <i>does not contain</i>,
-                            to filter out unwanted results.
+                            <Trans
+                                i18nKey="settings.environment.testAccountFilters.inclusiveFilterNotice"
+                                components={{ Strong: <strong />, Italic: <i /> }}
+                                defaults="You've added an <Strong>inclusive</Strong> filter, which means only matching events will be included. Filters are normally <Strong>exclusive</Strong>, such as <Italic>does not contain</Italic>, to filter out unwanted results."
+                            />
                         </p>
-                        <p>Inclusive filters are currently set for the following properties: </p>
+                        <p>
+                            {t('settings.environment.testAccountFilters.inclusiveFilterListLead', {
+                                defaultValue: 'Inclusive filters are currently set for the following properties:',
+                            })}
+                        </p>
                         <ul className="list-disc">
                             {testAccountFilterWarningLabels.map((l, i) => (
                                 <li key={i} className="ml-4">
@@ -110,11 +121,21 @@ function TestAccountFiltersConfig(): JSX.Element {
                 )}
                 {!!testAccountFilterFrequentMistakes && testAccountFilterFrequentMistakes.length > 0 && (
                     <LemonBanner type="warning" className="m-2">
-                        <p>Your filter contains a setting that is likely to exclude or include unexpected users.</p>
+                        <p>
+                            {t('settings.environment.testAccountFilters.frequentMistakeNotice', {
+                                defaultValue:
+                                    'Your filter contains a setting that is likely to exclude or include unexpected users.',
+                            })}
+                        </p>
                         <ul className="list-disc">
                             {testAccountFilterFrequentMistakes.map(({ key, type, fix }, i) => (
                                 <li key={i} className="ml-4">
-                                    {key} is a {type} property, but {fix}.
+                                    {t('settings.environment.testAccountFilters.frequentMistakeItem', {
+                                        defaultValue: '{{ key }} is a {{ type }} property, but {{ fix }}.',
+                                        key,
+                                        type,
+                                        fix,
+                                    })}
                                 </li>
                             ))}
                         </ul>
@@ -145,7 +166,9 @@ function TestAccountFiltersConfig(): JSX.Element {
                 checked={!!currentTeam?.test_account_filters_default_checked}
                 disabled={currentTeamLoading}
                 disabledReason={restrictedReason}
-                label="Enable this filter on all new insights"
+                label={t('settings.environment.testAccountFilters.enableOnNewInsights', {
+                    defaultValue: 'Enable this filter on all new insights',
+                })}
                 bordered
             />
             <LemonSwitch
@@ -153,7 +176,9 @@ function TestAccountFiltersConfig(): JSX.Element {
                 checked={filterTestAccounts}
                 disabled={currentTeamLoading}
                 disabledReason={restrictedReason}
-                label="Filter out internal and test users from revenue analytics"
+                label={t('settings.environment.testAccountFilters.filterRevenueAnalytics', {
+                    defaultValue: 'Filter out internal and test users from revenue analytics',
+                })}
                 bordered
             />
             <ApplyTestAccountFilterToExistingInsights />
