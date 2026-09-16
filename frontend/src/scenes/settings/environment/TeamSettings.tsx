@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconRefresh } from '@posthog/icons'
 import { LemonButton, LemonDialog, LemonInput, LemonLabel, LemonSkeleton } from '@posthog/lemon-ui'
@@ -26,9 +27,11 @@ import { BusinessModelConfig } from './BusinessModelConfig'
 import { TimezoneConfig } from './TimezoneConfig'
 import { WeekStartConfig } from './WeekStartConfig'
 
-const NAME_TAKEN_REASON = 'There is already a project with this name in this organization. Choose a different name.'
-
 export function TeamDisplayName(): JSX.Element {
+    const { t } = useTranslation()
+    const nameTakenReason = t('settings.environment.team.displayName.nameTaken', {
+        defaultValue: 'There is already a project with this name in this organization. Choose a different name.',
+    })
     const { currentTeamLoading } = useValues(teamLogic)
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentProject } = useValues(projectLogic)
@@ -48,15 +51,19 @@ export function TeamDisplayName(): JSX.Element {
     })
     const renameDisabledReason =
         restrictedReason ||
-        (!trimmedName && 'Enter a name') ||
-        (!currentProject && 'Loading the project') ||
-        (trimmedName === currentProject?.name && "This is already the project's name") ||
-        (nameTaken && NAME_TAKEN_REASON) ||
+        (!trimmedName && t('settings.environment.team.displayName.enterName', { defaultValue: 'Enter a name' })) ||
+        (!currentProject &&
+            t('settings.environment.team.displayName.loadingProject', { defaultValue: 'Loading the project' })) ||
+        (trimmedName === currentProject?.name &&
+            t('settings.environment.team.displayName.sameName', {
+                defaultValue: "This is already the project's name",
+            })) ||
+        (nameTaken && nameTakenReason) ||
         null
 
     return (
         <div className="deprecated-space-y-4 max-w-160">
-            <LemonField.Pure error={nameTaken ? NAME_TAKEN_REASON : undefined}>
+            <LemonField.Pure error={nameTaken ? nameTakenReason : undefined}>
                 <LemonInput value={name} onChange={setName} disabledReason={restrictedReason} />
             </LemonField.Pure>
             <LemonButton
@@ -65,7 +72,7 @@ export function TeamDisplayName(): JSX.Element {
                 disabledReason={renameDisabledReason}
                 loading={currentTeamLoading}
             >
-                Rename project
+                {t('settings.environment.team.displayName.rename', { defaultValue: 'Rename project' })}
             </LemonButton>
         </div>
     )
@@ -85,6 +92,7 @@ export function WebSnippet(): JSX.Element {
 }
 
 export function TeamVariables(): JSX.Element {
+    const { t } = useTranslation()
     const { currentTeam, isTeamTokenResetAvailable } = useValues(teamLogic)
     const { resetToken } = useActions(teamLogic)
     const restrictedReason = useRestrictedArea({
@@ -100,14 +108,21 @@ export function TeamVariables(): JSX.Element {
     const openDialog = (): void => {
         LemonDialog.openForm({
             maxWidth: 480,
-            title: 'Reset project token?',
-            description:
-                'This will immediately invalidate your current project token. Any apps, websites, or services using it will stop sending data to PostHog until you update them with the new token. This action cannot be undone.',
+            title: t('settings.environment.team.variables.resetTitle', {
+                defaultValue: 'Reset project token?',
+            }),
+            description: t('settings.environment.team.variables.resetDescription', {
+                defaultValue:
+                    'This will immediately invalidate your current project token. Any apps, websites, or services using it will stop sending data to PostHog until you update them with the new token. This action cannot be undone.',
+            }),
             initialValues: { confirmation: '' },
             content: (
                 <LemonField name="confirmation">
                     <LemonInput
-                        placeholder={`Type "${RESET_CONFIRMATION}" to confirm`}
+                        placeholder={t('settings.environment.team.variables.typeToConfirm', {
+                            defaultValue: 'Type "{{ phrase }}" to confirm',
+                            phrase: RESET_CONFIRMATION,
+                        })}
                         autoFocus
                         data-attr="reset-api-key-confirmation-input"
                     />
@@ -116,12 +131,15 @@ export function TeamVariables(): JSX.Element {
             errors: {
                 confirmation: (value: string) =>
                     (value || '').toUpperCase() !== RESET_CONFIRMATION
-                        ? `Type "${RESET_CONFIRMATION}" to confirm`
+                        ? t('settings.environment.team.variables.typeToConfirm', {
+                              defaultValue: 'Type "{{ phrase }}" to confirm',
+                              phrase: RESET_CONFIRMATION,
+                          })
                         : undefined,
             },
             primaryButtonProps: {
                 status: 'danger',
-                children: 'Reset token',
+                children: t('settings.environment.team.variables.resetToken', { defaultValue: 'Reset token' }),
             },
             onSubmit: () => {
                 resetToken()
@@ -132,10 +150,12 @@ export function TeamVariables(): JSX.Element {
     return (
         <div className="space-y-4 max-w-200">
             <div className="border rounded p-4 space-y-3 bg-bg-light">
-                <LemonLabel className="mb-0">Project token</LemonLabel>
+                <LemonLabel className="mb-0">
+                    {t('settings.environment.team.variables.tokenLabel', { defaultValue: 'Project token' })}
+                </LemonLabel>
                 <CodeSnippet
                     compact
-                    thing="project token"
+                    thing={t('settings.environment.team.variables.tokenThing', { defaultValue: 'project token' })}
                     actions={
                         isTeamTokenResetAvailable ? (
                             <LemonButton
@@ -143,7 +163,9 @@ export function TeamVariables(): JSX.Element {
                                 disabledReason={restrictedReason}
                                 noPadding
                                 onClick={openDialog}
-                                tooltip="Reset token"
+                                tooltip={t('settings.environment.team.variables.resetToken', {
+                                    defaultValue: 'Reset token',
+                                })}
                             />
                         ) : undefined
                     }
@@ -151,28 +173,53 @@ export function TeamVariables(): JSX.Element {
                     {currentTeam?.api_token || ''}
                 </CodeSnippet>
                 <p className="text-muted text-xs mb-0">
-                    Write-only key for use in <Link to="https://posthog.com/docs/libraries">client libraries</Link>.
-                    Safe to use in public apps.
+                    <Trans
+                        i18nKey="settings.environment.team.variables.tokenHint"
+                        components={{
+                            LibrariesLink: <Link to="https://posthog.com/docs/libraries" />,
+                        }}
+                        defaults="Write-only key for use in <LibrariesLink>client libraries</LibrariesLink>. Safe to use in public apps."
+                    />
                 </p>
             </div>
 
             <div className="flex gap-4 flex-wrap">
                 <div className="border rounded p-4 space-y-3 bg-bg-light flex-1 min-w-60">
-                    <LemonLabel className="mb-0">Project ID</LemonLabel>
-                    <CodeSnippet compact thing="project ID">
+                    <LemonLabel className="mb-0">
+                        {t('settings.environment.team.variables.projectIdLabel', { defaultValue: 'Project ID' })}
+                    </LemonLabel>
+                    <CodeSnippet
+                        compact
+                        thing={t('settings.environment.team.variables.projectIdThing', { defaultValue: 'project ID' })}
+                    >
                         {String(currentTeam?.id || '')}
                     </CodeSnippet>
                     <p className="text-muted text-xs mb-0">
-                        Use this ID in the <Link to="https://posthog.com/docs/api">PostHog API</Link>.
+                        <Trans
+                            i18nKey="settings.environment.team.variables.projectIdHint"
+                            components={{ ApiLink: <Link to="https://posthog.com/docs/api" /> }}
+                            defaults="Use this ID in the <ApiLink>PostHog API</ApiLink>."
+                        />
                     </p>
                 </div>
                 {region ? (
                     <div className="border rounded p-4 space-y-3 bg-bg-light flex-1 min-w-60">
-                        <LemonLabel className="mb-0">Region</LemonLabel>
-                        <CodeSnippet compact thing="project region">
+                        <LemonLabel className="mb-0">
+                            {t('settings.environment.team.variables.regionLabel', { defaultValue: 'Region' })}
+                        </LemonLabel>
+                        <CodeSnippet
+                            compact
+                            thing={t('settings.environment.team.variables.regionThing', {
+                                defaultValue: 'project region',
+                            })}
+                        >
                             {`${region} Cloud`}
                         </CodeSnippet>
-                        <p className="text-muted text-xs mb-0">Where your PostHog data is hosted.</p>
+                        <p className="text-muted text-xs mb-0">
+                            {t('settings.environment.team.variables.regionHint', {
+                                defaultValue: 'Where your PostHog data is hosted.',
+                            })}
+                        </p>
                     </div>
                 ) : null}
             </div>
@@ -181,14 +228,19 @@ export function TeamVariables(): JSX.Element {
 }
 
 export function TeamTimezone({ displayWarning = true }: { displayWarning?: boolean }): JSX.Element {
+    const { t } = useTranslation()
     return (
         <div className="flex flex-col sm:flex-row gap-8">
             <div className="flex flex-col gap-2 flex-1 max-w-120">
-                <LemonLabel id="timezone">Time zone</LemonLabel>
+                <LemonLabel id="timezone">
+                    {t('settings.environment.team.timezone.label', { defaultValue: 'Time zone' })}
+                </LemonLabel>
                 <TimezoneConfig displayWarning={displayWarning} />
             </div>
             <div className="flex flex-col gap-2">
-                <LemonLabel id="timezone">Week starts on</LemonLabel>
+                <LemonLabel id="timezone">
+                    {t('settings.environment.team.timezone.weekStartsOn', { defaultValue: 'Week starts on' })}
+                </LemonLabel>
                 <WeekStartConfig displayWarning={displayWarning} />
             </div>
         </div>
@@ -196,9 +248,12 @@ export function TeamTimezone({ displayWarning = true }: { displayWarning?: boole
 }
 
 export function TeamBusinessModel(): JSX.Element {
+    const { t } = useTranslation()
     return (
         <div className="deprecated-space-y-2">
-            <LemonLabel id="business-model">Business model</LemonLabel>
+            <LemonLabel id="business-model">
+                {t('settings.environment.team.businessModel.label', { defaultValue: 'Business model' })}
+            </LemonLabel>
             <BusinessModelConfig />
         </div>
     )

@@ -607,6 +607,65 @@
         },
         "cancel": "Cancel",
         "docsLink": "Docs",
+        "environment": {
+            "dataColorTheme": {
+                "addColor": "Add color",
+                "addTheme": "Add theme",
+                "cannotEdit": "Official themes can't be edited.",
+                "color": "Color",
+                "colors": "Colors",
+                "editTheme": "Edit theme",
+                "name": "Name",
+                "namePlaceholder": "My custom theme",
+                "officialTheme": "Official theme"
+            },
+            "personsJoinMode": {
+                "innerDescription": "This is the default. You want this one unless you know what you are doing.",
+                "innerLabel": "Does an inner join",
+                "leftDescription": "Experimental mode for personless events",
+                "leftLabel": "Does a left join."
+            },
+            "personsOnEvents": {
+                "eventTimeDescription": "Fast queries. If the person property is updated, query results on past data <em>won't</em> change.",
+                "eventTimeLabel": "Use person properties from the time of the event",
+                "idsEventTimeDescription": "Fastest queries, <Span>but funnels and unique user counts will be inaccurate</Span>. If the person property is updated, query results on past data <em>won't</em> change.",
+                "idsEventTimeLabel": "Use person IDs and person properties from the time of the event",
+                "queryTimeDescription": "Slower queries. If the person property is updated, query results on past data <em>will</em> change accordingly.",
+                "queryTimeLabel": "Use person properties as of running the query",
+                "recommended": "RECOMMENDED"
+            },
+            "team": {
+                "businessModel": {
+                    "label": "Business model"
+                },
+                "displayName": {
+                    "enterName": "Enter a name",
+                    "loadingProject": "Loading the project",
+                    "nameTaken": "There is already a project with this name in this organization. Choose a different name.",
+                    "rename": "Rename project",
+                    "sameName": "This is already the project's name"
+                },
+                "timezone": {
+                    "label": "Time zone",
+                    "weekStartsOn": "Week starts on"
+                },
+                "variables": {
+                    "projectIdHint": "Use this ID in the <ApiLink>PostHog API</ApiLink>.",
+                    "projectIdLabel": "Project ID",
+                    "projectIdThing": "project ID",
+                    "regionHint": "Where your PostHog data is hosted.",
+                    "regionLabel": "Region",
+                    "regionThing": "project region",
+                    "resetDescription": "This will immediately invalidate your current project token. Any apps, websites, or services using it will stop sending data to PostHog until you update them with the new token. This action cannot be undone.",
+                    "resetTitle": "Reset project token?",
+                    "resetToken": "Reset token",
+                    "tokenHint": "Write-only key for use in <LibrariesLink>client libraries</LibrariesLink>. Safe to use in public apps.",
+                    "tokenLabel": "Project token",
+                    "tokenThing": "project token",
+                    "typeToConfirm": "Type \"{{ phrase }}\" to confirm"
+                }
+            }
+        },
         "loading": "Loading...",
         "nav": {
             "menu": "Settings menu",

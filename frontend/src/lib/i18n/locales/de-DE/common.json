@@ -607,6 +607,65 @@
         },
         "cancel": "",
         "docsLink": "",
+        "environment": {
+            "dataColorTheme": {
+                "addColor": "",
+                "addTheme": "",
+                "cannotEdit": "",
+                "color": "",
+                "colors": "",
+                "editTheme": "",
+                "name": "",
+                "namePlaceholder": "",
+                "officialTheme": ""
+            },
+            "personsJoinMode": {
+                "innerDescription": "",
+                "innerLabel": "",
+                "leftDescription": "",
+                "leftLabel": ""
+            },
+            "personsOnEvents": {
+                "eventTimeDescription": "",
+                "eventTimeLabel": "",
+                "idsEventTimeDescription": "",
+                "idsEventTimeLabel": "",
+                "queryTimeDescription": "",
+                "queryTimeLabel": "",
+                "recommended": ""
+            },
+            "team": {
+                "businessModel": {
+                    "label": ""
+                },
+                "displayName": {
+                    "enterName": "",
+                    "loadingProject": "",
+                    "nameTaken": "",
+                    "rename": "",
+                    "sameName": ""
+                },
+                "timezone": {
+                    "label": "",
+                    "weekStartsOn": ""
+                },
+                "variables": {
+                    "projectIdHint": "",
+                    "projectIdLabel": "",
+                    "projectIdThing": "",
+                    "regionHint": "",
+                    "regionLabel": "",
+                    "regionThing": "",
+                    "resetDescription": "",
+                    "resetTitle": "",
+                    "resetToken": "",
+                    "tokenHint": "",
+                    "tokenLabel": "",
+                    "tokenThing": "",
+                    "typeToConfirm": ""
+                }
+            }
+        },
         "loading": "",
         "nav": {
             "menu": "",

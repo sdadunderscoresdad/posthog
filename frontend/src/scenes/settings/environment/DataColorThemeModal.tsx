@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { useTranslation } from 'react-i18next'
 
 import { IconCopy, IconPlus, IconTrash } from '@posthog/icons'
 import { LemonButton, LemonColorGlyph, LemonInput, LemonLabel, LemonModal, LemonTable } from '@posthog/lemon-ui'
@@ -9,12 +10,17 @@ import { LemonField } from 'lib/lemon-ui/LemonField'
 import { dataColorThemesModalLogic } from './dataColorThemeModalLogic'
 
 export function DataColorThemeModal(): JSX.Element {
+    const { t } = useTranslation()
     const { theme, themeChanged, isOpen } = useValues(dataColorThemesModalLogic)
     const { submitTheme, closeModal, addColor, duplicateColor, removeColor } = useActions(dataColorThemesModalLogic)
 
     const isNew = theme?.id == null
     const isOfficial = theme?.is_global
-    const title = isOfficial ? 'Official theme' : isNew ? 'Add theme' : 'Edit theme'
+    const title = isOfficial
+        ? t('settings.environment.dataColorTheme.officialTheme', { defaultValue: 'Official theme' })
+        : isNew
+          ? t('settings.environment.dataColorTheme.addTheme', { defaultValue: 'Add theme' })
+          : t('settings.environment.dataColorTheme.editTheme', { defaultValue: 'Edit theme' })
 
     return (
         <LemonModal
@@ -25,24 +31,34 @@ export function DataColorThemeModal(): JSX.Element {
             footer={
                 isOfficial ? (
                     <div className="flex justify-between items-center w-full">
-                        <span className="italic text-secondary">Official themes can't be edited.</span>
+                        <span className="italic text-secondary">
+                            {t('settings.environment.dataColorTheme.cannotEdit', {
+                                defaultValue: "Official themes can't be edited.",
+                            })}
+                        </span>
                         <LemonButton type="secondary" onClick={closeModal}>
-                            Close
+                            {t('settings.organization.verifiedDomains.close', { defaultValue: 'Close' })}
                         </LemonButton>
                     </div>
                 ) : (
                     <LemonButton type="primary" onClick={submitTheme}>
-                        Save
+                        {t('settings.save', { defaultValue: 'Save' })}
                     </LemonButton>
                 )
             }
             hasUnsavedInput={themeChanged}
         >
             <Form logic={dataColorThemesModalLogic} formKey="theme" className="flex flex-col gap-2">
-                <LemonField name="name" label="Name">
-                    <LemonInput placeholder="My custom theme" autoFocus={isNew} disabled={isOfficial} />
+                <LemonField name="name" label={t('settings.environment.dataColorTheme.name', { defaultValue: 'Name' })}>
+                    <LemonInput
+                        placeholder={t('settings.environment.dataColorTheme.namePlaceholder', {
+                            defaultValue: 'My custom theme',
+                        })}
+                        autoFocus={isNew}
+                        disabled={isOfficial}
+                    />
                 </LemonField>
-                <LemonLabel>Colors</LemonLabel>
+                <LemonLabel>{t('settings.environment.dataColorTheme.colors', { defaultValue: 'Colors' })}</LemonLabel>
                 <LemonTable
                     dataSource={theme?.colors?.map((color, index) => ({
                         name: `preset-${index + 1}`,
@@ -58,12 +74,12 @@ export function DataColorThemeModal(): JSX.Element {
                             width: 24,
                         },
                         {
-                            title: 'Name',
+                            title: t('settings.environment.dataColorTheme.name', { defaultValue: 'Name' }),
                             dataIndex: 'name',
                             key: 'name',
                         },
                         {
-                            title: 'Color',
+                            title: t('settings.environment.dataColorTheme.color', { defaultValue: 'Color' }),
                             dataIndex: 'color',
                             render: (_, { index }) => (
                                 <LemonField key={index} name={['colors', index]}>
@@ -96,7 +112,7 @@ export function DataColorThemeModal(): JSX.Element {
                         onClick={addColor}
                         icon={<IconPlus className="text-lg" />}
                     >
-                        Add color
+                        {t('settings.environment.dataColorTheme.addColor', { defaultValue: 'Add color' })}
                     </LemonButton>
                 )}
             </Form>

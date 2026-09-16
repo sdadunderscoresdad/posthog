@@ -602,6 +602,65 @@
         },
         "cancel": "取消",
         "docsLink": "文档",
+        "environment": {
+            "dataColorTheme": {
+                "addColor": "添加颜色",
+                "addTheme": "添加主题",
+                "cannotEdit": "官方主题无法编辑。",
+                "color": "颜色",
+                "colors": "颜色",
+                "editTheme": "编辑主题",
+                "name": "名称",
+                "namePlaceholder": "我的自定义主题",
+                "officialTheme": "官方主题"
+            },
+            "personsJoinMode": {
+                "innerLabel": "使用内连接",
+                "innerDescription": "这是默认选项。除非你清楚自己在做什么，否则就选它。",
+                "leftLabel": "使用左连接",
+                "leftDescription": "面向无人员事件的实验模式"
+            },
+            "personsOnEvents": {
+                "eventTimeLabel": "使用事件发生时的人员属性",
+                "eventTimeDescription": "查询更快。如果人员属性被更新，过去数据的查询结果<em>不会</em>改变。",
+                "queryTimeLabel": "使用运行查询时的人员属性",
+                "queryTimeDescription": "查询较慢。如果人员属性被更新，过去数据的查询结果会<em>相应</em>改变。",
+                "idsEventTimeLabel": "使用事件发生时的人员 ID 和人员属性",
+                "idsEventTimeDescription": "查询最快，<Span>但漏斗和独立用户数会不准确</Span>。如果人员属性被更新，过去数据的查询结果<em>不会</em>改变。",
+                "recommended": "推荐"
+            },
+            "team": {
+                "displayName": {
+                    "enterName": "请输入名称",
+                    "loadingProject": "正在加载项目",
+                    "nameTaken": "该组织中已存在同名项目，请换一个名称。",
+                    "rename": "重命名项目",
+                    "sameName": "这已经是该项目的名称"
+                },
+                "variables": {
+                    "projectIdHint": "在 <ApiLink>PostHog API</ApiLink> 中使用此 ID。",
+                    "projectIdLabel": "项目 ID",
+                    "projectIdThing": "项目 ID",
+                    "regionHint": "你的 PostHog 数据托管在这里。",
+                    "regionLabel": "区域",
+                    "regionThing": "项目区域",
+                    "resetDescription": "这会立即使当前项目令牌失效。正在使用它的应用、网站或服务将停止向 PostHog 发送数据，直到你更新为新令牌。此操作无法撤销。",
+                    "resetTitle": "重置项目令牌？",
+                    "resetToken": "重置令牌",
+                    "tokenHint": "用于<LibrariesLink>客户端库</LibrariesLink>的只写密钥。可以安全地用在公开应用中。",
+                    "tokenLabel": "项目令牌",
+                    "tokenThing": "项目令牌",
+                    "typeToConfirm": "输入 “{{ phrase }}” 以确认"
+                },
+                "timezone": {
+                    "label": "时区",
+                    "weekStartsOn": "每周起始日"
+                },
+                "businessModel": {
+                    "label": "商业模式"
+                }
+            }
+        },
         "loading": "加载中…",
         "nav": {
             "menu": "设置菜单",
@@ -895,9 +954,9 @@
             "integrations": {
                 "disconnectConfirm": "是的，断开连接",
                 "disconnectDescription": "这会从你的组织中移除此集成。配置为使用该集成的 PostHog 资源将停止工作。",
+                "disconnected": "集成已断开。",
                 "disconnectFailed": "断开集成失败，请重试。",
-                "disconnectTitle": "断开 {{ kind }} 集成？",
-                "disconnected": "集成已断开。"
+                "disconnectTitle": "断开 {{ kind }} 集成？"
             },
             "invite": {
                 "add": "添加",
