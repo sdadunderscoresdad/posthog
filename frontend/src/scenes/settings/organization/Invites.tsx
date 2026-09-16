@@ -1,4 +1,6 @@
+import type { TFunction } from 'i18next'
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconX } from '@posthog/icons'
 import { LemonTag } from '@posthog/lemon-ui'
@@ -20,24 +22,29 @@ import { OrganizationInviteType } from '~/types'
 import { inviteLogic } from './inviteLogic'
 import { EmailUnavailableForInvitesBanner } from './InviteModal'
 
-function InviteLinkComponent(id: string, invite: OrganizationInviteType): JSX.Element {
+function InviteLinkComponent(t: TFunction, id: string, invite: OrganizationInviteType): JSX.Element {
     const url = new URL(`/signup/${id}`, document.baseURI).href
     return invite.is_expired ? (
-        <b>Expired – please recreate</b>
+        <b>{t('settings.organization.invites.expired', { defaultValue: 'Expired – please recreate' })}</b>
     ) : (
-        <CopyToClipboardInline data-attr="invite-link" description="invite link" iconPosition="start">
+        <CopyToClipboardInline
+            data-attr="invite-link"
+            description={t('settings.organization.invites.link', { defaultValue: 'invite link' })}
+            iconPosition="start"
+        >
             {url}
         </CopyToClipboardInline>
     )
 }
 
 function makeActionsComponent(
+    t: TFunction,
     deleteInvite: (invite: OrganizationInviteType) => void
 ): (_: any, invite: any) => JSX.Element {
     return function ActionsComponent(_, invite: OrganizationInviteType): JSX.Element {
         return (
             <LemonButton
-                title="Cancel the invite"
+                title={t('settings.organization.invites.cancelTitle', { defaultValue: 'Cancel the invite' })}
                 data-attr="invite-delete"
                 icon={<IconX />}
                 status="danger"
@@ -63,6 +70,7 @@ function makeActionsComponent(
 }
 
 export function InvitesTable(): JSX.Element {
+    const { t } = useTranslation()
     const { invites, invitesLoading } = useValues(inviteLogic)
     const { deleteInvite } = useActions(inviteLogic)
 
@@ -80,7 +88,7 @@ export function InvitesTable(): JSX.Element {
             width: 32,
         },
         {
-            title: 'Invitee',
+            title: t('settings.organization.invites.invitee', { defaultValue: 'Invitee' }),
             dataIndex: 'target_email',
             key: 'target_email',
             render: function TargetEmail(_, invite): JSX.Element | string {
@@ -90,13 +98,13 @@ export function InvitesTable(): JSX.Element {
                         {invite.first_name ? ` (${invite.first_name})` : ''}
                     </div>
                 ) : (
-                    <i>no one</i>
+                    <i>{t('settings.organization.invites.noOne', { defaultValue: 'no one' })}</i>
                 )
             },
             width: '20%',
         },
         {
-            title: 'Level',
+            title: t('settings.organization.members.columns.level', { defaultValue: 'Level' }),
             dataIndex: 'level',
             render: function LevelRender(_, invite) {
                 return (
@@ -107,16 +115,16 @@ export function InvitesTable(): JSX.Element {
         createdByColumn() as LemonTableColumn<OrganizationInviteType, keyof OrganizationInviteType | undefined>,
         createdAtColumn() as LemonTableColumn<OrganizationInviteType, keyof OrganizationInviteType | undefined>,
         {
-            title: 'Invite Link',
+            title: t('settings.organization.invites.inviteLink', { defaultValue: 'Invite Link' }),
             dataIndex: 'id',
             key: 'link',
-            render: (_, invite) => InviteLinkComponent(invite.id, invite),
+            render: (_, invite) => InviteLinkComponent(t, invite.id, invite),
         },
         {
             title: '',
             key: 'actions',
             width: 24,
-            render: !restrictionReason ? makeActionsComponent(deleteInvite) : undefined,
+            render: !restrictionReason ? makeActionsComponent(t, deleteInvite) : undefined,
         },
     ]
     return (
@@ -132,6 +140,7 @@ export function InvitesTable(): JSX.Element {
 }
 
 export function Invites(): JSX.Element {
+    const { t } = useTranslation()
     const { showInviteModal } = useActions(inviteLogic)
     const { preflight } = useValues(preflightLogic)
     const { currentOrganization } = useValues(organizationLogic)
@@ -151,9 +160,14 @@ export function Invites(): JSX.Element {
                 type="primary"
                 onClick={showInviteModal}
                 data-attr="invite-teammate-button"
-                disabledReason={userCannotInvite && "You can't invite other members or view invites"}
+                disabledReason={
+                    userCannotInvite &&
+                    t('settings.organization.invites.cannotInvite', {
+                        defaultValue: "You can't invite other members or view invites",
+                    })
+                }
             >
-                Invite team member
+                {t('settings.organization.invites.inviteTeamMember', { defaultValue: 'Invite team member' })}
             </LemonButton>
         </div>
     )

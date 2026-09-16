@@ -600,6 +600,20 @@
             "ai": {
                 "enable": "启用使用第三方 AI 服务的 PostHog 功能"
             },
+            "aiConsent": {
+                "allow": "我允许在此组织中使用 AI 分析",
+                "approvalPrompt": "PostHog AI 需要你的批准，才可能将可识别用户身份的数据交由<Providers>外部 AI 提供方</Providers>处理。",
+                "approvingAsAdmin": "你正以组织管理员身份进行批准",
+                "dpaNote": "如果你的组织出于合规需要数据处理协议（DPA），而现有 DPA 尚未覆盖 AI 子处理方，<DpaLink>可以在这里获取新的 DPA</DpaLink>。",
+                "enable": "启用 AI 分析",
+                "hipaaDisclaimer": "此功能不符合 HIPAA 要求，也不适用于处理受保护健康信息（“PHI”）。你与 PostHog 签订的任何业务伙伴协议（“BAA”）均不适用于此功能。你需要自行确保使用方式符合适用法律法规。",
+                "legalTitle": "法律条款",
+                "notEnabled": "该组织尚未启用 PostHog AI 访问权限。你可以向组织所有者或管理员申请访问。",
+                "noTraining": "你的数据不会被用于训练第三方模型。",
+                "providersTooltip": "截至 {{ date }}：Alphabet、Anthropic、Microsoft 和 OpenAI",
+                "requestAccess": "申请访问权限",
+                "requestSent": "申请已发送。你的组织管理员已收到通知，可以启用 PostHog AI。"
+            },
             "aiTraining": {
                 "contactUs": "请联系我们修改此设置。",
                 "description": "允许 PostHog 使用匿名化的聚合数据训练 AI 功能，让所有 PostHog 客户受益。<strong>你和你的客户的数据始终留在 PostHog。</strong>",
@@ -694,6 +708,16 @@
                 "projectAccess": "项目访问权限",
                 "projectAccessTooltip": "授予该用户访问特定项目的权限。用户接受邀请并加入组织后，这些访问控制将生效。",
                 "submit": "提交"
+            },
+            "invites": {
+                "cancelTitle": "取消邀请",
+                "cannotInvite": "你无法邀请其他成员或查看邀请",
+                "expired": "已过期——请重新创建",
+                "invitee": "被邀请人",
+                "inviteLink": "邀请链接",
+                "inviteTeamMember": "邀请团队成员",
+                "link": "邀请链接",
+                "noOne": "无"
             },
             "ipAnonymizationDefault": {
                 "label": "新项目默认丢弃客户端 IP 数据"

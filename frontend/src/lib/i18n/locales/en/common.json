@@ -605,6 +605,20 @@
             "ai": {
                 "enable": "Enable PostHog features that use third-party AI services"
             },
+            "aiConsent": {
+                "allow": "I allow AI analysis in this organization",
+                "approvalPrompt": "PostHog AI needs your approval to potentially process identifying user data with <Providers>external AI providers</Providers>.",
+                "approvingAsAdmin": "You are approving this as an organization admin",
+                "dpaNote": "If your org requires a Data Processing Agreement (DPA) for compliance (and your existing DPA doesn't already cover AI subprocessors), <DpaLink>you can get a fresh DPA here</DpaLink>.",
+                "enable": "Enable AI analysis",
+                "hipaaDisclaimer": "This feature is not HIPAA-compliant and is not intended for the processing of Protected Health Information (\"PHI\"). Any Business Associate Agreement (\"BAA\") you may have entered into with PostHog does not apply to this functionality. You are responsible for ensuring your use complies with applicable laws and regulations.",
+                "legalTitle": "The legal bits",
+                "notEnabled": "PostHog AI access has not been enabled for this organization. You can request access from an organization owner or admin.",
+                "noTraining": "Your data won't be used for training third-party models.",
+                "providersTooltip": "As of {{ date }}: Alphabet, Anthropic, Microsoft, and OpenAI",
+                "requestAccess": "Request access",
+                "requestSent": "Request sent. Your organization admins have been notified and can enable PostHog AI."
+            },
             "aiTraining": {
                 "contactUs": "Please contact us to change this setting.",
                 "description": "Enable PostHog to use anonymized aggregated data to train AI features that benefit all PostHog customers. <strong>Your and your customers' data stays with PostHog.</strong>",
@@ -700,6 +714,16 @@
                 "projectAccess": "Project access",
                 "projectAccessTooltip": "Give this user access to specific projects. These access controls will be applied when the user accepts the invite and joins the organization.",
                 "submit": "Submit"
+            },
+            "invites": {
+                "cancelTitle": "Cancel the invite",
+                "cannotInvite": "You can't invite other members or view invites",
+                "expired": "Expired – please recreate",
+                "invitee": "Invitee",
+                "inviteLink": "Invite Link",
+                "inviteTeamMember": "Invite team member",
+                "link": "invite link",
+                "noOne": "no one"
             },
             "ipAnonymizationDefault": {
                 "label": "Discard client IP data by default for new projects"

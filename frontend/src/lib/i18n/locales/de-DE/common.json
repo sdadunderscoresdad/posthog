@@ -605,6 +605,20 @@
             "ai": {
                 "enable": ""
             },
+            "aiConsent": {
+                "allow": "",
+                "approvalPrompt": "",
+                "approvingAsAdmin": "",
+                "dpaNote": "",
+                "enable": "",
+                "hipaaDisclaimer": "",
+                "legalTitle": "",
+                "notEnabled": "",
+                "noTraining": "",
+                "providersTooltip": "",
+                "requestAccess": "",
+                "requestSent": ""
+            },
             "aiTraining": {
                 "contactUs": "",
                 "description": "",
@@ -700,6 +714,16 @@
                 "projectAccess": "",
                 "projectAccessTooltip": "",
                 "submit": ""
+            },
+            "invites": {
+                "cancelTitle": "",
+                "cannotInvite": "",
+                "expired": "",
+                "invitee": "",
+                "inviteLink": "",
+                "inviteTeamMember": "",
+                "link": "",
+                "noOne": ""
             },
             "ipAnonymizationDefault": {
                 "label": ""

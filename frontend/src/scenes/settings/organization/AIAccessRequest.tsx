@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconArrowRight, IconCheck } from '@posthog/icons'
 import { LemonButton } from '@posthog/lemon-ui'
@@ -11,6 +12,7 @@ import { aiConsentLogic } from './aiConsentLogic'
  * the same working affordance wherever the gate appears.
  */
 export function AIAccessRequest({ size = 'xsmall' }: { size?: 'xsmall' | 'small' }): JSX.Element {
+    const { t } = useTranslation()
     const { requestingAiAccess, aiAccessRequested } = useValues(aiConsentLogic)
     const { requestAiAccess } = useActions(aiConsentLogic)
 
@@ -19,7 +21,12 @@ export function AIAccessRequest({ size = 'xsmall' }: { size?: 'xsmall' | 'small'
         return (
             <p className="flex items-start gap-1.5 m-0 text-xs text-muted">
                 <IconCheck className="shrink-0 mt-0.5 text-success" />
-                <span>Request sent. Your organization admins have been notified and can enable PostHog AI.</span>
+                <span>
+                    {t('settings.organization.aiConsent.requestSent', {
+                        defaultValue:
+                            'Request sent. Your organization admins have been notified and can enable PostHog AI.',
+                    })}
+                </span>
             </p>
         )
     }
@@ -33,7 +40,7 @@ export function AIAccessRequest({ size = 'xsmall' }: { size?: 'xsmall' | 'small'
             loading={requestingAiAccess}
             sideIcon={<IconArrowRight />}
         >
-            Request access
+            {t('settings.organization.aiConsent.requestAccess', { defaultValue: 'Request access' })}
         </LemonButton>
     )
 }

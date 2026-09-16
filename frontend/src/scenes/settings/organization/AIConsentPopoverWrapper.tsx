@@ -1,5 +1,6 @@
 import { useActions, useAsyncActions, useValues } from 'kea'
 import { useCallback } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconArrowRight, IconLock } from '@posthog/icons'
 import { LemonButton, Popover, PopoverProps, Tooltip } from '@posthog/lemon-ui'
@@ -22,6 +23,7 @@ export function AIConsentPopoverContent({
     /** Omit the "won't be used for training third-party models" line where it doesn't apply. */
     hideTrainingDisclaimer?: boolean
 }): JSX.Element {
+    const { t } = useTranslation()
     const focusOnMount = useCallback((el: HTMLButtonElement | null) => {
         el?.focus()
     }, [])
@@ -29,15 +31,29 @@ export function AIConsentPopoverContent({
     return (
         <div className="flex flex-col gap-2 m-1.5 max-w-prose">
             <p className="font-medium text-pretty">
-                PostHog AI needs your approval to potentially process identifying user data with{' '}
-                <Tooltip title={getExternalAIProvidersTooltipTitle()}>
-                    <dfn>external AI providers</dfn>
-                </Tooltip>
-                .{!hideTrainingDisclaimer && <i> Your data won't be used for training third-party models.</i>}
+                <Trans
+                    i18nKey="settings.organization.aiConsent.approvalPrompt"
+                    components={{
+                        Providers: (
+                            <Tooltip title={getExternalAIProvidersTooltipTitle()}>
+                                <dfn />
+                            </Tooltip>
+                        ),
+                    }}
+                    defaults="PostHog AI needs your approval to potentially process identifying user data with <Providers>external AI providers</Providers>."
+                />
+                {!hideTrainingDisclaimer && (
+                    <i>
+                        {' '}
+                        {t('settings.organization.aiConsent.noTraining', {
+                            defaultValue: "Your data won't be used for training third-party models.",
+                        })}
+                    </i>
+                )}
             </p>
             <div className="flex gap-1.5 self-end">
                 <LemonButton data-attr="ai-consent-cancel" type="secondary" size="xsmall" onClick={onDismiss}>
-                    Cancel
+                    {t('settings.cancel', { defaultValue: 'Cancel' })}
                 </LemonButton>
                 <LemonButton
                     data-attr="ai-consent-approve"
@@ -46,11 +62,19 @@ export function AIConsentPopoverContent({
                     onClick={() => openAIConsentLegalDialog({ onConfirm: onApprove })}
                     sideIcon={approvalDisabledReason ? <IconLock /> : <IconArrowRight />}
                     disabledReason={approvalDisabledReason}
-                    tooltip={approvalDisabledReason ? undefined : 'You are approving this as an organization admin'}
+                    tooltip={
+                        approvalDisabledReason
+                            ? undefined
+                            : t('settings.organization.aiConsent.approvingAsAdmin', {
+                                  defaultValue: 'You are approving this as an organization admin',
+                              })
+                    }
                     tooltipPlacement="bottom"
                     ref={focusOnMount}
                 >
-                    I allow AI analysis in this organization
+                    {t('settings.organization.aiConsent.allow', {
+                        defaultValue: 'I allow AI analysis in this organization',
+                    })}
                 </LemonButton>
             </div>
         </div>
@@ -58,11 +82,14 @@ export function AIConsentPopoverContent({
 }
 
 function AIAccessRequestPopoverContent(): JSX.Element {
+    const { t } = useTranslation()
     return (
         <div className="flex flex-col gap-2 m-1.5 max-w-prose">
             <p className="font-medium text-pretty">
-                PostHog AI access has not been enabled for this organization. You can request access from an
-                organization owner or admin.
+                {t('settings.organization.aiConsent.notEnabled', {
+                    defaultValue:
+                        'PostHog AI access has not been enabled for this organization. You can request access from an organization owner or admin.',
+                })}
             </p>
             <div className="flex self-end">
                 <AIAccessRequest />
