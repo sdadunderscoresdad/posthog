@@ -1,9 +1,11 @@
 import clsx from 'clsx'
 import { deepEqual as equal } from 'fast-equals'
+import { Trans } from 'react-i18next'
 import { match } from 'ts-pattern'
 
 import { ActivityChange } from 'lib/components/ActivityLog/humanizeActivity'
 import { dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonTag } from 'lib/lemon-ui/LemonTag'
 import { Link } from 'lib/lemon-ui/Link'
 import { getExposureConfigDisplayName } from 'scenes/experiments/utils'
@@ -14,6 +16,7 @@ import { Experiment, ExperimentConclusion } from '~/types'
 
 import { CONCLUSION_DISPLAY_CONFIG } from 'products/experiments/frontend/constants'
 
+import { ActivityClause, clause, describeUnknownFieldChange } from './clauses'
 import { getMetricChanges } from './metricChangeDescriptions'
 
 const ExperimentConclusionTag = ({ conclusion }: { conclusion: ExperimentConclusion }): JSX.Element => (
@@ -30,7 +33,7 @@ export const nameOrLinkToExperiment = (name: string | null, id?: string): JSX.El
     if (id) {
         return <Link to={urls.experiment(id)}>{name}</Link>
     }
-    return name || '(unknown)'
+    return name || i18n.t('experimentActivity.unknownName', { defaultValue: '(unknown)' })
 }
 
 /**
@@ -93,16 +96,36 @@ function describeExcludedVariantsChange(before: string[] | undefined, after: str
     }
     const parts: string[] = []
     if (added.length === 1) {
-        parts.push(`excluded variant ${added[0]} from analysis`)
+        parts.push(
+            i18n.t('experimentActivity.excludedVariant.added', {
+                defaultValue: 'excluded variant {{ variant }} from analysis',
+                variant: added[0],
+            })
+        )
     } else if (added.length > 1) {
-        parts.push(`excluded variants ${added.join(', ')} from analysis`)
+        parts.push(
+            i18n.t('experimentActivity.excludedVariant.addedMultiple', {
+                defaultValue: 'excluded variants {{ variants }} from analysis',
+                variants: added.join(', '),
+            })
+        )
     }
     if (removed.length === 1) {
-        parts.push(`re-included variant ${removed[0]} in analysis`)
+        parts.push(
+            i18n.t('experimentActivity.excludedVariant.removed', {
+                defaultValue: 're-included variant {{ variant }} in analysis',
+                variant: removed[0],
+            })
+        )
     } else if (removed.length > 1) {
-        parts.push(`re-included variants ${removed.join(', ')} in analysis`)
+        parts.push(
+            i18n.t('experimentActivity.excludedVariant.removedMultiple', {
+                defaultValue: 're-included variants {{ variants }} in analysis',
+                variants: removed.join(', '),
+            })
+        )
     }
-    return parts.join(' and ')
+    return parts.join(i18n.t('experimentActivity.and', { defaultValue: ' and ' }))
 }
 
 /**
@@ -119,9 +142,7 @@ const describeMetricReorder = (before: unknown, after: unknown, description: str
     return description
 }
 
-export const getExperimentChangeDescription = (
-    experimentChange: ActivityChange
-): string | JSX.Element | (string | JSX.Element)[] | null => {
+export const getExperimentChangeDescription = (experimentChange: ActivityChange): ActivityClause[] | null => {
     /**
      * a little type assertion to force field into the allowed experiment fields
      */
@@ -131,7 +152,9 @@ export const getExperimentChangeDescription = (
              * id start date is created, the experiment has been launched
              */
             if (action === 'created' && before === null && after !== null) {
-                return 'launched experiment:'
+                return [
+                    clause(i18n.t('experimentActivity.experiment.launched', { defaultValue: 'launched experiment:' })),
+                ]
             }
 
             /**
@@ -143,24 +166,50 @@ export const getExperimentChangeDescription = (
 
                 if (beforeDate.isValid() && afterDate.isValid()) {
                     const diff = afterDate.diff(beforeDate, 'minute')
-                    const duration = dayjs.duration(Math.abs(diff), 'minute')
-                    const sign = diff > 0 ? 'moved the start date forward' : 'moved the start date back'
+                    const duration = dayjs.duration(Math.abs(diff), 'minute').humanize()
+                    const moved =
+                        diff > 0
+                            ? i18n.t('experimentActivity.experiment.movedStartDateForward', {
+                                  defaultValue: 'moved the start date forward by {{ duration }}',
+                                  duration,
+                              })
+                            : i18n.t('experimentActivity.experiment.movedStartDateBack', {
+                                  defaultValue: 'moved the start date back by {{ duration }}',
+                                  duration,
+                              })
 
-                    return `${sign} by ${duration.humanize()}`
+                    return [clause(moved, 'for')]
                 }
             }
 
-            return 'changed the start date'
+            return [
+                clause(
+                    i18n.t('experimentActivity.experiment.changedStartDate', {
+                        defaultValue: 'changed the start date',
+                    }),
+                    'for'
+                ),
+            ]
         })
         .with({ field: 'end_date' }, ({ action, before, after }) => {
             /**
              * if end date is created, the experiment has been stopped
              */
             if (action === 'created' && before === null && after !== null) {
-                return 'stopped experiment'
+                return [
+                    clause(
+                        i18n.t('experimentActivity.experiment.stopped', { defaultValue: 'stopped experiment' }),
+                        'for'
+                    ),
+                ]
             }
 
-            return 'changed the end date'
+            return [
+                clause(
+                    i18n.t('experimentActivity.experiment.changedEndDate', { defaultValue: 'changed the end date' }),
+                    'for'
+                ),
+            ]
         })
         .with({ field: 'conclusion' }, ({ action, before, after }) => {
             /**
@@ -168,36 +217,72 @@ export const getExperimentChangeDescription = (
              * acompanied by the end date creation
              */
             if (action === 'created' && before === null) {
-                return (
-                    <span>
-                        completed it as <ExperimentConclusionTag conclusion={after as ExperimentConclusion} />:
-                    </span>
-                )
+                return [
+                    clause(
+                        <Trans
+                            i18nKey="experimentActivity.experiment.completedItAs"
+                            components={{
+                                Conclusion: <ExperimentConclusionTag conclusion={after as ExperimentConclusion} />,
+                            }}
+                            defaults="completed it as <Conclusion></Conclusion>:"
+                        />
+                    ),
+                ]
             }
 
             if (action === 'changed' && after !== null) {
-                return (
-                    <span>
-                        changed the conclusion to <ExperimentConclusionTag conclusion={after as ExperimentConclusion} />
-                    </span>
-                )
+                return [
+                    clause(
+                        <Trans
+                            i18nKey="experimentActivity.experiment.changedConclusionTo"
+                            components={{
+                                Conclusion: <ExperimentConclusionTag conclusion={after as ExperimentConclusion} />,
+                            }}
+                            defaults="changed the conclusion to <Conclusion></Conclusion>"
+                        />,
+                        'for'
+                    ),
+                ]
             }
 
-            return 'changed the conclusion'
+            return [
+                clause(
+                    i18n.t('experimentActivity.experiment.changedConclusion', {
+                        defaultValue: 'changed the conclusion',
+                    }),
+                    'for'
+                ),
+            ]
         })
-        .with({ field: 'metrics', action: 'created', before: null }, () => 'added the first metric to')
+        .with({ field: 'metrics', action: 'created', before: null }, () => [
+            clause(i18n.t('experimentActivity.metric.addedTheFirst', { defaultValue: 'added the first metric' }), 'to'),
+        ])
         .with({ field: 'metrics', action: 'changed' }, ({ before, after }) =>
             getMetricChanges(before as ExperimentMetric[], after as ExperimentMetric[])
         )
         .with({ field: 'metrics_secondary', action: 'changed' }, ({ before, after }) =>
             getMetricChanges(before as ExperimentMetric[], after as ExperimentMetric[])
         )
-        .with({ field: 'primary_metrics_ordered_uuids', action: 'changed' }, ({ before, after }) =>
-            describeMetricReorder(before, after, 'reordered the primary metrics')
-        )
-        .with({ field: 'secondary_metrics_ordered_uuids', action: 'changed' }, ({ before, after }) =>
-            describeMetricReorder(before, after, 'reordered the secondary metrics')
-        )
+        .with({ field: 'primary_metrics_ordered_uuids', action: 'changed' }, ({ before, after }) => {
+            const reordered = describeMetricReorder(
+                before,
+                after,
+                i18n.t('experimentActivity.metric.reorderedPrimary', {
+                    defaultValue: 'reordered the primary metrics',
+                })
+            )
+            return reordered ? [clause(reordered, 'for')] : null
+        })
+        .with({ field: 'secondary_metrics_ordered_uuids', action: 'changed' }, ({ before, after }) => {
+            const reordered = describeMetricReorder(
+                before,
+                after,
+                i18n.t('experimentActivity.metric.reorderedSecondary', {
+                    defaultValue: 'reordered the secondary metrics',
+                })
+            )
+            return reordered ? [clause(reordered, 'for')] : null
+        })
         .with({ field: 'exposure_criteria' }, ({ before, after }) => {
             /**
              * exposure criteria is by default `{filter_test_accounts: true}`,
@@ -209,7 +294,7 @@ export const getExperimentChangeDescription = (
             const typedAfter = after as ExperimentExposureCriteria
             const typedBefore = before as ExperimentExposureCriteria
 
-            const changes: (string | JSX.Element | null)[] = Object.keys(after || {}).map((key) =>
+            const changes: (ActivityClause | null)[] = Object.keys(after || {}).map((key) =>
                 match(key as keyof ExperimentExposureCriteria)
                     .with('filterTestAccounts', () => {
                         if (typedAfter?.filterTestAccounts === typedBefore?.filterTestAccounts) {
@@ -217,8 +302,18 @@ export const getExperimentChangeDescription = (
                         }
 
                         return typedAfter?.filterTestAccounts
-                            ? 'added the test account filter'
-                            : 'removed the test account filter'
+                            ? clause(
+                                  i18n.t('experimentActivity.exposure.addedTestAccountFilter', {
+                                      defaultValue: 'added the test account filter',
+                                  }),
+                                  'to'
+                              )
+                            : clause(
+                                  i18n.t('experimentActivity.exposure.removedTestAccountFilter', {
+                                      defaultValue: 'removed the test account filter',
+                                  }),
+                                  'from'
+                              )
                     })
                     .with('multiple_variant_handling', () => {
                         if (typedAfter?.multiple_variant_handling === typedBefore?.multiple_variant_handling) {
@@ -226,8 +321,18 @@ export const getExperimentChangeDescription = (
                         }
 
                         return typedAfter?.multiple_variant_handling === 'first_seen'
-                            ? 'changed the variant handling to "first seen"'
-                            : 'changed the variant handling to "exclude from analysis"'
+                            ? clause(
+                                  i18n.t('experimentActivity.exposure.variantHandlingFirstSeen', {
+                                      defaultValue: 'changed the variant handling to "first seen"',
+                                  }),
+                                  'for'
+                              )
+                            : clause(
+                                  i18n.t('experimentActivity.exposure.variantHandlingExcludeFromAnalysis', {
+                                      defaultValue: 'changed the variant handling to "exclude from analysis"',
+                                  }),
+                                  'for'
+                              )
                     })
                     .with('exposure_config', () => {
                         const afterConfig = typedAfter?.exposure_config
@@ -239,10 +344,14 @@ export const getExperimentChangeDescription = (
 
                         if (afterConfig) {
                             const displayName = getExposureConfigDisplayName(afterConfig)
-                            return (
-                                <span>
-                                    set the exposure configuration to <LemonTag color="purple">{displayName}</LemonTag>
-                                </span>
+                            return clause(
+                                <Trans
+                                    i18nKey="experimentActivity.exposure.setExposureConfiguration"
+                                    values={{ config: displayName }}
+                                    components={{ Config: <LemonTag color="purple">{null}</LemonTag> }}
+                                    defaults="set the exposure configuration to <Config>{{ config }}</Config>"
+                                />,
+                                'to'
                             )
                         }
                         return null
@@ -257,10 +366,14 @@ export const getExperimentChangeDescription = (
 
                         if (afterConfig) {
                             const displayName = getExposureConfigDisplayName(afterConfig)
-                            return (
-                                <span>
-                                    set the activation event to <LemonTag color="purple">{displayName}</LemonTag>
-                                </span>
+                            return clause(
+                                <Trans
+                                    i18nKey="experimentActivity.exposure.setActivationEvent"
+                                    values={{ config: displayName }}
+                                    components={{ Config: <LemonTag color="purple">{null}</LemonTag> }}
+                                    defaults="set the activation event to <Config>{{ config }}</Config>"
+                                />,
+                                'to'
                             )
                         }
                         return null
@@ -271,17 +384,28 @@ export const getExperimentChangeDescription = (
             // Check if exposure_config was removed (returning to default)
             if (typedBefore?.exposure_config && !typedAfter?.exposure_config) {
                 changes.push(
-                    <span>
-                        set the exposure configuration to the <LemonTag color="purple">$feature_flag_called</LemonTag>{' '}
-                        default
-                    </span>
+                    clause(
+                        <Trans
+                            i18nKey="experimentActivity.exposure.setExposureConfigurationDefault"
+                            components={{ Config: <LemonTag color="purple">{null}</LemonTag> }}
+                            defaults="set the exposure configuration to the <Config>$feature_flag_called</Config> default"
+                        />,
+                        'to'
+                    )
                 )
             }
             if (typedBefore?.activation_config && !typedAfter?.activation_config) {
-                changes.push('removed the activation event')
+                changes.push(
+                    clause(
+                        i18n.t('experimentActivity.exposure.removedActivationEvent', {
+                            defaultValue: 'removed the activation event',
+                        }),
+                        'from'
+                    )
+                )
             }
 
-            return changes.filter(Boolean) as (string | JSX.Element)[]
+            return changes.filter(Boolean) as ActivityClause[]
         })
         .with({ field: 'parameters' }, ({ before, after }) => {
             const summary = describeExcludedVariantsChange(
@@ -289,13 +413,18 @@ export const getExperimentChangeDescription = (
                 (after as { excluded_variants?: string[] } | null)?.excluded_variants
             )
             if (summary) {
-                return summary
+                return [clause(summary, 'for')]
             }
             // A pure calculator-key sync is already described by the running_time_calculation change
             if (equal(withoutRunningTimeCalculationKeys(before), withoutRunningTimeCalculationKeys(after))) {
                 return null
             }
-            return 'updated parameters'
+            return [
+                clause(
+                    i18n.t('experimentActivity.experiment.updatedParameters', { defaultValue: 'updated parameters' }),
+                    'for'
+                ),
+            ]
         })
         .with({ field: 'running_time_calculation' }, ({ before, after }) => {
             // Opening the calculator re-saves the recomputed outputs, so they drift as exposure
@@ -303,7 +432,14 @@ export const getExperimentChangeDescription = (
             if (equal(withoutDerivedRunningTimeKeys(before), withoutDerivedRunningTimeKeys(after))) {
                 return null
             }
-            return 'updated the running time calculation'
+            return [
+                clause(
+                    i18n.t('experimentActivity.experiment.updatedRunningTimeCalculation', {
+                        defaultValue: 'updated the running time calculation',
+                    }),
+                    'for'
+                ),
+            ]
         })
         .with({ field: 'excluded_variants' }, () => {
             // The change is described by the `parameters` matcher, which the backend keeps
@@ -321,11 +457,6 @@ export const getExperimentChangeDescription = (
         })
         .otherwise(({ field, action }) => {
             // Fallback for unhandled fields - ensures all activity is visible
-            const fieldName = field.replace(/_/g, ' ')
-            return match(action)
-                .with('created', () => `added ${fieldName}`)
-                .with('deleted', () => `removed ${fieldName}`)
-                .with('changed', () => `updated ${fieldName}`)
-                .otherwise(() => `modified ${fieldName}`)
+            return describeUnknownFieldChange(field, action)
         })
 }

@@ -85,6 +85,8 @@
             "instanceSetting": "实例设置",
             "updated": "更新了实例设置"
         },
+        "listConjunction": "和",
+        "listSeparator": "，",
         "onA": "，对象为",
         "repliedToA": "回复了",
         "restored": "恢复了",
@@ -557,8 +559,8 @@
         "restored": "恢复了",
         "shared": "分享了",
         "sharedDashboard": "仪表盘",
-        "shareLoginFailed": "<Bold>匿名用户</Bold>未能通过共享仪表盘 <NameBold><NameLink></NameLink></NameBold> 的身份验证，来源 IP 为 {{ ip }}",
-        "shareLoginSuccess": "<Bold>匿名用户</Bold>已成功通过共享仪表盘 <NameBold><NameLink></NameLink></NameBold> 的身份验证，来源 IP 为 {{ ip }}，使用的密码为 <Bold>{{ password }}</Bold>",
+        "shareLoginFailed": "<Bold>匿名用户</Bold>未能通过共享仪表盘 <NameBold><NameLink>{{ name }}</NameLink></NameBold> 的身份验证，来源 IP 为 {{ ip }}",
+        "shareLoginSuccess": "<Bold>匿名用户</Bold>已成功通过共享仪表盘 <NameBold><NameLink>{{ name }}</NameLink></NameBold> 的身份验证，来源 IP 为 {{ ip }}，使用的密码为 <Bold>{{ password }}</Bold>",
         "suffix": {
             "on": "，所在仪表盘 ",
             "to": "改为"
@@ -603,6 +605,111 @@
         "noAccounts": "还没有账户。请在下方创建一个新的演示账户。",
         "oauthLogin": "通过 OAuth 登录",
         "title": "登录工具"
+    },
+    "experimentActivity": {
+        "and": "，并且",
+        "conclusionComment": {
+            "removed": "移除了结论备注"
+        },
+        "excludedVariant": {
+            "added": "已将变体 {{ variant }} 排除出分析",
+            "addedMultiple": "已将变体 {{ variants }} 排除出分析",
+            "removed": "已将变体 {{ variant }} 重新纳入分析",
+            "removedMultiple": "已将变体 {{ variants }} 重新纳入分析"
+        },
+        "experiment": {
+            "changedConclusion": "修改了结论",
+            "changedConclusionTo": "将结论改为 <Conclusion></Conclusion>",
+            "changedEndDate": "修改了结束时间",
+            "changedStartDate": "修改了开始时间",
+            "completedItAs": "判定结果为 <Conclusion></Conclusion>：",
+            "created": "创建了新的<Status></Status>实验：",
+            "deleted": "删除了实验：",
+            "frozeExposure": "冻结了曝光",
+            "launched": "启动了实验：",
+            "movedStartDateBack": "将开始时间提前了 {{ duration }}",
+            "movedStartDateForward": "将开始时间推迟了 {{ duration }}",
+            "paused": "暂停了实验：",
+            "restored": "还原了实验：",
+            "resumed": "恢复了实验：",
+            "stopped": "停止了实验",
+            "unfrozeExposure": "解冻了曝光",
+            "updatedParameters": "更新了参数",
+            "updatedRunningTimeCalculation": "更新了运行时长计算"
+        },
+        "exposure": {
+            "addedTestAccountFilter": "添加了测试账户过滤条件",
+            "removedActivationEvent": "移除了激活事件",
+            "removedTestAccountFilter": "移除了测试账户过滤条件",
+            "setActivationEvent": "将激活事件设置为 <Config>{{ config }}</Config>",
+            "setExposureConfiguration": "将曝光配置设置为 <Config>{{ config }}</Config>",
+            "setExposureConfigurationDefault": "将曝光配置设置为默认的 <Config>$feature_flag_called</Config>",
+            "variantHandlingExcludeFromAnalysis": "将变体处理方式改为“exclude from analysis”",
+            "variantHandlingFirstSeen": "将变体处理方式改为“first seen”"
+        },
+        "fieldChange": {
+            "added": "添加了 {{ field }}",
+            "modified": "修改了 {{ field }}",
+            "removed": "移除了 {{ field }}",
+            "updated": "更新了 {{ field }}"
+        },
+        "holdout": {
+            "created": "创建了新的实验排除组：",
+            "deleted": "删除了实验排除组：",
+            "description": "更新了实验排除组的描述：",
+            "filters": "更新了实验排除组的过滤条件：",
+            "name": "更新了实验排除组的名称：",
+            "updated": "更新了实验排除组"
+        },
+        "link": {
+            "for": "，对象为",
+            "from": "，移除自",
+            "in": "，所在实验为",
+            "on": "，对象为",
+            "to": "，添加至"
+        },
+        "metric": {
+            "added": "添加了指标",
+            "addedTheFirst": "添加了第一个指标",
+            "changedDenominator": "修改了分母",
+            "changedDenominatorOutlierHandling": "修改了分母的离群值处理",
+            "changedFunnelSeries": "修改了漏斗步骤序列",
+            "changedMetric": "修改了指标 <Name>{{ name }}</Name>",
+            "changedNumerator": "修改了分子",
+            "changedNumeratorAndDenominator": "修改了分子和分母",
+            "changedNumeratorOutlierHandling": "修改了分子的离群值处理",
+            "changedSourceEvent": "修改了来源事件",
+            "changedType": "将类型从 <Before>{{ before }}</Before> 改为 <After>{{ after }}</After>",
+            "conversionWindowDefault": "将转化窗口设置为实验周期",
+            "conversionWindowSet": "将转化窗口设置为 {{ window }} {{ unit }}",
+            "forTheMetric": "，指标为 <Name>{{ name }}</Name>",
+            "removed": "移除了指标",
+            "removedOutlierHandlingBounds": "移除了离群值处理的上下界",
+            "removedOutlierHandlingLowerBound": "移除了离群值处理的下界百分位",
+            "removedOutlierHandlingUpperBound": "移除了离群值处理的上界百分位",
+            "reorderedPrimary": "调整了主要指标的排序",
+            "reorderedSecondary": "调整了次要指标的排序",
+            "setGoal": "将目标设置为 <Goal>{{ goal }}</Goal>",
+            "setOutlierHandlingBothBounds": "将离群值处理的下界百分位设置为 {{ lower }}，上界百分位设置为 {{ upper }}",
+            "setOutlierHandlingLowerBound": "将离群值处理的下界百分位设置为 {{ lower }}",
+            "setOutlierHandlingUpperBound": "将离群值处理的上界百分位设置为 {{ upper }}",
+            "stepOrderSet": "将步骤顺序设置为 {{ order }}"
+        },
+        "savedMetric": {
+            "added": "添加了共享指标",
+            "removed": "移除了共享指标",
+            "updatedConfiguration": "更新了共享指标的配置"
+        },
+        "sharedMetric": {
+            "created": "创建了新的共享指标：",
+            "deleted": "删除了共享指标：",
+            "updated": "更新了共享指标：",
+            "updatedName": "更新了共享指标"
+        },
+        "theExperiment": "实验",
+        "unknownAction": "执行了未知操作",
+        "unknownName": "（未知）",
+        "updated": "更新了"
     },
     "homepage": {
         "ai": {

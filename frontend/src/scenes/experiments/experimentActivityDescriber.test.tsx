@@ -8,7 +8,8 @@ import { experimentActivityDescriber } from './experimentActivityDescriber'
 
 const textOf = (result: HumanizedChange): string => {
     const { container } = render(<>{result.description}</>)
-    return container.textContent ?? ''
+    // SentenceList separates its parts with non-breaking spaces
+    return (container.textContent ?? '').replace(/\u00a0/g, ' ')
 }
 
 const baseLogItem = (overrides: Partial<ActivityLogItem>): ActivityLogItem => ({

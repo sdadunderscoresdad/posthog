@@ -86,6 +86,8 @@
             "instanceSetting": "instance setting",
             "updated": "updated instance setting"
         },
+        "listConjunction": "and",
+        "listSeparator": ", ",
         "onA": "on a",
         "repliedToA": "replied to a",
         "restored": "restored",
@@ -562,8 +564,8 @@
         "restored": "restored",
         "shared": "shared",
         "sharedDashboard": "dashboard",
-        "shareLoginFailed": "<Bold>Anonymous user</Bold> failed to authenticate to shared dashboard <NameBold><NameLink></NameLink></NameBold> from {{ ip }}",
-        "shareLoginSuccess": "<Bold>Anonymous user</Bold> successfully authenticated to shared dashboard <NameBold><NameLink></NameLink></NameBold> from {{ ip }} using password <Bold>{{ password }}</Bold>",
+        "shareLoginFailed": "<Bold>Anonymous user</Bold> failed to authenticate to shared dashboard <NameBold><NameLink>{{ name }}</NameLink></NameBold> from {{ ip }}",
+        "shareLoginSuccess": "<Bold>Anonymous user</Bold> successfully authenticated to shared dashboard <NameBold><NameLink>{{ name }}</NameLink></NameBold> from {{ ip }} using password <Bold>{{ password }}</Bold>",
         "suffix": {
             "on": "on the dashboard ",
             "to": "to"
@@ -610,6 +612,111 @@
         "noAccounts": "No accounts yet. Create a fresh demo account below.",
         "oauthLogin": "Log in via OAuth",
         "title": "Login tools"
+    },
+    "experimentActivity": {
+        "and": " and ",
+        "conclusionComment": {
+            "removed": "removed the conclusion comment"
+        },
+        "excludedVariant": {
+            "added": "excluded variant {{ variant }} from analysis",
+            "addedMultiple": "excluded variants {{ variants }} from analysis",
+            "removed": "re-included variant {{ variant }} in analysis",
+            "removedMultiple": "re-included variants {{ variants }} in analysis"
+        },
+        "experiment": {
+            "changedConclusion": "changed the conclusion",
+            "changedConclusionTo": "changed the conclusion to <Conclusion></Conclusion>",
+            "changedEndDate": "changed the end date",
+            "changedStartDate": "changed the start date",
+            "completedItAs": "completed it as <Conclusion></Conclusion>:",
+            "created": "created a new <Status></Status> experiment:",
+            "deleted": "deleted experiment:",
+            "frozeExposure": "froze exposure",
+            "launched": "launched experiment:",
+            "movedStartDateBack": "moved the start date back by {{ duration }}",
+            "movedStartDateForward": "moved the start date forward by {{ duration }}",
+            "paused": "paused experiment:",
+            "restored": "restored experiment:",
+            "resumed": "resumed experiment:",
+            "stopped": "stopped experiment",
+            "unfrozeExposure": "unfroze exposure",
+            "updatedParameters": "updated parameters",
+            "updatedRunningTimeCalculation": "updated the running time calculation"
+        },
+        "exposure": {
+            "addedTestAccountFilter": "added the test account filter",
+            "removedActivationEvent": "removed the activation event",
+            "removedTestAccountFilter": "removed the test account filter",
+            "setActivationEvent": "set the activation event to <Config>{{ config }}</Config>",
+            "setExposureConfiguration": "set the exposure configuration to <Config>{{ config }}</Config>",
+            "setExposureConfigurationDefault": "set the exposure configuration to the <Config>$feature_flag_called</Config> default",
+            "variantHandlingExcludeFromAnalysis": "changed the variant handling to \"exclude from analysis\"",
+            "variantHandlingFirstSeen": "changed the variant handling to \"first seen\""
+        },
+        "fieldChange": {
+            "added": "added {{ field }}",
+            "modified": "modified {{ field }}",
+            "removed": "removed {{ field }}",
+            "updated": "updated {{ field }}"
+        },
+        "holdout": {
+            "created": "created a new experiment holdout:",
+            "deleted": "deleted experiment holdout:",
+            "description": "updated experiment holdout description:",
+            "filters": "updated experiment holdout filters:",
+            "name": "updated experiment holdout name:",
+            "updated": "updated experiment holdout"
+        },
+        "link": {
+            "for": "for",
+            "from": "from",
+            "in": "in",
+            "on": "on",
+            "to": "to"
+        },
+        "metric": {
+            "added": "added a metric",
+            "addedTheFirst": "added the first metric",
+            "changedDenominator": "changed the denominator",
+            "changedDenominatorOutlierHandling": "changed the denominator outlier handling",
+            "changedFunnelSeries": "changed the funnel series",
+            "changedMetric": "changed the metric <Name>{{ name }}</Name>",
+            "changedNumerator": "changed the numerator",
+            "changedNumeratorAndDenominator": "changed the numerator and denominator",
+            "changedNumeratorOutlierHandling": "changed the numerator outlier handling",
+            "changedSourceEvent": "changed the source event",
+            "changedType": "changed the type from <Before>{{ before }}</Before> to <After>{{ after }}</After>",
+            "conversionWindowDefault": "set the conversion window to the experiment duration",
+            "conversionWindowSet": "set the conversion window to {{ window }} {{ unit }}",
+            "forTheMetric": "for the metric <Name>{{ name }}</Name>",
+            "removed": "removed a metric",
+            "removedOutlierHandlingBounds": "removed the outlier handling lower and upper bounds",
+            "removedOutlierHandlingLowerBound": "removed the outlier handling lower bound percentile",
+            "removedOutlierHandlingUpperBound": "removed the outlier handling upper bound percentile",
+            "reorderedPrimary": "reordered the primary metrics",
+            "reorderedSecondary": "reordered the secondary metrics",
+            "setGoal": "set the goal <Goal>{{ goal }}</Goal>",
+            "setOutlierHandlingBothBounds": "set the outlier handling lower bound percentile to {{ lower }} and upper bound percentile to {{ upper }}",
+            "setOutlierHandlingLowerBound": "set the outlier handling lower bound percentile to {{ lower }}",
+            "setOutlierHandlingUpperBound": "set the outlier handling upper bound percentile to {{ upper }}",
+            "stepOrderSet": "set the step order to {{ order }}"
+        },
+        "savedMetric": {
+            "added": "added shared metric",
+            "removed": "removed shared metric",
+            "updatedConfiguration": "updated configuration for shared metric"
+        },
+        "sharedMetric": {
+            "created": "created a new shared metric:",
+            "deleted": "deleted shared metric:",
+            "updated": "updated shared metric:",
+            "updatedName": "updated shared metric"
+        },
+        "theExperiment": "experiment",
+        "unknownAction": "performed an unknown action",
+        "unknownName": "(unknown)",
+        "updated": "updated"
     },
     "homepage": {
         "ai": {

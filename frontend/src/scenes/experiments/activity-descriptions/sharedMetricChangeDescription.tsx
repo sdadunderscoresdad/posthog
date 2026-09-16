@@ -1,10 +1,12 @@
 import { match } from 'ts-pattern'
 
 import { ActivityChange } from 'lib/components/ActivityLog/humanizeActivity'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { urls } from 'scenes/urls'
 
 import { SharedMetric } from '../SharedMetrics/sharedMetricLogic'
+import { ActivityClause, clause, describeUnknownFieldChange } from './clauses'
 
 /**
  * id an id is provided, it returns a link to the shared metric. Otherwise, just the name.
@@ -22,24 +24,25 @@ export const nameOrLinkToSharedMetric = (name: string | null, id?: string): JSX.
  */
 type AllowedSharedMetricFields = Pick<SharedMetric, 'query'>
 
-export const getSharedMetricChangeDescription = (sharedMetricChange: ActivityChange): string | JSX.Element => {
+export const getSharedMetricChangeDescription = (sharedMetricChange: ActivityChange): ActivityClause[] => {
     /**
      * a little type assertion to force field into the allowed shared metric fields
      */
     return match(sharedMetricChange as ActivityChange & { field: keyof AllowedSharedMetricFields })
-        .with({ field: 'query' }, () => {
-            return 'updated shared metric:'
-        })
+        .with({ field: 'query' }, () => [
+            clause(i18n.t('experimentActivity.sharedMetric.updated', { defaultValue: 'updated shared metric:' })),
+        ])
         .otherwise(() => {
             if (!sharedMetricChange.field) {
-                return 'updated shared metric'
+                return [
+                    clause(
+                        i18n.t('experimentActivity.sharedMetric.updatedName', {
+                            defaultValue: 'updated shared metric',
+                        }),
+                        'for'
+                    ),
+                ]
             }
-            // Fallback for unhandled fields - ensures all activity is visible
-            const fieldName = sharedMetricChange.field.replace(/_/g, ' ')
-            return match(sharedMetricChange.action)
-                .with('created', () => `added ${fieldName} to`)
-                .with('deleted', () => `removed ${fieldName} from`)
-                .with('changed', () => `updated ${fieldName} for`)
-                .otherwise(() => `modified ${fieldName} for`)
+            return describeUnknownFieldChange(sharedMetricChange.field, sharedMetricChange.action)
         })
 }

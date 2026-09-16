@@ -46,6 +46,19 @@ function nameAndLink(logItem?: ActivityLogItem): JSX.Element {
     )
 }
 
+/** The dashboard name on its own, for strings that render it inside a markup slot. */
+function dashboardName(logItem?: ActivityLogItem): string {
+    return logItem?.detail?.name || unknownDashboard()
+}
+
+/** The link the dashboard name renders into, or a plain wrapper when the item has no id. */
+function dashboardNameLink(logItem?: ActivityLogItem): JSX.Element {
+    if (logItem?.item_id) {
+        return <Link to={urls.dashboard(logItem.item_id)} />
+    }
+    return logItem?.detail?.name ? <></> : <i />
+}
+
 const dashboardActionsMapping: Record<
     keyof DashboardType,
     (change?: ActivityChange, logItem?: ActivityLogItem, asNotification?: boolean) => ChangeMapping | null
@@ -368,13 +381,13 @@ export function dashboardActivityDescriber(logItem: ActivityLogItem, asNotificat
             description: (
                 <Trans
                     i18nKey="dashboardActivity.shareLoginSuccess"
-                    values={{ ip: clientIp, password: passwordNote }}
+                    values={{ ip: clientIp, name: dashboardName(logItem), password: passwordNote }}
                     components={{
                         Bold: <strong />,
                         NameBold: <b />,
-                        NameLink: <>{nameAndLink(logItem)}</>,
+                        NameLink: dashboardNameLink(logItem),
                     }}
-                    defaults="<Bold>Anonymous user</Bold> successfully authenticated to shared dashboard <NameBold><NameLink></NameLink></NameBold> from {{ ip }} using password <Bold>{{ password }}</Bold>"
+                    defaults="<Bold>Anonymous user</Bold> successfully authenticated to shared dashboard <NameBold><NameLink>{{ name }}</NameLink></NameBold> from {{ ip }} using password <Bold>{{ password }}</Bold>"
                 />
             ),
         }
@@ -388,9 +401,9 @@ export function dashboardActivityDescriber(logItem: ActivityLogItem, asNotificat
             description: (
                 <Trans
                     i18nKey="dashboardActivity.shareLoginFailed"
-                    values={{ ip: clientIp }}
-                    components={{ Bold: <strong />, NameBold: <b />, NameLink: <>{nameAndLink(logItem)}</> }}
-                    defaults="<Bold>Anonymous user</Bold> failed to authenticate to shared dashboard <NameBold><NameLink></NameLink></NameBold> from {{ ip }}"
+                    values={{ ip: clientIp, name: dashboardName(logItem) }}
+                    components={{ Bold: <strong />, NameBold: <b />, NameLink: dashboardNameLink(logItem) }}
+                    defaults="<Bold>Anonymous user</Bold> failed to authenticate to shared dashboard <NameBold><NameLink>{{ name }}</NameLink></NameBold> from {{ ip }}"
                 />
             ),
         }

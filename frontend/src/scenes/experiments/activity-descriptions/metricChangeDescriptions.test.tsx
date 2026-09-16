@@ -9,7 +9,13 @@ import {
 } from '~/queries/schema/schema-general'
 import { ExperimentMetricGoal, FunnelConversionWindowTimeUnit, StepOrderValue } from '~/types'
 
+import { ActivityClause } from './clauses'
 import { getMetricChanges } from './metricChangeDescriptions'
+
+const clauseText = (item: ActivityClause): string => {
+    const text = typeof item.text === 'string' ? item.text : (render(<>{item.text}</>).container.textContent ?? '')
+    return text.replace(/\u00a0/g, ' ')
+}
 
 describe('metric-change-descriptions', () => {
     // Helper factory functions to create test metrics
@@ -69,7 +75,7 @@ describe('metric-change-descriptions', () => {
                 ]
 
                 const result = getMetricChanges(before, after)
-                expect(result).toBe('added a metric to')
+                expect(result).toEqual([{ text: 'added a metric', link: 'to' }])
             })
 
             it('detects when a metric is removed', () => {
@@ -80,7 +86,7 @@ describe('metric-change-descriptions', () => {
                 const after: ExperimentMetric[] = [createBaseMeanMetric()]
 
                 const result = getMetricChanges(before, after)
-                expect(result).toBe('removed a metric from')
+                expect(result).toEqual([{ text: 'removed a metric', link: 'from' }])
             })
 
             it('returns null when arrays are empty', () => {
@@ -128,7 +134,7 @@ describe('metric-change-descriptions', () => {
                 const result = getMetricChanges(before, after)
                 expect(Array.isArray(result)).toBe(true)
                 if (Array.isArray(result)) {
-                    const { container } = render(<>{result[0]}</>)
+                    const { container } = render(<>{result[0].text}</>)
                     expect(container.textContent).toContain('changed the type from')
                     expect(container.textContent).toContain('mean')
                     expect(container.textContent).toContain('funnel')
@@ -148,7 +154,7 @@ describe('metric-change-descriptions', () => {
                 const result = getMetricChanges(before, after)
                 expect(Array.isArray(result)).toBe(true)
                 if (Array.isArray(result)) {
-                    const { container } = render(<>{result[0]}</>)
+                    const { container } = render(<>{result[0].text}</>)
                     expect(container.textContent).toContain('set the goal')
                     expect(container.textContent).toContain('decrease')
                 }
@@ -201,9 +207,7 @@ describe('metric-change-descriptions', () => {
                 const result = getMetricChanges(before, after)
                 expect(Array.isArray(result)).toBe(true)
                 if (Array.isArray(result)) {
-                    const text = result.map((item) =>
-                        typeof item === 'string' ? item : render(<>{item}</>).container.textContent
-                    )
+                    const text = result.map(clauseText)
                     expect(text.some((t) => t?.includes(testCase.expectedText))).toBe(true)
                 }
             })
@@ -227,7 +231,10 @@ describe('metric-change-descriptions', () => {
                 ]
 
                 const result = getMetricChanges(before, after)
-                const { container } = render(<>{result}</>)
+                if (!result) {
+                    throw new Error('expected the metric change to be described')
+                }
+                const { container } = render(<>{result[0].text}</>)
                 expect(container.textContent).toContain('changed the metric')
                 expect(container.textContent).toContain('Test Metric')
             })
@@ -245,9 +252,7 @@ describe('metric-change-descriptions', () => {
                 const result = getMetricChanges(before, after)
                 expect(Array.isArray(result)).toBe(true)
                 if (Array.isArray(result)) {
-                    const text = result.map((item) =>
-                        typeof item === 'string' ? item : render(<>{item}</>).container.textContent
-                    )
+                    const text = result.map(clauseText)
                     expect(text.some((t) => t?.includes('set the step order to unordered'))).toBe(true)
                 }
             })
@@ -269,9 +274,7 @@ describe('metric-change-descriptions', () => {
                 const result = getMetricChanges(before, after)
                 expect(Array.isArray(result)).toBe(true)
                 if (Array.isArray(result)) {
-                    const text = result.map((item) =>
-                        typeof item === 'string' ? item : render(<>{item}</>).container.textContent
-                    )
+                    const text = result.map(clauseText)
                     expect(text.some((t) => t?.includes('changed the funnel series'))).toBe(true)
                 }
             })
@@ -295,9 +298,7 @@ describe('metric-change-descriptions', () => {
                 const result = getMetricChanges(before, after)
                 expect(Array.isArray(result)).toBe(true)
                 if (Array.isArray(result)) {
-                    const text = result.map((item) =>
-                        typeof item === 'string' ? item : render(<>{item}</>).container.textContent
-                    )
+                    const text = result.map(clauseText)
                     expect(text.some((t) => t?.includes('changed the source event'))).toBe(true)
                 }
             })
@@ -350,9 +351,7 @@ describe('metric-change-descriptions', () => {
                     const result = getMetricChanges(before, after)
                     expect(Array.isArray(result)).toBe(true)
                     if (Array.isArray(result)) {
-                        const text = result.map((item) =>
-                            typeof item === 'string' ? item : render(<>{item}</>).container.textContent
-                        )
+                        const text = result.map(clauseText)
                         expect(text.some((t) => t?.includes(testCase.expectedText))).toBe(true)
                     }
                 })
@@ -406,9 +405,7 @@ describe('metric-change-descriptions', () => {
                 const result = getMetricChanges(before, after)
                 expect(Array.isArray(result)).toBe(true)
                 if (Array.isArray(result)) {
-                    const text = result.map((item) =>
-                        typeof item === 'string' ? item : render(<>{item}</>).container.textContent
-                    )
+                    const text = result.map(clauseText)
                     expect(text.some((t) => t?.includes(testCase.expectedText))).toBe(true)
                     if (testCase.notExpectedText) {
                         expect(text.some((t) => t?.includes(testCase.notExpectedText))).toBe(false)
@@ -437,9 +434,7 @@ describe('metric-change-descriptions', () => {
                 const result = getMetricChanges(before, after)
                 expect(Array.isArray(result)).toBe(true)
                 if (Array.isArray(result)) {
-                    const text = result.map((item) =>
-                        typeof item === 'string' ? item : render(<>{item}</>).container.textContent
-                    )
+                    const text = result.map(clauseText)
                     // Should detect both goal and source event changes
                     expect(text.some((t) => t?.includes('set the goal'))).toBe(true)
                     expect(text.some((t) => t?.includes('changed the source event'))).toBe(true)
@@ -468,7 +463,7 @@ describe('metric-change-descriptions', () => {
                 expect(Array.isArray(result)).toBe(true)
                 if (Array.isArray(result)) {
                     const lastElement = result[result.length - 1]
-                    const { container } = render(<>{lastElement}</>)
+                    const { container } = render(<>{lastElement.text}</>)
                     expect(container.textContent).toContain('Custom Metric Name')
                     expect(container.textContent).toContain('for the metric')
                 }
@@ -496,7 +491,7 @@ describe('metric-change-descriptions', () => {
                 expect(Array.isArray(result)).toBe(true)
                 if (Array.isArray(result)) {
                     const lastElement = result[result.length - 1]
-                    const { container } = render(<>{lastElement}</>)
+                    const { container } = render(<>{lastElement.text}</>)
                     // Should use the event name as default title
                     expect(container.textContent).toContain('test_event')
                 }
@@ -507,13 +502,13 @@ describe('metric-change-descriptions', () => {
             it('handles empty before array', () => {
                 const after: ExperimentMetric[] = [createBaseMeanMetric()]
                 const result = getMetricChanges([], after)
-                expect(result).toBe('added a metric to')
+                expect(result).toEqual([{ text: 'added a metric', link: 'to' }])
             })
 
             it('handles empty after array', () => {
                 const before: ExperimentMetric[] = [createBaseMeanMetric()]
                 const result = getMetricChanges(before, [])
-                expect(result).toBe('removed a metric from')
+                expect(result).toEqual([{ text: 'removed a metric', link: 'from' }])
             })
 
             it('returns null when metrics are identical except for expected differences', () => {

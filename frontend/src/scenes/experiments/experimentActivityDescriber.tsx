@@ -1,7 +1,9 @@
+import { Trans } from 'react-i18next'
 import { match } from 'ts-pattern'
 
 import { ActivityLogItem, ActivityLogUserName, HumanizedChange } from 'lib/components/ActivityLog/humanizeActivity'
 import { SentenceList } from 'lib/components/ActivityLog/SentenceList'
+import { i18n } from 'lib/i18n/i18n'
 
 import { ExperimentStatus } from '~/types'
 
@@ -14,83 +16,53 @@ import {
     nameOrLinkToExperiment,
     nameOrLinkToSharedMetric,
 } from './activity-descriptions'
+import { ActivityClause, clause, clauseLinkText, splitClauses } from './activity-descriptions/clauses'
 
-const UnknownAction = ({ logItem }: { logItem: ActivityLogItem }): JSX.Element => {
+/** The name of the experiment an activity happened on, when only the relation is known. */
+function experimentLabel(): string {
+    return i18n.t('experimentActivity.theExperiment', { defaultValue: 'experiment' })
+}
+
+/**
+ * Renders change clauses as a sentence. The link of the last clause is what carries the sentence
+ * into the item it changed, so that "changed A, removed B, and changed C" ends in "for Experiment".
+ */
+function ClauseSentence({
+    logItem,
+    clauses,
+    suffix,
+}: {
+    logItem: ActivityLogItem
+    clauses: ActivityClause[]
+    suffix: string | JSX.Element | null
+}): JSX.Element {
+    const { parts, link } = splitClauses(clauses)
     return (
         <SentenceList
             prefix={<ActivityLogUserName logItem={logItem} />}
-            listParts={['performed an unknown action on']}
-            suffix={nameOrLinkToExperiment(logItem.detail.name, logItem.item_id)}
+            listParts={parts}
+            suffix={
+                link ? (
+                    <>
+                        {clauseLinkText(link)} {suffix}
+                    </>
+                ) : (
+                    suffix
+                )
+            }
         />
     )
 }
 
-// Recursively pull plain text out of a string / JSX node so getPreposition can
-// inspect its keywords. The conclusion matcher returns JSX whose leading verb
-// ("changed") would otherwise be invisible to the keyword check.
-const extractText = (node: string | JSX.Element | null | undefined): string => {
-    if (node === null || node === undefined || typeof node === 'boolean') {
-        return ''
-    }
-    if (typeof node === 'string' || typeof node === 'number') {
-        return String(node)
-    }
-    if (Array.isArray(node)) {
-        return node.map(extractText).join(' ')
-    }
-    const children = (node as JSX.Element).props?.children
-    return children !== undefined ? extractText(children) : ''
-}
-
-// Helper to determine the right preposition based on the action text
-const getPreposition = (item: string | JSX.Element): string => {
-    const text = extractText(item)
-    if (text.includes('added') || text.includes('set')) {
-        return 'to'
-    }
-
-    if (text.includes('removed')) {
-        return 'from'
-    }
-
-    if (text.includes('changed') || text.includes('returned')) {
-        return 'for'
-    }
-
-    return 'on'
-}
-
-// Flatten the result of getExperimentChangeDescription into the parts that
-// SentenceList will join. Prepositions are NOT appended here — the outer
-// updated branch attaches a single preposition to the last list part so the
-// joined sentence reads naturally (e.g. "changed A, changed B, and changed C
-// for Experiment Name").
-const humanizeExperimentChange = (
-    result: string | JSX.Element | (string | JSX.Element)[] | null
-): (string | JSX.Element)[] => {
-    if (result === null) {
-        return []
-    }
-    if (Array.isArray(result)) {
-        return result.filter(Boolean) as (string | JSX.Element)[]
-    }
-    return [result]
-}
-
-const appendPreposition = (item: string | JSX.Element): string | JSX.Element => {
-    // A part that ends with a colon already introduces the experiment name.
-    if (extractText(item).trimEnd().endsWith(':')) {
-        return item
-    }
-    const preposition = getPreposition(item)
-    return typeof item === 'string' ? (
-        `${item} ${preposition}`
-    ) : (
-        <span>
-            {item} {preposition}
-        </span>
-    )
-}
+const UnknownAction = ({ logItem }: { logItem: ActivityLogItem }): JSX.Element => (
+    <ClauseSentence
+        logItem={logItem}
+        clauses={[
+            clause(i18n.t('experimentActivity.unknownAction', { defaultValue: 'performed an unknown action' }), 'on'),
+        ]}
+        suffix={nameOrLinkToExperiment(logItem.detail.name, logItem.item_id)}
+    />
+)
 
 export const experimentActivityDescriber = (logItem: ActivityLogItem): HumanizedChange => {
     /**
@@ -102,15 +74,20 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
         .with({ activity: 'created', detail: { type: 'saved_metric_config' } }, () => {
             return {
                 description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={['added shared metric']}
-                        suffix={
-                            <span>
-                                <strong>{logItem.detail.name}</strong> to{' '}
-                                {nameOrLinkToExperiment('experiment', logItem.item_id)}
-                            </span>
-                        }
+                    <ClauseSentence
+                        logItem={logItem}
+                        clauses={[
+                            clause(
+                                <>
+                                    {i18n.t('experimentActivity.savedMetric.added', {
+                                        defaultValue: 'added shared metric',
+                                    })}{' '}
+                                    <strong>{logItem.detail.name}</strong>
+                                </>,
+                                'to'
+                            ),
+                        ]}
+                        suffix={nameOrLinkToExperiment(experimentLabel(), logItem.item_id)}
                     />
                 ),
             }
@@ -118,15 +95,20 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
         .with({ activity: 'updated', detail: { type: 'saved_metric_config' } }, () => {
             return {
                 description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={['updated configuration for shared metric']}
-                        suffix={
-                            <span>
-                                <strong>{logItem.detail.name}</strong> on{' '}
-                                {nameOrLinkToExperiment('experiment', logItem.item_id)}
-                            </span>
-                        }
+                    <ClauseSentence
+                        logItem={logItem}
+                        clauses={[
+                            clause(
+                                <>
+                                    {i18n.t('experimentActivity.savedMetric.updatedConfiguration', {
+                                        defaultValue: 'updated configuration for shared metric',
+                                    })}{' '}
+                                    <strong>{logItem.detail.name}</strong>
+                                </>,
+                                'on'
+                            ),
+                        ]}
+                        suffix={nameOrLinkToExperiment(experimentLabel(), logItem.item_id)}
                     />
                 ),
             }
@@ -134,9 +116,15 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
         .with({ activity: 'created', detail: { type: 'holdout' } }, () => {
             return {
                 description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={['created a new experiment holdout:']}
+                    <ClauseSentence
+                        logItem={logItem}
+                        clauses={[
+                            clause(
+                                i18n.t('experimentActivity.holdout.created', {
+                                    defaultValue: 'created a new experiment holdout:',
+                                })
+                            ),
+                        ]}
                         suffix={<strong>{logItem.detail.name}</strong>}
                     />
                 ),
@@ -148,16 +136,22 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
              */
             return {
                 description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={[
-                            isSharedMetric ? (
-                                <span>created a new shared metric:</span>
-                            ) : (
-                                <span>
-                                    created a new <StatusTag status={ExperimentStatus.Draft} /> experiment:
-                                </span>
-                            ),
+                    <ClauseSentence
+                        logItem={logItem}
+                        clauses={[
+                            isSharedMetric
+                                ? clause(
+                                      i18n.t('experimentActivity.sharedMetric.created', {
+                                          defaultValue: 'created a new shared metric:',
+                                      })
+                                  )
+                                : clause(
+                                      <Trans
+                                          i18nKey="experimentActivity.experiment.created"
+                                          components={{ Status: <StatusTag status={ExperimentStatus.Draft} /> }}
+                                          defaults="created a new <Status></Status> experiment:"
+                                      />
+                                  ),
                         ]}
                         suffix={(isSharedMetric ? nameOrLinkToSharedMetric : nameOrLinkToExperiment)(
                             logItem.detail.name,
@@ -174,9 +168,13 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
              */
             return {
                 description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={['deleted experiment:']}
+                    <ClauseSentence
+                        logItem={logItem}
+                        clauses={[
+                            clause(
+                                i18n.t('experimentActivity.experiment.deleted', { defaultValue: 'deleted experiment:' })
+                            ),
+                        ]}
                         suffix={logItem.detail.name}
                     />
                 ),
@@ -185,15 +183,20 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
         .with({ activity: 'deleted', detail: { type: 'saved_metric_config' } }, () => {
             return {
                 description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={['removed shared metric']}
-                        suffix={
-                            <span>
-                                <strong>{logItem.detail.name}</strong> from{' '}
-                                {nameOrLinkToExperiment('experiment', logItem.item_id)}
-                            </span>
-                        }
+                    <ClauseSentence
+                        logItem={logItem}
+                        clauses={[
+                            clause(
+                                <>
+                                    {i18n.t('experimentActivity.savedMetric.removed', {
+                                        defaultValue: 'removed shared metric',
+                                    })}{' '}
+                                    <strong>{logItem.detail.name}</strong>
+                                </>,
+                                'from'
+                            ),
+                        ]}
+                        suffix={nameOrLinkToExperiment(experimentLabel(), logItem.item_id)}
                     />
                 ),
             }
@@ -204,9 +207,15 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
              */
             return {
                 description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={['deleted shared metric:']}
+                    <ClauseSentence
+                        logItem={logItem}
+                        clauses={[
+                            clause(
+                                i18n.t('experimentActivity.sharedMetric.deleted', {
+                                    defaultValue: 'deleted shared metric:',
+                                })
+                            ),
+                        ]}
                         suffix={logItem.detail.name}
                     />
                 ),
@@ -218,9 +227,15 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
              */
             return {
                 description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={['deleted experiment holdout:']}
+                    <ClauseSentence
+                        logItem={logItem}
+                        clauses={[
+                            clause(
+                                i18n.t('experimentActivity.holdout.deleted', {
+                                    defaultValue: 'deleted experiment holdout:',
+                                })
+                            ),
+                        ]}
                         suffix={<strong>{logItem.detail.name}</strong>}
                     />
                 ),
@@ -229,9 +244,13 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
         .with({ activity: 'deleted' }, ({ item_id, detail }) => {
             return {
                 description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={['deleted experiment:']}
+                    <ClauseSentence
+                        logItem={logItem}
+                        clauses={[
+                            clause(
+                                i18n.t('experimentActivity.experiment.deleted', { defaultValue: 'deleted experiment:' })
+                            ),
+                        ]}
                         suffix={nameOrLinkToExperiment(detail.name, item_id)}
                     />
                 ),
@@ -240,9 +259,15 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
         .with({ activity: 'restored' }, ({ item_id, detail }) => {
             return {
                 description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={['restored experiment:']}
+                    <ClauseSentence
+                        logItem={logItem}
+                        clauses={[
+                            clause(
+                                i18n.t('experimentActivity.experiment.restored', {
+                                    defaultValue: 'restored experiment:',
+                                })
+                            ),
+                        ]}
                         suffix={nameOrLinkToExperiment(detail.name, item_id)}
                     />
                 ),
@@ -251,9 +276,13 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
         .with({ activity: 'paused' }, ({ item_id, detail }) => {
             return {
                 description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={['paused experiment:']}
+                    <ClauseSentence
+                        logItem={logItem}
+                        clauses={[
+                            clause(
+                                i18n.t('experimentActivity.experiment.paused', { defaultValue: 'paused experiment:' })
+                            ),
+                        ]}
                         suffix={nameOrLinkToExperiment(detail.name, item_id)}
                     />
                 ),
@@ -262,9 +291,15 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
         .with({ activity: 'resumed' }, ({ item_id, detail }) => {
             return {
                 description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={['resumed experiment:']}
+                    <ClauseSentence
+                        logItem={logItem}
+                        clauses={[
+                            clause(
+                                i18n.t('experimentActivity.experiment.resumed', {
+                                    defaultValue: 'resumed experiment:',
+                                })
+                            ),
+                        ]}
                         suffix={nameOrLinkToExperiment(detail.name, item_id)}
                     />
                 ),
@@ -273,9 +308,16 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
         .with({ activity: 'exposure_frozen' }, ({ item_id, detail }) => {
             return {
                 description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={['froze exposure for']}
+                    <ClauseSentence
+                        logItem={logItem}
+                        clauses={[
+                            clause(
+                                i18n.t('experimentActivity.experiment.frozeExposure', {
+                                    defaultValue: 'froze exposure',
+                                }),
+                                'for'
+                            ),
+                        ]}
                         suffix={nameOrLinkToExperiment(detail.name, item_id)}
                     />
                 ),
@@ -284,9 +326,16 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
         .with({ activity: 'exposure_unfrozen' }, ({ item_id, detail }) => {
             return {
                 description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={['unfroze exposure for']}
+                    <ClauseSentence
+                        logItem={logItem}
+                        clauses={[
+                            clause(
+                                i18n.t('experimentActivity.experiment.unfrozeExposure', {
+                                    defaultValue: 'unfroze exposure',
+                                }),
+                                'for'
+                            ),
+                        ]}
                         suffix={nameOrLinkToExperiment(detail.name, item_id)}
                     />
                 ),
@@ -315,43 +364,48 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
                 typeof conclusionCommentChange?.before === 'string' &&
                 Boolean(conclusionCommentChange.before.trim())
 
-            let listParts: (string | JSX.Element)[]
+            let clauses: ActivityClause[]
             if (changes.length === 0) {
-                listParts = ['updated']
+                clauses = [clause(i18n.t('experimentActivity.updated', { defaultValue: 'updated' }))]
             } else if (isExperiment) {
-                // Flatten each change into one or more parts. The preposition is appended
-                // exactly once below — to the final part — so the SentenceList reads
-                // "changed A, changed B, and changed C for Experiment Name" instead of
-                // duplicating prepositions inside each clause.
-                listParts = changes.flatMap((change) =>
-                    humanizeExperimentChange(getExperimentChangeDescription(change))
-                )
+                // Flatten each change into its clauses. Only the last clause carries the link into
+                // the experiment, so the sentence reads "changed A, changed B, and changed C for
+                // Experiment" instead of repeating the link inside every clause.
+                clauses = changes.flatMap((change) => getExperimentChangeDescription(change) ?? [])
             } else {
-                listParts = changes
-                    .map((change) =>
+                clauses = changes.flatMap(
+                    (change) =>
                         match(updateLogDetail.type)
                             .with('shared_metric', () => getSharedMetricChangeDescription(change))
                             .with('holdout', () => getHoldoutChangeDescription(change))
-                            .otherwise(() => null)
-                    )
-                    .filter((part): part is string | JSX.Element => part !== null)
+                            .otherwise(() => null) ?? []
+                )
             }
 
-            if (isExperiment && changes.length > 0 && listParts.length === 0) {
+            if (isExperiment && changes.length > 0 && clauses.length === 0) {
                 if (conclusionComment) {
                     // A comment-only edit still gets a row; the comment renders below it.
-                    listParts = ['changed the conclusion']
+                    clauses = [
+                        clause(
+                            i18n.t('experimentActivity.experiment.changedConclusion', {
+                                defaultValue: 'changed the conclusion',
+                            }),
+                            'for'
+                        ),
+                    ]
                 } else if (conclusionCommentRemoved) {
-                    listParts = ['removed the conclusion comment']
+                    clauses = [
+                        clause(
+                            i18n.t('experimentActivity.conclusionComment.removed', {
+                                defaultValue: 'removed the conclusion comment',
+                            }),
+                            'from'
+                        ),
+                    ]
                 } else {
                     // humanize() skips log items with a null description
                     return { description: null }
                 }
-            }
-
-            if (isExperiment && changes.length > 0 && listParts.length > 0) {
-                const lastIndex = listParts.length - 1
-                listParts[lastIndex] = appendPreposition(listParts[lastIndex])
             }
 
             const suffix = match(updateLogDetail.type)
@@ -360,13 +414,7 @@ export const experimentActivityDescriber = (logItem: ActivityLogItem): Humanized
                 .otherwise(() => nameOrLinkToExperiment(updateLogDetail.name, item_id))
 
             return {
-                description: (
-                    <SentenceList
-                        prefix={<ActivityLogUserName logItem={logItem} />}
-                        listParts={listParts}
-                        suffix={suffix}
-                    />
-                ),
+                description: <ClauseSentence logItem={logItem} clauses={clauses} suffix={suffix} />,
                 extendedDescription: conclusionComment ? (
                     <blockquote className="border-l-2 pl-2 text-secondary">{conclusionComment}</blockquote>
                 ) : undefined,

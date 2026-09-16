@@ -88,6 +88,8 @@
             "instanceSetting": "",
             "updated": ""
         },
+        "listConjunction": "",
+        "listSeparator": "",
         "onA": "",
         "repliedToA": "",
         "restored": "",
@@ -628,6 +630,111 @@
         "noAccounts": "",
         "oauthLogin": "",
         "title": ""
+    },
+    "experimentActivity": {
+        "and": "",
+        "conclusionComment": {
+            "removed": ""
+        },
+        "excludedVariant": {
+            "added": "",
+            "addedMultiple": "",
+            "removed": "",
+            "removedMultiple": ""
+        },
+        "experiment": {
+            "changedConclusion": "",
+            "changedConclusionTo": "",
+            "changedEndDate": "",
+            "changedStartDate": "",
+            "completedItAs": "",
+            "created": "",
+            "deleted": "",
+            "frozeExposure": "",
+            "launched": "",
+            "movedStartDateBack": "",
+            "movedStartDateForward": "",
+            "paused": "",
+            "restored": "",
+            "resumed": "",
+            "stopped": "",
+            "unfrozeExposure": "",
+            "updatedParameters": "",
+            "updatedRunningTimeCalculation": ""
+        },
+        "exposure": {
+            "addedTestAccountFilter": "",
+            "removedActivationEvent": "",
+            "removedTestAccountFilter": "",
+            "setActivationEvent": "",
+            "setExposureConfiguration": "",
+            "setExposureConfigurationDefault": "",
+            "variantHandlingExcludeFromAnalysis": "",
+            "variantHandlingFirstSeen": ""
+        },
+        "fieldChange": {
+            "added": "",
+            "modified": "",
+            "removed": "",
+            "updated": ""
+        },
+        "holdout": {
+            "created": "",
+            "deleted": "",
+            "description": "",
+            "filters": "",
+            "name": "",
+            "updated": ""
+        },
+        "link": {
+            "for": "",
+            "from": "",
+            "in": "",
+            "on": "",
+            "to": ""
+        },
+        "metric": {
+            "added": "",
+            "addedTheFirst": "",
+            "changedDenominator": "",
+            "changedDenominatorOutlierHandling": "",
+            "changedFunnelSeries": "",
+            "changedMetric": "",
+            "changedNumerator": "",
+            "changedNumeratorAndDenominator": "",
+            "changedNumeratorOutlierHandling": "",
+            "changedSourceEvent": "",
+            "changedType": "",
+            "conversionWindowDefault": "",
+            "conversionWindowSet": "",
+            "forTheMetric": "",
+            "removed": "",
+            "removedOutlierHandlingBounds": "",
+            "removedOutlierHandlingLowerBound": "",
+            "removedOutlierHandlingUpperBound": "",
+            "reorderedPrimary": "",
+            "reorderedSecondary": "",
+            "setGoal": "",
+            "setOutlierHandlingBothBounds": "",
+            "setOutlierHandlingLowerBound": "",
+            "setOutlierHandlingUpperBound": "",
+            "stepOrderSet": ""
+        },
+        "savedMetric": {
+            "added": "",
+            "removed": "",
+            "updatedConfiguration": ""
+        },
+        "sharedMetric": {
+            "created": "",
+            "deleted": "",
+            "updated": "",
+            "updatedName": ""
+        },
+        "theExperiment": "",
+        "unknownAction": "",
+        "unknownName": "",
+        "updated": ""
     },
     "homepage": {
         "ai": {
