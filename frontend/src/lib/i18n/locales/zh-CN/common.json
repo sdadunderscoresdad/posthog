@@ -127,6 +127,11 @@
             "leadOnceAccountReady": "账户准备就绪后"
         }
     },
+    "batchImport": {
+        "source": "来源 {{ source }}",
+        "sourceWithContent": "来源 {{ source }}（{{ content }}）",
+        "unknownSource": "未知来源"
+    },
     "cliAuthorize": {
         "codeLabel": "授权码",
         "customSelection": "自定义选择",
@@ -711,6 +716,13 @@
         "unknownName": "（未知）",
         "updated": "更新了"
     },
+    "exportedAsset": {
+        "anExport": "一个导出",
+        "as": "，格式为",
+        "exported": "导出了",
+        "format": "{{ format }}",
+        "your": "你的"
+    },
     "featureFlagActivity": {
         "added": {
             "count": "添加了",
@@ -1005,6 +1017,12 @@
         "unavailable": "自助重置密码不可用。请<Bold>联系你的实例管理员</Bold>来重置你的密码。",
         "youTyped": "你输入的邮箱"
     },
+    "productTour": {
+        "created": "创建了产品导览：",
+        "deleted": "删除了产品导览：",
+        "emptyName": "（空字符串）",
+        "updated": "更新了产品导览："
+    },
     "regionSelect": {
         "dataRegion": "数据区域",
         "euCloud": "欧盟云",
@@ -1022,6 +1040,15 @@
         "usFaster": "如果你和你的用户位于美国，速度更快",
         "usHosting": "美国托管",
         "usLocation": "托管于美国弗吉尼亚"
+    },
+    "replay": {
+        "bulkDeleted": "批量删除了",
+        "sessionRecording": "会话记录",
+        "sessionRecordings": "会话记录",
+        "shareLoginFailed": "<Bold>匿名用户</Bold>未能通过共享会话记录 <NameBold>{{ name }}</NameBold> 的身份验证，来源 IP 为 {{ ip }}",
+        "shareLoginSuccess": "<Bold>匿名用户</Bold>已成功通过共享会话记录 <NameBold>{{ name }}</NameBold> 的身份验证，来源 IP 为 {{ ip }}，使用的密码为 <Bold>{{ password }}</Bold>",
+        "unknownIp": "未知 IP",
+        "unknownpassword": "未知密码"
     },
     "sceneActivity": {
         "by": "由",

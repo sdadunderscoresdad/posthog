@@ -4,11 +4,12 @@ import {
     HumanizedChange,
     defaultDescriber,
 } from 'lib/components/ActivityLog/humanizeActivity'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { urls } from 'scenes/urls'
 
 const nameOrLinkToTour = (id?: string | null, name?: string | null): string | JSX.Element => {
-    const displayName = name || '(empty string)'
+    const displayName = name || i18n.t('productTour.emptyName', { defaultValue: '(empty string)' })
     return id ? <Link to={urls.productTour(id)}>{displayName}</Link> : displayName
 }
 
@@ -22,7 +23,8 @@ export function productTourActivityDescriber(logItem: ActivityLogItem, asNotific
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> created the product tour:{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('productTour.created', { defaultValue: 'created the product tour:' })}{' '}
                     {nameOrLinkToTour(logItem?.item_id, logItem?.detail.name)}
                 </>
             ),
@@ -33,7 +35,8 @@ export function productTourActivityDescriber(logItem: ActivityLogItem, asNotific
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> updated the product tour:{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('productTour.updated', { defaultValue: 'updated the product tour:' })}{' '}
                     {nameOrLinkToTour(logItem?.item_id, logItem?.detail.name)}
                 </>
             ),
@@ -44,7 +47,8 @@ export function productTourActivityDescriber(logItem: ActivityLogItem, asNotific
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted the product tour:{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('productTour.deleted', { defaultValue: 'deleted the product tour:' })}{' '}
                     {nameOrLinkToTour(logItem?.item_id, logItem?.detail.name)}
                 </>
             ),

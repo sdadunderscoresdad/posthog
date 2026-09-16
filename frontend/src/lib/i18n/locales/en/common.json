@@ -128,6 +128,11 @@
             "leadOnceAccountReady": "Once your account is ready"
         }
     },
+    "batchImport": {
+        "source": "source {{ source }}",
+        "sourceWithContent": "source {{ source }} ({{ content }})",
+        "unknownSource": "unknown source"
+    },
     "cliAuthorize": {
         "codeLabel": "Authorization Code",
         "customSelection": "Custom selection",
@@ -718,6 +723,13 @@
         "unknownName": "(unknown)",
         "updated": "updated"
     },
+    "exportedAsset": {
+        "anExport": "an export",
+        "as": "as",
+        "exported": "exported",
+        "format": "a {{ format }}",
+        "your": "your"
+    },
     "featureFlagActivity": {
         "added": {
             "count": "added",
@@ -1012,6 +1024,12 @@
         "unavailable": "Self-serve password reset is unavailable. Please <Bold>contact your instance administrator</Bold> to reset your password.",
         "youTyped": "you typed"
     },
+    "productTour": {
+        "created": "created the product tour:",
+        "deleted": "deleted the product tour:",
+        "emptyName": "(empty string)",
+        "updated": "updated the product tour:"
+    },
     "regionSelect": {
         "dataRegion": "Data region",
         "euCloud": "EU Cloud",
@@ -1029,6 +1047,15 @@
         "usFaster": "Faster if you and your users are based in the US",
         "usHosting": "US hosting",
         "usLocation": "Hosted in Virginia, USA"
+    },
+    "replay": {
+        "bulkDeleted": "bulk deleted",
+        "sessionRecording": "session recording",
+        "sessionRecordings": "session recordings",
+        "shareLoginFailed": "<Bold>Anonymous user</Bold> failed to authenticate to shared session recording <NameBold>{{ name }}</NameBold> from {{ ip }}",
+        "shareLoginSuccess": "<Bold>Anonymous user</Bold> successfully authenticated to shared session recording <NameBold>{{ name }}</NameBold> from {{ ip }} using password <Bold>{{ password }}</Bold>",
+        "unknownIp": "unknown IP",
+        "unknownpassword": "unknown password"
     },
     "sceneActivity": {
         "by": "by",

@@ -130,6 +130,11 @@
             "leadOnceAccountReady": ""
         }
     },
+    "batchImport": {
+        "source": "",
+        "sourceWithContent": "",
+        "unknownSource": ""
+    },
     "cliAuthorize": {
         "codeLabel": "",
         "customSelection": "",
@@ -736,6 +741,13 @@
         "unknownName": "",
         "updated": ""
     },
+    "exportedAsset": {
+        "anExport": "",
+        "as": "",
+        "exported": "",
+        "format": "",
+        "your": ""
+    },
     "featureFlagActivity": {
         "added": {
             "count": "",
@@ -1044,6 +1056,12 @@
         "unavailable": "",
         "youTyped": ""
     },
+    "productTour": {
+        "created": "",
+        "deleted": "",
+        "emptyName": "",
+        "updated": ""
+    },
     "regionSelect": {
         "dataRegion": "",
         "euCloud": "",
@@ -1061,6 +1079,15 @@
         "usFaster": "",
         "usHosting": "",
         "usLocation": ""
+    },
+    "replay": {
+        "bulkDeleted": "",
+        "sessionRecording": "",
+        "sessionRecordings": "",
+        "shareLoginFailed": "",
+        "shareLoginSuccess": "",
+        "unknownIp": "",
+        "unknownpassword": ""
     },
     "sceneActivity": {
         "by": "",
