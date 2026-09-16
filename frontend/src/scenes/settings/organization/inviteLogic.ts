@@ -4,9 +4,9 @@ import { lazyLoaders, loaders } from 'kea-loaders'
 import api, { PaginatedResponse } from 'lib/api'
 import { timeSensitiveAuthenticationLogic } from 'lib/components/TimeSensitiveAuthentication/timeSensitiveAuthenticationLogic'
 import { OrganizationMembershipLevel } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { bindModalToUrl } from 'lib/logic/bindModalToUrl'
-import { pluralize } from 'lib/utils/strings'
 import { organizationLogic } from 'scenes/organizationLogic'
 import { preflightLogic } from 'scenes/PreflightCheck/preflightLogic'
 
@@ -377,9 +377,19 @@ export const inviteLogic = kea<inviteLogicType>([
         inviteTeamMembersSuccess: (): void => {
             const inviteCount = values.invitedTeamMembersInternal.length
             if (values.preflight?.email_service_available) {
-                lemonToast.success(`Invited ${pluralize(inviteCount, 'new team member')}`)
+                lemonToast.success(
+                    i18n.t('settings.organization.invite.invited', {
+                        defaultValue: 'Invited {{ count }} new team member',
+                        defaultValue_other: 'Invited {{ count }} new team members',
+                        count: inviteCount,
+                    })
+                )
             } else {
-                lemonToast.success('Team invite links generated')
+                lemonToast.success(
+                    i18n.t('settings.organization.invite.linksGenerated', {
+                        defaultValue: 'Team invite links generated',
+                    })
+                )
             }
 
             organizationLogic.actions.loadCurrentOrganization()

@@ -1,6 +1,7 @@
 import './InviteModal.scss'
 
 import { useActions, useValues } from 'kea'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconInfo, IconPlus, IconTrash } from '@posthog/icons'
 import { LemonInput, LemonSelect, LemonTextArea, Link, Tooltip } from '@posthog/lemon-ui'
@@ -31,19 +32,23 @@ export const MAX_INVITES_AT_ONCE = 20
 export function EmailUnavailableForInvitesBanner(): JSX.Element {
     return (
         <LemonBanner type="info" className="my-2">
-            <>
-                This PostHog instance isn't{' '}
-                <Link to="https://posthog.com/docs/self-host/configure/email" target="_blank" targetBlankIcon>
-                    configured&nbsp;to&nbsp;send&nbsp;emails&nbsp;
-                </Link>
-                .<br />
-                Remember to <u>share the invite link</u> with each team member you invite.
-            </>
+            <Trans
+                i18nKey="settings.organization.invite.emailUnavailableBanner"
+                components={{
+                    EmailLink: (
+                        <Link to="https://posthog.com/docs/self-host/configure/email" target="_blank" targetBlankIcon />
+                    ),
+                    Underline: <u />,
+                    Br: <br />,
+                }}
+                defaults="This PostHog instance isn't <EmailLink>configured&nbsp;to&nbsp;send&nbsp;emails&nbsp;</EmailLink>.<Br></Br>Remember to <Underline>share the invite link</Underline> with each team member you invite."
+            />
         </LemonBanner>
     )
 }
 
 export function ProjectAccessSelector({ inviteIndex }: { inviteIndex: number }): JSX.Element {
+    const { t } = useTranslation()
     const { invitesToSend, availableProjects, projectAccessControls } = useValues(inviteLogic)
     const {
         updateInviteAtIndex,
@@ -82,10 +87,15 @@ export function ProjectAccessSelector({ inviteIndex }: { inviteIndex: number }):
     return (
         <div className="space-y-2">
             <div className="flex items-center gap-2">
-                <h4 className="text-sm font-medium mb-0">Project access</h4>
+                <h4 className="text-sm font-medium mb-0">
+                    {t('settings.organization.invite.projectAccess', { defaultValue: 'Project access' })}
+                </h4>
                 <Tooltip
                     docLink="https://posthog.com/docs/settings/access-control"
-                    title="Give this user access to specific projects. These access controls will be applied when the user accepts the invite and joins the organization."
+                    title={t('settings.organization.invite.projectAccessTooltip', {
+                        defaultValue:
+                            'Give this user access to specific projects. These access controls will be applied when the user accepts the invite and joins the organization.',
+                    })}
                 >
                     <IconInfo className="text-muted-alt" />
                 </Tooltip>
@@ -93,7 +103,7 @@ export function ProjectAccessSelector({ inviteIndex }: { inviteIndex: number }):
                     <LemonSelect
                         icon={<IconPlus />}
                         className="bg-bg-light"
-                        placeholder="Add project"
+                        placeholder={t('settings.organization.invite.addProject', { defaultValue: 'Add project' })}
                         options={availableProjectsToShow.map((project: any) => ({
                             value: project.id,
                             label: project.name,
@@ -109,9 +119,12 @@ export function ProjectAccessSelector({ inviteIndex }: { inviteIndex: number }):
 
             {isOrgLevelAdminOrOwner && selectedProjects.length > 0 && (
                 <LemonBanner type="warning" className="text-xs">
-                    This user will have{' '}
-                    <span className="font-bold italic">{OrganizationMembershipLevel[invite.level].toLowerCase()}</span>{' '}
-                    access on the organization level, which will override any project-specific access controls.
+                    <Trans
+                        i18nKey="settings.organization.invite.orgLevelOverride"
+                        values={{ level: OrganizationMembershipLevel[invite.level].toLowerCase() }}
+                        components={{ Level: <span className="font-bold italic" /> }}
+                        defaults="This user will have <Level>{{ level }}</Level> access on the organization level, which will override any project-specific access controls."
+                    />
                 </LemonBanner>
             )}
 
@@ -132,18 +145,33 @@ export function ProjectAccessSelector({ inviteIndex }: { inviteIndex: number }):
                                     {isLowerThanDefault && (
                                         <div className="mb-2">
                                             <LemonBanner type="warning" className="text-xs">
-                                                <strong>{project.name}</strong> has a default access level of{' '}
-                                                <span className="font-bold italic">{defaultLevel}</span>. Since you
-                                                selected <span className="font-bold italic">{access.level}</span> (which
-                                                is lower), the user will actually get{' '}
-                                                <span className="font-bold italic">{defaultLevel}</span> access.
+                                                <Trans
+                                                    i18nKey="settings.organization.invite.lowerThanDefault"
+                                                    values={{
+                                                        project: project.name,
+                                                        defaultLevel,
+                                                        selectedLevel: access.level,
+                                                    }}
+                                                    components={{
+                                                        Project: <strong />,
+                                                        Level: <span className="font-bold italic" />,
+                                                    }}
+                                                    defaults="<Project>{{ project }}</Project> has a default access level of <Level>{{ defaultLevel }}</Level>. Since you selected <Level>{{ selectedLevel }}</Level> (which is lower), the user will actually get <Level>{{ defaultLevel }}</Level> access."
+                                                />
                                             </LemonBanner>
                                         </div>
                                     )}
                                     <div className="flex items-center gap-2">
                                         <div className="flex-1">
                                             <span className="font-medium">{project.name}</span>{' '}
-                                            {defaultLevel && <span>(default: {defaultLevel})</span>}
+                                            {defaultLevel && (
+                                                <span>
+                                                    {t('settings.organization.invite.defaultLevel', {
+                                                        defaultValue: '(default: {{ level }})',
+                                                        level: defaultLevel,
+                                                    })}
+                                                </span>
+                                            )}
                                         </div>
                                         <LemonSelect
                                             className="bg-bg-light"
@@ -191,6 +219,7 @@ export function InviteRow({
     isDeletable: boolean
     hideProjectAccessSelector?: boolean
 }): JSX.Element {
+    const { t } = useTranslation()
     const name = PLACEHOLDER_NAMES[index % PLACEHOLDER_NAMES.length]
 
     const { hasAvailableFeature } = useValues(userLogic)
@@ -281,7 +310,7 @@ export function InviteRow({
                             center
                             data-attr="invite-generate-invite-link"
                         >
-                            Submit
+                            {t('settings.organization.invite.submit', { defaultValue: 'Submit' })}
                         </LemonButton>
                     </div>
                 )}
@@ -301,6 +330,7 @@ export function InviteTeamMatesComponent({
 }: {
     hideProjectAccessSelector?: boolean
 }): JSX.Element {
+    const { t } = useTranslation()
     const { preflight } = useValues(preflightLogic)
     const { invitesToSend, inviteContainsOwnerLevel } = useValues(inviteLogic)
     const { appendInviteRow, updateMessage, setIsInviteConfirmed } = useActions(inviteLogic)
@@ -325,15 +355,30 @@ export function InviteTeamMatesComponent({
         <>
             {preflight?.licensed_users_available === 0 && (
                 <LemonBanner type="warning">
-                    You've hit the limit of team members you can invite to your PostHog instance given your license.
-                    Please contact <Link to="mailto:sales@posthog.com">sales@posthog.com</Link> to upgrade your license.
+                    <Trans
+                        i18nKey="settings.organization.invite.licenseLimit"
+                        components={{ SalesLink: <Link to="mailto:sales@posthog.com" /> }}
+                        defaults="You've hit the limit of team members you can invite to your PostHog instance given your license. Please contact <SalesLink>sales@posthog.com</SalesLink> to upgrade your license."
+                    />
                 </LemonBanner>
             )}
             <div className="deprecated-space-y-4">
                 <div className="flex gap-2">
-                    <b className="flex-2">Email address</b>
-                    {preflight?.email_service_available && <b className="flex-1">Name (optional)</b>}
-                    {allowedLevelsOptions.length > 1 && <b className="flex-1">Organization level</b>}
+                    <b className="flex-2">
+                        {t('settings.organization.invite.emailAddress', { defaultValue: 'Email address' })}
+                    </b>
+                    {preflight?.email_service_available && (
+                        <b className="flex-1">
+                            {t('settings.organization.invite.nameOptional', { defaultValue: 'Name (optional)' })}
+                        </b>
+                    )}
+                    {allowedLevelsOptions.length > 1 && (
+                        <b className="flex-1">
+                            {t('settings.organization.invite.organizationLevel', {
+                                defaultValue: 'Organization level',
+                            })}
+                        </b>
+                    )}
                     {!preflight?.email_service_available && <b className="flex-1" />}
                     {areInvitesDeletable && <b className="w-12" />}
                 </div>
@@ -350,7 +395,7 @@ export function InviteTeamMatesComponent({
                 <div className="mt-2 flex justify-end">
                     {areInvitesCreatable && (
                         <LemonButton type="secondary" icon={<IconPlus />} onClick={appendInviteRow}>
-                            Add
+                            {t('settings.organization.invite.add', { defaultValue: 'Add' })}
                         </LemonButton>
                     )}
                 </div>
@@ -358,11 +403,15 @@ export function InviteTeamMatesComponent({
             {preflight?.email_service_available && (
                 <div className="mt-4">
                     <div className="mb-2">
-                        <b>Message (optional)</b>
+                        <b>
+                            {t('settings.organization.invite.messageOptional', { defaultValue: 'Message (optional)' })}
+                        </b>
                     </div>
                     <LemonTextArea
                         data-attr="invite-optional-message"
-                        placeholder="Tell your teammates why you're inviting them to PostHog"
+                        placeholder={t('settings.organization.invite.messagePlaceholder', {
+                            defaultValue: "Tell your teammates why you're inviting them to PostHog",
+                        })}
                         onChange={(e) => updateMessage(e)}
                     />
                 </div>
@@ -370,17 +419,32 @@ export function InviteTeamMatesComponent({
 
             {inviteContainsOwnerLevel && (
                 <div className="mt-4">
-                    <b>Confirm owner-level invites</b>
+                    <b>
+                        {t('settings.organization.invite.confirmOwnerTitle', {
+                            defaultValue: 'Confirm owner-level invites',
+                        })}
+                    </b>
 
                     <div className="mb-2">
-                        At least one invite is for an owner level member. Please type <strong>send invites</strong> to
-                        confirm that you wish to send these invites.
+                        <Trans
+                            i18nKey="settings.organization.invite.confirmOwner"
+                            values={{
+                                phrase: t('settings.organization.invite.confirmPhrase', {
+                                    defaultValue: 'send invites',
+                                }),
+                            }}
+                            components={{ strong: <strong /> }}
+                            defaults="At least one invite is for an owner level member. Please type <strong>{{ phrase }}</strong> to confirm that you wish to send these invites."
+                        />
                     </div>
                     <LemonInput
                         type="text"
-                        placeholder="send invites"
+                        placeholder={t('settings.organization.invite.confirmPhrase', { defaultValue: 'send invites' })}
                         onChange={(value) => {
-                            setIsInviteConfirmed(value.toLowerCase() === 'send invites')
+                            setIsInviteConfirmed(
+                                value.toLowerCase() ===
+                                    t('settings.organization.invite.confirmPhrase', { defaultValue: 'send invites' })
+                            )
                         }}
                     />
                 </div>
@@ -390,6 +454,7 @@ export function InviteTeamMatesComponent({
 }
 
 export function InviteModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }): JSX.Element {
+    const { t } = useTranslation()
     const { user } = useValues(userLogic)
     const { currentOrganization } = useValues(organizationLogic)
     const { preflight } = useValues(preflightLogic)
@@ -414,26 +479,40 @@ export function InviteModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                     onClose()
                 }}
                 width={800}
-                title={<>Invite others to {user?.organization?.name || 'PostHog'}</>}
+                title={
+                    <>
+                        {t('settings.organization.invite.modalTitle', {
+                            defaultValue: 'Invite others to {{ organization }}',
+                            organization:
+                                user?.organization?.name ||
+                                t('settings.organization.invite.posthogFallback', { defaultValue: 'PostHog' }),
+                        })}
+                    </>
+                }
                 description={
                     preflight?.email_service_available ? (
                         <p>
-                            Invite others to your organization to collaborate together in PostHog. An invite is specific
-                            to an email address and expires after 3 days. Name can be provided for the team member's
-                            convenience.{' '}
-                            <Link
-                                to="https://posthog.com/docs/settings/organizations#adding-new-members"
-                                target="_blank"
-                                targetBlankIcon
-                            >
-                                Docs
-                            </Link>
+                            <Trans
+                                i18nKey="settings.organization.invite.description"
+                                components={{
+                                    DocsLink: (
+                                        <Link
+                                            to="https://posthog.com/docs/settings/organizations#adding-new-members"
+                                            target="_blank"
+                                            targetBlankIcon
+                                        />
+                                    ),
+                                }}
+                                defaults="Invite others to your organization to collaborate together in PostHog. An invite is specific to an email address and expires after 3 days. Name can be provided for the team member's convenience. <DocsLink>Docs</DocsLink>"
+                            />
                         </p>
                     ) : (
                         <p>
-                            This PostHog instance isn't configured to send emails. In the meantime, you can generate a
-                            link for each team member you want to invite. You can always invite others at a later time.{' '}
-                            <strong>Make sure you share links with the organization members you want to invite.</strong>
+                            <Trans
+                                i18nKey="settings.organization.invite.descriptionNoEmail"
+                                components={{ strong: <strong /> }}
+                                defaults="This PostHog instance isn't configured to send emails. In the meantime, you can generate a link for each team member you want to invite. You can always invite others at a later time. <strong>Make sure you share links with the organization members you want to invite.</strong>"
+                            />
                         </p>
                     )
                 }
@@ -441,7 +520,7 @@ export function InviteModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                     <>
                         {!preflight?.email_service_available ? (
                             <LemonButton center type="secondary" onClick={onClose}>
-                                Done
+                                {t('settings.organization.invite.done', { defaultValue: 'Done' })}
                             </LemonButton>
                         ) : (
                             <>
@@ -453,7 +532,7 @@ export function InviteModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                                     type="secondary"
                                     disabled={isInviting}
                                 >
-                                    Cancel
+                                    {t('settings.cancel', { defaultValue: 'Cancel' })}
                                 </LemonButton>
                                 <LemonButton
                                     onClick={() => inviteTeamMembers()}
@@ -461,9 +540,13 @@ export function InviteModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                                     loading={isInviting}
                                     disabledReason={
                                         userCannotInvite
-                                            ? "You don't have permissions to invite others."
+                                            ? t('settings.organization.invite.noPermission', {
+                                                  defaultValue: "You don't have permissions to invite others.",
+                                              })
                                             : !canSubmit
-                                              ? 'Please fill out all fields'
+                                              ? t('settings.organization.invite.fillAllFields', {
+                                                    defaultValue: 'Please fill out all fields',
+                                                })
                                               : undefined
                                     }
                                     data-attr="invite-team-member-submit"
