@@ -2820,6 +2820,7 @@
             "invites": {
                 "cancelTitle": "",
                 "cannotInvite": "",
+                "emptyState": "",
                 "expired": "",
                 "invitee": "",
                 "inviteLink": "",

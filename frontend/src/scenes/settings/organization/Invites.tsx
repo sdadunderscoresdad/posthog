@@ -134,7 +134,9 @@ export function InvitesTable(): JSX.Element {
             rowKey="id"
             loading={invitesLoading}
             data-attr="invites-table"
-            emptyState="There are no outstanding invitations. You can invite another team member above."
+            emptyState={t('settings.organization.invites.emptyState', {
+                defaultValue: 'There are no outstanding invitations. You can invite another team member above.',
+            })}
         />
     )
 }

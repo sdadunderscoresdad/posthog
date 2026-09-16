@@ -2782,6 +2782,7 @@
             "invites": {
                 "cancelTitle": "取消邀请",
                 "cannotInvite": "你无法邀请其他成员或查看邀请",
+                "emptyState": "没有待处理的邀请。你可以在上方邀请其他团队成员。",
                 "expired": "已过期——请重新创建",
                 "invitee": "被邀请人",
                 "inviteLink": "邀请链接",

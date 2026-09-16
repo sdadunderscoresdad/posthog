@@ -2801,6 +2801,7 @@
             "invites": {
                 "cancelTitle": "Cancel the invite",
                 "cannotInvite": "You can't invite other members or view invites",
+                "emptyState": "There are no outstanding invitations. You can invite another team member above.",
                 "expired": "Expired – please recreate",
                 "invitee": "Invitee",
                 "inviteLink": "Invite Link",
