@@ -4,6 +4,7 @@ import { IconArchive, IconArrowRight, IconNotification } from '@posthog/icons'
 import { LemonButton, LemonSkeleton } from '@posthog/lemon-ui'
 
 import { ScrollableShadows } from 'lib/components/ScrollableShadows/ScrollableShadows'
+import { i18n } from 'lib/i18n/i18n'
 
 import {
     NotificationGroup,
@@ -152,7 +153,7 @@ export function NotificationsPanel(): JSX.Element {
                                     loading={isLoadingMoreArchived}
                                     onClick={() => loadMoreArchived()}
                                 >
-                                    Load more
+                                    {i18n.t('notifications.loadMore', { defaultValue: 'Load more' })}
                                 </LemonButton>
                             </div>
                         )}
@@ -166,7 +167,7 @@ export function NotificationsPanel(): JSX.Element {
                                     loading={isLoadingMore}
                                     onClick={() => loadMoreNotifications()}
                                 >
-                                    Load more
+                                    {i18n.t('notifications.loadMore', { defaultValue: 'Load more' })}
                                 </LemonButton>
                             </div>
                         )}
@@ -176,10 +177,12 @@ export function NotificationsPanel(): JSX.Element {
                         <IconNotification className="size-8 text-muted mb-2" />
                         <span className="text-sm text-secondary">
                             {isArchivedTab
-                                ? 'No archived notifications'
+                                ? i18n.t('notifications.emptyArchived', {
+                                      defaultValue: 'No archived notifications',
+                                  })
                                 : activeTab === 'unread'
-                                  ? "You're all caught up!"
-                                  : 'No notifications yet'}
+                                  ? i18n.t('notifications.emptyUnread', { defaultValue: "You're all caught up!" })
+                                  : i18n.t('notifications.emptyAll', { defaultValue: 'No notifications yet' })}
                         </span>
                     </div>
                 )}

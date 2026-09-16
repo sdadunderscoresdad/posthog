@@ -19,6 +19,7 @@ import {
 import { lemonToast } from '@posthog/lemon-ui'
 
 import { notificationsMenuLogic } from 'lib/components/NotificationsMenu/notificationsMenuLogic'
+import { i18n } from 'lib/i18n/i18n'
 
 import { InAppNotification } from '~/types'
 
@@ -65,7 +66,9 @@ export function showCriticalNotificationToast(notification: InAppNotification): 
             autoClose: false,
             toastId: `notification-${notification.id}`,
             button: {
-                label: 'Open notifications',
+                label: i18n.t('notifications.openNotifications', {
+                    defaultValue: 'Open notifications',
+                }),
                 action: () => notificationsMenuLogic.actions.openToUnread(),
             },
         }

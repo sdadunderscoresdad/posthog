@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { IconChevronRight } from '@posthog/icons'
 import { LemonButton, LemonCheckbox, LemonTag } from '@posthog/lemon-ui'
 
-import { REALTIME_NOTIFICATION_TYPE_META } from 'lib/components/NotificationsMenu/NotificationRow'
+import { getRealtimeNotificationTypeMeta } from 'lib/components/NotificationsMenu/NotificationRow'
 import { userLogic } from 'scenes/userLogic'
 
 import { TeamBasicType } from '~/types'
@@ -91,7 +91,7 @@ export function RealtimeNotificationPreferences(): JSX.Element {
                             {isOpen && (
                                 <div className="ml-16 mt-1 space-y-1">
                                     {activeTypes.map((type) => {
-                                        const meta = REALTIME_NOTIFICATION_TYPE_META[type] ?? {
+                                        const meta = getRealtimeNotificationTypeMeta()[type] ?? {
                                             label: type,
                                             description: '',
                                         }

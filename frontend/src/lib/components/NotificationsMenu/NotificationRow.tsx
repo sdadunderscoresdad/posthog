@@ -11,72 +11,127 @@ import { getNotificationDescriber } from 'lib/components/NotificationsMenu/notif
 import { getNotificationIcon } from 'lib/components/NotificationsMenu/notificationToasts'
 import { useAutoMarkRead } from 'lib/components/NotificationsMenu/useAutoMarkRead'
 import { dayjs } from 'lib/dayjs'
+import { getActiveLocale, i18n } from 'lib/i18n/i18n'
 import { IconOpenInNew, IconRadioButtonUnchecked } from 'lib/lemon-ui/icons'
 
 import { sidePanelNotificationsLogic } from '~/layout/navigation-3000/sidepanel/panels/activity/sidePanelNotificationsLogic'
 import { InAppNotification } from '~/types'
 
-export const REALTIME_NOTIFICATION_TYPE_META: Record<string, { label: string; description: string }> = {
-    comment_mention: {
-        label: 'Comment mentions',
-        description: 'When someone @mentions you in a discussion',
-    },
-    alert_firing: {
-        label: 'Alerts firing',
-        description: 'When an alert you subscribe to triggers',
-    },
-    approval_requested: {
-        label: 'Approvals requested',
-        description: 'When a change is awaiting your approval',
-    },
-    approval_resolved: {
-        label: 'Approvals resolved',
-        description: 'When an approval you requested is decided',
-    },
-    pipeline_failure: {
-        label: 'Pipeline failures',
-        description: 'When a data pipeline or batch export fails',
-    },
-    materialization_failure: {
-        label: 'Materialized view failures',
-        description: 'When a materialized view in your project fails to refresh',
-    },
-    issue_assigned: {
-        label: 'Issues assigned',
-        description: 'When an error tracking issue is assigned to you',
-    },
-    experiment_concluded: {
-        label: 'Experiments concluded',
-        description: 'When an experiment you created ends',
-    },
-    project_created: {
-        label: 'Projects created',
-        description: 'When a member creates a new project in your organization',
-    },
-    usage_spike: {
-        label: 'Usage spikes',
-        description: 'When billing detects a usage spike for one of your accounts',
-    },
-    reminder: {
-        label: 'Reminders',
-        description: 'When a reminder you scheduled is due',
-    },
-    web_analytics_digest: {
-        label: 'Web analytics digest',
-        description: 'Your weekly Web analytics summary is ready!',
-    },
-    achievement_unlocked: {
-        label: 'Achievement unlocked',
-        description: 'When you unlock a new achievement',
-    },
-    subscription_nudge: {
-        label: 'Subscription suggestions',
-        description: 'When PostHog suggests subscribing to a dashboard you keep coming back to',
-    },
-    data_quality_check_failure: {
-        label: 'Data quality check failures',
-        description: 'When a data quality check on a warehouse table or view starts failing',
-    },
+/**
+ * The label and description each realtime notification type shows in the preferences. Built per
+ * language, because a map of messages resolved at import would keep the language the app started in.
+ */
+function buildRealtimeNotificationTypeMeta(): Record<string, { label: string; description: string }> {
+    return {
+        comment_mention: {
+            label: i18n.t('notifications.type.commentMention.label', { defaultValue: 'Comment mentions' }),
+            description: i18n.t('notifications.type.commentMention.description', {
+                defaultValue: 'When someone @mentions you in a discussion',
+            }),
+        },
+        alert_firing: {
+            label: i18n.t('notifications.type.alertFiring.label', { defaultValue: 'Alerts firing' }),
+            description: i18n.t('notifications.type.alertFiring.description', {
+                defaultValue: 'When an alert you subscribe to triggers',
+            }),
+        },
+        approval_requested: {
+            label: i18n.t('notifications.type.approvalRequested.label', { defaultValue: 'Approvals requested' }),
+            description: i18n.t('notifications.type.approvalRequested.description', {
+                defaultValue: 'When a change is awaiting your approval',
+            }),
+        },
+        approval_resolved: {
+            label: i18n.t('notifications.type.approvalResolved.label', { defaultValue: 'Approvals resolved' }),
+            description: i18n.t('notifications.type.approvalResolved.description', {
+                defaultValue: 'When an approval you requested is decided',
+            }),
+        },
+        pipeline_failure: {
+            label: i18n.t('notifications.type.pipelineFailure.label', { defaultValue: 'Pipeline failures' }),
+            description: i18n.t('notifications.type.pipelineFailure.description', {
+                defaultValue: 'When a data pipeline or batch export fails',
+            }),
+        },
+        materialization_failure: {
+            label: i18n.t('notifications.type.materializationFailure.label', {
+                defaultValue: 'Materialized view failures',
+            }),
+            description: i18n.t('notifications.type.materializationFailure.description', {
+                defaultValue: 'When a materialized view in your project fails to refresh',
+            }),
+        },
+        issue_assigned: {
+            label: i18n.t('notifications.type.issueAssigned.label', { defaultValue: 'Issues assigned' }),
+            description: i18n.t('notifications.type.issueAssigned.description', {
+                defaultValue: 'When an error tracking issue is assigned to you',
+            }),
+        },
+        experiment_concluded: {
+            label: i18n.t('notifications.type.experimentConcluded.label', { defaultValue: 'Experiments concluded' }),
+            description: i18n.t('notifications.type.experimentConcluded.description', {
+                defaultValue: 'When an experiment you created ends',
+            }),
+        },
+        project_created: {
+            label: i18n.t('notifications.type.projectCreated.label', { defaultValue: 'Projects created' }),
+            description: i18n.t('notifications.type.projectCreated.description', {
+                defaultValue: 'When a member creates a new project in your organization',
+            }),
+        },
+        usage_spike: {
+            label: i18n.t('notifications.type.usageSpike.label', { defaultValue: 'Usage spikes' }),
+            description: i18n.t('notifications.type.usageSpike.description', {
+                defaultValue: 'When billing detects a usage spike for one of your accounts',
+            }),
+        },
+        reminder: {
+            label: i18n.t('notifications.type.reminder.label', { defaultValue: 'Reminders' }),
+            description: i18n.t('notifications.type.reminder.description', {
+                defaultValue: 'When a reminder you scheduled is due',
+            }),
+        },
+        web_analytics_digest: {
+            label: i18n.t('notifications.type.webAnalyticsDigest.label', { defaultValue: 'Web analytics digest' }),
+            description: i18n.t('notifications.type.webAnalyticsDigest.description', {
+                defaultValue: 'Your weekly Web analytics summary is ready!',
+            }),
+        },
+        achievement_unlocked: {
+            label: i18n.t('notifications.type.achievementUnlocked.label', { defaultValue: 'Achievement unlocked' }),
+            description: i18n.t('notifications.type.achievementUnlocked.description', {
+                defaultValue: 'When you unlock a new achievement',
+            }),
+        },
+        subscription_nudge: {
+            label: i18n.t('notifications.type.subscriptionNudge.label', { defaultValue: 'Subscription suggestions' }),
+            description: i18n.t('notifications.type.subscriptionNudge.description', {
+                defaultValue: 'When PostHog suggests subscribing to a dashboard you keep coming back to',
+            }),
+        },
+        data_quality_check_failure: {
+            label: i18n.t('notifications.type.dataQualityCheckFailure.label', {
+                defaultValue: 'Data quality check failures',
+            }),
+            description: i18n.t('notifications.type.dataQualityCheckFailure.description', {
+                defaultValue: 'When a data quality check on a warehouse table or view starts failing',
+            }),
+        },
+    }
+}
+
+let cachedRealtimeNotificationTypeMeta: {
+    locale: string
+    meta: Record<string, { label: string; description: string }>
+} | null = null
+
+/** The notification type preferences, in the language the app is rendering. */
+export function getRealtimeNotificationTypeMeta(): Record<string, { label: string; description: string }> {
+    const locale = getActiveLocale()
+    if (cachedRealtimeNotificationTypeMeta?.locale !== locale) {
+        cachedRealtimeNotificationTypeMeta = { locale, meta: buildRealtimeNotificationTypeMeta() }
+    }
+    return cachedRealtimeNotificationTypeMeta.meta
 }
 
 export function NotificationTitle({
@@ -113,8 +168,16 @@ export function NotificationReadToggle({
     onToggle: (e: React.MouseEvent) => void
     target?: string
 }): JSX.Element {
+    const markLabel = target
+        ? read
+            ? i18n.t('notifications.markGroupAsUnread', { defaultValue: 'Mark group as unread' })
+            : i18n.t('notifications.markGroupAsRead', { defaultValue: 'Mark group as read' })
+        : read
+          ? i18n.t('notifications.markAsUnread', { defaultValue: 'Mark as unread' })
+          : i18n.t('notifications.markAsRead', { defaultValue: 'Mark as read' })
+
     return (
-        <Tooltip title={`Mark ${target ? `${target} ` : ''}as ${read ? 'unread' : 'read'}`}>
+        <Tooltip title={markLabel}>
             <button
                 className="group/read shrink-0 flex size-5 items-center justify-center rounded hover:bg-fill-highlight-200 cursor-pointer"
                 onClick={onToggle}
@@ -187,8 +250,11 @@ export function NotificationRow({
     }
 
     const resourceLabel = notification.resource_type
-        ? `View ${notification.resource_type.replace(/_/g, ' ')}`
-        : 'Go to source'
+        ? i18n.t('notifications.viewResource', {
+              defaultValue: 'View {{ resource }}',
+              resource: notification.resource_type.replace(/_/g, ' '),
+          })
+        : i18n.t('notifications.goToSource', { defaultValue: 'Go to source' })
 
     return (
         <div
@@ -201,7 +267,13 @@ export function NotificationRow({
             <div className="flex-1 min-w-0">
                 <NotificationTitle
                     notificationType={notification.notification_type}
-                    title={rich ? 'Web analytics digest' : notification.title}
+                    title={
+                        rich
+                            ? i18n.t('notifications.type.webAnalyticsDigest.label', {
+                                  defaultValue: 'Web analytics digest',
+                              })
+                            : notification.title
+                    }
                 />
                 {rich
                     ? customBody
@@ -225,7 +297,12 @@ export function NotificationRow({
                         {(otherProjectName || hasNavigationTarget) && (
                             <div className="min-w-0 flex items-center gap-x-1.5">
                                 {otherProjectName && (
-                                    <Tooltip title={`Notified on project ${otherProjectName}`}>
+                                    <Tooltip
+                                        title={i18n.t('notifications.notifiedOnProject', {
+                                            defaultValue: 'Notified on project {{ project }}',
+                                            project: otherProjectName,
+                                        })}
+                                    >
                                         <span className="text-[10px] text-muted bg-fill-highlight-100 px-1 py-px rounded truncate">
                                             {otherProjectName}
                                         </span>
@@ -254,7 +331,7 @@ export function NotificationRow({
                             {archivingEnabled && (
                                 <NotificationActionButton
                                     icon={<IconArchive className="size-4" />}
-                                    tooltip="Archive"
+                                    tooltip={i18n.t('notifications.archive', { defaultValue: 'Archive' })}
                                     onClick={handleArchive}
                                     tone="danger"
                                 />

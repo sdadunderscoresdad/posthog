@@ -1114,6 +1114,89 @@
         "unknown": "未知",
         "untitled": "未命名"
     },
+    "notifications": {
+        "archive": "归档",
+        "archiveGroup": "归档分组",
+        "collapseGroup": "收起分组",
+        "emptyAll": "暂无通知",
+        "emptyArchived": "没有已归档的通知",
+        "emptyUnread": "你已经看完了所有通知！",
+        "expandGroup": "展开分组",
+        "goToSource": "前往来源",
+        "groupSummary_one": "{{ count }} 条通知 · 最新 {{ time }}",
+        "groupSummary_other": "{{ count }} 条通知 · 最新 {{ time }}",
+        "loadMore": "加载更多",
+        "markAsRead": "标记为已读",
+        "markAsUnread": "标记为未读",
+        "markGroupAsRead": "将分组标记为已读",
+        "markGroupAsUnread": "将分组标记为未读",
+        "notifiedOnProject": "通知来自项目 {{ project }}",
+        "openNotifications": "打开通知",
+        "title": "通知",
+        "type": {
+            "achievementUnlocked": {
+                "label": "解锁成就",
+                "description": "你解锁新成就时"
+            },
+            "alertFiring": {
+                "label": "告警触发",
+                "description": "你订阅的告警触发时"
+            },
+            "approvalRequested": {
+                "label": "审批请求",
+                "description": "有待你审批的变更时"
+            },
+            "approvalResolved": {
+                "label": "审批已处理",
+                "description": "你发起的审批有结果时"
+            },
+            "commentMention": {
+                "label": "评论提及",
+                "description": "有人在讨论中 @ 提及你时"
+            },
+            "dataQualityCheckFailure": {
+                "label": "数据质量检查失败",
+                "description": "仓库表或视图的数据质量检查开始失败时"
+            },
+            "experimentConcluded": {
+                "label": "实验已结束",
+                "description": "你创建的实验结束时"
+            },
+            "issueAssigned": {
+                "label": "问题已分配",
+                "description": "错误追踪问题分配给你时"
+            },
+            "materializationFailure": {
+                "label": "物化视图失败",
+                "description": "项目中的物化视图刷新失败时"
+            },
+            "pipelineFailure": {
+                "label": "数据管道失败",
+                "description": "数据管道或批量导出失败时"
+            },
+            "projectCreated": {
+                "label": "项目已创建",
+                "description": "组织成员创建新项目时"
+            },
+            "reminder": {
+                "label": "提醒",
+                "description": "你设置的提醒到期时"
+            },
+            "subscriptionNudge": {
+                "label": "订阅建议",
+                "description": "PostHog 建议你订阅经常查看的仪表盘时"
+            },
+            "usageSpike": {
+                "label": "用量激增",
+                "description": "计费系统发现你的某个账户用量激增时"
+            },
+            "webAnalyticsDigest": {
+                "label": "Web 分析摘要",
+                "description": "你的每周 Web 分析摘要已准备好！"
+            }
+        },
+        "viewResource": "查看 {{ resource }}"
+    },
     "passwordReset": {
         "backToLogin": "返回登录",
         "changeMypassword": "修改我的密码",

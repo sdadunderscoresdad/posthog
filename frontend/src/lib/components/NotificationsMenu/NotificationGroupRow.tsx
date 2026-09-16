@@ -13,6 +13,7 @@ import {
 } from 'lib/components/NotificationsMenu/NotificationRow'
 import { useAutoMarkRead } from 'lib/components/NotificationsMenu/useAutoMarkRead'
 import { dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 
 import {
     NotificationGroup,
@@ -92,7 +93,11 @@ export function NotificationGroupRow({
                         padding would truncate the summary while space was still free. */}
                     <div className="flex items-center gap-1 mt-2">
                         <div className="min-w-0 flex-1 text-xs text-secondary truncate">
-                            {group.count} notifications · latest {dayjs(group.last_seen).fromNow()}
+                            {i18n.t('notifications.groupSummary', {
+                                defaultValue: '{{ count }} notifications · latest {{ time }}',
+                                count: group.count,
+                                time: dayjs(group.last_seen).fromNow(),
+                            })}
                         </div>
                         <div className="shrink-0 flex items-center gap-1">
                             {!readOnly && (
@@ -102,7 +107,9 @@ export function NotificationGroupRow({
                                     {archivingEnabled && (
                                         <NotificationActionButton
                                             icon={<IconArchive className="size-4" />}
-                                            tooltip="Archive group"
+                                            tooltip={i18n.t('notifications.archiveGroup', {
+                                                defaultValue: 'Archive group',
+                                            })}
                                             onClick={handleArchive}
                                             tone="danger"
                                         />
@@ -114,7 +121,11 @@ export function NotificationGroupRow({
                             <button
                                 className="shrink-0 flex size-5 items-center justify-center rounded text-secondary hover:bg-fill-highlight-200 hover:text-primary"
                                 onClick={handleExpand}
-                                aria-label={isExpanded ? 'Collapse group' : 'Expand group'}
+                                aria-label={
+                                    isExpanded
+                                        ? i18n.t('notifications.collapseGroup', { defaultValue: 'Collapse group' })
+                                        : i18n.t('notifications.expandGroup', { defaultValue: 'Expand group' })
+                                }
                             >
                                 <IconChevronRight
                                     className={`size-4 transition-transform ${isExpanded ? 'rotate-90' : ''}`}

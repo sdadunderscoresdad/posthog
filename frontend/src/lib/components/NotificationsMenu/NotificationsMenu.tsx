@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { IconNotification } from '@posthog/icons'
 
 import { notificationsMenuLogic } from 'lib/components/NotificationsMenu/notificationsMenuLogic'
+import { i18n } from 'lib/i18n/i18n'
 import { IconWithCount } from 'lib/lemon-ui/icons'
 import { ButtonPrimitive } from 'lib/ui/Button/ButtonPrimitives'
 import { MenuOpenIndicator } from 'lib/ui/Menus/Menus'
@@ -29,7 +30,7 @@ export const NotificationsMenu = ({ iconOnly = false }: { iconOnly?: boolean }):
 
     return (
         <ButtonPrimitive
-            tooltip={iconOnly ? 'Notifications' : undefined}
+            tooltip={iconOnly ? i18n.t('notifications.title', { defaultValue: 'Notifications' }) : undefined}
             tooltipPlacement="right"
             tooltipCloseDelayMs={0}
             iconOnly={iconOnly}
@@ -51,7 +52,9 @@ export const NotificationsMenu = ({ iconOnly = false }: { iconOnly?: boolean }):
             </span>
             {!iconOnly && (
                 <>
-                    <span className="-ml-[2px]">Notifications</span>
+                    <span className="-ml-[2px]">
+                        {i18n.t('notifications.title', { defaultValue: 'Notifications' })}
+                    </span>
                     <MenuOpenIndicator direction="right" />
                 </>
             )}

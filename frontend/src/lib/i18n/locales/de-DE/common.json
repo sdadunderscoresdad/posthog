@@ -1121,6 +1121,89 @@
         "unknown": "",
         "untitled": ""
     },
+    "notifications": {
+        "archive": "",
+        "archiveGroup": "",
+        "collapseGroup": "",
+        "emptyAll": "",
+        "emptyArchived": "",
+        "emptyUnread": "",
+        "expandGroup": "",
+        "goToSource": "",
+        "groupSummary_one": "",
+        "groupSummary_other": "",
+        "loadMore": "",
+        "markAsRead": "",
+        "markAsUnread": "",
+        "markGroupAsRead": "",
+        "markGroupAsUnread": "",
+        "notifiedOnProject": "",
+        "openNotifications": "",
+        "title": "",
+        "type": {
+            "achievementUnlocked": {
+                "description": "",
+                "label": ""
+            },
+            "alertFiring": {
+                "description": "",
+                "label": ""
+            },
+            "approvalRequested": {
+                "description": "",
+                "label": ""
+            },
+            "approvalResolved": {
+                "description": "",
+                "label": ""
+            },
+            "commentMention": {
+                "description": "",
+                "label": ""
+            },
+            "dataQualityCheckFailure": {
+                "description": "",
+                "label": ""
+            },
+            "experimentConcluded": {
+                "description": "",
+                "label": ""
+            },
+            "issueAssigned": {
+                "description": "",
+                "label": ""
+            },
+            "materializationFailure": {
+                "description": "",
+                "label": ""
+            },
+            "pipelineFailure": {
+                "description": "",
+                "label": ""
+            },
+            "projectCreated": {
+                "description": "",
+                "label": ""
+            },
+            "reminder": {
+                "description": "",
+                "label": ""
+            },
+            "subscriptionNudge": {
+                "description": "",
+                "label": ""
+            },
+            "usageSpike": {
+                "description": "",
+                "label": ""
+            },
+            "webAnalyticsDigest": {
+                "description": "",
+                "label": ""
+            }
+        },
+        "viewResource": ""
+    },
     "passwordReset": {
         "backToLogin": "",
         "changeMypassword": "",

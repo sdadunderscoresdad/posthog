@@ -1121,6 +1121,89 @@
         "unknown": "unknown",
         "untitled": "Untitled"
     },
+    "notifications": {
+        "archive": "Archive",
+        "archiveGroup": "Archive group",
+        "collapseGroup": "Collapse group",
+        "emptyAll": "No notifications yet",
+        "emptyArchived": "No archived notifications",
+        "emptyUnread": "You're all caught up!",
+        "expandGroup": "Expand group",
+        "goToSource": "Go to source",
+        "groupSummary_one": "{{ count }} notifications · latest {{ time }}",
+        "groupSummary_other": "{{ count }} notifications · latest {{ time }}",
+        "loadMore": "Load more",
+        "markAsRead": "Mark as read",
+        "markAsUnread": "Mark as unread",
+        "markGroupAsRead": "Mark group as read",
+        "markGroupAsUnread": "Mark group as unread",
+        "notifiedOnProject": "Notified on project {{ project }}",
+        "openNotifications": "Open notifications",
+        "title": "Notifications",
+        "type": {
+            "achievementUnlocked": {
+                "description": "When you unlock a new achievement",
+                "label": "Achievement unlocked"
+            },
+            "alertFiring": {
+                "description": "When an alert you subscribe to triggers",
+                "label": "Alerts firing"
+            },
+            "approvalRequested": {
+                "description": "When a change is awaiting your approval",
+                "label": "Approvals requested"
+            },
+            "approvalResolved": {
+                "description": "When an approval you requested is decided",
+                "label": "Approvals resolved"
+            },
+            "commentMention": {
+                "description": "When someone @mentions you in a discussion",
+                "label": "Comment mentions"
+            },
+            "dataQualityCheckFailure": {
+                "description": "When a data quality check on a warehouse table or view starts failing",
+                "label": "Data quality check failures"
+            },
+            "experimentConcluded": {
+                "description": "When an experiment you created ends",
+                "label": "Experiments concluded"
+            },
+            "issueAssigned": {
+                "description": "When an error tracking issue is assigned to you",
+                "label": "Issues assigned"
+            },
+            "materializationFailure": {
+                "description": "When a materialized view in your project fails to refresh",
+                "label": "Materialized view failures"
+            },
+            "pipelineFailure": {
+                "description": "When a data pipeline or batch export fails",
+                "label": "Pipeline failures"
+            },
+            "projectCreated": {
+                "description": "When a member creates a new project in your organization",
+                "label": "Projects created"
+            },
+            "reminder": {
+                "description": "When a reminder you scheduled is due",
+                "label": "Reminders"
+            },
+            "subscriptionNudge": {
+                "description": "When PostHog suggests subscribing to a dashboard you keep coming back to",
+                "label": "Subscription suggestions"
+            },
+            "usageSpike": {
+                "description": "When billing detects a usage spike for one of your accounts",
+                "label": "Usage spikes"
+            },
+            "webAnalyticsDigest": {
+                "description": "Your weekly Web analytics summary is ready!",
+                "label": "Web analytics digest"
+            }
+        },
+        "viewResource": "View {{ resource }}"
+    },
     "passwordReset": {
         "backToLogin": "Back to login",
         "changeMypassword": "Change my password",
