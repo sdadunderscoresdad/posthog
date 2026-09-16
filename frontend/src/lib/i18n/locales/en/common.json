@@ -846,6 +846,44 @@
             "untitled": "Insight"
         }
     },
+    "insightActivity": {
+        "added": "added",
+        "asA": "as a",
+        "asAnImageForTheSharedLink": "as an image for the shared insight link.",
+        "changedQueryDefinition": "changed query definition",
+        "changedTheDescription": "changed the description",
+        "changedTheQuery": "changed the query",
+        "changedTheShortId": "changed the short id",
+        "created": "created the insight:",
+        "deletedSharedLinkFor": "deleted shared link for",
+        "emptyName": "(empty string)",
+        "exported": "exported",
+        "favorited": "favorited",
+        "from": "from",
+        "insightWithColon": "insight:",
+        "ofTheInsight": "of the insight",
+        "on": "on",
+        "period": ".",
+        "removed": "removed",
+        "renamed": "renamed",
+        "shared": "shared",
+        "shareLoginFailed": "<Bold>Anonymous user</Bold> failed to authenticate to shared insight <NameBold>{{ name }}</NameBold> from {{ ip }}",
+        "shareLoginSuccess": "<Bold>Anonymous user</Bold> successfully authenticated to shared insight <NameBold>{{ name }}</NameBold> from {{ ip }} using password <Bold>{{ password }}</Bold>",
+        "tags": {
+            "added_one": "added tag",
+            "added_other": "added tags",
+            "removed_one": "removed tag",
+            "removed_other": "removed tags"
+        },
+        "the": "the",
+        "theInsight": "the insight",
+        "to": "to",
+        "unfavorited": "un-favorited",
+        "unknownFormat": "in an unknown format",
+        "unknownIp": "unknown IP",
+        "unknownpassword": "unknown password",
+        "your": "your"
+    },
     "integrations": {
         "github": {
             "disconnect": {

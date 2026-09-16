@@ -1,5 +1,6 @@
 import posthog from 'posthog-js'
 import { Fragment } from 'react'
+import { Trans } from 'react-i18next'
 
 import {
     ActivityChange,
@@ -18,9 +19,9 @@ import {
     SeriesSummary,
 } from 'lib/components/Cards/InsightCard/InsightDetails'
 import { ObjectTags } from 'lib/components/ObjectTags/ObjectTags'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { areObjectValuesEmpty } from 'lib/utils/objects'
-import { pluralize } from 'lib/utils/strings'
 import { urls } from 'scenes/urls'
 
 import { HogQLQuery, InsightQueryNode, QuerySchema } from '~/queries/schema/schema-general'
@@ -34,8 +35,15 @@ import {
 import { FilterType, InsightModel, InsightShortId } from '~/types'
 
 const nameOrLinkToInsight = (short_id?: InsightShortId | null, name?: string | null): string | JSX.Element => {
-    const displayName = name || '(empty string)'
+    const displayName = name || i18n.t('insightActivity.emptyName', { defaultValue: '(empty string)' })
     return short_id ? <Link to={urls.insightView(short_id)}>{displayName}</Link> : displayName
+}
+
+/** "your insight" for the reader's own activity, "the insight" for everyone else's. */
+function insightOwner(asNotification?: boolean): string {
+    return asNotification
+        ? i18n.t('insightActivity.your', { defaultValue: 'your' })
+        : i18n.t('insightActivity.the', { defaultValue: 'the' })
 }
 
 interface TileStyleDashboardLink {
@@ -72,7 +80,11 @@ const insightActionsMapping: Record<
         return {
             description: [
                 <>
-                    renamed {asNotification && 'the insight '}"{change?.before}" to{' '}
+                    {i18n.t('insightActivity.renamed', { defaultValue: 'renamed' })}{' '}
+                    {asNotification ? (
+                        <>{i18n.t('insightActivity.theInsight', { defaultValue: 'the insight' })} </>
+                    ) : null}
+                    "{change?.before}" {i18n.t('insightActivity.to', { defaultValue: 'to' })}{' '}
                     <strong>"{nameOrLinkToInsight(logItem?.detail.short_id, change?.after as string)}"</strong>
                 </>,
             ],
@@ -85,7 +97,13 @@ const insightActionsMapping: Record<
         // Only an insight written before queries logs this field, so these entries are years old and
         // no new one can be written. Summarizing the definition would mean converting legacy filters,
         // which no other read path still does, and the headline reads the same either way.
-        return areObjectValuesEmpty(filtersAfter) ? null : { description: ['changed query definition'] }
+        return areObjectValuesEmpty(filtersAfter)
+            ? null
+            : {
+                  description: [
+                      i18n.t('insightActivity.changedQueryDefinition', { defaultValue: 'changed query definition' }),
+                  ],
+              }
     },
     query: function onChangedQuery(change) {
         if (change?.action === 'deleted') {
@@ -104,16 +122,18 @@ const insightActionsMapping: Record<
                 : queryAfter
         return isInsightQueryNode(source) || isHogQLQuery(source)
             ? summarizeQueryChanges(source)
-            : { description: ['changed the query'] }
+            : { description: [i18n.t('insightActivity.changedTheQuery', { defaultValue: 'changed the query' })] }
     },
     deleted: function onSoftDelete(change, logItem, asNotification) {
         const isDeleted = detectBoolean(change?.after)
-        const describeChange = isDeleted ? 'deleted' : 'restored'
+        const describeChange = isDeleted
+            ? i18n.t('activityLog.deleted', { defaultValue: 'deleted' })
+            : i18n.t('activityLog.restored', { defaultValue: 'restored' })
         return {
             description: [
                 <>
-                    {describeChange}
-                    {asNotification && ' the insight '}
+                    {describeChange}{' '}
+                    {asNotification ? i18n.t('insightActivity.theInsight', { defaultValue: 'the insight' }) : null}
                 </>,
             ],
             suffix: <>{nameOrLinkToInsight(logItem?.detail.short_id, logItem?.detail.name)}</>,
@@ -123,8 +143,9 @@ const insightActionsMapping: Record<
         return {
             description: [
                 <>
-                    changed the short id {asNotification && ' of the insight '}to{' '}
-                    <strong>"{change?.after as string}"</strong>
+                    {i18n.t('insightActivity.changedTheShortId', { defaultValue: 'changed the short id' })}{' '}
+                    {asNotification ? i18n.t('insightActivity.ofTheInsight', { defaultValue: 'of the insight' }) : null}{' '}
+                    {i18n.t('insightActivity.to', { defaultValue: 'to' })} <strong>"{change?.after as string}"</strong>
                 </>,
             ],
         }
@@ -133,7 +154,11 @@ const insightActionsMapping: Record<
         return {
             description: [
                 <>
-                    renamed {asNotification && ' the insight '}"{change?.before}" to{' '}
+                    {i18n.t('insightActivity.renamed', { defaultValue: 'renamed' })}{' '}
+                    {asNotification ? (
+                        <>{i18n.t('insightActivity.theInsight', { defaultValue: 'the insight' })} </>
+                    ) : null}
+                    "{change?.before}" {i18n.t('insightActivity.to', { defaultValue: 'to' })}{' '}
                     <strong>"{nameOrLinkToInsight(logItem?.detail.short_id, change?.after as string)}"</strong>
                 </>,
             ],
@@ -144,8 +169,9 @@ const insightActionsMapping: Record<
         return {
             description: [
                 <>
-                    changed the description {asNotification && ' of the insight '}to{' '}
-                    <strong>"{change?.after as string}"</strong>
+                    {i18n.t('insightActivity.changedTheDescription', { defaultValue: 'changed the description' })}{' '}
+                    {asNotification ? i18n.t('insightActivity.ofTheInsight', { defaultValue: 'of the insight' }) : null}{' '}
+                    {i18n.t('insightActivity.to', { defaultValue: 'to' })} <strong>"{change?.after as string}"</strong>
                 </>,
             ],
         }
@@ -156,7 +182,10 @@ const insightActionsMapping: Record<
             description: [
                 <>
                     <div className="highlighted-activity">
-                        {isFavoriteAfter ? '' : 'un-'}favorited{asNotification && ' the insight '}
+                        {isFavoriteAfter
+                            ? i18n.t('insightActivity.favorited', { defaultValue: 'favorited' })
+                            : i18n.t('insightActivity.unfavorited', { defaultValue: 'un-favorited' })}{' '}
+                        {asNotification ? i18n.t('insightActivity.theInsight', { defaultValue: 'the insight' }) : null}
                     </div>
                 </>,
             ],
@@ -173,7 +202,11 @@ const insightActionsMapping: Record<
         if (addedTags.length) {
             changes.push(
                 <>
-                    added {pluralize(addedTags.length, 'tag', 'tags', false)}{' '}
+                    {i18n.t('insightActivity.tags.added', {
+                        count: addedTags.length,
+                        defaultValue_one: 'added tag',
+                        defaultValue_other: 'added tags',
+                    })}{' '}
                     <ObjectTags tags={addedTags} saving={false} style={{ display: 'inline' }} staticOnly />
                 </>
             )
@@ -181,7 +214,11 @@ const insightActionsMapping: Record<
         if (removedTags.length) {
             changes.push(
                 <>
-                    removed {pluralize(removedTags.length, 'tag', 'tags', false)}{' '}
+                    {i18n.t('insightActivity.tags.removed', {
+                        count: removedTags.length,
+                        defaultValue_one: 'removed tag',
+                        defaultValue_other: 'removed tags',
+                    })}{' '}
                     <ObjectTags tags={removedTags} saving={false} style={{ display: 'inline' }} staticOnly />
                 </>
             )
@@ -204,8 +241,10 @@ const insightActionsMapping: Record<
             <SentenceList
                 prefix={
                     <>
-                        added {asNotification && ' the insight '}
-                        {nameOrLinkToInsight(logItem?.detail.short_id, logItem?.detail.name)} to
+                        {i18n.t('insightActivity.added', { defaultValue: 'added' })}{' '}
+                        {asNotification ? i18n.t('insightActivity.theInsight', { defaultValue: 'the insight' }) : null}{' '}
+                        {nameOrLinkToInsight(logItem?.detail.short_id, logItem?.detail.name)}{' '}
+                        {i18n.t('insightActivity.to', { defaultValue: 'to' })}
                     </>
                 }
                 listParts={addedDashboards.map((d) => (
@@ -218,8 +257,10 @@ const insightActionsMapping: Record<
             <SentenceList
                 prefix={
                     <>
-                        removed {asNotification && ' the insight '}
-                        {nameOrLinkToInsight(logItem?.detail.short_id, logItem?.detail.name)} from
+                        {i18n.t('insightActivity.removed', { defaultValue: 'removed' })}{' '}
+                        {asNotification ? i18n.t('insightActivity.theInsight', { defaultValue: 'the insight' }) : null}{' '}
+                        {nameOrLinkToInsight(logItem?.detail.short_id, logItem?.detail.name)}{' '}
+                        {i18n.t('insightActivity.from', { defaultValue: 'from' })}
                     </>
                 }
                 listParts={removedDashboards.map((d) => (
@@ -265,7 +306,7 @@ const insightActionsMapping: Record<
 
 function summarizeQueryChanges(query: InsightQueryNode | HogQLQuery): ChangeMapping {
     return {
-        description: ['changed query definition'],
+        description: [i18n.t('insightActivity.changedQueryDefinition', { defaultValue: 'changed query definition' })],
         extendedDescription: (
             <div className="ActivityDescription">
                 <SeriesSummary query={query} />
@@ -286,7 +327,8 @@ export function insightActivityDescriber(logItem: ActivityLogItem, asNotificatio
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> created the insight:{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('insightActivity.created', { defaultValue: 'created the insight:' })}{' '}
                     {nameOrLinkToInsight(logItem?.detail.short_id, logItem?.detail.name)}
                 </>
             ),
@@ -297,8 +339,9 @@ export function insightActivityDescriber(logItem: ActivityLogItem, asNotificatio
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted {asNotification ? 'your' : 'the'} insight:{' '}
-                    {logItem.detail.name}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('activityLog.deleted', { defaultValue: 'deleted' })} {insightOwner(asNotification)}{' '}
+                    {i18n.t('insightActivity.insightWithColon', { defaultValue: 'insight:' })} {logItem.detail.name}
                 </>
             ),
         }
@@ -308,8 +351,12 @@ export function insightActivityDescriber(logItem: ActivityLogItem, asNotificatio
         return {
             description: (
                 <>
-                    <strong>PostHog</strong> exported {asNotification ? 'your' : 'the'} insight: {logItem.detail.name}{' '}
-                    as an image for the shared insight link.
+                    <strong>PostHog</strong> {i18n.t('insightActivity.exported', { defaultValue: 'exported' })}{' '}
+                    {insightOwner(asNotification)}{' '}
+                    {i18n.t('insightActivity.insightWithColon', { defaultValue: 'insight:' })} {logItem.detail.name}{' '}
+                    {i18n.t('insightActivity.asAnImageForTheSharedLink', {
+                        defaultValue: 'as an image for the shared insight link.',
+                    })}
                 </>
             ),
         }
@@ -319,8 +366,10 @@ export function insightActivityDescriber(logItem: ActivityLogItem, asNotificatio
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> shared {asNotification ? 'your' : 'the'} insight:{' '}
-                    {logItem.detail.name}.
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('insightActivity.shared', { defaultValue: 'shared' })} {insightOwner(asNotification)}{' '}
+                    {i18n.t('insightActivity.insightWithColon', { defaultValue: 'insight:' })} {logItem.detail.name}
+                    {i18n.t('insightActivity.period', { defaultValue: '.' })}
                 </>
             ),
         }
@@ -330,8 +379,11 @@ export function insightActivityDescriber(logItem: ActivityLogItem, asNotificatio
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted shared link for {asNotification ? 'your' : 'the'}{' '}
-                    insight: {logItem.detail.name}.
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('insightActivity.deletedSharedLinkFor', { defaultValue: 'deleted shared link for' })}{' '}
+                    {insightOwner(asNotification)}{' '}
+                    {i18n.t('insightActivity.insightWithColon', { defaultValue: 'insight:' })} {logItem.detail.name}
+                    {i18n.t('insightActivity.period', { defaultValue: '.' })}
                 </>
             ),
         }
@@ -342,7 +394,8 @@ export function insightActivityDescriber(logItem: ActivityLogItem, asNotificatio
         let extendedDescription: JSX.Element | undefined
         let changeSuffix: Description = (
             <>
-                on {asNotification && ' the insight '}
+                {i18n.t('insightActivity.on', { defaultValue: 'on' })}{' '}
+                {asNotification ? i18n.t('insightActivity.theInsight', { defaultValue: 'the insight' }) : null}{' '}
                 {nameOrLinkToInsight(logItem?.detail.short_id, logItem?.detail.name)}
             </>
         )
@@ -391,7 +444,7 @@ export function insightActivityDescriber(logItem: ActivityLogItem, asNotificatio
     }
     if (logItem.activity === 'exported') {
         const exportFormat = logItem.detail.changes?.[0]?.after
-        let exportType = 'in an unknown format'
+        let exportType = i18n.t('insightActivity.unknownFormat', { defaultValue: 'in an unknown format' })
         if (typeof exportFormat === 'string') {
             exportType = exportFormat.split('/')[1]
         }
@@ -399,8 +452,10 @@ export function insightActivityDescriber(logItem: ActivityLogItem, asNotificatio
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> exported{' '}
-                    {nameOrLinkToInsight(logItem?.detail.short_id, logItem?.detail.name)} as a {exportType}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('insightActivity.exported', { defaultValue: 'exported' })}{' '}
+                    {nameOrLinkToInsight(logItem?.detail.short_id, logItem?.detail.name)}{' '}
+                    {i18n.t('insightActivity.asA', { defaultValue: 'as a' })} {exportType}
                 </>
             ),
         }
@@ -408,30 +463,50 @@ export function insightActivityDescriber(logItem: ActivityLogItem, asNotificatio
 
     if (logItem.activity === 'share_login_success') {
         const afterData = logItem.detail.changes?.[0]?.after as any
-        const clientIp = afterData?.client_ip || 'unknown IP'
-        const passwordNote = afterData?.password_note || 'unknown password'
+        const clientIp = afterData?.client_ip || i18n.t('insightActivity.unknownIp', { defaultValue: 'unknown IP' })
+        const passwordNote =
+            afterData?.password_note || i18n.t('insightActivity.unknownpassword', { defaultValue: 'unknown password' })
+        const name = logItem.detail.name || i18n.t('insightActivity.emptyName', { defaultValue: '(empty string)' })
 
         return {
             description: (
-                <>
-                    <strong>Anonymous user</strong> successfully authenticated to shared insight{' '}
-                    {nameOrLinkToInsight(logItem?.detail.short_id, logItem.detail.name)} from {clientIp} using password{' '}
-                    <strong>{passwordNote}</strong>
-                </>
+                <Trans
+                    i18nKey="insightActivity.shareLoginSuccess"
+                    values={{ ip: clientIp, name, password: passwordNote }}
+                    components={{
+                        Bold: <strong />,
+                        NameBold: logItem.detail.short_id ? (
+                            <Link to={urls.insightView(logItem.detail.short_id)} />
+                        ) : (
+                            <b />
+                        ),
+                    }}
+                    defaults="<Bold>Anonymous user</Bold> successfully authenticated to shared insight <NameBold>{{ name }}</NameBold> from {{ ip }} using password <Bold>{{ password }}</Bold>"
+                />
             ),
         }
     }
 
     if (logItem.activity === 'share_login_failed') {
         const afterData = logItem.detail.changes?.[0]?.after as any
-        const clientIp = afterData?.client_ip || 'unknown IP'
+        const clientIp = afterData?.client_ip || i18n.t('insightActivity.unknownIp', { defaultValue: 'unknown IP' })
+        const name = logItem.detail.name || i18n.t('insightActivity.emptyName', { defaultValue: '(empty string)' })
 
         return {
             description: (
-                <>
-                    <strong>Anonymous user</strong> failed to authenticate to shared insight{' '}
-                    {nameOrLinkToInsight(logItem?.detail.short_id, logItem.detail.name)} from {clientIp}
-                </>
+                <Trans
+                    i18nKey="insightActivity.shareLoginFailed"
+                    values={{ ip: clientIp, name }}
+                    components={{
+                        Bold: <strong />,
+                        NameBold: logItem.detail.short_id ? (
+                            <Link to={urls.insightView(logItem.detail.short_id)} />
+                        ) : (
+                            <b />
+                        ),
+                    }}
+                    defaults="<Bold>Anonymous user</Bold> failed to authenticate to shared insight <NameBold>{{ name }}</NameBold> from {{ ip }}"
+                />
             ),
         }
     }

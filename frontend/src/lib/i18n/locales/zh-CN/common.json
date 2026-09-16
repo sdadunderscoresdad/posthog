@@ -839,6 +839,44 @@
             "untitled": "洞察"
         }
     },
+    "insightActivity": {
+        "added": "添加了",
+        "asA": "，格式为",
+        "asAnImageForTheSharedLink": "，用于共享洞察链接的图片。",
+        "changedQueryDefinition": "修改了查询定义",
+        "changedTheDescription": "修改了描述",
+        "changedTheQuery": "修改了查询",
+        "changedTheShortId": "修改了短 ID",
+        "created": "创建了洞察：",
+        "deletedSharedLinkFor": "删除了以下对象的共享链接：",
+        "emptyName": "（空字符串）",
+        "exported": "导出了",
+        "favorited": "已收藏",
+        "from": "从",
+        "insightWithColon": "洞察：",
+        "ofTheInsight": "，对象为该洞察",
+        "on": "，对象为",
+        "period": "。",
+        "removed": "移除了",
+        "renamed": "重命名了",
+        "shared": "分享了",
+        "shareLoginFailed": "<Bold>匿名用户</Bold>未能通过共享洞察 <NameBold>{{ name }}</NameBold> 的身份验证，来源 IP 为 {{ ip }}",
+        "shareLoginSuccess": "<Bold>匿名用户</Bold>已成功通过共享洞察 <NameBold>{{ name }}</NameBold> 的身份验证，来源 IP 为 {{ ip }}，使用的密码为 <Bold>{{ password }}</Bold>",
+        "tags": {
+            "added_one": "添加了标签",
+            "added_other": "添加了标签",
+            "removed_one": "移除了标签",
+            "removed_other": "移除了标签"
+        },
+        "the": "该",
+        "theInsight": "该洞察",
+        "to": "改为",
+        "unfavorited": "已取消收藏",
+        "unknownFormat": "未知格式",
+        "unknownIp": "未知 IP",
+        "unknownpassword": "未知密码",
+        "your": "你的"
+    },
     "integrations": {
         "github": {
             "disconnect": {

@@ -862,6 +862,46 @@
             "untitled": ""
         }
     },
+    "insightActivity": {
+        "added": "",
+        "asA": "",
+        "asAnImageForTheSharedLink": "",
+        "changedQueryDefinition": "",
+        "changedTheDescription": "",
+        "changedTheQuery": "",
+        "changedTheShortId": "",
+        "created": "",
+        "deletedSharedLinkFor": "",
+        "emptyName": "",
+        "exported": "",
+        "favorited": "",
+        "from": "",
+        "insightWithColon": "",
+        "ofTheInsight": "",
+        "on": "",
+        "period": "",
+        "removed": "",
+        "renamed": "",
+        "shared": "",
+        "shareLoginFailed": "",
+        "shareLoginSuccess": "",
+        "tags": {
+            "added_one": "",
+            "added_many": "",
+            "added_other": "",
+            "removed_one": "",
+            "removed_many": "",
+            "removed_other": ""
+        },
+        "the": "",
+        "theInsight": "",
+        "to": "",
+        "unfavorited": "",
+        "unknownFormat": "",
+        "unknownIp": "",
+        "unknownpassword": "",
+        "your": ""
+    },
     "integrations": {
         "github": {
             "disconnect": {
