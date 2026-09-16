@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { IconFolder, IconHome, IconLock, IconPin, IconPinFilled, IconShare } from '@posthog/icons'
 
@@ -79,6 +80,7 @@ export function DashboardsTable({
     extraActions,
     hideActions,
 }: DashboardsTableProps): JSX.Element {
+    const { t } = useTranslation()
     const { unpinDashboard, pinDashboard } = useActions(dashboardsModel)
     const { tableSortingChanged, setFilters, moveDashboardsToFolder } = useActions(dashboardsLogic)
     const { tableSorting, filters, filedDashboardIds } = useValues(dashboardsLogic)
@@ -130,13 +132,17 @@ export function DashboardsTable({
                             truncateTitle
                             title={
                                 <>
-                                    <Tooltip title={name || 'Untitled'}>
+                                    <Tooltip title={name || t('common.untitled', { defaultValue: 'Untitled' })}>
                                         <span data-attr="dashboard-name" className="truncate min-w-0">
-                                            {name || 'Untitled'}
+                                            {name || t('common.untitled', { defaultValue: 'Untitled' })}
                                         </span>
                                     </Tooltip>
                                     {is_shared && (
-                                        <Tooltip title="This dashboard is shared publicly.">
+                                        <Tooltip
+                                            title={t('dashboard.table.sharedPublicly', {
+                                                defaultValue: 'This dashboard is shared publicly.',
+                                            })}
+                                        >
                                             <IconShare className="ml-1 text-base text-link" />
                                         </Tooltip>
                                     )}
@@ -146,7 +152,12 @@ export function DashboardsTable({
                                         </Tooltip>
                                     )}
                                     {isPrimary && (
-                                        <Tooltip title="The primary dashboard is shown on the project home page.">
+                                        <Tooltip
+                                            title={t('dashboard.table.primaryHint', {
+                                                defaultValue:
+                                                    'The primary dashboard is shown on the project home page.',
+                                            })}
+                                        >
                                             <span>
                                                 <IconHome className="ml-1 text-base text-warning" />
                                             </span>
@@ -237,7 +248,7 @@ export function DashboardsTable({
                                           }}
                                           fullWidth
                                       >
-                                          View
+                                          {t('dashboard.table.view', { defaultValue: 'View' })}
                                       </LemonButton>
 
                                       <AccessControlAction
@@ -256,7 +267,7 @@ export function DashboardsTable({
                                               }}
                                               fullWidth
                                           >
-                                              Edit
+                                              {t('dashboard.table.edit', { defaultValue: 'Edit' })}
                                           </LemonButton>
                                       </AccessControlAction>
 
@@ -266,7 +277,7 @@ export function DashboardsTable({
                                           }}
                                           fullWidth
                                       >
-                                          Duplicate
+                                          {t('dashboard.menuBar.duplicate', { defaultValue: 'Duplicate' })}
                                       </LemonButton>
 
                                       <AccessControlAction
@@ -279,12 +290,16 @@ export function DashboardsTable({
                                               disabledReason={
                                                   filedDashboardIds.has(id)
                                                       ? undefined
-                                                      : 'This dashboard is not filed anywhere yet'
+                                                      : t('dashboard.table.notFiled', {
+                                                            defaultValue: 'This dashboard is not filed anywhere yet',
+                                                        })
                                               }
                                               fullWidth
                                               data-attr="dashboard-move-to-folder"
                                           >
-                                              Move to another folder
+                                              {t('dashboard.table.moveToFolder', {
+                                                  defaultValue: 'Move to another folder',
+                                              })}
                                           </LemonButton>
                                       </AccessControlAction>
 
@@ -296,9 +311,10 @@ export function DashboardsTable({
                                           status="warning"
                                       >
                                           <span className="text-secondary">
-                                              Change the default dashboard
-                                              <br />
-                                              from the <Link to={urls.projectHomepage()}>project home page</Link>.
+                                              <Trans i18nKey="dashboard.table.changeDefault">
+                                                  Change the default dashboard from the{' '}
+                                                  <Link to={urls.projectHomepage()}>project home page</Link>.
+                                              </Trans>
                                           </span>
                                       </LemonRow>
 
@@ -314,7 +330,7 @@ export function DashboardsTable({
                                               fullWidth
                                               status="danger"
                                           >
-                                              Delete dashboard
+                                              {t('dashboard.menuBar.delete', { defaultValue: 'Delete dashboard' })}
                                           </LemonButton>
                                       </AccessControlAction>
                                   </>

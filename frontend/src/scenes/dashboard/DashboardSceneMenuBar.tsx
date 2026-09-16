@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { router } from 'kea-router'
+import { useTranslation } from 'react-i18next'
 
 import {
     IconBell,
@@ -65,6 +66,7 @@ export function DashboardSceneMenuBar(): JSX.Element | null {
 }
 
 function DashboardSceneMenuBarInner(): JSX.Element | null {
+    const { t } = useTranslation()
     const {
         dashboard,
         dashboardMode,
@@ -118,15 +120,20 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
     const missingTemplatePayload = !asDashboardTemplate
     const saveTemplateDisabled = !customerTemplateEditorAccess || missingTemplatePayload
     const saveTemplateTooltip = !customerTemplateEditorAccess
-        ? (customerTemplateDisabledReason ?? 'You need edit access to dashboard templates to save a template.')
+        ? (customerTemplateDisabledReason ??
+          t('dashboard.menuBar.saveTemplateNoAccess', {
+              defaultValue: 'You need edit access to dashboard templates to save a template.',
+          }))
         : missingTemplatePayload
-          ? 'Template data is not ready yet. Try again in a moment.'
+          ? t('dashboard.menuBar.templateNotReady', {
+                defaultValue: 'Template data is not ready yet. Try again in a moment.',
+            })
           : undefined
 
     const openInsightsInNewTabsDisabled = layoutEditMode
-        ? 'Cannot open insights when editing dashboard'
+        ? t('dashboard.menuBar.noOpenWhileEditing', { defaultValue: 'Cannot open insights when editing dashboard' })
         : tiles.length === 0
-          ? 'Dashboard has no insights'
+          ? t('dashboard.menuBar.noInsights', { defaultValue: 'Dashboard has no insights' })
           : undefined
 
     const showCreateMenu = canEditDashboard // notebook + subscribe both gated on canEdit
@@ -137,16 +144,21 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
     return (
         <SceneMenuBar>
             {showFileMenu && (
-                <SceneMenuBarMenu label="File" dataAttr={`${RESOURCE_TYPE}-menubar-file`}>
+                <SceneMenuBarMenu
+                    label={t('dashboard.menuBar.file', { defaultValue: 'File' })}
+                    dataAttr={`${RESOURCE_TYPE}-menubar-file`}
+                >
                     {showCreateMenu && (
                         <>
-                            <SceneMenuBarSubMenu label="Create">
+                            <SceneMenuBarSubMenu label={t('dashboard.menuBar.create', { defaultValue: 'Create' })}>
                                 <SceneMenuBarItem
                                     onClick={() => createNotebookFromDashboard(dashboard)}
                                     data-attr={`${RESOURCE_TYPE}-menubar-create-notebook`}
                                 >
                                     <IconNotebook />
-                                    Notebook from dashboard
+                                    {t('dashboard.menuBar.notebookFromDashboard', {
+                                        defaultValue: 'Notebook from dashboard',
+                                    })}
                                 </SceneMenuBarItem>
                                 {tiles.length > 0 && (
                                     <SceneMenuBarItem
@@ -154,7 +166,7 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
                                         data-attr={`${RESOURCE_TYPE}-menubar-subscribe`}
                                     >
                                         <IconBell />
-                                        Subscription
+                                        {t('dashboard.menuBar.subscription', { defaultValue: 'Subscription' })}
                                     </SceneMenuBarItem>
                                 )}
                             </SceneMenuBarSubMenu>
@@ -168,7 +180,7 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
                             data-attr={`${RESOURCE_TYPE}-menubar-copy-to-project`}
                         >
                             <IconCopy />
-                            Copy to another project
+                            {t('dashboard.menuBar.copyToProject', { defaultValue: 'Copy to another project' })}
                         </SceneMenuBarItem>
                     )}
                     <SceneMenuBarItem
@@ -177,7 +189,7 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
                         data-attr={`${RESOURCE_TYPE}-menubar-terraform`}
                     >
                         <IconCode2 />
-                        Manage with Terraform
+                        {t('dashboard.menuBar.terraform', { defaultValue: 'Manage with Terraform' })}
                     </SceneMenuBarItem>
                     <SceneMenuBarItem
                         onClick={() => {
@@ -200,10 +212,10 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
                         data-attr={`${RESOURCE_TYPE}-menubar-open-insights`}
                     >
                         <IconGraph />
-                        Open insights in new tabs
+                        {t('dashboard.menuBar.openInsights', { defaultValue: 'Open insights in new tabs' })}
                     </SceneMenuBarItem>
                     {canEditDashboard && (
-                        <SceneMenuBarSubMenu label="Export">
+                        <SceneMenuBarSubMenu label={t('dashboard.menuBar.export', { defaultValue: 'Export' })}>
                             <SceneMenuBarItem
                                 disabled={!!exportAccessControlDisabledReason}
                                 tooltip={exportAccessControlDisabledReason ?? undefined}
@@ -239,7 +251,7 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
                                     data-attr={`${RESOURCE_TYPE}-menubar-export-json`}
                                 >
                                     <IconDownload />
-                                    JSON (staff)
+                                    {t('dashboard.menuBar.exportJsonStaff', { defaultValue: 'JSON (staff)' })}
                                 </SceneMenuBarItem>
                             )}
                         </SceneMenuBarSubMenu>
@@ -260,7 +272,7 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
                                         data-attr={`${RESOURCE_TYPE}-menubar-delete`}
                                     >
                                         <IconTrash />
-                                        Delete dashboard
+                                        {t('dashboard.menuBar.delete', { defaultValue: 'Delete dashboard' })}
                                     </SceneMenuBarItem>
                                 )}
                             </AccessControlAction>
@@ -269,14 +281,17 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
                 </SceneMenuBarMenu>
             )}
             {showEditMenu && (
-                <SceneMenuBarMenu label="Edit" dataAttr={`${RESOURCE_TYPE}-menubar-edit`}>
+                <SceneMenuBarMenu
+                    label={t('dashboard.menuBar.edit', { defaultValue: 'Edit' })}
+                    dataAttr={`${RESOURCE_TYPE}-menubar-edit`}
+                >
                     <SceneMenuBarItem
                         opensFloatingUi
                         onClick={() => showDuplicateDashboardModal(dashboard.id, dashboard.name)}
                         data-attr={`${RESOURCE_TYPE}-menubar-duplicate`}
                     >
                         <IconCopy />
-                        Duplicate
+                        {t('dashboard.menuBar.duplicate', { defaultValue: 'Duplicate' })}
                     </SceneMenuBarItem>
                     {canEditDashboard && hasDashboardColors && tiles.length > 0 && (
                         <SceneMenuBarItem
@@ -285,7 +300,7 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
                             data-attr={`${RESOURCE_TYPE}-menubar-customize-colors`}
                         >
                             <IconPalette />
-                            Customize colors
+                            {t('dashboard.menuBar.customizeColors', { defaultValue: 'Customize colors' })}
                         </SceneMenuBarItem>
                     )}
                     {canSaveProjectDashboardTemplate && (
@@ -301,7 +316,7 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
                             data-attr={`${RESOURCE_TYPE}-menubar-save-as-template`}
                         >
                             <IconScreen />
-                            Save as dashboard template
+                            {t('dashboard.menuBar.saveAsTemplate', { defaultValue: 'Save as dashboard template' })}
                         </SceneMenuBarItem>
                     )}
                     {/* Toggle group — separated from regular Edit actions */}
@@ -311,7 +326,7 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
                         onCheckedChange={() => togglePinned()}
                         data-attr={`${RESOURCE_TYPE}-menubar-pin`}
                     >
-                        Pinned
+                        {t('dashboard.menuBar.pinned', { defaultValue: 'Pinned' })}
                     </SceneMenuBarCheckboxItem>
                     <SceneMenuBarCheckboxItem
                         checked={dashboardMode === DashboardMode.Fullscreen}
@@ -323,13 +338,13 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
                         }}
                         data-attr={`${RESOURCE_TYPE}-menubar-fullscreen`}
                     >
-                        Fullscreen
+                        {t('dashboard.menuBar.fullscreen', { defaultValue: 'Fullscreen' })}
                     </SceneMenuBarCheckboxItem>
                 </SceneMenuBarMenu>
             )}
             {showMetadataMenu && (
                 <SceneMenuBarPopover
-                    label="Metadata"
+                    label={t('dashboard.menuBar.metadata', { defaultValue: 'Metadata' })}
                     dataAttr={`${RESOURCE_TYPE}-menubar-metadata`}
                     contentClassName="w-80 p-2 flex flex-col gap-2"
                 >
@@ -341,7 +356,11 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
                         dataAttrKey={RESOURCE_TYPE}
                         loading={isSavingTags}
                     />
-                    <SceneActivityIndicator at={dashboard?.created_at} by={dashboard?.created_by} prefix="Created" />
+                    <SceneActivityIndicator
+                        at={dashboard?.created_at}
+                        by={dashboard?.created_by}
+                        prefix={t('sceneActivity.created', { defaultValue: 'Created' })}
+                    />
                     {showMetalytics && (
                         <Button
                             type="button"
@@ -350,7 +369,7 @@ function DashboardSceneMenuBarInner(): JSX.Element | null {
                             data-attr={`${RESOURCE_TYPE}-menubar-metalytics`}
                         >
                             <IconPulse />
-                            View metalytics
+                            {t('dashboard.menuBar.metalytics', { defaultValue: 'View metalytics' })}
                         </Button>
                     )}
                 </SceneMenuBarPopover>

@@ -1,5 +1,7 @@
+import type { TFunction } from 'i18next'
 import { useActions, useValues } from 'kea'
 import type { FormEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonTextArea } from 'lib/lemon-ui/LemonTextArea/LemonTextArea'
@@ -32,6 +34,34 @@ const SAMPLE_PROMPTS: { question: string; prompt: string; preview: SamplePromptP
         preview: 'paths',
     },
 ]
+
+/**
+ * The starter question shown on the button.
+ *
+ * The English is repeated here rather than read from `SAMPLE_PROMPTS.question` because that field is
+ * also the value reported to analytics, and a translated analytics property would fork every
+ * dashboard that breaks down by it.
+ */
+function sampleQuestionLabel(t: TFunction, preview: SamplePromptPreview): string {
+    switch (preview) {
+        case 'activity':
+            return t('dashboard.aiPrompt.samples.activity', {
+                defaultValue: 'What does user activity look like this week?',
+            })
+        case 'adoption':
+            return t('dashboard.aiPrompt.samples.adoption', {
+                defaultValue: 'How is my feature being adopted?',
+            })
+        case 'retention':
+            return t('dashboard.aiPrompt.samples.retention', {
+                defaultValue: 'What brings users back after they sign up?',
+            })
+        case 'paths':
+            return t('dashboard.aiPrompt.samples.paths', {
+                defaultValue: 'Which paths lead users to activation?',
+            })
+    }
+}
 
 function SamplePromptPreview({ preview }: { preview: SamplePromptPreview }): JSX.Element {
     if (preview === 'activity') {
@@ -111,6 +141,7 @@ export function DashboardAiPromptComposer({
     disabledReason,
     onOpenAiWithPrompt,
 }: DashboardAiPromptComposerProps): JSX.Element {
+    const { t } = useTranslation()
     const { prompt, promptSource } = useValues(dashboardAiPromptComposerLogic)
     const { setPrompt } = useActions(dashboardAiPromptComposerLogic)
     const { reportDashboardEmptyAiPromptClicked, reportDashboardEmptyAiPromptSubmitted } = useActions(eventUsageLogic)
@@ -136,13 +167,15 @@ export function DashboardAiPromptComposer({
     return (
         <form className="w-full" onSubmit={submitPrompt}>
             <label htmlFor="dashboard-ai-prompt-composer-input" className="block text-sm font-semibold mb-1">
-                What do you want to learn?
+                {t('dashboard.aiPrompt.heading', { defaultValue: 'What do you want to learn?' })}
             </label>
             <LemonTextArea
                 id="dashboard-ai-prompt-composer-input"
                 value={prompt}
                 onChange={setPrompt}
-                placeholder="For example, which pages convert best?"
+                placeholder={t('dashboard.aiPrompt.placeholder', {
+                    defaultValue: 'For example, which pages convert best?',
+                })}
                 minRows={3}
                 maxRows={5}
                 disabled={!!disabledReason}
@@ -155,19 +188,28 @@ export function DashboardAiPromptComposer({
                     targetBlankIcon
                     className="text-sm"
                 >
-                    Learn about product analytics
+                    {t('dashboard.aiPrompt.learnAboutProductAnalytics', {
+                        defaultValue: 'Learn about product analytics',
+                    })}
                 </Link>
                 <LemonButton
                     type="primary"
                     htmlType="submit"
-                    disabledReason={disabledReason || (prompt.trim() ? undefined : 'Enter a question')}
+                    disabledReason={
+                        disabledReason ||
+                        (prompt.trim()
+                            ? undefined
+                            : t('dashboard.aiPrompt.enterQuestion', { defaultValue: 'Enter a question' }))
+                    }
                     data-attr="dashboard-ai-prompt-composer-submit"
                 >
-                    Build it for me
+                    {t('dashboard.aiPrompt.buildItForMe', { defaultValue: 'Build it for me' })}
                 </LemonButton>
             </div>
             <div className="mt-5">
-                <p className="text-sm font-semibold m-0 mb-2">Start with a question</p>
+                <p className="text-sm font-semibold m-0 mb-2">
+                    {t('dashboard.aiPrompt.startWithQuestion', { defaultValue: 'Start with a question' })}
+                </p>
                 <div className="flex flex-col gap-2">
                     {SAMPLE_PROMPTS.map(({ question, prompt, preview }) => (
                         <LemonButton
@@ -183,7 +225,7 @@ export function DashboardAiPromptComposer({
                             disabledReason={disabledReason || undefined}
                         >
                             <span className="flex w-full items-center justify-between gap-4">
-                                <span>{question}</span>
+                                <span>{sampleQuestionLabel(t, preview)}</span>
                                 <SamplePromptPreview preview={preview} />
                             </span>
                         </LemonButton>

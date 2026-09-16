@@ -1,12 +1,12 @@
 import { useActions, useMountedLogic, useValues } from 'kea'
 import { useMemo } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonInput } from '@posthog/lemon-ui'
 
 import { DialogClose, DialogPrimitive, DialogPrimitiveTitle } from 'lib/ui/DialogPrimitive/DialogPrimitive'
 import { cn } from 'lib/utils/css-classes'
 import { isMobile } from 'lib/utils/dom'
-import { pluralize } from 'lib/utils/strings'
 import { dashboardTemplateChooserLogic } from 'scenes/dashboard/dashboards/templates/dashboardTemplateChooserLogic'
 import { dashboardTemplatesLogic } from 'scenes/dashboard/dashboards/templates/dashboardTemplatesLogic'
 import { newDashboardLogic } from 'scenes/dashboard/newDashboardLogic'
@@ -16,6 +16,7 @@ import { DashboardTemplateVariables } from './DashboardTemplateVariables'
 import { dashboardTemplateVariablesLogic } from './dashboardTemplateVariablesLogic'
 
 export function NewDashboardModal(): JSX.Element {
+    const { t } = useTranslation()
     const builtLogic = useMountedLogic(newDashboardLogic)
     const { hideNewDashboardModal, clearActiveDashboardTemplate, createDashboardFromTemplate } =
         useActions(newDashboardLogic)
@@ -40,22 +41,35 @@ export function NewDashboardModal(): JSX.Element {
     const { isLoading: blankDashboardLoading } = useValues(createChooserLogic)
     const { blankTileClicked } = useActions(createChooserLogic)
 
-    const title = activeDashboardTemplate ? 'Choose your events' : 'Create a dashboard'
+    const templateVariableCount = (activeDashboardTemplate?.variables || []).length
+    const title = activeDashboardTemplate
+        ? t('dashboard.new.chooseEvents', { defaultValue: 'Choose your events' })
+        : t('dashboard.new.createDashboard', { defaultValue: 'Create a dashboard' })
     const description = activeDashboardTemplate ? (
         <p>
-            The <i>{activeDashboardTemplate.template_name}</i> template requires you to choose{' '}
-            {pluralize((activeDashboardTemplate.variables || []).length, 'event', 'events', true)}.
+            <Trans
+                i18nKey="dashboard.new.templateRequiresEvents"
+                count={templateVariableCount}
+                values={{
+                    templateName: activeDashboardTemplate.template_name,
+                    count: templateVariableCount,
+                }}
+                components={{ em: <i /> }}
+                defaults="The <em>{{templateName}}</em> template requires you to choose {{count}} events."
+            />
         </p>
     ) : (
         <div className="flex flex-col gap-2">
             <p className="m-0 text-secondary">
-                Here are some ready-made templates to help you get started quickly. Pick one below or start from
-                scratch.
+                {t('dashboard.new.templatesDescription', {
+                    defaultValue:
+                        'Here are some ready-made templates to help you get started quickly. Pick one below or start from scratch.',
+                })}
             </p>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
                 <LemonInput
                     type="search"
-                    placeholder="Filter templates"
+                    placeholder={t('dashboard.new.filterTemplates', { defaultValue: 'Filter templates' })}
                     onChange={setTemplateFilter}
                     value={templateFilter}
                     fullWidth={true}
@@ -71,7 +85,7 @@ export function NewDashboardModal(): JSX.Element {
                     data-attr="create-dashboard-blank"
                     className="shrink-0 self-start sm:self-auto"
                 >
-                    Start from scratch
+                    {t('dashboard.new.startFromScratch', { defaultValue: 'Start from scratch' })}
                 </LemonButton>
             </div>
         </div>
@@ -115,7 +129,7 @@ export function NewDashboardModal(): JSX.Element {
                         <div />
                     ) : (
                         <LemonButton onClick={clearActiveDashboardTemplate} type="secondary">
-                            Back
+                            {t('dashboard.new.back', { defaultValue: 'Back' })}
                         </LemonButton>
                     )}
                     <LemonButton
@@ -124,7 +138,7 @@ export function NewDashboardModal(): JSX.Element {
                         }}
                         type="primary"
                     >
-                        Create
+                        {t('dashboard.new.create', { defaultValue: 'Create' })}
                     </LemonButton>
                 </footer>
             ) : null}

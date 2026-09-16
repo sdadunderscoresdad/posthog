@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 import { IconBell } from '@posthog/icons'
 
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
@@ -21,16 +23,27 @@ export function DashboardSubscribeNudgeToast({
     dashboardName?: string | null
     viewCount7d: number
 }): JSX.Element {
+    const { t } = useTranslation()
     return (
         <div className="flex flex-col gap-1.5 py-1 pr-1 min-w-0 items-start">
             <div className="flex items-center gap-1.5 text-sm font-semibold">
                 <IconBell className="size-4 shrink-0 text-primary" />
-                <span>You keep coming back to {dashboardName || 'this dashboard'}</span>
+                <span>
+                    {t('dashboard.subscribeNudge.title', {
+                        defaultValue: 'You keep coming back to {{ dashboard }}',
+                        dashboard:
+                            dashboardName ||
+                            t('dashboard.subscribeNudge.thisDashboard', { defaultValue: 'this dashboard' }),
+                    })}
+                </span>
             </div>
             <div className="flex flex-col items-start gap-1.5 ml-5.5">
                 <div className="text-xs text-secondary leading-snug">
-                    You've viewed it {viewCount7d} times in the last week. Get it delivered to your inbox every Monday
-                    instead.
+                    {t('dashboard.subscribeNudge.body', {
+                        defaultValue:
+                            "You've viewed it {{ count }} times in the last week. Get it delivered to your inbox every Monday instead.",
+                        count: viewCount7d,
+                    })}
                 </div>
                 <LemonButton
                     type="primary"
@@ -47,7 +60,7 @@ export function DashboardSubscribeNudgeToast({
                         )
                     }
                 >
-                    Set up subscription
+                    {t('dashboard.subscribeNudge.cta', { defaultValue: 'Set up subscription' })}
                 </LemonButton>
             </div>
         </div>

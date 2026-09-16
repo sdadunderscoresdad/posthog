@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconPlus } from '@posthog/icons'
 
@@ -28,6 +29,7 @@ export function FeaturedTemplatesChooser({
     availabilityContexts,
     className,
 }: FeaturedTemplatesChooserProps): JSX.Element {
+    const { t } = useTranslation()
     const templatesLogic = dashboardTemplatesLogic({ scope, listQuery: { is_featured: true } })
     const { allTemplates, allTemplatesLoading } = useValues(templatesLogic)
 
@@ -111,7 +113,7 @@ export function FeaturedTemplatesChooser({
                     data-attr="create-dashboard-blank-from-scratch"
                     className="self-center @min-[48rem]/main-content:self-start"
                 >
-                    Or start from scratch
+                    {t('dashboard.templates.orStartFromScratch', { defaultValue: 'Or start from scratch' })}
                 </LemonButton>
             ) : null}
         </div>

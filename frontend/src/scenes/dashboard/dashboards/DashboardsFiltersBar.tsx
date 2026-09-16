@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconChevronDown, IconFolder, IconPin, IconPinFilled, IconShare, IconX } from '@posthog/icons'
 import { LemonInput, Popover } from '@posthog/lemon-ui'
@@ -14,6 +15,7 @@ interface DashboardsFiltersBarProps {
 }
 
 export function DashboardsFiltersBar({ extraActions }: DashboardsFiltersBarProps): JSX.Element {
+    const { t } = useTranslation()
     const { filters, currentTab, tagPageLoading, tagResults, tagSearch, showTagPopover } = useValues(dashboardsLogic)
     const { loadMoreTagResults, setFilters, setTagSearch, setShowTagPopover, setSearch } = useActions(dashboardsLogic)
     const tagListScrollRef = useScrollObserver({ onScrollBottom: loadMoreTagResults })
@@ -30,10 +32,15 @@ export function DashboardsFiltersBar({ extraActions }: DashboardsFiltersBarProps
     }
     return (
         <div className="flex justify-between gap-2 flex-wrap mb-4">
-            <LemonInput type="search" placeholder="Search for dashboards" onChange={setSearch} value={filters.search} />
+            <LemonInput
+                type="search"
+                placeholder={t('dashboard.filters.search', { defaultValue: 'Search for dashboards' })}
+                onChange={setSearch}
+                value={filters.search}
+            />
             <div className="flex items-center gap-2 flex-wrap">
                 <div className="flex items-center gap-2 flex-wrap">
-                    <span>Filter to:</span>
+                    <span>{t('dashboard.filters.filterTo', { defaultValue: 'Filter to:' })}</span>
                     {currentTab !== DashboardsTab.Pinned && (
                         <div className="flex items-center gap-2">
                             <LemonButton
@@ -43,7 +50,7 @@ export function DashboardsFiltersBar({ extraActions }: DashboardsFiltersBarProps
                                 onClick={() => setFilters({ pinned: !filters.pinned })}
                                 icon={filters.pinned ? <IconPinFilled /> : <IconPin />}
                             >
-                                Pinned
+                                {t('dashboard.menuBar.pinned', { defaultValue: 'Pinned' })}
                             </LemonButton>
                         </div>
                     )}
@@ -54,7 +61,7 @@ export function DashboardsFiltersBar({ extraActions }: DashboardsFiltersBarProps
                             <div className="max-w-100 deprecated-space-y-2">
                                 <LemonInput
                                     type="search"
-                                    placeholder="Search tags"
+                                    placeholder={t('dashboard.filters.searchTags', { defaultValue: 'Search tags' })}
                                     autoFocus
                                     value={tagSearch}
                                     onChange={setTagSearch}
@@ -70,7 +77,7 @@ export function DashboardsFiltersBar({ extraActions }: DashboardsFiltersBarProps
                                         onClick={() => setFilters({ tags: [] })}
                                         type="tertiary"
                                     >
-                                        Clear selection
+                                        {t('dashboard.filters.clearSelection', { defaultValue: 'Clear selection' })}
                                     </LemonButton>
                                 )}
                                 <div
@@ -78,7 +85,7 @@ export function DashboardsFiltersBar({ extraActions }: DashboardsFiltersBarProps
                                     className="max-h-80 overflow-y-auto"
                                     data-attr="dashboard-tags-list"
                                     tabIndex={0}
-                                    aria-label="Tags"
+                                    aria-label={t('dashboard.filters.tags', { defaultValue: 'Tags' })}
                                 >
                                     <ul className="deprecated-space-y-px">
                                         {tagResults.map((tag: string) => (
@@ -105,11 +112,26 @@ export function DashboardsFiltersBar({ extraActions }: DashboardsFiltersBarProps
                                         ))}
                                         {!tagPageLoading && tagResults.length === 0 ? (
                                             <div className="p-2 text-secondary italic truncate border-t">
-                                                {tagSearch ? <span>No matching tags</span> : <span>No tags</span>}
+                                                {tagSearch ? (
+                                                    <span>
+                                                        {t('dashboard.filters.noMatchingTags', {
+                                                            defaultValue: 'No matching tags',
+                                                        })}
+                                                    </span>
+                                                ) : (
+                                                    <span>
+                                                        {t('dashboard.filters.noTags', { defaultValue: 'No tags' })}
+                                                    </span>
+                                                )}
                                             </div>
                                         ) : null}
                                         {tagPageLoading ? (
-                                            <li className="p-1" aria-label="Loading tags">
+                                            <li
+                                                className="p-1"
+                                                aria-label={t('dashboard.filters.loadingTags', {
+                                                    defaultValue: 'Loading tags',
+                                                })}
+                                            >
                                                 <LemonSkeleton.Row
                                                     className="h-8 mb-1"
                                                     repeat={tagResults.length === 0 ? 5 : 2}
@@ -130,7 +152,7 @@ export function DashboardsFiltersBar({ extraActions }: DashboardsFiltersBarProps
                             active={(filters.tags?.length || 0) > 0}
                             onClick={() => setShowTagPopover(!showTagPopover)}
                         >
-                            Tags
+                            {t('dashboard.filters.tags', { defaultValue: 'Tags' })}
                             {(filters.tags?.length || 0) > 0 && (
                                 <span className="ml-1 text-xs">({filters.tags?.length})</span>
                             )}
@@ -144,7 +166,7 @@ export function DashboardsFiltersBar({ extraActions }: DashboardsFiltersBarProps
                             onClick={() => setFilters({ shared: !filters.shared })}
                             icon={<IconShare />}
                         >
-                            Shared
+                            {t('dashboard.filters.shared', { defaultValue: 'Shared' })}
                         </LemonButton>
                     </div>
                     {filters.folder != null && (
@@ -156,9 +178,11 @@ export function DashboardsFiltersBar({ extraActions }: DashboardsFiltersBarProps
                             icon={<IconFolder />}
                             sideIcon={<IconX />}
                             onClick={() => setFilters({ folder: null })}
-                            tooltip="Clear folder filter"
+                            tooltip={t('dashboard.filters.clearFolder', { defaultValue: 'Clear folder filter' })}
                         >
-                            <span className="truncate">{filters.folder || 'Project root'}</span>
+                            <span className="truncate">
+                                {filters.folder || t('dashboard.filters.projectRoot', { defaultValue: 'Project root' })}
+                            </span>
                         </LemonButton>
                     )}
                 </div>

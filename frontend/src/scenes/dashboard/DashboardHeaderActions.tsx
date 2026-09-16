@@ -1,5 +1,7 @@
+import type { TFunction } from 'i18next'
 import { useActions, useValues } from 'kea'
 import { router } from 'kea-router'
+import { useTranslation } from 'react-i18next'
 
 import { IconGridMasonry, IconPlusSmall, IconShare } from '@posthog/icons'
 
@@ -33,6 +35,7 @@ export function getAddTileMenuItems({
     push,
     setAddWidgetModalOpen,
     onBeforeSelect,
+    t,
 }: {
     dashboardWidgetsEnabled: boolean
     onAddInsight: () => void
@@ -42,6 +45,7 @@ export function getAddTileMenuItems({
     push: (url: string) => void
     setAddWidgetModalOpen: (open: boolean) => void
     onBeforeSelect?: () => void
+    t: TFunction
 }): LemonMenuItems {
     const withBeforeSelect =
         (onClick: () => void): (() => void) =>
@@ -52,46 +56,49 @@ export function getAddTileMenuItems({
 
     const contentItems: LemonMenuItem[] = [
         {
-            label: 'Charts',
+            label: t('dashboard.addTile.charts', { defaultValue: 'Charts' }),
             onClick: withBeforeSelect(onAddInsight),
             'data-attr': 'dashboard-add-insight',
         },
         {
-            label: 'Add text',
+            label: t('dashboard.addTile.text', { defaultValue: 'Add text' }),
             onClick: withBeforeSelect(onAddText),
             'data-attr': 'dashboard-add-text-tile',
         },
         {
-            label: 'Image',
+            label: t('dashboard.addTile.image', { defaultValue: 'Image' }),
             tag: 'new' as const,
             onClick: withBeforeSelect(onAddImage),
             'data-attr': 'dashboard-add-image-tile',
         },
         {
-            label: 'Button',
+            label: t('dashboard.addTile.button', { defaultValue: 'Button' }),
             onClick: withBeforeSelect(onAddButton),
             'data-attr': 'dashboard-add-button-tile',
         },
         dashboardWidgetsEnabled
             ? {
-                  label: 'Widget',
+                  label: t('dashboard.addTile.widget', { defaultValue: 'Widget' }),
                   tag: 'new' as const,
                   onClick: withBeforeSelect(() => setAddWidgetModalOpen(true)),
                   'data-attr': 'dashboard-add-widget',
               }
             : {
-                  label: 'Widget',
+                  label: t('dashboard.addTile.widget', { defaultValue: 'Widget' }),
                   tag: 'beta' as const,
-                  tooltip: 'Opens settings to enable the Dashboard widgets beta',
+                  tooltip: t('dashboard.addTile.widgetBetaTooltip', {
+                      defaultValue: 'Opens settings to enable the Dashboard widgets beta',
+                  }),
                   onClick: withBeforeSelect(() => push(urls.featurePreview(FEATURE_FLAGS.DASHBOARD_WIDGETS))),
                   'data-attr': 'dashboard-add-widget-preview',
               },
     ]
 
-    return [{ title: 'Content', items: contentItems }]
+    return [{ title: t('dashboard.addTile.content', { defaultValue: 'Content' }), items: contentItems }]
 }
 
 export function DashboardAddTileButton(): JSX.Element | null {
+    const { t } = useTranslation()
     const { dashboard, dashboardWidgetsEnabled, tiles } = useValues(dashboardLogic)
     const {
         loadDashboard,
@@ -135,6 +142,7 @@ export function DashboardAddTileButton(): JSX.Element | null {
             >
                 <LemonMenu
                     items={getAddTileMenuItems({
+                        t,
                         dashboardWidgetsEnabled,
                         onAddInsight: openAddInsightModal,
                         onAddText: openTextTileModal,
@@ -150,7 +158,7 @@ export function DashboardAddTileButton(): JSX.Element | null {
                     }}
                 >
                     <LemonButton type="primary" data-attr="dashboard-add-tile" size="small" icon={<IconPlusSmall />}>
-                        Add
+                        {t('dashboard.addTile.action', { defaultValue: 'Add' })}
                     </LemonButton>
                 </LemonMenu>
             </AccessControlAction>
@@ -166,6 +174,7 @@ export function DashboardEditSaveCancelButtons({
     /** The large-dashboard "Apply filters" preview button, rendered between Cancel and Save. */
     applyFiltersButton?: JSX.Element | null
 }): JSX.Element {
+    const { t } = useTranslation()
     const { dashboardLoading, canEditDashboard } = useValues(dashboardLogic)
     const { cancelLayoutEdit, saveLayout } = useActions(dashboardLogic)
 
@@ -175,9 +184,11 @@ export function DashboardEditSaveCancelButtons({
             type="secondary"
             onClick={cancelLayoutEdit}
             size="small"
-            tooltip="Discard layout changes and exit layout editing"
+            tooltip={t('dashboard.editMode.discardTooltip', {
+                defaultValue: 'Discard layout changes and exit layout editing',
+            })}
         >
-            Cancel
+            {t('dashboard.editMode.cancel', { defaultValue: 'Cancel' })}
         </LemonButton>
     )
 
@@ -187,17 +198,19 @@ export function DashboardEditSaveCancelButtons({
             type="primary"
             onClick={saveLayout}
             size="small"
-            tooltip="Save dashboard layout"
+            tooltip={t('dashboard.editMode.saveTooltip', { defaultValue: 'Save dashboard layout' })}
             tooltipPlacement="bottom"
             disabledReason={
                 dashboardLoading
-                    ? 'Wait for dashboard to finish loading'
+                    ? t('dashboard.editMode.waitForLoading', { defaultValue: 'Wait for dashboard to finish loading' })
                     : canEditDashboard
                       ? undefined
-                      : 'Not privileged to edit this dashboard'
+                      : t('dashboard.editMode.notPrivileged', {
+                            defaultValue: 'Not privileged to edit this dashboard',
+                        })
             }
         >
-            Save layout
+            {t('dashboard.editMode.save', { defaultValue: 'Save layout' })}
         </LemonButton>
     )
 
@@ -238,6 +251,7 @@ export function DashboardEditSaveCancelButtons({
 }
 
 export function EditModeActions(): JSX.Element {
+    const { t } = useTranslation()
     const { canEditDashboard, layoutEditMode, tiles, dashboardCustomizeMenuOpen } = useValues(dashboardLogic)
     const { setDashboardCustomizeMenuOpen } = useActions(dashboardLogic)
 
@@ -270,10 +284,14 @@ export function EditModeActions(): JSX.Element {
                         size="small"
                         icon={<IconGridMasonry fontSize="16" />}
                         disabledReason={
-                            tiles.length === 0 ? 'Add at least one tile to customize this dashboard' : undefined
+                            tiles.length === 0
+                                ? t('dashboard.editMode.addTileFirst', {
+                                      defaultValue: 'Add at least one tile to customize this dashboard',
+                                  })
+                                : undefined
                         }
                     >
-                        Customize
+                        {t('dashboard.customize.action', { defaultValue: 'Customize' })}
                     </LemonButton>
                 </LemonMenu>
             )}
@@ -283,6 +301,7 @@ export function EditModeActions(): JSX.Element {
 }
 
 export function FullscreenModeActions(): JSX.Element {
+    const { t } = useTranslation()
     const { dashboardLoading } = useValues(dashboardLogic)
     const { setDashboardMode } = useActions(dashboardLogic)
 
@@ -294,12 +313,13 @@ export function FullscreenModeActions(): JSX.Element {
             disabled={dashboardLoading}
             size="small"
         >
-            Exit full screen
+            {t('dashboard.fullscreen.exit', { defaultValue: 'Exit full screen' })}
         </LemonButton>
     )
 }
 
 export function ViewModeActions(): JSX.Element {
+    const { t } = useTranslation()
     const { dashboard, canEditDashboard, tiles } = useValues(dashboardLogic)
     const { push } = useActions(router)
     if (!dashboard) {
@@ -323,7 +343,7 @@ export function ViewModeActions(): JSX.Element {
                     icon={<IconShare fontSize="16" />}
                     disabledReason={sharingDisabledReason ?? undefined}
                 >
-                    Share
+                    {t('dashboard.share.action', { defaultValue: 'Share' })}
                 </LemonButton>
             )}
             {canEditDashboard && tiles.length > 0 && (

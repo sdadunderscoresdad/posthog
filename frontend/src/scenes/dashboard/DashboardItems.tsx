@@ -7,6 +7,7 @@ import { RefObject, memo, useCallback, useEffect, useMemo, useRef, useState } fr
 import { Responsive as ReactGridLayout, useContainerWidth } from 'react-grid-layout'
 import type { Layout, LayoutItem } from 'react-grid-layout'
 import { GridBackground } from 'react-grid-layout/extras'
+import { useTranslation } from 'react-i18next'
 
 import { DashboardWidgetItem } from '@posthog/products-dashboards/frontend/components/DashboardWidgetItem/DashboardWidgetItem'
 import { getDashboardWidgetFetchDisplayError } from '@posthog/products-dashboards/frontend/widgets/constants'
@@ -76,6 +77,7 @@ const MemoizedDashboardErrorTileItem = memo(DashboardErrorTileItem, gridTileProp
 const MemoizedDashboardWidgetItem = memo(DashboardWidgetItem, gridTilePropsEqual) as typeof DashboardWidgetItem
 
 export function DashboardItems({ showCreateAnomalyAlertButton }: DashboardItemsProps = {}): JSX.Element {
+    const { t } = useTranslation()
     const {
         dashboard,
         tiles,
@@ -454,8 +456,10 @@ export function DashboardItems({ showCreateAnomalyAlertButton }: DashboardItemsP
         <div className="dashboard-items-wrapper" ref={containerRef as RefObject<HTMLDivElement>}>
             {layoutEditMode && isMobileView && (
                 <LemonBanner type="warning" className="mb-4">
-                    Layout editing is disabled on smaller screens. Please zoom out or use a larger screen to move or
-                    resize tiles.
+                    {t('dashboard.items.layoutEditingDisabled', {
+                        defaultValue:
+                            'Layout editing is disabled on smaller screens. Please zoom out or use a larger screen to move or resize tiles.',
+                    })}
                 </LemonBanner>
             )}
             {mounted && (
@@ -698,7 +702,7 @@ export function DashboardItems({ showCreateAnomalyAlertButton }: DashboardItemsP
                 <div className="mt-4 flex items-center justify-center">
                     <div className="flex items-center gap-2 text-muted">
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600" />
-                        <span>Loading tiles...</span>
+                        <span>{t('dashboard.items.loadingTiles', { defaultValue: 'Loading tiles...' })}</span>
                     </div>
                 </div>
             )}

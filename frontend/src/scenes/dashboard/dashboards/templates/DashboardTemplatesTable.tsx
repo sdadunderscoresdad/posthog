@@ -1,6 +1,7 @@
 import { useActions, useValues } from 'kea'
 import { router } from 'kea-router'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconBuilding, IconChevronDown, IconGlobe, IconPeople, IconThumbsUpFilled } from '@posthog/icons'
 import { LemonButton, LemonDialog, LemonDivider, LemonInput, LemonMenu, LemonTag } from '@posthog/lemon-ui'
@@ -25,8 +26,6 @@ import { AccessControlLevel, AccessControlResourceType, DashboardTemplateType } 
 import { dashboardTemplateModalLogic } from './dashboardTemplateModalLogic'
 
 const templatesTableLogic = dashboardTemplatesLogic({ scope: 'default', templatesTabList: true })
-
-const POPULAR_TEMPLATE_TOOLTIP = 'One of our most popular templates'
 
 /** Global template with no owning team (PostHog built-ins). Staff may still narrow to the current team via API; used here for delete restrictions. */
 function isBuiltInOfficialTemplate(record: Pick<DashboardTemplateType, 'scope' | 'team_id'>): boolean {
@@ -66,9 +65,14 @@ function countTemplateInsightTiles(tiles: DashboardTemplateType['tiles'] | undef
 }
 
 export const DashboardTemplatesTable = (): JSX.Element | null => {
+    const { t } = useTranslation()
     const { allTemplates, allTemplatesLoading, templateFilter, templateNameOrdering, templatesTabVisibility } =
         useValues(templatesTableLogic)
     const { setTemplateFilter, setTemplateNameOrdering, setTemplatesTabVisibility } = useActions(templatesTableLogic)
+
+    const popularTemplateTooltip = t('dashboard.templates.popularTooltip', {
+        defaultValue: 'One of our most popular templates',
+    })
 
     const tableSorting: Sorting | null = useMemo(() => {
         if (!templateNameOrdering) {
@@ -132,7 +136,7 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
                         router.actions.push(urls.dashboardTemplateCopyToProject(templateId, currentTeamId))
                     }}
                 >
-                    Copy to another project
+                    {t('dashboard.menuBar.copyToProject', { defaultValue: 'Copy to another project' })}
                 </LemonButton>
             </>
         )
@@ -147,15 +151,19 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
         }
         if (record.scope === 'organization') {
             LemonDialog.open({
-                title: 'Delete this organization-wide template?',
-                description:
-                    'This template is shared with every project in your organization. Deleting it removes it for all of them.',
+                title: t('dashboard.templates.deleteOrgTitle', {
+                    defaultValue: 'Delete this organization-wide template?',
+                }),
+                description: t('dashboard.templates.deleteOrgDescription', {
+                    defaultValue:
+                        'This template is shared with every project in your organization. Deleting it removes it for all of them.',
+                }),
                 primaryButton: {
-                    children: 'Delete',
+                    children: t('dashboard.templates.delete', { defaultValue: 'Delete' }),
                     status: 'danger',
                     onClick: () => deleteDashboardTemplate({ id, templateName: record.template_name }),
                 },
-                secondaryButton: { children: 'Cancel' },
+                secondaryButton: { children: t('dashboard.editMode.cancel', { defaultValue: 'Cancel' }) },
             })
             return
         }
@@ -171,7 +179,9 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
             fullWidth
             data-attr="dashboard-template-toggle-organization-visibility"
         >
-            {record.scope === 'organization' ? 'Make visible to this team only' : 'Make visible to whole organization'}
+            {record.scope === 'organization'
+                ? t('dashboard.templates.makeTeamOnly', { defaultValue: 'Make visible to this team only' })
+                : t('dashboard.templates.makeOrgWide', { defaultValue: 'Make visible to whole organization' })}
         </LemonButton>
     )
 
@@ -184,15 +194,15 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
             render: (_, record) => (
                 <span className="inline-flex min-h-5 w-full items-center justify-center leading-none">
                     {record.scope === 'global' && record.is_featured ? (
-                        <Tooltip title={POPULAR_TEMPLATE_TOOLTIP}>
-                            <IconThumbsUpFilled className="size-4 text-success" aria-label={POPULAR_TEMPLATE_TOOLTIP} />
+                        <Tooltip title={popularTemplateTooltip}>
+                            <IconThumbsUpFilled className="size-4 text-success" aria-label={popularTemplateTooltip} />
                         </Tooltip>
                     ) : null}
                 </span>
             ),
         },
         {
-            title: 'Name',
+            title: t('dashboard.templateModal.name', { defaultValue: 'Name' }),
             dataIndex: 'template_name',
             sorter: true,
             render: (_, { template_name }) => {
@@ -200,7 +210,7 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
             },
         },
         {
-            title: 'Description',
+            title: t('dashboard.templateModal.description', { defaultValue: 'Description' }),
             dataIndex: 'dashboard_description',
             className: 'min-w-[400px] align-top',
             render: (_, { dashboard_description }) => (
@@ -208,7 +218,7 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
             ),
         },
         {
-            title: 'Tags',
+            title: t('dashboard.templateModal.tags', { defaultValue: 'Tags' }),
             key: 'tags',
             className: 'min-w-48',
             render: (_, { tags }) => {
@@ -229,7 +239,12 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
                                 }))}
                             >
                                 <LemonTag type="primary" className="inline-flex">
-                                    <span>+{overflowTags.length} more</span>
+                                    <span>
+                                        {t('dashboard.templates.moreTags', {
+                                            defaultValue: '+{{ count }} more',
+                                            count: overflowTags.length,
+                                        })}
+                                    </span>
                                     <IconChevronDown className="w-4 h-4" />
                                 </LemonTag>
                             </LemonMenu>
@@ -246,13 +261,17 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
             render: (_, record) => humanFriendlyNumber(countTemplateInsightTiles(record.tiles)),
         },
         {
-            title: 'Type',
+            title: t('dashboard.templates.type', { defaultValue: 'Type' }),
             dataIndex: 'team_id',
             render: (_, { scope }) =>
-                scope === 'global' ? 'Official' : scope === 'organization' ? 'Organization' : 'Team',
+                scope === 'global'
+                    ? t('dashboard.templates.officialShort', { defaultValue: 'Official' })
+                    : scope === 'organization'
+                      ? t('dashboard.templates.organization', { defaultValue: 'Organization' })
+                      : t('dashboard.templates.team', { defaultValue: 'Team' }),
         },
         {
-            title: 'Created by',
+            title: t('dashboard.templates.createdBy', { defaultValue: 'Created by' }),
             key: 'created_by',
             render: (_, record) => {
                 if (record.scope === 'global') {
@@ -261,7 +280,7 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
                             <span aria-hidden className="text-base leading-none">
                                 🦔
                             </span>
-                            <span>PostHog</span>
+                            <span>{t('dashboard.templates.posthog', { defaultValue: 'PostHog' })}</span>
                         </div>
                     )
                 }
@@ -271,7 +290,7 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
                         {created_by ? (
                             <ProfilePicture user={created_by} size="md" showName />
                         ) : (
-                            <span className="text-secondary">Unknown</span>
+                            <span className="text-secondary">{t('common.unknown', { defaultValue: 'Unknown' })}</span>
                         )}
                     </div>
                 )
@@ -304,7 +323,7 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
                                         }}
                                         fullWidth
                                     >
-                                        Edit
+                                        {t('dashboard.table.edit', { defaultValue: 'Edit' })}
                                     </LemonButton>
                                     <LemonButton
                                         onClick={() => {
@@ -321,7 +340,13 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
                                         }}
                                         fullWidth
                                     >
-                                        Make visible to {scope === 'global' ? 'this team only' : 'everyone'}
+                                        {scope === 'global'
+                                            ? t('dashboard.templates.makeTeamOnly', {
+                                                  defaultValue: 'Make visible to this team only',
+                                              })
+                                            : t('dashboard.templates.makeVisibleEveryone', {
+                                                  defaultValue: 'Make visible to everyone',
+                                              })}
                                     </LemonButton>
 
                                     {scope === 'team' || scope === 'organization'
@@ -343,12 +368,17 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
                                         disabledReason={
                                             scope === 'global'
                                                 ? builtInOfficial
-                                                    ? 'Built-in official templates cannot be deleted'
-                                                    : 'Cannot delete a global template until it is team-only'
+                                                    ? t('dashboard.templates.cannotDeleteBuiltIn', {
+                                                          defaultValue: 'Built-in official templates cannot be deleted',
+                                                      })
+                                                    : t('dashboard.templates.cannotDeleteGlobal', {
+                                                          defaultValue:
+                                                              'Cannot delete a global template until it is team-only',
+                                                      })
                                                 : undefined
                                         }
                                     >
-                                        Delete dashboard
+                                        {t('dashboard.menuBar.delete', { defaultValue: 'Delete dashboard' })}
                                     </LemonButton>
                                 </>
                             }
@@ -380,7 +410,7 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
                                         }}
                                         fullWidth
                                     >
-                                        Edit
+                                        {t('dashboard.table.edit', { defaultValue: 'Edit' })}
                                     </LemonButton>
                                     {organizationVisibilityToggleButton(record)}
                                     {scope === 'team'
@@ -395,7 +425,7 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
                                         fullWidth
                                         status="danger"
                                     >
-                                        Delete
+                                        {t('dashboard.templates.delete', { defaultValue: 'Delete' })}
                                     </LemonButton>
                                 </>
                             }
@@ -413,13 +443,15 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
             <div className="flex justify-between gap-2 flex-wrap mb-4">
                 <LemonInput
                     type="search"
-                    placeholder="Search dashboard templates (min. 3 characters)"
+                    placeholder={t('dashboard.templates.searchPlaceholder', {
+                        defaultValue: 'Search dashboard templates (min. 3 characters)',
+                    })}
                     onChange={setTemplateFilter}
                     value={templateFilter}
                     data-attr="dashboard-templates-search"
                 />
                 <div className="flex items-center gap-2 flex-wrap">
-                    <span>Filter to:</span>
+                    <span>{t('dashboard.filters.filterTo', { defaultValue: 'Filter to:' })}</span>
                     <div className="flex items-center gap-2">
                         <LemonButton
                             active={templatesTabVisibility === 'official'}
@@ -431,7 +463,7 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
                             }
                             data-attr="dashboard-templates-filter-official"
                         >
-                            Official
+                            {t('dashboard.templates.official', { defaultValue: 'Official templates' })}
                         </LemonButton>
                         <LemonButton
                             active={templatesTabVisibility === 'project'}
@@ -443,7 +475,7 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
                             }
                             data-attr="dashboard-templates-filter-team"
                         >
-                            Team
+                            {t('dashboard.templates.team', { defaultValue: 'Team' })}
                         </LemonButton>
                         <LemonButton
                             active={templatesTabVisibility === 'organization'}
@@ -457,7 +489,7 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
                             }
                             data-attr="dashboard-templates-filter-organization"
                         >
-                            Organization
+                            {t('dashboard.templates.organization', { defaultValue: 'Organization' })}
                         </LemonButton>
                     </div>
                 </div>
@@ -483,7 +515,9 @@ export const DashboardTemplatesTable = (): JSX.Element | null => {
                     }
                 }}
                 useURLForSorting={false}
-                emptyState={<>There are no dashboard templates.</>}
+                emptyState={
+                    <>{t('dashboard.templates.empty', { defaultValue: 'There are no dashboard templates.' })}</>
+                }
                 nouns={['template', 'templates']}
             />
         </>

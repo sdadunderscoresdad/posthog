@@ -1,6 +1,7 @@
 import { useActions, useValues } from 'kea'
 import { router } from 'kea-router'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { AddWidgetModal } from '@posthog/products-dashboards/frontend/widgets/AddWidgetModal'
 
@@ -26,6 +27,7 @@ import { DeleteDashboardModal } from './DeleteDashboardModal'
 import { DuplicateDashboardModal } from './DuplicateDashboardModal'
 
 export function DashboardModals({ dashboard }: { dashboard: DashboardType<QueryBasedInsightModel> }): JSX.Element {
+    const { t } = useTranslation()
     const {
         dashboardMode,
         canEditDashboard,
@@ -73,7 +75,9 @@ export function DashboardModals({ dashboard }: { dashboard: DashboardType<QueryB
                 subscriptionId={subscriptionId === 'new' ? null : subscriptionId}
             />
             <SharingModal
-                title="Dashboard permissions & sharing"
+                title={t('dashboard.modals.permissionsAndSharing', {
+                    defaultValue: 'Dashboard permissions & sharing',
+                })}
                 isOpen={dashboardMode === DashboardMode.Sharing}
                 closeModal={() => push(urls.dashboard(dashboard.id))}
                 dashboardId={dashboard.id}

@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { router } from 'kea-router'
+import { useTranslation } from 'react-i18next'
 
 import { IconCode2, IconCopy, IconNotebook, IconPalette, IconTrash } from '@posthog/icons'
 
@@ -41,6 +42,7 @@ import { DashboardSaveAsTemplateSceneActions } from './DashboardSaveAsTemplateSc
 const RESOURCE_TYPE = 'dashboard'
 
 export function DashboardScenePanel(): JSX.Element | null {
+    const { t } = useTranslation()
     const {
         dashboard,
         dashboardMode,
@@ -93,10 +95,12 @@ export function DashboardScenePanel(): JSX.Element | null {
                                 menuItem
                                 onClick={() => push(urls.resourceTransfer('Dashboard', dashboard.id))}
                                 data-attr="dashboard-copy-to-project"
-                                tooltip="Copy this dashboard to another project"
+                                tooltip={t('dashboard.panel.copyTooltip', {
+                                    defaultValue: 'Copy this dashboard to another project',
+                                })}
                             >
                                 <IconCopy />
-                                Copy to another project
+                                {t('dashboard.menuBar.copyToProject', { defaultValue: 'Copy to another project' })}
                             </ButtonPrimitive>
                         )}
                         <ScenePin dataAttrKey={RESOURCE_TYPE} onClick={togglePinned} isPinned={isPinned} />
@@ -123,7 +127,7 @@ export function DashboardScenePanel(): JSX.Element | null {
                                 data-attr={`${RESOURCE_TYPE}-customize-colors`}
                             >
                                 <IconPalette />
-                                Customize colors
+                                {t('dashboard.menuBar.customizeColors', { defaultValue: 'Customize colors' })}
                             </ButtonPrimitive>
                         )}
                         <ButtonPrimitive
@@ -132,7 +136,7 @@ export function DashboardScenePanel(): JSX.Element | null {
                             data-attr={`${RESOURCE_TYPE}-create-notebook-from-dashboard`}
                         >
                             <IconNotebook />
-                            Create notebook from dashboard
+                            {t('dashboard.panel.createNotebook', { defaultValue: 'Create notebook from dashboard' })}
                         </ButtonPrimitive>
                         {tiles.length > 0 && (
                             <SceneSubscribeButton dashboardId={dashboard.id} dataAttrKey={RESOURCE_TYPE} />
@@ -173,7 +177,7 @@ export function DashboardScenePanel(): JSX.Element | null {
                         data-attr={`${RESOURCE_TYPE}-manage-terraform`}
                     >
                         <IconCode2 />
-                        Manage with Terraform
+                        {t('dashboard.menuBar.terraform', { defaultValue: 'Manage with Terraform' })}
                     </ButtonPrimitive>
                 )}
 
@@ -199,7 +203,7 @@ export function DashboardScenePanel(): JSX.Element | null {
                                     onClick={() => showDeleteDashboardModal(dashboard.id)}
                                 >
                                     <IconTrash />
-                                    Delete dashboard
+                                    {t('dashboard.menuBar.delete', { defaultValue: 'Delete dashboard' })}
                                 </ButtonPrimitive>
                             )}
                         </AccessControlAction>

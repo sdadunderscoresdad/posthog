@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonInput, LemonInputSelect, LemonModal, LemonTextArea } from '@posthog/lemon-ui'
 
@@ -10,6 +11,7 @@ import type { DashboardTemplateEditorType } from '~/types'
 import { dashboardTemplateModalLogic } from './dashboardTemplateModalLogic'
 
 export function DashboardTemplateModal(): JSX.Element | null {
+    const { t } = useTranslation()
     const {
         isOpen,
         mode,
@@ -77,13 +79,17 @@ export function DashboardTemplateModal(): JSX.Element | null {
 
     return (
         <LemonModal
-            title={mode === 'create' ? 'Save as dashboard template' : 'Edit dashboard template'}
+            title={
+                mode === 'create'
+                    ? t('dashboard.saveAsTemplate.action', { defaultValue: 'Save as dashboard template' })
+                    : t('dashboard.templateModal.editTitle', { defaultValue: 'Edit dashboard template' })
+            }
             onClose={handleClose}
             maxWidth="32rem"
             footer={
                 <>
                     <LemonButton type="secondary" onClick={closeModal} disabled={saving}>
-                        Cancel
+                        {t('dashboard.editMode.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="primary"
@@ -93,7 +99,9 @@ export function DashboardTemplateModal(): JSX.Element | null {
                             (mode === 'create' && !createPayload) || (mode === 'edit' && !editingTemplate) || saving
                         }
                     >
-                        {mode === 'create' ? 'Save template' : 'Save changes'}
+                        {mode === 'create'
+                            ? t('dashboard.templateModal.save', { defaultValue: 'Save template' })
+                            : t('dashboard.templateModal.saveChanges', { defaultValue: 'Save changes' })}
                     </LemonButton>
                 </>
             }
@@ -105,9 +113,14 @@ export function DashboardTemplateModal(): JSX.Element | null {
                         data-attr="dashboard-template-staff-tools"
                     >
                         <div className="flex flex-col gap-1.5">
-                            <p className="m-0 text-sm font-semibold leading-snug">Staff tools</p>
+                            <p className="m-0 text-sm font-semibold leading-snug">
+                                {t('dashboard.templateModal.staffTools', { defaultValue: 'Staff tools' })}
+                            </p>
                             <p className="text-secondary text-xs m-0 leading-relaxed max-w-prose">
-                                Full JSON editor for official templates and fields not available in this form.
+                                {t('dashboard.templateModal.staffToolsHint', {
+                                    defaultValue:
+                                        'Full JSON editor for official templates and fields not available in this form.',
+                                })}
                             </p>
                         </div>
                         <LemonButton
@@ -118,28 +131,38 @@ export function DashboardTemplateModal(): JSX.Element | null {
                             data-attr="dashboard-template-open-full-json-editor"
                             className="self-start"
                         >
-                            Open full JSON editor
+                            {t('dashboard.templateModal.openJsonEditor', {
+                                defaultValue: 'Open full JSON editor',
+                            })}
                         </LemonButton>
                     </div>
                 )}
                 <div className={showStaffJsonTools ? 'space-y-3 border-t border-border pt-4' : 'space-y-3'}>
                     <div>
-                        <label className="font-semibold text-sm">Name</label>
+                        <label className="font-semibold text-sm">
+                            {t('dashboard.templateModal.name', { defaultValue: 'Name' })}
+                        </label>
                         <LemonInput
                             value={templateName}
                             onChange={setTemplateName}
-                            placeholder="e.g. Weekly KPIs"
+                            placeholder={t('dashboard.templateModal.namePlaceholder', {
+                                defaultValue: 'e.g. Weekly KPIs',
+                            })}
                             fullWidth
                             disabled={saving}
                             data-attr="dashboard-template-name"
                         />
                     </div>
                     <div>
-                        <label className="font-semibold text-sm">Description</label>
+                        <label className="font-semibold text-sm">
+                            {t('dashboard.templateModal.description', { defaultValue: 'Description' })}
+                        </label>
                         <LemonTextArea
                             value={dashboardDescription}
                             onChange={setDashboardDescription}
-                            placeholder="What this template is for"
+                            placeholder={t('dashboard.templateModal.descriptionPlaceholder', {
+                                defaultValue: 'What this template is for',
+                            })}
                             minRows={3}
                             maxRows={8}
                             maxLength={400}
@@ -148,13 +171,17 @@ export function DashboardTemplateModal(): JSX.Element | null {
                         />
                     </div>
                     <div>
-                        <label className="font-semibold text-sm">Tags</label>
+                        <label className="font-semibold text-sm">
+                            {t('dashboard.templateModal.tags', { defaultValue: 'Tags' })}
+                        </label>
                         <LemonInputSelect
                             mode="multiple"
                             allowCustomValues
                             value={templateTags}
                             onChange={setTemplateTags}
-                            placeholder='Add tags like "kpi" or "growth"'
+                            placeholder={t('dashboard.templateModal.tagsPlaceholder', {
+                                defaultValue: 'Add tags like "kpi" or "growth"',
+                            })}
                             fullWidth
                             disabled={saving}
                             data-attr="dashboard-template-tags"

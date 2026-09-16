@@ -1,4 +1,5 @@
 import { useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton } from '@posthog/lemon-ui'
 
@@ -14,6 +15,7 @@ interface DashboardZoomControlProps {
 }
 
 export function DashboardZoomControl({ layoutZoom, setLayoutZoom }: DashboardZoomControlProps): JSX.Element | null {
+    const { t } = useTranslation()
     const { dashboard, currentLayoutSize } = useValues(dashboardLogic)
 
     if (currentLayoutSize === 'xs') {
@@ -38,9 +40,13 @@ export function DashboardZoomControl({ layoutZoom, setLayoutZoom }: DashboardZoo
                         setLayoutZoom(nextZoom)
                         eventUsageLogic.actions.reportDashboardLayoutZoomChanged(dashboard ?? null, nextZoom, 'button')
                     }}
-                    tooltip="Collapse/Expand view. Makes it easier to edit the layout for busier dashboards."
+                    tooltip={t('dashboard.zoom.tooltip', {
+                        defaultValue: 'Collapse/Expand view. Makes it easier to edit the layout for busier dashboards.',
+                    })}
                 >
-                    {layoutZoom < 1 ? 'Expand view' : 'Collapse view'}
+                    {layoutZoom < 1
+                        ? t('dashboard.zoom.expand', { defaultValue: 'Expand view' })
+                        : t('dashboard.zoom.collapse', { defaultValue: 'Collapse view' })}
                 </LemonButton>
             </Shortcut>
         </div>

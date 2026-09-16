@@ -1,5 +1,6 @@
 import { useActions } from 'kea'
 import { router } from 'kea-router'
+import { useTranslation } from 'react-i18next'
 
 import { LemonBanner } from '@posthog/lemon-ui'
 
@@ -20,6 +21,7 @@ export function DashboardPublicAccessBanner({
     dashboard: DashboardType<QueryBasedInsightModel> | null
     placement: DashboardPlacement
 }): JSX.Element | null {
+    const { t } = useTranslation()
     const { push } = useActions(router)
 
     if (!dashboard?.is_shared || !DASHBOARD_PUBLIC_ACCESS_BANNER_PLACEMENTS.includes(placement)) {
@@ -36,8 +38,10 @@ export function DashboardPublicAccessBanner({
                 onClick: () => push(urls.dashboardSharing(dashboard.id)),
             }}
         >
-            This dashboard is shared publicly. Updates you make here may be visible to anyone with the public link.
-            Avoid adding sensitive data.
+            {t('dashboard.publicAccessBanner', {
+                defaultValue:
+                    'This dashboard is shared publicly. Updates you make here may be visible to anyone with the public link. Avoid adding sensitive data.',
+            })}
         </LemonBanner>
     )
 }

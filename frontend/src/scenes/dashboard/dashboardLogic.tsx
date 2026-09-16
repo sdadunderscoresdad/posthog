@@ -22,6 +22,7 @@ import uniqBy from 'lodash.uniqby'
 import posthog from 'posthog-js'
 import { ResponsiveLayouts } from 'react-grid-layout'
 import type { Layout } from 'react-grid-layout'
+import { Trans } from 'react-i18next'
 
 import { LemonButton, LemonDialog, lemonToast } from '@posthog/lemon-ui'
 import type { DashboardWidgetRunResultApi } from '@posthog/products-dashboards/frontend/generated/api.schemas'
@@ -39,6 +40,7 @@ import { DataColorTheme } from 'lib/colors'
 import { OrganizationMembershipLevel } from 'lib/constants'
 import { FEATURE_FLAGS } from 'lib/constants'
 import { Dayjs, dayjs, now } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { featureFlagLogic, getFeatureFlagPayload } from 'lib/logic/featureFlagLogic'
 import { accessLevelSatisfied } from 'lib/utils/accessControlUtils'
@@ -1837,16 +1839,20 @@ export const dashboardLogic = kea<dashboardLogicType>([
                     const widgetType = getDashboardWidgetType(tile)
 
                     const copyToastLabel: Record<DashboardWidgetType, string> = {
-                        insight: 'Insight',
-                        text: 'Text card',
-                        button_tile: 'Button',
-                        widget: 'Widget',
+                        insight: i18n.t('dashboard.widgetType.insight', { defaultValue: 'Insight' }),
+                        text: i18n.t('dashboard.widgetType.textCard', { defaultValue: 'Text card' }),
+                        button_tile: i18n.t('dashboard.addTile.button', { defaultValue: 'Button' }),
+                        widget: i18n.t('dashboard.addTile.widget', { defaultValue: 'Widget' }),
                     }
                     const copyErrorPrefix: Record<DashboardWidgetType, string> = {
-                        insight: 'Could not copy insight',
-                        text: 'Could not copy text card',
-                        button_tile: 'Could not copy button tile',
-                        widget: 'Could not copy widget',
+                        insight: i18n.t('dashboard.copy.error.insight', { defaultValue: 'Could not copy insight' }),
+                        text: i18n.t('dashboard.copy.error.textCard', {
+                            defaultValue: 'Could not copy text card',
+                        }),
+                        button_tile: i18n.t('dashboard.copy.error.buttonTile', {
+                            defaultValue: 'Could not copy button tile',
+                        }),
+                        widget: i18n.t('dashboard.copy.error.widget', { defaultValue: 'Could not copy widget' }),
                     }
 
                     try {
@@ -1872,12 +1878,18 @@ export const dashboardLogic = kea<dashboardLogicType>([
                         )
 
                         lemonToast.success(
-                            <>
-                                {copyToastLabel[widgetType]} copied to{' '}
-                                <b>
-                                    <Link to={urls.dashboard(toDashboard)}>{toDashboardName}</Link>
-                                </b>
-                            </>
+                            <Trans
+                                i18nKey="dashboard.copy.copiedTo"
+                                values={{ label: copyToastLabel[widgetType], dashboard: toDashboardName }}
+                                components={{
+                                    link: (
+                                        <b>
+                                            <Link to={urls.dashboard(toDashboard)} />
+                                        </b>
+                                    ),
+                                }}
+                                defaults="{{label}} copied to <link>{{dashboard}}</link>"
+                            />
                         )
                     } catch (e) {
                         lemonToast.error(`${copyErrorPrefix[widgetType]} to dashboard: ${String(e)}`)
@@ -3680,7 +3692,11 @@ export const dashboardLogic = kea<dashboardLogicType>([
 
             const tileName = getDashboardTileDisplayName(tile)
             const isWidgetTile = !!tile.widget
-            const removedMessage = isWidgetTile ? 'widget removed' : 'has been removed from the dashboard'
+            const removedMessage = isWidgetTile
+                ? i18n.t('dashboard.remove.widgetRemoved', { defaultValue: 'widget removed' })
+                : i18n.t('dashboard.remove.removedFromDashboard', {
+                      defaultValue: 'has been removed from the dashboard',
+                  })
             const toastId = `remove-tile-${tile.id}`
             const otherDashboardIds = new Set(
                 (
@@ -3712,13 +3728,17 @@ export const dashboardLogic = kea<dashboardLogicType>([
                 const otherDashboardCount = otherDashboards.length
 
                 LemonDialog.open({
-                    title: 'Delete insight everywhere?',
+                    title: i18n.t('dashboard.deleteInsight.title', { defaultValue: 'Delete insight everywhere?' }),
                     shouldAwaitSubmit: true,
                     description: (
                         <div className="pt-2 space-y-4">
                             {otherDashboards.length > 0 && (
                                 <div>
-                                    <div>This insight is also used on:</div>
+                                    <div>
+                                        {i18n.t('dashboard.deleteInsight.alsoUsedOn', {
+                                            defaultValue: 'This insight is also used on:',
+                                        })}
+                                    </div>
                                     <ul className="list-inside list-disc">
                                         {otherDashboards.map((dashboard) => (
                                             <li key={dashboard.id}>
@@ -3729,12 +3749,17 @@ export const dashboardLogic = kea<dashboardLogicType>([
                                 </div>
                             )}
                             <div>
-                                This deletes the insight and removes it from every dashboard. You can undo this action.
+                                {i18n.t('dashboard.deleteInsight.description', {
+                                    defaultValue:
+                                        'This deletes the insight and removes it from every dashboard. You can undo this action.',
+                                })}
                             </div>
                         </div>
                     ),
                     primaryButton: {
-                        children: 'Delete insight everywhere',
+                        children: i18n.t('dashboard.deleteInsight.confirm', {
+                            defaultValue: 'Delete insight everywhere',
+                        }),
                         status: 'danger',
                         onClick: () => {
                             eventUsageLogic.actions.reportDashboardInsightDeleteAfterRemovalConfirmed(
@@ -3810,7 +3835,9 @@ export const dashboardLogic = kea<dashboardLogicType>([
                                         deleteInsight()
                                     }}
                                 >
-                                    Delete insight everywhere
+                                    {i18n.t('dashboard.deleteInsight.confirm', {
+                                        defaultValue: 'Delete insight everywhere',
+                                    })}
                                 </LemonButton>
                             )}
                             <LemonButton
@@ -3823,7 +3850,7 @@ export const dashboardLogic = kea<dashboardLogicType>([
                                     lemonToast.dismiss(toastId)
                                 }}
                             >
-                                Undo
+                                {i18n.t('dashboard.remove.undo', { defaultValue: 'Undo' })}
                             </LemonButton>
                         </span>
                     </span>
@@ -3898,20 +3925,26 @@ export const dashboardLogic = kea<dashboardLogicType>([
             dashboardsModel.actions.tileMovedToDashboard(updatedTile, toDashboard)
 
             const moveToastLabel: Record<DashboardWidgetType, string> = {
-                insight: 'Insight',
-                text: 'Text card',
-                button_tile: 'Button',
-                widget: 'Widget',
+                insight: i18n.t('dashboard.widgetType.insight', { defaultValue: 'Insight' }),
+                text: i18n.t('dashboard.widgetType.textCard', { defaultValue: 'Text card' }),
+                button_tile: i18n.t('dashboard.addTile.button', { defaultValue: 'Button' }),
+                widget: i18n.t('dashboard.addTile.widget', { defaultValue: 'Widget' }),
             }
             const movedWidgetType = getDashboardWidgetType(updatedTile)
 
             lemonToast.success(
-                <>
-                    {moveToastLabel[movedWidgetType]} moved to{' '}
-                    <b>
-                        <Link to={urls.dashboard(toDashboard)}>{toDashboardName}</Link>
-                    </b>
-                </>
+                <Trans
+                    i18nKey="dashboard.move.movedTo"
+                    values={{ label: moveToastLabel[movedWidgetType], dashboard: toDashboardName }}
+                    components={{
+                        link: (
+                            <b>
+                                <Link to={urls.dashboard(toDashboard)} />
+                            </b>
+                        ),
+                    }}
+                    defaults="{{label}} moved to <link>{{dashboard}}</link>"
+                />
                 // TODO implement undo for move to dashboard
             )
         },

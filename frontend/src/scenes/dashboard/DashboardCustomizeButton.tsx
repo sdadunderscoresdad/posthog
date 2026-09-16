@@ -11,6 +11,7 @@ import { DashboardCustomizeMenu } from 'products/dashboards/frontend/components/
 import { dashboardLogic } from './dashboardLogic'
 
 export function DashboardCustomizeButton(): JSX.Element {
+    const { t } = useTranslation()
     const { setDashboardEditing } = useActions(dashboardLogic)
 
     return (
@@ -22,7 +23,7 @@ export function DashboardCustomizeButton(): JSX.Element {
             }
             size="small"
             icon={<IconGridMasonry fontSize="16" />}
-            tooltip="Customize dashboard"
+            tooltip={t('dashboard.customize.tooltip', { defaultValue: 'Customize dashboard' })}
             tooltipPlacement="top"
             sideAction={{
                 'data-attr': 'dashboard-edit-layout-customize-dropdown',
@@ -33,7 +34,8 @@ export function DashboardCustomizeButton(): JSX.Element {
                 },
             }}
         >
-            Customize
+            {t('dashboard.customize.action', { defaultValue: 'Customize' })}
         </LemonButton>
     )
 }
+import { useTranslation } from 'react-i18next'

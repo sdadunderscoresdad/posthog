@@ -53,7 +53,350 @@
     },
     "common": {
         "no": "否",
+        "unknown": "未知",
+        "untitled": "未命名",
         "yes": "是"
+    },
+    "dashboard": {
+        "addInsight": {
+            "createNew": "新建洞察",
+            "createNewDescription": "新建一个洞察并添加到该仪表盘",
+            "more": "更多",
+            "title": "添加洞察到仪表盘"
+        },
+        "addTile": {
+            "action": "添加",
+            "button": "按钮",
+            "charts": "图表",
+            "content": "内容",
+            "image": "图片",
+            "text": "添加文本",
+            "widget": "组件",
+            "widgetBetaTooltip": "打开设置以启用仪表盘组件测试版"
+        },
+        "advancedFilters": {
+            "breakdownColors": "细分值配色",
+            "breakdownColorsInfo": "把某个细分值固定到一种颜色，或选一套配色主题，让该仪表盘上的每个洞察都用同一种画法。",
+            "configureTooltip": "配置内部与测试账号过滤",
+            "description": "这些覆盖项会应用到该仪表盘上的每个洞察。",
+            "filterOut": "过滤掉",
+            "filterOutTooltip": "对每个洞察都强制开启测试账号过滤",
+            "hint": {
+                "filterOut": "内部与测试用户会从该仪表盘上的每个洞察中过滤掉。",
+                "include": "内部与测试用户会包含在该仪表盘上的每个洞察中。",
+                "inherit": "每个洞察保留自己的“过滤掉内部与测试用户”设置。"
+            },
+            "include": "包含",
+            "includeTooltip": "对每个洞察都强制关闭测试账号过滤",
+            "inherit": "跟随",
+            "inheritTooltip": "每个洞察保留自己的设置",
+            "noTestFilters": "你还没有设置任何内部测试过滤条件。点击齿轮图标进行配置。",
+            "testAccount": "测试账号过滤",
+            "testAccountInfo": "对每个洞察强制开启或关闭测试账号过滤，或让每个洞察保留自己的设置。",
+            "title": "高级选项"
+        },
+        "aiPrompt": {
+            "buildItForMe": "帮我搭建",
+            "enterQuestion": "请输入问题",
+            "heading": "你想了解什么？",
+            "learnAboutProductAnalytics": "了解产品分析",
+            "placeholder": "例如：哪些页面的转化最好？",
+            "samples": {
+                "activity": "本周的用户活跃情况如何？",
+                "adoption": "我的功能被采用的情况如何？",
+                "paths": "哪些路径能把用户带到激活？",
+                "retention": "什么能让用户注册后再次回来？"
+            },
+            "startWithQuestion": "从一个问题开始"
+        },
+        "buttonTile": {
+            "delete": "删除",
+            "edit": "编辑按钮"
+        },
+        "colors": {
+            "allProperties": "所有属性",
+            "auto": "自动",
+            "breakdownColumn": "细分",
+            "cancelTooltip": "撤销此对话框中所做的修改",
+            "cohorts": "分群",
+            "colorColumn": "颜色",
+            "colorTheme": "配色主题",
+            "customize": "自定义颜色",
+            "definedByInsight": "由洞察决定",
+            "groupingInfo": "颜色按细分属性分组，因此每个属性各自挑选自己的颜色。",
+            "modalTitle": "自定义细分值配色",
+            "noChanges": "没有需要保存的颜色修改",
+            "pinInfo": "选择一种颜色即可把某个值固定到该颜色。",
+            "reset": "重置",
+            "resetTooltip": "重置为自动配色",
+            "save": "保存",
+            "sharedValueInfo": "同时出现在两个或更多洞察上的值，在整个仪表盘中获得同一种颜色，并在配色方案允许的范围内，在该值出现的每个属性下都保持这种颜色。",
+            "singleInsightInfo": "只出现在单个洞察上的值保留各自的颜色。",
+            "themeInfo": "选择一套主题来设定该仪表盘上每个洞察使用的颜色。任何查看或分享该仪表盘的人看到的颜色都相同，因此序列在 PostHog 之外也便于辨认。",
+            "tilesLoading": "图表块仍在加载，可能会显示更多细分值。"
+        },
+        "copy": {
+            "copiedTo": "{{label}} 已复制到 <link>{{dashboard}}</link>",
+            "error": {
+                "buttonTile": "无法复制按钮图表块",
+                "insight": "无法复制洞察",
+                "textCard": "无法复制文本卡片",
+                "widget": "无法复制组件"
+            }
+        },
+        "customize": {
+            "action": "自定义",
+            "tooltip": "自定义仪表盘"
+        },
+        "delete": {
+            "insightsHelp": "只有当这些洞察不在其它任何仪表盘上时，才会被删除。",
+            "insightsLabel": "同时删除该仪表盘的洞察"
+        },
+        "deleteInsight": {
+            "alsoUsedOn": "该洞察还被用于：",
+            "confirm": "在所有位置删除洞察",
+            "description": "这会删除该洞察，并将其从所有仪表盘中移除。此操作可以撤销。",
+            "title": "在所有位置删除该洞察？"
+        },
+        "duplicate": {
+            "andGo": "复制并前往仪表盘",
+            "tilesHelp": "选择是复制该仪表盘的洞察和文本，还是把它们挂载到新仪表盘上。",
+            "tilesLabel": "复制该仪表盘的图表块",
+            "title": "复制仪表盘"
+        },
+        "editBar": {
+            "groupedBy": "按此分组"
+        },
+        "editMode": {
+            "addTileFirst": "至少添加一个图表块才能自定义该仪表盘",
+            "cancel": "取消",
+            "discardTooltip": "放弃布局修改并退出布局编辑",
+            "notPrivileged": "没有编辑该仪表盘的权限",
+            "save": "保存布局",
+            "saveTooltip": "保存仪表盘布局",
+            "waitForLoading": "请等待仪表盘加载完成"
+        },
+        "empty": {
+            "addExistingChart": "添加已有图表",
+            "viewWebAnalytics": "或查看网站分析"
+        },
+        "errorTile": {
+            "remove": "从仪表盘移除",
+            "title": "加载该仪表盘图表块时出错。"
+        },
+        "filters": {
+            "clearFolder": "清除文件夹筛选",
+            "clearSelection": "清除选择",
+            "filterTo": "筛选：",
+            "loadingTags": "正在加载标签",
+            "noMatchingTags": "没有匹配的标签",
+            "noTags": "没有标签",
+            "projectRoot": "项目根目录",
+            "search": "搜索仪表盘",
+            "searchTags": "搜索标签",
+            "shared": "已分享",
+            "tags": "标签"
+        },
+        "fullscreen": {
+            "exit": "退出全屏"
+        },
+        "items": {
+            "layoutEditingDisabled": "屏幕较小时无法编辑布局。请缩小页面，或使用更大的屏幕来移动、调整图表块。",
+            "loadingTiles": "正在加载图表块..."
+        },
+        "loadError": "加载该仪表盘时出错",
+        "menuBar": {
+            "copyToProject": "复制到其它项目",
+            "create": "新建",
+            "customizeColors": "自定义颜色",
+            "delete": "删除仪表盘",
+            "duplicate": "复制",
+            "edit": "编辑",
+            "export": "导出",
+            "exportJsonStaff": "JSON（内部）",
+            "file": "文件",
+            "fullscreen": "全屏",
+            "metadata": "元数据",
+            "metalytics": "查看 metalytics",
+            "noInsights": "该仪表盘上没有洞察",
+            "noOpenWhileEditing": "编辑仪表盘时无法打开洞察",
+            "notebookFromDashboard": "从仪表盘创建笔记本",
+            "openInsights": "在新标签页中打开洞察",
+            "pinned": "置顶",
+            "saveAsTemplate": "保存为仪表盘模板",
+            "saveTemplateNoAccess": "需要仪表盘模板的编辑权限才能保存模板。",
+            "subscription": "订阅",
+            "templateNotReady": "模板数据尚未就绪，请稍后再试。",
+            "terraform": "用 Terraform 管理"
+        },
+        "modals": {
+            "permissionsAndSharing": "仪表盘权限与分享"
+        },
+        "move": {
+            "movedTo": "{{label}} 已移动到 <link>{{dashboard}}</link>"
+        },
+        "new": {
+            "action": "新建仪表盘",
+            "back": "返回",
+            "chooseEvents": "选择事件",
+            "create": "创建",
+            "createDashboard": "创建仪表盘",
+            "filterTemplates": "筛选模板",
+            "startFromScratch": "从空白开始",
+            "templateRequiresEvents_other": "<em>{{templateName}}</em> 模板需要你先选择 {{count}} 个事件。",
+            "templatesDescription": "这里有一些现成的模板，可以帮你快速上手。挑一个用，或从空白开始。"
+        },
+        "notFound": {
+            "invalidLink": "该仪表盘链接无效。<1>前往你的仪表盘</1>。",
+            "staleLink": "它可能已被删除，或链接已过期。<2>前往你的仪表盘</2>。"
+        },
+        "panel": {
+            "copyTooltip": "将该仪表盘复制到其它项目",
+            "createNotebook": "从仪表盘创建笔记本"
+        },
+        "publicAccessBanner": "该仪表盘已公开分享。你在这里做的修改可能会被任何拿到公开链接的人看到，请避免添加敏感数据。",
+        "reload": {
+            "autoRefresh": "停留在此页面时自动刷新",
+            "enableToSetInterval": "启用自动刷新后才能设置刷新间隔",
+            "lastRefreshed": "上次刷新",
+            "loadedOfTotal": "已加载 {{ completed }} / {{ total }}",
+            "loading": "正在加载...",
+            "refreshedOfTotal": "已刷新 {{ completed }} / {{ total }}",
+            "refreshing": "正在刷新..."
+        },
+        "remove": {
+            "removedFromDashboard": "已从仪表盘移除",
+            "undo": "撤销",
+            "widgetRemoved": "组件已移除"
+        },
+        "retentionBanner": {
+            "message": "该仪表盘上有些洞察的日期范围超出了你的 {{retentionPeriodLabel}} 数据保留期，因此更早的事件不会被计入。",
+            "upgrade": "升级套餐"
+        },
+        "saveAsTemplate": {
+            "action": "保存为仪表盘模板"
+        },
+        "share": {
+            "action": "分享"
+        },
+        "subscribe": {
+            "action": "订阅"
+        },
+        "subscribeNudge": {
+            "body_other": "你上周查看了它 {{ count }} 次。不如改成每周一自动发到你的收件箱。",
+            "cta": "设置订阅",
+            "thisDashboard": "这个仪表盘",
+            "title": "你一直在回来看 {{ dashboard }}"
+        },
+        "table": {
+            "changeDefault": "请在<2>项目首页</2>更改默认仪表盘。",
+            "edit": "编辑",
+            "moveToFolder": "移动到其它文件夹",
+            "notFiled": "该仪表盘还没有归档到任何位置",
+            "primaryHint": "主仪表盘会显示在项目首页上。",
+            "sharedPublicly": "该仪表盘已公开分享。",
+            "view": "查看"
+        },
+        "templateCopy": {
+            "chooseProject": "选择要把该模板复制到哪个项目。原模板不会被修改。",
+            "copy": "复制",
+            "createProject": "创建项目",
+            "destinationProject": "目标项目",
+            "invalidSource": "该链接没有包含有效的来源项目。我们将使用你当前所在的项目来加载模板。如果需要完整链接，请在模板列表中使用“复制到其它项目”；如果该模板属于当前项目，留在这里即可。",
+            "loadFailed": "无法加载该模板。它可能已被删除，或者你需要从拥有该模板的项目打开此页面。<2>返回模板列表</2>",
+            "noDestinations": "没有其它可复制到的项目",
+            "noDestinationsDescription": "请先在该组织中创建另一个项目。你要复制的模板不会被改动。",
+            "selectProject": "选择项目"
+        },
+        "templateEditor": {
+            "create": "新建模板",
+            "update": "更新模板",
+            "validationErrors_other": "还有 {{ count }} 个错误需要处理：{{ errors }}"
+        },
+        "templateModal": {
+            "description": "描述",
+            "descriptionPlaceholder": "这个模板的用途",
+            "editTitle": "编辑仪表盘模板",
+            "name": "名称",
+            "namePlaceholder": "例如：每周核心指标",
+            "openJsonEditor": "打开完整 JSON 编辑器",
+            "save": "保存模板",
+            "saveChanges": "保存修改",
+            "staffTools": "内部工具",
+            "staffToolsHint": "用于官方模板，以及此表单不支持的字段的完整 JSON 编辑器。",
+            "tags": "标签",
+            "tagsPlaceholder": "添加标签，例如 \"kpi\" 或 \"growth\""
+        },
+        "templates": {
+            "allInPopular": "所有匹配的模板都在上方的“热门”里。",
+            "blankDashboard": "空白仪表盘",
+            "blankHint": "从空白仪表盘开始，或稍后再来看看新模板。",
+            "cannotDeleteBuiltIn": "内置官方模板无法删除",
+            "cannotDeleteGlobal": "全局模板必须先改为仅团队可见才能删除",
+            "clearFilter": "清除筛选",
+            "coverPhoto": "封面图",
+            "createdBy": "创建者",
+            "delete": "删除",
+            "deleteOrgDescription": "该模板与组织内的每个项目共享。删除后所有项目都将失去它。",
+            "deleteOrgTitle": "删除这个组织级模板？",
+            "empty": "还没有仪表盘模板。",
+            "loved": "用户很喜欢这个模板",
+            "makeOrgWide": "设为整个组织可见",
+            "makeTeamOnly": "设为仅此团队可见",
+            "makeVisibleEveryone": "设为所有人可见",
+            "moreTags_other": "还有 {{ count }} 个",
+            "noMatches": "没有匹配的模板",
+            "noMatchesHint": "换个关键词试试，清除筛选以重新看到所有模板，或者从空白仪表盘开始。",
+            "none": "这里没有可显示的模板",
+            "noneInContext": "当前场景下没有可用的模板。",
+            "official": "官方模板",
+            "officialHint": "在下方浏览官方模板。",
+            "officialShort": "官方",
+            "organization": "组织",
+            "orStartFromScratch": "或从空白开始",
+            "popular": "和你们相似的团队常用",
+            "popularDescription": "用户很喜欢这些模板，作为仪表盘的起点很不错。",
+            "popularTooltip": "我们最受欢迎的模板之一",
+            "posthog": "PostHog",
+            "searchPlaceholder": "搜索仪表盘模板（至少 3 个字符）",
+            "sharedWithOrganization": "与组织内所有人共享",
+            "team": "团队",
+            "type": "类型",
+            "yours": "你的模板",
+            "yoursDescription": "为此项目保存、并与组织共享的模板。"
+        },
+        "tileFilters": {
+            "breakdown": "细分",
+            "dateRange": "日期范围",
+            "description": "为该图表块设置自定义筛选。属性筛选会叠加在仪表盘的筛选之上，而图表块自己的日期范围、间隔、细分和测试账号过滤会替换掉仪表盘的设置。",
+            "display": "显示",
+            "filterOutTooltip": "对该洞察强制开启测试账号过滤",
+            "filters": "筛选",
+            "hint": {
+                "filterOut": "内部与测试用户会从该洞察中过滤掉。",
+                "include": "内部与测试用户会包含在该洞察中。",
+                "inherit": "使用仪表盘的设置；如果仪表盘没有设置，则使用该洞察自己的设置。"
+            },
+            "ignoreDashboardFilters": "忽略仪表盘筛选",
+            "ignoreDashboardFiltersHint": "开启后，仪表盘的所有筛选都不会应用到该洞察，但下面的覆盖项仍然生效。",
+            "includeTooltip": "对该洞察强制关闭测试账号过滤",
+            "inherit": "跟随",
+            "inheritTooltip": "使用仪表盘的设置，或该洞察自己的设置",
+            "interval": "间隔",
+            "intervalUnsupported": "该洞察类型不支持覆盖间隔",
+            "properties": "属性",
+            "scope": "范围",
+            "time": "时间"
+        },
+        "widgetType": {
+            "insight": "洞察",
+            "textCard": "文本卡片"
+        },
+        "zoom": {
+            "collapse": "收起视图",
+            "expand": "展开视图",
+            "tooltip": "收起/展开视图。图表较多时更方便编辑布局。"
+        }
     },
     "homepage": {
         "ai": {

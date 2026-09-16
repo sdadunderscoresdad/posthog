@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton } from '@posthog/lemon-ui'
 
@@ -36,6 +37,7 @@ export const scene: SceneExport = {
 }
 
 export function Dashboards(): JSX.Element {
+    const { t } = useTranslation()
     const { dashboardsLoading } = useValues(dashboardsModel)
     const { setCurrentTab } = useActions(dashboardsLogic)
     const { dashboards, currentTab, isFiltering } = useValues(dashboardsLogic)
@@ -85,7 +87,7 @@ export function Dashboards(): JSX.Element {
                                     onClick={showNewDashboardModal}
                                     type="primary"
                                 >
-                                    New dashboard
+                                    {t('dashboard.new.action', { defaultValue: 'New dashboard' })}
                                 </LemonButton>
                             </Shortcut>
                         </AccessControlAction>

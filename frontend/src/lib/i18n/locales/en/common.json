@@ -5,7 +5,7 @@
                 "description": "\"Set once\" person properties sent with this event. Will replace any property value that has never been set on this person profile before now. <2>Learn more</2>"
             },
             "setProperties": {
-                "description": "Person properties sent with this event. Will replace any property value that may have been set on this person profile before now. <1>Learn more</1>"
+                "description": "Person properties sent with this event. Will replace any property value that may have been set on this person profile before now. <2>Learn more</2>"
             }
         },
         "live": {
@@ -33,7 +33,7 @@
             "filterByProperty": "Filter by property",
             "pause": "Pause",
             "play": "Play",
-            "terminalBanner": "Stream live events directly in your terminal with <1>posthog-live</1>. <3>Learn more</3>"
+            "terminalBanner": "Stream live events directly in your terminal with <1>posthog-live</1>. <4>Learn more</4>"
         },
         "sessions": {
             "columns": {
@@ -54,7 +54,354 @@
     },
     "common": {
         "no": "No",
+        "unknown": "Unknown",
+        "untitled": "Untitled",
         "yes": "Yes"
+    },
+    "dashboard": {
+        "addInsight": {
+            "createNew": "Create a new insight",
+            "createNewDescription": "Build a new insight and add it to this dashboard",
+            "more": "More",
+            "title": "Add insight to dashboard"
+        },
+        "addTile": {
+            "action": "Add",
+            "button": "Button",
+            "charts": "Charts",
+            "content": "Content",
+            "image": "Image",
+            "text": "Add text",
+            "widget": "Widget",
+            "widgetBetaTooltip": "Opens settings to enable the Dashboard widgets beta"
+        },
+        "advancedFilters": {
+            "breakdownColors": "Breakdown colors",
+            "breakdownColorsInfo": "Pin a breakdown value to a color, or pick a color theme, so every insight on this dashboard draws it the same way.",
+            "configureTooltip": "Configure internal and test account filters",
+            "description": "Overrides applied to every insight on this dashboard.",
+            "filterOut": "Filter out",
+            "filterOutTooltip": "Force test account filtering on for every insight",
+            "hint": {
+                "filterOut": "Internal and test users are filtered out of every insight on this dashboard.",
+                "include": "Internal and test users are included in every insight on this dashboard.",
+                "inherit": "Each insight keeps its own \"Filter out internal and test users\" setting."
+            },
+            "include": "Include",
+            "includeTooltip": "Force test account filtering off for every insight",
+            "inherit": "Inherit",
+            "inheritTooltip": "Each insight keeps its own setting",
+            "noTestFilters": "You haven't set any internal test filters. Click the gear icon to configure.",
+            "testAccount": "Test account filtering",
+            "testAccountInfo": "Force test account filtering on or off for every insight, or let each insight keep its own setting.",
+            "title": "Advanced options"
+        },
+        "aiPrompt": {
+            "buildItForMe": "Build it for me",
+            "enterQuestion": "Enter a question",
+            "heading": "What do you want to learn?",
+            "learnAboutProductAnalytics": "Learn about product analytics",
+            "placeholder": "For example, which pages convert best?",
+            "samples": {
+                "activity": "What does user activity look like this week?",
+                "adoption": "How is my feature being adopted?",
+                "paths": "Which paths lead users to activation?",
+                "retention": "What brings users back after they sign up?"
+            },
+            "startWithQuestion": "Start with a question"
+        },
+        "buttonTile": {
+            "delete": "Delete",
+            "edit": "Edit button"
+        },
+        "colors": {
+            "allProperties": "All properties",
+            "auto": "Auto",
+            "breakdownColumn": "Breakdown",
+            "cancelTooltip": "Revert the changes made in this dialog",
+            "cohorts": "Cohorts",
+            "colorColumn": "Color",
+            "colorTheme": "Color theme",
+            "customize": "Customize color",
+            "definedByInsight": "Defined by insight",
+            "groupingInfo": "Colors are grouped by breakdown property, so each property picks its colors on its own.",
+            "modalTitle": "Customize breakdown colors",
+            "noChanges": "No color changes to save",
+            "pinInfo": "Pick a color to pin a value to it.",
+            "reset": "Reset",
+            "resetTooltip": "Reset to automatic color",
+            "save": "Save",
+            "sharedValueInfo": "A value shown on two or more insights gets one color across the dashboard, and keeps it under every property it appears in, as far as the palette allows.",
+            "singleInsightInfo": "Values on a single insight keep their own colors.",
+            "themeInfo": "Pick a theme to set the colors every insight on this dashboard uses. Anyone who views or shares the dashboard sees the same colors, so series stay recognizable outside PostHog.",
+            "tilesLoading": "Tiles are still loading. More breakdown values may appear."
+        },
+        "copy": {
+            "copiedTo": "{{label}} copied to <link>{{dashboard}}</link>",
+            "error": {
+                "buttonTile": "Could not copy button tile",
+                "insight": "Could not copy insight",
+                "textCard": "Could not copy text card",
+                "widget": "Could not copy widget"
+            }
+        },
+        "customize": {
+            "action": "Customize",
+            "tooltip": "Customize dashboard"
+        },
+        "delete": {
+            "insightsHelp": "This will only delete insights if they're not on any other dashboards.",
+            "insightsLabel": "Delete this dashboard's insights"
+        },
+        "deleteInsight": {
+            "alsoUsedOn": "This insight is also used on:",
+            "confirm": "Delete insight everywhere",
+            "description": "This deletes the insight and removes it from every dashboard. You can undo this action.",
+            "title": "Delete insight everywhere?"
+        },
+        "duplicate": {
+            "andGo": "Duplicate and go to dashboard",
+            "tilesHelp": "Choose whether to duplicate this dashboard's insights and text or attach them to the new dashboard.",
+            "tilesLabel": "Duplicate this dashboard's tiles",
+            "title": "Duplicate dashboard"
+        },
+        "editBar": {
+            "groupedBy": "grouped by"
+        },
+        "editMode": {
+            "addTileFirst": "Add at least one tile to customize this dashboard",
+            "cancel": "Cancel",
+            "discardTooltip": "Discard layout changes and exit layout editing",
+            "notPrivileged": "Not privileged to edit this dashboard",
+            "save": "Save layout",
+            "saveTooltip": "Save dashboard layout",
+            "waitForLoading": "Wait for dashboard to finish loading"
+        },
+        "empty": {
+            "addExistingChart": "Add an existing chart",
+            "viewWebAnalytics": "or View Web Analytics"
+        },
+        "errorTile": {
+            "remove": "Remove from dashboard",
+            "title": "There is a problem loading this dashboard tile."
+        },
+        "filters": {
+            "clearFolder": "Clear folder filter",
+            "clearSelection": "Clear selection",
+            "filterTo": "Filter to:",
+            "loadingTags": "Loading tags",
+            "noMatchingTags": "No matching tags",
+            "noTags": "No tags",
+            "projectRoot": "Project root",
+            "search": "Search for dashboards",
+            "searchTags": "Search tags",
+            "shared": "Shared",
+            "tags": "Tags"
+        },
+        "fullscreen": {
+            "exit": "Exit full screen"
+        },
+        "items": {
+            "layoutEditingDisabled": "Layout editing is disabled on smaller screens. Please zoom out or use a larger screen to move or resize tiles.",
+            "loadingTiles": "Loading tiles..."
+        },
+        "loadError": "There was an error loading this dashboard",
+        "menuBar": {
+            "copyToProject": "Copy to another project",
+            "create": "Create",
+            "customizeColors": "Customize colors",
+            "delete": "Delete dashboard",
+            "duplicate": "Duplicate",
+            "edit": "Edit",
+            "export": "Export",
+            "exportJsonStaff": "JSON (staff)",
+            "file": "File",
+            "fullscreen": "Fullscreen",
+            "metadata": "Metadata",
+            "metalytics": "View metalytics",
+            "noInsights": "Dashboard has no insights",
+            "noOpenWhileEditing": "Cannot open insights when editing dashboard",
+            "notebookFromDashboard": "Notebook from dashboard",
+            "openInsights": "Open insights in new tabs",
+            "pinned": "Pinned",
+            "saveAsTemplate": "Save as dashboard template",
+            "saveTemplateNoAccess": "You need edit access to dashboard templates to save a template.",
+            "subscription": "Subscription",
+            "templateNotReady": "Template data is not ready yet. Try again in a moment.",
+            "terraform": "Manage with Terraform"
+        },
+        "modals": {
+            "permissionsAndSharing": "Dashboard permissions & sharing"
+        },
+        "move": {
+            "movedTo": "{{label}} moved to <link>{{dashboard}}</link>"
+        },
+        "new": {
+            "action": "New dashboard",
+            "back": "Back",
+            "chooseEvents": "Choose your events",
+            "create": "Create",
+            "createDashboard": "Create a dashboard",
+            "filterTemplates": "Filter templates",
+            "startFromScratch": "Start from scratch",
+            "templateRequiresEvents_one": "The <em>{{templateName}}</em> template requires you to choose {{count}} events.",
+            "templateRequiresEvents_other": "The <em>{{templateName}}</em> template requires you to choose {{count}} events.",
+            "templatesDescription": "Here are some ready-made templates to help you get started quickly. Pick one below or start from scratch."
+        },
+        "notFound": {
+            "invalidLink": "This dashboard link is not valid. <1>Go to your dashboards</1>.",
+            "staleLink": "It may have been deleted, or the link is out of date. <2>Go to your dashboards</2>."
+        },
+        "panel": {
+            "copyTooltip": "Copy this dashboard to another project",
+            "createNotebook": "Create notebook from dashboard"
+        },
+        "publicAccessBanner": "This dashboard is shared publicly. Updates you make here may be visible to anyone with the public link. Avoid adding sensitive data.",
+        "reload": {
+            "autoRefresh": "Auto refresh while on page",
+            "enableToSetInterval": "Enable auto refresh to set the interval",
+            "lastRefreshed": "Last refreshed",
+            "loadedOfTotal": "Loaded {{ completed }} out of {{ total }}",
+            "loading": "Loading...",
+            "refreshedOfTotal": "Refreshed {{ completed }} out of {{ total }}",
+            "refreshing": "Refreshing..."
+        },
+        "remove": {
+            "removedFromDashboard": "has been removed from the dashboard",
+            "undo": "Undo",
+            "widgetRemoved": "widget removed"
+        },
+        "retentionBanner": {
+            "message": "Some insights on this dashboard have date ranges that go beyond your {{retentionPeriodLabel}} data retention, so events older than that aren't included.",
+            "upgrade": "Upgrade plan"
+        },
+        "saveAsTemplate": {
+            "action": "Save as dashboard template"
+        },
+        "share": {
+            "action": "Share"
+        },
+        "subscribe": {
+            "action": "Subscribe"
+        },
+        "subscribeNudge": {
+            "body_one": "You've viewed it {{ count }} times in the last week. Get it delivered to your inbox every Monday instead.",
+            "body_other": "You've viewed it {{ count }} times in the last week. Get it delivered to your inbox every Monday instead.",
+            "cta": "Set up subscription",
+            "thisDashboard": "this dashboard",
+            "title": "You keep coming back to {{ dashboard }}"
+        },
+        "table": {
+            "changeDefault": "Change the default dashboard from the <2>project home page</2>.",
+            "edit": "Edit",
+            "moveToFolder": "Move to another folder",
+            "notFiled": "This dashboard is not filed anywhere yet",
+            "primaryHint": "The primary dashboard is shown on the project home page.",
+            "sharedPublicly": "This dashboard is shared publicly.",
+            "view": "View"
+        },
+        "templateCopy": {
+            "chooseProject": "Choose which project to copy this template to. The original will not be modified.",
+            "copy": "Copy",
+            "createProject": "Create a project",
+            "destinationProject": "Destination project",
+            "invalidSource": "This link did not include a valid source project. We are using the project you are currently in to load the template. Use \"Copy to another project\" from the templates list for a complete link, or stay here if this project owns the template.",
+            "loadFailed": "We could not load this template. It may have been deleted, or you may need to open this page from the project that owns the template. <2>Back to templates</2>",
+            "noDestinations": "No other projects to copy to",
+            "noDestinationsDescription": "Create another project in this organization first. The template you are copying will not be changed.",
+            "selectProject": "Select a project"
+        },
+        "templateEditor": {
+            "create": "Create new template",
+            "update": "Update template",
+            "validationErrors_one": "There are {{ count }} errors to resolve:{{ errors }}",
+            "validationErrors_other": "There are {{ count }} errors to resolve:{{ errors }}"
+        },
+        "templateModal": {
+            "description": "Description",
+            "descriptionPlaceholder": "What this template is for",
+            "editTitle": "Edit dashboard template",
+            "name": "Name",
+            "namePlaceholder": "e.g. Weekly KPIs",
+            "openJsonEditor": "Open full JSON editor",
+            "save": "Save template",
+            "saveChanges": "Save changes",
+            "staffTools": "Staff tools",
+            "staffToolsHint": "Full JSON editor for official templates and fields not available in this form.",
+            "tags": "Tags",
+            "tagsPlaceholder": "Add tags like \"kpi\" or \"growth\""
+        },
+        "templates": {
+            "allInPopular": "Every template that matches is in Popular above.",
+            "blankDashboard": "Blank dashboard",
+            "blankHint": "Start with a blank dashboard, or check back later for new templates.",
+            "cannotDeleteBuiltIn": "Built-in official templates cannot be deleted",
+            "cannotDeleteGlobal": "Cannot delete a global template until it is team-only",
+            "clearFilter": "Clear filter",
+            "coverPhoto": "cover photo",
+            "createdBy": "Created by",
+            "delete": "Delete",
+            "deleteOrgDescription": "This template is shared with every project in your organization. Deleting it removes it for all of them.",
+            "deleteOrgTitle": "Delete this organization-wide template?",
+            "empty": "There are no dashboard templates.",
+            "loved": "Users love this template",
+            "makeOrgWide": "Make visible to whole organization",
+            "makeTeamOnly": "Make visible to this team only",
+            "makeVisibleEveryone": "Make visible to everyone",
+            "moreTags_one": "+{{ count }} more",
+            "moreTags_other": "+{{ count }} more",
+            "noMatches": "No templates match your search",
+            "noMatchesHint": "Try different keywords, clear the filter to see every template again, or start with a blank dashboard.",
+            "none": "No templates to show here",
+            "noneInContext": "No templates are available in this context.",
+            "official": "Official templates",
+            "officialHint": "Browse official templates below.",
+            "officialShort": "Official",
+            "organization": "Organization",
+            "orStartFromScratch": "Or start from scratch",
+            "popular": "Popular with teams like yours",
+            "popularDescription": "Users love these templates! Great starting points for your dashboards.",
+            "popularTooltip": "One of our most popular templates",
+            "posthog": "PostHog",
+            "searchPlaceholder": "Search dashboard templates (min. 3 characters)",
+            "sharedWithOrganization": "Shared with everyone in your organization",
+            "team": "Team",
+            "type": "Type",
+            "yours": "Your templates",
+            "yoursDescription": "Templates saved for this project and shared across your organization."
+        },
+        "tileFilters": {
+            "breakdown": "Breakdown",
+            "dateRange": "Date range",
+            "description": "Set custom filters for this tile. Property filters apply on top of the dashboard's, while the tile's date range, interval, breakdown, and test account filtering replace the dashboard's.",
+            "display": "Display",
+            "filterOutTooltip": "Force test account filtering on for this insight",
+            "filters": "Filters",
+            "hint": {
+                "filterOut": "Internal and test users are filtered out of this insight.",
+                "include": "Internal and test users are included in this insight.",
+                "inherit": "Uses the dashboard's setting, or the insight's own if the dashboard doesn't set one."
+            },
+            "ignoreDashboardFilters": "Ignore dashboard filters",
+            "ignoreDashboardFiltersHint": "When on, none of the dashboard's filters apply to this insight. The overrides below still do.",
+            "includeTooltip": "Force test account filtering off for this insight",
+            "inherit": "inherit",
+            "inheritTooltip": "Use the dashboard's setting, or the insight's own",
+            "interval": "Interval",
+            "intervalUnsupported": "This insight type doesn't support an interval override",
+            "properties": "Properties",
+            "scope": "Scope",
+            "time": "Time"
+        },
+        "widgetType": {
+            "insight": "Insight",
+            "textCard": "Text card"
+        },
+        "zoom": {
+            "collapse": "Collapse view",
+            "expand": "Expand view",
+            "tooltip": "Collapse/Expand view. Makes it easier to edit the layout for busier dashboards."
+        }
     },
     "homepage": {
         "ai": {
@@ -88,6 +435,12 @@
             "untitled": "Insight"
         }
     },
+    "interval": {
+        "day": "day",
+        "hour": "hour",
+        "month": "month",
+        "week": "week"
+    },
     "mcp": {
         "columns": {
             "key": "Key",
@@ -117,5 +470,10 @@
             "show": "Show {{ size }}",
             "showAria": "Show value ({{ size }})"
         }
+    },
+    "sceneActivity": {
+        "by": "by",
+        "created": "Created",
+        "lastModified": "Last modified"
     }
 }

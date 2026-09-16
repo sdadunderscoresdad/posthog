@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { router } from 'kea-router'
+import { useTranslation } from 'react-i18next'
 
 import * as chartPng from '@posthog/brand/hoggies/png/chart'
 import { IconPlus } from '@posthog/icons'
@@ -58,6 +59,7 @@ function DashboardEmptyActions({
     push: (path: string) => void
     onOpenAiWithPrompt: (prompt: string) => void
 }): JSX.Element {
+    const { t } = useTranslation()
     const { reportDashboardEmptyAddChartClicked, reportDashboardEmptyWebAnalyticsClicked } = useActions(eventUsageLogic)
     const chipDisabledReason = !canEdit ? DASHBOARD_CANNOT_EDIT_MESSAGE : aiDisabledReason || undefined
     const handleAddInsight = (): void => {
@@ -93,6 +95,7 @@ function DashboardEmptyActions({
                                     overlay: (
                                         <LemonMenuOverlay
                                             items={getAddTileMenuItems({
+                                                t,
                                                 dashboardWidgetsEnabled,
                                                 onAddInsight: handleAddInsight,
                                                 onAddText,
@@ -109,7 +112,7 @@ function DashboardEmptyActions({
                                 'data-attr': 'dashboard-add-dropdown',
                             }}
                         >
-                            Add an existing chart
+                            {t('dashboard.empty.addExistingChart', { defaultValue: 'Add an existing chart' })}
                         </LemonButton>
                     </AccessControlAction>
                 )}
@@ -118,7 +121,7 @@ function DashboardEmptyActions({
                     to={urls.webAnalytics()}
                     onClick={() => reportDashboardEmptyWebAnalyticsClicked(dashboard?.id)}
                 >
-                    or View Web Analytics
+                    {t('dashboard.empty.viewWebAnalytics', { defaultValue: 'or View Web Analytics' })}
                 </LemonButton>
             </div>
         </div>

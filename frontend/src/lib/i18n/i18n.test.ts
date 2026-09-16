@@ -33,6 +33,7 @@ describe('i18n runtime', () => {
         await setLocale('zh-CN')
 
         expect(i18n.t('activity.tabs.events', { defaultValue: 'Events' })).toBe('事件')
+        expect(i18n.t('dashboard.editMode.save', { defaultValue: 'Save layout' })).toBe('保存布局')
         expect(i18n.t('activity.tabs.notTranslatedYet', { defaultValue: 'Still English' })).toBe('Still English')
     })
 

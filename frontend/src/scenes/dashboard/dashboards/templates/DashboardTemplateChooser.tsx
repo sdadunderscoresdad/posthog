@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconPlus } from '@posthog/icons'
 
@@ -19,6 +20,7 @@ const teamTemplateGridClass = 'grid grid-cols-1 md:grid-cols-2 gap-3'
 const featuredGridClass = 'grid grid-cols-1 lg:grid-cols-2 gap-4'
 
 export function DashboardTemplateChooser(props: DashboardTemplateProps): JSX.Element {
+    const { t } = useTranslation()
     const { className, availabilityContexts, ...chooserProps } = props
     const logicProps: DashboardTemplateChooserLogicProps = { ...chooserProps, availabilityContexts }
     const chooser = dashboardTemplateChooserLogic(logicProps)
@@ -40,9 +42,13 @@ export function DashboardTemplateChooser(props: DashboardTemplateProps): JSX.Ele
             {featuredTemplates.length > 0 ? (
                 <section>
                     <div className="mb-3">
-                        <h3 className="text-base font-semibold m-0">Popular with teams like yours</h3>
+                        <h3 className="text-base font-semibold m-0">
+                            {t('dashboard.templates.popular', { defaultValue: 'Popular with teams like yours' })}
+                        </h3>
                         <p className="text-secondary text-sm m-0 mt-1">
-                            Users love these templates! Great starting points for your dashboards.
+                            {t('dashboard.templates.popularDescription', {
+                                defaultValue: 'Users love these templates! Great starting points for your dashboards.',
+                            })}
                         </p>
                     </div>
                     <div className={featuredGridClass}>
@@ -64,9 +70,13 @@ export function DashboardTemplateChooser(props: DashboardTemplateProps): JSX.Ele
             {teamTemplates.length > 0 ? (
                 <section>
                     <div className="mb-3">
-                        <h3 className="text-base font-semibold m-0">Your templates</h3>
+                        <h3 className="text-base font-semibold m-0">
+                            {t('dashboard.templates.yours', { defaultValue: 'Your templates' })}
+                        </h3>
                         <p className="text-secondary text-sm m-0 mt-1">
-                            Templates saved for this project and shared across your organization.
+                            {t('dashboard.templates.yoursDescription', {
+                                defaultValue: 'Templates saved for this project and shared across your organization.',
+                            })}
                         </p>
                     </div>
                     <div className={teamTemplateGridClass}>
@@ -87,14 +97,24 @@ export function DashboardTemplateChooser(props: DashboardTemplateProps): JSX.Ele
             {showDashedEmptyState ? (
                 <div className="flex flex-col items-center justify-center rounded-md border border-dashed border-border bg-fill-secondary px-6 py-14 text-center">
                     <h4 className="m-0 text-base font-semibold">
-                        {hasActiveFilter ? 'No templates match your search' : 'No templates to show here'}
+                        {hasActiveFilter
+                            ? t('dashboard.templates.noMatches', { defaultValue: 'No templates match your search' })
+                            : t('dashboard.templates.none', { defaultValue: 'No templates to show here' })}
                     </h4>
                     <p className="mt-2 mb-0 max-w-md text-secondary text-sm">
                         {hasActiveFilter
-                            ? 'Try different keywords, clear the filter to see every template again, or start with a blank dashboard.'
+                            ? t('dashboard.templates.noMatchesHint', {
+                                  defaultValue:
+                                      'Try different keywords, clear the filter to see every template again, or start with a blank dashboard.',
+                              })
                             : showBlankTile
-                              ? 'Start with a blank dashboard, or check back later for new templates.'
-                              : 'No templates are available in this context.'}
+                              ? t('dashboard.templates.blankHint', {
+                                    defaultValue:
+                                        'Start with a blank dashboard, or check back later for new templates.',
+                                })
+                              : t('dashboard.templates.noneInContext', {
+                                    defaultValue: 'No templates are available in this context.',
+                                })}
                     </p>
                     <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
                         {showBlankTile ? (
@@ -104,7 +124,7 @@ export function DashboardTemplateChooser(props: DashboardTemplateProps): JSX.Ele
                                 onClick={() => blankTileClicked('main_grid')}
                                 data-attr="create-dashboard-blank-inline-empty"
                             >
-                                Blank dashboard
+                                {t('dashboard.templates.blankDashboard', { defaultValue: 'Blank dashboard' })}
                             </LemonButton>
                         ) : null}
                         {hasActiveFilter ? (
@@ -113,7 +133,7 @@ export function DashboardTemplateChooser(props: DashboardTemplateProps): JSX.Ele
                                 onClick={() => setTemplateFilter('')}
                                 data-attr="clear-dashboard-template-filter"
                             >
-                                Clear filter
+                                {t('dashboard.templates.clearFilter', { defaultValue: 'Clear filter' })}
                             </LemonButton>
                         ) : null}
                     </div>
@@ -121,8 +141,14 @@ export function DashboardTemplateChooser(props: DashboardTemplateProps): JSX.Ele
             ) : showOfficialSection ? (
                 <section>
                     <div className="mb-3">
-                        <h3 className="text-base font-semibold m-0">Official templates</h3>
-                        <p className="text-secondary text-sm m-0 mt-1">Browse official templates below.</p>
+                        <h3 className="text-base font-semibold m-0">
+                            {t('dashboard.templates.official', { defaultValue: 'Official templates' })}
+                        </h3>
+                        <p className="text-secondary text-sm m-0 mt-1">
+                            {t('dashboard.templates.officialHint', {
+                                defaultValue: 'Browse official templates below.',
+                            })}
+                        </p>
                     </div>
                     <div className={gridClass}>
                         {allTemplatesLoading ? (
@@ -133,7 +159,9 @@ export function DashboardTemplateChooser(props: DashboardTemplateProps): JSX.Ele
                             </>
                         ) : allMatchesInFeaturedSection ? (
                             <p className="col-span-full m-0 text-center text-secondary text-sm py-2">
-                                Every template that matches is in Popular above.
+                                {t('dashboard.templates.allInPopular', {
+                                    defaultValue: 'Every template that matches is in Popular above.',
+                                })}
                             </p>
                         ) : (
                             nonFeaturedOfficial.map((template, index) => (

@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonCheckbox } from 'lib/lemon-ui/LemonCheckbox'
@@ -8,12 +9,13 @@ import { LemonModal } from 'lib/lemon-ui/LemonModal'
 import { deleteDashboardLogic } from 'scenes/dashboard/deleteDashboardLogic'
 
 export function DeleteDashboardModal(): JSX.Element {
+    const { t } = useTranslation()
     const { hideDeleteDashboardModal } = useActions(deleteDashboardLogic)
     const { isDeleteDashboardSubmitting, deleteDashboardModalVisible } = useValues(deleteDashboardLogic)
 
     return (
         <LemonModal
-            title="Delete dashboard"
+            title={t('dashboard.menuBar.delete', { defaultValue: 'Delete dashboard' })}
             onClose={hideDeleteDashboardModal}
             isOpen={deleteDashboardModalVisible}
             footer={
@@ -25,7 +27,7 @@ export function DeleteDashboardModal(): JSX.Element {
                         disabled={isDeleteDashboardSubmitting}
                         onClick={hideDeleteDashboardModal}
                     >
-                        Cancel
+                        {t('dashboard.editMode.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         form="delete-dashboard-form"
@@ -36,7 +38,7 @@ export function DeleteDashboardModal(): JSX.Element {
                         loading={isDeleteDashboardSubmitting}
                         disabled={isDeleteDashboardSubmitting}
                     >
-                        Delete dashboard
+                        {t('dashboard.menuBar.delete', { defaultValue: 'Delete dashboard' })}
                     </LemonButton>
                 </>
             }
@@ -50,13 +52,17 @@ export function DeleteDashboardModal(): JSX.Element {
             >
                 <LemonField
                     name="deleteInsights"
-                    help="This will only delete insights if they're not on any other dashboards."
+                    help={t('dashboard.delete.insightsHelp', {
+                        defaultValue: "This will only delete insights if they're not on any other dashboards.",
+                    })}
                 >
                     {({ value, onChange }) => (
                         <LemonCheckbox
                             data-attr="delete-dashboard-insights-checkbox"
                             checked={value}
-                            label="Delete this dashboard's insights"
+                            label={t('dashboard.delete.insightsLabel', {
+                                defaultValue: "Delete this dashboard's insights",
+                            })}
                             onChange={onChange}
                         />
                     )}

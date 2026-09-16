@@ -1,5 +1,6 @@
 import { useValues } from 'kea'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { ButtonTileCard } from 'lib/components/Cards/ButtonTileCard/ButtonTileCard'
 import { dashboardWidgetMenusLogic } from 'lib/components/Cards/InsightCard/dashboardWidgetMenusLogic'
@@ -37,6 +38,7 @@ function DashboardButtonTileItemInternal(
     }: DashboardButtonTileItemProps,
     ref: React.ForwardedRef<HTMLDivElement>
 ): JSX.Element {
+    const { t } = useTranslation()
     const buttonId = tile.button_tile?.id
     const { copyToDestinations } = useValues(
         dashboardWidgetMenusLogic({
@@ -55,7 +57,7 @@ function DashboardButtonTileItemInternal(
             moreButtonOverlay={
                 <>
                     <LemonButton fullWidth onClick={onEdit} data-attr="edit-button-tile">
-                        Edit button
+                        {t('dashboard.buttonTile.edit', { defaultValue: 'Edit button' })}
                     </LemonButton>
 
                     <DashboardWidgetPlacementMenus
@@ -64,7 +66,7 @@ function DashboardButtonTileItemInternal(
                     />
 
                     <LemonButton onClick={onDuplicate} fullWidth data-attr="duplicate-button-tile-from-dashboard">
-                        Duplicate
+                        {t('dashboard.menuBar.duplicate', { defaultValue: 'Duplicate' })}
                     </LemonButton>
                     <LemonDivider />
                     {onRemove && (
@@ -74,7 +76,7 @@ function DashboardButtonTileItemInternal(
                             fullWidth
                             data-attr="remove-button-tile-from-dashboard"
                         >
-                            Delete
+                            {t('dashboard.buttonTile.delete', { defaultValue: 'Delete' })}
                         </LemonButton>
                     )}
                 </>

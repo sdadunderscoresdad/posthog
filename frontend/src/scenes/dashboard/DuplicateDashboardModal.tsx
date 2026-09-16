@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonCheckbox } from 'lib/lemon-ui/LemonCheckbox'
@@ -8,12 +9,13 @@ import { LemonModal } from 'lib/lemon-ui/LemonModal'
 import { duplicateDashboardLogic } from 'scenes/dashboard/duplicateDashboardLogic'
 
 export function DuplicateDashboardModal(): JSX.Element {
+    const { t } = useTranslation()
     const { hideDuplicateDashboardModal, duplicateAndGoToDashboard } = useActions(duplicateDashboardLogic)
     const { isDuplicateDashboardSubmitting, duplicateDashboardModalVisible } = useValues(duplicateDashboardLogic)
 
     return (
         <LemonModal
-            title="Duplicate dashboard"
+            title={t('dashboard.duplicate.title', { defaultValue: 'Duplicate dashboard' })}
             onClose={hideDuplicateDashboardModal}
             isOpen={duplicateDashboardModalVisible}
             footer={
@@ -25,7 +27,7 @@ export function DuplicateDashboardModal(): JSX.Element {
                         disabled={isDuplicateDashboardSubmitting}
                         onClick={hideDuplicateDashboardModal}
                     >
-                        Cancel
+                        {t('dashboard.editMode.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         form="new-dashboard-form"
@@ -34,7 +36,7 @@ export function DuplicateDashboardModal(): JSX.Element {
                         disabled={isDuplicateDashboardSubmitting}
                         onClick={duplicateAndGoToDashboard}
                     >
-                        Duplicate and go to dashboard
+                        {t('dashboard.duplicate.andGo', { defaultValue: 'Duplicate and go to dashboard' })}
                     </LemonButton>
                     <LemonButton
                         form="duplicate-dashboard-form"
@@ -44,7 +46,7 @@ export function DuplicateDashboardModal(): JSX.Element {
                         loading={isDuplicateDashboardSubmitting}
                         disabled={isDuplicateDashboardSubmitting}
                     >
-                        Duplicate
+                        {t('dashboard.menuBar.duplicate', { defaultValue: 'Duplicate' })}
                     </LemonButton>
                 </>
             }
@@ -58,10 +60,19 @@ export function DuplicateDashboardModal(): JSX.Element {
             >
                 <LemonField
                     name="duplicateTiles"
-                    help="Choose whether to duplicate this dashboard's insights and text or attach them to the new dashboard."
+                    help={t('dashboard.duplicate.tilesHelp', {
+                        defaultValue:
+                            "Choose whether to duplicate this dashboard's insights and text or attach them to the new dashboard.",
+                    })}
                 >
                     {({ value, onChange }) => (
-                        <LemonCheckbox checked={value} label="Duplicate this dashboard's tiles" onChange={onChange} />
+                        <LemonCheckbox
+                            checked={value}
+                            label={t('dashboard.duplicate.tilesLabel', {
+                                defaultValue: "Duplicate this dashboard's tiles",
+                            })}
+                            onChange={onChange}
+                        />
                     )}
                 </LemonField>
             </Form>

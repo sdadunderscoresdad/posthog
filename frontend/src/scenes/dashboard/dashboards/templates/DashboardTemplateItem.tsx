@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { useId } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconBuilding, IconHeartFilled } from '@posthog/icons'
 
@@ -49,13 +50,18 @@ function TemplateItemBuildingGlyph({ size }: { size: 'sm' | 'lg' }): JSX.Element
 
 /** Tag distinguishing org-shared templates from this project's own; team templates are the implicit default and unbadged. */
 function OrganizationScopeBadge({ scope }: { scope?: DashboardTemplateType['scope'] }): JSX.Element | null {
+    const { t } = useTranslation()
     if (scope !== 'organization') {
         return null
     }
     return (
-        <Tooltip title="Shared with everyone in your organization">
+        <Tooltip
+            title={t('dashboard.templates.sharedWithOrganization', {
+                defaultValue: 'Shared with everyone in your organization',
+            })}
+        >
             <LemonTag type="muted" size="small" className="shrink-0">
-                Organization
+                {t('dashboard.templates.organization', { defaultValue: 'Organization' })}
             </LemonTag>
         </Tooltip>
     )
@@ -106,12 +112,13 @@ export function TemplateItem({
     showFavourite = false,
     showCover = true,
 }: DashboardTemplateItemProps): JSX.Element {
+    const { t } = useTranslation()
     const titleId = useId()
     const isLarge = size === 'large'
     const imageHeightClass = 'h-30'
 
     const favouriteHeart = showFavourite ? (
-        <Tooltip title="Users love this template">
+        <Tooltip title={t('dashboard.templates.loved', { defaultValue: 'Users love this template' })}>
             <span className="absolute top-2 right-2 z-20 inline-flex pointer-events-auto">
                 <IconHeartFilled className="text-danger size-7" />
             </span>
@@ -163,7 +170,7 @@ export function TemplateItem({
                 <div className={featuredImageColumnClass}>
                     <FallbackCoverImage
                         src={template?.image_url}
-                        alt="cover photo"
+                        alt={t('dashboard.templates.coverPhoto', { defaultValue: 'cover photo' })}
                         index={index}
                         imageClassName="h-full w-full object-cover"
                     />
@@ -197,7 +204,7 @@ export function TemplateItem({
             <div className="transition-all w-full overflow-hidden z-0 h-30 min-h-30 group-hover:h-4 group-hover:min-h-4">
                 <FallbackCoverImage
                     src={template?.image_url}
-                    alt="cover photo"
+                    alt={t('dashboard.templates.coverPhoto', { defaultValue: 'cover photo' })}
                     index={index}
                     imageClassName={imageHeightClass}
                 />

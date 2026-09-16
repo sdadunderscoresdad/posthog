@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { BindLogic, useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconCalendar } from '@posthog/icons'
 import { LemonSelect } from '@posthog/lemon-ui'
@@ -28,12 +29,13 @@ interface DashboardEditBarProps {
 }
 
 export function DashboardIntervalFilter(): JSX.Element {
+    const { t } = useTranslation()
     const { dashboardEditing, effectiveEditBarFilters } = useValues(dashboardLogic)
     const { setInterval, setDashboardEditing } = useActions(dashboardLogic)
 
     return (
         <span className="flex items-center gap-2">
-            <span className="hidden md:inline">grouped by</span>
+            <span className="hidden md:inline">{t('dashboard.editBar.groupedBy', { defaultValue: 'grouped by' })}</span>
             <LemonSelect<IntervalType | null>
                 size="small"
                 value={effectiveEditBarFilters.interval ?? null}

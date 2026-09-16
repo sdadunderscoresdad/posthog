@@ -1,4 +1,5 @@
 import { useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconScreen } from '@posthog/icons'
 
@@ -11,6 +12,7 @@ import { AccessControlLevel, AccessControlResourceType } from '~/types'
 
 /** Single entry: save this dashboard as a project template (modal; staff get an optional JSON editor from there). */
 export function DashboardSaveAsTemplateSceneActions(): JSX.Element | null {
+    const { t } = useTranslation()
     const { asDashboardTemplate, canSaveProjectDashboardTemplate } = useValues(dashboardLogic)
 
     const customerTemplateEditorAccess = userHasAccess(AccessControlResourceType.Dashboard, AccessControlLevel.Editor)
@@ -47,7 +49,7 @@ export function DashboardSaveAsTemplateSceneActions(): JSX.Element | null {
             data-attr="dashboard-save-as-project-template"
         >
             <IconScreen />
-            Save as dashboard template
+            {t('dashboard.saveAsTemplate.action', { defaultValue: 'Save as dashboard template' })}
         </ButtonPrimitive>
     )
 }

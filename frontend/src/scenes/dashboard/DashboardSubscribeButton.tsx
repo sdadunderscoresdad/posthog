@@ -3,6 +3,7 @@ import './DashboardSubscribeButton.scss'
 import { useActions, useValues } from 'kea'
 import { router } from 'kea-router'
 import posthog from 'posthog-js'
+import { useTranslation } from 'react-i18next'
 
 import { IconBell } from '@posthog/icons'
 
@@ -38,6 +39,7 @@ function SubscribeIcon({ dashboardId }: { dashboardId: number }): JSX.Element {
 }
 
 export function DashboardSubscribeButton(): JSX.Element | null {
+    const { t } = useTranslation()
     const { dashboard, canEditDashboard, tiles } = useValues(dashboardLogic)
     const { push } = useActions(router)
 
@@ -60,7 +62,7 @@ export function DashboardSubscribeButton(): JSX.Element | null {
                 push(urlForSubscriptions({ dashboardId }))
             }}
         >
-            Subscribe
+            {t('dashboard.subscribe.action', { defaultValue: 'Subscribe' })}
         </LemonButton>
     )
 }

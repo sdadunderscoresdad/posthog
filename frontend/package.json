@@ -27,7 +27,7 @@
         "build:message-preferences": "node bin/build-message-preferences.mjs && oxfmt public/message-preferences.css",
         "i18n:build": "node ./bin/build-i18n-catalogs.mjs",
         "i18n:check": "node ./bin/build-i18n-catalogs.mjs --check",
-        "i18n:extract": "i18next-cli extract",
+        "i18n:extract": "i18next-cli extract --sync-primary",
         "start": "pnpm start-http",
         "start-http": "pnpm clean && pnpm copy-scripts && pnpm build:esbuild --dev",
         "start-docker": "pnpm start-http --host 0.0.0.0",

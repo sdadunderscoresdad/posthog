@@ -56,7 +56,362 @@
     },
     "common": {
         "no": "",
+        "unknown": "",
+        "untitled": "",
         "yes": ""
+    },
+    "dashboard": {
+        "addInsight": {
+            "createNew": "",
+            "createNewDescription": "",
+            "more": "",
+            "title": ""
+        },
+        "addTile": {
+            "action": "",
+            "button": "",
+            "charts": "",
+            "content": "",
+            "image": "",
+            "text": "",
+            "widget": "",
+            "widgetBetaTooltip": ""
+        },
+        "advancedFilters": {
+            "breakdownColors": "",
+            "breakdownColorsInfo": "",
+            "configureTooltip": "",
+            "description": "",
+            "filterOut": "",
+            "filterOutTooltip": "",
+            "hint": {
+                "filterOut": "",
+                "include": "",
+                "inherit": ""
+            },
+            "include": "",
+            "includeTooltip": "",
+            "inherit": "",
+            "inheritTooltip": "",
+            "noTestFilters": "",
+            "testAccount": "",
+            "testAccountInfo": "",
+            "title": ""
+        },
+        "aiPrompt": {
+            "buildItForMe": "",
+            "enterQuestion": "",
+            "heading": "",
+            "learnAboutProductAnalytics": "",
+            "placeholder": "",
+            "samples": {
+                "activity": "",
+                "adoption": "",
+                "paths": "",
+                "retention": ""
+            },
+            "startWithQuestion": ""
+        },
+        "buttonTile": {
+            "delete": "",
+            "edit": ""
+        },
+        "colors": {
+            "allProperties": "",
+            "auto": "",
+            "breakdownColumn": "",
+            "cancelTooltip": "",
+            "cohorts": "",
+            "colorColumn": "",
+            "colorTheme": "",
+            "customize": "",
+            "definedByInsight": "",
+            "groupingInfo": "",
+            "modalTitle": "",
+            "noChanges": "",
+            "pinInfo": "",
+            "reset": "",
+            "resetTooltip": "",
+            "save": "",
+            "sharedValueInfo": "",
+            "singleInsightInfo": "",
+            "themeInfo": "",
+            "tilesLoading": ""
+        },
+        "copy": {
+            "copiedTo": "",
+            "error": {
+                "buttonTile": "",
+                "insight": "",
+                "textCard": "",
+                "widget": ""
+            }
+        },
+        "customize": {
+            "action": "",
+            "tooltip": ""
+        },
+        "delete": {
+            "insightsHelp": "",
+            "insightsLabel": ""
+        },
+        "deleteInsight": {
+            "alsoUsedOn": "",
+            "confirm": "",
+            "description": "",
+            "title": ""
+        },
+        "duplicate": {
+            "andGo": "",
+            "tilesHelp": "",
+            "tilesLabel": "",
+            "title": ""
+        },
+        "editBar": {
+            "groupedBy": ""
+        },
+        "editMode": {
+            "addTileFirst": "",
+            "cancel": "",
+            "discardTooltip": "",
+            "notPrivileged": "",
+            "save": "",
+            "saveTooltip": "",
+            "waitForLoading": ""
+        },
+        "empty": {
+            "addExistingChart": "",
+            "viewWebAnalytics": ""
+        },
+        "errorTile": {
+            "remove": "",
+            "title": ""
+        },
+        "filters": {
+            "clearFolder": "",
+            "clearSelection": "",
+            "filterTo": "",
+            "loadingTags": "",
+            "noMatchingTags": "",
+            "noTags": "",
+            "projectRoot": "",
+            "search": "",
+            "searchTags": "",
+            "shared": "",
+            "tags": ""
+        },
+        "fullscreen": {
+            "exit": ""
+        },
+        "items": {
+            "layoutEditingDisabled": "",
+            "loadingTiles": ""
+        },
+        "loadError": "",
+        "menuBar": {
+            "copyToProject": "",
+            "create": "",
+            "customizeColors": "",
+            "delete": "",
+            "duplicate": "",
+            "edit": "",
+            "export": "",
+            "exportJsonStaff": "",
+            "file": "",
+            "fullscreen": "",
+            "metadata": "",
+            "metalytics": "",
+            "noInsights": "",
+            "noOpenWhileEditing": "",
+            "notebookFromDashboard": "",
+            "openInsights": "",
+            "pinned": "",
+            "saveAsTemplate": "",
+            "saveTemplateNoAccess": "",
+            "subscription": "",
+            "templateNotReady": "",
+            "terraform": ""
+        },
+        "modals": {
+            "permissionsAndSharing": ""
+        },
+        "move": {
+            "movedTo": ""
+        },
+        "new": {
+            "action": "",
+            "back": "",
+            "chooseEvents": "",
+            "create": "",
+            "createDashboard": "",
+            "filterTemplates": "",
+            "startFromScratch": "",
+            "templateRequiresEvents_one": "",
+            "templateRequiresEvents_few": "",
+            "templateRequiresEvents_many": "",
+            "templateRequiresEvents_other": "",
+            "templatesDescription": ""
+        },
+        "notFound": {
+            "invalidLink": "",
+            "staleLink": ""
+        },
+        "panel": {
+            "copyTooltip": "",
+            "createNotebook": ""
+        },
+        "publicAccessBanner": "",
+        "reload": {
+            "autoRefresh": "",
+            "enableToSetInterval": "",
+            "lastRefreshed": "",
+            "loadedOfTotal": "",
+            "loading": "",
+            "refreshedOfTotal": "",
+            "refreshing": ""
+        },
+        "remove": {
+            "removedFromDashboard": "",
+            "undo": "",
+            "widgetRemoved": ""
+        },
+        "retentionBanner": {
+            "message": "",
+            "upgrade": ""
+        },
+        "saveAsTemplate": {
+            "action": ""
+        },
+        "share": {
+            "action": ""
+        },
+        "subscribe": {
+            "action": ""
+        },
+        "subscribeNudge": {
+            "body_one": "",
+            "body_few": "",
+            "body_many": "",
+            "body_other": "",
+            "cta": "",
+            "thisDashboard": "",
+            "title": ""
+        },
+        "table": {
+            "changeDefault": "",
+            "edit": "",
+            "moveToFolder": "",
+            "notFiled": "",
+            "primaryHint": "",
+            "sharedPublicly": "",
+            "view": ""
+        },
+        "templateCopy": {
+            "chooseProject": "",
+            "copy": "",
+            "createProject": "",
+            "destinationProject": "",
+            "invalidSource": "",
+            "loadFailed": "",
+            "noDestinations": "",
+            "noDestinationsDescription": "",
+            "selectProject": ""
+        },
+        "templateEditor": {
+            "create": "",
+            "update": "",
+            "validationErrors_one": "",
+            "validationErrors_few": "",
+            "validationErrors_many": "",
+            "validationErrors_other": ""
+        },
+        "templateModal": {
+            "description": "",
+            "descriptionPlaceholder": "",
+            "editTitle": "",
+            "name": "",
+            "namePlaceholder": "",
+            "openJsonEditor": "",
+            "save": "",
+            "saveChanges": "",
+            "staffTools": "",
+            "staffToolsHint": "",
+            "tags": "",
+            "tagsPlaceholder": ""
+        },
+        "templates": {
+            "allInPopular": "",
+            "blankDashboard": "",
+            "blankHint": "",
+            "cannotDeleteBuiltIn": "",
+            "cannotDeleteGlobal": "",
+            "clearFilter": "",
+            "coverPhoto": "",
+            "createdBy": "",
+            "delete": "",
+            "deleteOrgDescription": "",
+            "deleteOrgTitle": "",
+            "empty": "",
+            "loved": "",
+            "makeOrgWide": "",
+            "makeTeamOnly": "",
+            "makeVisibleEveryone": "",
+            "moreTags_one": "",
+            "moreTags_few": "",
+            "moreTags_many": "",
+            "moreTags_other": "",
+            "noMatches": "",
+            "noMatchesHint": "",
+            "none": "",
+            "noneInContext": "",
+            "official": "",
+            "officialHint": "",
+            "officialShort": "",
+            "organization": "",
+            "orStartFromScratch": "",
+            "popular": "",
+            "popularDescription": "",
+            "popularTooltip": "",
+            "posthog": "",
+            "searchPlaceholder": "",
+            "sharedWithOrganization": "",
+            "team": "",
+            "type": "",
+            "yours": "",
+            "yoursDescription": ""
+        },
+        "tileFilters": {
+            "breakdown": "",
+            "dateRange": "",
+            "description": "",
+            "display": "",
+            "filterOutTooltip": "",
+            "filters": "",
+            "hint": {
+                "filterOut": "",
+                "include": "",
+                "inherit": ""
+            },
+            "ignoreDashboardFilters": "",
+            "ignoreDashboardFiltersHint": "",
+            "includeTooltip": "",
+            "inherit": "",
+            "inheritTooltip": "",
+            "interval": "",
+            "intervalUnsupported": "",
+            "properties": "",
+            "scope": "",
+            "time": ""
+        },
+        "widgetType": {
+            "insight": "",
+            "textCard": ""
+        },
+        "zoom": {
+            "collapse": "",
+            "expand": "",
+            "tooltip": ""
+        }
     },
     "homepage": {
         "ai": {
@@ -90,6 +445,12 @@
             "untitled": ""
         }
     },
+    "interval": {
+        "day": "",
+        "hour": "",
+        "month": "",
+        "week": ""
+    },
     "mcp": {
         "columns": {
             "key": "",
@@ -119,5 +480,10 @@
             "show": "",
             "showAria": ""
         }
+    },
+    "sceneActivity": {
+        "by": "",
+        "created": "",
+        "lastModified": ""
     }
 }

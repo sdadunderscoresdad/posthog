@@ -1,6 +1,7 @@
 import './Dashboard.scss'
 
 import { BindLogic, useActions, useMountedLogic, useValues } from 'kea'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { AccessDenied } from 'lib/components/AccessDenied'
 import { dashboardTileScreenshotKey } from 'lib/components/Cards/InsightCard/insightCardImageCapture'
@@ -98,6 +99,7 @@ function DashboardScene({
     backTo?: { url: string; name: string }
     showCreateAnomalyAlertButton?: boolean
 }): JSX.Element {
+    const { t } = useTranslation()
     const {
         placement,
         dashboard,
@@ -139,12 +141,16 @@ function DashboardScene({
             <NotFound
                 object="dashboard"
                 caption={
-                    <>
-                        {hasInvalidDashboardId
-                            ? 'This dashboard link is not valid.'
-                            : 'It may have been deleted, or the link is out of date.'}{' '}
-                        <Link to={urls.dashboards()}>Go to your dashboards</Link>.
-                    </>
+                    hasInvalidDashboardId ? (
+                        <Trans i18nKey="dashboard.notFound.invalidLink">
+                            This dashboard link is not valid. <Link to={urls.dashboards()}>Go to your dashboards</Link>.
+                        </Trans>
+                    ) : (
+                        <Trans i18nKey="dashboard.notFound.staleLink">
+                            It may have been deleted, or the link is out of date.{' '}
+                            <Link to={urls.dashboards()}>Go to your dashboards</Link>.
+                        </Trans>
+                    )
                 }
             />
         )
@@ -171,7 +177,7 @@ function DashboardScene({
 
             {dashboardFailedToLoad ? (
                 <InsightErrorState
-                    title="There was an error loading this dashboard"
+                    title={t('dashboard.loadError', { defaultValue: 'There was an error loading this dashboard' })}
                     onRetry={
                         placement === DashboardPlacement.Export
                             ? undefined

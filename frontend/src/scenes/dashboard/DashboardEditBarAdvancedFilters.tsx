@@ -1,5 +1,7 @@
+import type { TFunction } from 'i18next'
 import { useActions, useValues } from 'kea'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconEllipsis, IconGear, IconPalette } from '@posthog/icons'
 import { LemonBadge, LemonButton, LemonDivider, LemonLabel, LemonSegmentedButton } from '@posthog/lemon-ui'
@@ -22,10 +24,21 @@ const CHOICE_TO_FILTER: Record<TestAccountFilterChoice, boolean | null> = {
     include: false,
 }
 
-const CHOICE_HINTS: Record<TestAccountFilterChoice, string> = {
-    inherit: 'Each insight keeps its own "Filter out internal and test users" setting.',
-    'filter-out': 'Internal and test users are filtered out of every insight on this dashboard.',
-    include: 'Internal and test users are included in every insight on this dashboard.',
+function choiceHint(t: TFunction, choice: TestAccountFilterChoice): string {
+    switch (choice) {
+        case 'inherit':
+            return t('dashboard.advancedFilters.hint.inherit', {
+                defaultValue: 'Each insight keeps its own "Filter out internal and test users" setting.',
+            })
+        case 'filter-out':
+            return t('dashboard.advancedFilters.hint.filterOut', {
+                defaultValue: 'Internal and test users are filtered out of every insight on this dashboard.',
+            })
+        case 'include':
+            return t('dashboard.advancedFilters.hint.include', {
+                defaultValue: 'Internal and test users are included in every insight on this dashboard.',
+            })
+    }
 }
 
 /**
@@ -34,6 +47,7 @@ const CHOICE_HINTS: Record<TestAccountFilterChoice, string> = {
  * breakdown color override.
  */
 export function DashboardEditBarAdvancedFilters(): JSX.Element {
+    const { t } = useTranslation()
     const { dashboard, dashboardEditing, placement, canEditDashboard, effectiveEditBarFilters } =
         useValues(dashboardLogic)
     const { setFilterTestAccounts, setDashboardEditing } = useActions(dashboardLogic)
@@ -61,22 +75,33 @@ export function DashboardEditBarAdvancedFilters(): JSX.Element {
             overlay={
                 <div className="flex w-80 flex-col gap-2 p-2">
                     <div>
-                        <h4 className="mb-0 font-semibold">Advanced options</h4>
+                        <h4 className="mb-0 font-semibold">
+                            {t('dashboard.advancedFilters.title', { defaultValue: 'Advanced options' })}
+                        </h4>
                         <p className="mb-0 text-xs text-secondary">
-                            Overrides applied to every insight on this dashboard.
+                            {t('dashboard.advancedFilters.description', {
+                                defaultValue: 'Overrides applied to every insight on this dashboard.',
+                            })}
                         </p>
                     </div>
                     <LemonDivider className="my-0" />
                     <div className="flex items-center justify-between gap-2">
-                        <LemonLabel info="Force test account filtering on or off for every insight, or let each insight keep its own setting.">
-                            Test account filtering
+                        <LemonLabel
+                            info={t('dashboard.advancedFilters.testAccountInfo', {
+                                defaultValue:
+                                    'Force test account filtering on or off for every insight, or let each insight keep its own setting.',
+                            })}
+                        >
+                            {t('dashboard.advancedFilters.testAccount', { defaultValue: 'Test account filtering' })}
                         </LemonLabel>
                         <LemonButton
                             icon={<IconGear />}
                             size="xsmall"
                             noPadding
                             to={urls.settings('project-product-analytics', 'internal-user-filtering')}
-                            tooltip="Configure internal and test account filters"
+                            tooltip={t('dashboard.advancedFilters.configureTooltip', {
+                                defaultValue: 'Configure internal and test account filters',
+                            })}
                         />
                     </div>
                     <LemonSegmentedButton<TestAccountFilterChoice>
@@ -95,33 +120,49 @@ export function DashboardEditBarAdvancedFilters(): JSX.Element {
                         options={[
                             {
                                 value: 'inherit',
-                                label: 'Inherit',
-                                tooltip: 'Each insight keeps its own setting',
+                                label: t('dashboard.advancedFilters.inherit', { defaultValue: 'Inherit' }),
+                                tooltip: t('dashboard.advancedFilters.inheritTooltip', {
+                                    defaultValue: 'Each insight keeps its own setting',
+                                }),
                                 'data-attr': 'dashboard-test-account-filter-inherit',
                             },
                             {
                                 value: 'filter-out',
-                                label: 'Filter out',
-                                tooltip: 'Force test account filtering on for every insight',
+                                label: t('dashboard.advancedFilters.filterOut', { defaultValue: 'Filter out' }),
+                                tooltip: t('dashboard.advancedFilters.filterOutTooltip', {
+                                    defaultValue: 'Force test account filtering on for every insight',
+                                }),
                                 disabledReason: !hasTestAccountFilters
-                                    ? "You haven't set any internal test filters. Click the gear icon to configure."
+                                    ? t('dashboard.advancedFilters.noTestFilters', {
+                                          defaultValue:
+                                              "You haven't set any internal test filters. Click the gear icon to configure.",
+                                      })
                                     : undefined,
                                 'data-attr': 'dashboard-test-account-filter-out',
                             },
                             {
                                 value: 'include',
-                                label: 'Include',
-                                tooltip: 'Force test account filtering off for every insight',
+                                label: t('dashboard.advancedFilters.include', { defaultValue: 'Include' }),
+                                tooltip: t('dashboard.advancedFilters.includeTooltip', {
+                                    defaultValue: 'Force test account filtering off for every insight',
+                                }),
                                 'data-attr': 'dashboard-test-account-filter-include',
                             },
                         ]}
                     />
-                    <p className="mb-0 text-xs text-secondary">{CHOICE_HINTS[choice]}</p>
+                    <p className="mb-0 text-xs text-secondary">{choiceHint(t, choice)}</p>
                     {showColors && (
                         <>
                             <LemonDivider className="my-0" />
-                            <LemonLabel info="Pin a breakdown value to a color, or pick a color theme, so every insight on this dashboard draws it the same way.">
-                                Breakdown colors
+                            <LemonLabel
+                                info={t('dashboard.advancedFilters.breakdownColorsInfo', {
+                                    defaultValue:
+                                        'Pin a breakdown value to a color, or pick a color theme, so every insight on this dashboard draws it the same way.',
+                                })}
+                            >
+                                {t('dashboard.advancedFilters.breakdownColors', {
+                                    defaultValue: 'Breakdown colors',
+                                })}
                             </LemonLabel>
                             <LemonButton
                                 type="secondary"
@@ -135,7 +176,7 @@ export function DashboardEditBarAdvancedFilters(): JSX.Element {
                                 }}
                                 data-attr="dashboard-advanced-customize-colors"
                             >
-                                Customize colors
+                                {t('dashboard.menuBar.customizeColors', { defaultValue: 'Customize colors' })}
                             </LemonButton>
                         </>
                     )}
@@ -145,7 +186,7 @@ export function DashboardEditBarAdvancedFilters(): JSX.Element {
             <LemonButton
                 size="small"
                 icon={<IconEllipsis />}
-                tooltip="Advanced options"
+                tooltip={t('dashboard.advancedFilters.title', { defaultValue: 'Advanced options' })}
                 active={visible}
                 onClick={() => setVisible(!visible)}
                 sideIcon={overrideCount ? <LemonBadge.Number count={overrideCount} size="small" /> : undefined}

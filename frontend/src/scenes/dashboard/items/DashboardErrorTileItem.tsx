@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { CardMeta, Resizeable } from 'lib/components/Cards/CardMeta'
 import { DashboardResizeHandles } from 'lib/components/Cards/handles'
@@ -41,6 +42,7 @@ function DashboardErrorTileItemInternal(
     }: DashboardErrorTileItemProps,
     ref: React.ForwardedRef<HTMLDivElement>
 ): JSX.Element {
+    const { t } = useTranslation()
     return (
         <div
             className={clsx('DashboardTileCard InsightCard border', className)}
@@ -55,13 +57,15 @@ function DashboardErrorTileItemInternal(
                 moreButtons={
                     onRemove ? (
                         <LemonButton status="danger" onClick={onRemove} fullWidth>
-                            Remove from dashboard
+                            {t('dashboard.errorTile.remove', { defaultValue: 'Remove from dashboard' })}
                         </LemonButton>
                     ) : undefined
                 }
             />
             <InsightErrorState
-                title="There is a problem loading this dashboard tile."
+                title={t('dashboard.errorTile.title', {
+                    defaultValue: 'There is a problem loading this dashboard tile.',
+                })}
                 onRetry={onRetry}
                 retryLoading={retryLoading}
                 placement={placement}

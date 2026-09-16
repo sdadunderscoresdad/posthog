@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonModal } from '@posthog/lemon-ui'
 
@@ -13,6 +14,7 @@ export interface DashboardTemplateEditorProps {
 }
 
 export function DashboardTemplateEditor({ inline = false }: DashboardTemplateEditorProps): JSX.Element {
+    const { t } = useTranslation()
     const {
         closeDashboardTemplateEditor,
         createDashboardTemplate,
@@ -49,7 +51,7 @@ export function DashboardTemplateEditor({ inline = false }: DashboardTemplateEdi
                                 : undefined
                         }
                     >
-                        Update template
+                        {t('dashboard.templateEditor.update', { defaultValue: 'Update template' })}
                     </LemonButton>
                 ) : (
                     <LemonButton
@@ -60,13 +62,15 @@ export function DashboardTemplateEditor({ inline = false }: DashboardTemplateEdi
                         }}
                         disabledReason={
                             validationErrors.length
-                                ? `There are ${validationErrors.length} errors to resolve:${validationErrors.map(
-                                      (e) => ' ' + e
-                                  )}`
+                                ? t('dashboard.templateEditor.validationErrors', {
+                                      defaultValue: 'There are {{ count }} errors to resolve:{{ errors }}',
+                                      count: validationErrors.length,
+                                      errors: validationErrors.map((e) => ' ' + e),
+                                  })
                                 : undefined
                         }
                     >
-                        Create new template
+                        {t('dashboard.templateEditor.create', { defaultValue: 'Create new template' })}
                     </LemonButton>
                 )
             }

@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconCheck, IconX } from '@posthog/icons'
 import { IconRefresh } from '@posthog/icons'
@@ -17,12 +18,13 @@ import { dashboardLogic } from 'scenes/dashboard/dashboardLogic'
 import { Scene } from 'scenes/sceneTypes'
 
 export const LastRefreshText = (): JSX.Element => {
+    const { t } = useTranslation()
     const { effectiveLastRefresh } = useValues(dashboardLogic)
     return (
         <div className="flex items-center gap-1">
             {effectiveLastRefresh && dayjs().diff(dayjs(effectiveLastRefresh), 'hour') < 24 && (
                 <div className="flex items-center gap-1">
-                    <span>Last refreshed</span>
+                    <span>{t('dashboard.reload.lastRefreshed', { defaultValue: 'Last refreshed' })}</span>
                     <TZLabel time={effectiveLastRefresh} />
                 </div>
             )}
@@ -32,6 +34,7 @@ export const LastRefreshText = (): JSX.Element => {
 
 /** Loading / progress / pessimistic last refresh — same as the left side of `DashboardReloadAction`, without refresh controls. */
 export function DashboardRefreshStatusText(): JSX.Element {
+    const { t } = useTranslation()
     const { itemsLoading, refreshMetrics, dashboardLoadData } = useValues(dashboardLogic)
     const isInitialLoad =
         dashboardLoadData?.action === 'initial_load' || dashboardLoadData?.action === 'initial_load_with_variables'
@@ -41,12 +44,25 @@ export function DashboardRefreshStatusText(): JSX.Element {
                 <span className="flex items-center gap-1">
                     <Spinner textColored className="text-sm" />
                     {refreshMetrics.total ? (
-                        <>
-                            {isInitialLoad ? 'Loaded' : 'Refreshed'} {refreshMetrics.completed} out of{' '}
-                            {refreshMetrics.total}
-                        </>
+                        isInitialLoad ? (
+                            t('dashboard.reload.loadedOfTotal', {
+                                defaultValue: 'Loaded {{ completed }} out of {{ total }}',
+                                completed: refreshMetrics.completed,
+                                total: refreshMetrics.total,
+                            })
+                        ) : (
+                            t('dashboard.reload.refreshedOfTotal', {
+                                defaultValue: 'Refreshed {{ completed }} out of {{ total }}',
+                                completed: refreshMetrics.completed,
+                                total: refreshMetrics.total,
+                            })
+                        )
                     ) : (
-                        <>{isInitialLoad ? 'Loading' : 'Refreshing'}...</>
+                        <>
+                            {isInitialLoad
+                                ? t('dashboard.reload.loading', { defaultValue: 'Loading...' })
+                                : t('dashboard.reload.refreshing', { defaultValue: 'Refreshing...' })}
+                        </>
                     )}
                 </span>
             ) : (
@@ -66,6 +82,7 @@ const INTERVAL_OPTIONS = Array.from(REFRESH_INTERVAL_SECONDS, (value) => ({
 }))
 
 export function DashboardReloadAction(): JSX.Element {
+    const { t } = useTranslation()
     const { itemsLoading, autoRefresh, blockRefresh, nextAllowedDashboardRefresh } = useValues(dashboardLogic)
     const { triggerDashboardRefresh, setAutoRefresh, setPageVisibility, cancelDashboardRefresh } =
         useActions(dashboardLogic)
@@ -96,7 +113,9 @@ export function DashboardReloadAction(): JSX.Element {
     const options = INTERVAL_OPTIONS.map((option) => {
         return {
             ...option,
-            disabledReason: !autoRefresh.enabled ? 'Enable auto refresh to set the interval' : undefined,
+            disabledReason: !autoRefresh.enabled
+                ? t('dashboard.reload.enableToSetInterval', { defaultValue: 'Enable auto refresh to set the interval' })
+                : undefined,
         }
     })
 
@@ -144,7 +163,9 @@ export function DashboardReloadAction(): JSX.Element {
                                                         onChange={(checked) =>
                                                             setAutoRefresh(checked, autoRefresh.interval)
                                                         }
-                                                        label="Auto refresh while on page"
+                                                        label={t('dashboard.reload.autoRefresh', {
+                                                            defaultValue: 'Auto refresh while on page',
+                                                        })}
                                                         checked={autoRefresh.enabled}
                                                         fullWidth
                                                         className="mt-1 mb-2"

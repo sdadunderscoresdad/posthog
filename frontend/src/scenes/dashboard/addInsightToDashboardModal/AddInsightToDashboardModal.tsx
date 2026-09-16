@@ -1,6 +1,7 @@
 import { useActions, useValues } from 'kea'
 import { BindLogic } from 'kea'
 import posthog from 'posthog-js'
+import { useTranslation } from 'react-i18next'
 
 import { IconInsightFunnels, IconInsightRetention, IconInsightTrends } from 'lib/lemon-ui/icons'
 import { LemonBanner } from 'lib/lemon-ui/LemonBanner'
@@ -26,6 +27,7 @@ const QUICK_CREATE_TYPES = [
 ]
 
 export function AddInsightToDashboardModal(): JSX.Element {
+    const { t } = useTranslation()
     const { hideAddInsightToDashboardModal, toggleShowMoreInsightTypes } = useActions(addInsightToDashboardLogic)
     const { addInsightToDashboardModalVisible, showMoreInsightTypes } = useValues(addInsightToDashboardLogic)
     const { dashboard } = useValues(dashboardLogic)
@@ -54,7 +56,7 @@ export function AddInsightToDashboardModal(): JSX.Element {
     return (
         <BindLogic logic={addSavedInsightsModalLogic} props={{}}>
             <LemonModal
-                title="Add insight to dashboard"
+                title={t('dashboard.addInsight.title', { defaultValue: 'Add insight to dashboard' })}
                 onClose={handleClose}
                 isOpen={addInsightToDashboardModalVisible}
                 width={860}
@@ -64,9 +66,13 @@ export function AddInsightToDashboardModal(): JSX.Element {
                     <LemonBanner type="info" hideIcon className="p-4">
                         <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                             <div className="min-w-0">
-                                <div className="font-semibold">Create a new insight</div>
+                                <div className="font-semibold">
+                                    {t('dashboard.addInsight.createNew', { defaultValue: 'Create a new insight' })}
+                                </div>
                                 <div className="text-xs text-secondary">
-                                    Build a new insight and add it to this dashboard
+                                    {t('dashboard.addInsight.createNewDescription', {
+                                        defaultValue: 'Build a new insight and add it to this dashboard',
+                                    })}
                                 </div>
                             </div>
                             <div className="flex items-center gap-2 sm:ml-auto flex-wrap pr-0.5">
@@ -122,7 +128,7 @@ export function AddInsightToDashboardModal(): JSX.Element {
                                         size="small"
                                         onClick={() => toggleShowMoreInsightTypes()}
                                     >
-                                        More
+                                        {t('dashboard.addInsight.more', { defaultValue: 'More' })}
                                     </LemonButton>
                                 </Popover>
                             </div>

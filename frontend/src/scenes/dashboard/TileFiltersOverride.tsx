@@ -1,7 +1,9 @@
 // scenes/dashboard/TileFiltersOverride.tsx
 import './TileFiltersOverride.scss'
 
+import type { TFunction } from 'i18next'
 import { BindLogic, useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import { IconCalendar, IconGear } from '@posthog/icons'
 import { LemonButton, LemonDivider, LemonSegmentedButton, LemonSelect, LemonSwitch } from '@posthog/lemon-ui'
@@ -30,13 +32,25 @@ const CHOICE_TO_FILTER: Record<TestAccountFilterChoice, boolean | null> = {
     include: false,
 }
 
-const CHOICE_HINTS: Record<TestAccountFilterChoice, string> = {
-    inherit: "Uses the dashboard's setting, or the insight's own if the dashboard doesn't set one.",
-    'filter-out': 'Internal and test users are filtered out of this insight.',
-    include: 'Internal and test users are included in this insight.',
+function tileChoiceHint(t: TFunction, choice: TestAccountFilterChoice): string {
+    switch (choice) {
+        case 'inherit':
+            return t('dashboard.tileFilters.hint.inherit', {
+                defaultValue: "Uses the dashboard's setting, or the insight's own if the dashboard doesn't set one.",
+            })
+        case 'filter-out':
+            return t('dashboard.tileFilters.hint.filterOut', {
+                defaultValue: 'Internal and test users are filtered out of this insight.',
+            })
+        case 'include':
+            return t('dashboard.tileFilters.hint.include', {
+                defaultValue: 'Internal and test users are included in this insight.',
+            })
+    }
 }
 
 export function TileFiltersOverride({ tile }: { tile: DashboardTile<QueryBasedInsightModel> }): JSX.Element {
+    const { t } = useTranslation()
     const { overrides } = useValues(tileLogic)
     const { setDates, setProperties, setBreakdown, setInterval, setFilterTestAccounts, setIgnoreDashboardFilters } =
         useActions(tileLogic)
@@ -73,34 +87,42 @@ export function TileFiltersOverride({ tile }: { tile: DashboardTile<QueryBasedIn
         <div className="space-y-4 tile-filters-override">
             <div>
                 <p className="text-sm text-muted mb-4">
-                    Set custom filters for this tile. Property filters apply on top of the dashboard's, while the tile's
-                    date range, interval, breakdown, and test account filtering replace the dashboard's.
+                    {t('dashboard.tileFilters.description', {
+                        defaultValue:
+                            "Set custom filters for this tile. Property filters apply on top of the dashboard's, while the tile's date range, interval, breakdown, and test account filtering replace the dashboard's.",
+                    })}
                 </p>
             </div>
 
             <div>
-                <LemonDivider label="Scope" />
+                <LemonDivider label={t('dashboard.tileFilters.scope', { defaultValue: 'Scope' })} />
                 <div className="flex flex-col gap-4 pb-4">
                     <div>
                         <LemonSwitch
                             checked={!!overrides.ignoreDashboardFilters}
                             onChange={setIgnoreDashboardFilters}
-                            label="Ignore dashboard filters"
+                            label={t('dashboard.tileFilters.ignoreDashboardFilters', {
+                                defaultValue: 'Ignore dashboard filters',
+                            })}
                             bordered
                             fullWidth
                             data-attr="tile-ignore-dashboard-filters"
                         />
                         <p className="text-xs text-muted mt-1 mb-0">
-                            When on, none of the dashboard's filters apply to this insight. The overrides below still
-                            do.
+                            {t('dashboard.tileFilters.ignoreDashboardFiltersHint', {
+                                defaultValue:
+                                    "When on, none of the dashboard's filters apply to this insight. The overrides below still do.",
+                            })}
                         </p>
                     </div>
                 </div>
 
-                <LemonDivider label="Time" />
+                <LemonDivider label={t('dashboard.tileFilters.time', { defaultValue: 'Time' })} />
                 <div className="flex flex-col gap-4 pb-4">
                     <div>
-                        <label className="text-sm font-medium mb-2 block">Date range</label>
+                        <label className="text-sm font-medium mb-2 block">
+                            {t('dashboard.tileFilters.dateRange', { defaultValue: 'Date range' })}
+                        </label>
                         <DateFilter
                             showCustom
                             showExplicitDateToggle
@@ -118,31 +140,39 @@ export function TileFiltersOverride({ tile }: { tile: DashboardTile<QueryBasedIn
                     </div>
 
                     <div>
-                        <label className="text-sm font-medium mb-2 block">Interval</label>
+                        <label className="text-sm font-medium mb-2 block">
+                            {t('dashboard.tileFilters.interval', { defaultValue: 'Interval' })}
+                        </label>
                         <LemonSelect<IntervalType | null>
                             size="small"
                             value={overrides.interval ?? null}
                             dropdownMatchSelectWidth={false}
                             disabledReason={
-                                supportsInterval ? undefined : "This insight type doesn't support an interval override"
+                                supportsInterval
+                                    ? undefined
+                                    : t('dashboard.tileFilters.intervalUnsupported', {
+                                          defaultValue: "This insight type doesn't support an interval override",
+                                      })
                             }
                             onChange={(interval) => setInterval(interval)}
                             options={[
-                                { value: null, label: 'inherit' },
-                                { value: 'hour', label: 'hour' },
-                                { value: 'day', label: 'day' },
-                                { value: 'week', label: 'week' },
-                                { value: 'month', label: 'month' },
+                                { value: null, label: t('dashboard.tileFilters.inherit', { defaultValue: 'inherit' }) },
+                                { value: 'hour', label: t('interval.hour', { defaultValue: 'hour' }) },
+                                { value: 'day', label: t('interval.day', { defaultValue: 'day' }) },
+                                { value: 'week', label: t('interval.week', { defaultValue: 'week' }) },
+                                { value: 'month', label: t('interval.month', { defaultValue: 'month' }) },
                             ]}
                             data-attr="tile-override-interval"
                         />
                     </div>
                 </div>
 
-                <LemonDivider label="Filters" />
+                <LemonDivider label={t('dashboard.tileFilters.filters', { defaultValue: 'Filters' })} />
                 <div className="flex flex-col gap-4 pb-4">
                     <div>
-                        <label className="text-sm font-medium mb-2 block">Properties</label>
+                        <label className="text-sm font-medium mb-2 block">
+                            {t('dashboard.tileFilters.properties', { defaultValue: 'Properties' })}
+                        </label>
                         <PropertyFilters
                             onChange={(properties) => setProperties(properties)}
                             pageKey={`tile_${tile.id}_properties`}
@@ -167,13 +197,17 @@ export function TileFiltersOverride({ tile }: { tile: DashboardTile<QueryBasedIn
 
                     <div>
                         <div className="flex items-center gap-1 mb-2">
-                            <label className="text-sm font-medium">Test account filtering</label>
+                            <label className="text-sm font-medium">
+                                {t('dashboard.advancedFilters.testAccount', { defaultValue: 'Test account filtering' })}
+                            </label>
                             <LemonButton
                                 icon={<IconGear />}
                                 size="xsmall"
                                 noPadding
                                 to={urls.settings('project-product-analytics', 'internal-user-filtering')}
-                                tooltip="Configure internal and test account filters"
+                                tooltip={t('dashboard.advancedFilters.configureTooltip', {
+                                    defaultValue: 'Configure internal and test account filters',
+                                })}
                             />
                         </div>
                         <LemonSegmentedButton<TestAccountFilterChoice>
@@ -183,35 +217,46 @@ export function TileFiltersOverride({ tile }: { tile: DashboardTile<QueryBasedIn
                             options={[
                                 {
                                     value: 'inherit',
-                                    label: 'Inherit',
-                                    tooltip: "Use the dashboard's setting, or the insight's own",
+                                    label: t('dashboard.advancedFilters.inherit', { defaultValue: 'Inherit' }),
+                                    tooltip: t('dashboard.tileFilters.inheritTooltip', {
+                                        defaultValue: "Use the dashboard's setting, or the insight's own",
+                                    }),
                                     'data-attr': 'tile-test-account-filter-inherit',
                                 },
                                 {
                                     value: 'filter-out',
-                                    label: 'Filter out',
-                                    tooltip: 'Force test account filtering on for this insight',
+                                    label: t('dashboard.advancedFilters.filterOut', { defaultValue: 'Filter out' }),
+                                    tooltip: t('dashboard.tileFilters.filterOutTooltip', {
+                                        defaultValue: 'Force test account filtering on for this insight',
+                                    }),
                                     disabledReason: !hasTestAccountFilters
-                                        ? "You haven't set any internal test filters. Click the gear icon to configure."
+                                        ? t('dashboard.advancedFilters.noTestFilters', {
+                                              defaultValue:
+                                                  "You haven't set any internal test filters. Click the gear icon to configure.",
+                                          })
                                         : undefined,
                                     'data-attr': 'tile-test-account-filter-out',
                                 },
                                 {
                                     value: 'include',
-                                    label: 'Include',
-                                    tooltip: 'Force test account filtering off for this insight',
+                                    label: t('dashboard.advancedFilters.include', { defaultValue: 'Include' }),
+                                    tooltip: t('dashboard.tileFilters.includeTooltip', {
+                                        defaultValue: 'Force test account filtering off for this insight',
+                                    }),
                                     'data-attr': 'tile-test-account-filter-include',
                                 },
                             ]}
                         />
-                        <p className="text-xs text-muted mt-1 mb-0">{CHOICE_HINTS[testAccountChoice]}</p>
+                        <p className="text-xs text-muted mt-1 mb-0">{tileChoiceHint(t, testAccountChoice)}</p>
                     </div>
                 </div>
 
-                <LemonDivider label="Display" />
+                <LemonDivider label={t('dashboard.tileFilters.display', { defaultValue: 'Display' })} />
                 <div className="flex flex-col gap-4 pb-4">
                     <div>
-                        <label className="text-sm font-medium mb-2 block">Breakdown</label>
+                        <label className="text-sm font-medium mb-2 block">
+                            {t('dashboard.tileFilters.breakdown', { defaultValue: 'Breakdown' })}
+                        </label>
                         <BindLogic logic={insightLogic} props={breakdownInsightProps}>
                             <TaxonomicBreakdownFilter
                                 insightProps={breakdownInsightProps}

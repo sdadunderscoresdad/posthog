@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { combineUrl, router } from 'kea-router'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { LemonBanner, LemonButton, LemonSelect, LemonSkeleton, Link } from '@posthog/lemon-ui'
 
@@ -37,6 +38,7 @@ export const scene: SceneExport<DashboardTemplateCopyLogicProps> = {
 }
 
 export function DashboardTemplateCopyScene(props: DashboardTemplateCopyLogicProps): JSX.Element {
+    const { t } = useTranslation()
     const { searchParams } = useValues(router)
     const { hasValidSourceTeamQuery } = sourceTeamQueryFromSearchParams(searchParams)
     const logic = dashboardTemplateCopyLogic(props)
@@ -73,44 +75,70 @@ export function DashboardTemplateCopyScene(props: DashboardTemplateCopyLogicProp
             <div className="max-w-160 mt-4 mb-16 space-y-6">
                 {hasValidSourceTeamQuery === false ? (
                     <LemonBanner type="info">
-                        This link did not include a valid source project. We are using the project you are currently in
-                        to load the template. Use &quot;Copy to another project&quot; from the templates list for a
-                        complete link, or stay here if this project owns the template.
+                        {t('dashboard.templateCopy.invalidSource', {
+                            defaultValue:
+                                'This link did not include a valid source project. We are using the project you are currently in to load the template. Use "Copy to another project" from the templates list for a complete link, or stay here if this project owns the template.',
+                        })}
                     </LemonBanner>
                 ) : null}
                 {loadFailed ? (
                     <LemonBanner type="error">
-                        We could not load this template. It may have been deleted, or you may need to open this page
-                        from the project that owns the template.{' '}
-                        <Link to={templatesListUrl} className="font-semibold">
-                            Back to templates
-                        </Link>
+                        <Trans i18nKey="dashboard.templateCopy.loadFailed" values={{ templatesListUrl }}>
+                            We could not load this template. It may have been deleted, or you may need to open this page
+                            from the project that owns the template.{' '}
+                            <Link to={templatesListUrl} className="font-semibold">
+                                Back to templates
+                            </Link>
+                        </Trans>
                     </LemonBanner>
                 ) : null}
                 <div className="space-y-2">
                     {sourceTemplateLoading ? (
                         <>
-                            <p>Choose which project to copy this template to. The original will not be modified.</p>
+                            <p>
+                                {t('dashboard.templateCopy.chooseProject', {
+                                    defaultValue:
+                                        'Choose which project to copy this template to. The original will not be modified.',
+                                })}
+                            </p>
                             <LemonSkeleton className="h-10 w-full" />
                         </>
                     ) : loadFailed ? null : showNoDestinationsEmptyState ? (
                         <div className="w-full rounded-lg border-2 border-dotted border-primary p-6">
                             <EmptyMessage
-                                title="No other projects to copy to"
-                                description="Create another project in this organization first. The template you are copying will not be changed."
-                                buttonText="Create a project"
+                                title={t('dashboard.templateCopy.noDestinations', {
+                                    defaultValue: 'No other projects to copy to',
+                                })}
+                                description={t('dashboard.templateCopy.noDestinationsDescription', {
+                                    defaultValue:
+                                        'Create another project in this organization first. The template you are copying will not be changed.',
+                                })}
+                                buttonText={t('dashboard.templateCopy.createProject', {
+                                    defaultValue: 'Create a project',
+                                })}
                                 buttonTo={urls.projectCreateFirst()}
                                 buttonDataAttr="dashboard-template-copy-empty-create-project"
                             />
                         </div>
                     ) : (
                         <>
-                            <p>Choose which project to copy this template to. The original will not be modified.</p>
+                            <p>
+                                {t('dashboard.templateCopy.chooseProject', {
+                                    defaultValue:
+                                        'Choose which project to copy this template to. The original will not be modified.',
+                                })}
+                            </p>
                             <div>
-                                <label className="font-semibold leading-6 block mb-1">Destination project</label>
+                                <label className="font-semibold leading-6 block mb-1">
+                                    {t('dashboard.templateCopy.destinationProject', {
+                                        defaultValue: 'Destination project',
+                                    })}
+                                </label>
                                 <LemonSelect
                                     fullWidth
-                                    placeholder="Select a project"
+                                    placeholder={t('dashboard.templateCopy.selectProject', {
+                                        defaultValue: 'Select a project',
+                                    })}
                                     value={destinationTeamId}
                                     onChange={(value) => setDestinationTeamId(value)}
                                     options={teamOptions}
@@ -123,7 +151,7 @@ export function DashboardTemplateCopyScene(props: DashboardTemplateCopyLogicProp
                 {destinationTeamId != null && hasDestinationProjects && !loadFailed ? (
                     <div className="flex justify-end">
                         <LemonButton type="primary" onClick={() => submitCopy()} loading={copyResultLoading}>
-                            Copy
+                            {t('dashboard.templateCopy.copy', { defaultValue: 'Copy' })}
                         </LemonButton>
                     </div>
                 ) : null}

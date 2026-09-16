@@ -51,12 +51,15 @@ function ThemeSwatches({ theme }: { theme: DataColorThemeModel }): JSX.Element {
 }
 
 function BreakdownPropertyGroupTitle({ breakdownProperty }: { breakdownProperty?: string }): JSX.Element {
+    const { t } = useTranslation()
     if (breakdownProperty == null) {
         // The property-less group holds entries that apply under every property, like the funnel baseline.
-        return <LemonTag type="muted">All properties</LemonTag>
+        return (
+            <LemonTag type="muted">{t('dashboard.colors.allProperties', { defaultValue: 'All properties' })}</LemonTag>
+        )
     }
     if (breakdownProperty === COHORT_BREAKDOWN_PROPERTY_KEY) {
-        return <LemonTag type="muted">Cohorts</LemonTag>
+        return <LemonTag type="muted">{t('dashboard.colors.cohorts', { defaultValue: 'Cohorts' })}</LemonTag>
     }
     return (
         <div className="flex flex-wrap items-center gap-1">
@@ -69,6 +72,7 @@ function BreakdownPropertyGroupTitle({ breakdownProperty }: { breakdownProperty?
 
 export function DashboardInsightColorsModal(): JSX.Element {
     const { isOpen, insightTilesLoading, breakdownValueGroups } = useValues(dashboardInsightColorsModalLogic)
+    const { t } = useTranslation()
     const { hideInsightColorsModal, cancelColorChanges } = useActions(dashboardInsightColorsModalLogic)
 
     const { themes: _themes, themesLoading } = useValues(dataColorThemesLogic)
@@ -111,7 +115,7 @@ export function DashboardInsightColorsModal(): JSX.Element {
 
     const columns: LemonTableColumns<BreakdownColorRow> = [
         {
-            title: 'Breakdown',
+            title: t('dashboard.colors.breakdownColumn', { defaultValue: 'Breakdown' }),
             key: 'breakdown_value',
             render: (_, { breakdownValue, breakdownType }) => {
                 const breakdownFilter: BreakdownFilter = { breakdown_type: breakdownType }
@@ -127,7 +131,7 @@ export function DashboardInsightColorsModal(): JSX.Element {
             },
         },
         {
-            title: 'Color',
+            title: t('dashboard.colors.colorColumn', { defaultValue: 'Color' }),
             key: 'color',
             render: (_, { colorToken, source, pinnedConfig, ...config }) => {
                 return (
@@ -144,18 +148,22 @@ export function DashboardInsightColorsModal(): JSX.Element {
                             }}
                             customButton={
                                 colorToken === null ? (
-                                    <LemonButton type="tertiary">Customize color</LemonButton>
+                                    <LemonButton type="tertiary">
+                                        {t('dashboard.colors.customize', { defaultValue: 'Customize color' })}
+                                    </LemonButton>
                                 ) : undefined
                             }
                             themeId={dataColorThemeId}
                         />
                         {source === 'auto' ? (
-                            <LemonTag type="muted">Auto</LemonTag>
+                            <LemonTag type="muted">{t('dashboard.colors.auto', { defaultValue: 'Auto' })}</LemonTag>
                         ) : colorToken !== null ? (
                             <LemonButton
                                 size="small"
                                 type="tertiary"
-                                tooltip="Reset to automatic color"
+                                tooltip={t('dashboard.colors.resetTooltip', {
+                                    defaultValue: 'Reset to automatic color',
+                                })}
                                 onClick={() => {
                                     ensureEditMode()
                                     // Clearing must target the entry that provides the pin: a
@@ -168,7 +176,7 @@ export function DashboardInsightColorsModal(): JSX.Element {
                                     })
                                 }}
                             >
-                                Reset
+                                {t('dashboard.colors.reset', { defaultValue: 'Reset' })}
                             </LemonButton>
                         ) : null}
                     </div>
@@ -179,7 +187,7 @@ export function DashboardInsightColorsModal(): JSX.Element {
 
     return (
         <LemonModal
-            title="Customize breakdown colors"
+            title={t('dashboard.colors.modalTitle', { defaultValue: 'Customize breakdown colors' })}
             isOpen={isOpen}
             onClose={hideInsightColorsModal}
             maxWidth="42rem"
@@ -189,9 +197,11 @@ export function DashboardInsightColorsModal(): JSX.Element {
                         type="secondary"
                         data-attr="dashboard-colors-cancel"
                         onClick={cancelColorChanges}
-                        tooltip="Revert the changes made in this dialog"
+                        tooltip={t('dashboard.colors.cancelTooltip', {
+                            defaultValue: 'Revert the changes made in this dialog',
+                        })}
                     >
-                        Cancel
+                        {t('dashboard.editMode.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="primary"
@@ -202,21 +212,30 @@ export function DashboardInsightColorsModal(): JSX.Element {
                         }}
                         disabledReason={
                             dashboardLoading
-                                ? 'Wait for dashboard to finish loading'
+                                ? t('dashboard.editMode.waitForLoading', {
+                                      defaultValue: 'Wait for dashboard to finish loading',
+                                  })
                                 : !canEditDashboard
-                                  ? 'Not privileged to edit this dashboard'
+                                  ? t('dashboard.editMode.notPrivileged', {
+                                        defaultValue: 'Not privileged to edit this dashboard',
+                                    })
                                   : !hasUnsavedColorChanges
-                                    ? 'No color changes to save'
+                                    ? t('dashboard.colors.noChanges', { defaultValue: 'No color changes to save' })
                                     : undefined
                         }
                     >
-                        Save
+                        {t('dashboard.colors.save', { defaultValue: 'Save' })}
                     </LemonButton>
                 </>
             }
         >
-            <LemonLabel info="Pick a theme to set the colors every insight on this dashboard uses. Anyone who views or shares the dashboard sees the same colors, so series stay recognizable outside PostHog.">
-                Color theme
+            <LemonLabel
+                info={t('dashboard.colors.themeInfo', {
+                    defaultValue:
+                        'Pick a theme to set the colors every insight on this dashboard uses. Anyone who views or shares the dashboard sees the same colors, so series stay recognizable outside PostHog.',
+                })}
+            >
+                {t('dashboard.colors.colorTheme', { defaultValue: 'Color theme' })}
             </LemonLabel>
             <div className="mt-2 flex flex-col gap-1">
                 {themesLoading ? (
@@ -236,7 +255,7 @@ export function DashboardInsightColorsModal(): JSX.Element {
                             }}
                             data-attr="dashboard-colors-theme-none"
                         >
-                            Defined by insight
+                            {t('dashboard.colors.definedByInsight', { defaultValue: 'Defined by insight' })}
                         </LemonButton>
                         {themes.map((theme) => (
                             <LemonButton
@@ -265,20 +284,31 @@ export function DashboardInsightColorsModal(): JSX.Element {
                 info={
                     <>
                         <p className="mb-1">
-                            Colors are grouped by breakdown property, so each property picks its colors on its own.
+                            {t('dashboard.colors.groupingInfo', {
+                                defaultValue:
+                                    'Colors are grouped by breakdown property, so each property picks its colors on its own.',
+                            })}
                         </p>
                         <ul className="list-disc pl-4 space-y-1">
                             <li>
-                                A value shown on two or more insights gets one color across the dashboard, and keeps it
-                                under every property it appears in, as far as the palette allows.
+                                {t('dashboard.colors.sharedValueInfo', {
+                                    defaultValue:
+                                        'A value shown on two or more insights gets one color across the dashboard, and keeps it under every property it appears in, as far as the palette allows.',
+                                })}
                             </li>
-                            <li>Values on a single insight keep their own colors.</li>
-                            <li>Pick a color to pin a value to it.</li>
+                            <li>
+                                {t('dashboard.colors.singleInsightInfo', {
+                                    defaultValue: 'Values on a single insight keep their own colors.',
+                                })}
+                            </li>
+                            <li>
+                                {t('dashboard.colors.pinInfo', { defaultValue: 'Pick a color to pin a value to it.' })}
+                            </li>
                         </ul>
                     </>
                 }
             >
-                Breakdown colors
+                {t('dashboard.advancedFilters.breakdownColors', { defaultValue: 'Breakdown colors' })}
             </LemonLabel>
             {breakdownValueGroups.length === 0 ? (
                 <LemonTable columns={columns} dataSource={[]} loading={insightTilesLoading || undefined} />
@@ -293,8 +323,13 @@ export function DashboardInsightColorsModal(): JSX.Element {
                 ))
             )}
             {insightTilesLoading ? (
-                <p className="text-muted-alt mt-2">Tiles are still loading. More breakdown values may appear.</p>
+                <p className="text-muted-alt mt-2">
+                    {t('dashboard.colors.tilesLoading', {
+                        defaultValue: 'Tiles are still loading. More breakdown values may appear.',
+                    })}
+                </p>
             ) : null}
         </LemonModal>
     )
 }
+import { useTranslation } from 'react-i18next'
