@@ -689,6 +689,8 @@
                 "addNew": "Add a new {{ feature }} configuration",
                 "configure": "Configure",
                 "configureScimForLogs": "Configure SCIM to view request logs",
+                "configureSso": "Configure SSO",
+                "defaultName": "Default {{ feature }} configuration",
                 "domainScope": {
                     "allDomains": "All domains",
                     "allDomainsDescription": "Apply this configuration to every verified domain in the organization.",
@@ -701,6 +703,14 @@
                     "selectedDomainsDescription": "Apply this configuration only to the domains you select.",
                     "warningPrefix": "Changing this value can affect your",
                     "warningSuffix": "configurations."
+                },
+                "features": {
+                    "samlDescription": "Configure SAML authentication for your organization.",
+                    "samlTitle": "SAML single sign-on",
+                    "scimDescription": "Let your identity provider manage organization members with SCIM.",
+                    "scimTitle": "SCIM provisioning",
+                    "xaaDescription": "Automate API and MCP access to PostHog with Cross App Access (XAA).",
+                    "xaaTitle": "XAA authentication"
                 },
                 "loadFailed": "Couldn't load identity provider configurations.",
                 "multipleConfigsTooltip": "You probably don't need multiple configurations. Only create a new configuration if you use multiple IdPs or apps within your IdP for SSO.",
@@ -717,7 +727,9 @@
                     "relayState": "Relay state",
                     "saveForRelayState": "Save this configuration to generate a relay state."
                 },
+                "savedToast": "{{ feature }} configuration saved.",
                 "scene": {
+                    "configureTitle": "Configure {{ feature }}",
                     "dangerZone": "Danger zone",
                     "dangerZoneDescription": "These actions cannot be undone. Deleting this configuration removes its identity provider settings and may prevent users from authenticating.",
                     "delete": "Delete configuration",
@@ -751,6 +763,21 @@
                     "configured": "Configured",
                     "notConfigured": "Not configured",
                     "partiallyConfigured": "Partially configured"
+                },
+                "statusDescription": {
+                    "configuredForAll": "Configured for all verified domains. Verify a domain to enable it.",
+                    "configuredForSelected": "Configured for selected domains. Verify a selected domain to enable it.",
+                    "configuredNoDomains": "Configured, but not enabled for any domains.",
+                    "enabledForAllPrefix": "Enabled for all verified domains: ",
+                    "enabledForPrefix": "Enabled for ",
+                    "missingFieldsPrefix": "Add ",
+                    "missingFieldsSuffix": " to finish the configuration.",
+                    "samlNotConfigured": "Add your identity provider details to enable SAML single sign-on.",
+                    "samlPartial": "Add the missing SAML details to finish the configuration.",
+                    "scimNotConfigured": "Configure SCIM to start provisioning organization members.",
+                    "scimPartial": "Finish the SCIM setup to start provisioning organization members.",
+                    "xaaNotConfigured": "Add your identity provider details to automate API and MCP access.",
+                    "xaaPartial": "Add an identity provider issuer URL to finish the configuration."
                 },
                 "tryAgain": "Try again",
                 "xaa": {

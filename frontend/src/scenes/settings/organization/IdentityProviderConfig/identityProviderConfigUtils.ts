@@ -1,3 +1,5 @@
+import type { TFunction } from 'i18next'
+
 import { humanList } from 'lib/utils/strings'
 
 import { ConfigScopeEnumApi, DomainScopeEnumApi, IdentityProviderConfigApi } from '~/generated/core/api.schemas'
@@ -12,43 +14,65 @@ export interface IdentityProviderFeatureDefinition {
     availableFeature: AvailableFeature
 }
 
-const INCOMPLETE_STATUS_DESCRIPTIONS: Record<
-    ConfigScopeEnumApi,
-    Record<Exclude<IdentityProviderConfigStatus, 'configured'>, string>
-> = {
-    [ConfigScopeEnumApi.Saml]: {
-        not_configured: 'Add your identity provider details to enable SAML single sign-on.',
-        partially_configured: 'Add the missing SAML details to finish the configuration.',
-    },
-    [ConfigScopeEnumApi.Scim]: {
-        not_configured: 'Configure SCIM to start provisioning organization members.',
-        partially_configured: 'Finish the SCIM setup to start provisioning organization members.',
-    },
-    [ConfigScopeEnumApi.Xaa]: {
-        not_configured: 'Add your identity provider details to automate API and MCP access.',
-        partially_configured: 'Add an identity provider issuer URL to finish the configuration.',
-    },
+/** Built from `t`, so the descriptions follow the current language. */
+function incompleteStatusDescriptions(
+    t: TFunction
+): Record<ConfigScopeEnumApi, Record<Exclude<IdentityProviderConfigStatus, 'configured'>, string>> {
+    return {
+        [ConfigScopeEnumApi.Saml]: {
+            not_configured: t('settings.organization.idpConfig.statusDescription.samlNotConfigured', {
+                defaultValue: 'Add your identity provider details to enable SAML single sign-on.',
+            }),
+            partially_configured: t('settings.organization.idpConfig.statusDescription.samlPartial', {
+                defaultValue: 'Add the missing SAML details to finish the configuration.',
+            }),
+        },
+        [ConfigScopeEnumApi.Scim]: {
+            not_configured: t('settings.organization.idpConfig.statusDescription.scimNotConfigured', {
+                defaultValue: 'Configure SCIM to start provisioning organization members.',
+            }),
+            partially_configured: t('settings.organization.idpConfig.statusDescription.scimPartial', {
+                defaultValue: 'Finish the SCIM setup to start provisioning organization members.',
+            }),
+        },
+        [ConfigScopeEnumApi.Xaa]: {
+            not_configured: t('settings.organization.idpConfig.statusDescription.xaaNotConfigured', {
+                defaultValue: 'Add your identity provider details to automate API and MCP access.',
+            }),
+            partially_configured: t('settings.organization.idpConfig.statusDescription.xaaPartial', {
+                defaultValue: 'Add an identity provider issuer URL to finish the configuration.',
+            }),
+        },
+    }
 }
 
-export const IDENTITY_PROVIDER_FEATURES: Record<ConfigScopeEnumApi, IdentityProviderFeatureDefinition> = {
-    [ConfigScopeEnumApi.Saml]: {
-        name: 'SAML',
-        title: 'SAML single sign-on',
-        description: 'Configure SAML authentication for your organization.',
-        availableFeature: AvailableFeature.SAML,
-    },
-    [ConfigScopeEnumApi.Scim]: {
-        name: 'SCIM',
-        title: 'SCIM provisioning',
-        description: 'Let your identity provider manage organization members with SCIM.',
-        availableFeature: AvailableFeature.SCIM,
-    },
-    [ConfigScopeEnumApi.Xaa]: {
-        name: 'XAA',
-        title: 'XAA authentication',
-        description: 'Automate API and MCP access to PostHog with Cross App Access (XAA).',
-        availableFeature: AvailableFeature.XAA_AUTHENTICATION,
-    },
+export function identityProviderFeatures(t: TFunction): Record<ConfigScopeEnumApi, IdentityProviderFeatureDefinition> {
+    return {
+        [ConfigScopeEnumApi.Saml]: {
+            name: 'SAML',
+            title: t('settings.organization.idpConfig.features.samlTitle', { defaultValue: 'SAML single sign-on' }),
+            description: t('settings.organization.idpConfig.features.samlDescription', {
+                defaultValue: 'Configure SAML authentication for your organization.',
+            }),
+            availableFeature: AvailableFeature.SAML,
+        },
+        [ConfigScopeEnumApi.Scim]: {
+            name: 'SCIM',
+            title: t('settings.organization.idpConfig.features.scimTitle', { defaultValue: 'SCIM provisioning' }),
+            description: t('settings.organization.idpConfig.features.scimDescription', {
+                defaultValue: 'Let your identity provider manage organization members with SCIM.',
+            }),
+            availableFeature: AvailableFeature.SCIM,
+        },
+        [ConfigScopeEnumApi.Xaa]: {
+            name: 'XAA',
+            title: t('settings.organization.idpConfig.features.xaaTitle', { defaultValue: 'XAA authentication' }),
+            description: t('settings.organization.idpConfig.features.xaaDescription', {
+                defaultValue: 'Automate API and MCP access to PostHog with Cross App Access (XAA).',
+            }),
+            availableFeature: AvailableFeature.XAA_AUTHENTICATION,
+        },
+    }
 }
 
 export function isIdentityProviderConfigScope(value: string): value is ConfigScopeEnumApi {
@@ -108,6 +132,7 @@ export interface IdentityProviderConfigStatusDescription {
 }
 
 export function getIdentityProviderConfigStatusDescription(
+    t: TFunction,
     config: IdentityProviderConfigApi | undefined,
     configScope: ConfigScopeEnumApi,
     status: IdentityProviderConfigStatus,
@@ -115,21 +140,31 @@ export function getIdentityProviderConfigStatusDescription(
 ): IdentityProviderConfigStatusDescription {
     if (status === 'partially_configured' && configScope === ConfigScopeEnumApi.Saml) {
         const missingFields = [
-            !config?.saml_acs_url ? 'SAML ACS URL' : null,
-            !config?.saml_entity_id ? 'SAML entity ID' : null,
-            !config?.saml_x509_cert ? 'SAML X.509 certificate' : null,
+            !config?.saml_acs_url
+                ? t('settings.organization.idpConfig.saml.acsUrl', { defaultValue: 'SAML ACS URL' })
+                : null,
+            !config?.saml_entity_id
+                ? t('settings.organization.idpConfig.saml.entityId', { defaultValue: 'SAML entity ID' })
+                : null,
+            !config?.saml_x509_cert
+                ? t('settings.organization.idpConfig.saml.certificate', { defaultValue: 'SAML X.509 certificate' })
+                : null,
         ].filter((field): field is string => field !== null)
         if (missingFields.length > 0) {
             return {
-                text: 'Add ',
+                text: t('settings.organization.idpConfig.statusDescription.missingFieldsPrefix', {
+                    defaultValue: 'Add ',
+                }),
                 emphasizedText: humanList(missingFields),
-                trailingText: ' to finish the configuration.',
+                trailingText: t('settings.organization.idpConfig.statusDescription.missingFieldsSuffix', {
+                    defaultValue: ' to finish the configuration.',
+                }),
             }
         }
     }
 
     if (status !== 'configured') {
-        return { text: INCOMPLETE_STATUS_DESCRIPTIONS[configScope][status] }
+        return { text: incompleteStatusDescriptions(t)[configScope][status] }
     }
 
     const verifiedDomains = domains.filter((domain) => domain.is_verified)
@@ -137,11 +172,17 @@ export function getIdentityProviderConfigStatusDescription(
         const domainNames = verifiedDomains.map((domain) => domain.domain)
         return domainNames.length > 0
             ? {
-                  text: 'Enabled for all verified domains: ',
+                  text: t('settings.organization.idpConfig.statusDescription.enabledForAllPrefix', {
+                      defaultValue: 'Enabled for all verified domains: ',
+                  }),
                   emphasizedText: humanList(domainNames),
                   trailingText: '.',
               }
-            : { text: 'Configured for all verified domains. Verify a domain to enable it.' }
+            : {
+                  text: t('settings.organization.idpConfig.statusDescription.configuredForAll', {
+                      defaultValue: 'Configured for all verified domains. Verify a domain to enable it.',
+                  }),
+              }
     }
 
     const selectedDomainIds = new Set(config?.organization_domain_ids ?? [])
@@ -149,12 +190,26 @@ export function getIdentityProviderConfigStatusDescription(
         .filter((domain) => selectedDomainIds.has(domain.id))
         .map((domain) => domain.domain)
     if (domainNames.length > 0) {
-        return { text: 'Enabled for ', emphasizedText: humanList(domainNames), trailingText: '.' }
+        return {
+            text: t('settings.organization.idpConfig.statusDescription.enabledForPrefix', {
+                defaultValue: 'Enabled for ',
+            }),
+            emphasizedText: humanList(domainNames),
+            trailingText: '.',
+        }
     }
     if (selectedDomainIds.size > 0) {
-        return { text: 'Configured for selected domains. Verify a selected domain to enable it.' }
+        return {
+            text: t('settings.organization.idpConfig.statusDescription.configuredForSelected', {
+                defaultValue: 'Configured for selected domains. Verify a selected domain to enable it.',
+            }),
+        }
     }
-    return { text: 'Configured, but not enabled for any domains.' }
+    return {
+        text: t('settings.organization.idpConfig.statusDescription.configuredNoDomains', {
+            defaultValue: 'Configured, but not enabled for any domains.',
+        }),
+    }
 }
 
 export function getIdentityProviderConfigStatus(

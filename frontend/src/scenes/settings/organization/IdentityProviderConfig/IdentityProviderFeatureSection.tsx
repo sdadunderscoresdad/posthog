@@ -16,7 +16,7 @@ import { ScimLogsModal } from '../VerifiedDomains/ScimLogsModal'
 import { verifiedDomainsLogic } from '../VerifiedDomains/verifiedDomainsLogic'
 import { identityProviderConfigsLogic } from './identityProviderConfigsLogic'
 import {
-    IDENTITY_PROVIDER_FEATURES,
+    identityProviderFeatures,
     getIdentityProviderConfigsForScope,
     getIdentityProviderConfigStatus,
     getIdentityProviderConfigStatusDescription,
@@ -49,7 +49,7 @@ export function IdentityProviderFeatureSection({ configScope }: { configScope: C
     const { loadIdentityProviderConfigs } = useActions(identityProviderConfigsLogic)
     const { scimLogsLoading, verifiedDomains } = useValues(verifiedDomainsLogic)
     const { setScimConfigLogsModalId } = useActions(verifiedDomainsLogic)
-    const feature = IDENTITY_PROVIDER_FEATURES[configScope]
+    const feature = identityProviderFeatures(t)[configScope]
     const configs = identityProviderConfigs
         ? getIdentityProviderConfigsForScope(identityProviderConfigs, configScope)
         : []
@@ -85,6 +85,7 @@ export function IdentityProviderFeatureSection({ configScope }: { configScope: C
                         const configStatus = getIdentityProviderConfigStatus(config, configScope)
                         const status = statusDisplay(t)[configStatus]
                         const statusDescription = getIdentityProviderConfigStatusDescription(
+                            t,
                             config,
                             configScope,
                             configStatus,

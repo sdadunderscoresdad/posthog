@@ -684,9 +684,31 @@
                 "addNew": "添加新的 {{ feature }} 配置",
                 "configure": "配置",
                 "configureScimForLogs": "配置 SCIM 后可查看请求日志",
+                "configureSso": "配置 SSO",
+                "defaultName": "默认 {{ feature }} 配置",
+                "domainScope": {
+                    "allDomains": "所有域名",
+                    "allDomainsDescription": "将此配置应用到组织内所有已验证域名。",
+                    "conflict": "此 SAML 配置在一个或多个已验证域名上与其他 SAML 配置重叠。请先选择不同的域名再保存。",
+                    "label": "域名",
+                    "pendingDomain": "{{ domain }}（等待验证）",
+                    "placeholder": "选择域名",
+                    "saving": "正在保存配置",
+                    "selectedDomains": "选定的域名",
+                    "selectedDomainsDescription": "仅将此配置应用到你所选的域名。",
+                    "warningPrefix": "修改此值会影响你的",
+                    "warningSuffix": "配置。"
+                },
+                "features": {
+                    "samlDescription": "为你的组织配置 SAML 认证。",
+                    "samlTitle": "SAML 单点登录",
+                    "scimDescription": "让你的身份提供方通过 SCIM 管理组织成员。",
+                    "scimTitle": "SCIM 预配",
+                    "xaaDescription": "通过跨应用访问（XAA）自动化对 PostHog 的 API 和 MCP 访问。",
+                    "xaaTitle": "XAA 认证"
+                },
                 "loadFailed": "无法加载身份提供方配置。",
                 "multipleConfigsTooltip": "你大概不需要多个配置。只有在你使用了多个 IdP，或在同一个 IdP 中使用了多个应用做 SSO 时，才需要新建配置。",
-                "tryAgain": "重试",
                 "saml": {
                     "acsConsumerUrl": "ACS 消费者 URL",
                     "acsUrl": "SAML ACS URL",
@@ -700,39 +722,9 @@
                     "relayState": "Relay state",
                     "saveForRelayState": "保存此配置后会生成 relay state。"
                 },
-                "scim": {
-                    "baseUrl": "SCIM 基础 URL",
-                    "bearerToken": "Bearer 令牌",
-                    "copyToken": "请立即复制此令牌，它不会再次显示。",
-                    "description": "为你的组织配置 SCIM。",
-                    "enable": "启用 SCIM 预配",
-                    "readGuide": "阅读 SCIM 设置指南",
-                    "regenerate": "重新生成令牌",
-                    "regenerateDescription": "这会使当前令牌失效。生成新令牌后，请更新你的身份提供方。",
-                    "regenerateTitle": "重新生成 SCIM 令牌？",
-                    "saveForBaseUrl": "保存此配置后会生成 SCIM 基础 URL。",
-                    "saveForToken": "保存此配置后会生成 Bearer 令牌。",
-                    "tokenOnlyWhenGenerated": "Bearer 令牌只在生成时显示。"
-                },
-                "xaa": {
-                    "addClientIds": "添加客户端 ID",
-                    "allowedClients": "允许的客户端 ID（可选）",
-                    "allowedClientsInfo": "留空则接受任何 client_id 取值。",
-                    "description": "为你的组织配置 XAA。",
-                    "incomplete": "除非填写身份提供方发行方 URL，否则 XAA 会保持停用。你也可以先保存部分配置。",
-                    "issuerUrl": "身份提供方发行方 URL",
-                    "issuerUrlInfo": "必须与 ID-JAG 令牌中的 iss 声明一致。",
-                    "jwksUrl": "JWKS URL（可选）",
-                    "jwksUrlInfo": "留空则使用发行方 URL 的 OIDC 发现。",
-                    "readGuide": "阅读 XAA 设置指南",
-                    "scopesNotice": "授予 <code>user:read</code>，以及各集成所需的权限范围。项目级 API 还需要 <code>organization:read</code> 和 <code>project:read</code>。"
-                },
-                "status": {
-                    "configured": "已配置",
-                    "notConfigured": "未配置",
-                    "partiallyConfigured": "部分配置"
-                },
+                "savedToast": "{{ feature }} 配置已保存。",
                 "scene": {
+                    "configureTitle": "配置 {{ feature }}",
                     "dangerZone": "危险区",
                     "dangerZoneDescription": "这些操作无法撤销。删除此配置会移除它的身份提供方设置，并可能导致用户无法登录。",
                     "delete": "删除配置",
@@ -748,18 +740,53 @@
                     "title": "配置 {{ feature }}",
                     "typeToConfirm": "请输入 {{ phrase }} 以确认"
                 },
-                "domainScope": {
-                    "allDomains": "所有域名",
-                    "allDomainsDescription": "将此配置应用到组织内所有已验证域名。",
-                    "conflict": "此 SAML 配置在一个或多个已验证域名上与其他 SAML 配置重叠。请先选择不同的域名再保存。",
-                    "label": "域名",
-                    "pendingDomain": "{{ domain }}（等待验证）",
-                    "placeholder": "选择域名",
-                    "saving": "正在保存配置",
-                    "selectedDomains": "选定的域名",
-                    "selectedDomainsDescription": "仅将此配置应用到你所选的域名。",
-                    "warningPrefix": "修改此值会影响你的",
-                    "warningSuffix": "配置。"
+                "scim": {
+                    "baseUrl": "SCIM 基础 URL",
+                    "bearerToken": "Bearer 令牌",
+                    "copyToken": "请立即复制此令牌，它不会再次显示。",
+                    "description": "为你的组织配置 SCIM。",
+                    "enable": "启用 SCIM 预配",
+                    "readGuide": "阅读 SCIM 设置指南",
+                    "regenerate": "重新生成令牌",
+                    "regenerateDescription": "这会使当前令牌失效。生成新令牌后，请更新你的身份提供方。",
+                    "regenerateTitle": "重新生成 SCIM 令牌？",
+                    "saveForBaseUrl": "保存此配置后会生成 SCIM 基础 URL。",
+                    "saveForToken": "保存此配置后会生成 Bearer 令牌。",
+                    "tokenOnlyWhenGenerated": "Bearer 令牌只在生成时显示。"
+                },
+                "status": {
+                    "configured": "已配置",
+                    "notConfigured": "未配置",
+                    "partiallyConfigured": "部分配置"
+                },
+                "statusDescription": {
+                    "configuredForAll": "已对所有已验证域名生效。验证一个域名即可启用。",
+                    "configuredForSelected": "已对所选域名生效。验证一个所选域名即可启用。",
+                    "configuredNoDomains": "已配置，但尚未对任何域名生效。",
+                    "enabledForAllPrefix": "已对所有已验证域名生效：",
+                    "enabledForPrefix": "已对以下对象生效：",
+                    "missingFieldsPrefix": "请补充",
+                    "missingFieldsSuffix": "以完成配置。",
+                    "samlNotConfigured": "填写你的身份提供方信息即可启用 SAML 单点登录。",
+                    "samlPartial": "补充缺失的 SAML 信息以完成配置。",
+                    "scimNotConfigured": "配置 SCIM 即可开始预配组织成员。",
+                    "scimPartial": "完成 SCIM 设置即可开始预配组织成员。",
+                    "xaaNotConfigured": "填写你的身份提供方信息即可自动化 API 和 MCP 访问。",
+                    "xaaPartial": "填写身份提供方发行方 URL 即可完成配置。"
+                },
+                "tryAgain": "重试",
+                "xaa": {
+                    "addClientIds": "添加客户端 ID",
+                    "allowedClients": "允许的客户端 ID（可选）",
+                    "allowedClientsInfo": "留空则接受任何 client_id 取值。",
+                    "description": "为你的组织配置 XAA。",
+                    "incomplete": "除非填写身份提供方发行方 URL，否则 XAA 会保持停用。你也可以先保存部分配置。",
+                    "issuerUrl": "身份提供方发行方 URL",
+                    "issuerUrlInfo": "必须与 ID-JAG 令牌中的 iss 声明一致。",
+                    "jwksUrl": "JWKS URL（可选）",
+                    "jwksUrlInfo": "留空则使用发行方 URL 的 OIDC 发现。",
+                    "readGuide": "阅读 XAA 设置指南",
+                    "scopesNotice": "授予 <code>user:read</code>，以及各集成所需的权限范围。项目级 API 还需要 <code>organization:read</code> 和 <code>project:read</code>。"
                 }
             },
             "invite": {

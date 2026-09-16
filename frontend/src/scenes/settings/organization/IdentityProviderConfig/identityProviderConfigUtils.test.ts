@@ -1,3 +1,5 @@
+import { i18n } from 'lib/i18n/i18n'
+
 import { ConfigScopeEnumApi, DomainScopeEnumApi, IdentityProviderConfigApi } from '~/generated/core/api.schemas'
 
 import {
@@ -146,9 +148,9 @@ describe('identityProviderConfigUtils', () => {
             { text: 'Enabled for ', emphasizedText: 'example.org', trailingText: '.' },
         ],
     ] as const)('describes %s', (_, config, configScope, status, domains, expectedDescription) => {
-        expect(getIdentityProviderConfigStatusDescription(config, configScope, status, [...domains])).toEqual(
-            expectedDescription
-        )
+        expect(
+            getIdentityProviderConfigStatusDescription(i18n.t.bind(i18n), config, configScope, status, [...domains])
+        ).toEqual(expectedDescription)
     })
 
     it.each([

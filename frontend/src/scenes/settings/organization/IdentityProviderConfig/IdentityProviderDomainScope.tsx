@@ -9,7 +9,7 @@ import { humanList } from 'lib/utils/strings'
 
 import { ConfigScopeEnumApi, DomainScopeEnumApi, OrganizationDomainApi } from '~/generated/core/api.schemas'
 
-import { IDENTITY_PROVIDER_FEATURES } from './identityProviderConfigUtils'
+import { identityProviderFeatures } from './identityProviderConfigUtils'
 
 export function IdentityProviderDomainScope({
     configScope,
@@ -45,7 +45,7 @@ export function IdentityProviderDomainScope({
                     {humanList(
                         Object.values(ConfigScopeEnumApi)
                             .filter((scope) => scope !== configScope)
-                            .map((scope) => IDENTITY_PROVIDER_FEATURES[scope].name)
+                            .map((scope) => identityProviderFeatures(t)[scope].name)
                     )}{' '}
                     {t('settings.organization.idpConfig.domainScope.warningSuffix', {
                         defaultValue: 'configurations.',

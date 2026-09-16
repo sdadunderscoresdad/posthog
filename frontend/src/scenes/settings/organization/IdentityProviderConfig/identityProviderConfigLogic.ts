@@ -19,6 +19,7 @@ import { loaders } from 'kea-loaders'
 import { router } from 'kea-router'
 
 import { FEATURE_FLAGS } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 import type { FeatureFlagsSet } from 'lib/logic/featureFlagLogic'
@@ -37,7 +38,7 @@ import type { Breadcrumb } from '~/types'
 
 import { identityProviderConfigsLogic } from './identityProviderConfigsLogic'
 import {
-    IDENTITY_PROVIDER_FEATURES,
+    identityProviderFeatures,
     getIdentityProviderConfigsForScope,
     hasSamlDomainScopeConflict,
 } from './identityProviderConfigUtils'
@@ -581,7 +582,12 @@ export const identityProviderConfigLogic = kea<identityProviderConfigLogicType>(
                 },
                 {
                     key: Scene.IdentityProviderConfig,
-                    name: configScope ? `Configure ${IDENTITY_PROVIDER_FEATURES[configScope].name}` : 'Configure SSO',
+                    name: configScope
+                        ? i18n.t('settings.organization.idpConfig.scene.configureTitle', {
+                              defaultValue: 'Configure {{ feature }}',
+                              feature: identityProviderFeatures(i18n.t.bind(i18n))[configScope].name,
+                          })
+                        : i18n.t('settings.organization.idpConfig.configureSso', { defaultValue: 'Configure SSO' }),
                 },
             ],
         ],
@@ -600,7 +606,10 @@ export const identityProviderConfigLogic = kea<identityProviderConfigLogicType>(
                     : false
                 form.name = hasExistingConfig
                     ? ''
-                    : `Default ${IDENTITY_PROVIDER_FEATURES[props.configScope].name} configuration`
+                    : i18n.t('settings.organization.idpConfig.defaultName', {
+                          defaultValue: 'Default {{ feature }} configuration',
+                          feature: identityProviderFeatures(i18n.t.bind(i18n))[props.configScope].name,
+                      })
             }
             actions.resetIdentityProviderConfigForm(form)
         },
@@ -617,7 +626,10 @@ export const identityProviderConfigLogic = kea<identityProviderConfigLogicType>(
                     ...values.identityProviderConfigForm,
                     name: hasExistingConfig
                         ? ''
-                        : `Default ${IDENTITY_PROVIDER_FEATURES[props.configScope].name} configuration`,
+                        : i18n.t('settings.organization.idpConfig.defaultName', {
+                              defaultValue: 'Default {{ feature }} configuration',
+                              feature: identityProviderFeatures(i18n.t.bind(i18n))[props.configScope].name,
+                          }),
                 })
             }
         },
@@ -633,7 +645,12 @@ export const identityProviderConfigLogic = kea<identityProviderConfigLogicType>(
                 // Adopt the saved config's URL so another save updates it instead of creating a duplicate.
                 router.actions.replace(urls.identityProviderConfig(props.configScope, config.id))
             }
-            lemonToast.success(`${IDENTITY_PROVIDER_FEATURES[props.configScope].name} configuration saved.`)
+            lemonToast.success(
+                i18n.t('settings.organization.idpConfig.savedToast', {
+                    defaultValue: '{{ feature }} configuration saved.',
+                    feature: identityProviderFeatures(i18n.t.bind(i18n))[props.configScope].name,
+                })
+            )
         },
         submitIdentityProviderConfigFormFailure: () => {
             lemonToast.error('Could not save the identity provider configuration. Check the form and try again.')

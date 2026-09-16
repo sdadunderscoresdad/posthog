@@ -22,7 +22,7 @@ import { SceneTitleSection } from '~/layout/scenes/components/SceneTitleSection'
 
 import { identityProviderConfigLogic } from './identityProviderConfigLogic'
 import type { IdentityProviderConfigLogicProps } from './identityProviderConfigLogic'
-import { IDENTITY_PROVIDER_FEATURES, isIdentityProviderConfigScope } from './identityProviderConfigUtils'
+import { identityProviderFeatures, isIdentityProviderConfigScope } from './identityProviderConfigUtils'
 import { IdentityProviderDomainScope } from './IdentityProviderDomainScope'
 import { SAMLConfigFields } from './SAMLConfigFields'
 import { SCIMConfigFields } from './SCIMConfigFields'
@@ -89,7 +89,7 @@ export function IdentityProviderConfigScene(): JSX.Element | null {
         )
     }
 
-    const feature = IDENTITY_PROVIDER_FEATURES[configScope]
+    const feature = identityProviderFeatures(t)[configScope]
 
     const siteUrl = preflight?.site_url ?? window.location.origin
     const isLoading =

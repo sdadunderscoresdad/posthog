@@ -694,6 +694,8 @@
                 "addNew": "",
                 "configure": "",
                 "configureScimForLogs": "",
+                "configureSso": "",
+                "defaultName": "",
                 "domainScope": {
                     "allDomains": "",
                     "allDomainsDescription": "",
@@ -706,6 +708,14 @@
                     "selectedDomainsDescription": "",
                     "warningPrefix": "",
                     "warningSuffix": ""
+                },
+                "features": {
+                    "samlDescription": "",
+                    "samlTitle": "",
+                    "scimDescription": "",
+                    "scimTitle": "",
+                    "xaaDescription": "",
+                    "xaaTitle": ""
                 },
                 "loadFailed": "",
                 "multipleConfigsTooltip": "",
@@ -722,7 +732,9 @@
                     "relayState": "",
                     "saveForRelayState": ""
                 },
+                "savedToast": "",
                 "scene": {
+                    "configureTitle": "",
                     "dangerZone": "",
                     "dangerZoneDescription": "",
                     "delete": "",
@@ -756,6 +768,21 @@
                     "configured": "",
                     "notConfigured": "",
                     "partiallyConfigured": ""
+                },
+                "statusDescription": {
+                    "configuredForAll": "",
+                    "configuredForSelected": "",
+                    "configuredNoDomains": "",
+                    "enabledForAllPrefix": "",
+                    "enabledForPrefix": "",
+                    "missingFieldsPrefix": "",
+                    "missingFieldsSuffix": "",
+                    "samlNotConfigured": "",
+                    "samlPartial": "",
+                    "scimNotConfigured": "",
+                    "scimPartial": "",
+                    "xaaNotConfigured": "",
+                    "xaaPartial": ""
                 },
                 "tryAgain": "",
                 "xaa": {
