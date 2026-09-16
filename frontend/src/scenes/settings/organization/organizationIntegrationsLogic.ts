@@ -4,6 +4,7 @@ import { loaders } from 'kea-loaders'
 import { LemonDialog, lemonToast } from '@posthog/lemon-ui'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { ICONS } from 'lib/integrations/utils'
 
 import { IntegrationKind, IntegrationType } from '~/types'
@@ -313,24 +314,40 @@ export const organizationIntegrationsLogic = kea<organizationIntegrationsLogicTy
             }
 
             LemonDialog.open({
-                title: `Disconnect ${integration.kind} integration?`,
-                description:
-                    'This will remove the integration from your organization. PostHog resources configured to use this integration will stop working.',
+                title: i18n.t('settings.organization.integrations.disconnectTitle', {
+                    defaultValue: 'Disconnect {{ kind }} integration?',
+                    kind: integration.kind,
+                }),
+                description: i18n.t('settings.organization.integrations.disconnectDescription', {
+                    defaultValue:
+                        'This will remove the integration from your organization. PostHog resources configured to use this integration will stop working.',
+                }),
                 primaryButton: {
-                    children: 'Yes, disconnect',
+                    children: i18n.t('settings.organization.integrations.disconnectConfirm', {
+                        defaultValue: 'Yes, disconnect',
+                    }),
                     status: 'danger',
                     onClick: async () => {
                         try {
                             await api.organizationIntegrations.delete(id)
-                            lemonToast.success('Integration disconnected.')
+                            lemonToast.success(
+                                i18n.t('settings.organization.integrations.disconnected', {
+                                    defaultValue: 'Integration disconnected.',
+                                })
+                            )
                             actions.loadOrganizationIntegrations()
                         } catch (error: any) {
-                            lemonToast.error(error?.detail || 'Failed to disconnect integration. Please try again.')
+                            lemonToast.error(
+                                error?.detail ||
+                                    i18n.t('settings.organization.integrations.disconnectFailed', {
+                                        defaultValue: 'Failed to disconnect integration. Please try again.',
+                                    })
+                            )
                         }
                     },
                 },
                 secondaryButton: {
-                    children: 'Cancel',
+                    children: i18n.t('settings.cancel', { defaultValue: 'Cancel' }),
                 },
             })
         },

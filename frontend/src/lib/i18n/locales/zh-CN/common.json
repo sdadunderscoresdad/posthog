@@ -666,16 +666,16 @@
                 "changeRequestNoun": "变更请求",
                 "changeRequestNounPlural": "变更请求",
                 "columns": {
-                    "action": "",
-                    "approvals": "",
-                    "approvalsRequired": "",
-                    "approvers": "",
-                    "created": "",
-                    "expires": "",
-                    "requestedBy": "",
-                    "resource": "",
-                    "selfApprove": "",
-                    "status": ""
+                    "action": "操作",
+                    "approvals": "已批准",
+                    "approvalsRequired": "所需批准数",
+                    "approvers": "审批人",
+                    "created": "创建时间",
+                    "expires": "过期时间",
+                    "requestedBy": "发起人",
+                    "resource": "资源",
+                    "selfApprove": "自我批准",
+                    "status": "状态"
                 },
                 "conditions": {
                     "changes": "变更",
@@ -892,6 +892,13 @@
                     "scopesNotice": "授予 <code>user:read</code>，以及各集成所需的权限范围。项目级 API 还需要 <code>organization:read</code> 和 <code>project:read</code>。"
                 }
             },
+            "integrations": {
+                "disconnectConfirm": "是的，断开连接",
+                "disconnectDescription": "这会从你的组织中移除此集成。配置为使用该集成的 PostHog 资源将停止工作。",
+                "disconnectFailed": "断开集成失败，请重试。",
+                "disconnectTitle": "断开 {{ kind }} 集成？",
+                "disconnected": "集成已断开。"
+            },
             "invite": {
                 "add": "添加",
                 "addProject": "添加项目",
@@ -1085,6 +1092,20 @@
                 "noMatch": "没有匹配你搜索的个人 API 密钥。",
                 "organizationWide": "整个组织",
                 "searchPlaceholder": "按名称、邮箱或权限范围搜索"
+            },
+            "roles": {
+                "add": "添加",
+                "createTitle": "创建角色",
+                "deleteRole": "删除角色",
+                "editTitle": "编辑 {{ name }} 角色",
+                "members": "成员",
+                "nameLabel": "角色名称",
+                "namePlaceholder": "产品",
+                "noMembers": "还没有添加成员",
+                "removeMember": "从角色中移除用户",
+                "roleMembers": "角色成员",
+                "searchMembers": "搜索要添加的团队成员…",
+                "viewTitle": "{{ name }} 角色"
             },
             "security": {
                 "disableSharing": "关闭公开分享",

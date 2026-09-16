@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconTrash } from '@posthog/icons'
 import { LemonInput } from '@posthog/lemon-ui'
@@ -29,6 +30,7 @@ export function CreateRoleModal(): JSX.Element {
     const { setCreateRoleModalShown, setRoleMembersToAdd, createRole, deleteRoleMember, addRoleMembers, deleteRole } =
         useActions(rolesLogic)
 
+    const { t } = useTranslation()
     const { isAdminOrOwner } = useValues(organizationLogic)
 
     const [roleName, setRoleName] = useState('')
@@ -51,10 +53,16 @@ export function CreateRoleModal(): JSX.Element {
             isOpen={createRoleModalShown}
             title={
                 isNewRole
-                    ? 'Create role'
+                    ? t('settings.organization.roles.createTitle', { defaultValue: 'Create role' })
                     : isAdminOrOwner
-                      ? `Edit ${roleInFocus.name} role`
-                      : `${roleInFocus.name} role`
+                      ? t('settings.organization.roles.editTitle', {
+                            defaultValue: 'Edit {{ name }} role',
+                            name: roleInFocus.name,
+                        })
+                      : t('settings.organization.roles.viewTitle', {
+                            defaultValue: '{{ name }} role',
+                            name: roleInFocus.name,
+                        })
             }
             footer={
                 rolesLoading ? (
@@ -70,13 +78,13 @@ export function CreateRoleModal(): JSX.Element {
                                     onClick={() => deleteRole(roleInFocus)}
                                     data-attr="role-delete-submit"
                                 >
-                                    Delete role
+                                    {t('settings.organization.roles.deleteRole', { defaultValue: 'Delete role' })}
                                 </LemonButton>
                             )}
                         </div>
                         {isNewRole && (
                             <LemonButton type="primary" onClick={handleSubmit}>
-                                Save
+                                {t('settings.save', { defaultValue: 'Save' })}
                             </LemonButton>
                         )}
                     </div>
@@ -85,17 +93,24 @@ export function CreateRoleModal(): JSX.Element {
         >
             {isNewRole && (
                 <div className="mb-5">
-                    <h5>Role Name</h5>
-                    <LemonInput placeholder="Product" autoFocus value={roleName} onChange={setRoleName} />
+                    <h5>{t('settings.organization.roles.nameLabel', { defaultValue: 'Role Name' })}</h5>
+                    <LemonInput
+                        placeholder={t('settings.organization.roles.namePlaceholder', { defaultValue: 'Product' })}
+                        autoFocus
+                        value={roleName}
+                        onChange={setRoleName}
+                    />
                 </div>
             )}
             {isAdminOrOwner && (
                 <div className="mb-5">
-                    <h5>Members</h5>
+                    <h5>{t('settings.organization.roles.members', { defaultValue: 'Members' })}</h5>
                     <div className="flex gap-2">
                         <div className="flex-1">
                             <LemonInputSelect
-                                placeholder="Search for team members to add…"
+                                placeholder={t('settings.organization.roles.searchMembers', {
+                                    defaultValue: 'Search for team members to add…',
+                                })}
                                 value={roleMembersToAdd}
                                 loading={roleMembersInFocusLoading}
                                 onChange={(newValues: string[]) => setRoleMembersToAdd(newValues)}
@@ -111,7 +126,7 @@ export function CreateRoleModal(): JSX.Element {
                                 disabled={roleMembersToAdd.length === 0}
                                 onClick={() => addRoleMembers({ role: roleInFocus, membersToAdd: roleMembersToAdd })}
                             >
-                                Add
+                                {t('settings.organization.roles.add', { defaultValue: 'Add' })}
                             </LemonButton>
                         )}
                     </div>
@@ -119,7 +134,7 @@ export function CreateRoleModal(): JSX.Element {
             )}
             {!isNewRole && (
                 <>
-                    <h5>Role Members</h5>
+                    <h5>{t('settings.organization.roles.roleMembers', { defaultValue: 'Role Members' })}</h5>
                     {roleMembersInFocus.length > 0 ? (
                         <div className="mt-2 pb-2 rounded overflow-y-auto max-h-80">
                             {roleMembersInFocus.map((member) => {
@@ -134,7 +149,9 @@ export function CreateRoleModal(): JSX.Element {
                             })}
                         </div>
                     ) : (
-                        <div className="text-secondary mb-2">No members added yet</div>
+                        <div className="text-secondary mb-2">
+                            {t('settings.organization.roles.noMembers', { defaultValue: 'No members added yet' })}
+                        </div>
                     )}
                 </>
             )}
@@ -151,6 +168,7 @@ function MemberRow({
     deleteMember?: (roleMemberUuid: UserType['uuid']) => void
     isAdminOrOwner: boolean
 }): JSX.Element {
+    const { t } = useTranslation()
     const { user } = member
 
     return (
@@ -160,7 +178,9 @@ function MemberRow({
                 <LemonButton
                     icon={<IconTrash />}
                     onClick={() => deleteMember(member.id)}
-                    tooltip="Remove user from role"
+                    tooltip={t('settings.organization.roles.removeMember', {
+                        defaultValue: 'Remove user from role',
+                    })}
                     type="tertiary"
                     size="small"
                 />

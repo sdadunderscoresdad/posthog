@@ -898,6 +898,13 @@
                     "scopesNotice": "Grant <code>user:read</code> and the scopes required by each integration. Project APIs also require <code>organization:read</code> and <code>project:read</code>."
                 }
             },
+            "integrations": {
+                "disconnectConfirm": "Yes, disconnect",
+                "disconnectDescription": "This will remove the integration from your organization. PostHog resources configured to use this integration will stop working.",
+                "disconnected": "Integration disconnected.",
+                "disconnectFailed": "Failed to disconnect integration. Please try again.",
+                "disconnectTitle": "Disconnect {{ kind }} integration?"
+            },
             "invite": {
                 "add": "Add",
                 "addProject": "Add project",
@@ -1097,6 +1104,20 @@
                 "noMatch": "No personal API keys match your search.",
                 "organizationWide": "Organization-wide",
                 "searchPlaceholder": "Search by name, email, or scope"
+            },
+            "roles": {
+                "add": "Add",
+                "createTitle": "Create role",
+                "deleteRole": "Delete role",
+                "editTitle": "Edit {{ name }} role",
+                "members": "Members",
+                "nameLabel": "Role Name",
+                "namePlaceholder": "Product",
+                "noMembers": "No members added yet",
+                "removeMember": "Remove user from role",
+                "roleMembers": "Role Members",
+                "searchMembers": "Search for team members to add…",
+                "viewTitle": "{{ name }} role"
             },
             "security": {
                 "disableSharing": "Disable sharing",

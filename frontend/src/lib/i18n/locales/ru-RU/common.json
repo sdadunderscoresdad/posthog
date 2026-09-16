@@ -910,6 +910,13 @@
                     "scopesNotice": ""
                 }
             },
+            "integrations": {
+                "disconnectConfirm": "",
+                "disconnectDescription": "",
+                "disconnected": "",
+                "disconnectFailed": "",
+                "disconnectTitle": ""
+            },
             "invite": {
                 "add": "",
                 "addProject": "",
@@ -1121,6 +1128,20 @@
                 "noMatch": "",
                 "organizationWide": "",
                 "searchPlaceholder": ""
+            },
+            "roles": {
+                "add": "",
+                "createTitle": "",
+                "deleteRole": "",
+                "editTitle": "",
+                "members": "",
+                "nameLabel": "",
+                "namePlaceholder": "",
+                "noMembers": "",
+                "removeMember": "",
+                "roleMembers": "",
+                "searchMembers": "",
+                "viewTitle": ""
             },
             "security": {
                 "disableSharing": "",
