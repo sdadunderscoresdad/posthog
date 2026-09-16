@@ -734,6 +734,87 @@
                 "queryTimeLabel": "",
                 "recommended": ""
             },
+            "replayTriggers": {
+                "anyWith100SamplingWarning": "",
+                "anyWith100SamplingWarningSuggestion": "",
+                "conditions": {
+                    "featureFlag": "",
+                    "heading": "",
+                    "urlMatches": ""
+                },
+                "eventTrigger": {
+                    "description": "",
+                    "eventEmitted": "",
+                    "selectEvents": ""
+                },
+                "exclusions": {
+                    "heading": "",
+                    "urlBlocklist": ""
+                },
+                "headerStatus": {
+                    "eventCount_other": "",
+                    "noMinimum": "",
+                    "notConfigured": "",
+                    "patternCount_other": ""
+                },
+                "legacyConditions": {
+                    "fallbackNotice": "",
+                    "heading": "",
+                    "hidden": ""
+                },
+                "limits": {
+                    "heading": "",
+                    "minimumDuration": "",
+                    "sampling": ""
+                },
+                "linkedFlag": {
+                    "description": "",
+                    "selectFeatureFlag": "",
+                    "variantTooltip": "",
+                    "variantVersionTooltip": ""
+                },
+                "minDuration": {
+                    "description": "",
+                    "label": "",
+                    "mobileDescription": "",
+                    "tooltip": ""
+                },
+                "platforms": {
+                    "mobile": "",
+                    "mobileMatchTypeLocked": "",
+                    "mobileNotice": "",
+                    "web": ""
+                },
+                "sampling": {
+                    "default": "",
+                    "description": "",
+                    "label": ""
+                },
+                "sdkCompatibility": {
+                    "addTriggerGroup": "",
+                    "allRecent": "",
+                    "bothConfigurations": "",
+                    "eventCount_other": "",
+                    "migrate": "",
+                    "noGroupsYet": "",
+                    "someOutdated_other": "",
+                    "supportedVersions": "",
+                    "title": ""
+                },
+                "summary": {
+                    "controlDescription": "",
+                    "docsLink": "",
+                    "recordingDisabled": ""
+                },
+                "urlBlocklist": {
+                    "description": "",
+                    "title": ""
+                },
+                "urlTrigger": {
+                    "description": "",
+                    "title": ""
+                }
+            },
             "sdkSetup": {
                 "docsLink": "",
                 "modalTitle": "",

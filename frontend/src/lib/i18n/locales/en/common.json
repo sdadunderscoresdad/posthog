@@ -740,6 +740,91 @@
                 "queryTimeLabel": "Use person properties as of running the query",
                 "recommended": "RECOMMENDED"
             },
+            "replayTriggers": {
+                "anyWith100SamplingWarning": "<Strong>100% sampling rate with \"any\" matching records every session.</Strong> To fix this, either lower the sample rate or switch to \"all\" matching.",
+                "anyWith100SamplingWarningSuggestion": "Consider using <Strong>trigger groups</Strong> above for more precise control over when sessions are recorded.",
+                "conditions": {
+                    "featureFlag": "Feature flag",
+                    "heading": "Recording conditions",
+                    "urlMatches": "URL matches"
+                },
+                "eventTrigger": {
+                    "description": "Start recording when a PostHog event is queued.",
+                    "eventEmitted": "Event emitted",
+                    "selectEvents": "Select events"
+                },
+                "exclusions": {
+                    "heading": "Recording exclusions",
+                    "urlBlocklist": "URL blocklist"
+                },
+                "headerStatus": {
+                    "eventCount_one": "{{ count }} event",
+                    "eventCount_other": "{{ count }} events",
+                    "noMinimum": "No minimum",
+                    "notConfigured": "Not configured",
+                    "patternCount_one": "{{ count }} pattern",
+                    "patternCount_other": "{{ count }} patterns"
+                },
+                "legacyConditions": {
+                    "fallbackNotice": "Used by SDK versions < v{{ version }} and as fallback for newer versions if trigger groups are not configured.",
+                    "heading": "Legacy recording conditions",
+                    "hidden": "Hidden because your web SDKs (v{{ version }}+) use trigger groups. Expand to configure fallbacks for older SDK versions."
+                },
+                "limits": {
+                    "heading": "Recording limits",
+                    "minimumDuration": "Minimum duration",
+                    "sampling": "Sampling"
+                },
+                "linkedFlag": {
+                    "description": "Only record when this flag is enabled. <Strong>Shared across web and mobile.</Strong>",
+                    "selectFeatureFlag": "Select feature flag",
+                    "variantTooltip": "Record for \"any\" variant, or only for a specific variant.",
+                    "variantVersionTooltip": "Variant targeting requires posthog-js v1.110.0+"
+                },
+                "minDuration": {
+                    "description": "Setting a minimum session duration will ensure that only sessions that last longer than that value are collected. This helps you avoid collecting sessions that are too short to be useful.",
+                    "label": "Duration threshold",
+                    "mobileDescription": "Only collect sessions that last longer than this. This helps you avoid recording sessions that are too short to be useful.",
+                    "tooltip": "The JS SDK has an in-memory queue. This means that for traditional web apps the minimum duration control is best effort."
+                },
+                "platforms": {
+                    "mobile": "Mobile",
+                    "mobileMatchTypeLocked": "Mobile only supports trigger matching of type 'all'.",
+                    "mobileNotice": "Trigger groups aren't available on mobile yet. Mobile recording uses the settings below, which are shared with web. Changing a setting here also changes it on web.",
+                    "web": "Web"
+                },
+                "sampling": {
+                    "default": "(default)",
+                    "description": "Choose how many sessions to record. 100% = record every session, 50% = record roughly half.",
+                    "label": "Sample rate"
+                },
+                "sdkCompatibility": {
+                    "addTriggerGroup": "Add trigger group",
+                    "allRecent": "Your recent web SDK traffic is effectively all on v{{ version }}+, so trigger groups apply to essentially every session. The legacy recording conditions below are kept only as a fallback for older SDKs.",
+                    "bothConfigurations": "Both configurations are sent to ensure backward compatibility with all JavaScript SDK versions",
+                    "eventCount_one": "{{ count }} event",
+                    "eventCount_other": "{{ count }} events",
+                    "migrate": "Migrate legacy conditions",
+                    "noGroupsYet": "Your recent web SDK traffic is on v{{ version }}+, but you haven't set up trigger groups yet. Recording still uses the legacy conditions below. Newer SDKs fall back to them when no trigger groups exist, so nothing changes until you migrate.",
+                    "someOutdated_one": "About <Strong>{{ pct }}%</Strong> of recent web traffic ({{ count }} {{ events }}) is on a posthog-js before v{{ version }}. Those sessions still record using the legacy recording conditions below. Upgrade to v{{ version }}+ for full trigger-group coverage. Both configurations are sent meanwhile, so nothing is lost.",
+                    "someOutdated_other": "About <Strong>{{ pct }}%</Strong> of recent web traffic ({{ count }} {{ events }}) is on a posthog-js before v{{ version }}. Those sessions still record using the legacy recording conditions below. Upgrade to v{{ version }}+ for full trigger-group coverage. Both configurations are sent meanwhile, so nothing is lost.",
+                    "supportedVersions": "SDK versions >= v{{ version }} use trigger groups if configured, otherwise fall back to the legacy recording conditions",
+                    "title": "JavaScript SDK version compatibility"
+                },
+                "summary": {
+                    "controlDescription": "sessions recorded",
+                    "docsLink": "Read about how to start and stop sessions in our docs.",
+                    "recordingDisabled": "<Strong>Recording is disabled.</Strong> Enable it in General settings."
+                },
+                "urlBlocklist": {
+                    "description": "Pause recordings while the user is on a page that matches the URL.",
+                    "title": "Pause recordings when URL matches"
+                },
+                "urlTrigger": {
+                    "description": "Adding a URL trigger means recording will only be started when the user visits a page that matches the URL.",
+                    "title": "Enable recordings when URL matches"
+                }
+            },
             "sdkSetup": {
                 "docsLink": "{{ name }} docs",
                 "modalTitle": "{{ name }} setup",

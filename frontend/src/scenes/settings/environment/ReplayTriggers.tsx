@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { LemonBanner, LemonCollapse, LemonDivider, LemonLabel, LemonTab, LemonTabs, Tooltip } from '@posthog/lemon-ui'
 
@@ -11,7 +12,6 @@ import { PayGateMini } from 'lib/components/PayGateMini/PayGateMini'
 import { FEATURE_FLAGS } from 'lib/constants'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 import { humanFriendlyNumber } from 'lib/utils/numbers'
-import { pluralize } from 'lib/utils/strings'
 import {
     ReplayPlatform,
     replayTriggersLogic,
@@ -52,13 +52,19 @@ function AnyWith100SamplingWarning({
 
     return (
         <LemonBanner type="error">
-            <strong>100% sampling rate with "any" matching records every session.</strong> To fix this, either lower the
-            sample rate or switch to "all" matching.
+            <Trans
+                i18nKey="settings.environment.replayTriggers.anyWith100SamplingWarning"
+                components={{ Strong: <strong /> }}
+                defaults='<Strong>100% sampling rate with "any" matching records every session.</Strong> To fix this, either lower the sample rate or switch to "all" matching.'
+            />
             {isV2TriggersEnabled && (
                 <>
                     {' '}
-                    Consider using <strong>trigger groups</strong> above for more precise control over when sessions are
-                    recorded.
+                    <Trans
+                        i18nKey="settings.environment.replayTriggers.anyWith100SamplingWarningSuggestion"
+                        components={{ Strong: <strong /> }}
+                        defaults="Consider using <Strong>trigger groups</Strong> above for more precise control over when sessions are recorded."
+                    />
                 </>
             )}
         </LemonBanner>
@@ -86,6 +92,7 @@ function TriggerPanelHeader({
 }
 
 function LinkedFlagSelector(): JSX.Element | null {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam } = useValues(teamLogic)
 
@@ -102,7 +109,9 @@ function LinkedFlagSelector(): JSX.Element | null {
                 <div className="flex flex-col gap-2">
                     <div className="flex justify-between items-center">
                         <LemonLabel className="text-base">
-                            Select feature flag{' '}
+                            {t('settings.environment.replayTriggers.linkedFlag.selectFeatureFlag', {
+                                defaultValue: 'Select feature flag',
+                            })}{' '}
                             <Since
                                 web={{ version: '1.110.0' }}
                                 ios={{ version: '3.11.0' }}
@@ -115,13 +124,25 @@ function LinkedFlagSelector(): JSX.Element | null {
                     </div>
 
                     <p>
-                        Only record when this flag is enabled. <strong>Shared across web and mobile.</strong>
+                        <Trans
+                            i18nKey="settings.environment.replayTriggers.linkedFlag.description"
+                            components={{ Strong: <strong /> }}
+                            defaults="Only record when this flag is enabled. <Strong>Shared across web and mobile.</Strong>"
+                        />
                     </p>
                     <IngestionControls.FlagVariantSelector
                         tooltip={
                             <>
-                                <p>Record for "any" variant, or only for a specific variant.</p>
-                                <p>Variant targeting requires posthog-js v1.110.0+</p>
+                                <p>
+                                    {t('settings.environment.replayTriggers.linkedFlag.variantTooltip', {
+                                        defaultValue: 'Record for "any" variant, or only for a specific variant.',
+                                    })}
+                                </p>
+                                <p>
+                                    {t('settings.environment.replayTriggers.linkedFlag.variantVersionTooltip', {
+                                        defaultValue: 'Variant targeting requires posthog-js v1.110.0+',
+                                    })}
+                                </p>
                             </>
                         }
                     />
@@ -132,6 +153,7 @@ function LinkedFlagSelector(): JSX.Element | null {
 }
 
 function UrlTriggerOptions(): JSX.Element | null {
+    const { t } = useTranslation()
     const {
         isAddUrlTriggerConfigFormVisible,
         urlTriggerConfig,
@@ -157,9 +179,14 @@ function UrlTriggerOptions(): JSX.Element | null {
             formKey="proposedUrlTrigger"
             addUrl={addUrlTrigger}
             validationWarning={urlTriggerInputValidationWarning}
-            title="Enable recordings when URL matches"
+            title={t('settings.environment.replayTriggers.urlTrigger.title', {
+                defaultValue: 'Enable recordings when URL matches',
+            })}
             titleBadge={<Since web={{ version: '1.171.0' }} />}
-            description="Adding a URL trigger means recording will only be started when the user visits a page that matches the URL."
+            description={t('settings.environment.replayTriggers.urlTrigger.description', {
+                defaultValue:
+                    'Adding a URL trigger means recording will only be started when the user visits a page that matches the URL.',
+            })}
             checkUrl={checkUrlTrigger}
             checkUrlResults={checkUrlTriggerResults}
             setCheckUrl={setCheckUrlTrigger}
@@ -176,6 +203,7 @@ function UrlTriggerOptions(): JSX.Element | null {
 }
 
 function UrlBlocklistOptions(): JSX.Element | null {
+    const { t } = useTranslation()
     const {
         isAddUrlBlocklistConfigFormVisible,
         urlBlocklistConfig,
@@ -201,8 +229,12 @@ function UrlBlocklistOptions(): JSX.Element | null {
             formKey="proposedUrlBlocklist"
             addUrl={addUrlBlocklist}
             validationWarning={urlBlocklistInputValidationWarning}
-            title="Pause recordings when URL matches"
-            description="Pause recordings while the user is on a page that matches the URL."
+            title={t('settings.environment.replayTriggers.urlBlocklist.title', {
+                defaultValue: 'Pause recordings when URL matches',
+            })}
+            description={t('settings.environment.replayTriggers.urlBlocklist.description', {
+                defaultValue: 'Pause recordings while the user is on a page that matches the URL.',
+            })}
             checkUrl={checkUrlBlocklist}
             checkUrlResults={checkUrlBlocklistResults}
             setCheckUrl={setCheckUrlBlocklist}
@@ -219,6 +251,7 @@ function UrlBlocklistOptions(): JSX.Element | null {
 }
 
 function EventTriggerOptions(): JSX.Element | null {
+    const { t } = useTranslation()
     const { eventTriggerConfig } = useValues(replayTriggersLogic)
     const { updateEventTriggerConfig } = useActions(replayTriggersLogic)
 
@@ -226,11 +259,18 @@ function EventTriggerOptions(): JSX.Element | null {
         <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 justify-between">
                 <LemonLabel className="text-base">
-                    Select events <Since web={{ version: '1.186.0' }} />
+                    {t('settings.environment.replayTriggers.eventTrigger.selectEvents', {
+                        defaultValue: 'Select events',
+                    })}{' '}
+                    <Since web={{ version: '1.186.0' }} />
                 </LemonLabel>
                 <IngestionControls.EventTriggerSelect events={eventTriggerConfig} onChange={updateEventTriggerConfig} />
             </div>
-            <p>Start recording when a PostHog event is queued.</p>
+            <p>
+                {t('settings.environment.replayTriggers.eventTrigger.description', {
+                    defaultValue: 'Start recording when a PostHog event is queued.',
+                })}
+            </p>
 
             <div className="flex gap-2 flex-wrap">
                 {eventTriggerConfig?.map((trigger) => (
@@ -246,6 +286,7 @@ function EventTriggerOptions(): JSX.Element | null {
 }
 
 function Sampling(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam } = useValues(teamLogic)
 
@@ -256,27 +297,40 @@ function Sampling(): JSX.Element {
             <div className="flex flex-col gap-2">
                 <div className="flex flex-row justify-between items-center">
                     <LemonLabel className="text-base">
-                        Sample rate{' '}
+                        {t('settings.environment.replayTriggers.sampling.label', { defaultValue: 'Sample rate' })}{' '}
                         <Since
                             web={{ version: '1.85.0' }}
                             android={{ version: '3.34.0' }}
                             ios={{ version: '3.42.0' }}
                             reactNative={{ version: '4.37.0' }}
                         />
-                        {storedSampleRate == null && <span className="text-muted font-normal"> (default)</span>}
+                        {storedSampleRate == null && (
+                            <span className="text-muted font-normal">
+                                {' '}
+                                {t('settings.environment.replayTriggers.sampling.default', {
+                                    defaultValue: '(default)',
+                                })}
+                            </span>
+                        )}
                     </LemonLabel>
                     <IngestionControls.SamplingTrigger
                         initialSampleRate={toDisplaySampleRate(storedSampleRate)}
                         onChange={(v) => updateCurrentTeam({ session_recording_sample_rate: v.toString() })}
                     />
                 </div>
-                <p>Choose how many sessions to record. 100% = record every session, 50% = record roughly half.</p>
+                <p>
+                    {t('settings.environment.replayTriggers.sampling.description', {
+                        defaultValue:
+                            'Choose how many sessions to record. 100% = record every session, 50% = record roughly half.',
+                    })}
+                </p>
             </div>
         </PayGateMini>
     )
 }
 
 function MobileSampling(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam } = useValues(teamLogic)
 
@@ -287,26 +341,39 @@ function MobileSampling(): JSX.Element {
             <div className="flex flex-col gap-2">
                 <div className="flex flex-row justify-between items-center">
                     <LemonLabel className="text-base">
-                        Sample rate{' '}
+                        {t('settings.environment.replayTriggers.sampling.label', { defaultValue: 'Sample rate' })}{' '}
                         <Since
                             android={{ version: '3.34.0' }}
                             ios={{ version: '3.42.0' }}
                             reactNative={{ version: '4.37.0' }}
                         />
-                        {storedSampleRate == null && <span className="text-muted font-normal"> (default)</span>}
+                        {storedSampleRate == null && (
+                            <span className="text-muted font-normal">
+                                {' '}
+                                {t('settings.environment.replayTriggers.sampling.default', {
+                                    defaultValue: '(default)',
+                                })}
+                            </span>
+                        )}
                     </LemonLabel>
                     <IngestionControls.SamplingTrigger
                         initialSampleRate={toDisplaySampleRate(storedSampleRate)}
                         onChange={(v) => updateCurrentTeam({ session_recording_sample_rate: v.toString() })}
                     />
                 </div>
-                <p>Choose how many sessions to record. 100% = record every session, 50% = record roughly half.</p>
+                <p>
+                    {t('settings.environment.replayTriggers.sampling.description', {
+                        defaultValue:
+                            'Choose how many sessions to record. 100% = record every session, 50% = record roughly half.',
+                    })}
+                </p>
             </div>
         </PayGateMini>
     )
 }
 
 function MobileEventTriggers(): JSX.Element {
+    const { t } = useTranslation()
     const { eventTriggerConfig } = useValues(replayTriggersLogic)
     const { updateEventTriggerConfig } = useActions(replayTriggersLogic)
 
@@ -314,7 +381,9 @@ function MobileEventTriggers(): JSX.Element {
         <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 justify-between">
                 <LemonLabel className="text-base">
-                    Event emitted{' '}
+                    {t('settings.environment.replayTriggers.eventTrigger.eventEmitted', {
+                        defaultValue: 'Event emitted',
+                    })}{' '}
                     <Since
                         ios={{ version: '3.48.0' }}
                         android={{ version: '3.40.1' }}
@@ -324,7 +393,11 @@ function MobileEventTriggers(): JSX.Element {
                 </LemonLabel>
                 <IngestionControls.EventTriggerSelect events={eventTriggerConfig} onChange={updateEventTriggerConfig} />
             </div>
-            <p>Start recording when a PostHog event is queued.</p>
+            <p>
+                {t('settings.environment.replayTriggers.eventTrigger.description', {
+                    defaultValue: 'Start recording when a PostHog event is queued.',
+                })}
+            </p>
 
             <div className="flex gap-2 flex-wrap">
                 {eventTriggerConfig?.map((trigger) => (
@@ -340,6 +413,7 @@ function MobileEventTriggers(): JSX.Element {
 }
 
 function MobileMinimumDuration(): JSX.Element {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam } = useValues(teamLogic)
 
@@ -351,7 +425,9 @@ function MobileMinimumDuration(): JSX.Element {
             <div className="flex flex-col gap-2">
                 <div className="flex flex-row justify-between items-center">
                     <LemonLabel className="text-base">
-                        Duration threshold{' '}
+                        {t('settings.environment.replayTriggers.minDuration.label', {
+                            defaultValue: 'Duration threshold',
+                        })}{' '}
                         <Since
                             ios={{ version: '3.53.0' }}
                             android={{ version: '3.44.0' }}
@@ -365,8 +441,10 @@ function MobileMinimumDuration(): JSX.Element {
                     />
                 </div>
                 <p>
-                    Only collect sessions that last longer than this. This helps you avoid recording sessions that are
-                    too short to be useful.
+                    {t('settings.environment.replayTriggers.minDuration.mobileDescription', {
+                        defaultValue:
+                            'Only collect sessions that last longer than this. This helps you avoid recording sessions that are too short to be useful.',
+                    })}
                 </p>
             </div>
         </PayGateMini>
@@ -374,6 +452,7 @@ function MobileMinimumDuration(): JSX.Element {
 }
 
 function MinimumDurationSetting(): JSX.Element | null {
+    const { t } = useTranslation()
     const { updateCurrentTeam } = useActions(teamLogic)
     const { currentTeam } = useValues(teamLogic)
 
@@ -385,7 +464,10 @@ function MinimumDurationSetting(): JSX.Element | null {
             <div className="flex flex-col gap-2">
                 <div className="flex flex-row justify-between items-center">
                     <LemonLabel className="text-base">
-                        Duration threshold <Since web={{ version: '1.85.0' }} ios={{ version: '3.53.0' }} />
+                        {t('settings.environment.replayTriggers.minDuration.label', {
+                            defaultValue: 'Duration threshold',
+                        })}{' '}
+                        <Since web={{ version: '1.85.0' }} ios={{ version: '3.53.0' }} />
                     </LemonLabel>
                     <IngestionControls.MinDuration
                         value={currentTeam?.session_recording_minimum_duration_milliseconds}
@@ -395,10 +477,15 @@ function MinimumDurationSetting(): JSX.Element | null {
                 <Tooltip
                     delayMs={200}
                     docLink="https://posthog.com/docs/session-replay/how-to-control-which-sessions-you-record#limitations"
-                    title="The JS SDK has an in-memory queue. This means that for traditional web apps the minimum duration control is best effort."
+                    title={t('settings.environment.replayTriggers.minDuration.tooltip', {
+                        defaultValue:
+                            'The JS SDK has an in-memory queue. This means that for traditional web apps the minimum duration control is best effort.',
+                    })}
                 >
-                    Setting a minimum session duration will ensure that only sessions that last longer than that value
-                    are collected. This helps you avoid collecting sessions that are too short to be useful.
+                    {t('settings.environment.replayTriggers.minDuration.description', {
+                        defaultValue:
+                            'Setting a minimum session duration will ensure that only sessions that last longer than that value are collected. This helps you avoid collecting sessions that are too short to be useful.',
+                    })}
                 </Tooltip>
             </div>
         </PayGateMini>
@@ -413,6 +500,7 @@ function useHeaderStatuses(currentTeam: TeamType | TeamPublicType | null): {
     minDurationStatus: string
     blocklistStatus: string
 } {
+    const { t } = useTranslation()
     const { urlTriggerConfig, eventTriggerConfig } = useValues(replayTriggersLogic)
 
     const urlCount = urlTriggerConfig?.length ?? 0
@@ -423,16 +511,54 @@ function useHeaderStatuses(currentTeam: TeamType | TeamPublicType | null): {
     const blocklistCount = currentTeam?.session_recording_url_blocklist_config?.length ?? 0
 
     return {
-        urlStatus: urlCount > 0 ? pluralize(urlCount, 'pattern') : 'Not configured',
-        eventStatus: eventCount > 0 ? pluralize(eventCount, 'event') : 'Not configured',
-        flagStatus: flagKey ? flagKey : 'Not configured',
-        samplingStatus: `${numericSampleRate}%${numericSampleRate === 100 ? ' (default)' : ''}`,
-        minDurationStatus: minDurationMs ? `${minDurationMs / 1000}s` : 'No minimum',
-        blocklistStatus: blocklistCount > 0 ? pluralize(blocklistCount, 'pattern') : 'Not configured',
+        urlStatus:
+            urlCount > 0
+                ? t('settings.environment.replayTriggers.headerStatus.patternCount', {
+                      count: urlCount,
+                      defaultValue_one: '{{ count }} pattern',
+                      defaultValue_other: '{{ count }} patterns',
+                  })
+                : t('settings.environment.replayTriggers.headerStatus.notConfigured', {
+                      defaultValue: 'Not configured',
+                  }),
+        eventStatus:
+            eventCount > 0
+                ? t('settings.environment.replayTriggers.headerStatus.eventCount', {
+                      count: eventCount,
+                      defaultValue_one: '{{ count }} event',
+                      defaultValue_other: '{{ count }} events',
+                  })
+                : t('settings.environment.replayTriggers.headerStatus.notConfigured', {
+                      defaultValue: 'Not configured',
+                  }),
+        flagStatus:
+            flagKey ??
+            t('settings.environment.replayTriggers.headerStatus.notConfigured', {
+                defaultValue: 'Not configured',
+            }),
+        samplingStatus: `${numericSampleRate}%${
+            numericSampleRate === 100
+                ? ` ${t('settings.environment.replayTriggers.sampling.default', { defaultValue: '(default)' })}`
+                : ''
+        }`,
+        minDurationStatus: minDurationMs
+            ? `${minDurationMs / 1000}s`
+            : t('settings.environment.replayTriggers.headerStatus.noMinimum', { defaultValue: 'No minimum' }),
+        blocklistStatus:
+            blocklistCount > 0
+                ? t('settings.environment.replayTriggers.headerStatus.patternCount', {
+                      count: blocklistCount,
+                      defaultValue_one: '{{ count }} pattern',
+                      defaultValue_other: '{{ count }} patterns',
+                  })
+                : t('settings.environment.replayTriggers.headerStatus.notConfigured', {
+                      defaultValue: 'Not configured',
+                  }),
     }
 }
 
 function LegacyRecordingConditions(): JSX.Element {
+    const { t } = useTranslation()
     const { selectedPlatform } = useValues(replayTriggersLogic)
     const { currentTeam } = useValues(teamLogic)
     const { featureFlags } = useValues(featureFlagLogic)
@@ -449,26 +575,50 @@ function LegacyRecordingConditions(): JSX.Element {
             <AnyWith100SamplingWarning currentTeam={currentTeam} isV2TriggersEnabled={!!isV2TriggersEnabled} />
 
             <div>
-                <h3 className="text-sm font-semibold mb-2">Recording conditions</h3>
+                <h3 className="text-sm font-semibold mb-2">
+                    {t('settings.environment.replayTriggers.conditions.heading', {
+                        defaultValue: 'Recording conditions',
+                    })}
+                </h3>
                 <LemonCollapse
                     multiple
                     panels={[
                         {
                             key: 'url',
-                            header: <TriggerPanelHeader title="URL matches" status={statuses.urlStatus} showMatchTag />,
+                            header: (
+                                <TriggerPanelHeader
+                                    title={t('settings.environment.replayTriggers.conditions.urlMatches', {
+                                        defaultValue: 'URL matches',
+                                    })}
+                                    status={statuses.urlStatus}
+                                    showMatchTag
+                                />
+                            ),
                             content: <UrlTriggerOptions />,
                         },
                         {
                             key: 'event',
                             header: (
-                                <TriggerPanelHeader title="Event emitted" status={statuses.eventStatus} showMatchTag />
+                                <TriggerPanelHeader
+                                    title={t('settings.environment.replayTriggers.eventTrigger.eventEmitted', {
+                                        defaultValue: 'Event emitted',
+                                    })}
+                                    status={statuses.eventStatus}
+                                    showMatchTag
+                                />
                             ),
                             content: <EventTriggerOptions />,
                         },
                         {
                             key: 'flag',
                             header: (
-                                <TriggerPanelHeader title="Feature flag" status={statuses.flagStatus} showMatchTag />
+                                <TriggerPanelHeader
+                                    title={t('settings.environment.replayTriggers.conditions.featureFlag', {
+                                        defaultValue: 'Feature flag',
+                                    })}
+                                    status={statuses.flagStatus}
+                                    showMatchTag
+                                />
                             ),
                             content: <LinkedFlagSelector />,
                         },
@@ -477,20 +627,35 @@ function LegacyRecordingConditions(): JSX.Element {
             </div>
 
             <div>
-                <h3 className="text-sm font-semibold mb-2">Recording limits</h3>
+                <h3 className="text-sm font-semibold mb-2">
+                    {t('settings.environment.replayTriggers.limits.heading', { defaultValue: 'Recording limits' })}
+                </h3>
                 <LemonCollapse
                     multiple
                     panels={[
                         {
                             key: 'sampling',
                             header: (
-                                <TriggerPanelHeader title="Sampling" status={statuses.samplingStatus} showMatchTag />
+                                <TriggerPanelHeader
+                                    title={t('settings.environment.replayTriggers.limits.sampling', {
+                                        defaultValue: 'Sampling',
+                                    })}
+                                    status={statuses.samplingStatus}
+                                    showMatchTag
+                                />
                             ),
                             content: <Sampling />,
                         },
                         {
                             key: 'min-duration',
-                            header: <TriggerPanelHeader title="Minimum duration" status={statuses.minDurationStatus} />,
+                            header: (
+                                <TriggerPanelHeader
+                                    title={t('settings.environment.replayTriggers.limits.minimumDuration', {
+                                        defaultValue: 'Minimum duration',
+                                    })}
+                                    status={statuses.minDurationStatus}
+                                />
+                            ),
                             content: <MinimumDurationSetting />,
                         },
                     ]}
@@ -499,14 +664,24 @@ function LegacyRecordingConditions(): JSX.Element {
 
             <div>
                 <h3 className="text-base font-semibold mb-2">
-                    Recording exclusions <Since web={{ version: '1.171.0' }} />
+                    {t('settings.environment.replayTriggers.exclusions.heading', {
+                        defaultValue: 'Recording exclusions',
+                    })}{' '}
+                    <Since web={{ version: '1.171.0' }} />
                 </h3>
                 <LemonCollapse
                     multiple
                     panels={[
                         {
                             key: 'blocklist',
-                            header: <TriggerPanelHeader title="URL blocklist" status={statuses.blocklistStatus} />,
+                            header: (
+                                <TriggerPanelHeader
+                                    title={t('settings.environment.replayTriggers.exclusions.urlBlocklist', {
+                                        defaultValue: 'URL blocklist',
+                                    })}
+                                    status={statuses.blocklistStatus}
+                                />
+                            ),
                             content: <UrlBlocklistOptions />,
                         },
                     ]}
@@ -517,6 +692,7 @@ function LegacyRecordingConditions(): JSX.Element {
 }
 
 function SdkCompatibilityBanner(): JSX.Element {
+    const { t } = useTranslation()
     const {
         shouldMinimizeLegacyConditions,
         webTrafficIsRecent,
@@ -530,9 +706,11 @@ function SdkCompatibilityBanner(): JSX.Element {
     if (shouldMinimizeLegacyConditions) {
         return (
             <LemonBanner type="success">
-                Your recent web SDK traffic is effectively all on v{TRIGGER_GROUPS_MIN_SDK_VERSION}+, so trigger groups
-                apply to essentially every session. The legacy recording conditions below are kept only as a fallback
-                for older SDKs.
+                <Trans
+                    i18nKey="settings.environment.replayTriggers.sdkCompatibility.allRecent"
+                    values={{ version: TRIGGER_GROUPS_MIN_SDK_VERSION }}
+                    defaults="Your recent web SDK traffic is effectively all on v{{ version }}+, so trigger groups apply to essentially every session. The legacy recording conditions below are kept only as a fallback for older SDKs."
+                />
             </LemonBanner>
         )
     }
@@ -544,51 +722,80 @@ function SdkCompatibilityBanner(): JSX.Element {
                 action={
                     hasLegacyTriggers
                         ? {
-                              children: 'Migrate legacy conditions',
+                              children: t('settings.environment.replayTriggers.sdkCompatibility.migrate', {
+                                  defaultValue: 'Migrate legacy conditions',
+                              }),
                               onClick: showCreateFromLegacyModal,
                           }
                         : {
-                              children: 'Add trigger group',
+                              children: t('settings.environment.replayTriggers.sdkCompatibility.addTriggerGroup', {
+                                  defaultValue: 'Add trigger group',
+                              }),
                               onClick: () => setIsAddingGroup(true),
                           }
                 }
             >
-                Your recent web SDK traffic is on v{TRIGGER_GROUPS_MIN_SDK_VERSION}+, but you haven't set up trigger
-                groups yet. Recording still uses the legacy conditions below. Newer SDKs fall back to them when no
-                trigger groups exist, so nothing changes until you migrate.
+                <Trans
+                    i18nKey="settings.environment.replayTriggers.sdkCompatibility.noGroupsYet"
+                    values={{ version: TRIGGER_GROUPS_MIN_SDK_VERSION }}
+                    defaults="Your recent web SDK traffic is on v{{ version }}+, but you haven't set up trigger groups yet. Recording still uses the legacy conditions below. Newer SDKs fall back to them when no trigger groups exist, so nothing changes until you migrate."
+                />
             </LemonBanner>
         )
     }
 
     if (hasOutdatedWebSdk) {
         const pct = outdatedWebTraffic.share < 0.01 ? '<1' : Math.round(outdatedWebTraffic.share * 100).toString()
+        const events = t('settings.environment.replayTriggers.sdkCompatibility.eventCount', {
+            count: outdatedWebTraffic.outdatedCount,
+            defaultValue_one: '{{ count }} event',
+            defaultValue_other: '{{ count }} events',
+        })
         return (
             <LemonBanner type="info">
-                About <strong>{pct}%</strong> of recent web traffic (
-                {humanFriendlyNumber(outdatedWebTraffic.outdatedCount)}{' '}
-                {pluralize(outdatedWebTraffic.outdatedCount, 'event', 'events', false)}) is on a posthog-js before v
-                {TRIGGER_GROUPS_MIN_SDK_VERSION}. Those sessions still record using the legacy recording conditions
-                below. Upgrade to v{TRIGGER_GROUPS_MIN_SDK_VERSION}+ for full trigger-group coverage. Both
-                configurations are sent meanwhile, so nothing is lost.
+                <Trans
+                    i18nKey="settings.environment.replayTriggers.sdkCompatibility.someOutdated"
+                    values={{
+                        pct,
+                        count: humanFriendlyNumber(outdatedWebTraffic.outdatedCount),
+                        events,
+                        version: TRIGGER_GROUPS_MIN_SDK_VERSION,
+                    }}
+                    components={{ Strong: <strong /> }}
+                    defaults="About <Strong>{{ pct }}%</Strong> of recent web traffic ({{ count }} {{ events }}) is on a posthog-js before v{{ version }}. Those sessions still record using the legacy recording conditions below. Upgrade to v{{ version }}+ for full trigger-group coverage. Both configurations are sent meanwhile, so nothing is lost."
+                />
             </LemonBanner>
         )
     }
 
     return (
         <LemonBanner type="warning">
-            <strong>JavaScript SDK version compatibility</strong>
+            <strong>
+                {t('settings.environment.replayTriggers.sdkCompatibility.title', {
+                    defaultValue: 'JavaScript SDK version compatibility',
+                })}
+            </strong>
             <ul className="list-disc ml-4 mt-2 space-y-1">
                 <li>
-                    SDK versions &gt;= v{TRIGGER_GROUPS_MIN_SDK_VERSION} use trigger groups if configured, otherwise
-                    fall back to the legacy recording conditions
+                    <Trans
+                        i18nKey="settings.environment.replayTriggers.sdkCompatibility.supportedVersions"
+                        values={{ version: TRIGGER_GROUPS_MIN_SDK_VERSION }}
+                        defaults="SDK versions &gt;= v{{ version }} use trigger groups if configured, otherwise fall back to the legacy recording conditions"
+                    />
                 </li>
-                <li>Both configurations are sent to ensure backward compatibility with all JavaScript SDK versions</li>
+                <li>
+                    {t('settings.environment.replayTriggers.sdkCompatibility.bothConfigurations', {
+                        defaultValue:
+                            'Both configurations are sent to ensure backward compatibility with all JavaScript SDK versions',
+                    })}
+                </li>
             </ul>
         </LemonBanner>
     )
 }
 
 export function ReplayTriggers(): JSX.Element {
+    const { t } = useTranslation()
     const { selectedPlatform, shouldMinimizeLegacyConditions } = useValues(replayTriggersLogic)
     const { selectPlatform } = useActions(replayTriggersLogic)
     const { updateCurrentTeam } = useActions(teamLogic)
@@ -600,7 +807,7 @@ export function ReplayTriggers(): JSX.Element {
     const tabs: LemonTab<'web' | 'mobile'>[] = [
         {
             key: 'web',
-            label: 'Web',
+            label: t('settings.environment.replayTriggers.platforms.web', { defaultValue: 'Web' }),
             content: (
                 <div className="flex flex-col gap-y-4">
                     {isV2TriggersEnabled && (
@@ -614,7 +821,11 @@ export function ReplayTriggers(): JSX.Element {
                     {isV2TriggersEnabled && (
                         <div className="mt-2">
                             <LemonDivider className="mb-4" />
-                            <h3 className="text-base font-semibold mb-1">Legacy recording conditions</h3>
+                            <h3 className="text-base font-semibold mb-1">
+                                {t('settings.environment.replayTriggers.legacyConditions.heading', {
+                                    defaultValue: 'Legacy recording conditions',
+                                })}
+                            </h3>
                         </div>
                     )}
 
@@ -625,8 +836,11 @@ export function ReplayTriggers(): JSX.Element {
                                     key: 'legacy-recording-conditions',
                                     header: (
                                         <span className="text-muted text-sm font-normal">
-                                            Hidden because your web SDKs (v{TRIGGER_GROUPS_MIN_SDK_VERSION}+) use
-                                            trigger groups. Expand to configure fallbacks for older SDK versions.
+                                            <Trans
+                                                i18nKey="settings.environment.replayTriggers.legacyConditions.hidden"
+                                                values={{ version: TRIGGER_GROUPS_MIN_SDK_VERSION }}
+                                                defaults="Hidden because your web SDKs (v{{ version }}+) use trigger groups. Expand to configure fallbacks for older SDK versions."
+                                            />
                                         </span>
                                     ),
                                     content: (
@@ -641,8 +855,11 @@ export function ReplayTriggers(): JSX.Element {
                         <>
                             {isV2TriggersEnabled && (
                                 <LemonBanner type="warning">
-                                    Used by SDK versions &lt; v{TRIGGER_GROUPS_MIN_SDK_VERSION} and as fallback for
-                                    newer versions if trigger groups are not configured.
+                                    <Trans
+                                        i18nKey="settings.environment.replayTriggers.legacyConditions.fallbackNotice"
+                                        values={{ version: TRIGGER_GROUPS_MIN_SDK_VERSION }}
+                                        defaults="Used by SDK versions &lt; v{{ version }} and as fallback for newer versions if trigger groups are not configured."
+                                    />
                                 </LemonBanner>
                             )}
                             <LegacyRecordingConditions />
@@ -653,17 +870,23 @@ export function ReplayTriggers(): JSX.Element {
         },
         {
             key: 'mobile',
-            label: 'Mobile',
+            label: t('settings.environment.replayTriggers.platforms.mobile', { defaultValue: 'Mobile' }),
             content: (
                 <div className="flex flex-col gap-y-2">
                     <LemonBanner type="info">
-                        Trigger groups aren't available on mobile yet. Mobile recording uses the settings below, which
-                        are shared with web. Changing a setting here also changes it on web.
+                        {t('settings.environment.replayTriggers.platforms.mobileNotice', {
+                            defaultValue:
+                                "Trigger groups aren't available on mobile yet. Mobile recording uses the settings below, which are shared with web. Changing a setting here also changes it on web.",
+                        })}
                     </LemonBanner>
                     {currentTeam && (
                         <RecordingTriggersSummary currentTeam={currentTeam} selectedPlatform={selectedPlatform} />
                     )}
-                    <IngestionControls.MatchTypeSelect lockedToAllReason="Mobile only supports trigger matching of type 'all'." />
+                    <IngestionControls.MatchTypeSelect
+                        lockedToAllReason={t('settings.environment.replayTriggers.platforms.mobileMatchTypeLocked', {
+                            defaultValue: "Mobile only supports trigger matching of type 'all'.",
+                        })}
+                    />
                     <MobileEventTriggers />
                     <LinkedFlagSelector />
                     <MobileSampling />
@@ -694,12 +917,17 @@ const RecordingTriggersSummary = ({
     currentTeam: TeamType | TeamPublicType
     selectedPlatform: ReplayPlatform
 }): JSX.Element => {
+    const { t } = useTranslation()
     const triggers = useTriggers(currentTeam, selectedPlatform)
 
     if (!currentTeam?.session_recording_opt_in) {
         return (
             <LemonBanner type="warning">
-                <strong>Recording is disabled.</strong> Enable it in General settings.
+                <Trans
+                    i18nKey="settings.environment.replayTriggers.summary.recordingDisabled"
+                    components={{ Strong: <strong /> }}
+                    defaults="<Strong>Recording is disabled.</Strong> Enable it in General settings."
+                />
             </LemonBanner>
         )
     }
@@ -707,10 +935,14 @@ const RecordingTriggersSummary = ({
     return (
         <IngestionControlsSummary
             triggers={triggers}
-            controlDescription="sessions recorded"
+            controlDescription={t('settings.environment.replayTriggers.summary.controlDescription', {
+                defaultValue: 'sessions recorded',
+            })}
             docsLink={{
                 to: 'https://posthog.com/docs/session-replay/how-to-control-which-sessions-you-record',
-                label: 'Read about how to start and stop sessions in our docs.',
+                label: t('settings.environment.replayTriggers.summary.docsLink', {
+                    defaultValue: 'Read about how to start and stop sessions in our docs.',
+                }),
             }}
         />
     )

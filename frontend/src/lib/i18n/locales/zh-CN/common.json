@@ -734,6 +734,87 @@
                 "queryTimeLabel": "使用运行查询时的人员属性",
                 "recommended": "推荐"
             },
+            "replayTriggers": {
+                "anyWith100SamplingWarning": "<Strong>「任意」匹配条件下使用 100% 采样率会录制每个会话。</Strong>要解决这个问题，请降低采样率或改用「全部」匹配。",
+                "anyWith100SamplingWarningSuggestion": "可以考虑使用上方的<Strong>触发器分组</Strong>，更精确地控制何时开始录制会话。",
+                "conditions": {
+                    "featureFlag": "功能开关",
+                    "heading": "录制条件",
+                    "urlMatches": "URL 匹配"
+                },
+                "eventTrigger": {
+                    "description": "当有 PostHog 事件进入队列时开始录制。",
+                    "eventEmitted": "事件触发",
+                    "selectEvents": "选择事件"
+                },
+                "exclusions": {
+                    "heading": "录制排除项",
+                    "urlBlocklist": "URL 屏蔽列表"
+                },
+                "headerStatus": {
+                    "eventCount_other": "{{ count }} 个事件",
+                    "noMinimum": "无最小时长",
+                    "notConfigured": "未配置",
+                    "patternCount_other": "{{ count }} 条规则"
+                },
+                "legacyConditions": {
+                    "fallbackNotice": "适用于低于 v{{ version }} 的 SDK 版本，也作为未配置触发器分组时较新版本的兜底方案。",
+                    "heading": "旧版录制条件",
+                    "hidden": "由于你的 Web SDK（v{{ version }}+）使用触发器分组，因此此处已隐藏。展开可为旧版 SDK 配置兜底方案。"
+                },
+                "limits": {
+                    "heading": "录制上限",
+                    "minimumDuration": "最短时长",
+                    "sampling": "采样"
+                },
+                "linkedFlag": {
+                    "description": "仅在该功能开关启用时录制。<Strong>Web 和移动端共用此设置。</Strong>",
+                    "selectFeatureFlag": "选择功能开关",
+                    "variantTooltip": "可以为「任意」变体录制，也可以只针对某个特定变体录制。",
+                    "variantVersionTooltip": "变体定向需要 posthog-js v1.110.0 及以上版本"
+                },
+                "minDuration": {
+                    "description": "设置最短会话时长后，只有持续时间超过该值的会话才会被采集。这可以避免采集那些过短、没有参考价值的会话。",
+                    "label": "时长阈值",
+                    "mobileDescription": "仅采集持续时间超过该值的会话。这可以避免录制那些过短、没有参考价值的会话。",
+                    "tooltip": "JS SDK 使用内存队列，因此对于传统 Web 应用，最短时长控制的效果是尽力而为。"
+                },
+                "platforms": {
+                    "mobile": "移动端",
+                    "mobileMatchTypeLocked": "移动端仅支持「all」类型的触发匹配。",
+                    "mobileNotice": "移动端暂不支持触发器分组。移动端录制会使用下面的设置，这些设置与 Web 共用。在这里更改设置也会同时更改 Web 的对应设置。",
+                    "web": "Web"
+                },
+                "sampling": {
+                    "default": "（默认）",
+                    "description": "选择要录制多少会话。100% = 录制每个会话，50% = 大约录制一半。",
+                    "label": "采样率"
+                },
+                "sdkCompatibility": {
+                    "addTriggerGroup": "添加触发器分组",
+                    "allRecent": "你最近的 Web SDK 流量几乎全部来自 v{{ version }}+，因此触发器分组基本适用于所有会话。下面的旧版录制条件仅作为旧版 SDK 的兜底方案保留。",
+                    "bothConfigurations": "两种配置都会同时上报，以兼容所有 JavaScript SDK 版本",
+                    "eventCount_other": "{{ count }} 个事件",
+                    "migrate": "迁移旧版条件",
+                    "noGroupsYet": "你最近的 Web SDK 流量来自 v{{ version }}+，但你还没有设置触发器分组。录制仍然使用下面的旧版条件。在没有触发器分组时，较新的 SDK 会回退到这些条件，因此在迁移之前行为不会改变。",
+                    "someOutdated_other": "最近约有 <Strong>{{ pct }}%</Strong> 的 Web 流量（{{ count }} {{ events }}）来自低于 v{{ version }} 的 posthog-js。这些会话仍然使用下面的旧版录制条件。升级到 v{{ version }}+ 即可完全使用触发器分组。在此期间两种配置都会上报，因此不会丢失任何数据。",
+                    "supportedVersions": "SDK 版本 >= v{{ version }} 会在已配置触发器分组时使用触发器分组，否则回退到旧版录制条件",
+                    "title": "JavaScript SDK 版本兼容性"
+                },
+                "summary": {
+                    "controlDescription": "个会话被录制",
+                    "docsLink": "在我们的文档中了解如何开始和停止会话录制。",
+                    "recordingDisabled": "<Strong>录制已关闭。</Strong>请在通用设置中启用。"
+                },
+                "urlBlocklist": {
+                    "description": "当用户停留在与 URL 匹配的页面时暂停录制。",
+                    "title": "URL 匹配时暂停录制"
+                },
+                "urlTrigger": {
+                    "description": "添加 URL 触发器后，只有当用户访问与 URL 匹配的页面时才会开始录制。",
+                    "title": "URL 匹配时开始录制"
+                }
+            },
             "sdkSetup": {
                 "docsLink": "{{ name }} 文档",
                 "modalTitle": "{{ name }} 接入设置",
