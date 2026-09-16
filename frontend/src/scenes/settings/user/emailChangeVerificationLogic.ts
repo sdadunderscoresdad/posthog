@@ -3,6 +3,7 @@ import { loaders } from 'kea-loaders'
 import { subscriptions } from 'kea-subscriptions'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import {
     isValidVerificationCode,
@@ -187,13 +188,19 @@ export const emailChangeVerificationLogic = kea<emailChangeVerificationLogicType
                         return null
                     }
                     if (!isValidVerificationCode(code)) {
-                        actions.setVerificationCodeError('Enter the 6-digit code from your email.')
+                        actions.setVerificationCodeError(
+                            i18n.t('settings.user.emailChange.enterCodeHint', {
+                                defaultValue: 'Enter the 6-digit code from your email.',
+                            })
+                        )
                         return null
                     }
                     try {
                         await api.create(`api/users/verify_email/`, { uuid, code })
                         actions.closeModal()
-                        lemonToast.success('Email address verified.')
+                        lemonToast.success(
+                            i18n.t('settings.user.emailChange.verified', { defaultValue: 'Email address verified.' })
+                        )
                         actions.loadUser()
                         return { success: true }
                     } catch (e: any) {
@@ -213,14 +220,27 @@ export const emailChangeVerificationLogic = kea<emailChangeVerificationLogicType
                     }
                     try {
                         await api.create(`api/users/request_email_verification/`, { uuid })
-                        lemonToast.success('We sent a new code to the address pending verification.')
+                        lemonToast.success(
+                            i18n.t('settings.user.emailChange.codeSent', {
+                                defaultValue: 'We sent a new code to the address pending verification.',
+                            })
+                        )
                         return true
                     } catch (e: any) {
                         if (e.code === 'throttled') {
                             actions.resendLimitReached()
-                            lemonToast.error('You have requested a new code too many times. Please try again later.')
+                            lemonToast.error(
+                                i18n.t('settings.user.emailChange.tooManyRequests', {
+                                    defaultValue:
+                                        'You have requested a new code too many times. Please try again later.',
+                                })
+                            )
                         } else {
-                            lemonToast.error('Requesting a new code failed. Please try again later.')
+                            lemonToast.error(
+                                i18n.t('settings.user.emailChange.resendFailed', {
+                                    defaultValue: 'Requesting a new code failed. Please try again later.',
+                                })
+                            )
                         }
                         return false
                     }

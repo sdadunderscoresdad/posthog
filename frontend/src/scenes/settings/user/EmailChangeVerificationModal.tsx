@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { Trans, useTranslation } from 'react-i18next'
 
 import * as magnifyingGlassPng from '@posthog/brand/hoggies/png/magnifying-glass-1'
 
@@ -15,6 +16,7 @@ import { MAX_RESENDS, emailChangeVerificationLogic } from './emailChangeVerifica
 const HedgehogMagnifyingGlass = pngHoggie(magnifyingGlassPng)
 
 export function EmailChangeVerificationModal(): JSX.Element {
+    const { t } = useTranslation()
     const {
         modalOpen,
         verificationCode,
@@ -45,10 +47,16 @@ export function EmailChangeVerificationModal(): JSX.Element {
                 }}
             >
                 <HedgehogMagnifyingGlass className="block w-auto mx-auto h-28" />
-                <h2 className="m-0 text-2xl font-bold">Check your inbox</h2>
+                <h2 className="m-0 text-2xl font-bold">
+                    {t('settings.user.emailChange.checkInbox', { defaultValue: 'Check your inbox' })}
+                </h2>
                 <p className="m-0 mb-2 text-secondary text-pretty">
-                    We emailed a 6-digit code to <strong>{user?.pending_email}</strong>. Enter it below to verify your
-                    new address. The code is valid for 30 minutes.
+                    <Trans
+                        i18nKey="settings.user.emailChange.description"
+                        values={{ email: user?.pending_email }}
+                        components={{ strong: <strong /> }}
+                        defaults="We emailed a 6-digit code to <strong>{{ email }}</strong>. Enter it below to verify your new address. The code is valid for 30 minutes."
+                    />
                 </p>
                 <VerificationCodeInput
                     value={verificationCode}
@@ -75,22 +83,33 @@ export function EmailChangeVerificationModal(): JSX.Element {
                     htmlType="submit"
                     loading={verificationResultLoading}
                     disabledReason={
-                        isValidVerificationCode(verificationCode) ? undefined : 'Enter the 6-digit code from your email'
+                        isValidVerificationCode(verificationCode)
+                            ? undefined
+                            : t('settings.user.emailChange.enterCode', {
+                                  defaultValue: 'Enter the 6-digit code from your email',
+                              })
                     }
                     data-attr="email-change-verification-submit"
                 >
-                    Verify email
+                    {t('settings.user.emailChange.verify', { defaultValue: 'Verify email' })}
                 </LemonButton>
                 {resendsUsed < MAX_RESENDS ? (
                     <LemonButton
                         size="small"
                         center
                         loading={resendResultLoading}
-                        disabledReason={resendCooldown > 0 ? `You can resend in ${resendCooldown}s` : undefined}
+                        disabledReason={
+                            resendCooldown > 0
+                                ? t('settings.user.emailChange.resendIn', {
+                                      defaultValue: 'You can resend in {{ seconds }}s',
+                                      seconds: resendCooldown,
+                                  })
+                                : undefined
+                        }
                         onClick={resendCode}
                         data-attr="email-change-verification-resend"
                     >
-                        Resend code
+                        {t('settings.user.emailChange.resendCode', { defaultValue: 'Resend code' })}
                     </LemonButton>
                 ) : (
                     <LemonButton
@@ -102,7 +121,9 @@ export function EmailChangeVerificationModal(): JSX.Element {
                         }}
                         data-attr="email-change-verification-contact-support"
                     >
-                        Still not seeing it? Contact support
+                        {t('settings.user.emailChange.contactSupport', {
+                            defaultValue: 'Still not seeing it? Contact support',
+                        })}
                     </LemonButton>
                 )}
             </form>

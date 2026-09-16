@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { useTranslation } from 'react-i18next'
 
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonField } from 'lib/lemon-ui/LemonField'
@@ -9,6 +10,7 @@ import { EmailChangeVerificationModal } from 'scenes/settings/user/EmailChangeVe
 import { userLogic } from 'scenes/userLogic'
 
 export function UserDetails(): JSX.Element {
+    const { t } = useTranslation()
     const { userLoading, isUserDetailsSubmitting, userDetailsChanged, user } = useValues(userLogic)
     const { cancelEmailChangeRequest } = useActions(userLogic)
     const { openModal } = useActions(emailChangeVerificationLogic)
@@ -25,25 +27,28 @@ export function UserDetails(): JSX.Element {
                     maxWidth: '28rem',
                 }}
             >
-                <LemonField name="first_name" label="First name">
+                <LemonField
+                    name="first_name"
+                    label={t('settings.user.details.firstName', { defaultValue: 'First name' })}
+                >
                     <LemonInput
                         className="ph-ignore-input"
                         data-attr="settings-update-first-name"
-                        placeholder="Jane"
+                        placeholder={t('settings.user.details.firstNamePlaceholder', { defaultValue: 'Jane' })}
                         disabled={userLoading}
                     />
                 </LemonField>
 
-                <LemonField name="last_name" label="Last name">
+                <LemonField name="last_name" label={t('settings.user.details.lastName', { defaultValue: 'Last name' })}>
                     <LemonInput
                         className="ph-ignore-input"
                         data-attr="settings-update-last-name"
-                        placeholder="Doe"
+                        placeholder={t('settings.user.details.lastNamePlaceholder', { defaultValue: 'Doe' })}
                         disabled={userLoading}
                     />
                 </LemonField>
 
-                <LemonField name="email" label="Email">
+                <LemonField name="email" label={t('settings.user.details.email', { defaultValue: 'Email' })}>
                     <LemonInput
                         className="ph-ignore-input"
                         data-attr="settings-update-email"
@@ -54,7 +59,10 @@ export function UserDetails(): JSX.Element {
                 {user?.pending_email && (
                     <div className="flex flex-row gap-2">
                         <div className="text-danger text-xs font-medium mt-1.25">
-                            Pending verification for {user.pending_email}
+                            {t('settings.user.details.pendingVerification', {
+                                defaultValue: 'Pending verification for {{ email }}',
+                                email: user.pending_email,
+                            })}
                         </div>
                         <LemonButton
                             type="tertiary"
@@ -62,7 +70,7 @@ export function UserDetails(): JSX.Element {
                             data-attr="enter-email-verification-code-button"
                             onClick={openModal}
                         >
-                            Enter verification code
+                            {t('settings.user.details.enterCode', { defaultValue: 'Enter verification code' })}
                         </LemonButton>
                         <LemonButton
                             type="tertiary"
@@ -70,7 +78,7 @@ export function UserDetails(): JSX.Element {
                             data-attr="cancel-email-change-request-button"
                             onClick={cancelEmailChangeRequest}
                         >
-                            Cancel change
+                            {t('settings.user.details.cancelChange', { defaultValue: 'Cancel change' })}
                         </LemonButton>
                     </div>
                 )}
@@ -82,7 +90,7 @@ export function UserDetails(): JSX.Element {
                     disabled={!userDetailsChanged}
                     data-attr="user-details-submit-bottom"
                 >
-                    Save name and email
+                    {t('settings.user.details.save', { defaultValue: 'Save name and email' })}
                 </LemonButton>
             </Form>
         </>

@@ -1,4 +1,5 @@
 import { useActions, useValues } from 'kea'
+import { useTranslation } from 'react-i18next'
 
 import * as magnifyingGlassPng from '@posthog/brand/hoggies/png/magnifying-glass-1'
 import { IconLaptop, IconLeave } from '@posthog/icons'
@@ -14,6 +15,7 @@ import { loginSessionsLogic } from './loginSessionsLogic'
 const HedgehogMagnifyingGlass = pngHoggie(magnifyingGlassPng)
 
 export function LoginSessions(): JSX.Element {
+    const { t } = useTranslation()
     const { loginSessions, loginSessionsLoading } = useValues(loginSessionsLogic)
     const { revokeSession, revokeOtherSessions } = useActions(loginSessionsLogic)
 
@@ -21,27 +23,31 @@ export function LoginSessions(): JSX.Element {
 
     const handleRevoke = (session: UserAuthSessionApi): void => {
         LemonDialog.open({
-            title: 'Log out of this device?',
-            description: 'This device will be signed out of your PostHog account immediately.',
+            title: t('settings.user.sessions.logOutDeviceTitle', { defaultValue: 'Log out of this device?' }),
+            description: t('settings.user.sessions.logOutDeviceDescription', {
+                defaultValue: 'This device will be signed out of your PostHog account immediately.',
+            }),
             primaryButton: {
-                children: 'Log out',
+                children: t('settings.user.sessions.logOut', { defaultValue: 'Log out' }),
                 status: 'danger',
                 onClick: () => revokeSession(session.id),
             },
-            secondaryButton: { children: 'Cancel' },
+            secondaryButton: { children: t('settings.cancel', { defaultValue: 'Cancel' }) },
         })
     }
 
     const handleRevokeOthers = (): void => {
         LemonDialog.open({
-            title: 'Log out everywhere else?',
-            description: 'Every device except this one will be signed out of your PostHog account immediately.',
+            title: t('settings.user.sessions.logOutOthersTitle', { defaultValue: 'Log out everywhere else?' }),
+            description: t('settings.user.sessions.logOutOthersDescription', {
+                defaultValue: 'Every device except this one will be signed out of your PostHog account immediately.',
+            }),
             primaryButton: {
-                children: 'Log out everywhere else',
+                children: t('settings.user.sessions.logOutOthers', { defaultValue: 'Log out everywhere else' }),
                 status: 'danger',
                 onClick: () => revokeOtherSessions(),
             },
-            secondaryButton: { children: 'Cancel' },
+            secondaryButton: { children: t('settings.cancel', { defaultValue: 'Cancel' }) },
         })
     }
 
@@ -53,52 +59,66 @@ export function LoginSessions(): JSX.Element {
                 icon={<IconLeave />}
                 className="self-start"
                 loading={loginSessionsLoading}
-                disabledReason={hasOtherSessions ? undefined : 'No other devices to log out'}
+                disabledReason={
+                    hasOtherSessions
+                        ? undefined
+                        : t('settings.user.sessions.noOtherDevices', { defaultValue: 'No other devices to log out' })
+                }
                 onClick={handleRevokeOthers}
                 data-attr="login-sessions-revoke-others"
             >
-                Log out everywhere else
+                {t('settings.user.sessions.logOutOthers', { defaultValue: 'Log out everywhere else' })}
             </LemonButton>
             <LemonTable
                 dataSource={loginSessions}
                 loading={loginSessionsLoading}
                 columns={[
                     {
-                        title: 'Device',
+                        title: t('settings.user.sessions.columns.device', { defaultValue: 'Device' }),
                         dataIndex: 'device',
                         render: (_, session) => (
                             <div className="flex items-center gap-2">
-                                <span className="font-medium">{session.device || 'Unknown device'}</span>
+                                <span className="font-medium">
+                                    {session.device ||
+                                        t('settings.user.sessions.unknownDevice', { defaultValue: 'Unknown device' })}
+                                </span>
                                 {session.is_current && (
                                     <LemonTag type="success" size="small">
-                                        This device
+                                        {t('settings.user.sessions.thisDevice', { defaultValue: 'This device' })}
                                     </LemonTag>
                                 )}
                             </div>
                         ),
                     },
                     {
-                        title: 'Location',
+                        title: t('settings.user.sessions.columns.location', { defaultValue: 'Location' }),
                         dataIndex: 'location',
-                        render: (_, session) => session.location || <span className="text-muted">Unknown</span>,
+                        render: (_, session) =>
+                            session.location || (
+                                <span className="text-muted">
+                                    {t('settings.user.sessions.unknown', { defaultValue: 'Unknown' })}
+                                </span>
+                            ),
                     },
                     {
-                        title: 'Signed in with',
+                        title: t('settings.user.sessions.columns.signedInWith', { defaultValue: 'Signed in with' }),
                         dataIndex: 'login_method',
                         render: (_, session) => session.login_method || <span className="text-muted">—</span>,
                     },
                     {
-                        title: 'Started at',
+                        title: t('settings.user.sessions.columns.startedAt', { defaultValue: 'Started at' }),
                         dataIndex: 'created_at',
                         render: (_, session) =>
                             session.created_at ? (
                                 humanFriendlyDetailedTime(session.created_at, 'MMMM DD, YYYY', 'h:mm A')
                             ) : (
-                                <span className="text-muted">Unknown</span>
+                                <span className="text-muted">
+                                    {t('settings.user.sessions.unknown', { defaultValue: 'Unknown' })}
+                                </span>
                             ),
                     },
                     {
-                        title: 'Last active',
+                        title: t('settings.user.sessions.columns.lastActive', { defaultValue: 'Last active' }),
                         dataIndex: 'last_activity',
                         // Minute precision: last_activity is throttled to ~5-min updates, so seconds would be false precision.
                         render: (_, session) =>
@@ -113,8 +133,14 @@ export function LoginSessions(): JSX.Element {
                                     icon={<IconLeave />}
                                     status="danger"
                                     size="small"
-                                    tooltip="Log out of this device"
-                                    disabledReason={loginSessionsLoading ? 'Working…' : undefined}
+                                    tooltip={t('settings.user.sessions.logOutDevice', {
+                                        defaultValue: 'Log out of this device',
+                                    })}
+                                    disabledReason={
+                                        loginSessionsLoading
+                                            ? t('settings.user.sessions.working', { defaultValue: 'Working…' })
+                                            : undefined
+                                    }
                                     onClick={() => handleRevoke(session)}
                                 />
                             ),
@@ -126,10 +152,12 @@ export function LoginSessions(): JSX.Element {
                         <div>
                             <div className="flex items-center gap-2 font-semibold">
                                 <IconLaptop className="text-xl text-secondary" />
-                                No active logins found
+                                {t('settings.user.sessions.empty', { defaultValue: 'No active logins found' })}
                             </div>
                             <p className="text-secondary mt-1 mb-0">
-                                Devices signed in to your account will appear here.
+                                {t('settings.user.sessions.emptyDescription', {
+                                    defaultValue: 'Devices signed in to your account will appear here.',
+                                })}
                             </p>
                         </div>
                     </div>

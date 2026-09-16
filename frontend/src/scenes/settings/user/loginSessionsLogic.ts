@@ -1,6 +1,7 @@
 import { MakeLogicType, actions, events, kea, path } from 'kea'
 import { loaders } from 'kea-loaders'
 
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 
 import {
@@ -96,13 +97,19 @@ export const loginSessionsLogic = kea<loginSessionsLogicType>([
                 },
                 revokeSession: async ({ id }) => {
                     await usersLoginSessionsDestroy('@me', id)
-                    lemonToast.success('Logged out of that device')
+                    lemonToast.success(
+                        i18n.t('settings.user.sessions.loggedOut', { defaultValue: 'Logged out of that device' })
+                    )
                     return values.loginSessions.filter((session) => session.id !== id)
                 },
                 revokeOtherSessions: async () => {
                     const { revoked_count } = await usersLoginSessionsRevokeOthersCreate('@me')
                     lemonToast.success(
-                        `Logged out of ${revoked_count} other ${revoked_count === 1 ? 'device' : 'devices'}`
+                        i18n.t('settings.user.sessions.loggedOutOthers', {
+                            count: revoked_count,
+                            defaultValue_one: 'Logged out of {{ count }} other device',
+                            defaultValue_other: 'Logged out of {{ count }} other devices',
+                        })
                     )
                     return values.loginSessions.filter((session) => session.is_current)
                 },

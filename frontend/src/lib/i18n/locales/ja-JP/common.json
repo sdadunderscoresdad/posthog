@@ -642,6 +642,92 @@
             "empty": "",
             "label": "",
             "placeholder": ""
+        },
+        "user": {
+            "details": {
+                "cancelChange": "",
+                "email": "",
+                "enterCode": "",
+                "firstName": "",
+                "firstNamePlaceholder": "",
+                "lastName": "",
+                "lastNamePlaceholder": "",
+                "pendingVerification": "",
+                "save": ""
+            },
+            "emailChange": {
+                "checkInbox": "",
+                "codeSent": "",
+                "contactSupport": "",
+                "description": "",
+                "enterCode": "",
+                "enterCodeHint": "",
+                "resendCode": "",
+                "resendFailed": "",
+                "resendIn": "",
+                "tooManyRequests": "",
+                "verified": "",
+                "verify": ""
+            },
+            "impersonation": {
+                "description": "",
+                "label": ""
+            },
+            "password": {
+                "changed": "",
+                "changeTitle": "",
+                "confirm": "",
+                "current": "",
+                "forgot": "",
+                "new": "",
+                "resendLink": "",
+                "resetEmailFailed": "",
+                "resetEmailSent": "",
+                "set": "",
+                "setTitle": "",
+                "validation": {
+                    "confirmRequired": "",
+                    "currentRequired": "",
+                    "mismatch": "",
+                    "required": ""
+                }
+            },
+            "profilePicture": {
+                "addOnGravatar": "",
+                "changeOnGravatar": "",
+                "checking": "",
+                "found": "",
+                "hedgehogInUse": "",
+                "hedgehogSettings": "",
+                "missing": "",
+                "recheck": "",
+                "yourEmail": ""
+            },
+            "sessions": {
+                "columns": {
+                    "device": "",
+                    "lastActive": "",
+                    "location": "",
+                    "signedInWith": "",
+                    "startedAt": ""
+                },
+                "empty": "",
+                "emptyDescription": "",
+                "loggedOut": "",
+                "loggedOutOthers_other": "",
+                "logOut": "",
+                "logOutDevice": "",
+                "logOutDeviceDescription": "",
+                "logOutDeviceTitle": "",
+                "logOutOthers": "",
+                "logOutOthersDescription": "",
+                "logOutOthersTitle": "",
+                "noOtherDevices": "",
+                "thisDevice": "",
+                "unknown": "",
+                "unknownDevice": "",
+                "working": ""
+            }
         }
     }
 }

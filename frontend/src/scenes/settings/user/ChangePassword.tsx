@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { Form } from 'kea-forms'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { LemonButton, LemonInput } from '@posthog/lemon-ui'
 
@@ -11,12 +12,20 @@ import { userLogic } from 'scenes/userLogic'
 import { changePasswordLogic } from './changePasswordLogic'
 
 export function ChangePasswordTitle(): JSX.Element {
+    const { t } = useTranslation()
     const { user } = useValues(userLogic)
     const hasPassword = user?.has_password ?? false
-    return <>{hasPassword ? 'Change password' : 'Set password'}</>
+    return (
+        <>
+            {hasPassword
+                ? t('settings.user.password.changeTitle', { defaultValue: 'Change password' })
+                : t('settings.user.password.setTitle', { defaultValue: 'Set password' })}
+        </>
+    )
 }
 
 export function ChangePassword(): JSX.Element {
+    const { t } = useTranslation()
     const {
         validatedPassword,
         isChangePasswordSubmitting,
@@ -40,7 +49,7 @@ export function ChangePassword(): JSX.Element {
                         name="current_password"
                         label={
                             <div className="flex flex-1 items-center justify-between gap-2">
-                                <span>Current password</span>
+                                <span>{t('settings.user.password.current', { defaultValue: 'Current password' })}</span>
                                 <LemonButton
                                     size="xsmall"
                                     type="tertiary"
@@ -48,7 +57,11 @@ export function ChangePassword(): JSX.Element {
                                     onClick={requestPasswordResetEmail}
                                     loading={passwordResetEmailSentLoading}
                                 >
-                                    {passwordResetEmailSent ? 'Resend link' : 'Forgot password?'}
+                                    {passwordResetEmailSent
+                                        ? t('settings.user.password.resendLink', { defaultValue: 'Resend link' })
+                                        : t('settings.user.password.forgot', {
+                                              defaultValue: 'Forgot password?',
+                                          })}
                                 </LemonButton>
                             </div>
                         }
@@ -63,8 +76,12 @@ export function ChangePassword(): JSX.Element {
 
                     {passwordResetEmailSent && (
                         <LemonBanner type="info">
-                            We emailed a reset link to <span translate="no">{user?.email}</span>. Open it to set a new
-                            password without your current one. Resetting signs you out of PostHog on every device.
+                            <Trans
+                                i18nKey="settings.user.password.resetEmailSent"
+                                values={{ email: user?.email }}
+                                components={{ Email: <span translate="no" /> }}
+                                defaults="We emailed a reset link to <Email>{{ email }}</Email>. Open it to set a new password without your current one. Resetting signs you out of PostHog on every device."
+                            />
                         </LemonBanner>
                     )}
                 </>
@@ -74,7 +91,7 @@ export function ChangePassword(): JSX.Element {
                 name="password"
                 label={
                     <div className="flex flex-1 items-center justify-between">
-                        <span>Password</span>
+                        <span>{t('settings.user.password.new', { defaultValue: 'Password' })}</span>
                         <PasswordStrength validatedPassword={validatedPassword} />
                     </div>
                 }
@@ -88,7 +105,10 @@ export function ChangePassword(): JSX.Element {
             </LemonField>
 
             {!hasPassword && (
-                <LemonField name="confirm_password" label="Confirm password">
+                <LemonField
+                    name="confirm_password"
+                    label={t('settings.user.password.confirm', { defaultValue: 'Confirm password' })}
+                >
                     <LemonInput
                         autoComplete="new-password"
                         type="password"
@@ -99,7 +119,9 @@ export function ChangePassword(): JSX.Element {
             )}
 
             <LemonButton type="primary" htmlType="submit" loading={isChangePasswordSubmitting}>
-                {hasPassword ? 'Change password' : 'Set password'}
+                {hasPassword
+                    ? t('settings.user.password.changeTitle', { defaultValue: 'Change password' })
+                    : t('settings.user.password.setTitle', { defaultValue: 'Set password' })}
             </LemonButton>
         </Form>
     )

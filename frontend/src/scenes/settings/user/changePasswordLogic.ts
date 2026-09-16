@@ -7,6 +7,7 @@ import { lemonToast } from '@posthog/lemon-ui'
 
 import api from 'lib/api'
 import { ValidatedPasswordResult, validatePassword } from 'lib/components/PasswordStrength'
+import { i18n } from 'lib/i18n/i18n'
 import { userLogic } from 'scenes/userLogic'
 
 import type { UserType } from '../../../types'
@@ -121,15 +122,25 @@ export const changePasswordLogic = kea<changePasswordLogicType>([
                 const hasPassword = values.user?.has_password ?? false
                 return {
                     current_password:
-                        hasPassword && !current_password ? 'Please enter your current password' : undefined,
+                        hasPassword && !current_password
+                            ? i18n.t('settings.user.password.validation.currentRequired', {
+                                  defaultValue: 'Please enter your current password',
+                              })
+                            : undefined,
                     password: !password
-                        ? 'Please enter your password to continue'
+                        ? i18n.t('settings.user.password.validation.required', {
+                              defaultValue: 'Please enter your password to continue',
+                          })
                         : values.validatedPassword.feedback || undefined,
                     confirm_password:
                         !hasPassword && !confirm_password
-                            ? 'Please confirm your password'
+                            ? i18n.t('settings.user.password.validation.confirmRequired', {
+                                  defaultValue: 'Please confirm your password',
+                              })
                             : !hasPassword && password !== confirm_password
-                              ? 'Passwords do not match'
+                              ? i18n.t('settings.user.password.validation.mismatch', {
+                                    defaultValue: 'Passwords do not match',
+                                })
                               : undefined,
                 }
             },
@@ -148,7 +159,11 @@ export const changePasswordLogic = kea<changePasswordLogicType>([
                         current_password: '',
                         confirm_password: '',
                     })
-                    lemonToast.success(hasPassword ? 'Password changed' : 'Password set')
+                    lemonToast.success(
+                        hasPassword
+                            ? i18n.t('settings.user.password.changed', { defaultValue: 'Password changed' })
+                            : i18n.t('settings.user.password.set', { defaultValue: 'Password set' })
+                    )
                     actions.loadUser()
                 } catch (e: any) {
                     setTimeout(() => {
@@ -173,7 +188,12 @@ export const changePasswordLogic = kea<changePasswordLogicType>([
                         await api.create('api/reset/', { email })
                         return true
                     } catch (e: any) {
-                        lemonToast.error(e.detail ?? 'Could not send a reset link. Please try again.')
+                        lemonToast.error(
+                            e.detail ??
+                                i18n.t('settings.user.password.resetEmailFailed', {
+                                    defaultValue: 'Could not send a reset link. Please try again.',
+                                })
+                        )
                         return false
                     }
                 },

@@ -642,6 +642,92 @@
             "empty": "未找到设置项",
             "label": "搜索设置",
             "placeholder": "搜索设置…"
+        },
+        "user": {
+            "details": {
+                "cancelChange": "取消更改",
+                "email": "邮箱",
+                "enterCode": "输入验证码",
+                "firstName": "名字",
+                "firstNamePlaceholder": "Jane",
+                "lastName": "姓氏",
+                "lastNamePlaceholder": "Doe",
+                "pendingVerification": "正在等待验证：{{ email }}",
+                "save": "保存姓名和邮箱"
+            },
+            "emailChange": {
+                "checkInbox": "请查收邮件",
+                "codeSent": "我们已向待验证的地址重新发送了验证码。",
+                "contactSupport": "还是没收到？联系支持",
+                "description": "我们已向 <strong>{{ email }}</strong> 发送了一封包含 6 位验证码的邮件。请在下方输入验证码以验证新地址。验证码有效期为 30 分钟。",
+                "enterCode": "输入邮件中的 6 位验证码",
+                "enterCodeHint": "输入邮件中的 6 位验证码。",
+                "resendCode": "重新发送验证码",
+                "resendFailed": "请求新验证码失败，请稍后重试。",
+                "resendIn": "{{ seconds }} 秒后可重新发送",
+                "tooManyRequests": "你请求新验证码的次数过多，请稍后重试。",
+                "verified": "邮箱地址已验证。",
+                "verify": "验证邮箱"
+            },
+            "impersonation": {
+                "description": "PostHog 支持人员可能需要以你的身份登录，以便排查问题。如果你关闭此设置，支持人员将无法直接访问你的账号。请阅读我们的 <PolicyLink>用户身份模拟政策</PolicyLink>。",
+                "label": "允许支持人员以我的身份登录"
+            },
+            "password": {
+                "changed": "密码已更改",
+                "changeTitle": "更改密码",
+                "confirm": "确认密码",
+                "current": "当前密码",
+                "forgot": "忘记密码？",
+                "new": "新密码",
+                "resendLink": "重新发送链接",
+                "resetEmailFailed": "无法发送重置链接，请重试。",
+                "resetEmailSent": "我们已向 <Email>{{ email }}</Email> 发送了重置链接。打开链接即可在当前密码未知的情况下设置新密码。重置密码会让你在所有设备上退出 PostHog。",
+                "set": "密码已设置",
+                "setTitle": "设置密码",
+                "validation": {
+                    "confirmRequired": "请确认你的密码",
+                    "currentRequired": "请输入你当前的密码",
+                    "mismatch": "两次输入的密码不一致",
+                    "required": "请输入你的密码以继续"
+                }
+            },
+            "profilePicture": {
+                "addOnGravatar": "在 Gravatar 上添加",
+                "changeOnGravatar": "在 Gravatar 上修改",
+                "checking": "正在检查 <Email>{{ email }}</Email> 的 Gravatar。",
+                "found": "此头像来自 Gravatar，与 <Email>{{ email }}</Email> 匹配。在 Gravatar 上修改后，重新检查即可看到更新。",
+                "hedgehogInUse": "你的刺猬就是你的头像。关闭该模式即可改为显示 Gravatar 头像。",
+                "hedgehogSettings": "刺猬模式设置",
+                "missing": "还没有头像。为 <Email>{{ email }}</Email> 在 Gravatar 上添加一个，它就会显示在这里以及团队成员看到你的地方。",
+                "recheck": "重新检查",
+                "yourEmail": "你的邮箱"
+            },
+            "sessions": {
+                "columns": {
+                    "device": "设备",
+                    "lastActive": "最近活动",
+                    "location": "位置",
+                    "signedInWith": "登录方式",
+                    "startedAt": "开始时间"
+                },
+                "empty": "没有找到活跃登录",
+                "emptyDescription": "登录到你账号的设备会显示在这里。",
+                "loggedOut": "已登出该设备",
+                "loggedOutOthers_other": "已登出 {{ count }} 台其他设备",
+                "logOut": "登出",
+                "logOutDevice": "登出此设备",
+                "logOutDeviceDescription": "此设备将立即从你的 PostHog 账号登出。",
+                "logOutDeviceTitle": "登出此设备？",
+                "logOutOthers": "登出其他所有设备",
+                "logOutOthersDescription": "除当前设备外，所有设备都将立即从你的 PostHog 账号登出。",
+                "logOutOthersTitle": "登出其他所有设备？",
+                "noOtherDevices": "没有其他设备可登出",
+                "thisDevice": "此设备",
+                "unknown": "未知",
+                "unknownDevice": "未知设备",
+                "working": "处理中…"
+            }
         }
     }
 }
