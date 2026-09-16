@@ -8,6 +8,7 @@ import { CopyToClipboardInline } from 'lib/components/CopyToClipboard'
 import { JSONViewer } from 'lib/components/JSONViewer'
 import { PropertyKeyInfo } from 'lib/components/PropertyKeyInfo'
 import { TaxonomicFilterGroupType } from 'lib/components/TaxonomicFilter/types'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonInput } from 'lib/lemon-ui/LemonInput'
 
@@ -377,7 +378,9 @@ export function MCPEventView({ properties }: MCPEventViewProps): JSX.Element {
                 rowKey="key"
                 embedded
                 size="small"
-                emptyState="No MCP properties match this search."
+                emptyState={i18n.t('activity.noMatchingMcpProperties', {
+                    defaultValue: 'No MCP properties match this search.',
+                })}
             />
         </div>
     )

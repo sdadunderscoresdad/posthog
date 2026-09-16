@@ -5,6 +5,7 @@ import { Spinner, lemonToast } from '@posthog/lemon-ui'
 import api from 'lib/api'
 import { isEventPropertyFilter } from 'lib/components/PropertyFilters/utils'
 import { FEATURE_FLAGS } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 import { liveEventsHostOrigin } from 'lib/utils/apiHost'
 import { isOperatorFlag } from 'lib/utils/operators'
@@ -279,11 +280,16 @@ export const liveEventsLogic = kea<liveEventsLogicType>([
                     onError: (error) => {
                         if (!cache.hasShownLiveStreamErrorToast && props.showLiveStreamErrorToast) {
                             console.error('Failed to poll events. You likely have no events coming in.', error)
-                            lemonToast.error(`No live events found. Continuing to retry in the background…`, {
-                                icon: <Spinner />,
-                                toastId: ERROR_TOAST_ID,
-                                autoClose: false,
-                            })
+                            lemonToast.error(
+                                i18n.t('activity.live.noEventsFound', {
+                                    defaultValue: 'No live events found. Continuing to retry in the background…',
+                                }),
+                                {
+                                    icon: <Spinner />,
+                                    toastId: ERROR_TOAST_ID,
+                                    autoClose: false,
+                                }
+                            )
                             cache.hasShownLiveStreamErrorToast = true
                         }
                     },

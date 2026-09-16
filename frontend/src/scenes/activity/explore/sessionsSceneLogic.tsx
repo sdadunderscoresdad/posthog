@@ -3,6 +3,7 @@ import { MakeLogicType, actions, connect, kea, key, listeners, path, reducers, s
 import { urlToAction } from 'kea-router'
 import { UrlToActionPayload } from 'kea-router/lib/types'
 
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { trackedActionToUrl } from 'lib/logic/scenes/trackedActionToUrl'
 import { tabUiStateLogic } from 'lib/logic/tabUiStateLogic'
@@ -140,7 +141,7 @@ export const sessionsSceneLogic = kea<sessionsSceneLogicType>([
 
             // Handle invalid query param type
             if (typeof queryParam !== 'object') {
-                lemonToast.error('Invalid query in URL')
+                lemonToast.error(i18n.t('activity.invalidQueryInUrl', { defaultValue: 'Invalid query in URL' }))
                 console.error({ queryParam })
                 return
             }

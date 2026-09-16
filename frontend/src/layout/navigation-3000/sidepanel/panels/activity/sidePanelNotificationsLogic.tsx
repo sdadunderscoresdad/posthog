@@ -20,6 +20,7 @@ import { HumanizedActivityLogItem, humanize } from 'lib/components/ActivityLog/h
 import { showCriticalNotificationToast } from 'lib/components/NotificationsMenu/notificationToasts'
 import { FEATURE_FLAGS } from 'lib/constants'
 import { dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonDialog } from 'lib/lemon-ui/LemonDialog'
 import { LemonMarkdown } from 'lib/lemon-ui/LemonMarkdown'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
@@ -971,10 +972,18 @@ export const sidePanelNotificationsLogic = kea<sidePanelNotificationsLogicType>(
                 }
                 const targetProjectName = values.projectNameForNotification(notification)
                 LemonDialog.open({
-                    title: 'Leave current project?',
-                    description: `This notification is in ${targetProjectName ? `"${targetProjectName}"` : 'another project'}. Opening it will reload the page and you'll lose any unsaved work.`,
+                    title: i18n.t('activity.notifications.leaveProjectTitle', {
+                        defaultValue: 'Leave current project?',
+                    }),
+                    description: i18n.t('activity.notifications.leaveProjectDescription', {
+                        defaultValue:
+                            "This notification is in {{ project }}. Opening it will reload the page and you'll lose any unsaved work.",
+                        project: targetProjectName
+                            ? `"${targetProjectName}"`
+                            : i18n.t('activity.notifications.anotherProject', { defaultValue: 'another project' }),
+                    }),
                     primaryButton: {
-                        children: 'Open',
+                        children: i18n.t('activity.notifications.open', { defaultValue: 'Open' }),
 
                         onClick: async () => {
                             if (!notification.read) {
@@ -984,7 +993,7 @@ export const sidePanelNotificationsLogic = kea<sidePanelNotificationsLogicType>(
                         },
                     },
                     secondaryButton: {
-                        children: 'Stay here',
+                        children: i18n.t('activity.notifications.stayHere', { defaultValue: 'Stay here' }),
                     },
                 })
             },

@@ -1,5 +1,6 @@
 import { useActions, useValues } from 'kea'
 import { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { IconList, IconNotification } from '@posthog/icons'
 import { LemonButton, LemonSkeleton, LemonTabs, Link, Spinner } from '@posthog/lemon-ui'
@@ -53,6 +54,7 @@ export const SidePanelActivity = (): JSX.Element => {
 
     const { closeSidePanel } = useActions(sidePanelStateLogic)
 
+    const { t } = useTranslation()
     const { user } = useValues(userLogic)
     const { featureFlags } = useValues(featureFlagLogic)
 
@@ -80,14 +82,18 @@ export const SidePanelActivity = (): JSX.Element => {
     if (!hasAccess) {
         return (
             <>
-                <SidePanelPaneHeader title="Team activity" />
+                <SidePanelPaneHeader title={t('activity.teamActivity', { defaultValue: 'Team activity' })} />
                 <div className="flex flex-col items-center justify-center gap-3 p-6 text-center h-full">
                     <IconNotification className="text-5xl text-muted" />
                     <div>
-                        <div className="font-semibold mb-1">Access denied</div>
+                        <div className="font-semibold mb-1">
+                            {t('activity.accessDenied', { defaultValue: 'Access denied' })}
+                        </div>
                         <div className="text-xs text-muted-alt">
-                            You don't have sufficient permissions to view activity logs. Please contact your project
-                            administrator.
+                            {t('activity.accessDeniedDetail', {
+                                defaultValue:
+                                    "You don't have sufficient permissions to view activity logs. Please contact your project administrator.",
+                            })}
                         </div>
                     </div>
                 </div>
@@ -97,7 +103,7 @@ export const SidePanelActivity = (): JSX.Element => {
 
     return (
         <>
-            <SidePanelPaneHeader title="Team activity" />
+            <SidePanelPaneHeader title={t('activity.teamActivity', { defaultValue: 'Team activity' })} />
             <PayGateMini
                 feature={AvailableFeature.AUDIT_LOGS}
                 featureDetail="activity-log-side-panel"
@@ -112,7 +118,7 @@ export const SidePanelActivity = (): JSX.Element => {
                             tabs={[
                                 {
                                     key: SidePanelActivityTab.All,
-                                    label: 'Activity',
+                                    label: t('activity.tab.activity', { defaultValue: 'Activity' }),
                                 },
                                 ...(featureFlags[FEATURE_FLAGS.METALYTICS]
                                     ? [
@@ -198,10 +204,12 @@ export const SidePanelActivity = (): JSX.Element => {
                                                             center
                                                             onClick={() => maybeLoadOlderActivity()}
                                                         >
-                                                            Load more
+                                                            {t('activity.loadMore', { defaultValue: 'Load more' })}
                                                         </LemonButton>
                                                     ) : (
-                                                        'No more results'
+                                                        t('activity.noMoreResults', {
+                                                            defaultValue: 'No more results',
+                                                        })
                                                     )}
                                                 </div>
                                                 <div className="flex items-center justify-center pt-1">

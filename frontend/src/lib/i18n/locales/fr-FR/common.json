@@ -22,6 +22,8 @@
         "yourCurrentAccount": ""
     },
     "activity": {
+        "accessDenied": "",
+        "accessDeniedDetail": "",
         "explore": {
             "copyPropertyValue": "",
             "exceptionPropertiesBanner": "",
@@ -33,6 +35,7 @@
             },
             "viewLlmTrace": ""
         },
+        "invalidQueryInUrl": "",
         "live": {
             "bots": {
                 "detectionTooltip": "",
@@ -57,9 +60,20 @@
             },
             "filterByEvent": "",
             "filterByProperty": "",
+            "noEventsFound": "",
             "pause": "",
             "play": "",
             "terminalBanner": ""
+        },
+        "loadMore": "",
+        "noMatchingMcpProperties": "",
+        "noMoreResults": "",
+        "notifications": {
+            "anotherProject": "",
+            "leaveProjectDescription": "",
+            "leaveProjectTitle": "",
+            "open": "",
+            "stayHere": ""
         },
         "sessions": {
             "columns": {
@@ -72,11 +86,15 @@
                 "startTime": ""
             }
         },
+        "tab": {
+            "activity": ""
+        },
         "tabs": {
             "events": "",
             "live": "",
             "sessions": ""
-        }
+        },
+        "teamActivity": ""
     },
     "activityLog": {
         "commented": "",

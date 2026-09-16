@@ -22,6 +22,8 @@
         "yourCurrentAccount": "your current account"
     },
     "activity": {
+        "accessDenied": "Access denied",
+        "accessDeniedDetail": "You don't have sufficient permissions to view activity logs. Please contact your project administrator.",
         "explore": {
             "copyPropertyValue": "property value",
             "exceptionPropertiesBanner": "These are the internal properties that PostHog uses to display information about exceptions.",
@@ -33,6 +35,7 @@
             },
             "viewLlmTrace": "View LLM trace"
         },
+        "invalidQueryInUrl": "Invalid query in URL",
         "live": {
             "bots": {
                 "detectionTooltip": "Bot detection is based on known user agent patterns for crawlers, AI agents, monitoring tools and automation frameworks.",
@@ -56,9 +59,20 @@
             },
             "filterByEvent": "Filter by event",
             "filterByProperty": "Filter by property",
+            "noEventsFound": "No live events found. Continuing to retry in the background…",
             "pause": "Pause",
             "play": "Play",
             "terminalBanner": "Stream live events directly in your terminal with <1>posthog-live</1>. <4>Learn more</4>"
+        },
+        "loadMore": "Load more",
+        "noMatchingMcpProperties": "No MCP properties match this search.",
+        "noMoreResults": "No more results",
+        "notifications": {
+            "anotherProject": "another project",
+            "leaveProjectDescription": "This notification is in {{ project }}. Opening it will reload the page and you'll lose any unsaved work.",
+            "leaveProjectTitle": "Leave current project?",
+            "open": "Open",
+            "stayHere": "Stay here"
         },
         "sessions": {
             "columns": {
@@ -71,11 +85,15 @@
                 "startTime": "Start time"
             }
         },
+        "tab": {
+            "activity": "Activity"
+        },
         "tabs": {
             "events": "Events",
             "live": "Live",
             "sessions": "Sessions"
-        }
+        },
+        "teamActivity": "Team activity"
     },
     "activityLog": {
         "commented": "commented",

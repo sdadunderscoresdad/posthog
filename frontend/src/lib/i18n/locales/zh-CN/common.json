@@ -22,6 +22,8 @@
         "yourCurrentAccount": "你当前登录的账号"
     },
     "activity": {
+        "accessDenied": "无权访问",
+        "accessDeniedDetail": "你没有查看活动日志的权限。请联系项目管理员。",
         "explore": {
             "copyPropertyValue": "属性值",
             "exceptionPropertiesBanner": "这些是 PostHog 用来展示异常信息的内部属性。",
@@ -33,6 +35,7 @@
             },
             "viewLlmTrace": "查看 LLM 追踪"
         },
+        "invalidQueryInUrl": "URL 中的查询无效",
         "live": {
             "bots": {
                 "detectionTooltip": "机器人检测基于已知的爬虫、AI 代理、监控工具和自动化框架的 User-Agent 特征。",
@@ -55,9 +58,20 @@
             },
             "filterByEvent": "按事件筛选",
             "filterByProperty": "按属性筛选",
+            "noEventsFound": "没有发现实时事件。将在后台继续重试…",
             "pause": "暂停",
             "play": "继续",
             "terminalBanner": "使用 <1>posthog-live</1> 在终端中直接流式查看实时事件。<4>了解更多</4>"
+        },
+        "loadMore": "加载更多",
+        "noMatchingMcpProperties": "没有匹配该搜索的 MCP 属性。",
+        "noMoreResults": "没有更多结果",
+        "notifications": {
+            "anotherProject": "另一个项目",
+            "leaveProjectDescription": "该通知位于 {{ project }}。打开它会导致页面重新加载，未保存的内容将丢失。",
+            "leaveProjectTitle": "离开当前项目？",
+            "open": "打开",
+            "stayHere": "留在这里"
         },
         "sessions": {
             "columns": {
@@ -70,11 +84,15 @@
                 "startTime": "开始时间"
             }
         },
+        "tab": {
+            "activity": "活动"
+        },
         "tabs": {
             "events": "事件",
             "live": "实时",
             "sessions": "会话"
-        }
+        },
+        "teamActivity": "团队活动"
     },
     "activityLog": {
         "commented": "评论了",
