@@ -4,6 +4,7 @@ import { router } from 'kea-router'
 import { subscriptions } from 'kea-subscriptions'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { DashboardsTab } from 'scenes/dashboard/dashboards/dashboardsLogic'
 import { organizationLogic } from 'scenes/organizationLogic'
@@ -149,7 +150,11 @@ export const dashboardTemplateCopyLogic = kea<dashboardTemplateCopyLogicType>([
                 submitCopy: async () => {
                     const { destinationTeamId } = values
                     if (!destinationTeamId) {
-                        lemonToast.error('Select a destination project')
+                        lemonToast.error(
+                            i18n.t('dashboard.templateCopy.selectDestination', {
+                                defaultValue: 'Select a destination project',
+                            })
+                        )
                         throw new Error('Select a destination project')
                     }
                     return await api.dashboardTemplates.copyBetweenProjects(destinationTeamId, props.sourceTemplateId)
@@ -176,13 +181,18 @@ export const dashboardTemplateCopyLogic = kea<dashboardTemplateCopyLogicType>([
         submitCopySuccess: () => {
             const destinationTeamId = values.destinationTeamId
             const destTeam = values.currentOrganization?.teams.find((t) => t.id === destinationTeamId)
-            const destName = destTeam?.name || 'the selected project'
+            const destName =
+                destTeam?.name ||
+                i18n.t('dashboard.templateCopy.selectedProject', { defaultValue: 'the selected project' })
             lemonToast.success(
-                `Copied to ${destName}`,
+                i18n.t('dashboard.templateCopy.copiedTo', {
+                    project: destName,
+                    defaultValue: 'Copied to {{ project }}',
+                }),
                 destinationTeamId != null
                     ? {
                           button: {
-                              label: 'Open project',
+                              label: i18n.t('dashboard.templateCopy.openProject', { defaultValue: 'Open project' }),
                               action: () => {
                                   window.location.href = urls.project(destinationTeamId, urls.dashboards())
                               },

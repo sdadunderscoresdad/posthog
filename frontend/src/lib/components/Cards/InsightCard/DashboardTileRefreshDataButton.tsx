@@ -25,7 +25,7 @@ export function DashboardTileRefreshDataButton({
                 <div className="block my-1">
                     {i18n.t('insightCard.refreshData', { defaultValue: 'Refresh data' })}
                     <p className="text-xs text-muted mt-0.5">
-                        Last computed{' '}
+                        {i18n.t('insightCard.lastComputed', { defaultValue: 'Last computed' })}{' '}
                         <TZLabel time={lastRefreshTime} noStyles className="whitespace-nowrap border-dotted border-b" />
                     </p>
                 </div>

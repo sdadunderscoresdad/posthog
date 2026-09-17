@@ -634,6 +634,7 @@
             "create": "",
             "createDashboard": "",
             "filterTemplates": "",
+            "nameRequired": "",
             "startFromScratch": "",
             "templateRequiresEvents_other": "",
             "templatesDescription": ""
@@ -706,6 +707,7 @@
         },
         "templateCopy": {
             "chooseProject": "",
+            "copiedTo": "",
             "copy": "",
             "createProject": "",
             "destinationProject": "",
@@ -713,26 +715,57 @@
             "loadFailed": "",
             "noDestinations": "",
             "noDestinationsDescription": "",
+            "openProject": "",
+            "selectDestination": "",
+            "selectedProject": "",
             "selectProject": ""
         },
         "templateEditor": {
             "create": "",
+            "created": "",
+            "deleted": "",
+            "deletedNoName": "",
+            "deleteFailed": "",
+            "makeTeamOnly": "",
+            "makeTeamOnlyDescription": "",
+            "makeTeamOnlyTitle": "",
+            "restored": "",
+            "restoredNoName": "",
+            "restoreFailed": "",
+            "shareOrg": "",
+            "shareOrgDescription": "",
+            "shareOrgTitle": "",
+            "unableToCreate": "",
+            "unableToParse": "",
+            "unableToParseJson": "",
+            "unableToUpdate": "",
+            "undo": "",
             "update": "",
-            "validationErrors_other": ""
+            "updated": "",
+            "validationErrors_other": "",
+            "warningActions_other": "",
+            "warningCohorts_other": "",
+            "warningWarehouseTables_other": ""
         },
         "templateModal": {
             "description": "",
             "descriptionPlaceholder": "",
             "editTitle": "",
+            "enterName": "",
+            "missingPayload": "",
+            "missingTemplate": "",
             "name": "",
             "namePlaceholder": "",
             "openJsonEditor": "",
             "save": "",
             "saveChanges": "",
+            "saved": "",
+            "saveFailed": "",
             "staffTools": "",
             "staffToolsHint": "",
             "tags": "",
-            "tagsPlaceholder": ""
+            "tagsPlaceholder": "",
+            "updated": ""
         },
         "templates": {
             "allInPopular": "",
@@ -803,6 +836,12 @@
             "properties": "",
             "scope": "",
             "time": ""
+        },
+        "tileName": {
+            "button": "",
+            "textCard": "",
+            "tile": "",
+            "unnamedInsight": ""
         },
         "widgetType": {
             "insight": "",
@@ -1162,6 +1201,7 @@
         "breadcrumb": {
             "projectHomepage": ""
         },
+        "defaultDashboard": "",
         "input": {
             "askTooltip": "",
             "commandsHint": "",
@@ -1182,6 +1222,24 @@
             "lastModified": "",
             "title": "",
             "untitled": ""
+        },
+        "suggestions": {
+            "continueLastConversation": "",
+            "recent": {
+                "dashboardAnomalies": "",
+                "dashboardChanged": "",
+                "experimentHowIsItDoing": "",
+                "experimentShouldIShip": "",
+                "flagAnalyzeImpact": "",
+                "flagCanBeRemoved": "",
+                "flagIntoExperiment": "",
+                "insightExplain": "",
+                "insightRecentChanges": "",
+                "insightUsersBehind": "",
+                "surveySummarize": "",
+                "surveyThemes": ""
+            },
+            "theDetails": ""
         }
     },
     "insightActivity": {
@@ -1226,6 +1284,7 @@
         "copyTo": "",
         "displayOptions": "",
         "ignoresDashboardFilters": "",
+        "lastComputed": "",
         "lastComputedTime": "",
         "lastSevenDays": "",
         "loadingDisplayOptions": "",
@@ -1275,6 +1334,7 @@
         "journeysBasedOn": "",
         "lastComputed": "",
         "lastModifiedBy": "",
+        "overridden": "",
         "performed": "",
         "querySummaryUnavailable": "",
         "recurringly": "",

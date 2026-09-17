@@ -4,6 +4,7 @@ import { loaders } from 'kea-loaders'
 import { lemonToast } from '@posthog/lemon-ui'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 
 import { DashboardTemplateEditorType, DashboardTemplateType } from '~/types'
 
@@ -140,13 +141,19 @@ export const dashboardTemplateModalLogic = kea<dashboardTemplateModalLogicType>(
                 saveProjectTemplate: async () => {
                     const tags = values.templateTags.map((t) => t.trim()).filter(Boolean)
                     if (!values.templateName.trim()) {
-                        lemonToast.error('Enter a template name')
+                        lemonToast.error(
+                            i18n.t('dashboard.templateModal.enterName', { defaultValue: 'Enter a template name' })
+                        )
                         return null
                     }
                     try {
                         if (values.mode === 'create') {
                             if (!values.createPayload) {
-                                lemonToast.error('Missing template payload')
+                                lemonToast.error(
+                                    i18n.t('dashboard.templateModal.missingPayload', {
+                                        defaultValue: 'Missing template payload',
+                                    })
+                                )
                                 return null
                             }
                             const data: DashboardTemplateEditorType = {
@@ -156,11 +163,17 @@ export const dashboardTemplateModalLogic = kea<dashboardTemplateModalLogicType>(
                                 tags,
                             }
                             await api.dashboardTemplates.create(data)
-                            lemonToast.success('Project template saved')
+                            lemonToast.success(
+                                i18n.t('dashboard.templateModal.saved', { defaultValue: 'Project template saved' })
+                            )
                         } else {
                             const id = values.editingTemplate?.id
                             if (id === undefined) {
-                                lemonToast.error('Missing template')
+                                lemonToast.error(
+                                    i18n.t('dashboard.templateModal.missingTemplate', {
+                                        defaultValue: 'Missing template',
+                                    })
+                                )
                                 return null
                             }
                             await api.dashboardTemplates.update(id, {
@@ -168,7 +181,9 @@ export const dashboardTemplateModalLogic = kea<dashboardTemplateModalLogicType>(
                                 dashboard_description: values.dashboardDescription,
                                 tags,
                             })
-                            lemonToast.success('Template updated')
+                            lemonToast.success(
+                                i18n.t('dashboard.templateModal.updated', { defaultValue: 'Template updated' })
+                            )
                         }
                         dashboardTemplatesLogic
                             .findMounted({ scope: 'default', templatesTabList: true })
@@ -179,7 +194,11 @@ export const dashboardTemplateModalLogic = kea<dashboardTemplateModalLogicType>(
                         const msg =
                             e?.detail ||
                             e?.message ||
-                            (typeof e === 'string' ? e : 'Could not save the dashboard template')
+                            (typeof e === 'string'
+                                ? e
+                                : i18n.t('dashboard.templateModal.saveFailed', {
+                                      defaultValue: 'Could not save the dashboard template',
+                                  }))
                         lemonToast.error(msg)
                         return null
                     }

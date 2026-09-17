@@ -598,7 +598,8 @@ export function VariablesSummary({
                         </span>
                         {hasOverride && (
                             <LemonTag type="highlight">
-                                Overridden: {overrideValue ? <strong>{overrideValue}</strong> : <em>null</em>}
+                                {i18n.t('insightDetails.overridden', { defaultValue: 'Overridden:' })}{' '}
+                                {overrideValue ? <strong>{overrideValue}</strong> : <em>null</em>}
                             </LemonTag>
                         )}
                     </div>

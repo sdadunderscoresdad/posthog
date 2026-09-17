@@ -1,10 +1,10 @@
 import { MakeLogicType, actions, afterMount, connect, kea, listeners, path, reducers } from 'kea'
 import { loaders } from 'kea-loaders'
-import { createElement, Fragment } from 'react'
 
 import { LemonDialog, lemonToast } from '@posthog/lemon-ui'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 
 import { DashboardTemplateEditorType, DashboardTemplateType, MonacoMarker, NonPortableReferences } from '~/types'
@@ -39,14 +39,31 @@ function describeNonPortableReferences(refs: NonPortableReferences | null | unde
         return warnings
     }
     if (refs.actions > 0) {
-        warnings.push(`${refs.actions} action${refs.actions === 1 ? '' : 's'}`)
+        warnings.push(
+            i18n.t('dashboard.templateEditor.warningActions', {
+                count: refs.actions,
+                defaultValue_one: '{{ count }} action',
+                defaultValue_other: '{{ count }} actions',
+            })
+        )
     }
     if (refs.cohorts > 0) {
-        warnings.push(`${refs.cohorts} cohort${refs.cohorts === 1 ? '' : 's'}`)
+        warnings.push(
+            i18n.t('dashboard.templateEditor.warningCohorts', {
+                count: refs.cohorts,
+                defaultValue_one: '{{ count }} cohort',
+                defaultValue_other: '{{ count }} cohorts',
+            })
+        )
     }
     if (refs.warehouse_tables.length > 0) {
         warnings.push(
-            `${refs.warehouse_tables.length === 1 ? 'data warehouse table' : 'data warehouse tables'} ${refs.warehouse_tables.join(', ')}`
+            i18n.t('dashboard.templateEditor.warningWarehouseTables', {
+                count: refs.warehouse_tables.length,
+                names: refs.warehouse_tables.join(', '),
+                defaultValue_one: 'data warehouse table {{ names }}',
+                defaultValue_other: 'data warehouse tables {{ names }}',
+            })
         )
     }
     return warnings
@@ -290,18 +307,28 @@ export const dashboardTemplateEditorLogic = kea<dashboardTemplateEditorLogicType
                     if (raw) {
                         payload = parseDashboardTemplateEditorPayload(values.editorValue)
                         if (!payload) {
-                            lemonToast.error('Unable to parse dashboard template JSON')
+                            lemonToast.error(
+                                i18n.t('dashboard.templateEditor.unableToParseJson', {
+                                    defaultValue: 'Unable to parse dashboard template JSON',
+                                })
+                            )
                             return
                         }
                     } else {
                         payload = values.dashboardTemplate ?? undefined
                     }
                     if (!payload) {
-                        lemonToast.error('Unable to create dashboard template')
+                        lemonToast.error(
+                            i18n.t('dashboard.templateEditor.unableToCreate', {
+                                defaultValue: 'Unable to create dashboard template',
+                            })
+                        )
                         return
                     }
                     const response = await api.dashboardTemplates.create(payload)
-                    lemonToast.success('Dashboard template created')
+                    lemonToast.success(
+                        i18n.t('dashboard.templateEditor.created', { defaultValue: 'Dashboard template created' })
+                    )
                     return response
                 },
                 getDashboardTemplate: async (id: string): Promise<DashboardTemplateType> => {
@@ -324,19 +351,29 @@ export const dashboardTemplateEditorLogic = kea<dashboardTemplateEditorLogicType
                         if (raw) {
                             payload = parseDashboardTemplateEditorPayload(values.editorValue)
                             if (!payload) {
-                                lemonToast.error('Unable to parse dashboard template JSON')
+                                lemonToast.error(
+                                    i18n.t('dashboard.templateEditor.unableToParseJson', {
+                                        defaultValue: 'Unable to parse dashboard template JSON',
+                                    })
+                                )
                                 return
                             }
                         } else {
                             payload = values.dashboardTemplate ?? undefined
                         }
                         if (!payload) {
-                            lemonToast.error('Unable to update dashboard template')
+                            lemonToast.error(
+                                i18n.t('dashboard.templateEditor.unableToUpdate', {
+                                    defaultValue: 'Unable to update dashboard template',
+                                })
+                            )
                             return
                         }
                         response = await api.dashboardTemplates.update(id, payload)
                     }
-                    lemonToast.success('Dashboard template updated')
+                    lemonToast.success(
+                        i18n.t('dashboard.templateEditor.updated', { defaultValue: 'Dashboard template updated' })
+                    )
                     return response
                 },
                 deleteDashboardTemplate: async ({
@@ -349,24 +386,29 @@ export const dashboardTemplateEditorLogic = kea<dashboardTemplateEditorLogicType
                     try {
                         await api.dashboardTemplates.update(id, { deleted: true })
                     } catch (e: any) {
-                        lemonToast.error(e?.detail || e?.message || 'Could not delete dashboard template')
+                        lemonToast.error(
+                            e?.detail ||
+                                e?.message ||
+                                i18n.t('dashboard.templateEditor.deleteFailed', {
+                                    defaultValue: 'Could not delete dashboard template',
+                                })
+                        )
                         throw e
                     }
                     const trimmedName = templateName.trim()
                     lemonToast.info(
                         trimmedName
-                            ? createElement(
-                                  Fragment,
-                                  null,
-                                  'Dashboard template ',
-                                  createElement('b', null, trimmedName),
-                                  ' has been deleted'
-                              )
-                            : 'Dashboard template has been deleted',
+                            ? i18n.t('dashboard.templateEditor.deleted', {
+                                  name: trimmedName,
+                                  defaultValue: 'Dashboard template "{{ name }}" has been deleted',
+                              })
+                            : i18n.t('dashboard.templateEditor.deletedNoName', {
+                                  defaultValue: 'Dashboard template has been deleted',
+                              }),
                         {
                             toastId: `delete-dashboard-template-${id}`,
                             button: {
-                                label: 'Undo',
+                                label: i18n.t('dashboard.templateEditor.undo', { defaultValue: 'Undo' }),
                                 dataAttr: 'undo-dashboard-template-delete',
                                 action: async () => {
                                     try {
@@ -374,19 +416,22 @@ export const dashboardTemplateEditorLogic = kea<dashboardTemplateEditorLogicType
                                         refreshDashboardTemplateListsAfterMutation()
                                         lemonToast.success(
                                             trimmedName
-                                                ? createElement(
-                                                      Fragment,
-                                                      null,
-                                                      'Dashboard template ',
-                                                      createElement('b', null, trimmedName),
-                                                      ' has been restored'
-                                                  )
-                                                : 'Dashboard template has been restored',
+                                                ? i18n.t('dashboard.templateEditor.restored', {
+                                                      name: trimmedName,
+                                                      defaultValue: 'Dashboard template "{{ name }}" has been restored',
+                                                  })
+                                                : i18n.t('dashboard.templateEditor.restoredNoName', {
+                                                      defaultValue: 'Dashboard template has been restored',
+                                                  }),
                                             { toastId: `undo-dashboard-template-${id}` }
                                         )
                                     } catch (err: any) {
                                         lemonToast.error(
-                                            err?.detail || err?.message || 'Could not restore dashboard template'
+                                            err?.detail ||
+                                                err?.message ||
+                                                i18n.t('dashboard.templateEditor.restoreFailed', {
+                                                    defaultValue: 'Could not restore dashboard template',
+                                                })
                                         )
                                     }
                                 },
@@ -439,7 +484,11 @@ export const dashboardTemplateEditorLogic = kea<dashboardTemplateEditorLogicType
                     actions.setDashboardTemplate(dashboardTemplate)
                 } catch (error) {
                     console.error('error', error)
-                    lemonToast.error('Unable to parse dashboard template')
+                    lemonToast.error(
+                        i18n.t('dashboard.templateEditor.unableToParse', {
+                            defaultValue: 'Unable to parse dashboard template',
+                        })
+                    )
                 }
             }
         },
@@ -463,15 +512,21 @@ export const dashboardTemplateEditorLogic = kea<dashboardTemplateEditorLogicType
             }
             if (scope === 'organization') {
                 LemonDialog.open({
-                    title: 'Make this template visible to this project only?',
-                    description:
-                        'It will no longer be shared with the other projects in your organization. They will lose access to it.',
+                    title: i18n.t('dashboard.templateEditor.makeTeamOnlyTitle', {
+                        defaultValue: 'Make this template visible to this project only?',
+                    }),
+                    description: i18n.t('dashboard.templateEditor.makeTeamOnlyDescription', {
+                        defaultValue:
+                            'It will no longer be shared with the other projects in your organization. They will lose access to it.',
+                    }),
                     primaryButton: {
-                        children: 'Make project-only',
+                        children: i18n.t('dashboard.templateEditor.makeTeamOnly', {
+                            defaultValue: 'Make project-only',
+                        }),
                         onClick: () =>
                             actions.updateDashboardTemplate({ id, dashboardTemplateUpdates: { scope: 'team' } }),
                     },
-                    secondaryButton: { children: 'Cancel' },
+                    secondaryButton: { children: i18n.t('common.cancel', { defaultValue: 'Cancel' }) },
                 })
                 return
             }
@@ -490,16 +545,20 @@ export const dashboardTemplateEditorLogic = kea<dashboardTemplateEditorLogicType
                 return
             }
             LemonDialog.open({
-                title: 'Share this template with your whole organization?',
-                description: `This template references items specific to this project (${warnings.join(
-                    ', '
-                )}). Insights using them may show errors in other projects — events and properties work everywhere.`,
+                title: i18n.t('dashboard.templateEditor.shareOrgTitle', {
+                    defaultValue: 'Share this template with your whole organization?',
+                }),
+                description: i18n.t('dashboard.templateEditor.shareOrgDescription', {
+                    warnings: warnings.join(', '),
+                    defaultValue:
+                        'This template references items specific to this project ({{ warnings }}). Insights using them may show errors in other projects — events and properties work everywhere.',
+                }),
                 primaryButton: {
-                    children: 'Share with organization',
+                    children: i18n.t('dashboard.templateEditor.shareOrg', { defaultValue: 'Share with organization' }),
                     onClick: () =>
                         actions.updateDashboardTemplate({ id, dashboardTemplateUpdates: { scope: 'organization' } }),
                 },
-                secondaryButton: { children: 'Cancel' },
+                secondaryButton: { children: i18n.t('common.cancel', { defaultValue: 'Cancel' }) },
             })
         },
     })),

@@ -634,6 +634,7 @@
             "create": "创建",
             "createDashboard": "创建仪表盘",
             "filterTemplates": "筛选模板",
+            "nameRequired": "请为你的仪表盘起个名字。",
             "startFromScratch": "从空白开始",
             "templateRequiresEvents_other": "<em>{{templateName}}</em> 模板需要你先选择 {{count}} 个事件。",
             "templatesDescription": "这里有一些现成的模板，可以帮你快速上手。挑一个用，或从空白开始。"
@@ -706,6 +707,7 @@
         },
         "templateCopy": {
             "chooseProject": "选择要把该模板复制到哪个项目。原模板不会被修改。",
+            "copiedTo": "已复制到 {{ project }}",
             "copy": "复制",
             "createProject": "创建项目",
             "destinationProject": "目标项目",
@@ -713,26 +715,57 @@
             "loadFailed": "无法加载该模板。它可能已被删除，或者你需要从拥有该模板的项目打开此页面。<2>返回模板列表</2>",
             "noDestinations": "没有其它可复制到的项目",
             "noDestinationsDescription": "请先在该组织中创建另一个项目。你要复制的模板不会被改动。",
+            "openProject": "打开项目",
+            "selectDestination": "请选择目标项目",
+            "selectedProject": "所选项目",
             "selectProject": "选择项目"
         },
         "templateEditor": {
             "create": "新建模板",
+            "created": "仪表盘模板已创建",
+            "deleted": "仪表盘模板「{{ name }}」已删除",
+            "deletedNoName": "仪表盘模板已删除",
+            "deleteFailed": "无法删除仪表盘模板",
+            "makeTeamOnly": "仅本项目可见",
+            "makeTeamOnlyDescription": "该模板将不再与组织内的其它项目共享，它们会失去访问权限。",
+            "makeTeamOnlyTitle": "让该模板仅对本项目可见？",
+            "restored": "仪表盘模板「{{ name }}」已恢复",
+            "restoredNoName": "仪表盘模板已恢复",
+            "restoreFailed": "无法恢复仪表盘模板",
+            "shareOrg": "与组织共享",
+            "shareOrgDescription": "该模板引用了仅属于本项目的内容（{{ warnings }}）。使用这些内容的洞察在其它项目里可能会报错；事件和属性在所有项目都能正常使用。",
+            "shareOrgTitle": "将该模板共享给整个组织？",
+            "unableToCreate": "无法创建仪表盘模板",
+            "unableToParse": "无法解析仪表盘模板",
+            "unableToParseJson": "无法解析仪表盘模板 JSON",
+            "unableToUpdate": "无法更新仪表盘模板",
+            "undo": "撤销",
             "update": "更新模板",
-            "validationErrors_other": "还有 {{ count }} 个错误需要处理：{{ errors }}"
+            "updated": "仪表盘模板已更新",
+            "validationErrors_other": "还有 {{ count }} 个错误需要处理：{{ errors }}",
+            "warningActions_other": "{{ count }} 个操作",
+            "warningCohorts_other": "{{ count }} 个分群",
+            "warningWarehouseTables_other": "数据仓库表 {{ names }}"
         },
         "templateModal": {
             "description": "描述",
             "descriptionPlaceholder": "这个模板的用途",
             "editTitle": "编辑仪表盘模板",
+            "enterName": "请输入模板名称",
+            "missingPayload": "模板内容缺失",
+            "missingTemplate": "模板缺失",
             "name": "名称",
             "namePlaceholder": "例如：每周核心指标",
             "openJsonEditor": "打开完整 JSON 编辑器",
             "save": "保存模板",
             "saveChanges": "保存修改",
+            "saved": "项目模板已保存",
+            "saveFailed": "无法保存仪表盘模板",
             "staffTools": "内部工具",
             "staffToolsHint": "用于官方模板，以及此表单不支持的字段的完整 JSON 编辑器。",
             "tags": "标签",
-            "tagsPlaceholder": "添加标签，例如 \"kpi\" 或 \"growth\""
+            "tagsPlaceholder": "添加标签，例如 \"kpi\" 或 \"growth\"",
+            "updated": "模板已更新"
         },
         "templates": {
             "allInPopular": "所有匹配的模板都在上方的“热门”里。",
@@ -803,6 +836,12 @@
             "properties": "属性",
             "scope": "范围",
             "time": "时间"
+        },
+        "tileName": {
+            "button": "按钮",
+            "textCard": "文本卡片",
+            "tile": "磁贴",
+            "unnamedInsight": "未命名洞察"
         },
         "widgetType": {
             "insight": "洞察",
@@ -1171,6 +1210,7 @@
         "breadcrumb": {
             "projectHomepage": "项目首页"
         },
+        "defaultDashboard": "默认仪表盘",
         "input": {
             "askTooltip": "试着提个问题",
             "commandsHint": "/ 唤起命令",
@@ -1191,6 +1231,24 @@
             "lastModified": "最后修改于 {{ time }}",
             "title": "你最近查看的洞察",
             "untitled": "洞察"
+        },
+        "suggestions": {
+            "continueLastConversation": "继续上一次对话",
+            "recent": {
+                "dashboardAnomalies": "查找异常",
+                "dashboardChanged": "本周有什么变化？",
+                "experimentHowIsItDoing": "这个实验表现如何？",
+                "experimentShouldIShip": "可以发布了吗？",
+                "flagAnalyzeImpact": "分析这个开关的影响",
+                "flagCanBeRemoved": "检查这个开关能否移除",
+                "flagIntoExperiment": "把这个开关变成实验",
+                "insightExplain": "解释这张图说明了什么",
+                "insightRecentChanges": "解释最近的变化",
+                "insightUsersBehind": "看看背后的用户",
+                "surveySummarize": "汇总问卷回答",
+                "surveyThemes": "找出回答中的主题"
+            },
+            "theDetails": "具体内容"
         }
     },
     "insightActivity": {
@@ -1237,6 +1295,7 @@
         "copyTo": "复制到",
         "displayOptions": "显示选项",
         "ignoresDashboardFilters": "忽略仪表盘过滤条件",
+        "lastComputed": "上次计算",
         "lastComputedTime": "上次计算时间",
         "lastSevenDays": "最近 7 天",
         "loadingDisplayOptions": "正在加载显示选项",
@@ -1286,6 +1345,7 @@
         "journeysBasedOn": "旅程基于",
         "lastComputed": "上次计算",
         "lastModifiedBy": "最后修改者",
+        "overridden": "已被覆盖：",
         "performed": "执行了",
         "querySummaryUnavailable": "暂不支持 {{ kind }} 的查询摘要",
         "recurringly": "重复地",

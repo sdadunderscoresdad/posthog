@@ -1,3 +1,4 @@
+import { i18n } from 'lib/i18n/i18n'
 import { HOMEPAGE_SUGGESTION_TOPICS, SuggestionTopic, TopicSuggestion } from 'scenes/max/suggestionTopics'
 
 import { splitPath, unescapePath } from '~/layout/panel-layout/ProjectTree/utils'
@@ -25,50 +26,92 @@ interface RecentPromptTemplate {
 // templates, mixing analysis with a next step in another product; one is picked per
 // entity by a stable hash so the suggestion varies across entities without flickering
 // across renders.
-const RECENT_PROMPT_TEMPLATES: Record<string, RecentPromptTemplate[]> = {
-    dashboard: [
-        { title: 'What changed this week?', prompt: (name) => `What changed in "${name}" this week?` },
-        {
-            title: 'Find anomalies',
-            prompt: (name) => `Are there anomalies in the metrics on the "${name}" dashboard?`,
-        },
-    ],
-    insight: [
-        { title: 'Explain what this shows', prompt: (name) => `Explain what "${name}" shows` },
-        { title: 'Explain recent changes', prompt: (name) => `Why did "${name}" change recently?` },
-        {
-            title: 'Watch the users behind it',
-            prompt: (name) => `Find session recordings of the users behind "${name}"`,
-        },
-    ],
-    experiment: [
-        { title: 'How is this experiment doing?', prompt: (name) => `How is the "${name}" experiment doing?` },
-        {
-            title: 'Should I ship it?',
-            prompt: (name) => `Has the "${name}" experiment reached significance? Should I ship it?`,
-        },
-    ],
-    feature_flag: [
-        {
-            title: 'Analyze the impact of this flag',
-            prompt: (name) => `Analyze how the "${name}" feature flag affects user behavior and key metrics`,
-        },
-        {
-            title: 'Turn this flag into an experiment',
-            prompt: (name) => `Create an experiment to measure the impact of the "${name}" feature flag`,
-        },
-        {
-            title: 'Check if this flag can be removed',
-            prompt: (name) => `Is the "${name}" flag fully rolled out? Check if it is safe to remove from my code`,
-        },
-    ],
-    survey: [
-        { title: 'Summarize the responses', prompt: (name) => `Summarize the responses to "${name}"` },
-        {
-            title: 'Find themes in the responses',
-            prompt: (name) => `What are the main themes in the responses to "${name}"?`,
-        },
-    ],
+/** Headlines resolve per call, because a map read at import would keep the language the app started in. */
+function recentPromptTemplates(): Record<string, RecentPromptTemplate[]> {
+    return {
+        dashboard: [
+            {
+                title: i18n.t('homepage.suggestions.recent.dashboardChanged', {
+                    defaultValue: 'What changed this week?',
+                }),
+                prompt: (name) => `What changed in "${name}" this week?`,
+            },
+            {
+                title: i18n.t('homepage.suggestions.recent.dashboardAnomalies', {
+                    defaultValue: 'Find anomalies',
+                }),
+                prompt: (name) => `Are there anomalies in the metrics on the "${name}" dashboard?`,
+            },
+        ],
+        insight: [
+            {
+                title: i18n.t('homepage.suggestions.recent.insightExplain', {
+                    defaultValue: 'Explain what this shows',
+                }),
+                prompt: (name) => `Explain what "${name}" shows`,
+            },
+            {
+                title: i18n.t('homepage.suggestions.recent.insightRecentChanges', {
+                    defaultValue: 'Explain recent changes',
+                }),
+                prompt: (name) => `Why did "${name}" change recently?`,
+            },
+            {
+                title: i18n.t('homepage.suggestions.recent.insightUsersBehind', {
+                    defaultValue: 'Watch the users behind it',
+                }),
+                prompt: (name) => `Find session recordings of the users behind "${name}"`,
+            },
+        ],
+        experiment: [
+            {
+                title: i18n.t('homepage.suggestions.recent.experimentHowIsItDoing', {
+                    defaultValue: 'How is this experiment doing?',
+                }),
+                prompt: (name) => `How is the "${name}" experiment doing?`,
+            },
+            {
+                title: i18n.t('homepage.suggestions.recent.experimentShouldIShip', {
+                    defaultValue: 'Should I ship it?',
+                }),
+                prompt: (name) => `Has the "${name}" experiment reached significance? Should I ship it?`,
+            },
+        ],
+        feature_flag: [
+            {
+                title: i18n.t('homepage.suggestions.recent.flagAnalyzeImpact', {
+                    defaultValue: 'Analyze the impact of this flag',
+                }),
+                prompt: (name) => `Analyze how the "${name}" feature flag affects user behavior and key metrics`,
+            },
+            {
+                title: i18n.t('homepage.suggestions.recent.flagIntoExperiment', {
+                    defaultValue: 'Turn this flag into an experiment',
+                }),
+                prompt: (name) => `Create an experiment to measure the impact of the "${name}" feature flag`,
+            },
+            {
+                title: i18n.t('homepage.suggestions.recent.flagCanBeRemoved', {
+                    defaultValue: 'Check if this flag can be removed',
+                }),
+                prompt: (name) => `Is the "${name}" flag fully rolled out? Check if it is safe to remove from my code`,
+            },
+        ],
+        survey: [
+            {
+                title: i18n.t('homepage.suggestions.recent.surveySummarize', {
+                    defaultValue: 'Summarize the responses',
+                }),
+                prompt: (name) => `Summarize the responses to "${name}"`,
+            },
+            {
+                title: i18n.t('homepage.suggestions.recent.surveyThemes', {
+                    defaultValue: 'Find themes in the responses',
+                }),
+                prompt: (name) => `What are the main themes in the responses to "${name}"?`,
+            },
+        ],
+    }
 }
 
 // Stable per-entity template pick: varied across entities, constant across renders.
@@ -111,7 +154,9 @@ export function buildSuggestionItems(
     if (lastConversation?.title) {
         items.push({
             id: `suggestion-continue-${lastConversation.id}`,
-            label: 'Continue your last conversation',
+            label: i18n.t('homepage.suggestions.continueLastConversation', {
+                defaultValue: 'Continue your last conversation',
+            }),
             description: lastConversation.title,
             kind: 'suggestion',
             source: 'continue',
@@ -127,7 +172,7 @@ export function buildSuggestionItems(
             break
         }
         const typePrefix = (entry.type ?? '').split('/')[0]
-        const templates = RECENT_PROMPT_TEMPLATES[typePrefix]
+        const templates = recentPromptTemplates()[typePrefix]
         const name = entryName(entry)
         if (!templates || !name || usedTypePrefixes.has(typePrefix)) {
             continue
@@ -191,6 +236,8 @@ export function topicSuggestionItems(topic: SuggestionTopic): HomepageGridItem[]
         prompt: suggestion.content,
         ...suggestionVisual(topic, suggestion),
         // Fill-in suggestions type a prefix and wait for the user to complete it
-        fillInHint: suggestion.requiresUserInput ? (suggestion.hint ?? 'the details') : undefined,
+        fillInHint: suggestion.requiresUserInput
+            ? (suggestion.hint ?? i18n.t('homepage.suggestions.theDetails', { defaultValue: 'the details' }))
+            : undefined,
     }))
 }

@@ -639,6 +639,7 @@
             "create": "",
             "createDashboard": "",
             "filterTemplates": "",
+            "nameRequired": "",
             "startFromScratch": "",
             "templateRequiresEvents_one": "",
             "templateRequiresEvents_other": "",
@@ -714,6 +715,7 @@
         },
         "templateCopy": {
             "chooseProject": "",
+            "copiedTo": "",
             "copy": "",
             "createProject": "",
             "destinationProject": "",
@@ -721,27 +723,61 @@
             "loadFailed": "",
             "noDestinations": "",
             "noDestinationsDescription": "",
+            "openProject": "",
+            "selectDestination": "",
+            "selectedProject": "",
             "selectProject": ""
         },
         "templateEditor": {
             "create": "",
+            "created": "",
+            "deleted": "",
+            "deletedNoName": "",
+            "deleteFailed": "",
+            "makeTeamOnly": "",
+            "makeTeamOnlyDescription": "",
+            "makeTeamOnlyTitle": "",
+            "restored": "",
+            "restoredNoName": "",
+            "restoreFailed": "",
+            "shareOrg": "",
+            "shareOrgDescription": "",
+            "shareOrgTitle": "",
+            "unableToCreate": "",
+            "unableToParse": "",
+            "unableToParseJson": "",
+            "unableToUpdate": "",
+            "undo": "",
             "update": "",
+            "updated": "",
             "validationErrors_one": "",
-            "validationErrors_other": ""
+            "validationErrors_other": "",
+            "warningActions_one": "",
+            "warningActions_other": "",
+            "warningCohorts_one": "",
+            "warningCohorts_other": "",
+            "warningWarehouseTables_one": "",
+            "warningWarehouseTables_other": ""
         },
         "templateModal": {
             "description": "",
             "descriptionPlaceholder": "",
             "editTitle": "",
+            "enterName": "",
+            "missingPayload": "",
+            "missingTemplate": "",
             "name": "",
             "namePlaceholder": "",
             "openJsonEditor": "",
             "save": "",
             "saveChanges": "",
+            "saved": "",
+            "saveFailed": "",
             "staffTools": "",
             "staffToolsHint": "",
             "tags": "",
-            "tagsPlaceholder": ""
+            "tagsPlaceholder": "",
+            "updated": ""
         },
         "templates": {
             "allInPopular": "",
@@ -813,6 +849,12 @@
             "properties": "",
             "scope": "",
             "time": ""
+        },
+        "tileName": {
+            "button": "",
+            "textCard": "",
+            "tile": "",
+            "unnamedInsight": ""
         },
         "widgetType": {
             "insight": "",
@@ -1184,6 +1226,7 @@
         "breadcrumb": {
             "projectHomepage": ""
         },
+        "defaultDashboard": "",
         "input": {
             "askTooltip": "",
             "commandsHint": "",
@@ -1204,6 +1247,24 @@
             "lastModified": "",
             "title": "",
             "untitled": ""
+        },
+        "suggestions": {
+            "continueLastConversation": "",
+            "recent": {
+                "dashboardAnomalies": "",
+                "dashboardChanged": "",
+                "experimentHowIsItDoing": "",
+                "experimentShouldIShip": "",
+                "flagAnalyzeImpact": "",
+                "flagCanBeRemoved": "",
+                "flagIntoExperiment": "",
+                "insightExplain": "",
+                "insightRecentChanges": "",
+                "insightUsersBehind": "",
+                "surveySummarize": "",
+                "surveyThemes": ""
+            },
+            "theDetails": ""
         }
     },
     "insightActivity": {
@@ -1250,6 +1311,7 @@
         "copyTo": "",
         "displayOptions": "",
         "ignoresDashboardFilters": "",
+        "lastComputed": "",
         "lastComputedTime": "",
         "lastSevenDays": "",
         "loadingDisplayOptions": "",
@@ -1299,6 +1361,7 @@
         "journeysBasedOn": "",
         "lastComputed": "",
         "lastModifiedBy": "",
+        "overridden": "",
         "performed": "",
         "querySummaryUnavailable": "",
         "recurringly": "",

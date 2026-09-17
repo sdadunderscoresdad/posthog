@@ -7,6 +7,7 @@ import { getDashboardWidgetCatalogEntry } from '@posthog/products-dashboards/fro
 import api, { ApiMethodOptions, getJSONOrNull } from 'lib/api'
 import { ApiError } from 'lib/api-error'
 import type { Dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 import { currentSessionId } from 'lib/internalMetrics'
 import { accessLevelSatisfied } from 'lib/utils/accessControlUtils'
 import { DashboardEventSource } from 'lib/utils/eventUsageLogic'
@@ -115,7 +116,11 @@ export function dashboardToSaveableTemplate(
 
 export function getDashboardTileDisplayName(tile: DashboardTile<QueryBasedInsightModel>): string {
     if (tile.insight) {
-        return tile.insight.name || tile.insight.derived_name || 'Unnamed insight'
+        return (
+            tile.insight.name ||
+            tile.insight.derived_name ||
+            i18n.t('dashboard.tileName.unnamedInsight', { defaultValue: 'Unnamed insight' })
+        )
     }
     if (tile.widget) {
         const customName = tile.widget.name?.trim()
@@ -126,13 +131,13 @@ export function getDashboardTileDisplayName(tile: DashboardTile<QueryBasedInsigh
         return catalogEntry?.headerTitle ?? catalogEntry?.label ?? tile.widget.widget_type
     }
     if (tile.text) {
-        return 'Text card'
+        return i18n.t('dashboard.tileName.textCard', { defaultValue: 'Text card' })
     }
     if (tile.button_tile) {
-        return tile.button_tile.text || 'Button'
+        return tile.button_tile.text || i18n.t('dashboard.tileName.button', { defaultValue: 'Button' })
     }
 
-    return 'Tile'
+    return i18n.t('dashboard.tileName.tile', { defaultValue: 'Tile' })
 }
 
 /** Which widget payload is set on a dashboard tile row. Add a branch per `DashboardWidgetType` when new tile kinds ship. */

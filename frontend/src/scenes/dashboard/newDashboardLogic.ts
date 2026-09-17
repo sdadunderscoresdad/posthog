@@ -18,6 +18,7 @@ import { actionToUrl, router, urlToAction } from 'kea-router'
 import api from 'lib/api'
 import { tryShowMCPHint } from 'lib/components/MCPHint/mcpHintLogic'
 import { FEATURE_FLAGS } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 import { eventUsageLogic } from 'lib/utils/eventUsageLogic'
@@ -340,7 +341,9 @@ export const newDashboardLogic = kea<newDashboardLogicType>([
         newDashboard: {
             defaults: defaultFormValues,
             errors: ({ name }) => ({
-                name: !name ? 'Please give your dashboard a name.' : null,
+                name: !name
+                    ? i18n.t('dashboard.new.nameRequired', { defaultValue: 'Please give your dashboard a name.' })
+                    : null,
             }),
             submit: async ({ name, description, useTemplate, show, _create_in_folder }, breakpoint) => {
                 actions.setIsLoading(true)

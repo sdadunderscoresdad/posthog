@@ -2,6 +2,7 @@ import { MakeLogicType, actions, afterMount, connect, kea, listeners, path, redu
 import { actionToUrl, router, urlToAction } from 'kea-router'
 import posthog from 'posthog-js'
 
+import { i18n } from 'lib/i18n/i18n'
 import { tabUiStateLogic } from 'lib/logic/tabUiStateLogic'
 import { navigateToHref } from 'lib/utils/navigateToHref'
 import { handsFreeLogic } from 'scenes/max/handsFreeLogic'
@@ -710,7 +711,7 @@ export const aiFirstHomepageLogic = kea<aiFirstHomepageLogicType>([
                         pathname: urls.dashboard(dashboardId),
                         search: '',
                         hash: '',
-                        title: 'Default dashboard',
+                        title: i18n.t('homepage.defaultDashboard', { defaultValue: 'Default dashboard' }),
                         iconType: 'dashboard',
                         sceneId: Scene.Dashboard,
                         sceneKey: `dashboard-${dashboardId}`,

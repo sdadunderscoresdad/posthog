@@ -639,6 +639,7 @@
             "create": "Create",
             "createDashboard": "Create a dashboard",
             "filterTemplates": "Filter templates",
+            "nameRequired": "Please give your dashboard a name.",
             "startFromScratch": "Start from scratch",
             "templateRequiresEvents_one": "The <em>{{templateName}}</em> template requires you to choose {{count}} events.",
             "templateRequiresEvents_other": "The <em>{{templateName}}</em> template requires you to choose {{count}} events.",
@@ -714,6 +715,7 @@
         },
         "templateCopy": {
             "chooseProject": "Choose which project to copy this template to. The original will not be modified.",
+            "copiedTo": "Copied to {{ project }}",
             "copy": "Copy",
             "createProject": "Create a project",
             "destinationProject": "Destination project",
@@ -721,27 +723,61 @@
             "loadFailed": "We could not load this template. It may have been deleted, or you may need to open this page from the project that owns the template. <2>Back to templates</2>",
             "noDestinations": "No other projects to copy to",
             "noDestinationsDescription": "Create another project in this organization first. The template you are copying will not be changed.",
+            "openProject": "Open project",
+            "selectDestination": "Select a destination project",
+            "selectedProject": "the selected project",
             "selectProject": "Select a project"
         },
         "templateEditor": {
             "create": "Create new template",
+            "created": "Dashboard template created",
+            "deleted": "Dashboard template \"{{ name }}\" has been deleted",
+            "deletedNoName": "Dashboard template has been deleted",
+            "deleteFailed": "Could not delete dashboard template",
+            "makeTeamOnly": "Make project-only",
+            "makeTeamOnlyDescription": "It will no longer be shared with the other projects in your organization. They will lose access to it.",
+            "makeTeamOnlyTitle": "Make this template visible to this project only?",
+            "restored": "Dashboard template \"{{ name }}\" has been restored",
+            "restoredNoName": "Dashboard template has been restored",
+            "restoreFailed": "Could not restore dashboard template",
+            "shareOrg": "Share with organization",
+            "shareOrgDescription": "This template references items specific to this project ({{ warnings }}). Insights using them may show errors in other projects — events and properties work everywhere.",
+            "shareOrgTitle": "Share this template with your whole organization?",
+            "unableToCreate": "Unable to create dashboard template",
+            "unableToParse": "Unable to parse dashboard template",
+            "unableToParseJson": "Unable to parse dashboard template JSON",
+            "unableToUpdate": "Unable to update dashboard template",
+            "undo": "Undo",
             "update": "Update template",
+            "updated": "Dashboard template updated",
             "validationErrors_one": "There are {{ count }} errors to resolve:{{ errors }}",
-            "validationErrors_other": "There are {{ count }} errors to resolve:{{ errors }}"
+            "validationErrors_other": "There are {{ count }} errors to resolve:{{ errors }}",
+            "warningActions_one": "{{ count }} action",
+            "warningActions_other": "{{ count }} actions",
+            "warningCohorts_one": "{{ count }} cohort",
+            "warningCohorts_other": "{{ count }} cohorts",
+            "warningWarehouseTables_one": "data warehouse table {{ names }}",
+            "warningWarehouseTables_other": "data warehouse tables {{ names }}"
         },
         "templateModal": {
             "description": "Description",
             "descriptionPlaceholder": "What this template is for",
             "editTitle": "Edit dashboard template",
+            "enterName": "Enter a template name",
+            "missingPayload": "Missing template payload",
+            "missingTemplate": "Missing template",
             "name": "Name",
             "namePlaceholder": "e.g. Weekly KPIs",
             "openJsonEditor": "Open full JSON editor",
             "save": "Save template",
             "saveChanges": "Save changes",
+            "saved": "Project template saved",
+            "saveFailed": "Could not save the dashboard template",
             "staffTools": "Staff tools",
             "staffToolsHint": "Full JSON editor for official templates and fields not available in this form.",
             "tags": "Tags",
-            "tagsPlaceholder": "Add tags like \"kpi\" or \"growth\""
+            "tagsPlaceholder": "Add tags like \"kpi\" or \"growth\"",
+            "updated": "Template updated"
         },
         "templates": {
             "allInPopular": "Every template that matches is in Popular above.",
@@ -813,6 +849,12 @@
             "properties": "Properties",
             "scope": "Scope",
             "time": "Time"
+        },
+        "tileName": {
+            "button": "Button",
+            "textCard": "Text card",
+            "tile": "Tile",
+            "unnamedInsight": "Unnamed insight"
         },
         "widgetType": {
             "insight": "Insight",
@@ -1184,6 +1226,7 @@
         "breadcrumb": {
             "projectHomepage": "Project homepage"
         },
+        "defaultDashboard": "Default dashboard",
         "input": {
             "askTooltip": "Try asking a question",
             "commandsHint": "/ for commands",
@@ -1204,6 +1247,24 @@
             "lastModified": "Last modified {{ time }}",
             "title": "Your recently viewed insights",
             "untitled": "Insight"
+        },
+        "suggestions": {
+            "continueLastConversation": "Continue your last conversation",
+            "recent": {
+                "dashboardAnomalies": "Find anomalies",
+                "dashboardChanged": "What changed this week?",
+                "experimentHowIsItDoing": "How is this experiment doing?",
+                "experimentShouldIShip": "Should I ship it?",
+                "flagAnalyzeImpact": "Analyze the impact of this flag",
+                "flagCanBeRemoved": "Check if this flag can be removed",
+                "flagIntoExperiment": "Turn this flag into an experiment",
+                "insightExplain": "Explain what this shows",
+                "insightRecentChanges": "Explain recent changes",
+                "insightUsersBehind": "Watch the users behind it",
+                "surveySummarize": "Summarize the responses",
+                "surveyThemes": "Find themes in the responses"
+            },
+            "theDetails": "the details"
         }
     },
     "insightActivity": {
@@ -1250,6 +1311,7 @@
         "copyTo": "Copy to",
         "displayOptions": "Display options",
         "ignoresDashboardFilters": "Ignores dashboard filters",
+        "lastComputed": "Last computed",
         "lastComputedTime": "Last computed time",
         "lastSevenDays": "Last 7 days",
         "loadingDisplayOptions": "Loading display options",
@@ -1299,6 +1361,7 @@
         "journeysBasedOn": "Journeys based on",
         "lastComputed": "Last computed",
         "lastModifiedBy": "Last modified by",
+        "overridden": "Overridden:",
         "performed": "performed",
         "querySummaryUnavailable": "Query summary is not available for {{ kind }} yet",
         "recurringly": "recurringly",
