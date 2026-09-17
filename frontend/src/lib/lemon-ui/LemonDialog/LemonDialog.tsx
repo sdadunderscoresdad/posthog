@@ -6,6 +6,7 @@ import { ReactNode, forwardRef, useEffect, useImperativeHandle, useMemo, useRef,
 import { Root, createRoot } from 'react-dom/client'
 
 import { ApiError } from 'lib/api-error'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton, LemonButtonProps } from 'lib/lemon-ui/LemonButton'
 import { LemonModal, LemonModalProps } from 'lib/lemon-ui/LemonModal'
 import { uuid } from 'lib/utils/dom'
@@ -94,7 +95,10 @@ const LemonDialogComponent = forwardRef<LemonDialogRef, LemonDialogProps>(functi
             ? null
             : {
                   children: 'Okay',
-                  disabledReason: shouldAwaitSubmit && isLoading ? 'Please wait...' : undefined,
+                  disabledReason:
+                      shouldAwaitSubmit && isLoading
+                          ? i18n.t('lemonUi.pleaseWait', { defaultValue: 'Please wait...' })
+                          : undefined,
               })
     if (primaryButton) {
         primaryButton.type = primaryButton.type || 'primary'

@@ -755,7 +755,7 @@ export function LemonInputSelect<T = string>({
                                 setInputValue('')
                                 onChange?.([])
                             }}
-                            tooltip="Clear selection"
+                            tooltip={i18n.t('lemonUi.clearSelection', { defaultValue: 'Clear selection' })}
                             noPadding
                         />
                     </div>
@@ -881,7 +881,9 @@ export function LemonInputSelect<T = string>({
                                     className="flex-1"
                                     disabledReason={
                                         values.length === allOptionsMap.size
-                                            ? 'All options are already selected'
+                                            ? i18n.t('lemonUi.allOptionsSelected', {
+                                                  defaultValue: 'All options are already selected',
+                                              })
                                             : undefined
                                     }
                                     tooltipPlacement="top-start"
@@ -912,7 +914,13 @@ export function LemonInputSelect<T = string>({
                                 className={clsx({ 'flex-1': bulkActions === 'clear-all' })}
                                 tooltipPlacement={bulkActions === 'select-and-clear-all' ? 'top-end' : 'top-start'}
                                 tooltipArrowOffset={bulkActions === 'clear-all' ? 30 : undefined}
-                                disabledReason={values.length === 0 ? 'No options are selected' : undefined}
+                                disabledReason={
+                                    values.length === 0
+                                        ? i18n.t('lemonUi.noOptionsSelected', {
+                                              defaultValue: 'No options are selected',
+                                          })
+                                        : undefined
+                                }
                                 onClick={() => onChange?.([])}
                             >
                                 {i18n.t('lemonUi.clearAll', { defaultValue: 'Clear all' })}
@@ -1038,7 +1046,9 @@ export function LemonInputSelect<T = string>({
                             ) : (
                                 <p className="text-secondary italic p-1">
                                     {allowCustomValues
-                                        ? 'Start typing and press Enter to add options'
+                                        ? i18n.t('lemonUi.typeToAddOptions', {
+                                              defaultValue: 'Start typing and press Enter to add options',
+                                          })
                                         : `No options matching "${inputValue}"`}
                                 </p>
                             )}
@@ -1057,10 +1067,10 @@ export function LemonInputSelect<T = string>({
                           : mode === 'single'
                             ? undefined // When value is selected in single mode, no placeholder (value shown but rendered as prefix)
                             : allowCustomValues
-                              ? 'Add value'
+                              ? i18n.t('lemonUi.addValue', { defaultValue: 'Add value' })
                               : disablePrompting
                                 ? undefined
-                                : 'Pick value'
+                                : i18n.t('lemonUi.pickValue', { defaultValue: 'Pick value' })
                 }
                 autoWidth={fullWidth ? false : autoWidth}
                 fullWidth={fullWidth}

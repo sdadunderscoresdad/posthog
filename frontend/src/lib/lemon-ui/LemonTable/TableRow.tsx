@@ -3,6 +3,7 @@ import React, { HTMLProps, useState } from 'react'
 
 import { IconCollapse, IconExpand } from '@posthog/icons'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { More } from 'lib/lemon-ui/LemonButton/More'
 
@@ -104,7 +105,11 @@ function TableRowRaw<T extends Record<string, any>>({
                                     }
                                 }}
                                 icon={isRowExpanded ? <IconCollapse /> : <IconExpand />}
-                                title={isRowExpanded ? 'Show less' : 'Show more'}
+                                title={
+                                    isRowExpanded
+                                        ? i18n.t('lemonUi.showLess', { defaultValue: 'Show less' })
+                                        : 'Show more'
+                                }
                             />
                         )}
                     </td>

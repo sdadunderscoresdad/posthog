@@ -10,6 +10,7 @@ import { LemonCheckbox } from '@posthog/lemon-ui'
 
 import { ScrollableShadows } from 'lib/components/ScrollableShadows/ScrollableShadows'
 import { useCellCopyContextMenu } from 'lib/hooks/useCellCopyContextMenu'
+import { i18n } from 'lib/i18n/i18n'
 import { IconWithCount } from 'lib/lemon-ui/icons'
 import { LemonButtonWithDropdown } from 'lib/lemon-ui/LemonButton'
 import { More } from 'lib/lemon-ui/LemonButton/More'
@@ -339,7 +340,7 @@ export function LemonTable<T extends Record<string, any>, K extends BulkSelectio
                 const gate = bulkSelection.isRowSelectable ? bulkSelection.isRowSelectable(record, pageIndex) : true
                 const disabledReason: string | null =
                     gate === false
-                        ? 'Selection disabled'
+                        ? i18n.t('lemonUi.selectionDisabled', { defaultValue: 'Selection disabled' })
                         : typeof gate === 'object' && gate !== null
                           ? gate.disabledReason
                           : null

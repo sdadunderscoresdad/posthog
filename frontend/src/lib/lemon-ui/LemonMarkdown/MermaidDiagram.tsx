@@ -90,7 +90,11 @@ export function MermaidDiagram({ code, className, naturalWidth = false }: Mermai
                 if (cancelled) {
                     return
                 }
-                setError(err instanceof Error ? err.message : 'Unable to render diagram')
+                setError(
+                    err instanceof Error
+                        ? err.message
+                        : i18n.t('lemonUi.unableToRenderDiagram', { defaultValue: 'Unable to render diagram' })
+                )
             })
             .finally(() => {
                 if (!cancelled) {

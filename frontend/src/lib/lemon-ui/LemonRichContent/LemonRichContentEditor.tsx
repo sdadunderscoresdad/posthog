@@ -21,6 +21,7 @@ import { RichContentNodeMention } from 'lib/components/RichContentEditor/RichCon
 import { RichContentEditorType, RichContentNodeType, TTEditor } from 'lib/components/RichContentEditor/types'
 import { createEditor } from 'lib/components/RichContentEditor/utils'
 import { useUploadFiles } from 'lib/hooks/useUploadFiles'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonFileInput } from 'lib/lemon-ui/LemonFileInput'
 import { emojiUsageLogic } from 'lib/lemon-ui/LemonTextArea/emojiUsageLogic'
@@ -186,10 +187,17 @@ export function LemonRichContentEditor({
                                     disabledReason={
                                         objectStorageAvailable
                                             ? undefined
-                                            : 'Enable object storage to add images by dragging and dropping'
+                                            : i18n.t('lemonUi.enableObjectStorageImages', {
+                                                  defaultValue:
+                                                      'Enable object storage to add images by dragging and dropping',
+                                              })
                                     }
                                     tooltip={
-                                        objectStorageAvailable ? 'Click here or drag and drop to upload images' : null
+                                        objectStorageAvailable
+                                            ? i18n.t('lemonUi.uploadImagesHint', {
+                                                  defaultValue: 'Click here or drag and drop to upload images',
+                                              })
+                                            : null
                                     }
                                 />
                             }

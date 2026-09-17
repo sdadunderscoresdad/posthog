@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 
 import { IconX } from '@posthog/icons'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonDropdownProps } from 'lib/lemon-ui/LemonDropdown'
 
 import { LemonButton, LemonButtonProps } from '../LemonButton'
@@ -110,7 +111,7 @@ export function LemonSelect<T extends string | number | boolean | null>({
     onChange,
     onSelect,
     options,
-    placeholder = 'Select a value',
+    placeholder = i18n.t('lemonUi.selectAValue', { defaultValue: 'Select a value' }),
     optionTooltipPlacement,
     dropdownMatchSelectWidth = true,
     dropdownMaxContentWidth = false,

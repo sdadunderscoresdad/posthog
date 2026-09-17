@@ -56,7 +56,12 @@ export function LemonCalendarRange({
                 )}
             >
                 {showTimeToggle && (
-                    <LemonSwitch label="Include time?" checked={false} onChange={() => onToggleTime?.(true)} bordered />
+                    <LemonSwitch
+                        label={i18n.t('lemonUi.includeTime', { defaultValue: 'Include time?' })}
+                        checked={false}
+                        onChange={() => onToggleTime?.(true)}
+                        bordered
+                    />
                 )}
                 {rangeStart && rangeEnd && (
                     <div className="flex-1 text-right">

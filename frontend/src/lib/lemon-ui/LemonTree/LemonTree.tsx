@@ -26,6 +26,7 @@ import React, {
 import { IconEllipsis, IconUpload } from '@posthog/icons'
 
 import { ScrollableShadows } from 'lib/components/ScrollableShadows/ScrollableShadows'
+import { i18n } from 'lib/i18n/i18n'
 import { ButtonGroupPrimitive, ButtonPrimitive } from 'lib/ui/Button/ButtonPrimitives'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from 'lib/ui/DropdownMenu/DropdownMenu'
 import { cn } from 'lib/utils/css-classes'
@@ -305,7 +306,9 @@ const LemonTreeItemRow = forwardRef<HTMLDivElement, LemonTreeItemRowProps>(
         const firstColumnOffset =
             selectMode === 'multi' && !item.disableSelect ? emptySpaceOffset + 24 : emptySpaceOffset
 
-        const ariaLabel = isEmptyFolder ? 'empty folder' : `tree item: ${item.name}`
+        const ariaLabel = isEmptyFolder
+            ? i18n.t('lemonUi.emptyFolder', { defaultValue: 'empty folder' })
+            : `tree item: ${item.name}`
 
         const getItemActiveState = (currentItem: TreeDataItem): boolean => {
             if (typeof isItemActive === 'function') {

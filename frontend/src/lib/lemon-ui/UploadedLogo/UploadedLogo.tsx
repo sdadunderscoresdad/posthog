@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import React, { useState } from 'react'
 
+import { i18n } from 'lib/i18n/i18n'
 import { backendAssetUrl } from 'lib/utils/apiHost'
 
 import { LemonSkeleton } from '../LemonSkeleton'
@@ -54,7 +55,7 @@ export const UploadedLogo = React.forwardRef<HTMLDivElement, UploadedLogoProps>(
             <img
                 className="size-full object-cover"
                 src={mediaId.startsWith('data:') ? mediaId : backendAssetUrl(`/uploaded_media/${mediaId}`)}
-                alt="Uploaded logo"
+                alt={i18n.t('lemonUi.uploadedLogo', { defaultValue: 'Uploaded logo' })}
                 onError={() => setIsLoadingImage(false)}
                 onLoad={() => setIsLoadingImage(false)}
             />

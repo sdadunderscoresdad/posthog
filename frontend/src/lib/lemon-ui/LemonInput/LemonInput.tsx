@@ -7,6 +7,7 @@ import React, { useRef, useState } from 'react'
 import { IconEye, IconSearch, IconX } from '@posthog/icons'
 import { Tooltip } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { IconEyeHidden } from 'lib/lemon-ui/icons'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonTag } from 'lib/lemon-ui/LemonTag'
@@ -148,7 +149,11 @@ export const LemonInput = React.forwardRef<HTMLDivElement, LemonInputProps>(func
                 size="small"
                 noPadding
                 icon={passwordVisible ? <IconEyeHidden /> : <IconEye />}
-                tooltip={passwordVisible ? 'Hide password' : 'Show password'}
+                tooltip={
+                    passwordVisible
+                        ? i18n.t('lemonUi.hideSecret', { defaultValue: 'Hide password' })
+                        : i18n.t('lemonUi.showSecret', { defaultValue: 'Show password' })
+                }
                 onClick={(e) => {
                     e.stopPropagation()
                     focus()
@@ -176,7 +181,7 @@ export const LemonInput = React.forwardRef<HTMLDivElement, LemonInputProps>(func
                 size="small"
                 noPadding
                 icon={<IconX />}
-                tooltip="Clear input"
+                tooltip={i18n.t('lemonUi.clearInput', { defaultValue: 'Clear input' })}
                 onClick={(e) => {
                     if (stopPropagation) {
                         e.stopPropagation()

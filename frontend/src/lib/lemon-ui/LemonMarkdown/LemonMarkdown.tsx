@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm'
 
 import { CodeSnippet, getLanguage, Language } from 'lib/components/CodeSnippet'
 import { RichContentMention } from 'lib/components/RichContentEditor/RichContentNodeMention'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonCheckbox } from 'lib/lemon-ui/LemonCheckbox'
 import { isTrustedPostHogUrl } from 'lib/utils/trustedUrl'
 
@@ -287,7 +288,13 @@ const LemonMarkdownRenderer = memo(function LemonMarkdownRenderer({
                     )
                     return (
                         <li className="LemonMarkdown__task">
-                            <LemonCheckbox checked={checked} disabledReason="Read-only for display" size="small" />
+                            <LemonCheckbox
+                                checked={checked}
+                                disabledReason={i18n.t('lemonUi.readOnlyForDisplay', {
+                                    defaultValue: 'Read-only for display',
+                                })}
+                                size="small"
+                            />
                             <span className="LemonMarkdown__task-content">{filteredChildren}</span>
                         </li>
                     )

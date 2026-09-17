@@ -72,7 +72,11 @@ export const LemonTextAreaMarkdown = React.forwardRef<HTMLTextAreaElement, Lemon
                                     onChange={onChange}
                                     rightFooter={
                                         <>
-                                            <Tooltip title="Markdown formatting supported">
+                                            <Tooltip
+                                                title={i18n.t('lemonUi.markdownSupported', {
+                                                    defaultValue: 'Markdown formatting supported',
+                                                })}
+                                            >
                                                 <div>
                                                     <IconMarkdownFilled className="text-xl" />
                                                 </div>
@@ -102,11 +106,17 @@ export const LemonTextAreaMarkdown = React.forwardRef<HTMLTextAreaElement, Lemon
                                                     disabledReason={
                                                         objectStorageAvailable
                                                             ? undefined
-                                                            : 'Enable object storage to add images by dragging and dropping'
+                                                            : i18n.t('lemonUi.enableObjectStorageImages', {
+                                                                  defaultValue:
+                                                                      'Enable object storage to add images by dragging and dropping',
+                                                              })
                                                     }
                                                     tooltip={
                                                         objectStorageAvailable
-                                                            ? 'Click here or drag and drop to upload images'
+                                                            ? i18n.t('lemonUi.uploadImagesHint', {
+                                                                  defaultValue:
+                                                                      'Click here or drag and drop to upload images',
+                                                              })
                                                             : null
                                                     }
                                                 />

@@ -41,7 +41,7 @@ interface ToastOptionsWithButton<T = string> extends ToastOptions<T> {
 }
 
 export const GET_HELP_BUTTON: ToastButton = {
-    label: 'Get help',
+    label: i18n.t('lemonUi.getHelp', { defaultValue: 'Get help' }),
     action: () => {
         window.open('https://posthog.com/support?utm_medium=in-product&utm_campaign=error-toast', '_blank')
     },
@@ -50,7 +50,7 @@ export const GET_HELP_BUTTON: ToastButton = {
 // Fallback for when submitting a support ticket in-app fails: let the user reach us
 // directly by email instead of being sent back to the form that just failed.
 export const EMAIL_SUPPORT_BUTTON: ToastButton = {
-    label: 'Email us directly',
+    label: i18n.t('lemonUi.emailUs', { defaultValue: 'Email us directly' }),
     action: () => {
         window.location.href = 'mailto:supportreply@posthog.com?subject=PostHog support request'
     },
@@ -101,10 +101,16 @@ export function ToastActionButton({
 async function copyMessage(text: string): Promise<void> {
     const outcome = await writeToClipboard(text)
     if (outcome === 'copied') {
-        lemonToast.info('Copied message to clipboard', { icon: <IconCopy /> })
+        lemonToast.info(i18n.t('lemonUi.copiedMessage', { defaultValue: 'Copied message to clipboard' }), {
+            icon: <IconCopy />,
+        })
         return
     }
-    lemonToast.info('Could not reach the clipboard. Select the message and copy it manually.')
+    lemonToast.info(
+        i18n.t('lemonUi.clipboardUnavailable', {
+            defaultValue: 'Could not reach the clipboard. Select the message and copy it manually.',
+        })
+    )
 }
 
 function ToastCopyButton({ getMessageText }: { getMessageText: () => string }): JSX.Element {
@@ -117,7 +123,7 @@ function ToastCopyButton({ getMessageText }: { getMessageText: () => string }): 
             // which costs the message a line of wrapping at the toast's fixed 26rem width.
             className="shrink-0 !mx-2"
             icon={<IconCopy />}
-            tooltip="Copy message"
+            tooltip={i18n.t('lemonUi.copyMessage', { defaultValue: 'Copy message' })}
             onClick={() => void copyMessage(getMessageText())}
             data-attr="toast-copy-button"
         />

@@ -65,7 +65,7 @@ function getDateDisabledReason(
 
     // select future dates
     if (selectionPeriod === 'upcoming' && date.isBefore(today)) {
-        return 'Cannot select dates in the past'
+        return i18n.t('lemonUi.noPastDates', { defaultValue: 'Cannot select dates in the past' })
     }
 
     if (selectionPeriod === 'past' && date.isAfter(today)) {

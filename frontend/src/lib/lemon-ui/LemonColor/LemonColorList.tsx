@@ -1,4 +1,5 @@
 import { DataColorToken } from 'lib/colors'
+import { i18n } from 'lib/i18n/i18n'
 
 import { LemonColorButton } from './LemonColorButton'
 
@@ -46,7 +47,7 @@ export function LemonColorList({
                     <LemonColorButton
                         color={null}
                         type={selectedColorToken === null ? 'secondary' : 'tertiary'}
-                        tooltip="No color"
+                        tooltip={i18n.t('lemonUi.noColor', { defaultValue: 'No color' })}
                         onClick={(e) => {
                             e.preventDefault()
                             e.stopPropagation()
@@ -80,7 +81,7 @@ export function LemonColorList({
                     <LemonColorButton
                         color={null}
                         type={selectedColor === null ? 'secondary' : 'tertiary'}
-                        tooltip="No color"
+                        tooltip={i18n.t('lemonUi.noColor', { defaultValue: 'No color' })}
                         onClick={(e) => {
                             e.preventDefault()
                             e.stopPropagation()

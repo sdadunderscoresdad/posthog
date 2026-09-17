@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 
 import { LemonInput } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { createFuse } from 'lib/utils/fuseSearch'
 
 import {
@@ -124,7 +125,7 @@ export function LemonSearchableSelect<T extends string | number | boolean | null
     searchPlaceholder,
     searchKeys = ['label'],
     searchInputDataAttr = 'lemon-searchable-select-search',
-    noResultsMessage = 'No results',
+    noResultsMessage = i18n.t('lemonUi.noResults', { defaultValue: 'No results' }),
     onChange,
     onSelect,
     ...selectProps

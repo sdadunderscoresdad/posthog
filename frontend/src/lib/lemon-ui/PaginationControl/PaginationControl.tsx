@@ -4,6 +4,7 @@ import clsx from 'clsx'
 
 import { IconChevronLeft, IconChevronRight } from '@posthog/icons'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 
 import { PaginationState } from './types'
@@ -50,8 +51,12 @@ export function PaginationControl<T>({
             </span>
             <LemonButton
                 icon={<IconChevronLeft />}
-                aria-label="Previous page"
-                disabledReason={!isPreviousAvailable ? 'No previous page' : undefined}
+                aria-label={i18n.t('lemonUi.previousPage', { defaultValue: 'Previous page' })}
+                disabledReason={
+                    !isPreviousAvailable
+                        ? i18n.t('lemonUi.noPreviousPage', { defaultValue: 'No previous page' })
+                        : undefined
+                }
                 size="small"
                 onClick={() => {
                     pagination?.controlled && pagination.onBackward?.()
@@ -62,8 +67,10 @@ export function PaginationControl<T>({
             />
             <LemonButton
                 icon={<IconChevronRight />}
-                aria-label="Next page"
-                disabledReason={!isNextAvailable ? 'No next page' : undefined}
+                aria-label={i18n.t('lemonUi.nextPage', { defaultValue: 'Next page' })}
+                disabledReason={
+                    !isNextAvailable ? i18n.t('lemonUi.noNextPage', { defaultValue: 'No next page' }) : undefined
+                }
                 size="small"
                 onClick={() => {
                     pagination?.controlled && pagination.onForward?.()

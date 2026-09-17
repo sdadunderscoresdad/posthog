@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import { ReactNode, useEffect, useRef, useState } from 'react'
 
 import { useResizeObserver } from 'lib/hooks/useResizeObserver'
+import { i18n } from 'lib/i18n/i18n'
 
 import { LemonMarkdown } from '../LemonMarkdown'
 import { Link, LinkProps } from '../Link'
@@ -110,7 +111,7 @@ function LemonTableLinkDescription({
                     aria-expanded={expanded}
                     data-attr="lemon-table-link-description-toggle"
                 >
-                    {expanded ? 'Show less' : 'Show more'}
+                    {expanded ? i18n.t('lemonUi.showLess', { defaultValue: 'Show less' }) : 'Show more'}
                 </Link>
             )}
         </div>
