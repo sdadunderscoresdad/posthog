@@ -2,6 +2,7 @@ import type { ComponentType } from 'react'
 
 import { IconFlask, IconList, IconLive, IconMessage, IconRewindPlay, IconWarning } from '@posthog/icons'
 
+import { i18n } from 'lib/i18n/i18n'
 import { urls } from 'scenes/urls'
 
 import { ProductKey, QuickFilterContext } from '~/queries/schema/schema-general'
@@ -82,7 +83,24 @@ export const DASHBOARD_WIDGET_GROUP_LABELS = {
 } as const satisfies Record<string, string>
 
 export function getDashboardWidgetGroupLabel(groupId: string): string {
-    return DASHBOARD_WIDGET_GROUP_LABELS[groupId as keyof typeof DASHBOARD_WIDGET_GROUP_LABELS] ?? groupId
+    switch (groupId) {
+        case 'activity':
+            return i18n.t('dashboardWidgets.groups.activity', { defaultValue: 'Activity' })
+        case 'error_tracking':
+            return i18n.t('dashboardWidgets.groups.errorTracking', { defaultValue: 'Error tracking' })
+        case 'session_replay':
+            return i18n.t('dashboardWidgets.groups.sessionReplay', { defaultValue: 'Session replay' })
+        case 'experiments':
+            return i18n.t('dashboardWidgets.groups.experiments', { defaultValue: 'Experiments' })
+        case 'surveys':
+            return i18n.t('dashboardWidgets.groups.surveys', { defaultValue: 'Surveys' })
+        case 'logs':
+            return i18n.t('dashboardWidgets.groups.logs', { defaultValue: 'Logs' })
+        case 'conversations':
+            return i18n.t('dashboardWidgets.groups.support', { defaultValue: 'Support' })
+        default:
+            return groupId
+    }
 }
 
 /** Product icons shown next to group headings in the Add widget picker, keyed by `groupId`. */
@@ -133,11 +151,37 @@ export const DASHBOARD_WIDGET_GROUP_PRODUCT_INTRO = {
     },
 } as const satisfies Partial<Record<keyof typeof DASHBOARD_WIDGET_GROUP_LABELS, DashboardWidgetGroupProductIntroConfig>>
 
-export type DashboardWidgetGroupProductIntro =
-    (typeof DASHBOARD_WIDGET_GROUP_PRODUCT_INTRO)[keyof typeof DASHBOARD_WIDGET_GROUP_PRODUCT_INTRO]
+/** Structural, not literal, so the accessor can return translated copy in place of the English. */
+export type DashboardWidgetGroupProductIntro = DashboardWidgetGroupProductIntroConfig
 
 export function getDashboardWidgetGroupProductIntro(groupId: string): DashboardWidgetGroupProductIntro | undefined {
-    return DASHBOARD_WIDGET_GROUP_PRODUCT_INTRO[groupId as keyof typeof DASHBOARD_WIDGET_GROUP_PRODUCT_INTRO]
+    const intro = DASHBOARD_WIDGET_GROUP_PRODUCT_INTRO[groupId as keyof typeof DASHBOARD_WIDGET_GROUP_PRODUCT_INTRO]
+    if (!intro) {
+        return undefined
+    }
+    if (groupId === 'error_tracking') {
+        return {
+            ...intro,
+            valueProp: i18n.t('dashboardWidgets.intro.errorTracking.valueProp', {
+                defaultValue: 'Catch and resolve the errors hurting your users.',
+            }),
+            ctaLabel: i18n.t('dashboardWidgets.intro.errorTracking.ctaLabel', {
+                defaultValue: 'Explore error tracking',
+            }),
+        }
+    }
+    if (groupId === 'session_replay') {
+        return {
+            ...intro,
+            valueProp: i18n.t('dashboardWidgets.intro.sessionReplay.valueProp', {
+                defaultValue: 'Watch real sessions to see exactly where users get stuck.',
+            }),
+            ctaLabel: i18n.t('dashboardWidgets.intro.sessionReplay.ctaLabel', {
+                defaultValue: 'Explore session replay',
+            }),
+        }
+    }
+    return intro
 }
 
 export type DashboardWidgetCatalogEntry = {
@@ -335,16 +379,239 @@ function resolveDashboardWidgetCatalogEntry(
     entry: DashboardWidgetCatalogEntry
 ): ResolvedDashboardWidgetCatalogEntry {
     const live = isLiveDashboardWidgetType(widgetType)
+    const resolved =
+        widgetType in DASHBOARD_WIDGET_CATALOG
+            ? resolveWidgetCopy(widgetType as DashboardWidgetCatalogKey, entry)
+            : entry
     return {
-        ...entry,
+        ...resolved,
         live,
-        headerLayout: entry.headerLayout ?? DEFAULT_DASHBOARD_WIDGET_HEADER_LAYOUT,
+        headerLayout: resolved.headerLayout ?? DEFAULT_DASHBOARD_WIDGET_HEADER_LAYOUT,
         headerMeta: {
             ...DEFAULT_DASHBOARD_WIDGET_HEADER_META,
             // Live tiles show a fixed real-time window; there is no configured date range to display.
             ...(live ? { showDateRange: false } : null),
-            ...entry.headerMeta,
+            ...resolved.headerMeta,
         },
+    }
+}
+
+/**
+ * Copy for one widget, resolved per call: the catalog is built at import, so a value read then would
+ * keep whichever language the app started in. The catalog entry supplies each English default, which
+ * keeps the message and the entry from drifting apart.
+ */
+function resolveWidgetCopy(
+    widgetType: DashboardWidgetCatalogKey,
+    entry: DashboardWidgetCatalogEntry
+): DashboardWidgetCatalogEntry {
+    switch (widgetType) {
+        case 'conversations_recent_tickets':
+            return {
+                ...entry,
+                label: i18n.t('dashboardWidgets.recentTickets.label', { defaultValue: 'Recent tickets' }),
+                description: i18n.t('dashboardWidgets.recentTickets.description', {
+                    defaultValue: 'Most recently updated support tickets.',
+                }),
+                headerTitle: i18n.t('dashboardWidgets.recentTickets.headerTitle', {
+                    defaultValue: 'Recent tickets',
+                }),
+                sharedPlaceholder: entry.sharedPlaceholder
+                    ? {
+                          title: i18n.t('dashboardWidgets.recentTickets.placeholderTitle', {
+                              defaultValue: 'Recent tickets',
+                          }),
+                          message: i18n.t('dashboardWidgets.recentTickets.placeholderMessage', {
+                              defaultValue: 'Log in to PostHog to see recent support tickets from this dashboard.',
+                          }),
+                      }
+                    : undefined,
+                availability: entry.availability
+                    ? {
+                          ...entry.availability,
+                          unavailableTitle: i18n.t('dashboardWidgets.recentTickets.unavailableTitle', {
+                              defaultValue: 'Keep customer conversations close to your product data',
+                          }),
+                          unavailableReason: i18n.t('dashboardWidgets.recentTickets.unavailableReason', {
+                              defaultValue:
+                                  'Triage and respond to customer questions with the context you need to solve them.',
+                          }),
+                          setupActionLabel: i18n.t('dashboardWidgets.recentTickets.setupActionLabel', {
+                              defaultValue: 'Enable',
+                          }),
+                      }
+                    : undefined,
+            }
+        case 'error_tracking_list':
+            return {
+                ...entry,
+                label: i18n.t('dashboardWidgets.topIssues.label', { defaultValue: 'Top issues' }),
+                badge: entry.badge
+                    ? i18n.t('dashboardWidgets.topIssues.badge', { defaultValue: 'Crowd favorite' })
+                    : undefined,
+                description: i18n.t('dashboardWidgets.topIssues.description', {
+                    defaultValue: 'Ranked list of the most impactful error tracking issues.',
+                }),
+                headerTitle: i18n.t('dashboardWidgets.topIssues.headerTitle', {
+                    defaultValue: 'Top issues',
+                }),
+                sharedPlaceholder: entry.sharedPlaceholder
+                    ? {
+                          title: i18n.t('dashboardWidgets.topIssues.placeholderTitle', {
+                              defaultValue: 'Top issues',
+                          }),
+                          message: i18n.t('dashboardWidgets.topIssues.placeholderMessage', {
+                              defaultValue: 'Log in to PostHog to see which errors are affecting your users.',
+                          }),
+                      }
+                    : undefined,
+            }
+        case 'session_replay_list':
+            return {
+                ...entry,
+                label: i18n.t('dashboardWidgets.recentRecordings.label', { defaultValue: 'Recent recordings' }),
+                badge: entry.badge
+                    ? i18n.t('dashboardWidgets.recentRecordings.badge', { defaultValue: 'Crowd favorite' })
+                    : undefined,
+                description: i18n.t('dashboardWidgets.recentRecordings.description', {
+                    defaultValue: 'Recent session recordings you can open in the replay player.',
+                }),
+                headerTitle: i18n.t('dashboardWidgets.recentRecordings.headerTitle', {
+                    defaultValue: 'Recent recordings',
+                }),
+                sharedPlaceholder: entry.sharedPlaceholder
+                    ? {
+                          title: i18n.t('dashboardWidgets.recentRecordings.placeholderTitle', {
+                              defaultValue: 'Recent recordings',
+                          }),
+                          message: i18n.t('dashboardWidgets.recentRecordings.placeholderMessage', {
+                              defaultValue: 'Log in to PostHog to watch session replays from this dashboard.',
+                          }),
+                      }
+                    : undefined,
+                availability: entry.availability
+                    ? {
+                          ...entry.availability,
+                          unavailableTitle: i18n.t('dashboardWidgets.recentRecordings.unavailableTitle', {
+                              defaultValue: 'Session replay is not enabled',
+                          }),
+                          unavailableReason: i18n.t('dashboardWidgets.recentRecordings.unavailableReason', {
+                              defaultValue:
+                                  'Turn on session recordings for this project to watch recent replays from your dashboard.',
+                          }),
+                          setupActionLabel: i18n.t('dashboardWidgets.recentRecordings.setupActionLabel', {
+                              defaultValue: 'Enable session replay',
+                          }),
+                      }
+                    : undefined,
+            }
+        case 'experiments_list':
+            return {
+                ...entry,
+                label: i18n.t('dashboardWidgets.experimentsList.label', { defaultValue: 'Experiments list' }),
+                description: i18n.t('dashboardWidgets.experimentsList.description', {
+                    defaultValue: 'List of experiments filtered by status and creator.',
+                }),
+                headerTitle: i18n.t('dashboardWidgets.experimentsList.headerTitle', {
+                    defaultValue: 'Experiments',
+                }),
+                sharedPlaceholder: entry.sharedPlaceholder
+                    ? {
+                          title: i18n.t('dashboardWidgets.experimentsList.placeholderTitle', {
+                              defaultValue: 'Experiments',
+                          }),
+                          message: i18n.t('dashboardWidgets.experimentsList.placeholderMessage', {
+                              defaultValue: 'Log in to PostHog to see experiments from this dashboard.',
+                          }),
+                      }
+                    : undefined,
+            }
+        case 'experiment_results':
+            return {
+                ...entry,
+                label: i18n.t('dashboardWidgets.experimentResults.label', { defaultValue: 'Experiment results' }),
+                description: i18n.t('dashboardWidgets.experimentResults.description', {
+                    defaultValue: 'Current results for the primary metrics of a selected experiment.',
+                }),
+                headerTitle: i18n.t('dashboardWidgets.experimentResults.headerTitle', {
+                    defaultValue: 'Experiment results',
+                }),
+                sharedPlaceholder: entry.sharedPlaceholder
+                    ? {
+                          title: i18n.t('dashboardWidgets.experimentResults.placeholderTitle', {
+                              defaultValue: 'Experiment results',
+                          }),
+                          message: i18n.t('dashboardWidgets.experimentResults.placeholderMessage', {
+                              defaultValue: 'Log in to PostHog to see experiment results from this dashboard.',
+                          }),
+                      }
+                    : undefined,
+            }
+        case 'survey_results':
+            return {
+                ...entry,
+                label: i18n.t('dashboardWidgets.surveyResults.label', { defaultValue: 'Survey results' }),
+                description: i18n.t('dashboardWidgets.surveyResults.description', {
+                    defaultValue: 'Performance stats and recent responses for a selected survey.',
+                }),
+                headerTitle: i18n.t('dashboardWidgets.surveyResults.headerTitle', {
+                    defaultValue: 'Survey results',
+                }),
+                sharedPlaceholder: entry.sharedPlaceholder
+                    ? {
+                          title: i18n.t('dashboardWidgets.surveyResults.placeholderTitle', {
+                              defaultValue: 'Survey results',
+                          }),
+                          message: i18n.t('dashboardWidgets.surveyResults.placeholderMessage', {
+                              defaultValue: 'Log in to PostHog to see survey results from this dashboard.',
+                          }),
+                      }
+                    : undefined,
+            }
+        case 'activity_events_list':
+            return {
+                ...entry,
+                label: i18n.t('dashboardWidgets.recentEvents.label', { defaultValue: 'Recent events' }),
+                description: i18n.t('dashboardWidgets.recentEvents.description', {
+                    defaultValue: 'Latest events captured in this project, as on Activity > Explore.',
+                }),
+                headerTitle: i18n.t('dashboardWidgets.recentEvents.headerTitle', {
+                    defaultValue: 'Recent events',
+                }),
+                sharedPlaceholder: entry.sharedPlaceholder
+                    ? {
+                          title: i18n.t('dashboardWidgets.recentEvents.placeholderTitle', {
+                              defaultValue: 'Recent events',
+                          }),
+                          message: i18n.t('dashboardWidgets.recentEvents.placeholderMessage', {
+                              defaultValue: 'Log in to PostHog to explore the latest events from this dashboard.',
+                          }),
+                      }
+                    : undefined,
+            }
+        case 'logs_list':
+            return {
+                ...entry,
+                label: i18n.t('dashboardWidgets.recentLogs.label', { defaultValue: 'Recent logs' }),
+                description: i18n.t('dashboardWidgets.recentLogs.description', {
+                    defaultValue: 'Latest log lines, filterable by severity level and service.',
+                }),
+                headerTitle: i18n.t('dashboardWidgets.recentLogs.headerTitle', {
+                    defaultValue: 'Recent logs',
+                }),
+                sharedPlaceholder: entry.sharedPlaceholder
+                    ? {
+                          title: i18n.t('dashboardWidgets.recentLogs.placeholderTitle', {
+                              defaultValue: 'Recent logs',
+                          }),
+                          message: i18n.t('dashboardWidgets.recentLogs.placeholderMessage', {
+                              defaultValue: 'Log in to PostHog to see the latest logs from this dashboard.',
+                          }),
+                      }
+                    : undefined,
+            }
+        default:
+            return entry
     }
 }
 
@@ -370,10 +637,15 @@ export function tryGetDashboardWidgetCatalogEntry(widgetType: string): ResolvedD
     )
 }
 
-export const DEFAULT_SHARED_DASHBOARD_WIDGET_PLACEHOLDER = {
-    title: 'Widget data',
-    message: "Log in to PostHog to see this widget's data.",
-} as const
+/** Resolved per call, because a constant read at import would keep the language the app started in. */
+export function defaultSharedDashboardWidgetPlaceholder(): { title: string; message: string } {
+    return {
+        title: i18n.t('dashboardWidgets.sharedPlaceholder.title', { defaultValue: 'Widget data' }),
+        message: i18n.t('dashboardWidgets.sharedPlaceholder.message', {
+            defaultValue: "Log in to PostHog to see this widget's data.",
+        }),
+    }
+}
 
 export function getUnknownDashboardWidgetCatalogFallback(widgetType: string): ResolvedDashboardWidgetCatalogEntry {
     return resolveDashboardWidgetCatalogEntry(widgetType, {
@@ -383,7 +655,7 @@ export function getUnknownDashboardWidgetCatalogFallback(widgetType: string): Re
         defaultConfig: {},
         defaultLayout: { w: 6, h: 5, minW: 3 },
         headerTitle: widgetType,
-        sharedPlaceholder: DEFAULT_SHARED_DASHBOARD_WIDGET_PLACEHOLDER,
+        sharedPlaceholder: defaultSharedDashboardWidgetPlaceholder(),
     })
 }
 

@@ -1004,6 +1004,105 @@
         "widgetRestored": "组件已恢复",
         "widgetsAdded_other": "已添加 {{ count }} 个组件"
     },
+    "dashboardWidgets": {
+        "addModal": {
+            "addButton": "添加组件",
+            "addButtonCount_other": "添加 {{ count }} 个组件",
+            "adding": "正在添加组件…",
+            "description": "把各个 PostHog 产品的上下文汇总到同一个仪表盘里。",
+            "feedback": "缺少你想要的组件？告诉我们",
+            "selectAtLeastOne": "请至少选择一个组件类型",
+            "title": "添加组件",
+            "widgetTypes": "组件类型"
+        },
+        "experimentResults": {
+            "description": "所选实验主要指标的当前结果。",
+            "headerTitle": "实验结果",
+            "label": "实验结果",
+            "placeholderMessage": "登录 PostHog 即可查看该仪表盘中的实验结果。",
+            "placeholderTitle": "实验结果"
+        },
+        "experimentsList": {
+            "description": "按状态和创建者筛选的实验列表。",
+            "headerTitle": "实验",
+            "label": "实验列表",
+            "placeholderMessage": "登录 PostHog 即可查看该仪表盘中的实验。",
+            "placeholderTitle": "实验"
+        },
+        "groups": {
+            "activity": "活动",
+            "errorTracking": "错误跟踪",
+            "experiments": "实验",
+            "logs": "日志",
+            "sessionReplay": "会话回放",
+            "support": "支持",
+            "surveys": "问卷"
+        },
+        "intro": {
+            "errorTracking": {
+                "ctaLabel": "了解错误跟踪",
+                "valueProp": "捕获并解决正在影响用户的错误。"
+            },
+            "sessionReplay": {
+                "ctaLabel": "了解会话回放",
+                "valueProp": "观看真实会话，准确看到用户卡在哪里。"
+            }
+        },
+        "recentEvents": {
+            "description": "该项目中最新捕获的事件，与「活动 > 探索」一致。",
+            "headerTitle": "最近的事件",
+            "label": "最近的事件",
+            "placeholderMessage": "登录 PostHog 即可在该仪表盘中探索最新事件。",
+            "placeholderTitle": "最近的事件"
+        },
+        "recentLogs": {
+            "description": "最新的日志行，可按严重级别和服务筛选。",
+            "headerTitle": "最近的日志",
+            "label": "最近的日志",
+            "placeholderMessage": "登录 PostHog 即可查看该仪表盘中的最新日志。",
+            "placeholderTitle": "最近的日志"
+        },
+        "recentRecordings": {
+            "badge": "很受欢迎",
+            "description": "最近的会话录像，可直接在回放器中打开。",
+            "headerTitle": "最近的录像",
+            "label": "最近的录像",
+            "placeholderMessage": "登录 PostHog 即可观看该仪表盘中的会话录像。",
+            "placeholderTitle": "最近的录像",
+            "setupActionLabel": "启用会话回放",
+            "unavailableReason": "为此项目开启会话录制，即可在仪表盘中观看最近的录像。",
+            "unavailableTitle": "尚未启用会话回放"
+        },
+        "recentTickets": {
+            "description": "最近更新的支持工单。",
+            "headerTitle": "最近的工单",
+            "label": "最近的工单",
+            "placeholderMessage": "登录 PostHog 即可查看该仪表盘中的最近支持工单。",
+            "placeholderTitle": "最近的工单",
+            "setupActionLabel": "启用",
+            "unavailableReason": "在完整上下文中分类并回复客户问题，更快解决它们。",
+            "unavailableTitle": "让客户对话与产品数据保持在一起"
+        },
+        "sharedPlaceholder": {
+            "message": "登录 PostHog 即可查看该组件的数据。",
+            "title": "组件数据"
+        },
+        "surveyResults": {
+            "description": "所选问卷的表现数据和最近的回答。",
+            "headerTitle": "问卷结果",
+            "label": "问卷结果",
+            "placeholderMessage": "登录 PostHog 即可查看该仪表盘中的问卷结果。",
+            "placeholderTitle": "问卷结果"
+        },
+        "topIssues": {
+            "badge": "很受欢迎",
+            "description": "按影响程度排序的错误跟踪问题列表。",
+            "headerTitle": "高频问题",
+            "label": "高频问题",
+            "placeholderMessage": "登录 PostHog 即可查看哪些错误正在影响你的用户。",
+            "placeholderTitle": "高频问题"
+        }
+    },
     "dataManagementActivity": {
         "as": "标记为",
         "changedDescriptionTo": "将描述改为",

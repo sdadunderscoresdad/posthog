@@ -5,6 +5,7 @@ import { Fragment } from 'react'
 
 import { IconChevronDown, IconChevronRight, IconLightBulb } from '@posthog/icons'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonDivider } from 'lib/lemon-ui/LemonDivider'
 import { LemonModal } from 'lib/lemon-ui/LemonModal'
@@ -103,10 +104,14 @@ export function AddWidgetModal({ isOpen, onClose, loading, onAdd }: AddWidgetMod
         <LemonModal
             isOpen={isOpen}
             onClose={onClose}
-            title="Add widget"
+            title={i18n.t('dashboardWidgets.addModal.title', { defaultValue: 'Add widget' })}
             description={
                 <>
-                    <span>Bring context from your different PostHog products into one dashboard.</span>
+                    <span>
+                        {i18n.t('dashboardWidgets.addModal.description', {
+                            defaultValue: 'Bring context from your different PostHog products into one dashboard.',
+                        })}
+                    </span>
                     <span className="mt-2 flex flex-wrap gap-2" data-attr="dashboard-widget-product-badges">
                         {[...DASHBOARD_WIDGET_CATALOG_GROUPS]
                             .sort((a, b) => a.groupLabel.localeCompare(b.groupLabel))
@@ -134,11 +139,13 @@ export function AddWidgetModal({ isOpen, onClose, loading, onAdd }: AddWidgetMod
                         onClick={handleFeedbackClicked}
                         data-attr="dashboard-add-widget-feedback"
                     >
-                        Missing a widget? Let us know
+                        {i18n.t('dashboardWidgets.addModal.feedback', {
+                            defaultValue: 'Missing a widget? Let us know',
+                        })}
                     </LemonButton>
                     <div className="flex-1" />
                     <LemonButton type="secondary" onClick={onClose}>
-                        Cancel
+                        {i18n.t('common.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="primary"
@@ -155,7 +162,7 @@ export function AddWidgetModal({ isOpen, onClose, loading, onAdd }: AddWidgetMod
             <div className="@container/add-widget-modal">
                 <div
                     className="grid grid-cols-1 @min-[56rem]/add-widget-modal:grid-cols-2 gap-x-3 gap-y-4"
-                    aria-label="Widget types"
+                    aria-label={i18n.t('dashboardWidgets.addModal.widgetTypes', { defaultValue: 'Widget types' })}
                 >
                     {DASHBOARD_WIDGET_CATALOG_GROUPS.map((group, groupIndex) => {
                         const productIntro = getDashboardWidgetGroupProductIntro(group.groupId)

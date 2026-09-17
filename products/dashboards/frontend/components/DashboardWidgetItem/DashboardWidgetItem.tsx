@@ -15,7 +15,7 @@ import { ErrorBoundary } from '~/layout/ErrorBoundary'
 import { DashboardPlacement, DashboardTile, DashboardType, QueryBasedInsightModel } from '~/types'
 
 import {
-    DEFAULT_SHARED_DASHBOARD_WIDGET_PLACEHOLDER,
+    defaultSharedDashboardWidgetPlaceholder,
     getDashboardWidgetCatalogEntry,
     getDashboardWidgetGroupLabel,
     getUnknownDashboardWidgetCatalogFallback,
@@ -316,7 +316,7 @@ function DashboardWidgetItemContent({
             ) : null}
             {showSharedPlaceholder ? (
                 <WidgetCardSharedPlaceholderBody
-                    copy={headerCatalogEntry.sharedPlaceholder ?? DEFAULT_SHARED_DASHBOARD_WIDGET_PLACEHOLDER}
+                    copy={headerCatalogEntry.sharedPlaceholder ?? defaultSharedDashboardWidgetPlaceholder()}
                 />
             ) : (
                 <WidgetCardBody

@@ -1020,6 +1020,106 @@
         "widgetsAdded_one": "Added {{ count }} widget",
         "widgetsAdded_other": "Added {{ count }} widgets"
     },
+    "dashboardWidgets": {
+        "addModal": {
+            "addButton": "Add widget",
+            "addButtonCount_one": "Add {{ count }} widgets",
+            "addButtonCount_other": "Add {{ count }} widgets",
+            "adding": "Adding widgets…",
+            "description": "Bring context from your different PostHog products into one dashboard.",
+            "feedback": "Missing a widget? Let us know",
+            "selectAtLeastOne": "Select at least one widget type",
+            "title": "Add widget",
+            "widgetTypes": "Widget types"
+        },
+        "experimentResults": {
+            "description": "Current results for the primary metrics of a selected experiment.",
+            "headerTitle": "Experiment results",
+            "label": "Experiment results",
+            "placeholderMessage": "Log in to PostHog to see experiment results from this dashboard.",
+            "placeholderTitle": "Experiment results"
+        },
+        "experimentsList": {
+            "description": "List of experiments filtered by status and creator.",
+            "headerTitle": "Experiments",
+            "label": "Experiments list",
+            "placeholderMessage": "Log in to PostHog to see experiments from this dashboard.",
+            "placeholderTitle": "Experiments"
+        },
+        "groups": {
+            "activity": "Activity",
+            "errorTracking": "Error tracking",
+            "experiments": "Experiments",
+            "logs": "Logs",
+            "sessionReplay": "Session replay",
+            "support": "Support",
+            "surveys": "Surveys"
+        },
+        "intro": {
+            "errorTracking": {
+                "ctaLabel": "Explore error tracking",
+                "valueProp": "Catch and resolve the errors hurting your users."
+            },
+            "sessionReplay": {
+                "ctaLabel": "Explore session replay",
+                "valueProp": "Watch real sessions to see exactly where users get stuck."
+            }
+        },
+        "recentEvents": {
+            "description": "Latest events captured in this project, as on Activity > Explore.",
+            "headerTitle": "Recent events",
+            "label": "Recent events",
+            "placeholderMessage": "Log in to PostHog to explore the latest events from this dashboard.",
+            "placeholderTitle": "Recent events"
+        },
+        "recentLogs": {
+            "description": "Latest log lines, filterable by severity level and service.",
+            "headerTitle": "Recent logs",
+            "label": "Recent logs",
+            "placeholderMessage": "Log in to PostHog to see the latest logs from this dashboard.",
+            "placeholderTitle": "Recent logs"
+        },
+        "recentRecordings": {
+            "badge": "Crowd favorite",
+            "description": "Recent session recordings you can open in the replay player.",
+            "headerTitle": "Recent recordings",
+            "label": "Recent recordings",
+            "placeholderMessage": "Log in to PostHog to watch session replays from this dashboard.",
+            "placeholderTitle": "Recent recordings",
+            "setupActionLabel": "Enable session replay",
+            "unavailableReason": "Turn on session recordings for this project to watch recent replays from your dashboard.",
+            "unavailableTitle": "Session replay is not enabled"
+        },
+        "recentTickets": {
+            "description": "Most recently updated support tickets.",
+            "headerTitle": "Recent tickets",
+            "label": "Recent tickets",
+            "placeholderMessage": "Log in to PostHog to see recent support tickets from this dashboard.",
+            "placeholderTitle": "Recent tickets",
+            "setupActionLabel": "Enable",
+            "unavailableReason": "Triage and respond to customer questions with the context you need to solve them.",
+            "unavailableTitle": "Keep customer conversations close to your product data"
+        },
+        "sharedPlaceholder": {
+            "message": "Log in to PostHog to see this widget's data.",
+            "title": "Widget data"
+        },
+        "surveyResults": {
+            "description": "Performance stats and recent responses for a selected survey.",
+            "headerTitle": "Survey results",
+            "label": "Survey results",
+            "placeholderMessage": "Log in to PostHog to see survey results from this dashboard.",
+            "placeholderTitle": "Survey results"
+        },
+        "topIssues": {
+            "badge": "Crowd favorite",
+            "description": "Ranked list of the most impactful error tracking issues.",
+            "headerTitle": "Top issues",
+            "label": "Top issues",
+            "placeholderMessage": "Log in to PostHog to see which errors are affecting your users.",
+            "placeholderTitle": "Top issues"
+        }
+    },
     "dataManagementActivity": {
         "as": "as",
         "changedDescriptionTo": "changed description to",

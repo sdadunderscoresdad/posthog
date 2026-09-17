@@ -1020,6 +1020,106 @@
         "widgetsAdded_one": "",
         "widgetsAdded_other": ""
     },
+    "dashboardWidgets": {
+        "addModal": {
+            "addButton": "",
+            "addButtonCount_one": "",
+            "addButtonCount_other": "",
+            "adding": "",
+            "description": "",
+            "feedback": "",
+            "selectAtLeastOne": "",
+            "title": "",
+            "widgetTypes": ""
+        },
+        "experimentResults": {
+            "description": "",
+            "headerTitle": "",
+            "label": "",
+            "placeholderMessage": "",
+            "placeholderTitle": ""
+        },
+        "experimentsList": {
+            "description": "",
+            "headerTitle": "",
+            "label": "",
+            "placeholderMessage": "",
+            "placeholderTitle": ""
+        },
+        "groups": {
+            "activity": "",
+            "errorTracking": "",
+            "experiments": "",
+            "logs": "",
+            "sessionReplay": "",
+            "support": "",
+            "surveys": ""
+        },
+        "intro": {
+            "errorTracking": {
+                "ctaLabel": "",
+                "valueProp": ""
+            },
+            "sessionReplay": {
+                "ctaLabel": "",
+                "valueProp": ""
+            }
+        },
+        "recentEvents": {
+            "description": "",
+            "headerTitle": "",
+            "label": "",
+            "placeholderMessage": "",
+            "placeholderTitle": ""
+        },
+        "recentLogs": {
+            "description": "",
+            "headerTitle": "",
+            "label": "",
+            "placeholderMessage": "",
+            "placeholderTitle": ""
+        },
+        "recentRecordings": {
+            "badge": "",
+            "description": "",
+            "headerTitle": "",
+            "label": "",
+            "placeholderMessage": "",
+            "placeholderTitle": "",
+            "setupActionLabel": "",
+            "unavailableReason": "",
+            "unavailableTitle": ""
+        },
+        "recentTickets": {
+            "description": "",
+            "headerTitle": "",
+            "label": "",
+            "placeholderMessage": "",
+            "placeholderTitle": "",
+            "setupActionLabel": "",
+            "unavailableReason": "",
+            "unavailableTitle": ""
+        },
+        "sharedPlaceholder": {
+            "message": "",
+            "title": ""
+        },
+        "surveyResults": {
+            "description": "",
+            "headerTitle": "",
+            "label": "",
+            "placeholderMessage": "",
+            "placeholderTitle": ""
+        },
+        "topIssues": {
+            "badge": "",
+            "description": "",
+            "headerTitle": "",
+            "label": "",
+            "placeholderMessage": "",
+            "placeholderTitle": ""
+        }
+    },
     "dataManagementActivity": {
         "as": "",
         "changedDescriptionTo": "",

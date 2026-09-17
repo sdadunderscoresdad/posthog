@@ -1,3 +1,5 @@
+import { i18n } from 'lib/i18n/i18n'
+
 import { DASHBOARD_WIDGET_CATALOG, type DashboardWidgetCatalogKey } from '../widget_types/catalog'
 
 export type AddWidgetPayload = {
@@ -7,17 +9,20 @@ export type AddWidgetPayload = {
 
 export function getAddButtonLabel(selectedCount: number): string {
     if (selectedCount <= 1) {
-        return 'Add widget'
+        return i18n.t('dashboardWidgets.addModal.addButton', { defaultValue: 'Add widget' })
     }
-    return `Add ${selectedCount} widgets`
+    return i18n.t('dashboardWidgets.addModal.addButtonCount', {
+        count: selectedCount,
+        defaultValue: 'Add {{ count }} widgets',
+    })
 }
 
 export function getAddWidgetDisabledReason(loading: boolean | undefined, selectedCount: number): string | undefined {
     if (loading) {
-        return 'Adding widgets…'
+        return i18n.t('dashboardWidgets.addModal.adding', { defaultValue: 'Adding widgets…' })
     }
     if (selectedCount === 0) {
-        return 'Select at least one widget type'
+        return i18n.t('dashboardWidgets.addModal.selectAtLeastOne', { defaultValue: 'Select at least one widget type' })
     }
     return undefined
 }
