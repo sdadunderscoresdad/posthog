@@ -200,6 +200,30 @@
         "via": "来自",
         "viewAllNotifications": "查看全部通知"
     },
+    "alertActivity": {
+        "created": "创建了告警",
+        "deleted": "删除了告警：",
+        "fallbackName": "告警配置",
+        "forInsight": "，所属洞察：",
+        "subscriberAdded": "将 {{ subscriber }} 添加为告警 {{ alert }} 的订阅者",
+        "subscriberRemoved": "将 {{ subscriber }} 从告警 {{ alert }} 的订阅者中移除",
+        "thresholdUpdated": "更新了告警 {{ alert }} 的阈值",
+        "updated": "更新了告警"
+    },
+    "annotationActivity": {
+        "created": "创建了注释：",
+        "dashboardFallbackName": "仪表盘 {{ id }}",
+        "deleted": "删除了注释：",
+        "emptyName": "（空字符串）",
+        "fallbackName": "注释",
+        "forCurrentOrganization": " （当前组织）",
+        "forCurrentProject": " （当前项目）",
+        "on": "，对象为",
+        "onDashboard": "，所属仪表盘：",
+        "onInsight": "，所属洞察：",
+        "sessionReplay": "一条会话录像",
+        "updated": "更新了注释："
+    },
     "approvals": {
         "actions": {
             "disableFlag": "停用功能开关",
@@ -383,6 +407,28 @@
         "projectDetailsFailed": "获取项目详情失败",
         "selectProject": "选择项目",
         "selectProjectDetail": "选择要实时推送事件的项目。"
+    },
+    "cohortActivity": {
+        "created": "创建了分群：",
+        "criteriaChanged": "将匹配条件从 <Bold>{{ before }}</Bold> 改为 <Bold>{{ after }}</Bold>",
+        "criteriaUpdated": "更新了匹配条件",
+        "deleted": "删除了分群：",
+        "descriptionAdded": "添加了描述",
+        "descriptionCleared": "清空了描述",
+        "descriptionUpdated": "更新了描述",
+        "dynamic": "动态",
+        "emptyName": "（空字符串）",
+        "on": "作用于 ",
+        "onCohort": "作用于分群 ",
+        "personRemoved": "从分群中移除了一个用户：",
+        "personsAdded": "向分群添加了用户：",
+        "queryUpdated": "更新了分群查询",
+        "renamed": "从 <Bold>{{ before }}</Bold> 重命名为 <Bold>{{ after }}</Bold>",
+        "restored": "恢复了分群：",
+        "static": "静态",
+        "typeChanged": "将分群类型改为 <Bold>{{ type }}</Bold>",
+        "updated": "更新了分群：",
+        "updatedField": "更新了 <Bold>{{ field }}</Bold>"
     },
     "common": {
         "cancel": "取消",
@@ -974,6 +1020,30 @@
         "unknown": "未知",
         "unverified": "未验证",
         "verified": "已验证"
+    },
+    "dataWarehouseActivity": {
+        "createdSchema": "创建了 schema：",
+        "createdSource": "创建了数据源：",
+        "deletedSchema": "删除了 schema：",
+        "deletedSource": "删除了数据源：",
+        "disabledSchema": "禁用了 schema：",
+        "enabledSchema": "启用了 schema：",
+        "sourceFallbackName": "数据源",
+        "syncFrequency": {
+            "daily": "每天",
+            "everyFifteenMinutes": "每 15 分钟",
+            "everyFiveMinutes": "每 5 分钟",
+            "everyHour": "每 1 小时",
+            "everyMinute": "每 1 分钟",
+            "everySixHours": "每 6 小时",
+            "everyThirtyMinutes": "每 30 分钟",
+            "everyTwelveHours": "每 12 小时",
+            "monthly": "每月",
+            "weekly": "每周"
+        },
+        "unnamedSchema": "未命名 schema",
+        "updatedSchema": "更新了 schema：",
+        "updatedSource": "更新了数据源："
     },
     "devLoginPanel": {
         "createAccountFailed": "创建账号失败",
@@ -1811,6 +1881,13 @@
         "unavailable": "自助重置密码不可用。请<Bold>联系你的实例管理员</Bold>来重置你的密码。",
         "youTyped": "你输入的邮箱"
     },
+    "personActivity": {
+        "deleted": "删除了该用户：",
+        "editedProperties": "编辑了该用户的属性",
+        "merged": "合并了",
+        "mergeSuffix": "到该用户中",
+        "splitInto": "将该用户拆分为"
+    },
     "productTour": {
         "created": "创建了产品导览：",
         "deleted": "删除了产品导览：",
@@ -1845,6 +1922,38 @@
         "shareLoginSuccess": "<Bold>匿名用户</Bold>已成功通过共享会话记录 <NameBold>{{ name }}</NameBold> 的身份验证，来源 IP 为 {{ ip }}，使用的密码为 <Bold>{{ password }}</Bold>",
         "unknownIp": "未知 IP",
         "unknownpassword": "未知密码"
+    },
+    "savedQueryActivity": {
+        "aView": "一个视图",
+        "changedField": "更改了 {{ field }}",
+        "created": "创建了",
+        "deleted": "删除了",
+        "forView": "，对象为",
+        "interval": {
+            "fifteenMinutes": "15 分钟",
+            "fiveMinutes": "5 分钟",
+            "oneDay": "1 天",
+            "oneHour": "1 小时",
+            "oneMinute": "1 分钟",
+            "sevenDays": "7 天",
+            "sixHours": "6 小时",
+            "thirtyDays": "30 天",
+            "thirtyMinutes": "30 分钟",
+            "twelveHours": "12 小时"
+        },
+        "materializationDisabled": "关闭了物化",
+        "materializationDisabledFor": "为以下视图关闭了物化：",
+        "materializationEnabled": "启用了物化",
+        "materializationEnabledFor": "为以下视图启用了物化：",
+        "none": "无",
+        "onView": "，对象为",
+        "queryUpdated": "更新了查询",
+        "syncCancelled": "取消了正在运行的同步，对象为",
+        "syncFrequencyAutoReset": "将同步频率自动重置为",
+        "syncFrequencyChanged": "将同步频率从 <Bold>{{ before }}</Bold> 改为 <Bold>{{ after }}</Bold>",
+        "syncTriggered": "触发了一次临时同步，对象为",
+        "updatedTheView": "更新了视图",
+        "withSyncFrequency": "同步频率为"
     },
     "sceneActivity": {
         "by": "由",

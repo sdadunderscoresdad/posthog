@@ -5,6 +5,7 @@ import {
     defaultDescriber,
 } from 'lib/components/ActivityLog/humanizeActivity'
 import { SentenceList } from 'lib/components/ActivityLog/SentenceList'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { isObject } from 'lib/utils/guards'
 import { urls } from 'scenes/urls'
@@ -21,7 +22,8 @@ export function personActivityDescriber(logItem: ActivityLogItem, asNotification
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted the person: {logItem.detail.name}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('personActivity.deleted', { defaultValue: 'deleted the person:' })} {logItem.detail.name}
                 </>
             ),
         }
@@ -35,7 +37,8 @@ export function personActivityDescriber(logItem: ActivityLogItem, asNotification
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> edited this person's properties
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('personActivity.editedProperties', { defaultValue: "edited this person's properties" })}
                 </>
             ),
         }
@@ -47,7 +50,8 @@ export function personActivityDescriber(logItem: ActivityLogItem, asNotification
                     <SentenceList
                         prefix={
                             <>
-                                <ActivityLogUserName logItem={logItem} /> merged
+                                <ActivityLogUserName logItem={logItem} />{' '}
+                                {i18n.t('personActivity.merged', { defaultValue: 'merged' })}
                             </>
                         }
                         listParts={logItem.detail.merge.source.flatMap((di, idx) => (
@@ -55,7 +59,7 @@ export function personActivityDescriber(logItem: ActivityLogItem, asNotification
                                 <PersonDisplay person={di} />
                             </span>
                         ))}
-                        suffix="into this person"
+                        suffix={i18n.t('personActivity.mergeSuffix', { defaultValue: 'into this person' })}
                     />
                 ),
             }
@@ -73,7 +77,8 @@ export function personActivityDescriber(logItem: ActivityLogItem, asNotification
                     <SentenceList
                         prefix={
                             <>
-                                <ActivityLogUserName logItem={logItem} /> split this person into
+                                <ActivityLogUserName logItem={logItem} />{' '}
+                                {i18n.t('personActivity.splitInto', { defaultValue: 'split this person into' })}
                             </>
                         }
                         listParts={normalizedDistinctIds.map((di) => (

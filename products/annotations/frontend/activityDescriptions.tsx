@@ -4,14 +4,17 @@ import {
     HumanizedChange,
     defaultDescriber,
 } from 'lib/components/ActivityLog/humanizeActivity'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { urls } from 'scenes/urls'
 
 const nameOrLinkToAnnotation = (id?: string | null, name?: string | null): string | JSX.Element => {
-    let displayName = name || '(empty string)'
+    let displayName = name || i18n.t('annotationActivity.emptyName', { defaultValue: '(empty string)' })
 
     // Strip markdown image tags: ![alt](url) format
-    displayName = displayName.replace(/!\[([^\]]*)\]\([^)]+\)/g, '').trim() || 'Annotation'
+    displayName =
+        displayName.replace(/!\[([^\]]*)\]\([^)]+\)/g, '').trim() ||
+        i18n.t('annotationActivity.fallbackName', { defaultValue: 'Annotation' })
 
     if (displayName.length > 32) {
         displayName = displayName.slice(0, 32) + '...'
@@ -29,7 +32,7 @@ const getContextDescription = (context: any): JSX.Element | null => {
         return (
             <>
                 {' '}
-                on insight{' '}
+                {i18n.t('annotationActivity.onInsight', { defaultValue: 'on insight' })}{' '}
                 <Link to={urls.insightView(context.dashboard_item_short_id)}>
                     {context.dashboard_item_name || context.dashboard_item_short_id}
                 </Link>
@@ -41,9 +44,13 @@ const getContextDescription = (context: any): JSX.Element | null => {
         return (
             <>
                 {' '}
-                on dashboard{' '}
+                {i18n.t('annotationActivity.onDashboard', { defaultValue: 'on dashboard' })}{' '}
                 <Link to={urls.dashboard(context.dashboard_id)}>
-                    {context.dashboard_name || `Dashboard ${context.dashboard_id}`}
+                    {context.dashboard_name ||
+                        i18n.t('annotationActivity.dashboardFallbackName', {
+                            id: context.dashboard_id,
+                            defaultValue: 'Dashboard {{ id }}',
+                        })}
                 </Link>
             </>
         )
@@ -53,17 +60,24 @@ const getContextDescription = (context: any): JSX.Element | null => {
         return (
             <>
                 {' '}
-                on <Link to={urls.replaySingle(context.recording_id)}>a session replay</Link>
+                {i18n.t('annotationActivity.on', { defaultValue: 'on' })}{' '}
+                <Link to={urls.replaySingle(context.recording_id)}>
+                    {i18n.t('annotationActivity.sessionReplay', { defaultValue: 'a session replay' })}
+                </Link>
             </>
         )
     }
 
     if (context.scope === 'project') {
-        return <> for the current project</>
+        return <>{i18n.t('annotationActivity.forCurrentProject', { defaultValue: ' for the current project' })}</>
     }
 
     if (context.scope === 'organization') {
-        return <> for the current organization</>
+        return (
+            <>
+                {i18n.t('annotationActivity.forCurrentOrganization', { defaultValue: ' for the current organization' })}
+            </>
+        )
     }
 
     return null
@@ -80,26 +94,30 @@ export function annotationActivityDescriber(logItem: ActivityLogItem, asNotifica
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> created the annotation "
-                    {nameOrLinkToAnnotation(logItem?.item_id, logItem?.detail.name)}"{contextDesc}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('annotationActivity.created', { defaultValue: 'created the annotation:' })}{' '}
+                    {nameOrLinkToAnnotation(logItem?.item_id, logItem?.detail.name)}
+                    {contextDesc}
                 </>
             ),
         }
     }
 
     if (logItem.activity == 'deleted') {
-        let displayName = logItem.detail.name || '(empty string)'
+        let displayName =
+            logItem.detail.name || i18n.t('annotationActivity.emptyName', { defaultValue: '(empty string)' })
         // Strip markdown image tags for deleted annotations too
         displayName = displayName.replace(/!\[([^\]]*)\]\([^)]+\)/g, '').trim()
         if (!displayName) {
-            displayName = '(empty string)'
+            displayName = i18n.t('annotationActivity.emptyName', { defaultValue: '(empty string)' })
         }
 
         const contextDesc = getContextDescription(logItem?.detail?.context)
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted the annotation: {displayName}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('annotationActivity.deleted', { defaultValue: 'deleted the annotation:' })} {displayName}
                     {contextDesc}
                 </>
             ),
@@ -111,7 +129,8 @@ export function annotationActivityDescriber(logItem: ActivityLogItem, asNotifica
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> updated the annotation:{' '}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('annotationActivity.updated', { defaultValue: 'updated the annotation:' })}{' '}
                     {nameOrLinkToAnnotation(logItem?.item_id, logItem?.detail.name)}
                     {contextDesc}
                 </>

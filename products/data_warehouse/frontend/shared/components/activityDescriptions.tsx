@@ -4,6 +4,7 @@ import {
     HumanizedChange,
     defaultDescriber,
 } from 'lib/components/ActivityLog/humanizeActivity'
+import { i18n } from 'lib/i18n/i18n'
 
 import { ActivityScope, DataWarehouseSyncInterval, ExternalDataSourceSyncSchema } from '~/types'
 
@@ -11,16 +12,16 @@ import { SyncTypeLabelMap } from 'products/data_warehouse/frontend/utils'
 
 const getSyncFrequencyLabel = (syncFrequency: string): string => {
     const syncFrequencyMap: Record<DataWarehouseSyncInterval, string> = {
-        '1min': 'every 1 min',
-        '5min': 'every 5 mins',
-        '15min': 'every 15 mins',
-        '30min': 'every 30 mins',
-        '1hour': 'every 1 hour',
-        '6hour': 'every 6 hours',
-        '12hour': 'every 12 hours',
-        '24hour': 'daily',
-        '7day': 'weekly',
-        '30day': 'monthly',
+        '1min': i18n.t('dataWarehouseActivity.syncFrequency.everyMinute', { defaultValue: 'every 1 min' }),
+        '5min': i18n.t('dataWarehouseActivity.syncFrequency.everyFiveMinutes', { defaultValue: 'every 5 mins' }),
+        '15min': i18n.t('dataWarehouseActivity.syncFrequency.everyFifteenMinutes', { defaultValue: 'every 15 mins' }),
+        '30min': i18n.t('dataWarehouseActivity.syncFrequency.everyThirtyMinutes', { defaultValue: 'every 30 mins' }),
+        '1hour': i18n.t('dataWarehouseActivity.syncFrequency.everyHour', { defaultValue: 'every 1 hour' }),
+        '6hour': i18n.t('dataWarehouseActivity.syncFrequency.everySixHours', { defaultValue: 'every 6 hours' }),
+        '12hour': i18n.t('dataWarehouseActivity.syncFrequency.everyTwelveHours', { defaultValue: 'every 12 hours' }),
+        '24hour': i18n.t('dataWarehouseActivity.syncFrequency.daily', { defaultValue: 'daily' }),
+        '7day': i18n.t('dataWarehouseActivity.syncFrequency.weekly', { defaultValue: 'weekly' }),
+        '30day': i18n.t('dataWarehouseActivity.syncFrequency.monthly', { defaultValue: 'monthly' }),
     }
     return syncFrequencyMap[syncFrequency as DataWarehouseSyncInterval] || syncFrequency
 }
@@ -45,7 +46,8 @@ const getDisplayName = (logItem: ActivityLogItem): string => {
 
     // Handle ExternalDataSchema display name
     if (logItem.scope === ActivityScope.EXTERNAL_DATA_SCHEMA) {
-        const schemaName = logItem?.detail?.name || 'Unnamed Schema'
+        const schemaName =
+            logItem?.detail?.name || i18n.t('dataWarehouseActivity.unnamedSchema', { defaultValue: 'Unnamed Schema' })
         const context = (logItem?.detail as any)?.context
         const syncType = context?.sync_type
         const syncFrequency = context?.sync_frequency
@@ -63,7 +65,7 @@ const getDisplayName = (logItem: ActivityLogItem): string => {
         return schemaName
     }
 
-    return 'Source'
+    return i18n.t('dataWarehouseActivity.sourceFallbackName', { defaultValue: 'Source' })
 }
 
 export function externalDataSourceActivityDescriber(
@@ -77,7 +79,9 @@ export function externalDataSourceActivityDescriber(
             return {
                 description: (
                     <>
-                        <ActivityLogUserName logItem={logItem} /> created schema <strong>{displayName}</strong>
+                        <ActivityLogUserName logItem={logItem} />{' '}
+                        {i18n.t('dataWarehouseActivity.createdSchema', { defaultValue: 'created schema' })}{' '}
+                        <strong>{displayName}</strong>
                     </>
                 ),
             }
@@ -85,7 +89,9 @@ export function externalDataSourceActivityDescriber(
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> created source <strong>{displayName}</strong>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('dataWarehouseActivity.createdSource', { defaultValue: 'created source' })}{' '}
+                    <strong>{displayName}</strong>
                 </>
             ),
         }
@@ -100,7 +106,9 @@ export function externalDataSourceActivityDescriber(
             return {
                 description: (
                     <>
-                        <ActivityLogUserName logItem={logItem} /> deleted schema <strong>{displayName}</strong>
+                        <ActivityLogUserName logItem={logItem} />{' '}
+                        {i18n.t('dataWarehouseActivity.deletedSchema', { defaultValue: 'deleted schema' })}{' '}
+                        <strong>{displayName}</strong>
                     </>
                 ),
             }
@@ -108,7 +116,9 @@ export function externalDataSourceActivityDescriber(
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted source <strong>{displayName}</strong>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('dataWarehouseActivity.deletedSource', { defaultValue: 'deleted source' })}{' '}
+                    <strong>{displayName}</strong>
                 </>
             ),
         }
@@ -119,11 +129,16 @@ export function externalDataSourceActivityDescriber(
             const changes = logItem.detail?.changes ?? []
             const enabledChange = changes.find((change) => change.field === 'enabled')
             if (enabledChange && changes.length === 1) {
-                const verb = enabledChange.after ? 'enabled' : 'disabled'
                 return {
                     description: (
                         <>
-                            <ActivityLogUserName logItem={logItem} /> {verb} schema <strong>{displayName}</strong>
+                            <ActivityLogUserName logItem={logItem} />{' '}
+                            {enabledChange.after
+                                ? i18n.t('dataWarehouseActivity.enabledSchema', { defaultValue: 'enabled schema' })
+                                : i18n.t('dataWarehouseActivity.disabledSchema', {
+                                      defaultValue: 'disabled schema',
+                                  })}{' '}
+                            <strong>{displayName}</strong>
                         </>
                     ),
                 }
@@ -131,7 +146,9 @@ export function externalDataSourceActivityDescriber(
             return {
                 description: (
                     <>
-                        <ActivityLogUserName logItem={logItem} /> updated schema <strong>{displayName}</strong>
+                        <ActivityLogUserName logItem={logItem} />{' '}
+                        {i18n.t('dataWarehouseActivity.updatedSchema', { defaultValue: 'updated schema' })}{' '}
+                        <strong>{displayName}</strong>
                     </>
                 ),
             }
@@ -139,7 +156,9 @@ export function externalDataSourceActivityDescriber(
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> updated source <strong>{displayName}</strong>
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('dataWarehouseActivity.updatedSource', { defaultValue: 'updated source' })}{' '}
+                    <strong>{displayName}</strong>
                 </>
             ),
         }

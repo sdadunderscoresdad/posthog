@@ -1,3 +1,5 @@
+import { Trans } from 'react-i18next'
+
 import {
     ActivityChange,
     ActivityLogItem,
@@ -9,13 +11,14 @@ import {
     detectBoolean,
 } from 'lib/components/ActivityLog/humanizeActivity'
 import { SentenceList } from 'lib/components/ActivityLog/SentenceList'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { urls } from 'scenes/urls'
 
 import { CohortType } from '~/types'
 
 const nameOrLinkToCohort = (id?: string | null, name?: string | null): string | JSX.Element => {
-    const displayName = name || '(empty string)'
+    const displayName = name || i18n.t('cohortActivity.emptyName', { defaultValue: '(empty string)' })
     return id ? <Link to={urls.cohort(id)}>{displayName}</Link> : displayName
 }
 
@@ -33,10 +36,15 @@ const cohortFieldMapping: Record<string, (change?: ActivityChange) => ChangeMapp
         const after = change?.after as string | null | undefined
         return {
             description: [
-                <>
-                    renamed from <strong>{before || '(empty string)'}</strong> to{' '}
-                    <strong>{after || '(empty string)'}</strong>
-                </>,
+                <Trans
+                    i18nKey="cohortActivity.renamed"
+                    values={{
+                        before: before || i18n.t('cohortActivity.emptyName', { defaultValue: '(empty string)' }),
+                        after: after || i18n.t('cohortActivity.emptyName', { defaultValue: '(empty string)' }),
+                    }}
+                    components={{ Bold: <strong /> }}
+                    defaults="renamed from <Bold>{{ before }}</Bold> to <Bold>{{ after }}</Bold>"
+                />,
             ],
         }
     },
@@ -44,37 +52,55 @@ const cohortFieldMapping: Record<string, (change?: ActivityChange) => ChangeMapp
         const before = (change?.before as string | null | undefined) || ''
         const after = (change?.after as string | null | undefined) || ''
         if (!before && after) {
-            return { description: [<>added a description</>] }
+            return { description: [i18n.t('cohortActivity.descriptionAdded', { defaultValue: 'added a description' })] }
         }
         if (before && !after) {
-            return { description: [<>cleared the description</>] }
+            return {
+                description: [i18n.t('cohortActivity.descriptionCleared', { defaultValue: 'cleared the description' })],
+            }
         }
-        return { description: [<>updated the description</>] }
+        return {
+            description: [i18n.t('cohortActivity.descriptionUpdated', { defaultValue: 'updated the description' })],
+        }
     },
     filters: function onFilters(change) {
         const before = countCohortCriteria(change?.before as CohortType['filters'])
         const after = countCohortCriteria(change?.after as CohortType['filters'])
         if (before === after) {
-            return { description: [<>updated the matching criteria</>] }
+            return {
+                description: [
+                    i18n.t('cohortActivity.criteriaUpdated', { defaultValue: 'updated the matching criteria' }),
+                ],
+            }
         }
         return {
             description: [
-                <>
-                    changed the matching criteria from <strong>{before}</strong> to <strong>{after}</strong>
-                </>,
+                <Trans
+                    i18nKey="cohortActivity.criteriaChanged"
+                    values={{ before, after }}
+                    components={{ Bold: <strong /> }}
+                    defaults="changed the matching criteria from <Bold>{{ before }}</Bold> to <Bold>{{ after }}</Bold>"
+                />,
             ],
         }
     },
     query: function onQuery() {
-        return { description: [<>updated the cohort query</>] }
+        return { description: [i18n.t('cohortActivity.queryUpdated', { defaultValue: 'updated the cohort query' })] }
     },
     is_static: function onIsStatic(change) {
         const isStatic = detectBoolean(change?.after)
         return {
             description: [
-                <>
-                    changed the cohort type to <strong>{isStatic ? 'static' : 'dynamic'}</strong>
-                </>,
+                <Trans
+                    i18nKey="cohortActivity.typeChanged"
+                    values={{
+                        type: isStatic
+                            ? i18n.t('cohortActivity.static', { defaultValue: 'static' })
+                            : i18n.t('cohortActivity.dynamic', { defaultValue: 'dynamic' }),
+                    }}
+                    components={{ Bold: <strong /> }}
+                    defaults="changed the cohort type to <Bold>{{ type }}</Bold>"
+                />,
             ],
         }
     },
@@ -85,14 +111,19 @@ const cohortFieldMapping: Record<string, (change?: ActivityChange) => ChangeMapp
         }
         return {
             description: [
-                <>
-                    changed the cohort type to <strong>{after}</strong>
-                </>,
+                <Trans
+                    i18nKey="cohortActivity.typeChanged"
+                    values={{ type: after }}
+                    components={{ Bold: <strong /> }}
+                    defaults="changed the cohort type to <Bold>{{ type }}</Bold>"
+                />,
             ],
         }
     },
     groups: function onGroups() {
-        return { description: [<>updated the matching criteria</>] }
+        return {
+            description: [i18n.t('cohortActivity.criteriaUpdated', { defaultValue: 'updated the matching criteria' })],
+        }
     },
     // fields that we don't want to surface (excluded on backend or noisy)
     id: () => null,
@@ -116,7 +147,7 @@ export function cohortActivityDescriber(logItem: ActivityLogItem, asNotification
         return {
             description: (
                 <>
-                    {actor} created the cohort: {cohortLink}
+                    {actor} {i18n.t('cohortActivity.created', { defaultValue: 'created the cohort:' })} {cohortLink}
                 </>
             ),
         }
@@ -126,7 +157,7 @@ export function cohortActivityDescriber(logItem: ActivityLogItem, asNotification
         return {
             description: (
                 <>
-                    {actor} deleted the cohort: {cohortLink}
+                    {actor} {i18n.t('cohortActivity.deleted', { defaultValue: 'deleted the cohort:' })} {cohortLink}
                 </>
             ),
         }
@@ -136,7 +167,7 @@ export function cohortActivityDescriber(logItem: ActivityLogItem, asNotification
         return {
             description: (
                 <>
-                    {actor} restored the cohort: {cohortLink}
+                    {actor} {i18n.t('cohortActivity.restored', { defaultValue: 'restored the cohort:' })} {cohortLink}
                 </>
             ),
         }
@@ -146,7 +177,8 @@ export function cohortActivityDescriber(logItem: ActivityLogItem, asNotification
         return {
             description: (
                 <>
-                    {actor} added users to the cohort: {cohortLink}
+                    {actor} {i18n.t('cohortActivity.personsAdded', { defaultValue: 'added users to the cohort:' })}{' '}
+                    {cohortLink}
                 </>
             ),
         }
@@ -156,7 +188,9 @@ export function cohortActivityDescriber(logItem: ActivityLogItem, asNotification
         return {
             description: (
                 <>
-                    {actor} removed a user from the cohort: {cohortLink}
+                    {actor}{' '}
+                    {i18n.t('cohortActivity.personRemoved', { defaultValue: 'removed a user from the cohort:' })}{' '}
+                    {cohortLink}
                 </>
             ),
         }
@@ -182,9 +216,12 @@ export function cohortActivityDescriber(logItem: ActivityLogItem, asNotification
             } else if (!handler) {
                 // unknown field — surface it generically rather than dumping JSON
                 changes.push(
-                    <>
-                        updated <strong>{change.field}</strong>
-                    </>
+                    <Trans
+                        i18nKey="cohortActivity.updatedField"
+                        values={{ field: change.field }}
+                        components={{ Bold: <strong /> }}
+                        defaults="updated <Bold>{{ field }}</Bold>"
+                    />
                 )
             }
         }
@@ -197,7 +234,9 @@ export function cohortActivityDescriber(logItem: ActivityLogItem, asNotification
                         prefix={actor}
                         suffix={
                             <>
-                                on {asNotification ? 'the cohort ' : ''}
+                                {asNotification
+                                    ? i18n.t('cohortActivity.onCohort', { defaultValue: 'on the cohort ' })
+                                    : i18n.t('cohortActivity.on', { defaultValue: 'on ' })}
                                 {cohortLink}
                             </>
                         }
@@ -209,7 +248,7 @@ export function cohortActivityDescriber(logItem: ActivityLogItem, asNotification
         return {
             description: (
                 <>
-                    {actor} updated the cohort: {cohortLink}
+                    {actor} {i18n.t('cohortActivity.updated', { defaultValue: 'updated the cohort:' })} {cohortLink}
                 </>
             ),
         }

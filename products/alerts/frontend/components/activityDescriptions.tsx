@@ -4,6 +4,7 @@ import {
     HumanizedChange,
     defaultDescriber,
 } from 'lib/components/ActivityLog/humanizeActivity'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { urls } from 'scenes/urls'
 
@@ -22,7 +23,7 @@ const getContextDescription = (context: any): JSX.Element | null => {
         return (
             <>
                 {' '}
-                for insight{' '}
+                {i18n.t('alertActivity.forInsight', { defaultValue: 'for insight' })}{' '}
                 <Link to={urls.insightView(context.insight_short_id)}>
                     {context.insight_name || context.insight_short_id}
                 </Link>
@@ -49,11 +50,12 @@ export function alertConfigurationActivityDescriber(
             return {
                 description: (
                     <>
-                        <ActivityLogUserName logItem={logItem} /> added{' '}
-                        <strong>
-                            {logItem?.detail?.context?.subscriber_name} ({logItem?.detail?.context?.subscriber_email})
-                        </strong>{' '}
-                        as a subscriber for alert {formattedName(logItem?.detail?.context?.alert_name)}
+                        <ActivityLogUserName logItem={logItem} />{' '}
+                        {i18n.t('alertActivity.subscriberAdded', {
+                            defaultValue: 'added {{ subscriber }} as a subscriber for alert {{ alert }}',
+                            subscriber: `${logItem?.detail?.context?.subscriber_name} (${logItem?.detail?.context?.subscriber_email})`,
+                            alert: logItem?.detail?.context?.alert_name,
+                        })}
                         {contextDesc}
                     </>
                 ),
@@ -63,7 +65,9 @@ export function alertConfigurationActivityDescriber(
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> created the alert {formattedName(logItem?.detail.name)}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('alertActivity.created', { defaultValue: 'created the alert' })}{' '}
+                    {formattedName(logItem?.detail.name)}
                     {contextDesc}
                 </>
             ),
@@ -77,22 +81,25 @@ export function alertConfigurationActivityDescriber(
             return {
                 description: (
                     <>
-                        <ActivityLogUserName logItem={logItem} /> removed{' '}
-                        <strong>
-                            {logItem?.detail?.context?.subscriber_name} ({logItem?.detail?.context?.subscriber_email})
-                        </strong>{' '}
-                        as a subscriber from alert {formattedName(logItem?.detail?.context?.alert_name)}
+                        <ActivityLogUserName logItem={logItem} />{' '}
+                        {i18n.t('alertActivity.subscriberRemoved', {
+                            defaultValue: 'removed {{ subscriber }} as a subscriber from alert {{ alert }}',
+                            subscriber: `${logItem?.detail?.context?.subscriber_name} (${logItem?.detail?.context?.subscriber_email})`,
+                            alert: logItem?.detail?.context?.alert_name,
+                        })}
                         {contextDesc}
                     </>
                 ),
             }
         }
 
-        const displayName = logItem.detail.name || 'Alert Configuration'
+        const displayName =
+            logItem.detail.name || i18n.t('alertActivity.fallbackName', { defaultValue: 'Alert Configuration' })
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> deleted the alert: {displayName}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('alertActivity.deleted', { defaultValue: 'deleted the alert:' })} {displayName}
                     {contextDesc}
                 </>
             ),
@@ -106,8 +113,11 @@ export function alertConfigurationActivityDescriber(
             return {
                 description: (
                     <>
-                        <ActivityLogUserName logItem={logItem} /> updated the <strong>threshold</strong> for alert{' '}
-                        {formattedName(logItem?.detail?.context?.alert_name)}
+                        <ActivityLogUserName logItem={logItem} />{' '}
+                        {i18n.t('alertActivity.thresholdUpdated', {
+                            defaultValue: 'updated the threshold for alert {{ alert }}',
+                            alert: logItem?.detail?.context?.alert_name,
+                        })}
                         {contextDesc}
                     </>
                 ),
@@ -117,7 +127,9 @@ export function alertConfigurationActivityDescriber(
         return {
             description: (
                 <>
-                    <ActivityLogUserName logItem={logItem} /> updated the alert {formattedName(logItem?.detail.name)}
+                    <ActivityLogUserName logItem={logItem} />{' '}
+                    {i18n.t('alertActivity.updated', { defaultValue: 'updated the alert' })}{' '}
+                    {formattedName(logItem?.detail.name)}
                     {contextDesc}
                 </>
             ),

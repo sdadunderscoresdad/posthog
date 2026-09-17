@@ -202,6 +202,30 @@
         "via": "",
         "viewAllNotifications": ""
     },
+    "alertActivity": {
+        "created": "",
+        "deleted": "",
+        "fallbackName": "",
+        "forInsight": "",
+        "subscriberAdded": "",
+        "subscriberRemoved": "",
+        "thresholdUpdated": "",
+        "updated": ""
+    },
+    "annotationActivity": {
+        "created": "",
+        "dashboardFallbackName": "",
+        "deleted": "",
+        "emptyName": "",
+        "fallbackName": "",
+        "forCurrentOrganization": "",
+        "forCurrentProject": "",
+        "on": "",
+        "onDashboard": "",
+        "onInsight": "",
+        "sessionReplay": "",
+        "updated": ""
+    },
     "approvals": {
         "actions": {
             "disableFlag": "",
@@ -385,6 +409,28 @@
         "projectDetailsFailed": "",
         "selectProject": "",
         "selectProjectDetail": ""
+    },
+    "cohortActivity": {
+        "created": "",
+        "criteriaChanged": "",
+        "criteriaUpdated": "",
+        "deleted": "",
+        "descriptionAdded": "",
+        "descriptionCleared": "",
+        "descriptionUpdated": "",
+        "dynamic": "",
+        "emptyName": "",
+        "on": "",
+        "onCohort": "",
+        "personRemoved": "",
+        "personsAdded": "",
+        "queryUpdated": "",
+        "renamed": "",
+        "restored": "",
+        "static": "",
+        "typeChanged": "",
+        "updated": "",
+        "updatedField": ""
     },
     "common": {
         "cancel": "",
@@ -1008,6 +1054,30 @@
         "unknown": "",
         "unverified": "",
         "verified": ""
+    },
+    "dataWarehouseActivity": {
+        "createdSchema": "",
+        "createdSource": "",
+        "deletedSchema": "",
+        "deletedSource": "",
+        "disabledSchema": "",
+        "enabledSchema": "",
+        "sourceFallbackName": "",
+        "syncFrequency": {
+            "daily": "",
+            "everyFifteenMinutes": "",
+            "everyFiveMinutes": "",
+            "everyHour": "",
+            "everyMinute": "",
+            "everySixHours": "",
+            "everyThirtyMinutes": "",
+            "everyTwelveHours": "",
+            "monthly": "",
+            "weekly": ""
+        },
+        "unnamedSchema": "",
+        "updatedSchema": "",
+        "updatedSource": ""
     },
     "devLoginPanel": {
         "createAccountFailed": "",
@@ -1863,6 +1933,13 @@
         "unavailable": "",
         "youTyped": ""
     },
+    "personActivity": {
+        "deleted": "",
+        "editedProperties": "",
+        "merged": "",
+        "mergeSuffix": "",
+        "splitInto": ""
+    },
     "productTour": {
         "created": "",
         "deleted": "",
@@ -1897,6 +1974,38 @@
         "shareLoginSuccess": "",
         "unknownIp": "",
         "unknownpassword": ""
+    },
+    "savedQueryActivity": {
+        "aView": "",
+        "changedField": "",
+        "created": "",
+        "deleted": "",
+        "forView": "",
+        "interval": {
+            "fifteenMinutes": "",
+            "fiveMinutes": "",
+            "oneDay": "",
+            "oneHour": "",
+            "oneMinute": "",
+            "sevenDays": "",
+            "sixHours": "",
+            "thirtyDays": "",
+            "thirtyMinutes": "",
+            "twelveHours": ""
+        },
+        "materializationDisabled": "",
+        "materializationDisabledFor": "",
+        "materializationEnabled": "",
+        "materializationEnabledFor": "",
+        "none": "",
+        "onView": "",
+        "queryUpdated": "",
+        "syncCancelled": "",
+        "syncFrequencyAutoReset": "",
+        "syncFrequencyChanged": "",
+        "syncTriggered": "",
+        "updatedTheView": "",
+        "withSyncFrequency": ""
     },
     "sceneActivity": {
         "by": "",

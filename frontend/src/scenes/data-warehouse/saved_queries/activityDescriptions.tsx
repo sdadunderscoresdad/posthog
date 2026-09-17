@@ -1,3 +1,5 @@
+import { Trans } from 'react-i18next'
+
 import {
     ActivityChange,
     ActivityLogItem,
@@ -6,6 +8,7 @@ import {
     defaultDescriber,
 } from 'lib/components/ActivityLog/humanizeActivity'
 import { SentenceList } from 'lib/components/ActivityLog/SentenceList'
+import { i18n } from 'lib/i18n/i18n'
 
 // Mirrors backend `sync_frequency_to_sync_frequency_interval` in
 // products/data_warehouse/backend/models/external_data_schema.py — the values arrive
@@ -14,19 +17,19 @@ import { SentenceList } from 'lib/components/ActivityLog/SentenceList'
 // on the backend before this map is updated.
 function humanizeInterval(raw: string | null | undefined): string {
     if (!raw) {
-        return 'none'
+        return i18n.t('savedQueryActivity.none', { defaultValue: 'none' })
     }
     const buckets: Record<string, string> = {
-        '0:01:00': '1 minute',
-        '0:05:00': '5 minutes',
-        '0:15:00': '15 minutes',
-        '0:30:00': '30 minutes',
-        '1:00:00': '1 hour',
-        '6:00:00': '6 hours',
-        '12:00:00': '12 hours',
-        '1 day, 0:00:00': '1 day',
-        '7 days, 0:00:00': '7 days',
-        '30 days, 0:00:00': '30 days',
+        '0:01:00': i18n.t('savedQueryActivity.interval.oneMinute', { defaultValue: '1 minute' }),
+        '0:05:00': i18n.t('savedQueryActivity.interval.fiveMinutes', { defaultValue: '5 minutes' }),
+        '0:15:00': i18n.t('savedQueryActivity.interval.fifteenMinutes', { defaultValue: '15 minutes' }),
+        '0:30:00': i18n.t('savedQueryActivity.interval.thirtyMinutes', { defaultValue: '30 minutes' }),
+        '1:00:00': i18n.t('savedQueryActivity.interval.oneHour', { defaultValue: '1 hour' }),
+        '6:00:00': i18n.t('savedQueryActivity.interval.sixHours', { defaultValue: '6 hours' }),
+        '12:00:00': i18n.t('savedQueryActivity.interval.twelveHours', { defaultValue: '12 hours' }),
+        '1 day, 0:00:00': i18n.t('savedQueryActivity.interval.oneDay', { defaultValue: '1 day' }),
+        '7 days, 0:00:00': i18n.t('savedQueryActivity.interval.sevenDays', { defaultValue: '7 days' }),
+        '30 days, 0:00:00': i18n.t('savedQueryActivity.interval.thirtyDays', { defaultValue: '30 days' }),
     }
     return buckets[raw] ?? raw
 }
@@ -36,18 +39,31 @@ function describeChange(change: ActivityChange): JSX.Element | null {
         const before = humanizeInterval(change.before as string | null)
         const after = humanizeInterval(change.after as string | null)
         return (
-            <>
-                changed sync frequency from <strong>{before}</strong> to <strong>{after}</strong>
-            </>
+            <Trans
+                i18nKey="savedQueryActivity.syncFrequencyChanged"
+                values={{ before, after }}
+                components={{ Bold: <strong /> }}
+                defaults="changed sync frequency from <Bold>{{ before }}</Bold> to <Bold>{{ after }}</Bold>"
+            />
         )
     }
     if (change.field === 'is_materialized') {
-        return <>{change.after ? <>enabled materialization</> : <>disabled materialization</>}</>
+        return (
+            <>
+                {change.after
+                    ? i18n.t('savedQueryActivity.materializationEnabled', { defaultValue: 'enabled materialization' })
+                    : i18n.t('savedQueryActivity.materializationDisabled', {
+                          defaultValue: 'disabled materialization',
+                      })}
+            </>
+        )
     }
     if (change.field === 'query') {
-        return <>updated the query</>
+        return <>{i18n.t('savedQueryActivity.queryUpdated', { defaultValue: 'updated the query' })}</>
     }
-    return <>changed {change.field}</>
+    return (
+        <>{i18n.t('savedQueryActivity.changedField', { field: change.field, defaultValue: 'changed {{ field }}' })}</>
+    )
 }
 
 export function dataWarehouseSavedQueryActivityDescriber(
@@ -60,11 +76,24 @@ export function dataWarehouseSavedQueryActivityDescriber(
     }
 
     const user = <ActivityLogUserName logItem={logItem} />
-    const viewName = logItem.detail?.name ? <strong>{logItem.detail.name}</strong> : <i>a view</i>
+    const viewName = logItem.detail?.name ? (
+        <strong>{logItem.detail.name}</strong>
+    ) : (
+        <i>{i18n.t('savedQueryActivity.aView', { defaultValue: 'a view' })}</i>
+    )
 
     if (logItem.activity === 'created') {
         return {
-            description: <SentenceList listParts={[<>created {viewName}</>]} prefix={user} />,
+            description: (
+                <SentenceList
+                    listParts={[
+                        <>
+                            {i18n.t('savedQueryActivity.created', { defaultValue: 'created' })} {viewName}
+                        </>,
+                    ]}
+                    prefix={user}
+                />
+            ),
         }
     }
 
@@ -74,9 +103,17 @@ export function dataWarehouseSavedQueryActivityDescriber(
         return {
             description: (
                 <SentenceList
-                    listParts={parts.length > 0 ? parts : [<>updated the view</>]}
+                    listParts={
+                        parts.length > 0
+                            ? parts
+                            : [<>{i18n.t('savedQueryActivity.updatedTheView', { defaultValue: 'updated the view' })}</>]
+                    }
                     prefix={user}
-                    suffix={<>on {viewName}</>}
+                    suffix={
+                        <>
+                            {i18n.t('savedQueryActivity.onView', { defaultValue: 'on' })} {viewName}
+                        </>
+                    }
                 />
             ),
         }
@@ -84,25 +121,57 @@ export function dataWarehouseSavedQueryActivityDescriber(
 
     if (logItem.activity === 'sync_triggered') {
         return {
-            description: <SentenceList listParts={[<>triggered an ad-hoc sync on {viewName}</>]} prefix={user} />,
+            description: (
+                <SentenceList
+                    listParts={[
+                        <>
+                            {i18n.t('savedQueryActivity.syncTriggered', {
+                                defaultValue: 'triggered an ad-hoc sync on',
+                            })}{' '}
+                            {viewName}
+                        </>,
+                    ]}
+                    prefix={user}
+                />
+            ),
         }
     }
 
     if (logItem.activity === 'sync_cancelled') {
         return {
-            description: <SentenceList listParts={[<>cancelled a running sync on {viewName}</>]} prefix={user} />,
+            description: (
+                <SentenceList
+                    listParts={[
+                        <>
+                            {i18n.t('savedQueryActivity.syncCancelled', {
+                                defaultValue: 'cancelled a running sync on',
+                            })}{' '}
+                            {viewName}
+                        </>,
+                    ]}
+                    prefix={user}
+                />
+            ),
         }
     }
 
     if (logItem.activity === 'materialization_enabled') {
         const changes = logItem.detail?.changes ?? []
         const freqChange = changes.find((c) => c.field === 'sync_frequency_interval')
-        const parts: JSX.Element[] = [<>enabled materialization for {viewName}</>]
+        const parts: JSX.Element[] = [
+            <>
+                {i18n.t('savedQueryActivity.materializationEnabledFor', {
+                    defaultValue: 'enabled materialization for',
+                })}{' '}
+                {viewName}
+            </>,
+        ]
         if (freqChange) {
             const after = humanizeInterval(freqChange.after as string | null)
             parts.push(
                 <>
-                    with sync frequency <strong>{after}</strong>
+                    {i18n.t('savedQueryActivity.withSyncFrequency', { defaultValue: 'with sync frequency' })}{' '}
+                    <strong>{after}</strong>
                 </>
             )
         }
@@ -111,7 +180,19 @@ export function dataWarehouseSavedQueryActivityDescriber(
 
     if (logItem.activity === 'materialization_disabled') {
         return {
-            description: <SentenceList listParts={[<>disabled materialization for {viewName}</>]} prefix={user} />,
+            description: (
+                <SentenceList
+                    listParts={[
+                        <>
+                            {i18n.t('savedQueryActivity.materializationDisabledFor', {
+                                defaultValue: 'disabled materialization for',
+                            })}{' '}
+                            {viewName}
+                        </>,
+                    ]}
+                    prefix={user}
+                />
+            ),
         }
     }
 
@@ -124,7 +205,11 @@ export function dataWarehouseSavedQueryActivityDescriber(
                 <SentenceList
                     listParts={[
                         <>
-                            auto-reset sync frequency to <strong>{after}</strong> for {viewName}
+                            {i18n.t('savedQueryActivity.syncFrequencyAutoReset', {
+                                defaultValue: 'auto-reset sync frequency to',
+                            })}{' '}
+                            <strong>{after}</strong> {i18n.t('savedQueryActivity.forView', { defaultValue: 'for' })}{' '}
+                            {viewName}
                         </>,
                     ]}
                     prefix={user}
@@ -135,7 +220,16 @@ export function dataWarehouseSavedQueryActivityDescriber(
 
     if (logItem.activity === 'deleted') {
         return {
-            description: <SentenceList listParts={[<>deleted {viewName}</>]} prefix={user} />,
+            description: (
+                <SentenceList
+                    listParts={[
+                        <>
+                            {i18n.t('savedQueryActivity.deleted', { defaultValue: 'deleted' })} {viewName}
+                        </>,
+                    ]}
+                    prefix={user}
+                />
+            ),
         }
     }
 

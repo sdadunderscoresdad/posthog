@@ -201,6 +201,30 @@
         "via": "via",
         "viewAllNotifications": "View all notifications"
     },
+    "alertActivity": {
+        "created": "created the alert",
+        "deleted": "deleted the alert:",
+        "fallbackName": "Alert Configuration",
+        "forInsight": "for insight",
+        "subscriberAdded": "added {{ subscriber }} as a subscriber for alert {{ alert }}",
+        "subscriberRemoved": "removed {{ subscriber }} as a subscriber from alert {{ alert }}",
+        "thresholdUpdated": "updated the threshold for alert {{ alert }}",
+        "updated": "updated the alert"
+    },
+    "annotationActivity": {
+        "created": "created the annotation:",
+        "dashboardFallbackName": "Dashboard {{ id }}",
+        "deleted": "deleted the annotation:",
+        "emptyName": "(empty string)",
+        "fallbackName": "Annotation",
+        "forCurrentOrganization": " for the current organization",
+        "forCurrentProject": " for the current project",
+        "on": "on",
+        "onDashboard": "on dashboard",
+        "onInsight": "on insight",
+        "sessionReplay": "a session replay",
+        "updated": "updated the annotation:"
+    },
     "approvals": {
         "actions": {
             "disableFlag": "Disable feature flag",
@@ -384,6 +408,28 @@
         "projectDetailsFailed": "Failed to fetch project details",
         "selectProject": "Select a project",
         "selectProjectDetail": "Choose which project to stream live events from."
+    },
+    "cohortActivity": {
+        "created": "created the cohort:",
+        "criteriaChanged": "changed the matching criteria from <Bold>{{ before }}</Bold> to <Bold>{{ after }}</Bold>",
+        "criteriaUpdated": "updated the matching criteria",
+        "deleted": "deleted the cohort:",
+        "descriptionAdded": "added a description",
+        "descriptionCleared": "cleared the description",
+        "descriptionUpdated": "updated the description",
+        "dynamic": "dynamic",
+        "emptyName": "(empty string)",
+        "on": "on ",
+        "onCohort": "on the cohort ",
+        "personRemoved": "removed a user from the cohort:",
+        "personsAdded": "added users to the cohort:",
+        "queryUpdated": "updated the cohort query",
+        "renamed": "renamed from <Bold>{{ before }}</Bold> to <Bold>{{ after }}</Bold>",
+        "restored": "restored the cohort:",
+        "static": "static",
+        "typeChanged": "changed the cohort type to <Bold>{{ type }}</Bold>",
+        "updated": "updated the cohort:",
+        "updatedField": "updated <Bold>{{ field }}</Bold>"
     },
     "common": {
         "cancel": "Cancel",
@@ -990,6 +1036,30 @@
         "unknown": "unknown",
         "unverified": "unverified",
         "verified": "verified"
+    },
+    "dataWarehouseActivity": {
+        "createdSchema": "created schema",
+        "createdSource": "created source",
+        "deletedSchema": "deleted schema",
+        "deletedSource": "deleted source",
+        "disabledSchema": "disabled schema",
+        "enabledSchema": "enabled schema",
+        "sourceFallbackName": "Source",
+        "syncFrequency": {
+            "daily": "daily",
+            "everyFifteenMinutes": "every 15 mins",
+            "everyFiveMinutes": "every 5 mins",
+            "everyHour": "every 1 hour",
+            "everyMinute": "every 1 min",
+            "everySixHours": "every 6 hours",
+            "everyThirtyMinutes": "every 30 mins",
+            "everyTwelveHours": "every 12 hours",
+            "monthly": "monthly",
+            "weekly": "weekly"
+        },
+        "unnamedSchema": "Unnamed Schema",
+        "updatedSchema": "updated schema",
+        "updatedSource": "updated source"
     },
     "devLoginPanel": {
         "createAccountFailed": "Failed to create account",
@@ -1831,6 +1901,13 @@
         "unavailable": "Self-serve password reset is unavailable. Please <Bold>contact your instance administrator</Bold> to reset your password.",
         "youTyped": "you typed"
     },
+    "personActivity": {
+        "deleted": "deleted the person:",
+        "editedProperties": "edited this person's properties",
+        "merged": "merged",
+        "mergeSuffix": "into this person",
+        "splitInto": "split this person into"
+    },
     "productTour": {
         "created": "created the product tour:",
         "deleted": "deleted the product tour:",
@@ -1865,6 +1942,38 @@
         "shareLoginSuccess": "<Bold>Anonymous user</Bold> successfully authenticated to shared session recording <NameBold>{{ name }}</NameBold> from {{ ip }} using password <Bold>{{ password }}</Bold>",
         "unknownIp": "unknown IP",
         "unknownpassword": "unknown password"
+    },
+    "savedQueryActivity": {
+        "aView": "a view",
+        "changedField": "changed {{ field }}",
+        "created": "created",
+        "deleted": "deleted",
+        "forView": "for",
+        "interval": {
+            "fifteenMinutes": "15 minutes",
+            "fiveMinutes": "5 minutes",
+            "oneDay": "1 day",
+            "oneHour": "1 hour",
+            "oneMinute": "1 minute",
+            "sevenDays": "7 days",
+            "sixHours": "6 hours",
+            "thirtyDays": "30 days",
+            "thirtyMinutes": "30 minutes",
+            "twelveHours": "12 hours"
+        },
+        "materializationDisabled": "disabled materialization",
+        "materializationDisabledFor": "disabled materialization for",
+        "materializationEnabled": "enabled materialization",
+        "materializationEnabledFor": "enabled materialization for",
+        "none": "none",
+        "onView": "on",
+        "queryUpdated": "updated the query",
+        "syncCancelled": "cancelled a running sync on",
+        "syncFrequencyAutoReset": "auto-reset sync frequency to",
+        "syncFrequencyChanged": "changed sync frequency from <Bold>{{ before }}</Bold> to <Bold>{{ after }}</Bold>",
+        "syncTriggered": "triggered an ad-hoc sync on",
+        "updatedTheView": "updated the view",
+        "withSyncFrequency": "with sync frequency"
     },
     "sceneActivity": {
         "by": "by",
