@@ -69,7 +69,7 @@ function getDateDisabledReason(
     }
 
     if (selectionPeriod === 'past' && date.isAfter(today)) {
-        return 'Cannot select dates in the future'
+        return i18n.t('lemonUi.noFutureDates', { defaultValue: 'Cannot select dates in the future' })
     }
 
     return undefined
@@ -192,11 +192,15 @@ export function LemonCalendarSelect({
 
                     const periodValidityDisabledReason =
                         selectionPeriod === 'upcoming' && newDate.isBefore(now)
-                            ? 'Cannot choose a time in the past'
+                            ? i18n.t('lemonUi.noPastTime', { defaultValue: 'Cannot choose a time in the past' })
                             : selectionPeriod === 'past' && newDate.isAfter(now)
-                              ? 'Cannot choose a time in the future'
+                              ? i18n.t('lemonUi.noFutureTime', {
+                                    defaultValue: 'Cannot choose a time in the future',
+                                })
                               : undefined
-                    const disabledReason = selectValue ? periodValidityDisabledReason : 'Choose a date first'
+                    const disabledReason = selectValue
+                        ? periodValidityDisabledReason
+                        : i18n.t('lemonUi.chooseDateFirst', { defaultValue: 'Choose a date first' })
 
                     return {
                         active: selected === String(props.value),
@@ -219,7 +223,7 @@ export function LemonCalendarSelect({
             >
                 {showTimeToggle && (
                     <LemonSwitch
-                        label="Include time?"
+                        label={i18n.t('lemonUi.includeTime', { defaultValue: 'Include time?' })}
                         checked={granularity != 'day'}
                         onChange={onToggleTime}
                         bordered
@@ -323,7 +327,7 @@ export function LemonCalendarSelectInput(props: LemonCalendarSelectInputProps): 
                         ? {
                               icon: <IconX />,
                               onClick: () => props.onChange?.(null),
-                              'aria-label': 'Clear date',
+                              'aria-label': i18n.t('lemonUi.clearDate', { defaultValue: 'Clear date' }),
                           }
                         : (undefined as unknown as SideAction) // We know it will be a normal button if not clearable
                 }
