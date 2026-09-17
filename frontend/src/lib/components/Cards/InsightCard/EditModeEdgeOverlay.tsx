@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import { DashboardResizeHandles } from 'lib/components/Cards/handles'
+import { i18n } from 'lib/i18n/i18n'
 
 export type EditModeEdge = 'n' | 's' | 'w' | 'e' | 'nw' | 'ne' | 'sw' | 'se'
 
@@ -327,7 +328,7 @@ export const EditModeEdgeOverlay: React.FC<EditModeEdgeOverlayProps> = ({ onEnte
                     }}
                     onMouseLeave={() => releaseHover()}
                     aria-hidden="true"
-                    title="Click to edit layout"
+                    title={i18n.t('dashboard.editLayout', { defaultValue: 'Click to edit layout' })}
                     data-attr={EDGE_ZONE_DATA_ATTR}
                     // eslint-disable-next-line react/forbid-dom-props
                     style={{
