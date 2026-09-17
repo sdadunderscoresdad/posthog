@@ -5,6 +5,7 @@ import { ChangeEvent, RefObject, createRef, useEffect, useState } from 'react'
 
 import { IconUpload } from '@posthog/icons'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonTag } from 'lib/lemon-ui/LemonTag/LemonTag'
 import { Spinner } from 'lib/lemon-ui/Spinner/Spinner'
@@ -184,7 +185,7 @@ export const LemonFileInput = ({
                 >
                     {callToAction || (
                         <LemonButton icon={<IconUpload />} type="tertiary" disabledReason={disabledReason}>
-                            Click or drag and drop to upload
+                            {i18n.t('lemonUi.uploadHint', { defaultValue: 'Click or drag and drop to upload' })}
                             {accept ? ` ${acceptToDisplayName(accept)}` : ''}
                         </LemonButton>
                     )}

@@ -5,6 +5,7 @@ import { IconX } from '@posthog/icons'
 
 import { dayjs, dayjsNowInTimezone } from 'lib/dayjs'
 import { useOnMountEffect } from 'lib/hooks/useOnMountEffect'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton, LemonButtonWithSideActionProps, SideAction } from 'lib/lemon-ui/LemonButton'
 import {
     GetTimeStateOpts,
@@ -152,7 +153,7 @@ export function LemonCalendarSelect({
     return (
         <div className="LemonCalendarSelect" data-attr="lemon-calendar-select">
             <div className="flex justify-between border-b p-2 pb-4">
-                <h3 className="text-base mb-0">Select a date</h3>
+                <h3 className="text-base mb-0">{i18n.t('lemonUi.selectDate', { defaultValue: 'Select a date' })}</h3>
                 {onClose && (
                     <LemonButton icon={<IconX />} size="small" onClick={onClose} aria-label="close" noPadding />
                 )}

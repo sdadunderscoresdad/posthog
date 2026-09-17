@@ -6,6 +6,7 @@ import { IconCheckCircle, IconCopy, IconInfo, IconWarning, IconX } from '@postho
 
 import { getIncidentStatus, STATUS_PAGE_BASE } from 'lib/components/HelpMenu/incidentStatus'
 import { isChristmas } from 'lib/holidays'
+import { i18n } from 'lib/i18n/i18n'
 import { renderDetailWithLinks } from 'lib/utils/renderDetailWithLinks'
 import { hashCodeForString } from 'lib/utils/strings'
 import { writeToClipboard } from 'lib/utils/writeToClipboard'
@@ -184,7 +185,9 @@ function withIncidentNote(message: string | JSX.Element): string | JSX.Element {
         <>
             <span className="block">{message}</span>
             <Link className="block text-xs mt-1 opacity-75" to={STATUS_PAGE_BASE} target="_blank">
-                There is an ongoing incident that may be related.
+                {i18n.t('lemonUi.ongoingIncident', {
+                    defaultValue: 'There is an ongoing incident that may be related.',
+                })}
             </Link>
         </>
     )

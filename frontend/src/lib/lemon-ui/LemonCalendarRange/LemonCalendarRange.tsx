@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { IconX } from '@posthog/icons'
 
 import { dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonSwitch } from 'lib/lemon-ui/LemonSwitch'
 import { formatDate, formatDateRange } from 'lib/utils/datetime'
@@ -38,7 +39,9 @@ export function LemonCalendarRange({
     return (
         <div className="LemonCalendarRange" data-attr="lemon-calendar-range">
             <div className="flex justify-between border-b p-2 pb-4">
-                <h3 className="text-base mb-0">Select a date range</h3>
+                <h3 className="text-base mb-0">
+                    {i18n.t('lemonUi.selectDateRange', { defaultValue: 'Select a date range' })}
+                </h3>
                 {onClose && (
                     <LemonButton icon={<IconX />} size="small" noPadding onClick={onClose} aria-label="close" />
                 )}

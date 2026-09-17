@@ -314,8 +314,10 @@
         "cancel": "Cancel",
         "loading": "Loading...",
         "no": "No",
+        "optional": "(optional)",
         "unknown": "Unknown",
         "untitled": "Untitled",
+        "whatIsThis": "(what is this?)",
         "yes": "Yes"
     },
     "credentialReview": {
@@ -1342,6 +1344,26 @@
         "tryAgain": "Try again",
         "unknownDetail": "{{ detail }} There was an issue with your invite link. Please try again in a few seconds. If the problem persists, contact us.",
         "unknownTitle": "We couldn't validate this invite link"
+    },
+    "lemonUi": {
+        "clearAll": "Clear all",
+        "clickToEdit": "Click on the text to edit.",
+        "clickToRemove": "Click on the X to remove.",
+        "customColor": "Custom color",
+        "editThisValue": "Edit this value",
+        "mermaidRenderFailed": "Could not render Mermaid diagram:",
+        "nothingToPreview": "Nothing to preview",
+        "ongoingIncident": "There is an ongoing incident that may be related.",
+        "presetColors": "Preset colors",
+        "readTheDocs": "Read the docs",
+        "selectAll": "Select all",
+        "selectDate": "Select a date",
+        "selectDateRange": "Select a date range",
+        "selectFromOptions_one": "Select from {{ count }} options",
+        "selectFromOptions_other": "Select from {{ count }} options",
+        "unsavedInput": "You have unsaved input that will be discarded.",
+        "uploadHint": "Click or drag and drop to upload",
+        "useButtonToClose": "Use the <Icon></Icon> button to close explicitly."
     },
     "login": {
         "backToLogin": "Back to login",

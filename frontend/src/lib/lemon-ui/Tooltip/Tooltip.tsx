@@ -7,6 +7,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { IconInfo } from '@posthog/icons'
 
 import { useFloatingContainer } from 'lib/hooks/useFloatingContainerContext'
+import { i18n } from 'lib/i18n/i18n'
 import { cn } from 'lib/utils/css-classes'
 
 import { Link } from '../Link'
@@ -205,7 +206,7 @@ export function Tooltip({
                                         data-ph-capture-attribute-autocapture-event-name="clicked tooltip doc link"
                                         data-ph-capture-attribute-doclink={docLink}
                                     >
-                                        Read the docs
+                                        {i18n.t('lemonUi.readTheDocs', { defaultValue: 'Read the docs' })}
                                     </Link>
                                 </p>
                             )}

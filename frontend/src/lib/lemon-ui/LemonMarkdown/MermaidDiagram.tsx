@@ -2,6 +2,7 @@ import { useValues } from 'kea'
 import { useEffect, useId, useState } from 'react'
 
 import { CodeSnippet, Language } from 'lib/components/CodeSnippet'
+import { i18n } from 'lib/i18n/i18n'
 import { Spinner } from 'lib/lemon-ui/Spinner'
 import { themeLogic } from 'lib/logic/themeLogic'
 
@@ -105,7 +106,10 @@ export function MermaidDiagram({ code, className, naturalWidth = false }: Mermai
     if (error) {
         return (
             <div className={className} data-attr="mermaid-error">
-                <div className="mb-1 text-xs text-danger">Could not render Mermaid diagram: {error}</div>
+                <div className="mb-1 text-xs text-danger">
+                    {i18n.t('lemonUi.mermaidRenderFailed', { defaultValue: 'Could not render Mermaid diagram:' })}{' '}
+                    {error}
+                </div>
                 <CodeSnippet language={Language.Text} compact wrap>
                     {code}
                 </CodeSnippet>

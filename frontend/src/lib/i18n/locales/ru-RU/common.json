@@ -316,8 +316,10 @@
         "cancel": "",
         "loading": "",
         "no": "",
+        "optional": "",
         "unknown": "",
         "untitled": "",
+        "whatIsThis": "",
         "yes": ""
     },
     "credentialReview": {
@@ -1390,6 +1392,28 @@
         "tryAgain": "",
         "unknownDetail": "",
         "unknownTitle": ""
+    },
+    "lemonUi": {
+        "clearAll": "",
+        "clickToEdit": "",
+        "clickToRemove": "",
+        "customColor": "",
+        "editThisValue": "",
+        "mermaidRenderFailed": "",
+        "nothingToPreview": "",
+        "ongoingIncident": "",
+        "presetColors": "",
+        "readTheDocs": "",
+        "selectAll": "",
+        "selectDate": "",
+        "selectDateRange": "",
+        "selectFromOptions_one": "",
+        "selectFromOptions_few": "",
+        "selectFromOptions_many": "",
+        "selectFromOptions_other": "",
+        "unsavedInput": "",
+        "uploadHint": "",
+        "useButtonToClose": ""
     },
     "login": {
         "backToLogin": "",

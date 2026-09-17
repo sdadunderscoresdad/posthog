@@ -7,6 +7,7 @@ import { IconImage, IconMarkdownFilled } from '@posthog/icons'
 import { TextContent } from 'lib/components/Cards/TextCard/TextCard'
 import { EmojiPickerPopover } from 'lib/components/EmojiPicker/EmojiPickerPopover'
 import { useUploadFiles } from 'lib/hooks/useUploadFiles'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonFileInput } from 'lib/lemon-ui/LemonFileInput'
 import { LemonTabs } from 'lib/lemon-ui/LemonTabs'
@@ -150,7 +151,7 @@ export const LemonTextAreaMarkdown = React.forwardRef<HTMLTextAreaElement, Lemon
                         content: value ? (
                             <TextContent text={value} className="LemonTextArea--preview" />
                         ) : (
-                            <i>Nothing to preview</i>
+                            <i>{i18n.t('lemonUi.nothingToPreview', { defaultValue: 'Nothing to preview' })}</i>
                         ),
                     },
                 ]}

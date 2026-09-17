@@ -14,6 +14,7 @@ import { LemonCheckbox, Tooltip } from '@posthog/lemon-ui'
 import { AutoSizer } from 'lib/components/AutoSizer'
 import { KeyboardShortcut } from 'lib/components/KeyboardShortcut/KeyboardShortcut'
 import { CLICK_OUTSIDE_BLOCK_CLASS } from 'lib/hooks/useOutsideClickHandler'
+import { i18n } from 'lib/i18n/i18n'
 import { SortableDragIcon } from 'lib/lemon-ui/icons'
 import { LemonSkeleton } from 'lib/lemon-ui/LemonSkeleton'
 import { LemonSnack } from 'lib/lemon-ui/LemonSnack/LemonSnack'
@@ -95,7 +96,7 @@ function VirtualizedOptionRow<T = string>({
                           icon: <IconPencil className={!isFocused ? 'invisible' : undefined} />,
                           tooltip: (
                               <>
-                                  Edit this value
+                                  {i18n.t('lemonUi.editThisValue', { defaultValue: 'Edit this value' })}
                                   <KeyboardShortcut option enter />
                               </>
                           ),
@@ -787,7 +788,12 @@ export function LemonInputSelect<T = string>({
             return null
         }
         return values.length === 0 ? (
-            <span className="-ml-2 text-muted">Select from {options.length} options</span>
+            <span className="-ml-2 text-muted">
+                {i18n.t('lemonUi.selectFromOptions', {
+                    defaultValue: 'Select from {{ count }} options',
+                    count: options.length,
+                })}
+            </span>
         ) : (
             <span className="-ml-2">
                 {values.length === options.length
@@ -898,7 +904,7 @@ export function LemonInputSelect<T = string>({
                                         />
                                     }
                                 >
-                                    Select all
+                                    {i18n.t('lemonUi.selectAll', { defaultValue: 'Select all' })}
                                 </LemonButton>
                             )}
                             <LemonButton
@@ -909,7 +915,7 @@ export function LemonInputSelect<T = string>({
                                 disabledReason={values.length === 0 ? 'No options are selected' : undefined}
                                 onClick={() => onChange?.([])}
                             >
-                                Clear all
+                                {i18n.t('lemonUi.clearAll', { defaultValue: 'Clear all' })}
                             </LemonButton>
                         </div>
                     )}
@@ -989,7 +995,10 @@ export function LemonInputSelect<T = string>({
                                                       ),
                                                       tooltip: (
                                                           <>
-                                                              Edit this value <KeyboardShortcut option enter />
+                                                              {i18n.t('lemonUi.editThisValue', {
+                                                                  defaultValue: 'Edit this value',
+                                                              })}{' '}
+                                                              <KeyboardShortcut option enter />
                                                           </>
                                                       ),
                                                       onClick: () => {
@@ -1120,12 +1129,16 @@ function DraggableValueSnack<T = string>({
                         <span>
                             {onInitiateEdit && (
                                 <>
-                                    Click on the text to edit.
+                                    {i18n.t('lemonUi.clickToEdit', { defaultValue: 'Click on the text to edit.' })}
                                     <br />
                                 </>
                             )}
                         </span>
-                        {onClose && <span>Click on the X to remove.</span>}
+                        {onClose && (
+                            <span>
+                                {i18n.t('lemonUi.clickToRemove', { defaultValue: 'Click on the X to remove.' })}
+                            </span>
+                        )}
                     </>
                 ) : null)
             }
@@ -1220,12 +1233,16 @@ function ValueSnacks<T = string>({
                             <span>
                                 {onInitiateEdit && (
                                     <>
-                                        Click on the text to edit.
+                                        {i18n.t('lemonUi.clickToEdit', { defaultValue: 'Click on the text to edit.' })}
                                         <br />
                                     </>
                                 )}
                             </span>
-                            {onClose && <span>Click on the X to remove.</span>}
+                            {onClose && (
+                                <span>
+                                    {i18n.t('lemonUi.clickToRemove', { defaultValue: 'Click on the X to remove.' })}
+                                </span>
+                            )}
                         </>
                     ) : null)
                 }

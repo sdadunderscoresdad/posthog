@@ -4,6 +4,7 @@ import { cloneElement, useEffect, useState } from 'react'
 import { LemonColorGlyph, LemonInput, LemonLabel, Popover } from '@posthog/lemon-ui'
 
 import { DataColorToken } from 'lib/colors'
+import { i18n } from 'lib/i18n/i18n'
 import { dataThemeLogic } from 'lib/logic/dataThemeLogic'
 
 import { LemonColorButton } from './LemonColorButton'
@@ -86,7 +87,9 @@ export const LemonColorPickerOverlay = ({
                 }
             }}
         >
-            <LemonLabel className="mt-1 mb-0.5">Preset colors</LemonLabel>
+            <LemonLabel className="mt-1 mb-0.5">
+                {i18n.t('lemonUi.presetColors', { defaultValue: 'Preset colors' })}
+            </LemonLabel>
             {colors ? (
                 <LemonColorList
                     colors={colors}
@@ -105,7 +108,9 @@ export const LemonColorPickerOverlay = ({
             )}
             {showCustomColor && (
                 <div>
-                    <LemonLabel className="mt-2 mb-0.5">Custom color</LemonLabel>
+                    <LemonLabel className="mt-2 mb-0.5">
+                        {i18n.t('lemonUi.customColor', { defaultValue: 'Custom color' })}
+                    </LemonLabel>
                     <div className="flex items-center gap-2">
                         <LemonColorGlyph color={lastValidColor} className="ml-1.5" />
                         <LemonInput

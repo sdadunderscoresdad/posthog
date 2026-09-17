@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import { IconInfo } from '@posthog/icons'
 
 import { PayGateIcon } from 'lib/components/PayGateMini/PayGateButton'
+import { i18n } from 'lib/i18n/i18n'
 
 import { AvailableFeature } from '~/types'
 
@@ -38,11 +39,15 @@ export function LemonLabel({
         <label className={clsx('LemonLabel', className)} htmlFor={htmlFor} {...props}>
             {children}
 
-            {showOptional ? <span className="LemonLabel__extra">(optional)</span> : null}
+            {showOptional ? (
+                <span className="LemonLabel__extra">{i18n.t('common.optional', { defaultValue: '(optional)' })}</span>
+            ) : null}
 
             {onExplanationClick ? (
                 <Link onClick={onExplanationClick}>
-                    <span className="LemonLabel__extra">(what is this?)</span>
+                    <span className="LemonLabel__extra">
+                        {i18n.t('common.whatIsThis', { defaultValue: '(what is this?)' })}
+                    </span>
                 </Link>
             ) : null}
 

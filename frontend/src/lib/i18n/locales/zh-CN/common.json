@@ -313,8 +313,10 @@
         "cancel": "取消",
         "loading": "加载中…",
         "no": "否",
+        "optional": "（可选）",
         "unknown": "未知",
         "untitled": "未命名",
+        "whatIsThis": "（这是什么？）",
         "yes": "是"
     },
     "credentialReview": {
@@ -1329,6 +1331,25 @@
         "tryAgain": "重试",
         "unknownDetail": "{{ detail }}你的邀请链接出现了问题。请稍等几秒后重试。如果问题持续存在，请联系我们。",
         "unknownTitle": "我们无法验证此邀请链接"
+    },
+    "lemonUi": {
+        "clearAll": "清除全部",
+        "clickToEdit": "点击文字即可编辑。",
+        "clickToRemove": "点击 X 即可移除。",
+        "customColor": "自定义颜色",
+        "editThisValue": "编辑该值",
+        "mermaidRenderFailed": "无法渲染 Mermaid 图表：",
+        "nothingToPreview": "没有可预览的内容",
+        "ongoingIncident": "有一项正在进行的故障可能与此相关。",
+        "presetColors": "预设颜色",
+        "readTheDocs": "阅读文档",
+        "selectAll": "全选",
+        "selectDate": "选择日期",
+        "selectDateRange": "选择日期范围",
+        "selectFromOptions_other": "从 {{ count }} 个选项中挑选",
+        "unsavedInput": "你有未保存的输入，将会被丢弃。",
+        "uploadHint": "点击或拖拽文件以上传",
+        "useButtonToClose": "使用 <Icon></Icon> 按钮显式关闭。"
     },
     "login": {
         "backToLogin": "返回登录",

@@ -2,12 +2,14 @@ import './LemonModal.scss'
 
 import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
+import { Trans } from 'react-i18next'
 import Modal from 'react-modal'
 
 import { IconX } from '@posthog/icons'
 
 import { KeyboardShortcut } from 'lib/components/KeyboardShortcut/KeyboardShortcut'
 import { useFloatingContainer } from 'lib/hooks/useFloatingContainerContext'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 
 import { Tooltip } from '../Tooltip'
@@ -119,9 +121,15 @@ export function LemonModal({
                             title={
                                 ignoredOverlayClickCount ? (
                                     <>
-                                        You have unsaved input that will be discarded.
+                                        {i18n.t('lemonUi.unsavedInput', {
+                                            defaultValue: 'You have unsaved input that will be discarded.',
+                                        })}
                                         <br />
-                                        Use the <IconX /> button to close explicitly.
+                                        <Trans
+                                            i18nKey="lemonUi.useButtonToClose"
+                                            components={{ Icon: <IconX /> }}
+                                            defaults="Use the <Icon></Icon> button to close explicitly."
+                                        />
                                     </>
                                 ) : (
                                     <>
