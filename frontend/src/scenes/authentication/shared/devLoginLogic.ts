@@ -2,6 +2,7 @@ import { MakeLogicType, actions, kea, listeners, path, reducers, selectors } fro
 import { loaders } from 'kea-loaders'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast'
 
 export interface DevUser {
@@ -156,7 +157,10 @@ export const devLoginLogic = kea<devLoginLogicType>([
                 await api.create<any>('api/login/dev', { email })
             } catch (e) {
                 const { code, detail } = e as Record<string, any>
-                loginLogic.actions.setGeneralError(code || 'dev_login_failed', detail || 'Dev login failed')
+                loginLogic.actions.setGeneralError(
+                    code || 'dev_login_failed',
+                    detail || i18n.t('devLoginPanel.devLoginFailed', { defaultValue: 'Dev login failed' })
+                )
                 return
             }
             redirectAfterLogin()
@@ -165,8 +169,13 @@ export const devLoginLogic = kea<devLoginLogicType>([
             try {
                 await api.create<any>('api/login/dev', { create_fresh_account: true })
             } catch (e) {
-                actions.createFreshAccountFailure((e as Record<string, any>).detail || 'Failed to create account')
-                lemonToast.error('Failed to create fresh account')
+                actions.createFreshAccountFailure(
+                    (e as Record<string, any>).detail ||
+                        i18n.t('devLoginPanel.createAccountFailed', { defaultValue: 'Failed to create account' })
+                )
+                lemonToast.error(
+                    i18n.t('devLoginPanel.createFreshAccountFailed', { defaultValue: 'Failed to create fresh account' })
+                )
                 return
             }
             actions.createFreshAccountSuccess()

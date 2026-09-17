@@ -3,6 +3,7 @@ import { loaders } from 'kea-loaders'
 import { urlToAction } from 'kea-router'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { loginLogic } from 'scenes/authentication/login/loginLogic'
 import { urls } from 'scenes/urls'
 
@@ -151,7 +152,12 @@ export const twoFactorResetLogic = kea<twoFactorResetLogicType>([
                         }
                         return {
                             success: false,
-                            error: e.data?.error || e.detail || 'Invalid or expired link',
+                            error:
+                                e.data?.error ||
+                                e.detail ||
+                                i18n.t('twoFactorReset.invalidOrExpiredLink', {
+                                    defaultValue: 'Invalid or expired link',
+                                }),
                             requires_login: requiresLogin,
                         }
                     }
@@ -232,7 +238,11 @@ export const twoFactorResetLogic = kea<twoFactorResetLogicType>([
             try {
                 actions.executeReset({ uuid: values.currentUuid, token })
             } catch (e: any) {
-                actions.setResetError(e.data?.error || e.detail || 'Failed to reset 2FA. Please try again.')
+                actions.setResetError(
+                    e.data?.error ||
+                        e.detail ||
+                        i18n.t('twoFactorReset.resetFailed', { defaultValue: 'Failed to reset 2FA. Please try again.' })
+                )
             }
         },
         executeResetSuccess: ({ resetResult }) => {
@@ -243,11 +253,17 @@ export const twoFactorResetLogic = kea<twoFactorResetLogicType>([
             } else if (resetResult?.requires_login) {
                 actions.setRequiresLogin(true)
             } else {
-                actions.setResetError(resetResult?.error || 'Failed to reset 2FA. Please try again.')
+                actions.setResetError(
+                    resetResult?.error ||
+                        i18n.t('twoFactorReset.resetFailed', { defaultValue: 'Failed to reset 2FA. Please try again.' })
+                )
             }
         },
         executeResetFailure: ({ error }) => {
-            actions.setResetError(error || 'Failed to reset 2FA. Please try again.')
+            actions.setResetError(
+                error ||
+                    i18n.t('twoFactorReset.resetFailed', { defaultValue: 'Failed to reset 2FA. Please try again.' })
+            )
         },
     })),
     urlToAction(({ actions }) => ({

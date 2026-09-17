@@ -7,7 +7,7 @@ import { API_SCOPES } from 'lib/scopes'
 
 import { initKeaTests } from '~/test/init'
 
-import { CLI_SCOPE_PRESETS, cliAuthorizeLogic } from './cliAuthorizeLogic'
+import { cliAuthorizeLogic, cliScopePresets } from './cliAuthorizeLogic'
 
 const getRenderableKeyCreationScopes = (): Set<string> =>
     new Set(
@@ -93,7 +93,7 @@ describe('cliAuthorizeLogic', () => {
 
         // Default agent scopes map onto the agent-cli preset
         await expectLogic(logic).toMatchValues({ scopePreset: 'agent-cli' })
-        expect(CLI_SCOPE_PRESETS.find((preset) => preset.value === 'agent-cli')?.label).toBe('Agent CLI')
+        expect(cliScopePresets().find((preset) => preset.value === 'agent-cli')?.label).toBe('Agent CLI')
 
         // Selecting a preset replaces the scope set and updates the dropdown
         logic.actions.setScopePreset('error_tracking')
@@ -102,8 +102,8 @@ describe('cliAuthorizeLogic', () => {
         })
         expect(logic.values.authorize.scopes).toEqual(['error_tracking:write'])
 
-        expect(CLI_SCOPE_PRESETS.find((preset) => preset.value === 'all_access')).toBeUndefined()
-        expect(CLI_SCOPE_PRESETS.find((preset) => preset.scopes.includes('*'))).toBeUndefined()
+        expect(cliScopePresets().find((preset) => preset.value === 'all_access')).toBeUndefined()
+        expect(cliScopePresets().find((preset) => preset.scopes.includes('*'))).toBeUndefined()
     })
 
     it('drops to a custom selection once a scope is fine-tuned', async () => {

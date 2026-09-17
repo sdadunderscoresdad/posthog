@@ -10,6 +10,7 @@ import { lemonToast } from '@posthog/lemon-ui'
 import api from 'lib/api'
 import { ValidatedPasswordResult, validatePassword } from 'lib/components/PasswordStrength'
 import { CLOUD_HOSTNAMES, FEATURE_FLAGS } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 import { splitFullName } from 'lib/utils/strings'
 import { getRelativeNextPath } from 'lib/utils/url'
@@ -410,9 +411,9 @@ export const signupLogic = kea<signupLogicType>([
             } as SignupPanelEmailForm,
             errors: ({ email }) => ({
                 email: !email
-                    ? 'Please enter your email to continue'
+                    ? i18n.t('signup.enterEmailToContinue', { defaultValue: 'Please enter your email to continue' })
                     : !emailRegex.test(email)
-                      ? 'Please use a valid email address'
+                      ? i18n.t('signup.invalidEmail', { defaultValue: 'Please use a valid email address' })
                       : undefined,
             }),
             // kea-forms counts manual errors as validation errors and refuses to submit while any
@@ -432,7 +433,11 @@ export const signupLogic = kea<signupLogicType>([
                     })
                 } catch (e: any) {
                     if (e?.status === 409 || e?.code === 'account_exists') {
-                        const errorMessage = e?.detail || 'There is already an account with this email address.'
+                        const errorMessage =
+                            e?.detail ||
+                            i18n.t('signup.accountExists', {
+                                defaultValue: 'There is already an account with this email address.',
+                            })
                         actions.setSignupPanelEmailManualErrors({
                             email: errorMessage,
                         })
@@ -444,7 +449,10 @@ export const signupLogic = kea<signupLogicType>([
                         ? Array.isArray(fieldError)
                             ? String(fieldError[0])
                             : String(fieldError)
-                        : e?.detail || 'Could not verify your email. Please try again.'
+                        : e?.detail ||
+                          i18n.t('signup.couldNotVerifyEmail', {
+                              defaultValue: 'Could not verify your email. Please try again.',
+                          })
                     actions.setSignupPanelEmailManualErrors({
                         email: emailErrorMessage,
                     })
@@ -471,7 +479,9 @@ export const signupLogic = kea<signupLogicType>([
                 password:
                     !values.passkeyRegistered && !values.preflight?.demo
                         ? !password
-                            ? 'Please enter your password to continue'
+                            ? i18n.t('signup.enterpasswordToContinue', {
+                                  defaultValue: 'Please enter your password to continue',
+                              })
                             : values.validatedPassword.feedback || undefined
                         : undefined,
             }),
@@ -491,8 +501,12 @@ export const signupLogic = kea<signupLogicType>([
                 referral_source_ai_prompt: '',
             } as SignupPanelOnboardingForm,
             errors: ({ name, role_at_organization }) => ({
-                name: !name?.trim() ? 'Please enter your name' : undefined,
-                role_at_organization: !role_at_organization ? 'Please select your role in the organization' : undefined,
+                name: !name?.trim()
+                    ? i18n.t('signup.enterName', { defaultValue: 'Please enter your name' })
+                    : undefined,
+                role_at_organization: !role_at_organization
+                    ? i18n.t('signup.selectRole', { defaultValue: 'Please select your role in the organization' })
+                    : undefined,
             }),
             // Same reason as the email panel: without this, the generic or name error left behind by
             // a failed signup would make every retry of this form a no-op.
@@ -574,7 +588,9 @@ export const signupLogic = kea<signupLogicType>([
                     // showing errors — on a successful submit it hides them again.
                     if (error.attr === 'first_name' || error.attr === 'last_name') {
                         actions.setSignupPanelOnboardingManualErrors({
-                            name: String(error.detail || 'Please enter your name'),
+                            name: String(
+                                error.detail || i18n.t('signup.enterName', { defaultValue: 'Please enter your name' })
+                            ),
                         })
                         throw e
                     }
@@ -583,7 +599,9 @@ export const signupLogic = kea<signupLogicType>([
                         actions.setSignupPanelOnboardingManualErrors({
                             generic: {
                                 code: error.code,
-                                detail: 'Too many signup attempts. Please try again later.',
+                                detail: i18n.t('signup.tooManyAttempts', {
+                                    defaultValue: 'Too many signup attempts. Please try again later.',
+                                }),
                             },
                         })
                     } else {
@@ -609,7 +627,11 @@ export const signupLogic = kea<signupLogicType>([
         emailCaseNotice: [
             (s) => [s.emailWasNormalized],
             (emailWasNormalized: boolean): string | undefined => {
-                return emailWasNormalized ? '⚠ Your email was automatically converted to lowercase' : undefined
+                return emailWasNormalized
+                    ? i18n.t('signup.emailLowercased', {
+                          defaultValue: '⚠ Your email was automatically converted to lowercase',
+                      })
+                    : undefined
             },
         ],
         loginUrl: [
@@ -632,7 +654,11 @@ export const signupLogic = kea<signupLogicType>([
                 breakpoint()
                 actions.setPendingInviteResent(true)
             } catch {
-                lemonToast.error('Could not resend the invite email. Please try again.')
+                lemonToast.error(
+                    i18n.t('signup.couldNotResendInvite', {
+                        defaultValue: 'Could not resend the invite email. Please try again.',
+                    })
+                )
             } finally {
                 actions.setPendingInviteResending(false)
             }
@@ -666,7 +692,7 @@ export const signupLogic = kea<signupLogicType>([
         registerPasskey: async () => {
             const email = values.signupPanelEmail.email
             if (!email) {
-                actions.setPasskeyError('Email is required')
+                actions.setPasskeyError(i18n.t('signup.emailRequired', { defaultValue: 'Email is required' }))
                 return
             }
 
@@ -707,7 +733,14 @@ export const signupLogic = kea<signupLogicType>([
                 actions.setSignupPanelAuthValue('password', '') // Clear password since we're using passkey
             } catch (e: any) {
                 if (!isWebAuthnCancellation(e)) {
-                    actions.setPasskeyError(getPasskeyErrorMessage(e, 'Failed to register passkey. Please try again.'))
+                    actions.setPasskeyError(
+                        getPasskeyErrorMessage(
+                            e,
+                            i18n.t('signup.passkeyFailed', {
+                                defaultValue: 'Failed to register passkey. Please try again.',
+                            })
+                        )
+                    )
                 }
             } finally {
                 actions.setPasskeyRegistering(false)

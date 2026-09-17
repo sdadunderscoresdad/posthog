@@ -13,7 +13,7 @@ import { LemonField } from 'lib/lemon-ui/LemonField'
 import { SceneExport } from 'scenes/sceneTypes'
 import { urls } from 'scenes/urls'
 
-import { CLI_SCOPE_PRESETS, cliAuthorizeLogic } from './cliAuthorizeLogic'
+import { cliAuthorizeLogic, cliScopePresets } from './cliAuthorizeLogic'
 
 export const scene: SceneExport = {
     component: CLIAuthorize,
@@ -144,7 +144,7 @@ export function CLIAuthorize(): JSX.Element {
                                 placeholder={t('cliAuthorize.customSelection', { defaultValue: 'Custom selection' })}
                                 value={scopePreset}
                                 onChange={(value) => setScopePreset(value)}
-                                options={CLI_SCOPE_PRESETS.map((preset) => ({
+                                options={cliScopePresets().map((preset) => ({
                                     label: preset.label,
                                     value: preset.value,
                                 }))}

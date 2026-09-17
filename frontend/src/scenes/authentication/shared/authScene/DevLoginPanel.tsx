@@ -118,12 +118,18 @@ export function DevLoginPanel(): JSX.Element | null {
                                 size="small"
                                 fullWidth
                                 center
-                                disabledReason={loginInProgress ? 'Login in progress' : undefined}
+                                disabledReason={
+                                    loginInProgress
+                                        ? t('devLoginPanel.loginInProgress', { defaultValue: 'Login in progress' })
+                                        : undefined
+                                }
                                 onClick={() => beginLogin(region)}
                                 data-attr={`dev-oauth-${region.toLowerCase()}`}
                                 icon={<span className="text-base leading-none">{OAUTH_REGIONS[region].flag}</span>}
                             >
-                                {region === Region.US ? 'US Cloud' : 'EU Cloud'}
+                                {region === Region.US
+                                    ? t('devLoginPanel.usCloud', { defaultValue: 'US Cloud' })
+                                    : t('devLoginPanel.euCloud', { defaultValue: 'EU Cloud' })}
                             </LemonButton>
                         ))}
                     </div>

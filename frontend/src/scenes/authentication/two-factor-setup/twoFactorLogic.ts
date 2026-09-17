@@ -6,6 +6,7 @@ import { loaders } from 'kea-loaders'
 import { lemonToast } from '@posthog/lemon-ui'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 import { membersLogic } from 'scenes/organization/membersLogic'
 import { preflightLogic } from 'scenes/PreflightCheck/preflightLogic'
@@ -383,7 +384,11 @@ export const twoFactorLogic = kea<twoFactorLogicType>([
         token: {
             defaults: { token: '' },
             errors: ({ token }) => ({
-                token: !token ? 'Please enter a token to continue' : undefined,
+                token: !token
+                    ? i18n.t('twoFactorSetup.enterTokenToContinue', {
+                          defaultValue: 'Please enter a token to continue',
+                      })
+                    : undefined,
             }),
             submit: async ({ token }, breakpoint) => {
                 breakpoint()
@@ -399,14 +404,18 @@ export const twoFactorLogic = kea<twoFactorLogicType>([
     })),
     listeners(({ props, actions }) => ({
         submitTokenSuccess: () => {
-            lemonToast.success('2FA method added successfully')
+            lemonToast.success(i18n.t('twoFactorSetup.methodAdded', { defaultValue: '2FA method added successfully' }))
             actions.loadStatus()
             props.onSuccess?.()
         },
         disable2FA: async () => {
             try {
                 await api.create<any>('api/users/@me/two_factor_disable/')
-                lemonToast.success('2FA disabled successfully. The page will reload.')
+                lemonToast.success(
+                    i18n.t('twoFactorSetup.disabled', {
+                        defaultValue: '2FA disabled successfully. The page will reload.',
+                    })
+                )
                 actions.loadStatus()
 
                 // Reload to avoid breaking calls on the page if enforce_2fa=True
@@ -420,7 +429,9 @@ export const twoFactorLogic = kea<twoFactorLogicType>([
             }
         },
         generateBackupCodesSuccess: () => {
-            lemonToast.success('Backup codes generated successfully')
+            lemonToast.success(
+                i18n.t('twoFactorSetup.backupCodesGenerated', { defaultValue: 'Backup codes generated successfully' })
+            )
         },
         closeTwoFactorSetupModal: () => {
             // Clear the form when closing the modal

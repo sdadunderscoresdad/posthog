@@ -10,6 +10,7 @@ import posthog from 'posthog-js'
 import api from 'lib/api'
 import { ApiError } from 'lib/api-error'
 import { getSocialLoginUrl } from 'lib/components/SocialLoginButton/socialLoginUrl'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 import { isWebKitBrowser } from 'lib/utils/dom'
@@ -499,14 +500,24 @@ export const loginLogic = kea<loginLogicType>([
                     breakpoint()
                     try {
                         const response = await api.create<any>('api/login/code-based-verification/resend')
-                        lemonToast.success('Verification email resent')
+                        lemonToast.success(
+                            i18n.t('login.verificationEmailResent', { defaultValue: 'Verification email resent' })
+                        )
                         return response
                     } catch (e) {
                         const { code, detail } = e as Record<string, any>
                         if (code === 'too_soon') {
-                            lemonToast.error(detail || 'Please wait before requesting another email')
+                            lemonToast.error(
+                                detail ||
+                                    i18n.t('login.pleaseWaitBeforeRequestingEmail', {
+                                        defaultValue: 'Please wait before requesting another email',
+                                    })
+                            )
                         } else {
-                            lemonToast.error(detail || 'Failed to resend email')
+                            lemonToast.error(
+                                detail ||
+                                    i18n.t('login.failedToResendEmail', { defaultValue: 'Failed to resend email' })
+                            )
                         }
                         return null
                     }
@@ -582,8 +593,14 @@ export const loginLogic = kea<loginLogicType>([
         login: {
             defaults: { email: '', password: '' } as LoginForm,
             errors: ({ email, password }) => ({
-                email: !email ? 'Please enter your email to continue' : undefined,
-                password: !password ? 'Please enter your password to continue' : undefined,
+                email: !email
+                    ? i18n.t('login.enterEmailToContinue', { defaultValue: 'Please enter your email to continue' })
+                    : undefined,
+                password: !password
+                    ? i18n.t('login.enterpasswordToContinue', {
+                          defaultValue: 'Please enter your password to continue',
+                      })
+                    : undefined,
             }),
             submit: async ({ email, password }, breakpoint) => {
                 breakpoint()
@@ -607,7 +624,11 @@ export const loginLogic = kea<loginLogicType>([
                     }
                     if (code === 'verify_email_pending' && typeof detail === 'string') {
                         // detail carries the user uuid; the verification page has the code entry form
-                        lemonToast.info('Verify your email to continue. We just sent you a new code.')
+                        lemonToast.info(
+                            i18n.t('login.verifyEmailToContinue', {
+                                defaultValue: 'Verify your email to continue. We just sent you a new code.',
+                            })
+                        )
                         // The verify page has no session in this state, so store the address for its copy.
                         // detail carries the user uuid, which keys the stored value.
                         setPendingVerificationEmail(detail, email)
@@ -647,7 +668,12 @@ export const loginLogic = kea<loginLogicType>([
                     })
                 } catch (e) {
                     const { detail } = e as Record<string, any>
-                    const message = typeof detail === 'string' ? detail : 'This code is invalid or has expired.'
+                    const message =
+                        typeof detail === 'string'
+                            ? detail
+                            : i18n.t('verificationCode.invalidOrExpired', {
+                                  defaultValue: 'This code is invalid or has expired.',
+                              })
                     // Shown under the code input, like the signup verify screen, not in the banner
                     actions.setCodeVerificationManualErrors({ code: message })
                     throw e

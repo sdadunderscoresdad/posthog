@@ -7,6 +7,7 @@ import posthog from 'posthog-js'
 
 import api from 'lib/api'
 import { ValidatedPasswordResult, validatePassword } from 'lib/components/PasswordStrength'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 
 export interface ResponseType {
@@ -261,7 +262,11 @@ export const passwordResetLogic = kea<passwordResetLogicType>([
         requestPasswordReset: {
             defaults: {} as unknown as { email: string },
             errors: ({ email }) => ({
-                email: !email ? 'Please enter your email to continue' : undefined,
+                email: !email
+                    ? i18n.t('passwordReset.enterEmailToContinue', {
+                          defaultValue: 'Please enter your email to continue',
+                      })
+                    : undefined,
             }),
             submit: async ({ email }, breakpoint) => {
                 breakpoint()
@@ -269,7 +274,9 @@ export const passwordResetLogic = kea<passwordResetLogicType>([
                 try {
                     await api.create('api/reset/', { email })
                 } catch (e: any) {
-                    actions.setRequestPasswordResetManualErrors({ email: e.detail ?? 'An error occurred' })
+                    actions.setRequestPasswordResetManualErrors({
+                        email: e.detail ?? i18n.t('passwordReset.errorOccurred', { defaultValue: 'An error occurred' }),
+                    })
                     posthog.captureException('Failed to reset password', { extra: { error: e } })
                     throw e
                 }
@@ -280,12 +287,16 @@ export const passwordResetLogic = kea<passwordResetLogicType>([
             defaults: {} as unknown as PasswordResetForm,
             errors: ({ password, passwordConfirm }) => ({
                 password: !password
-                    ? 'Please enter your password to continue'
+                    ? i18n.t('passwordReset.enterpasswordToContinue', {
+                          defaultValue: 'Please enter your password to continue',
+                      })
                     : values.validatedPassword.feedback || undefined,
                 passwordConfirm: !passwordConfirm
-                    ? 'Please confirm your password to continue'
+                    ? i18n.t('passwordReset.confirmpasswordToContinue', {
+                          defaultValue: 'Please confirm your password to continue',
+                      })
                     : password !== passwordConfirm
-                      ? 'Passwords do not match'
+                      ? i18n.t('passwordReset.PasswordsDoNotMatch', { defaultValue: 'Passwords do not match' })
                       : undefined,
             }),
             submit: async ({ password }, breakpoint) => {
@@ -299,7 +310,11 @@ export const passwordResetLogic = kea<passwordResetLogicType>([
                         password,
                         token: values.validatedResetToken.token,
                     })
-                    lemonToast.success('Your password has been changed. Redirecting…')
+                    lemonToast.success(
+                        i18n.t('passwordReset.passwordChanged', {
+                            defaultValue: 'Your password has been changed. Redirecting…',
+                        })
+                    )
                     await breakpoint(3000)
 
                     const url = new URL('/login', window.location.origin)

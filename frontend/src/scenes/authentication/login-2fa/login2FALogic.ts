@@ -6,6 +6,7 @@ import { loaders } from 'kea-loaders'
 import { urlToAction } from 'kea-router'
 
 import api, { ApiError } from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 import { redirectAfterLogin } from 'scenes/authentication/login/loginLogic'
 import { preflightLogic } from 'scenes/PreflightCheck/preflightLogic'
@@ -270,7 +271,11 @@ export const login2FALogic = kea<login2FALogicType>([
         twofactortoken: {
             defaults: { token: '' } as TwoFactorForm,
             errors: ({ token }) => ({
-                token: !token ? 'Please enter a token to continue' : null,
+                token: !token
+                    ? i18n.t('login.twoFactor.enterTokenToContinue', {
+                          defaultValue: 'Please enter a token to continue',
+                      })
+                    : null,
             }),
             submit: async ({ token }, breakpoint) => {
                 breakpoint()
@@ -278,9 +283,15 @@ export const login2FALogic = kea<login2FALogicType>([
                     await api.create<LoginTokenResponse>('api/login/token', { token })
                 } catch (e: unknown) {
                     if (e instanceof ApiError) {
-                        actions.setGeneralError(e.code || 'unknown_error', e.detail || 'An error occurred')
+                        actions.setGeneralError(
+                            e.code || 'unknown_error',
+                            e.detail || i18n.t('login.twoFactor.errorOccurred', { defaultValue: 'An error occurred' })
+                        )
                     } else {
-                        actions.setGeneralError('unknown_error', 'An unexpected error occurred')
+                        actions.setGeneralError(
+                            'unknown_error',
+                            i18n.t('login.twoFactor.unexpectedError', { defaultValue: 'An unexpected error occurred' })
+                        )
                     }
                     throw e
                 }

@@ -2,6 +2,7 @@ import { MakeLogicType, actions, afterMount, connect, kea, listeners, path } fro
 import { router } from 'kea-router'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { passkeySettingsLogic } from 'scenes/settings/user/passkeySettingsLogic'
 import { personalAPIKeysLogic } from 'scenes/settings/user/personalAPIKeysLogic'
@@ -38,7 +39,9 @@ export const credentialReviewLogic = kea<credentialReviewLogicType>([
             try {
                 await api.create('api/users/@me/credentials_review_complete/')
             } catch {
-                lemonToast.error('Could not save your review. Try again.')
+                lemonToast.error(
+                    i18n.t('credentialReview.saveFailed', { defaultValue: 'Could not save your review. Try again.' })
+                )
                 return
             }
             // Flip the local user state's requires_credential_review via reducer before

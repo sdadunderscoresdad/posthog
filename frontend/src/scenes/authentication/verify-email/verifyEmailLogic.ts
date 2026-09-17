@@ -3,6 +3,7 @@ import { loaders } from 'kea-loaders'
 import { router, urlToAction } from 'kea-router'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { getRelativeNextPath } from 'lib/utils/url'
 import {
@@ -45,11 +46,15 @@ const redirectAfterVerification = (
 ): void => {
     const nextUrl = getRelativeNextPath(new URLSearchParams(location.search).get('next'), location)
     const loginMessage = response.requires_2fa
-        ? 'Email verified! Please log in with your password to complete two-factor authentication.'
+        ? i18n.t('verifyEmail.logInToCompleteTwoFactor', {
+              defaultValue: 'Email verified! Please log in with your password to complete two-factor authentication.',
+          })
         : response.requires_login
-          ? 'Email verified! Log in to continue.'
+          ? i18n.t('verifyEmail.logInToContinue', { defaultValue: 'Email verified! Log in to continue.' })
           : response.requires_sso
-            ? 'Email verified! Log in with SSO to continue.'
+            ? i18n.t('verifyEmail.logInWithSsoToContinue', {
+                  defaultValue: 'Email verified! Log in with SSO to continue.',
+              })
             : null
     if (loginMessage) {
         lemonToast.success(loginMessage)
@@ -183,7 +188,11 @@ export const verifyEmailLogic = kea<verifyEmailLogicType>([
                         return values.verificationResult
                     }
                     if (!isValidVerificationCode(code)) {
-                        actions.setVerificationCodeError('Enter the 6-digit code from your email.')
+                        actions.setVerificationCodeError(
+                            i18n.t('verifyEmail.enterCodeFromEmail', {
+                                defaultValue: 'Enter the 6-digit code from your email.',
+                            })
+                        )
                         return values.verificationResult
                     }
                     try {
@@ -209,7 +218,11 @@ export const verifyEmailLogic = kea<verifyEmailLogicType>([
                 requestVerificationCode: async ({ uuid }: { uuid: string }) => {
                     try {
                         await api.create(`api/users/request_email_verification/`, { uuid })
-                        lemonToast.success('We sent a new code to your email address. Please check your inbox.')
+                        lemonToast.success(
+                            i18n.t('verifyEmail.newCodeSent', {
+                                defaultValue: 'We sent a new code to your email address. Please check your inbox.',
+                            })
+                        )
                         // A resend invalidates the previous code, so drop it and its error (the
                         // setVerificationCode reducer clears the error too). The 6-char field is
                         // otherwise full and blocks typing the freshly sent code.
@@ -218,10 +231,20 @@ export const verifyEmailLogic = kea<verifyEmailLogicType>([
                         return true
                     } catch (e: any) {
                         if (e.code === 'throttled') {
-                            lemonToast.error('You have requested a new code too many times. Please try again later.')
+                            lemonToast.error(
+                                i18n.t('verifyEmail.tooManyCodeRequests', {
+                                    defaultValue:
+                                        'You have requested a new code too many times. Please try again later.',
+                                })
+                            )
                             return false
                         }
-                        lemonToast.error('Requesting a new code failed. Please try again later or contact support.')
+                        lemonToast.error(
+                            i18n.t('verifyEmail.requestCodeFailed', {
+                                defaultValue:
+                                    'Requesting a new code failed. Please try again later or contact support.',
+                            })
+                        )
                         return false
                     }
                 },

@@ -8,6 +8,7 @@ import posthog from 'posthog-js'
 
 import api from 'lib/api'
 import { ValidatedPasswordResult, validatePassword } from 'lib/components/PasswordStrength'
+import { i18n } from 'lib/i18n/i18n'
 import { getRelativeNextPath } from 'lib/utils/url'
 import { getPasskeyErrorMessage } from 'scenes/settings/user/passkeys/utils'
 import type { RegistrationBeginResponse } from 'scenes/settings/user/passkeySettingsLogic'
@@ -288,12 +289,20 @@ export const inviteSignupLogic = kea<inviteSignupLogicType>([
             errors: ({ password, first_name, role_at_organization }) => ({
                 password:
                     !values.passkeyRegistered && !password
-                        ? 'Please enter your password to continue'
+                        ? i18n.t('inviteSignup.enterpasswordToContinue', {
+                              defaultValue: 'Please enter your password to continue',
+                          })
                         : !values.passkeyRegistered
                           ? values.validatedPassword.feedback || undefined
                           : undefined,
-                first_name: !first_name ? 'Please enter your name' : undefined,
-                role_at_organization: !role_at_organization ? 'Please select your role to continue' : undefined,
+                first_name: !first_name
+                    ? i18n.t('inviteSignup.enterName', { defaultValue: 'Please enter your name' })
+                    : undefined,
+                role_at_organization: !role_at_organization
+                    ? i18n.t('inviteSignup.selectRoleToContinue', {
+                          defaultValue: 'Please select your role to continue',
+                      })
+                    : undefined,
             }),
             submit: async (payload, breakpoint) => {
                 breakpoint()
@@ -389,7 +398,7 @@ export const inviteSignupLogic = kea<inviteSignupLogicType>([
         registerPasskey: async () => {
             const email = values.invite?.target_email
             if (!email) {
-                actions.setPasskeyError('Email is required')
+                actions.setPasskeyError(i18n.t('inviteSignup.emailRequired', { defaultValue: 'Email is required' }))
                 return
             }
 
@@ -426,7 +435,14 @@ export const inviteSignupLogic = kea<inviteSignupLogicType>([
                 actions.setPasskeyRegistered(true)
                 actions.setSignupValue('password', '')
             } catch (e: any) {
-                actions.setPasskeyError(getPasskeyErrorMessage(e, 'Failed to register passkey. Please try again.'))
+                actions.setPasskeyError(
+                    getPasskeyErrorMessage(
+                        e,
+                        i18n.t('inviteSignup.passkeyFailed', {
+                            defaultValue: 'Failed to register passkey. Please try again.',
+                        })
+                    )
+                )
             } finally {
                 actions.setPasskeyRegistering(false)
             }

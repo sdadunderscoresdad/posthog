@@ -9,6 +9,7 @@ import { router } from 'kea-router'
 import posthog from 'posthog-js'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { apiStatusLogic } from 'lib/logic/apiStatusLogic'
 import { isWebKitBrowser } from 'lib/utils/dom'
@@ -38,7 +39,11 @@ function routeToEmailVerification(e: unknown): boolean {
     if (code !== 'verify_email_pending' || typeof detail !== 'string') {
         return false
     }
-    lemonToast.info('Verify your email to continue. We just sent you a new code.')
+    lemonToast.info(
+        i18n.t('login.verifyEmailToContinue', {
+            defaultValue: 'Verify your email to continue. We just sent you a new code.',
+        })
+    )
     const next: string | undefined = router.values.searchParams.next
     router.actions.push(urls.verifyEmail(detail), next ? { next } : {})
     return true

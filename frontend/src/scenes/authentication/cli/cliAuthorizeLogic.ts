@@ -5,6 +5,7 @@ import { loaders } from 'kea-loaders'
 import { urlToAction } from 'kea-router'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { AGENT_CLI_API_KEY_SCOPES, API_SCOPES, APIScope, scopeMatchesSearch, scopesArrayToObject } from 'lib/scopes'
 import { userLogic } from 'scenes/userLogic'
 
@@ -61,14 +62,37 @@ const READ_ONLY_SCOPES = API_SCOPES.filter(
 ).map(({ key }) => `${key}:read`)
 
 // Presets offered in the consent screen dropdown. Values match the URL `use_cases`
-// so a requested use case maps onto the matching preset.
-export const CLI_SCOPE_PRESETS: { value: string; label: string; scopes: string[] }[] = [
-    { value: 'agent-cli', label: 'Agent CLI', scopes: USE_CASE_SCOPES['agent-cli'] },
-    { value: 'schema', label: 'Schema management', scopes: USE_CASE_SCOPES.schema },
-    { value: 'error_tracking', label: 'Error tracking', scopes: USE_CASE_SCOPES.error_tracking },
-    { value: 'endpoints', label: 'Endpoint execution', scopes: USE_CASE_SCOPES.endpoints },
-    { value: 'read_only', label: 'Read-only access', scopes: READ_ONLY_SCOPES },
-]
+// so a requested use case maps onto the matching preset. Labels resolve per call, because a list
+// built at import would keep whatever language the app started in.
+export function cliScopePresets(): { value: string; label: string; scopes: string[] }[] {
+    return [
+        {
+            value: 'agent-cli',
+            label: i18n.t('cliAuthorize.presets.agentCli', { defaultValue: 'Agent CLI' }),
+            scopes: USE_CASE_SCOPES['agent-cli'],
+        },
+        {
+            value: 'schema',
+            label: i18n.t('cliAuthorize.presets.schemaManagement', { defaultValue: 'Schema management' }),
+            scopes: USE_CASE_SCOPES.schema,
+        },
+        {
+            value: 'error_tracking',
+            label: i18n.t('cliAuthorize.presets.errorTracking', { defaultValue: 'Error tracking' }),
+            scopes: USE_CASE_SCOPES.error_tracking,
+        },
+        {
+            value: 'endpoints',
+            label: i18n.t('cliAuthorize.presets.endpointExecution', { defaultValue: 'Endpoint execution' }),
+            scopes: USE_CASE_SCOPES.endpoints,
+        },
+        {
+            value: 'read_only',
+            label: i18n.t('cliAuthorize.presets.readOnlyAccess', { defaultValue: 'Read-only access' }),
+            scopes: READ_ONLY_SCOPES,
+        },
+    ]
+}
 
 function sameScopeSet(a: string[], b: string[]): boolean {
     if (a.length !== b.length) {
@@ -81,7 +105,7 @@ function sameScopeSet(a: string[], b: string[]): boolean {
 // The dropdown shows the preset whose scope set exactly matches the current
 // selection, or null ("Custom selection") once the user fine-tunes a row.
 function presetForScopes(scopes: string[]): string | null {
-    return CLI_SCOPE_PRESETS.find((preset) => sameScopeSet(preset.scopes, scopes))?.value ?? null
+    return cliScopePresets().find((preset) => sameScopeSet(preset.scopes, scopes))?.value ?? null
 }
 
 function parseCLIUseCase(useCase: string): CLIUseCase | null {
@@ -300,13 +324,23 @@ export const cliAuthorizeLogic = kea<cliAuthorizeLogicType>([
             } as CLIAuthorizeForm,
             errors: ({ userCode, organizationId, projectId, scopes }) => ({
                 userCode: !userCode
-                    ? 'Please enter the code from your terminal'
+                    ? i18n.t('cliAuthorize.enterCodeFromTerminal', {
+                          defaultValue: 'Please enter the code from your terminal',
+                      })
                     : userCode.length !== 9
-                      ? 'Code must be 9 characters (XXXX-XXXX)'
+                      ? i18n.t('cliAuthorize.codeLength', { defaultValue: 'Code must be 9 characters (XXXX-XXXX)' })
                       : undefined,
-                organizationId: !organizationId ? 'Please select an organization' : undefined,
-                projectId: !projectId ? 'Please select a project' : undefined,
-                scopes: !scopes?.length ? ('Your personal API key needs at least one scope' as any) : undefined,
+                organizationId: !organizationId
+                    ? i18n.t('cliAuthorize.selectOrganization', { defaultValue: 'Please select an organization' })
+                    : undefined,
+                projectId: !projectId
+                    ? i18n.t('cliAuthorize.selectProject', { defaultValue: 'Please select a project' })
+                    : undefined,
+                scopes: !scopes?.length
+                    ? (i18n.t('cliAuthorize.scopeRequired', {
+                          defaultValue: 'Your personal API key needs at least one scope',
+                      }) as any)
+                    : undefined,
             }),
             submit: async ({ userCode, projectId, scopes }) => {
                 try {
@@ -319,21 +353,40 @@ export const cliAuthorizeLogic = kea<cliAuthorizeLogicType>([
                 } catch (error: any) {
                     const errorCode = error?.data?.error || error?.code
                     if (errorCode === 'invalid_code') {
-                        actions.setAuthorizeManualErrors({ userCode: 'Invalid or expired code. Please try again.' })
+                        actions.setAuthorizeManualErrors({
+                            userCode: i18n.t('cliAuthorize.invalidCode', {
+                                defaultValue: 'Invalid or expired code. Please try again.',
+                            }),
+                        })
                     } else if (errorCode === 'expired') {
                         actions.setAuthorizeManualErrors({
-                            userCode: 'This code has expired. Please request a new code in your terminal.',
+                            userCode: i18n.t('cliAuthorize.expiredCode', {
+                                defaultValue: 'This code has expired. Please request a new code in your terminal.',
+                            }),
                         })
                     } else if (errorCode === 'access_denied') {
-                        actions.setAuthorizeManualErrors({ projectId: 'You do not have access to this project.' })
+                        actions.setAuthorizeManualErrors({
+                            projectId: i18n.t('cliAuthorize.noProjectAccess', {
+                                defaultValue: 'You do not have access to this project.',
+                            }),
+                        })
                     } else if (errorCode === 'invalid_project') {
-                        actions.setAuthorizeManualErrors({ projectId: 'Project not found.' })
+                        actions.setAuthorizeManualErrors({
+                            projectId: i18n.t('cliAuthorize.projectNotFound', { defaultValue: 'Project not found.' }),
+                        })
                     } else if (errorCode === 'invalid_scope') {
                         actions.setAuthorizeManualErrors({
-                            scopes: 'One or more selected scopes are not permitted. Try choosing a different preset.',
+                            scopes: i18n.t('cliAuthorize.scopesNotPermitted', {
+                                defaultValue:
+                                    'One or more selected scopes are not permitted. Try choosing a different preset.',
+                            }),
                         })
                     } else {
-                        actions.setAuthorizeManualErrors({ userCode: 'An error occurred. Please try again.' })
+                        actions.setAuthorizeManualErrors({
+                            userCode: i18n.t('cliAuthorize.genericError', {
+                                defaultValue: 'An error occurred. Please try again.',
+                            }),
+                        })
                     }
                     throw error
                 }
@@ -461,7 +514,7 @@ export const cliAuthorizeLogic = kea<cliAuthorizeLogicType>([
             }
         },
         setScopePreset: ({ preset }) => {
-            const found = CLI_SCOPE_PRESETS.find((p) => p.value === preset)
+            const found = cliScopePresets().find((p) => p.value === preset)
             actions.setAuthorizeValue('scopes', found ? [...found.scopes] : [])
         },
         resetScopes: () => {
