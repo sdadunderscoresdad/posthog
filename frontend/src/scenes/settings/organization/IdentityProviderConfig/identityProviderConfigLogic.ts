@@ -376,25 +376,35 @@ export const identityProviderConfigLogic = kea<identityProviderConfigLogicType>(
                 organization_domain_ids:
                     formValues.domain_scope === DomainScopeEnumApi.Selected &&
                     formValues.organization_domain_ids.length === 0
-                        ? ['Select at least one domain']
+                        ? [
+                              i18n.t('settings.organization.idpConfig.selectDomainRequired', {
+                                  defaultValue: 'Select at least one domain',
+                              }),
+                          ]
                         : undefined,
                 saml_acs_url:
                     props.configScope === ConfigScopeEnumApi.Saml &&
                     formValues.saml_acs_url &&
                     !isSecureUrl(formValues.saml_acs_url)
-                        ? 'Enter a valid URL that starts with https://'
+                        ? i18n.t('settings.organization.idpConfig.secureUrlRequired', {
+                              defaultValue: 'Enter a valid URL that starts with https://',
+                          })
                         : undefined,
                 id_jag_issuer_url:
                     props.configScope === ConfigScopeEnumApi.Xaa &&
                     formValues.id_jag_issuer_url &&
                     !isSecureUrl(formValues.id_jag_issuer_url)
-                        ? 'Enter a valid URL that starts with https://'
+                        ? i18n.t('settings.organization.idpConfig.secureUrlRequired', {
+                              defaultValue: 'Enter a valid URL that starts with https://',
+                          })
                         : undefined,
                 id_jag_jwks_url:
                     props.configScope === ConfigScopeEnumApi.Xaa &&
                     formValues.id_jag_jwks_url &&
                     !isSecureUrl(formValues.id_jag_jwks_url)
-                        ? 'Enter a valid URL that starts with https://'
+                        ? i18n.t('settings.organization.idpConfig.secureUrlRequired', {
+                              defaultValue: 'Enter a valid URL that starts with https://',
+                          })
                         : undefined,
             }),
             submit: async (formValues) => {
@@ -653,19 +663,35 @@ export const identityProviderConfigLogic = kea<identityProviderConfigLogicType>(
             )
         },
         submitIdentityProviderConfigFormFailure: () => {
-            lemonToast.error('Could not save the identity provider configuration. Check the form and try again.')
+            lemonToast.error(
+                i18n.t('settings.organization.idpConfig.saveFailed', {
+                    defaultValue: 'Could not save the identity provider configuration. Check the form and try again.',
+                })
+            )
         },
         deleteIdentityProviderConfigSuccess: () => {
             actions.loadIdentityProviderConfigs()
             router.actions.replace(urls.settings('organization-authentication'))
-            lemonToast.success('Identity provider configuration deleted.')
+            lemonToast.success(
+                i18n.t('settings.organization.idpConfig.deleted', {
+                    defaultValue: 'Identity provider configuration deleted.',
+                })
+            )
         },
         deleteIdentityProviderConfigFailure: () => {
-            lemonToast.error('Could not delete the identity provider configuration. Try again.')
+            lemonToast.error(
+                i18n.t('settings.organization.idpConfig.deleteFailed', {
+                    defaultValue: 'Could not delete the identity provider configuration. Try again.',
+                })
+            )
         },
         regenerateScimTokenSuccess: ({ regeneratedScimToken }) => {
             actions.setRevealedScimToken(regeneratedScimToken)
-            lemonToast.success('SCIM token regenerated.')
+            lemonToast.success(
+                i18n.t('settings.organization.idpConfig.scimTokenRegenerated', {
+                    defaultValue: 'SCIM token regenerated.',
+                })
+            )
         },
     })),
     afterMount(({ actions, values }) => {

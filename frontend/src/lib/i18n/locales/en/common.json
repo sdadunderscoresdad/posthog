@@ -3659,6 +3659,7 @@
             "aiConsent": {
                 "allow": "I allow AI analysis in this organization",
                 "approvalPrompt": "PostHog AI needs your approval to potentially process identifying user data with <Providers>external AI providers</Providers>.",
+                "approvedToast": "AI data processing approved",
                 "approvingAsAdmin": "You are approving this as an organization admin",
                 "dpaNote": "If your org requires a Data Processing Agreement (DPA) for compliance (and your existing DPA doesn't already cover AI subprocessors), <DpaLink>you can get a fresh DPA here</DpaLink>.",
                 "enable": "Enable AI analysis",
@@ -3668,7 +3669,9 @@
                 "noTraining": "Your data won't be used for training third-party models.",
                 "providersTooltip": "As of {{ date }}: Alphabet, Anthropic, Microsoft, and OpenAI",
                 "requestAccess": "Request access",
-                "requestSent": "Request sent. Your organization admins have been notified and can enable PostHog AI."
+                "requestFailedToast": "Could not send your request. Please try again.",
+                "requestSent": "Request sent. Your organization admins have been notified and can enable PostHog AI.",
+                "requestSentToast": "Request sent to your organization admins"
             },
             "aiTraining": {
                 "contactUs": "Please contact us to change this setting.",
@@ -3786,6 +3789,7 @@
                 "copyNow": "Copy this token now - you won't be able to see it again. If you lose it, you'll need to revoke and create a new one.",
                 "create": "Create token",
                 "createdTitle": "Token created",
+                "createFailed": "Failed to create token",
                 "createTitle": "Create CIMD verification token",
                 "createToken": "Create verification token",
                 "description": "Verification tokens link a CIMD partner application to this organization. Add the token to your CIMD metadata document as <code>verification_token</code> inside the <code>com.posthog</code> object. Verified partners get a higher default rate limit for account provisioning and a clear identity trail. Each token verifies only at the metadata URL you name when creating it. See the <DocsLink>docs</DocsLink> for the metadata format.",
@@ -3797,12 +3801,18 @@
                     "metadataUrl": "CIMD metadata URL"
                 },
                 "httpsRequired": "The metadata URL must start with https://",
+                "invalidUrl": "Please enter a valid URL",
                 "labelHint": "Pick a label that helps you identify this token later. You'll only see the plaintext value once.",
                 "labelPlaceholder": "e.g. Production CIMD partner",
-                "labelRequired": "Please enter a label",
+                "labelRequired": "Please enter a label for this token.",
+                "metadataUrlFailed": "Failed to set metadata URL",
+                "metadataUrlNeedsPath": "The metadata URL must include a path, e.g. /.well-known/oauth-client-metadata.json",
+                "metadataUrlSet": "Metadata URL set. The token will verify there now.",
                 "notVerifying": "Not verifying",
                 "revoke": "Revoke",
+                "revoked": "Token revoked",
                 "revokeDescription": "Partners using this token in their CIMD metadata will no longer be recognized and will fall back to the anonymous rate limit tier.",
+                "revokeFailed": "Failed to revoke token",
                 "revokeTitle": "Revoke token \"{{ label }}\"?",
                 "revokeToken": "Revoke token",
                 "setMetadataUrl": "Set metadata URL",
@@ -3822,7 +3832,10 @@
             },
             "desktopBetaTerms": {
                 "accept": "Accept beta terms",
-                "alreadyAccepted": "The PostHog Desktop beta terms have already been accepted for this organization."
+                "accepted": "PostHog Desktop beta terms accepted",
+                "acceptFailed": "Could not accept the PostHog Desktop beta terms. Please try again.",
+                "alreadyAccepted": "The PostHog Desktop beta terms have already been accepted for this organization.",
+                "loadFailed": "Could not load the PostHog Desktop beta terms status. Please try again."
             },
             "displayName": {
                 "nameRequired": "You must provide a name",
@@ -3837,6 +3850,8 @@
                 "configureScimForLogs": "Configure SCIM to view request logs",
                 "configureSso": "Configure SSO",
                 "defaultName": "Default {{ feature }} configuration",
+                "deleted": "Identity provider configuration deleted.",
+                "deleteFailed": "Could not delete the identity provider configuration. Try again.",
                 "domainScope": {
                     "allDomains": "All domains",
                     "allDomainsDescription": "Apply this configuration to every verified domain in the organization.",
@@ -3875,6 +3890,7 @@
                     "saveForRelayState": "Save this configuration to generate a relay state."
                 },
                 "savedToast": "{{ feature }} configuration saved.",
+                "saveFailed": "Could not save the identity provider configuration. Check the form and try again.",
                 "scene": {
                     "configureTitle": "Configure {{ feature }}",
                     "dangerZone": "Danger zone",
@@ -3906,6 +3922,9 @@
                     "saveForToken": "Save this configuration to generate a bearer token.",
                     "tokenOnlyWhenGenerated": "The bearer token is only shown when it is generated."
                 },
+                "scimTokenRegenerated": "SCIM token regenerated.",
+                "secureUrlRequired": "Enter a valid URL that starts with https://",
+                "selectDomainRequired": "Select at least one domain",
                 "status": {
                     "configured": "Configured",
                     "notConfigured": "Not configured",
@@ -4409,6 +4428,7 @@
             "label": "Search settings",
             "placeholder": "Search settings..."
         },
+        "timestampRequired": "A timestamp is required to load settings at a point in time",
         "user": {
             "anonymizeData": "Anonymize my data",
             "apiKeys": {
@@ -4477,6 +4497,7 @@
                 "logoAlt": "{{ name }} logo",
                 "noScopes": "No scopes",
                 "revoke": "Revoke",
+                "revoked": "App access revoked",
                 "revokeDescription": "This will revoke all tokens and permissions granted to {{ name }}. The app will no longer be able to access your PostHog account. You can re-authorize it at any time through the application's own interface.",
                 "revokeTitle": "Revoke access for {{ name }}?",
                 "showLess": "Show less",
@@ -4499,9 +4520,11 @@
                 "irreversible": "This is <b>irreversible</b>. Please be certain.",
                 "keysWillBeDeleted": "The following personal API keys will be deleted",
                 "leave": "Leave",
+                "leaveFailed": "Failed to leave organization",
                 "leaveOrganization": "Leave organization",
                 "leaveOrganizationsFirst": "You must leave or delete all organizations before deleting your account.",
                 "leaveOrganizationTitle": "Leave organization {{ name }}?",
+                "organizationLeft": "Organization left successfully",
                 "transferOwnership": "Transfer ownership"
             },
             "details": {
@@ -4713,6 +4736,10 @@
                 }
             },
             "personalIntegrations": {
+                "githubConnected": "GitHub connected.",
+                "githubDisconnected": "Disconnected GitHub installation",
+                "githubDisconnectFailed": "Could not disconnect GitHub installation.",
+                "githubStartFailed": "Could not start GitHub installation.",
                 "thisAccount": "this account"
             },
             "profilePicture": {
@@ -4734,8 +4761,11 @@
             "reminders": {
                 "alreadyFired": "This reminder has already fired",
                 "create": "Create reminder",
+                "created": "Reminder created",
                 "cronInfo": "5-field cron, max 4 fires per day.",
+                "cronRequired": "Enter a cron expression",
                 "cronSummary": "Cron: {{ expression }}",
+                "deleted": "Reminder deleted",
                 "deleteDescription": "\"{{ title }}\" will be permanently deleted.",
                 "deleteTitle": "Delete reminder?",
                 "edit": "Edit reminder",
@@ -4754,6 +4784,7 @@
                     "timeZone": "Time zone",
                     "title": "Title"
                 },
+                "intervalRequired": "Choose how often it repeats",
                 "messageInfo": "Optional longer text shown in the notification.",
                 "messagePlaceholder": "Optional details",
                 "new": "New reminder",
@@ -4764,6 +4795,8 @@
                     "weekly": "Weekly",
                     "yearly": "Yearly"
                 },
+                "saveFailed": "Could not save the reminder",
+                "scheduledAtRequired": "Pick when this reminder should fire",
                 "scheduleTypes": {
                     "advanced": "Advanced",
                     "oneOff": "One-off",
@@ -4777,7 +4810,10 @@
                     "completed": "Completed",
                     "errored": "Errored"
                 },
-                "titlePlaceholder": "Review the activation dashboard"
+                "timeMustBeFuture": "The time must be in the future",
+                "titlePlaceholder": "Review the activation dashboard",
+                "titleRequired": "A title is required",
+                "updated": "Reminder updated"
             },
             "scopes": {
                 "allAccessHint": "This will allow access to all organizations and projects you're in.",

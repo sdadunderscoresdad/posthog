@@ -36,10 +36,12 @@ export function validateCimdUrl(url: string): string | null {
     try {
         parsed = new URL(url)
     } catch {
-        return 'Please enter a valid URL'
+        return i18n.t('settings.organization.cimd.invalidUrl', { defaultValue: 'Please enter a valid URL' })
     }
     if (parsed.pathname === '/' || parsed.pathname === '') {
-        return 'The metadata URL must include a path, e.g. /.well-known/oauth-client-metadata.json'
+        return i18n.t('settings.organization.cimd.metadataUrlNeedsPath', {
+            defaultValue: 'The metadata URL must include a path, e.g. /.well-known/oauth-client-metadata.json',
+        })
     }
     return null
 }
@@ -225,7 +227,11 @@ export const cimdVerificationTokensLogic = kea<cimdVerificationTokensLogicType>(
             }
             const label = values.newTokenLabel.trim()
             if (!label) {
-                lemonToast.error('Please enter a label for this token.')
+                lemonToast.error(
+                    i18n.t('settings.organization.cimd.labelRequired', {
+                        defaultValue: 'Please enter a label for this token.',
+                    })
+                )
                 return
             }
             const cimdUrl = values.newTokenUrl.trim()
@@ -241,7 +247,12 @@ export const cimdVerificationTokensLogic = kea<cimdVerificationTokensLogicType>(
                 actions.hideCreateDialog()
                 actions.loadTokens()
             } catch (e: any) {
-                lemonToast.error(extractServerError(e, 'Failed to create token'))
+                lemonToast.error(
+                    extractServerError(
+                        e,
+                        i18n.t('settings.organization.cimd.createFailed', { defaultValue: 'Failed to create token' })
+                    )
+                )
             } finally {
                 actions.setIsCreatingToken(false)
             }
@@ -253,10 +264,15 @@ export const cimdVerificationTokensLogic = kea<cimdVerificationTokensLogicType>(
             }
             try {
                 await cimdVerificationTokensDestroy(orgId, token.id)
-                lemonToast.success('Token revoked')
+                lemonToast.success(i18n.t('settings.organization.cimd.revoked', { defaultValue: 'Token revoked' }))
                 actions.loadTokens()
             } catch (e: any) {
-                lemonToast.error(extractServerError(e, 'Failed to revoke token'))
+                lemonToast.error(
+                    extractServerError(
+                        e,
+                        i18n.t('settings.organization.cimd.revokeFailed', { defaultValue: 'Failed to revoke token' })
+                    )
+                )
             }
         },
         bindToken: async () => {
@@ -274,11 +290,22 @@ export const cimdVerificationTokensLogic = kea<cimdVerificationTokensLogicType>(
             actions.setIsBindingToken(true)
             try {
                 await cimdVerificationTokensPartialUpdate(orgId, token.id, { cimd_url: cimdUrl })
-                lemonToast.success('Metadata URL set. The token will verify there now.')
+                lemonToast.success(
+                    i18n.t('settings.organization.cimd.metadataUrlSet', {
+                        defaultValue: 'Metadata URL set. The token will verify there now.',
+                    })
+                )
                 actions.hideBindDialog()
                 actions.loadTokens()
             } catch (e: any) {
-                lemonToast.error(extractServerError(e, 'Failed to set metadata URL'))
+                lemonToast.error(
+                    extractServerError(
+                        e,
+                        i18n.t('settings.organization.cimd.metadataUrlFailed', {
+                            defaultValue: 'Failed to set metadata URL',
+                        })
+                    )
+                )
             } finally {
                 actions.setIsBindingToken(false)
             }

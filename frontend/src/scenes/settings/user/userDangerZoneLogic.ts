@@ -2,6 +2,7 @@ import { MakeLogicType, kea } from 'kea'
 import { router } from 'kea-router'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast'
 import { organizationLogic } from 'scenes/organizationLogic'
 import { urls } from 'scenes/urls'
@@ -121,12 +122,16 @@ export const userDangerZoneLogic = kea<userDangerZoneLogicType>({
         leaveOrganizationSuccess: () => {
             router.actions.replace(urls.settings('user-danger-zone'), { deletingUser: true })
 
-            lemonToast.success('Organization left successfully')
+            lemonToast.success(
+                i18n.t('settings.user.dangerZone.organizationLeft', { defaultValue: 'Organization left successfully' })
+            )
 
             window.location.reload()
         },
         leaveOrganizationFailure: () => {
-            lemonToast.error('Failed to leave organization')
+            lemonToast.error(
+                i18n.t('settings.user.dangerZone.leaveFailed', { defaultValue: 'Failed to leave organization' })
+            )
         },
     }),
     urlToAction: ({ actions, values }) => ({

@@ -5,6 +5,7 @@ import posthog from 'posthog-js'
 import { LOOKAHEAD_EXPIRY_SECONDS } from 'lib/components/TimeSensitiveAuthentication/timeSensitiveAuthenticationLogic'
 import { OrganizationMembershipLevel } from 'lib/constants'
 import { dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast'
 import { organizationLogic } from 'scenes/organizationLogic'
 import { userLogic } from 'scenes/userLogic'
@@ -151,7 +152,9 @@ export const aiConsentLogic = kea<aiConsentLogicType>([
             }
             actions.setPendingApprovalRedirect(null)
             posthog.capture('ai_consent_approved')
-            lemonToast.success('AI data processing approved')
+            lemonToast.success(
+                i18n.t('settings.organization.aiConsent.approvedToast', { defaultValue: 'AI data processing approved' })
+            )
             if (resumeUrl) {
                 router.actions.push(resumeUrl)
             }
@@ -169,11 +172,19 @@ export const aiConsentLogic = kea<aiConsentLogicType>([
                 await requestAiAccessCreate(organization.id)
                 actions.markAiAccessRequested(organization.id)
                 posthog.capture('ai_access_requested')
-                lemonToast.success('Request sent to your organization admins')
+                lemonToast.success(
+                    i18n.t('settings.organization.aiConsent.requestSentToast', {
+                        defaultValue: 'Request sent to your organization admins',
+                    })
+                )
             } catch {
                 actions.requestAiAccessError()
                 posthog.capture('ai_access_request_failed')
-                lemonToast.error('Could not send your request. Please try again.')
+                lemonToast.error(
+                    i18n.t('settings.organization.aiConsent.requestFailedToast', {
+                        defaultValue: 'Could not send your request. Please try again.',
+                    })
+                )
             }
         },
     })),

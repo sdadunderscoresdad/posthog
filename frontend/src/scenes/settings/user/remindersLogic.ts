@@ -4,6 +4,7 @@ import type { DeepPartial, DeepPartialMap, FieldName, ValidationErrorType } from
 import { loaders } from 'kea-loaders'
 
 import { dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { timeZoneLabel } from 'lib/utils/timezones'
 import { organizationLogic } from 'scenes/organizationLogic'
@@ -233,19 +234,31 @@ export const remindersLogic = kea<remindersLogicType>([
                 recurrence_interval,
                 cron_expression,
             }: ReminderFormValues) => ({
-                title: !title?.trim() ? 'A title is required' : undefined,
+                title: !title?.trim()
+                    ? i18n.t('settings.user.reminders.titleRequired', { defaultValue: 'A title is required' })
+                    : undefined,
                 scheduled_at:
                     scheduleType !== 'one-off'
                         ? undefined
                         : !scheduled_at
-                          ? 'Pick when this reminder should fire'
+                          ? i18n.t('settings.user.reminders.scheduledAtRequired', {
+                                defaultValue: 'Pick when this reminder should fire',
+                            })
                           : values.isScheduleEditable && dayjs(scheduled_at).isBefore(dayjs())
-                            ? 'The time must be in the future'
+                            ? i18n.t('settings.user.reminders.timeMustBeFuture', {
+                                  defaultValue: 'The time must be in the future',
+                              })
                             : undefined,
                 recurrence_interval:
-                    scheduleType === 'repeats' && !recurrence_interval ? 'Choose how often it repeats' : undefined,
+                    scheduleType === 'repeats' && !recurrence_interval
+                        ? i18n.t('settings.user.reminders.intervalRequired', {
+                              defaultValue: 'Choose how often it repeats',
+                          })
+                        : undefined,
                 cron_expression:
-                    scheduleType === 'advanced' && !cron_expression?.trim() ? 'Enter a cron expression' : undefined,
+                    scheduleType === 'advanced' && !cron_expression?.trim()
+                        ? i18n.t('settings.user.reminders.cronRequired', { defaultValue: 'Enter a cron expression' })
+                        : undefined,
             }),
             submit: async (formValues) => {
                 const organization = values.currentOrganization?.id
@@ -267,13 +280,23 @@ export const remindersLogic = kea<remindersLogicType>([
                 try {
                     if (editingId && editingId !== NEW) {
                         await remindersPartialUpdate(editingId, payload)
-                        lemonToast.success('Reminder updated')
+                        lemonToast.success(
+                            i18n.t('settings.user.reminders.updated', { defaultValue: 'Reminder updated' })
+                        )
                     } else {
                         await remindersCreate(payload)
-                        lemonToast.success('Reminder created')
+                        lemonToast.success(
+                            i18n.t('settings.user.reminders.created', { defaultValue: 'Reminder created' })
+                        )
                     }
                 } catch (error: any) {
-                    lemonToast.error(error?.data?.detail || error?.detail || 'Could not save the reminder')
+                    lemonToast.error(
+                        error?.data?.detail ||
+                            error?.detail ||
+                            i18n.t('settings.user.reminders.saveFailed', {
+                                defaultValue: 'Could not save the reminder',
+                            })
+                    )
                     return
                 }
                 actions.setEditingReminderId(null)
@@ -331,7 +354,7 @@ export const remindersLogic = kea<remindersLogicType>([
             })
         },
         deleteReminderSuccess: () => {
-            lemonToast.success('Reminder deleted')
+            lemonToast.success(i18n.t('settings.user.reminders.deleted', { defaultValue: 'Reminder deleted' }))
         },
     })),
     afterMount(({ actions }) => {

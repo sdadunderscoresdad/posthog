@@ -2,6 +2,7 @@ import { MakeLogicType, actions, events, kea, path } from 'kea'
 import { loaders } from 'kea-loaders'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 
 export interface ConnectedApp {
@@ -80,7 +81,9 @@ export const connectedAppsLogic = kea<connectedAppsLogicType>([
                     const remainingApps = values.connectedApps.filter((app) => app.id !== id)
                     await api.create(`api/oauth/connected-apps/${id}/revoke/`)
                     breakpoint()
-                    lemonToast.success('App access revoked')
+                    lemonToast.success(
+                        i18n.t('settings.user.connectedApps.revoked', { defaultValue: 'App access revoked' })
+                    )
                     return remainingApps
                 },
             },

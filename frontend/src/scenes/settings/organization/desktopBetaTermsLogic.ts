@@ -1,6 +1,7 @@
 import { MakeLogicType, afterMount, kea, key, listeners, path, props } from 'kea'
 import { loaders } from 'kea-loaders'
 
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast'
 
 import { desktopBetaTermsCreate, desktopBetaTermsList } from 'products/tasks/frontend/generated/api'
@@ -82,13 +83,25 @@ export const desktopBetaTermsLogic = kea<desktopBetaTermsLogicType>([
     })),
     listeners(() => ({
         loadDesktopBetaTermsAcceptedFailure: () => {
-            lemonToast.error('Could not load the PostHog Desktop beta terms status. Please try again.')
+            lemonToast.error(
+                i18n.t('settings.organization.desktopBetaTerms.loadFailed', {
+                    defaultValue: 'Could not load the PostHog Desktop beta terms status. Please try again.',
+                })
+            )
         },
         acceptDesktopBetaTermsSuccess: () => {
-            lemonToast.success('PostHog Desktop beta terms accepted')
+            lemonToast.success(
+                i18n.t('settings.organization.desktopBetaTerms.accepted', {
+                    defaultValue: 'PostHog Desktop beta terms accepted',
+                })
+            )
         },
         acceptDesktopBetaTermsFailure: () => {
-            lemonToast.error('Could not accept the PostHog Desktop beta terms. Please try again.')
+            lemonToast.error(
+                i18n.t('settings.organization.desktopBetaTerms.acceptFailed', {
+                    defaultValue: 'Could not accept the PostHog Desktop beta terms. Please try again.',
+                })
+            )
         },
     })),
     afterMount(({ actions }) => {

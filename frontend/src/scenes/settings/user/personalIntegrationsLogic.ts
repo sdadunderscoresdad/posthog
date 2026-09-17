@@ -437,17 +437,30 @@ export const personalIntegrationsLogic = kea<personalIntegrationsLogicType>([
             } catch (error: unknown) {
                 actions.connectGitHubFailure()
                 const message = error instanceof Error && 'detail' in error ? (error as any).detail : undefined
-                lemonToast.error(message || 'Could not start GitHub installation.')
+                lemonToast.error(
+                    message ||
+                        i18n.t('settings.user.personalIntegrations.githubStartFailed', {
+                            defaultValue: 'Could not start GitHub installation.',
+                        })
+                )
             }
         },
         disconnectGitHub: async ({ installationId }) => {
             try {
                 await usersIntegrationsGithubDestroy('@me', installationId)
-                lemonToast.success('Disconnected GitHub installation')
+                lemonToast.success(
+                    i18n.t('settings.user.personalIntegrations.githubDisconnected', {
+                        defaultValue: 'Disconnected GitHub installation',
+                    })
+                )
                 actions.loadIntegrations()
                 actions.loadProjectIntegrations()
             } catch {
-                lemonToast.error('Could not disconnect GitHub installation.')
+                lemonToast.error(
+                    i18n.t('settings.user.personalIntegrations.githubDisconnectFailed', {
+                        defaultValue: 'Could not disconnect GitHub installation.',
+                    })
+                )
             }
         },
     })),
@@ -468,7 +481,9 @@ export const personalIntegrationsLogic = kea<personalIntegrationsLogicType>([
 
             if (params.has('github_link_success')) {
                 writeConnectFromStorage(null)
-                lemonToast.success('GitHub connected.')
+                lemonToast.success(
+                    i18n.t('settings.user.personalIntegrations.githubConnected', { defaultValue: 'GitHub connected.' })
+                )
             } else if (params.has('github_link_error')) {
                 writeConnectFromStorage(null)
                 const linkError = params.get('github_link_error')

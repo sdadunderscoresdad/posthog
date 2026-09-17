@@ -3623,6 +3623,7 @@
             "aiConsent": {
                 "allow": "我允许在此组织中使用 AI 分析",
                 "approvalPrompt": "PostHog AI 需要你的批准，才可能将可识别用户身份的数据交由<Providers>外部 AI 提供方</Providers>处理。",
+                "approvedToast": "已批准 AI 数据处理",
                 "approvingAsAdmin": "你正以组织管理员身份进行批准",
                 "dpaNote": "如果你的组织出于合规需要数据处理协议（DPA），而现有 DPA 尚未覆盖 AI 子处理方，<DpaLink>可以在这里获取新的 DPA</DpaLink>。",
                 "enable": "启用 AI 分析",
@@ -3632,7 +3633,9 @@
                 "noTraining": "你的数据不会被用于训练第三方模型。",
                 "providersTooltip": "截至 {{ date }}：Alphabet、Anthropic、Microsoft 和 OpenAI",
                 "requestAccess": "申请访问权限",
-                "requestSent": "申请已发送。你的组织管理员已收到通知，可以启用 PostHog AI。"
+                "requestFailedToast": "无法发送你的请求，请重试。",
+                "requestSent": "申请已发送。你的组织管理员已收到通知，可以启用 PostHog AI。",
+                "requestSentToast": "请求已发送给你的组织管理员"
             },
             "aiTraining": {
                 "contactUs": "请联系我们修改此设置。",
@@ -3749,6 +3752,7 @@
                 "copyNow": "请立即复制此令牌——之后将无法再次查看。如果丢失，你需要撤销并重新创建一个。",
                 "create": "创建令牌",
                 "createdTitle": "令牌已创建",
+                "createFailed": "创建令牌失败",
                 "createTitle": "创建 CIMD 验证令牌",
                 "createToken": "创建验证令牌",
                 "description": "验证令牌用于把 CIMD 合作方应用与该组织关联起来。请把令牌作为 <code>verification_token</code> 添加到你的 CIMD 元数据文档中 <code>com.posthog</code> 对象内。已验证的合作方在账号预配时享有更高的默认速率上限，并留下清晰的身份记录。每个令牌只在你创建时指定的元数据 URL 上生效。元数据格式见 <DocsLink>文档</DocsLink>。",
@@ -3760,12 +3764,18 @@
                     "metadataUrl": "CIMD 元数据 URL"
                 },
                 "httpsRequired": "元数据 URL 必须以 https:// 开头",
+                "invalidUrl": "请输入有效的 URL",
                 "labelHint": "请选择一个便于之后识别该令牌的标签。明文值只会显示一次。",
                 "labelPlaceholder": "例如：生产环境 CIMD 合作方",
                 "labelRequired": "请输入标签",
+                "metadataUrlFailed": "设置元数据 URL 失败",
+                "metadataUrlNeedsPath": "元数据 URL 必须包含路径，例如 /.well-known/oauth-client-metadata.json",
+                "metadataUrlSet": "元数据 URL 已设置，之后令牌将在该地址完成验证。",
                 "notVerifying": "未在验证",
                 "revoke": "撤销",
+                "revoked": "令牌已撤销",
                 "revokeDescription": "在 CIMD 元数据中使用该令牌的合作方将不再被识别，并会回落到匿名速率上限档位。",
+                "revokeFailed": "撤销令牌失败",
                 "revokeTitle": "撤销令牌 “{{ label }}”？",
                 "revokeToken": "撤销令牌",
                 "setMetadataUrl": "设置元数据 URL",
@@ -3785,7 +3795,10 @@
             },
             "desktopBetaTerms": {
                 "accept": "接受 Beta 条款",
-                "alreadyAccepted": "该组织已经接受过 PostHog Desktop Beta 条款。"
+                "accepted": "已接受 PostHog Desktop Beta 条款",
+                "acceptFailed": "无法接受 PostHog Desktop Beta 条款，请重试。",
+                "alreadyAccepted": "该组织已经接受过 PostHog Desktop Beta 条款。",
+                "loadFailed": "无法加载 PostHog Desktop Beta 条款状态，请重试。"
             },
             "displayName": {
                 "nameRequired": "请填写名称",
@@ -3800,6 +3813,8 @@
                 "configureScimForLogs": "配置 SCIM 后可查看请求日志",
                 "configureSso": "配置 SSO",
                 "defaultName": "默认 {{ feature }} 配置",
+                "deleted": "身份提供方配置已删除。",
+                "deleteFailed": "无法删除身份提供方配置，请重试。",
                 "domainScope": {
                     "allDomains": "所有域名",
                     "allDomainsDescription": "将此配置应用到组织内所有已验证域名。",
@@ -3838,6 +3853,7 @@
                     "saveForRelayState": "保存此配置后会生成 relay state。"
                 },
                 "savedToast": "{{ feature }} 配置已保存。",
+                "saveFailed": "无法保存身份提供方配置。请检查表单后重试。",
                 "scene": {
                     "configureTitle": "配置 {{ feature }}",
                     "dangerZone": "危险区",
@@ -3869,6 +3885,9 @@
                     "saveForToken": "保存此配置后会生成 Bearer 令牌。",
                     "tokenOnlyWhenGenerated": "Bearer 令牌只在生成时显示。"
                 },
+                "scimTokenRegenerated": "SCIM 令牌已重新生成。",
+                "secureUrlRequired": "请输入以 https:// 开头的有效 URL",
+                "selectDomainRequired": "请至少选择一个域名",
                 "status": {
                     "configured": "已配置",
                     "notConfigured": "未配置",
@@ -4361,6 +4380,7 @@
             "label": "搜索设置",
             "placeholder": "搜索设置…"
         },
+        "timestampRequired": "按时间点加载设置时需要提供时间戳",
         "user": {
             "anonymizeData": "匿名化我的数据",
             "apiKeys": {
@@ -4429,6 +4449,7 @@
                 "logoAlt": "{{ name }} 的图标",
                 "noScopes": "没有权限范围",
                 "revoke": "撤销授权",
+                "revoked": "应用授权已撤销",
                 "revokeDescription": "这将撤销授予 {{ name }} 的所有令牌和权限。该应用将无法再访问你的 PostHog 账号。你可以随时通过该应用自己的界面重新授权。",
                 "revokeTitle": "撤销对 {{ name }} 的授权？",
                 "showLess": "收起",
@@ -4451,9 +4472,11 @@
                 "irreversible": "此操作<b>不可撤销</b>，请确认无误。",
                 "keysWillBeDeleted": "以下个人 API 密钥将被删除",
                 "leave": "退出",
+                "leaveFailed": "退出组织失败",
                 "leaveOrganization": "退出组织",
                 "leaveOrganizationsFirst": "删除账号前，你必须先退出或删除所有组织。",
                 "leaveOrganizationTitle": "退出组织 {{ name }}？",
+                "organizationLeft": "已成功退出组织",
                 "transferOwnership": "转移所有权"
             },
             "details": {
@@ -4665,6 +4688,10 @@
                 }
             },
             "personalIntegrations": {
+                "githubConnected": "GitHub 已连接。",
+                "githubDisconnected": "已断开 GitHub 安装",
+                "githubDisconnectFailed": "无法断开 GitHub 安装。",
+                "githubStartFailed": "无法开始 GitHub 安装。",
                 "thisAccount": "该账号"
             },
             "profilePicture": {
@@ -4686,8 +4713,11 @@
             "reminders": {
                 "alreadyFired": "此提醒已经触发过",
                 "create": "创建提醒",
+                "created": "提醒已创建",
                 "cronInfo": "5 段式 cron，每天最多触发 4 次。",
+                "cronRequired": "请输入 Cron 表达式",
                 "cronSummary": "Cron：{{ expression }}",
+                "deleted": "提醒已删除",
                 "deleteDescription": "“{{ title }}” 将被永久删除。",
                 "deleteTitle": "删除提醒？",
                 "edit": "编辑提醒",
@@ -4706,6 +4736,7 @@
                     "timeZone": "时区",
                     "title": "标题"
                 },
+                "intervalRequired": "请选择重复频率",
                 "messageInfo": "可选，通知中显示的较长文本。",
                 "messagePlaceholder": "可选详情",
                 "new": "新建提醒",
@@ -4716,6 +4747,8 @@
                     "weekly": "每周",
                     "yearly": "每年"
                 },
+                "saveFailed": "无法保存提醒",
+                "scheduledAtRequired": "请选择提醒的触发时间",
                 "scheduleTypes": {
                     "advanced": "高级",
                     "oneOff": "一次性",
@@ -4729,7 +4762,10 @@
                     "completed": "已完成",
                     "errored": "出错"
                 },
-                "titlePlaceholder": "查看激活情况仪表盘"
+                "timeMustBeFuture": "时间必须在将来",
+                "titlePlaceholder": "查看激活情况仪表盘",
+                "titleRequired": "请填写标题",
+                "updated": "提醒已更新"
             },
             "scopes": {
                 "allAccessHint": "这将允许访问你所属的所有组织和项目。",

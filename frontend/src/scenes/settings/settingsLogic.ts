@@ -390,7 +390,11 @@ export const settingsLogic = kea<settingsLogicType>([
                           ? [scope]
                           : undefined
                     if (!at) {
-                        lemonToast.warning('A timestamp is required to load settings at a point in time')
+                        lemonToast.warning(
+                            i18n.t('settings.timestampRequired', {
+                                defaultValue: 'A timestamp is required to load settings at a point in time',
+                            })
+                        )
                         return {}
                     }
                     return await api.teamSettings.asOf(at, scopeArray)

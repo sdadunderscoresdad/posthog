@@ -3659,6 +3659,7 @@
             "aiConsent": {
                 "allow": "",
                 "approvalPrompt": "",
+                "approvedToast": "",
                 "approvingAsAdmin": "",
                 "dpaNote": "",
                 "enable": "",
@@ -3668,7 +3669,9 @@
                 "noTraining": "",
                 "providersTooltip": "",
                 "requestAccess": "",
-                "requestSent": ""
+                "requestFailedToast": "",
+                "requestSent": "",
+                "requestSentToast": ""
             },
             "aiTraining": {
                 "contactUs": "",
@@ -3786,6 +3789,7 @@
                 "copyNow": "",
                 "create": "",
                 "createdTitle": "",
+                "createFailed": "",
                 "createTitle": "",
                 "createToken": "",
                 "description": "",
@@ -3797,12 +3801,18 @@
                     "metadataUrl": ""
                 },
                 "httpsRequired": "",
+                "invalidUrl": "",
                 "labelHint": "",
                 "labelPlaceholder": "",
                 "labelRequired": "",
+                "metadataUrlFailed": "",
+                "metadataUrlNeedsPath": "",
+                "metadataUrlSet": "",
                 "notVerifying": "",
                 "revoke": "",
+                "revoked": "",
                 "revokeDescription": "",
+                "revokeFailed": "",
                 "revokeTitle": "",
                 "revokeToken": "",
                 "setMetadataUrl": "",
@@ -3822,7 +3832,10 @@
             },
             "desktopBetaTerms": {
                 "accept": "",
-                "alreadyAccepted": ""
+                "accepted": "",
+                "acceptFailed": "",
+                "alreadyAccepted": "",
+                "loadFailed": ""
             },
             "displayName": {
                 "nameRequired": "",
@@ -3837,6 +3850,8 @@
                 "configureScimForLogs": "",
                 "configureSso": "",
                 "defaultName": "",
+                "deleted": "",
+                "deleteFailed": "",
                 "domainScope": {
                     "allDomains": "",
                     "allDomainsDescription": "",
@@ -3875,6 +3890,7 @@
                     "saveForRelayState": ""
                 },
                 "savedToast": "",
+                "saveFailed": "",
                 "scene": {
                     "configureTitle": "",
                     "dangerZone": "",
@@ -3906,6 +3922,9 @@
                     "saveForToken": "",
                     "tokenOnlyWhenGenerated": ""
                 },
+                "scimTokenRegenerated": "",
+                "secureUrlRequired": "",
+                "selectDomainRequired": "",
                 "status": {
                     "configured": "",
                     "notConfigured": "",
@@ -4409,6 +4428,7 @@
             "label": "",
             "placeholder": ""
         },
+        "timestampRequired": "",
         "user": {
             "anonymizeData": "",
             "apiKeys": {
@@ -4477,6 +4497,7 @@
                 "logoAlt": "",
                 "noScopes": "",
                 "revoke": "",
+                "revoked": "",
                 "revokeDescription": "",
                 "revokeTitle": "",
                 "showLess": "",
@@ -4499,9 +4520,11 @@
                 "irreversible": "",
                 "keysWillBeDeleted": "",
                 "leave": "",
+                "leaveFailed": "",
                 "leaveOrganization": "",
                 "leaveOrganizationsFirst": "",
                 "leaveOrganizationTitle": "",
+                "organizationLeft": "",
                 "transferOwnership": ""
             },
             "details": {
@@ -4713,6 +4736,10 @@
                 }
             },
             "personalIntegrations": {
+                "githubConnected": "",
+                "githubDisconnected": "",
+                "githubDisconnectFailed": "",
+                "githubStartFailed": "",
                 "thisAccount": ""
             },
             "profilePicture": {
@@ -4734,8 +4761,11 @@
             "reminders": {
                 "alreadyFired": "",
                 "create": "",
+                "created": "",
                 "cronInfo": "",
+                "cronRequired": "",
                 "cronSummary": "",
+                "deleted": "",
                 "deleteDescription": "",
                 "deleteTitle": "",
                 "edit": "",
@@ -4754,6 +4784,7 @@
                     "timeZone": "",
                     "title": ""
                 },
+                "intervalRequired": "",
                 "messageInfo": "",
                 "messagePlaceholder": "",
                 "new": "",
@@ -4764,6 +4795,8 @@
                     "weekly": "",
                     "yearly": ""
                 },
+                "saveFailed": "",
+                "scheduledAtRequired": "",
                 "scheduleTypes": {
                     "advanced": "",
                     "oneOff": "",
@@ -4777,7 +4810,10 @@
                     "completed": "",
                     "errored": ""
                 },
-                "titlePlaceholder": ""
+                "timeMustBeFuture": "",
+                "titlePlaceholder": "",
+                "titleRequired": "",
+                "updated": ""
             },
             "scopes": {
                 "allAccessHint": "",
