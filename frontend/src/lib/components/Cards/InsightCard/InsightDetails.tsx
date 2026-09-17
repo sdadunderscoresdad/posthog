@@ -264,7 +264,7 @@ function SeriesDisplay({
                                 {mathDefinition?.category === MathCategory.PropertyValue && series.math_property && (
                                     <>
                                         {' '}
-                                        event's
+                                        {i18n.t('insightDetails.eventPossessive', { defaultValue: "event's" })}
                                         <span className="SeriesDisplay__raw-name">
                                             <PropertyKeyInfo
                                                 value={series.math_property}

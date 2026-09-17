@@ -172,7 +172,7 @@ export function CompactUniversalFiltersDisplay({
                                     {isFirstFilterOverall && !embedded
                                         ? capitalizeFirstLetter(propertyFilter.type || 'event')
                                         : propertyFilter.type || 'event'}
-                                    's
+                                    {i18n.t('insightFilters.possessive', { defaultValue: "'s" })}
                                     <span className="SeriesDisplay__raw-name">
                                         {isAnyPropertyfilter(propertyFilter) && propertyFilter.key && (
                                             <PropertyKeyInfo
