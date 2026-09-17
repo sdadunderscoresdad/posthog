@@ -316,7 +316,11 @@ export function organizationDomainActivityDescriber(
                     descriptions.push(
                         <>
                             {i18n.t('settingsActivity.domain.rotated', { defaultValue: 'rotated the' })}{' '}
-                            <strong>SCIM bearer token</strong>{' '}
+                            <strong>
+                                {i18n.t('settingsActivity.domain.scimBearerToken', {
+                                    defaultValue: 'SCIM bearer token',
+                                })}
+                            </strong>{' '}
                             {i18n.t('settingsActivity.domain.forDomain', { defaultValue: 'for domain' })}{' '}
                             <strong>{domainName}</strong>
                         </>

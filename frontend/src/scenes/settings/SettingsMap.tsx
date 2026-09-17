@@ -1026,9 +1026,11 @@ function buildSettingsMap(): SettingSection[] {
                                     'Use this key for local evaluation of feature flags or remote config settings. Replaces personal API keys for local evaluation.',
                             })}
                         >
-                            Deprecated. This key is still usable for local evaluation of feature flags or remote config
-                            settings, but new integrations should use a project secret API key with the
-                            feature_flag:read scope instead.
+                            <Trans
+                                i18nKey="settings.map.feature-flag-secure-api-key.deprecatedDescription"
+                                components={{ Code: <code /> }}
+                                defaults="Deprecated. This key is still usable for local evaluation of feature flags or remote config settings, but new integrations should use a project secret API key with the <Code>feature_flag:read</Code> scope instead."
+                            />
                         </FlaggedFeature>
                     ),
                     searchDescription: i18n.t('settings.map.feature-flag-secure-api-key.searchDescription', {
@@ -1108,13 +1110,11 @@ function buildSettingsMap(): SettingSection[] {
                         defaultValue: 'Link to person',
                     }),
                     description: (
-                        <>
-                            The log attributes PostHog reads to identify which person a log belongs to. A log is linked
-                            when any of these attributes matches one of the person&apos;s distinct IDs. Defaults to{' '}
-                            <code>posthogDistinctId</code>, the key the JavaScript and React Native SDKs auto-attach.
-                            Add keys only if your backend pipeline emits the person identifier under different
-                            attributes.
-                        </>
+                        <Trans
+                            i18nKey="settings.map.logs-distinct-id-attribute-key.description"
+                            components={{ Code: <code /> }}
+                            defaults="The log attributes PostHog reads to identify which person a log belongs to. A log is linked when any of these attributes matches one of the person's distinct IDs. Defaults to <Code>posthogDistinctId</Code>, the key the JavaScript and React Native SDKs auto-attach. Add keys only if your backend pipeline emits the person identifier under different attributes."
+                        />
                     ),
                     searchDescription: i18n.t('settings.map.logs-distinct-id-attribute-key.searchDescription', {
                         defaultValue: `The log attributes PostHog reads to identify which person a log belongs to. A log is linked when any of these attributes matches one of the person's distinct IDs. Defaults to posthogDistinctId, the key the JavaScript and React Native SDKs auto-attach. Add keys only if your backend pipeline emits the person identifier under different attributes.`,
@@ -1140,12 +1140,11 @@ function buildSettingsMap(): SettingSection[] {
                         defaultValue: 'Link to session',
                     }),
                     description: (
-                        <>
-                            The log attributes PostHog reads to identify which session a log belongs to, checked in
-                            order with the first match winning, followed by other common session ID attributes. Defaults
-                            to <code>sessionId</code>, the key the JavaScript and React Native SDKs auto-attach. Add
-                            keys only if your pipeline emits the session ID under different attributes.
-                        </>
+                        <Trans
+                            i18nKey="settings.map.logs-session-id-attribute-keys.description"
+                            components={{ Code: <code /> }}
+                            defaults="The log attributes PostHog reads to identify which session a log belongs to, checked in order with the first match winning, followed by other common session ID attributes. Defaults to <Code>sessionId</Code>, the key the JavaScript and React Native SDKs auto-attach. Add keys only if your pipeline emits the session ID under different attributes."
+                        />
                     ),
                     searchDescription: i18n.t('settings.map.logs-session-id-attribute-keys.searchDescription', {
                         defaultValue: `The log attributes PostHog reads to identify which session a log belongs to, checked in order with the first match winning, followed by other common session ID attributes. Defaults to sessionId, the key the JavaScript and React Native SDKs auto-attach. Add keys only if your pipeline emits the session ID under different attributes.`,
@@ -1159,11 +1158,11 @@ function buildSettingsMap(): SettingSection[] {
                         defaultValue: 'Retention',
                     }),
                     description: (
-                        <span>
-                            How long to retain logs before they are automatically deleted.{' '}
-                            <strong>Changes only affect the retention for new logs</strong>. You can only change this
-                            setting at most once per 24 hours.
-                        </span>
+                        <Trans
+                            i18nKey="settings.map.logs-retention.description"
+                            components={{ Bold: <strong /> }}
+                            defaults="How long to retain logs before they are automatically deleted. <Bold>Changes only affect the retention for new logs</Bold>. You can only change this setting at most once per 24 hours."
+                        />
                     ),
                     component: <LogsRetentionSettings />,
                     keywords: ['retention', 'storage', 'delete', 'ttl'],
@@ -1696,12 +1695,11 @@ function buildSettingsMap(): SettingSection[] {
                         defaultValue: 'Link to person',
                     }),
                     description: (
-                        <>
-                            The span attributes PostHog reads to identify which person a trace belongs to. A span is
-                            linked when any of these attributes holds one of the person&apos;s distinct IDs. Defaults to{' '}
-                            <code>posthogDistinctId</code>. Add keys only if your pipeline emits the person identifier
-                            under different attributes.
-                        </>
+                        <Trans
+                            i18nKey="settings.map.tracing-distinct-id-attribute-keys.description"
+                            components={{ Code: <code /> }}
+                            defaults="The span attributes PostHog reads to identify which person a trace belongs to. A span is linked when any of these attributes holds one of the person's distinct IDs. Defaults to <Code>posthogDistinctId</Code>. Add keys only if your pipeline emits the person identifier under different attributes."
+                        />
                     ),
                     searchDescription: i18n.t('settings.map.tracing-distinct-id-attribute-keys.searchDescription', {
                         defaultValue: `The span attributes PostHog reads to identify which person a trace belongs to. A span is linked when any of these attributes holds one of the person's distinct IDs. Defaults to posthogDistinctId. Add keys only if your pipeline emits the person identifier under different attributes.`,
@@ -1715,12 +1713,11 @@ function buildSettingsMap(): SettingSection[] {
                         defaultValue: 'Link to session',
                     }),
                     description: (
-                        <>
-                            The span attributes PostHog reads to identify which session a trace belongs to, checked in
-                            order with the first match winning, followed by other common session ID attributes. Defaults
-                            to <code>sessionId</code>. Add keys only if your pipeline emits the session ID under
-                            different attributes.
-                        </>
+                        <Trans
+                            i18nKey="settings.map.tracing-session-id-attribute-keys.description"
+                            components={{ Code: <code /> }}
+                            defaults="The span attributes PostHog reads to identify which session a trace belongs to, checked in order with the first match winning, followed by other common session ID attributes. Defaults to <Code>sessionId</Code>. Add keys only if your pipeline emits the session ID under different attributes."
+                        />
                     ),
                     searchDescription: i18n.t('settings.map.tracing-session-id-attribute-keys.searchDescription', {
                         defaultValue: `The span attributes PostHog reads to identify which session a trace belongs to, checked in order with the first match winning, followed by other common session ID attributes. Defaults to sessionId. Add keys only if your pipeline emits the session ID under different attributes.`,
@@ -2140,26 +2137,36 @@ function buildSettingsMap(): SettingSection[] {
                             titleText=""
                             emptyState={
                                 <div className="px-4 py-6 text-center text-sm text-secondary rounded border bg-surface-primary">
-                                    <p className="mb-1">No other integrations connected</p>
+                                    <p className="mb-1">
+                                        {i18n.t('settings.map.integrations.emptyTitle', {
+                                            defaultValue: 'No other integrations connected',
+                                        })}
+                                    </p>
                                     <p className="text-xs text-muted text-balance mb-0">
-                                        These connect from the product area that uses them:{' '}
-                                        <Link to={urls.destinations()}>pipeline destinations</Link>,{' '}
-                                        <Link to={urls.sources()}>data warehouse sources</Link>,{' '}
-                                        <Link
-                                            to={urls.settings(
-                                                'environment-error-tracking',
-                                                'error-tracking-integrations'
-                                            )}
-                                        >
-                                            error tracking
-                                        </Link>{' '}
-                                        and{' '}
-                                        <Link
-                                            to={urls.settings('environment-marketing-analytics', 'marketing-settings')}
-                                        >
-                                            marketing analytics
-                                        </Link>
-                                        .
+                                        <Trans
+                                            i18nKey="settings.map.integrations.emptyDescription"
+                                            components={{
+                                                Destinations: <Link to={urls.destinations()} />,
+                                                Sources: <Link to={urls.sources()} />,
+                                                ErrorTracking: (
+                                                    <Link
+                                                        to={urls.settings(
+                                                            'environment-error-tracking',
+                                                            'error-tracking-integrations'
+                                                        )}
+                                                    />
+                                                ),
+                                                Marketing: (
+                                                    <Link
+                                                        to={urls.settings(
+                                                            'environment-marketing-analytics',
+                                                            'marketing-settings'
+                                                        )}
+                                                    />
+                                                ),
+                                            }}
+                                            defaults="These connect from the product area that uses them: <Destinations>pipeline destinations</Destinations>, <Sources>data warehouse sources</Sources>, <ErrorTracking>error tracking</ErrorTracking> and <Marketing>marketing analytics</Marketing>."
+                                        />
                                     </p>
                                 </div>
                             }
@@ -2260,7 +2267,9 @@ function buildSettingsMap(): SettingSection[] {
                     title: null,
                     component: (
                         <LemonBanner type="info" className="my-4">
-                            You must be an organization admin or owner to change these settings.
+                            {i18n.t('settings.map.organization-admin-notice.body', {
+                                defaultValue: 'You must be an organization admin or owner to change these settings.',
+                            })}
                         </LemonBanner>
                     ),
                 },
@@ -2874,11 +2883,11 @@ function buildSettingsMap(): SettingSection[] {
                     title: i18n.t('settings.map.customization-irl.title', { defaultValue: 'Customization IRL' }),
                     component: (
                         <div>
-                            Grab some{' '}
-                            <Link to="https://posthog.com/merch" target="_blank">
-                                PostHog merch
-                            </Link>{' '}
-                            to customize yourself outside of the app
+                            <Trans
+                                i18nKey="settings.map.customization-irl.body"
+                                components={{ Merch: <Link to="https://posthog.com/merch" target="_blank" /> }}
+                                defaults="Grab some <Merch>PostHog merch</Merch> to customize yourself outside of the app"
+                            />
                         </div>
                     ),
                 },

@@ -133,6 +133,7 @@
         },
         "listConjunction": "",
         "listSeparator": "",
+        "noChangesToCompare": "",
         "noExtendedDescription": "",
         "object": "",
         "onA": "",
@@ -1093,6 +1094,7 @@
             "consentSelf": "",
             "noTraining": ""
         },
+        "askPostHogAi": "",
         "breadcrumb": {
             "projectHomepage": ""
         },
@@ -2494,6 +2496,7 @@
                 "title": ""
             },
             "customization-irl": {
+                "body": "",
                 "title": ""
             },
             "data-theme": {
@@ -2723,6 +2726,7 @@
                 "title": ""
             },
             "feature-flag-secure-api-key": {
+                "deprecatedDescription": "",
                 "description": "",
                 "searchDescription": "",
                 "title": ""
@@ -2779,6 +2783,10 @@
                 "description": "",
                 "title": ""
             },
+            "integrations": {
+                "emptyDescription": "",
+                "emptyTitle": ""
+            },
             "internal-user-filtering": {
                 "description": "",
                 "title": ""
@@ -2805,6 +2813,7 @@
                 "title": ""
             },
             "logs-distinct-id-attribute-key": {
+                "description": "",
                 "searchDescription": "",
                 "title": ""
             },
@@ -2827,11 +2836,15 @@
                 "description": "",
                 "title": ""
             },
+            "logs-retention": {
+                "description": ""
+            },
             "logs-retention-rules": {
                 "description": "",
                 "title": ""
             },
             "logs-session-id-attribute-keys": {
+                "description": "",
                 "searchDescription": "",
                 "title": ""
             },
@@ -2868,6 +2881,9 @@
             "organization-access-resolution-preview": {
                 "description": "",
                 "title": ""
+            },
+            "organization-admin-notice": {
+                "body": ""
             },
             "organization-ai-consent": {
                 "dataTransfer": "",
@@ -3125,10 +3141,12 @@
                 "title": ""
             },
             "tracing-distinct-id-attribute-keys": {
+                "description": "",
                 "searchDescription": "",
                 "title": ""
             },
             "tracing-session-id-attribute-keys": {
+                "description": "",
                 "searchDescription": "",
                 "title": ""
             },
@@ -4426,6 +4444,7 @@
             "enabled": "",
             "forDomain": "",
             "rotated": "",
+            "scimBearerToken": "",
             "scimProvisioning": "",
             "unknown": ""
         },

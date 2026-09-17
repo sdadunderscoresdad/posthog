@@ -8,6 +8,7 @@ import { LemonButton, LemonSkeleton, Tooltip } from '@posthog/lemon-ui'
 
 import { Search } from 'lib/components/Search/Search'
 import { useFeatureFlag } from 'lib/hooks/useFeatureFlag'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { ButtonPrimitive } from 'lib/ui/Button/ButtonPrimitives'
 import { Label } from 'lib/ui/Label/Label'
@@ -647,7 +648,7 @@ function IdleGrid(): JSX.Element {
             >
                 <Label className="px-2 mb-1 flex items-center gap-1" intent="menu">
                     <IconSparkles className="size-3" />
-                    Ask PostHog AI
+                    {i18n.t('homepage.askPostHogAi', { defaultValue: 'Ask PostHog AI' })}
                 </Label>
                 {/* The static fill means the list is never empty, so gate on the sources
                     having resolved; a selected topic is static data and never loads */}

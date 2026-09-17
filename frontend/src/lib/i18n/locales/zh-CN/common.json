@@ -133,6 +133,7 @@
         },
         "listConjunction": "和",
         "listSeparator": "，",
+        "noChangesToCompare": "该项没有可对比的变更",
         "noExtendedDescription": "该项没有详细描述",
         "object": "活动日志",
         "onA": "，对象为",
@@ -1102,6 +1103,7 @@
             "consentSelf": "PostHog AI 需要你的批准，才能将可识别用户身份的数据交由外部 AI 服务商处理。",
             "noTraining": "你的数据不会被用于训练第三方模型。"
         },
+        "askPostHogAi": "询问 PostHog AI",
         "breadcrumb": {
             "projectHomepage": "项目首页"
         },
@@ -2506,6 +2508,7 @@
                 "title": "使用指标"
             },
             "customization-irl": {
+                "body": "去领取一些<Merch>PostHog 周边</Merch>，在应用之外也能有个性化装扮",
                 "title": "个性化设置"
             },
             "data-theme": {
@@ -2735,6 +2738,7 @@
                 "title": "要求标签"
             },
             "feature-flag-secure-api-key": {
+                "deprecatedDescription": "已弃用。该密钥仍可用于功能开关或远程配置的本地评估，但新的集成应改用具备 <Code>feature_flag:read</Code> 权限范围的项目 API 密钥。",
                 "description": "用于本地评估功能开关或远程配置的密钥。可替代用于本地评估的个人 API 密钥。",
                 "searchDescription": "该密钥用于本地评估功能开关或远程配置。新的集成应改用具备 feature_flag:read 权限范围的项目 API 密钥。",
                 "title": "功能开关安全 API 密钥"
@@ -2791,6 +2795,10 @@
                 "description": "集成 Slack，将洞察或仪表盘定期发送到你选择的频道。",
                 "title": "Slack 集成"
             },
+            "integrations": {
+                "emptyDescription": "它们在使用它们的对应产品区域中连接：<Destinations>管道目标</Destinations>、<Sources>数据仓库数据源</Sources>、<ErrorTracking>错误追踪</ErrorTracking>和<Marketing>营销分析</Marketing>。",
+                "emptyTitle": "没有连接其它集成"
+            },
             "internal-user-filtering": {
                 "description": "定义过滤条件，把内部用户和测试账户排除在分析之外。被过滤的用户默认不会出现在洞察中。",
                 "title": "过滤内部和测试用户"
@@ -2817,6 +2825,7 @@
                 "title": "告警"
             },
             "logs-distinct-id-attribute-key": {
+                "description": "PostHog 用于识别日志属于哪个人的日志属性。当任一属性匹配到该用户的某个 distinct ID 时，日志即与该用户关联。默认使用 <Code>posthogDistinctId</Code>，即 JavaScript 和 React Native SDK 自动附加的键。仅当你的后端管道以其它属性上报人员标识时才需要添加键。",
                 "searchDescription": "PostHog 用于识别日志属于哪个人的日志属性。当任一属性匹配到该用户的某个 distinct ID 时，日志即与该用户关联。",
                 "title": "关联到人员"
             },
@@ -2839,11 +2848,15 @@
                 "description": "在采集时从日志负载中移除或屏蔽常见的个人身份信息。",
                 "title": "个人信息清除"
             },
+            "logs-retention": {
+                "description": "日志在自动删除前的保留时长。<Bold>更改只影响新日志的保留期</Bold>。该设置每 24 小时最多只能更改一次。"
+            },
             "logs-retention-rules": {
                 "description": "使用有序规则，让匹配的日志比环境默认值保留更久或更短。第一条匹配的规则决定日志的保留期；保留策略在写入时生效。",
                 "title": "保留规则"
             },
             "logs-session-id-attribute-keys": {
+                "description": "PostHog 用于识别日志属于哪个会话的日志属性，按顺序检查并以首个匹配为准，其后是其它常见的会话 ID 属性。默认使用 <Code>sessionId</Code>，即 JavaScript 和 React Native SDK 自动附加的键。仅当你的管道以其它属性上报会话 ID 时才需要添加键。",
                 "searchDescription": "PostHog 用于识别日志属于哪个会话的日志属性，按顺序检查并以首个匹配为准，其后是其它常见的会话 ID 属性。",
                 "title": "关联到会话"
             },
@@ -2880,6 +2893,9 @@
             "organization-access-resolution-preview": {
                 "description": "PostHog 正在改变访问级别的合并方式：将由最具体的规则决定，而不是级别最高的规则。请在变更生效前查看你的组织会发生哪些不同。",
                 "title": "访问解析预览"
+            },
+            "organization-admin-notice": {
+                "body": "你需要是组织管理员或所有者才能更改这些设置。"
             },
             "organization-ai-consent": {
                 "dataTransfer": "这<Italic>可能</Italic>涉及传输可识别用户身份的数据，因此我们会在下方征求你所在组织的同意。",
@@ -3137,10 +3153,12 @@
                 "title": "主题"
             },
             "tracing-distinct-id-attribute-keys": {
+                "description": "PostHog 用于识别链路属于哪个人的 span 属性。当任一属性包含该用户的某个 distinct ID 时，链路即与该用户关联。默认使用 <Code>posthogDistinctId</Code>。仅当你的管道以其它属性上报人员标识时才需要添加键。",
                 "searchDescription": "PostHog 用于识别链路属于哪个人的 span 属性。当任一属性包含该用户的某个 distinct ID 时，链路即与该用户关联。",
                 "title": "关联到人员"
             },
             "tracing-session-id-attribute-keys": {
+                "description": "PostHog 用于识别链路属于哪个会话的 span 属性，按顺序检查并以首个匹配为准，其后是其它常见的会话 ID 属性。默认使用 <Code>sessionId</Code>。仅当你的管道以其它属性上报会话 ID 时才需要添加键。",
                 "searchDescription": "PostHog 用于识别链路属于哪个会话的 span 属性，按顺序检查并以首个匹配为准，其后是其它常见的会话 ID 属性。",
                 "title": "关联到会话"
             },
@@ -4438,6 +4456,7 @@
             "enabled": "启用了",
             "forDomain": "，域名",
             "rotated": "轮换了",
+            "scimBearerToken": "SCIM 访问令牌",
             "scimProvisioning": "SCIM 预配",
             "unknown": "未知域名"
         },

@@ -98,7 +98,11 @@ const ActivityLogDiff = ({ logItem }: { logItem: HumanizedActivityLogItem }): JS
                         )
                     })
                 ) : (
-                    <div className="text-secondary">This item has no changes to compare</div>
+                    <div className="text-secondary">
+                        {i18n.t('activityLog.noChangesToCompare', {
+                            defaultValue: 'This item has no changes to compare',
+                        })}
+                    </div>
                 )}
             </div>
         </div>

@@ -134,6 +134,7 @@
         },
         "listConjunction": "and",
         "listSeparator": ", ",
+        "noChangesToCompare": "This item has no changes to compare",
         "noExtendedDescription": "This item has no extended description",
         "object": "activity logs",
         "onA": "on a",
@@ -1115,6 +1116,7 @@
             "consentSelf": "PostHog AI needs your approval to potentially process identifying user data with external AI providers.",
             "noTraining": "Your data won't be used for training third-party models."
         },
+        "askPostHogAi": "Ask PostHog AI",
         "breadcrumb": {
             "projectHomepage": "Project homepage"
         },
@@ -2529,6 +2531,7 @@
                 "title": "Usage metrics"
             },
             "customization-irl": {
+                "body": "Grab some <Merch>PostHog merch</Merch> to customize yourself outside of the app",
                 "title": "Customization IRL"
             },
             "data-theme": {
@@ -2758,6 +2761,7 @@
                 "title": "Require tags"
             },
             "feature-flag-secure-api-key": {
+                "deprecatedDescription": "Deprecated. This key is still usable for local evaluation of feature flags or remote config settings, but new integrations should use a project secret API key with the <Code>feature_flag:read</Code> scope instead.",
                 "description": "Use this key for local evaluation of feature flags or remote config settings. Replaces personal API keys for local evaluation.",
                 "searchDescription": "Use this key for local evaluation of feature flags or remote config settings. Replaces personal API keys for local evaluation.",
                 "title": "Feature flags secure API key"
@@ -2814,6 +2818,10 @@
                 "description": "Integrate with Slack to subscribe to insights or dashboards for regular reports to channels of your choice.",
                 "title": "Slack integration"
             },
+            "integrations": {
+                "emptyDescription": "These connect from the product area that uses them: <Destinations>pipeline destinations</Destinations>, <Sources>data warehouse sources</Sources>, <ErrorTracking>error tracking</ErrorTracking> and <Marketing>marketing analytics</Marketing>.",
+                "emptyTitle": "No other integrations connected"
+            },
             "internal-user-filtering": {
                 "description": "Define filters to exclude internal users and test accounts from your analytics. Filtered users will not appear in insights by default.",
                 "title": "Filter out internal and test users"
@@ -2840,6 +2848,7 @@
                 "title": "Alerting"
             },
             "logs-distinct-id-attribute-key": {
+                "description": "The log attributes PostHog reads to identify which person a log belongs to. A log is linked when any of these attributes matches one of the person's distinct IDs. Defaults to <Code>posthogDistinctId</Code>, the key the JavaScript and React Native SDKs auto-attach. Add keys only if your backend pipeline emits the person identifier under different attributes.",
                 "searchDescription": "The log attributes PostHog reads to identify which person a log belongs to. A log is linked when any of these attributes matches one of the person's distinct IDs. Defaults to posthogDistinctId, the key the JavaScript and React Native SDKs auto-attach. Add keys only if your backend pipeline emits the person identifier under different attributes.",
                 "title": "Link to person"
             },
@@ -2862,11 +2871,15 @@
                 "description": "Remove or mask common personally identifiable information from log payloads during ingestion.",
                 "title": "PII scrubbing"
             },
+            "logs-retention": {
+                "description": "How long to retain logs before they are automatically deleted. <Bold>Changes only affect the retention for new logs</Bold>. You can only change this setting at most once per 24 hours."
+            },
             "logs-retention-rules": {
                 "description": "Keep matching logs longer or shorter than the environment default using ordered rules. The first matching rule sets a log's retention; retention is applied at ingest.",
                 "title": "Retention rules"
             },
             "logs-session-id-attribute-keys": {
+                "description": "The log attributes PostHog reads to identify which session a log belongs to, checked in order with the first match winning, followed by other common session ID attributes. Defaults to <Code>sessionId</Code>, the key the JavaScript and React Native SDKs auto-attach. Add keys only if your pipeline emits the session ID under different attributes.",
                 "searchDescription": "The log attributes PostHog reads to identify which session a log belongs to, checked in order with the first match winning, followed by other common session ID attributes. Defaults to sessionId, the key the JavaScript and React Native SDKs auto-attach. Add keys only if your pipeline emits the session ID under different attributes.",
                 "title": "Link to session"
             },
@@ -2903,6 +2916,9 @@
             "organization-access-resolution-preview": {
                 "description": "PostHog is changing how access levels combine: the most specific rule will decide, instead of the highest one. Review what will be different for your organization before the change takes effect.",
                 "title": "Access resolution preview"
+            },
+            "organization-admin-notice": {
+                "body": "You must be an organization admin or owner to change these settings."
             },
             "organization-ai-consent": {
                 "dataTransfer": "This <Italic>can</Italic> involve transfer of identifying user data, so we ask for your org-wide consent below.",
@@ -3160,10 +3176,12 @@
                 "title": "Theme"
             },
             "tracing-distinct-id-attribute-keys": {
+                "description": "The span attributes PostHog reads to identify which person a trace belongs to. A span is linked when any of these attributes holds one of the person's distinct IDs. Defaults to <Code>posthogDistinctId</Code>. Add keys only if your pipeline emits the person identifier under different attributes.",
                 "searchDescription": "The span attributes PostHog reads to identify which person a trace belongs to. A span is linked when any of these attributes holds one of the person's distinct IDs. Defaults to posthogDistinctId. Add keys only if your pipeline emits the person identifier under different attributes.",
                 "title": "Link to person"
             },
             "tracing-session-id-attribute-keys": {
+                "description": "The span attributes PostHog reads to identify which session a trace belongs to, checked in order with the first match winning, followed by other common session ID attributes. Defaults to <Code>sessionId</Code>. Add keys only if your pipeline emits the session ID under different attributes.",
                 "searchDescription": "The span attributes PostHog reads to identify which session a trace belongs to, checked in order with the first match winning, followed by other common session ID attributes. Defaults to sessionId. Add keys only if your pipeline emits the session ID under different attributes.",
                 "title": "Link to session"
             },
@@ -4474,6 +4492,7 @@
             "enabled": "enabled",
             "forDomain": "for domain",
             "rotated": "rotated the",
+            "scimBearerToken": "SCIM bearer token",
             "scimProvisioning": "SCIM provisioning",
             "unknown": "unknown domain"
         },
