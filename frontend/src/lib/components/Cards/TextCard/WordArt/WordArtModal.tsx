@@ -4,23 +4,26 @@ import { useEffect, useState } from 'react'
 
 import { LemonButton, LemonInput, LemonModal, LemonSegmentedButton } from '@posthog/lemon-ui'
 
-import { capitalizeFirstLetter } from 'lib/utils/strings'
+import { i18n } from 'lib/i18n/i18n'
 
 import {
     normalizeWordArtSize,
     normalizeWordArtStyle,
-    WordArtSize,
-    WORD_ART_PRESETS,
     WORD_ART_SIZES,
+    WordArtSize,
+    wordArtPresets,
+    wordArtSizeLabel,
 } from './wordArtPresets'
 import { WordArtText } from './WordArtText'
 
-const SIZE_OPTIONS = WORD_ART_SIZES.map((value) => ({
-    value,
-    label: value[0].toUpperCase(),
-    tooltip: capitalizeFirstLetter(value),
-    'data-attr': `word-art-size-${value}`,
-}))
+function sizeOptions(): { value: WordArtSize; label: string; tooltip: string; 'data-attr': string }[] {
+    return WORD_ART_SIZES.map((value) => ({
+        value,
+        label: value[0].toUpperCase(),
+        tooltip: wordArtSizeLabel(value),
+        'data-attr': `word-art-size-${value}`,
+    }))
+}
 
 export function WordArtModal({
     onClose,
@@ -47,7 +50,7 @@ export function WordArtModal({
     }, [])
 
     const trimmedText = text.trim()
-    const previewText = trimmedText || 'Your text here'
+    const previewText = trimmedText || i18n.t('wordArt.placeholder', { defaultValue: 'Your text here' })
 
     const save = (): void => {
         if (trimmedText) {
@@ -65,21 +68,29 @@ export function WordArtModal({
         <LemonModal
             isOpen
             onClose={onClose}
-            title="Word art"
-            description="Pick a style. Yes, all of them are tasteful."
+            title={i18n.t('wordArt.title', { defaultValue: 'Word art' })}
+            description={i18n.t('wordArt.description', {
+                defaultValue: 'Pick a style. Yes, all of them are tasteful.',
+            })}
             width={640}
             forceAbovePopovers
             footer={
                 <>
                     <LemonButton type="secondary" onClick={onClose}>
-                        Cancel
+                        {i18n.t('common.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="primary"
                         onClick={save}
-                        disabledReason={!trimmedText ? 'Enter some text first' : undefined}
+                        disabledReason={
+                            !trimmedText
+                                ? i18n.t('wordArt.enterSomeText', { defaultValue: 'Enter some text first' })
+                                : undefined
+                        }
                     >
-                        {isEditing ? 'Update' : 'Insert'}
+                        {isEditing
+                            ? i18n.t('cardEditor.update', { defaultValue: 'Update' })
+                            : i18n.t('cardEditor.insert', { defaultValue: 'Insert' })}
                     </LemonButton>
                 </>
             }
@@ -89,17 +100,17 @@ export function WordArtModal({
                     <LemonInput
                         value={text}
                         onChange={setText}
-                        placeholder="Your text here"
+                        placeholder={i18n.t('wordArt.placeholder', { defaultValue: 'Your text here' })}
                         maxLength={100}
                         autoFocus
                         onPressEnter={save}
                         data-attr="word-art-text-input"
                         className="flex-1"
                     />
-                    <LemonSegmentedButton value={size} onChange={setSize} options={SIZE_OPTIONS} size="small" />
+                    <LemonSegmentedButton value={size} onChange={setSize} options={sizeOptions()} size="small" />
                 </div>
                 <div className="grid grid-cols-3 gap-2">
-                    {WORD_ART_PRESETS.map((preset) => (
+                    {wordArtPresets().map((preset) => (
                         <button
                             key={preset.id}
                             type="button"

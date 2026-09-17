@@ -276,6 +276,39 @@
         "sourceWithContent": "source {{ source }} ({{ content }})",
         "unknownSource": "unknown source"
     },
+    "cardEditor": {
+        "addLink": "Add link",
+        "addTextCard": "Add text card",
+        "alreadyOnThisDashboard": "Already on this dashboard",
+        "buttonTextRequired": "Button text is required",
+        "cannotCancelCardCreation": "Cannot cancel card creation in progress",
+        "cannotCancelInProgress": "Cannot cancel in progress",
+        "clickMe": "Click me",
+        "editLink": "Edit link",
+        "editTextCard": "Edit text card",
+        "emptyCard": "This card would be empty! Type something first",
+        "insert": "Insert",
+        "invalidPathname": "Must be a valid pathname starting with /",
+        "invalidUrl": "Must be a valid URL (e.g. https://example.com) or a pathname starting with /",
+        "left": "Left",
+        "linkText": "Link text",
+        "markdownPlaceholder": "Write your markdown here...",
+        "placementWithinTile": "Placement within tile",
+        "preview": "Preview",
+        "primary": "Primary",
+        "right": "Right",
+        "save": "Save",
+        "saveFailed": "Could not save {{ type }}: {{ message }}",
+        "secondary": "Secondary",
+        "style": "Style",
+        "textTooLong": "Text is too long ({{ max }} characters max)",
+        "transparentBackground": "Transparent background",
+        "unknownError": "Unknown error",
+        "update": "Update",
+        "url": "URL",
+        "urlPlaceholder": "https://example.com or /dashboards",
+        "urlRequired": "URL is required"
+    },
     "cliAuthorize": {
         "codeLabel": "Authorization Code",
         "customSelection": "Custom selection",
@@ -1200,6 +1233,7 @@
         "noViewPermission": "You don't have permission to view this insight.",
         "openAsNewInsight": "Open as new insight",
         "refreshData": "Refresh data",
+        "refreshDataLastComputed": "Refresh data (last computed {{ time }})",
         "saving": "Saving",
         "savingChartType": "Saving chart type",
         "searchDashboards": "Search dashboards",
@@ -5245,5 +5279,29 @@
         "verifiedPending": "You're verified",
         "verify": "Verify email",
         "wrongAddress": "Wrong address?"
+    },
+    "wordArt": {
+        "description": "Pick a style. Yes, all of them are tasteful.",
+        "enterSomeText": "Enter some text first",
+        "placeholder": "Your text here",
+        "sizes": {
+            "large": "Large",
+            "medium": "Medium",
+            "small": "Small"
+        },
+        "styles": {
+            "arch": "Arch",
+            "chrome": "Chrome",
+            "extrude": "3D blocks",
+            "fire": "Fire",
+            "ice": "Ice",
+            "neon": "Neon sign",
+            "outline": "Outline",
+            "rainbow": "Rainbow",
+            "shadow": "Hard shadow",
+            "stripes": "Retro stripes",
+            "sunset": "Sunset"
+        },
+        "title": "Word art"
     }
 }

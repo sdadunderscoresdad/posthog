@@ -5,6 +5,8 @@ import posthog from 'posthog-js'
 
 import { lemonToast } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
+
 import { dashboardsModel } from '~/models/dashboardsModel'
 import { DashboardTileIdOrNew, DashboardType, QueryBasedInsightModel } from '~/types'
 
@@ -160,15 +162,22 @@ export const buttonTileCardModalLogic = kea<buttonTileCardModalLogicType>([
                   }) as ButtonTileForm,
             errors: ({ url, text }) => ({
                 url: !url
-                    ? 'URL is required'
+                    ? i18n.t('cardEditor.urlRequired', { defaultValue: 'URL is required' })
                     : url.startsWith('/')
                       ? !isValidPathname(url)
-                          ? 'Must be a valid pathname starting with /'
+                          ? i18n.t('cardEditor.invalidPathname', {
+                                defaultValue: 'Must be a valid pathname starting with /',
+                            })
                           : null
                       : !isValidUrl(url)
-                        ? 'Must be a valid URL (e.g. https://example.com) or a pathname starting with /'
+                        ? i18n.t('cardEditor.invalidUrl', {
+                              defaultValue:
+                                  'Must be a valid URL (e.g. https://example.com) or a pathname starting with /',
+                          })
                         : null,
-                text: !text ? 'Button text is required' : null,
+                text: !text
+                    ? i18n.t('cardEditor.buttonTextRequired', { defaultValue: 'Button text is required' })
+                    : null,
             }),
             submit: (formValues) => {
                 const { transparent_background, ...buttonTileFields } = formValues

@@ -275,6 +275,39 @@
         "sourceWithContent": "",
         "unknownSource": ""
     },
+    "cardEditor": {
+        "addLink": "",
+        "addTextCard": "",
+        "alreadyOnThisDashboard": "",
+        "buttonTextRequired": "",
+        "cannotCancelCardCreation": "",
+        "cannotCancelInProgress": "",
+        "clickMe": "",
+        "editLink": "",
+        "editTextCard": "",
+        "emptyCard": "",
+        "insert": "",
+        "invalidPathname": "",
+        "invalidUrl": "",
+        "left": "",
+        "linkText": "",
+        "markdownPlaceholder": "",
+        "placementWithinTile": "",
+        "preview": "",
+        "primary": "",
+        "right": "",
+        "save": "",
+        "saveFailed": "",
+        "secondary": "",
+        "style": "",
+        "textTooLong": "",
+        "transparentBackground": "",
+        "unknownError": "",
+        "update": "",
+        "url": "",
+        "urlPlaceholder": "",
+        "urlRequired": ""
+    },
     "cliAuthorize": {
         "codeLabel": "",
         "customSelection": "",
@@ -1176,6 +1209,7 @@
         "noViewPermission": "",
         "openAsNewInsight": "",
         "refreshData": "",
+        "refreshDataLastComputed": "",
         "saving": "",
         "savingChartType": "",
         "searchDashboards": "",
@@ -5191,5 +5225,29 @@
         "verifiedPending": "",
         "verify": "",
         "wrongAddress": ""
+    },
+    "wordArt": {
+        "description": "",
+        "enterSomeText": "",
+        "placeholder": "",
+        "sizes": {
+            "large": "",
+            "medium": "",
+            "small": ""
+        },
+        "styles": {
+            "arch": "",
+            "chrome": "",
+            "extrude": "",
+            "fire": "",
+            "ice": "",
+            "neon": "",
+            "outline": "",
+            "rainbow": "",
+            "shadow": "",
+            "stripes": "",
+            "sunset": ""
+        },
+        "title": ""
     }
 }

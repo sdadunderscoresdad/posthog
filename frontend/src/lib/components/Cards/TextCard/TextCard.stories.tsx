@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { DashboardPlacement, DashboardTile, InsightColor, QueryBasedInsightModel } from '~/types'
 
 import { TextCard } from './TextCard'
-import { WORD_ART_PRESETS } from './WordArt/wordArtPresets'
+import { wordArtPresets } from './WordArt/wordArtPresets'
 
 const meta: Meta = {
     title: 'Components/Cards/Text Card',
@@ -88,9 +88,9 @@ export const Template: Story = {
 
 export const WordArt: Story = {
     render: () => {
-        const body = WORD_ART_PRESETS.map((preset) => `<span data-word-art="${preset.id}">${preset.label}</span>`).join(
-            '\n\n'
-        )
+        const body = wordArtPresets()
+            .map((preset) => `<span data-word-art="${preset.id}">${preset.label}</span>`)
+            .join('\n\n')
         return (
             <div className="max-w-160">
                 <TextCard

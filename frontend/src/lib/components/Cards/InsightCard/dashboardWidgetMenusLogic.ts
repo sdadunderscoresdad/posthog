@@ -1,5 +1,6 @@
 import { MakeLogicType, connect, kea, key, path, props, selectors } from 'kea'
 
+import { i18n } from 'lib/i18n/i18n'
 import { accessLevelSatisfied } from 'lib/utils/accessControlUtils'
 
 import { dashboardsModel } from '~/models/dashboardsModel'
@@ -111,7 +112,9 @@ export const dashboardWidgetMenusLogic = kea<dashboardWidgetMenusLogicType>([
                     .map((d) => ({
                         dashboard: d,
                         disabledReason: dashboardIdsWithThisWidget.has(Number(d.id))
-                            ? 'Already on this dashboard'
+                            ? i18n.t('cardEditor.alreadyOnThisDashboard', {
+                                  defaultValue: 'Already on this dashboard',
+                              })
                             : undefined,
                     }))
             },

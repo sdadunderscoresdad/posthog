@@ -6,6 +6,7 @@ import { textCardConverter } from 'lib/components/Cards/TextCard/textCardMarkdow
 import { TextCardModalBodyField } from 'lib/components/Cards/TextCard/TextCardModalBodyField'
 import { textCardModalLogic } from 'lib/components/Cards/TextCard/textCardModalLogic'
 import type { TextCardModalProps } from 'lib/components/Cards/TextCard/textCardModalLogic'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonSwitch } from 'lib/lemon-ui/LemonSwitch'
 import { DialogClose, DialogPrimitive, DialogPrimitiveTitle } from 'lib/ui/DialogPrimitive/DialogPrimitive'
@@ -56,7 +57,9 @@ export function TextCardModal({
         >
             <div className="flex shrink-0 items-center justify-between gap-2 border-b border-primary py-2 pl-4 pr-2">
                 <DialogPrimitiveTitle className="min-w-0 flex-1 text-base font-semibold">
-                    {isNewTile ? 'Add text card' : 'Edit text card'}
+                    {isNewTile
+                        ? i18n.t('cardEditor.addTextCard', { defaultValue: 'Add text card' })
+                        : i18n.t('cardEditor.editTextCard', { defaultValue: 'Edit text card' })}
                 </DialogPrimitiveTitle>
                 <DialogClose className="shrink-0" />
             </div>
@@ -84,7 +87,9 @@ export function TextCardModal({
                                     <LemonSwitch
                                         checked={value}
                                         onChange={onChange}
-                                        label="Transparent background"
+                                        label={i18n.t('cardEditor.transparentBackground', {
+                                            defaultValue: 'Transparent background',
+                                        })}
                                         data-attr="text-card-transparent-background"
                                     />
                                 )}
@@ -94,11 +99,17 @@ export function TextCardModal({
                 </div>
                 <footer className="flex shrink-0 items-center justify-end gap-2 border-t border-primary p-4">
                     <LemonButton
-                        disabledReason={isTextTileSubmitting ? 'Cannot cancel card creation in progress' : null}
+                        disabledReason={
+                            isTextTileSubmitting
+                                ? i18n.t('cardEditor.cannotCancelCardCreation', {
+                                      defaultValue: 'Cannot cancel card creation in progress',
+                                  })
+                                : null
+                        }
                         type="secondary"
                         onClick={handleClose}
                     >
-                        Cancel
+                        {i18n.t('common.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         disabledReason={textTileValidationErrors.body as string | null}
@@ -108,7 +119,7 @@ export function TextCardModal({
                         type="primary"
                         data-attr={isNewTile ? 'save-new-text-tile' : 'edit-text-tile-text'}
                     >
-                        Save
+                        {i18n.t('cardEditor.save', { defaultValue: 'Save' })}
                     </LemonButton>
                 </footer>
             </div>

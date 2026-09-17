@@ -5,6 +5,8 @@ import posthog from 'posthog-js'
 
 import { lemonToast } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
+
 import { dashboardsModel } from '~/models/dashboardsModel'
 import { DashboardTile, DashboardTileIdOrNew, DashboardType, QueryBasedInsightModel } from '~/types'
 
@@ -124,7 +126,7 @@ export const textCardModalLogic = kea<textCardModalLogicType>([
                     (typeof failure.error === 'object' && typeof failure.error?.error === 'string'
                         ? failure.error.error
                         : null) ||
-                    'Unknown error'
+                    i18n.t('cardEditor.unknownError', { defaultValue: 'Unknown error' })
                 const formBodyError = values.textTileValidationErrors.body as string | null
                 const apiBodyError =
                     (Array.isArray(normalizedErrors?.body) ? normalizedErrors.body[0] : normalizedErrors?.body) ||
@@ -138,7 +140,13 @@ export const textCardModalLogic = kea<textCardModalLogicType>([
                     return
                 }
 
-                lemonToast.error(`Could not save ${props.tileType}: ${normalizedMessage}`)
+                lemonToast.error(
+                    i18n.t('cardEditor.saveFailed', {
+                        type: props.tileType,
+                        message: normalizedMessage,
+                        defaultValue: 'Could not save {{ type }}: {{ message }}',
+                    })
+                )
             }
         },
         submitTextTileSuccess: ({ textTile }: { textTile: TextTileForm }) => {
@@ -162,9 +170,14 @@ export const textCardModalLogic = kea<textCardModalLogicType>([
             errors: ({ body }) => {
                 return {
                     body: !body.trim()
-                        ? 'This card would be empty! Type something first'
+                        ? i18n.t('cardEditor.emptyCard', {
+                              defaultValue: 'This card would be empty! Type something first',
+                          })
                         : body.length > MAX_TEXT_CARD_BODY_LENGTH
-                          ? `Text is too long (${MAX_TEXT_CARD_BODY_LENGTH} characters max)`
+                          ? i18n.t('cardEditor.textTooLong', {
+                                max: MAX_TEXT_CARD_BODY_LENGTH,
+                                defaultValue: 'Text is too long ({{ max }} characters max)',
+                            })
                           : null,
                 }
             },

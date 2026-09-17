@@ -275,6 +275,39 @@
         "sourceWithContent": "来源 {{ source }}（{{ content }}）",
         "unknownSource": "未知来源"
     },
+    "cardEditor": {
+        "addLink": "添加链接",
+        "addTextCard": "添加文本卡片",
+        "alreadyOnThisDashboard": "已在该仪表盘上",
+        "buttonTextRequired": "请填写按钮文字",
+        "cannotCancelCardCreation": "卡片正在创建，无法取消",
+        "cannotCancelInProgress": "正在提交，无法取消",
+        "clickMe": "点击我",
+        "editLink": "编辑链接",
+        "editTextCard": "编辑文本卡片",
+        "emptyCard": "卡片内容不能为空，请先输入内容",
+        "insert": "插入",
+        "invalidPathname": "路径必须以 / 开头且格式正确",
+        "invalidUrl": "必须是有效的 URL（例如 https://example.com）或以 / 开头的路径",
+        "left": "左侧",
+        "linkText": "链接文字",
+        "markdownPlaceholder": "在这里输入 Markdown 内容…",
+        "placementWithinTile": "在卡片内的位置",
+        "preview": "预览",
+        "primary": "主要",
+        "right": "右侧",
+        "save": "保存",
+        "saveFailed": "无法保存 {{ type }}：{{ message }}",
+        "secondary": "次要",
+        "style": "样式",
+        "textTooLong": "内容过长（最多 {{ max }} 个字符）",
+        "transparentBackground": "透明背景",
+        "unknownError": "未知错误",
+        "update": "更新",
+        "url": "URL",
+        "urlPlaceholder": "https://example.com 或 /dashboards",
+        "urlRequired": "请填写 URL"
+    },
     "cliAuthorize": {
         "codeLabel": "授权码",
         "customSelection": "自定义选择",
@@ -1187,6 +1220,7 @@
         "noViewPermission": "你没有查看该洞察的权限。",
         "openAsNewInsight": "作为新洞察打开",
         "refreshData": "刷新数据",
+        "refreshDataLastComputed": "刷新数据（上次计算于 {{ time }}）",
         "saving": "正在保存",
         "savingChartType": "正在保存图表类型",
         "searchDashboards": "搜索仪表盘",
@@ -5204,5 +5238,29 @@
         "verifiedPending": "验证成功",
         "verify": "验证邮箱",
         "wrongAddress": "邮箱地址不对？"
+    },
+    "wordArt": {
+        "description": "挑一个样式吧，每个都挺好看的。",
+        "enterSomeText": "请先输入文字",
+        "placeholder": "在这里输入文字",
+        "sizes": {
+            "large": "大",
+            "medium": "中",
+            "small": "小"
+        },
+        "styles": {
+            "arch": "拱形",
+            "chrome": "金属",
+            "extrude": "3D 方块",
+            "fire": "火焰",
+            "ice": "冰霜",
+            "neon": "霓虹灯",
+            "outline": "描边",
+            "rainbow": "彩虹",
+            "shadow": "硬阴影",
+            "stripes": "复古条纹",
+            "sunset": "日落"
+        },
+        "title": "艺术字"
     }
 }
