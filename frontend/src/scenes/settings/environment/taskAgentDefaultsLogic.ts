@@ -1,6 +1,7 @@
 import { MakeLogicType, actions, afterMount, connect, kea, listeners, path, reducers, selectors } from 'kea'
 import { loaders } from 'kea-loaders'
 
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { projectLogic } from 'scenes/projectLogic'
 
@@ -230,7 +231,15 @@ export const taskAgentDefaultsLogic = kea<taskAgentDefaultsLogicType>([
                 preferences: TasksAIRunPreferencesApi
             ): Promise<TasksAIRunPreferencesApi | null> => {
                 const response = await tasksConfigCreate(String(values.currentProjectId), preferences)
-                lemonToast.success(preferences.model ? 'Project default saved' : 'Project default cleared')
+                lemonToast.success(
+                    preferences.model
+                        ? i18n.t('settings.environment.taskAgentDefaults.projectDefaultSaved', {
+                              defaultValue: 'Project default saved',
+                          })
+                        : i18n.t('settings.environment.taskAgentDefaults.projectDefaultCleared', {
+                              defaultValue: 'Project default cleared',
+                          })
+                )
                 return response.ai_run_preferences
             },
         },
@@ -240,7 +249,15 @@ export const taskAgentDefaultsLogic = kea<taskAgentDefaultsLogicType>([
                 preferences: TasksAIRunPreferencesApi
             ): Promise<TasksUserConfigResponseApi | null> => {
                 const response = await tasksMeConfigCreate(String(values.currentProjectId), preferences)
-                lemonToast.success(preferences.model ? 'Your default saved' : 'Reset to the project default')
+                lemonToast.success(
+                    preferences.model
+                        ? i18n.t('settings.environment.taskAgentDefaults.yourDefaultSaved', {
+                              defaultValue: 'Your default saved',
+                          })
+                        : i18n.t('settings.environment.taskAgentDefaults.resetDone', {
+                              defaultValue: 'Reset to the project default',
+                          })
+                )
                 return response
             },
         },

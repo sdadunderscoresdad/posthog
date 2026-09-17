@@ -5,6 +5,7 @@ import type { DeepPartial, DeepPartialMap, FieldName, ValidationErrorType } from
 import { lemonToast } from '@posthog/lemon-ui'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 
 import { DataColorThemeModelPayload } from '~/types'
 
@@ -137,23 +138,41 @@ export const dataColorThemesModalLogic = kea<dataColorThemesModalLogicType>([
                         ? await api.dataColorThemes.update(id, payload)
                         : await api.dataColorThemes.create(payload)
 
-                    lemonToast.success(updatedTheme ? 'Theme saved.' : 'Theme created.')
+                    lemonToast.success(
+                        updatedTheme
+                            ? i18n.t('settings.environment.dataColorThemes.saved', { defaultValue: 'Theme saved.' })
+                            : i18n.t('settings.environment.dataColorThemes.created', { defaultValue: 'Theme created.' })
+                    )
                     actions.closeModal()
 
                     return updatedTheme
                 } catch (error: any) {
                     if (error.data?.attr && error.data?.detail) {
                         const field = error.data?.attr?.replace(/_/g, ' ')
-                        lemonToast.error(`Error saving data color theme: ${field}: ${error.data.detail}`)
+                        lemonToast.error(
+                            i18n.t('settings.environment.dataColorThemes.saveFailedWithField', {
+                                field,
+                                detail: error.data.detail,
+                                defaultValue: 'Error saving data color theme: {{ field }}: {{ detail }}',
+                            })
+                        )
                     } else {
-                        lemonToast.error(`Error saving data color theme`)
+                        lemonToast.error(
+                            i18n.t('settings.environment.dataColorThemes.saveFailed', {
+                                defaultValue: 'Error saving data color theme',
+                            })
+                        )
                     }
                 }
 
                 return payload
             },
             errors: (theme) => ({
-                name: !theme?.name ? 'This field is required' : undefined,
+                name: !theme?.name
+                    ? i18n.t('settings.environment.dataColorThemes.nameRequired', {
+                          defaultValue: 'This field is required',
+                      })
+                    : undefined,
             }),
         },
     })),

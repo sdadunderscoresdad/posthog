@@ -5,6 +5,7 @@ import { subscriptions } from 'kea-subscriptions'
 import { lemonToast } from '@posthog/lemon-ui'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { teamLogic } from 'scenes/teamLogic'
 
 import {
@@ -256,7 +257,11 @@ export const pathCleaningSuggestionsLogic = kea<pathCleaningSuggestionsLogicType
         },
         loadPreviewFailure: () => {
             actions.closePreview()
-            lemonToast.error('Could not load the preview. Please try again.')
+            lemonToast.error(
+                i18n.t('settings.environment.pathCleaningSuggestions.previewLoadFailed', {
+                    defaultValue: 'Could not load the preview. Please try again.',
+                })
+            )
         },
         applySuggestion: async ({ id }) => {
             if (!values.currentTeamId) {
@@ -265,13 +270,23 @@ export const pathCleaningSuggestionsLogic = kea<pathCleaningSuggestionsLogicType
             }
             try {
                 const result = await webAnalyticsPathCleaningSuggestionsApply(String(values.currentTeamId), id)
-                lemonToast.success(`Applied ${result.applied} path cleaning rule${result.applied === 1 ? '' : 's'}`)
+                lemonToast.success(
+                    i18n.t('settings.environment.pathCleaningSuggestions.applied', {
+                        count: result.applied,
+                        defaultValue_one: 'Applied {{ count }} path cleaning rule',
+                        defaultValue_other: 'Applied {{ count }} path cleaning rules',
+                    })
+                )
                 // Refresh the team so the rules table reflects the merged path_cleaning_filters.
                 actions.loadCurrentTeam()
             } catch {
                 // Roll back the optimistic hide and tell the user, so nothing is silently lost.
                 actions.unhandleSuggestion(id)
-                lemonToast.error('Could not apply the path cleaning suggestions. Please try again.')
+                lemonToast.error(
+                    i18n.t('settings.environment.pathCleaningSuggestions.applyFailed', {
+                        defaultValue: 'Could not apply the path cleaning suggestions. Please try again.',
+                    })
+                )
             } finally {
                 actions.applySuggestionFinished()
             }
@@ -284,7 +299,11 @@ export const pathCleaningSuggestionsLogic = kea<pathCleaningSuggestionsLogicType
                 await api.update(`api/projects/${values.currentTeamId}/health_issues/${id}/`, { dismissed: true })
             } catch {
                 actions.unhandleSuggestion(id)
-                lemonToast.error('Could not dismiss the suggestion. Please try again.')
+                lemonToast.error(
+                    i18n.t('settings.environment.pathCleaningSuggestions.dismissFailed', {
+                        defaultValue: 'Could not dismiss the suggestion. Please try again.',
+                    })
+                )
             }
         },
     })),

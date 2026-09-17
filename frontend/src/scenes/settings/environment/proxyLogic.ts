@@ -8,6 +8,7 @@ import { LemonDialog } from '@posthog/lemon-ui'
 
 import { SetupTaskId } from 'lib/components/ProductSetup'
 import { globalSetupLogic } from 'lib/components/ProductSetup/globalSetupLogic'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { apiHostOrigin } from 'lib/utils/apiHost'
 import { isDomain } from 'lib/utils/url'
@@ -491,7 +492,9 @@ export const proxyLogic = kea<proxyLogicType>([
             },
             createRecord: async ({ domain }: { domain: string }) => {
                 const response = await proxyRecordsCreate(values.currentOrganizationId, { domain })
-                lemonToast.success('Record created')
+                lemonToast.success(
+                    i18n.t('settings.environment.managedReverseProxy.recordCreated', { defaultValue: 'Record created' })
+                )
                 actions.collapseForm()
                 return [response, ...values.proxyRecords]
             },
@@ -505,7 +508,11 @@ export const proxyLogic = kea<proxyLogicType>([
             },
             retryRecord: async (id: ProxyRecord['id']) => {
                 await proxyRecordsRetryCreate(values.currentOrganizationId, id)
-                lemonToast.success('Retry initiated')
+                lemonToast.success(
+                    i18n.t('settings.environment.managedReverseProxy.retryInitiated', {
+                        defaultValue: 'Retry initiated',
+                    })
+                )
                 return values.proxyRecords.map((r) => ({
                     ...r,
                     status: r.id === id ? 'waiting' : r.status,
@@ -516,7 +523,15 @@ export const proxyLogic = kea<proxyLogicType>([
                 const updatedRecord = await proxyRecordsPartialUpdate(values.currentOrganizationId, id, {
                     root_redirect_url: rootRedirectUrl || null,
                 })
-                lemonToast.success(rootRedirectUrl ? 'Root redirect updated' : 'Root redirect removed')
+                lemonToast.success(
+                    rootRedirectUrl
+                        ? i18n.t('settings.environment.managedReverseProxy.rootRedirectUpdated', {
+                              defaultValue: 'Root redirect updated',
+                          })
+                        : i18n.t('settings.environment.managedReverseProxy.rootRedirectRemoved', {
+                              defaultValue: 'Root redirect removed',
+                          })
+                )
                 return values.proxyRecords.map((record) => (record.id === id ? updatedRecord : record))
             },
         },
@@ -587,13 +602,22 @@ export const proxyLogic = kea<proxyLogicType>([
             errors: ({ domain }: { domain: string }) => ({
                 domain:
                     domain === ''
-                        ? 'Domain is required'
+                        ? i18n.t('settings.environment.managedReverseProxy.createForm.domainRequired', {
+                              defaultValue: 'Domain is required',
+                          })
                         : domain.includes('*')
-                          ? 'Domains cannot include wildcards'
+                          ? i18n.t('settings.environment.managedReverseProxy.createForm.domainNoWildcards', {
+                                defaultValue: 'Domains cannot include wildcards',
+                            })
                           : !isDomain('http://' + domain)
-                            ? 'Do not include the protocol e.g. https://'
+                            ? i18n.t('settings.environment.managedReverseProxy.createForm.domainNoProtocol', {
+                                  defaultValue: 'Do not include the protocol e.g. https://',
+                              })
                             : !domain.match(/^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$/)
-                              ? "Invalid domain. Please provide a lowercase RFC 1123 subdomain. It must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character"
+                              ? i18n.t('settings.environment.managedReverseProxy.createForm.domainInvalid', {
+                                    defaultValue:
+                                        "Invalid domain. Please provide a lowercase RFC 1123 subdomain. It must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character",
+                                })
                               : undefined,
             }),
             submit: ({ domain }) => {
@@ -604,16 +628,26 @@ export const proxyLogic = kea<proxyLogicType>([
 
                 if (isRiskyDomain(domain)) {
                     LemonDialog.open({
-                        title: 'This domain may be blocked by ad-blockers',
+                        title: i18n.t('settings.environment.managedReverseProxy.adBlockedTitle', {
+                            defaultValue: 'This domain may be blocked by ad-blockers',
+                        }),
                         width: '25rem',
-                        content: `The domain "${domain}" contains a word commonly associated with tracking or analytics. Ad-blockers are likely to block requests to this domain, which will cause data loss. Are you sure you want to proceed?`,
+                        content: i18n.t('settings.environment.managedReverseProxy.adBlockedContent', {
+                            domain,
+                            defaultValue:
+                                'The domain "{{ domain }}" contains a word commonly associated with tracking or analytics. Ad-blockers are likely to block requests to this domain, which will cause data loss. Are you sure you want to proceed?',
+                        }),
                         primaryButton: {
                             status: 'danger',
-                            children: 'Proceed anyway',
+                            children: i18n.t('settings.environment.managedReverseProxy.proceedAnyway', {
+                                defaultValue: 'Proceed anyway',
+                            }),
                             onClick: doSubmit,
                         },
                         secondaryButton: {
-                            children: 'Choose a different domain',
+                            children: i18n.t('settings.environment.managedReverseProxy.chooseDifferentDomain', {
+                                defaultValue: 'Choose a different domain',
+                            }),
                         },
                     })
                     return

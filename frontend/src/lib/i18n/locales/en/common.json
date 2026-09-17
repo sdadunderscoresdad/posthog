@@ -2165,8 +2165,13 @@
                     "name": "Name",
                     "official": "Official"
                 },
+                "created": "Theme created.",
                 "defaultTheme": "Default theme",
-                "description": "These themes can be used in insights. You can also set a default theme for all insights below. For more details, check out our <DocsLink>docs</DocsLink>."
+                "description": "These themes can be used in insights. You can also set a default theme for all insights below. For more details, check out our <DocsLink>docs</DocsLink>.",
+                "nameRequired": "This field is required",
+                "saved": "Theme saved.",
+                "saveFailed": "Error saving data color theme",
+                "saveFailedWithField": "Error saving data color theme: {{ field }}: {{ detail }}"
             },
             "deadClicksAutocapture": {
                 "label": "Enable dead clicks autocapture"
@@ -2190,6 +2195,9 @@
             "errorTrackingConfigurationMoved": {
                 "message": "<Strong>Error tracking configuration has moved.</Strong> Configurations for alerting, suppression rules, spike detection, assignment rules, grouping rules, symbol sets, and releases are now on the <ConfigLink>Error tracking configuration</ConfigLink> page.",
                 "whereToFind": "You can get there via the sidebar: <Strong>Error tracking → Configuration</Strong>."
+            },
+            "experimentConfig": {
+                "updateFailed": "Failed to update experiment settings. Please try again."
             },
             "experimentRecalculationTime": {
                 "placeholder": "Select recalculation time"
@@ -2236,7 +2244,9 @@
             "jsSnippetVersion": {
                 "acceptedFormats": "Accepted formats: major version (<code>1</code>), minor version (<code>1.358</code>), or exact version (<code>1.358.0</code>).",
                 "currentlyResolves": "Currently resolves to:",
-                "placeholder": "1 (default)"
+                "placeholder": "1 (default)",
+                "updated": "Snippet version updated",
+                "updateFailed": "Failed to update version"
             },
             "logsAttributeKeys": {
                 "atLeastOneRequired": "At least one attribute key is required"
@@ -2261,7 +2271,10 @@
                 "retry": "Retry"
             },
             "managedReverseProxy": {
+                "adBlockedContent": "The domain \"{{ domain }}\" contains a word commonly associated with tracking or analytics. Ad-blockers are likely to block requests to this domain, which will cause data loss. Are you sure you want to proceed?",
+                "adBlockedTitle": "This domain may be blocked by ad-blockers",
                 "add": "Add managed proxy",
+                "chooseDifferentDomain": "Choose a different domain",
                 "columns": {
                     "domain": "Domain",
                     "status": "Status"
@@ -2270,8 +2283,12 @@
                     "adBlockerWarningItem": "<Strong>Do not use</Strong> subdomains containing words related to tracking, analytics, advertising, or PostHog (e.g. <code>analytics.mydomain.com</code>, <code>posthog.mydomain.com</code>, or <code>ph.mydomain.com</code>). These are commonly blocked by ad-blockers and will cause data loss. The proxy will <Strong>NOT</Strong> achieve the intended effect if ad-blockers are blocking the domain.",
                     "adBlockerWarningTitle": "Avoid domains that ad-blockers may flag as analytics or advertising related.",
                     "add": "Add",
+                    "domainInvalid": "Invalid domain. Please provide a lowercase RFC 1123 subdomain. It must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character",
                     "domainLabel": "Domain",
+                    "domainNoProtocol": "Do not include the protocol e.g. https://",
+                    "domainNoWildcards": "Domains cannot include wildcards",
                     "domainPlaceholder": "Enter a domain (e.g. t.mydomain.com)",
+                    "domainRequired": "Domain is required",
                     "genericSubdomainHint": "<Strong>Use a generic subdomain</Strong> such as <code>t.mydomain.com</code> instead.",
                     "saving": "Saving"
                 },
@@ -2326,8 +2343,13 @@
                     },
                     "title": "Enable Managed Proxy"
                 },
+                "proceedAnyway": "Proceed anyway",
+                "recordCreated": "Record created",
                 "records": "Reverse proxy records",
                 "retry": "Retry",
+                "retryInitiated": "Retry initiated",
+                "rootRedirectRemoved": "Root redirect removed",
+                "rootRedirectUpdated": "Root redirect updated",
                 "sdkSetup": {
                     "description": "Now that your proxy is live, update your SDK initialization to send data through your custom domain.",
                     "title": "Update your SDK configuration"
@@ -2383,11 +2405,16 @@
                 "testPlaceholder": "Enter a path to test"
             },
             "pathCleaningSuggestions": {
+                "applied_one": "Applied {{ count }} path cleaning rule",
+                "applied_other": "Applied {{ count }} path cleaning rules",
                 "applyAll": "Apply all",
+                "applyFailed": "Could not apply the path cleaning suggestions. Please try again.",
                 "bannerSummary_one": "We analyzed your traffic and suggest <Strong>{{ count }}</Strong> path cleaning {{ rules }} to group similar pages. Review and apply them:",
                 "bannerSummary_other": "We analyzed your traffic and suggest <Strong>{{ count }}</Strong> path cleaning {{ rules }} to group similar pages. Review and apply them:",
                 "close": "Close",
+                "dismissFailed": "Could not dismiss the suggestion. Please try again.",
                 "previewDescription": "Your most-viewed paths from the last 30 days, with all suggested rules applied in order. Nothing changes until you apply.",
+                "previewLoadFailed": "Could not load the preview. Please try again.",
                 "previewOnYourPaths": "Preview on your paths",
                 "previewSummary": "These rules group <Strong>{{ changed }}</Strong> of your top <Strong>{{ sampled }}</Strong> paths",
                 "previewSummaryTruncated": "(showing the first {{ shown }})",
@@ -2445,6 +2472,7 @@
                     "patternCount_one": "{{ count }} pattern",
                     "patternCount_other": "{{ count }} patterns"
                 },
+                "invalidRegex": "Invalid regex pattern",
                 "legacyConditions": {
                     "fallbackNotice": "Used by SDK versions < v{{ version }} and as fallback for newer versions if trigger groups are not configured.",
                     "heading": "Legacy recording conditions",
@@ -2500,6 +2528,7 @@
                     "description": "Pause recordings while the user is on a page that matches the URL.",
                     "title": "Pause recordings when URL matches"
                 },
+                "urlRequired": "Must have a URL",
                 "urlTrigger": {
                     "description": "Adding a URL trigger means recording will only be started when the user visits a page that matches the URL.",
                     "title": "Enable recordings when URL matches"
@@ -2562,7 +2591,10 @@
                 "noDefaultSet": "No default is set. Runs use each surface's built-in model.",
                 "noProjectDefault": "No project default",
                 "pickModelFirst": "Pick a model first",
+                "projectDefaultCleared": "Project default cleared",
+                "projectDefaultSaved": "Project default saved",
                 "reasoningEffort": "Reasoning effort",
+                "resetDone": "Reset to the project default",
                 "resetToProjectDefault": "Reset to project default",
                 "resolvedDefault": "Runs you start without picking a model will use <Strong>{{ model }}</Strong> {{ effort }} from {{ source }}.",
                 "saving": "Saving…",
@@ -2570,7 +2602,8 @@
                     "projectDefault": "the project default",
                     "userDefault": "your default above"
                 },
-                "useProjectDefault": "Use project default"
+                "useProjectDefault": "Use project default",
+                "yourDefaultSaved": "Your default saved"
             },
             "team": {
                 "businessModel": {
@@ -2608,19 +2641,33 @@
                 "cohortLabel": "Cohort {{ name }}",
                 "enableOnNewInsights": "Enable this filter on all new insights",
                 "existingInsights": {
+                    "appliedOff_one": "Turned the filter off for {{ count }} insight",
+                    "appliedOff_other": "Turned the filter off for {{ count }} insights",
+                    "appliedOn_one": "Turned the filter on for {{ count }} insight",
+                    "appliedOn_other": "Turned the filter on for {{ count }} insights",
                     "applyButton": "Turn the filter {{ state }}",
+                    "applyFailed": "Could not update your existing insights. Try again in a moment.",
                     "applying": "Applying your last change",
                     "confirmBody": "Every insight in this project will {{ action }} filtering out internal and test users, including insights other people created. This replaces whatever each insight is set to now.",
                     "confirmTitle": "Turn the internal and test user filter {{ state }} for every insight in this project?",
                     "dashboardsNote": "Dashboards follow their insights, unless a dashboard sets its own override. The default for new insights doesn't change.",
                     "description": "Turn the internal and test user filter on or off for every insight in this project. This doesn't change the default for new insights.",
+                    "extraLegacy_one": "{{ count }} saved in an older format (open and save one to convert it)",
+                    "extraLegacy_other": "{{ count }} saved in an older format (open and save one to convert it)",
+                    "extraSkipped_one": "{{ count }} you can't edit (an organization admin can apply it to those)",
+                    "extraSkipped_other": "{{ count }} you can't edit (an organization admin can apply it to those)",
+                    "extraUnsupported_one": "{{ count }} with no such filter, like SQL insights",
+                    "extraUnsupported_other": "{{ count }} with no such filter, like SQL insights",
                     "heading": "Existing insights",
+                    "leftAlone": " Left alone: {{ extras }}.",
                     "leftAloneLeadIn": "Left as they are:",
                     "leftAloneNoEdit": "Insights you can't edit. An organization admin can run this to cover those, or you can ask for edit access to them. <DocsLink>About access control</DocsLink>",
                     "leftAloneOldFormat": "Insights saved in an older format. Open and save one to convert it, then run this again.",
                     "leftAloneSql": "SQL insights, which have no such filter",
                     "noBulkUndo": "There's no bulk undo. Running it the other way later would set every insight to {{ state }}, not restore what each one had before. To get a single insight back, check its activity log for the previous setting.",
                     "noFilters": "Add at least one filter above first",
+                    "nothingChanged": "No insights changed.",
+                    "nothingNeededChanging": "No insights needed changing.",
                     "turnOff": "Turn off for existing insights",
                     "turnOn": "Turn on for existing insights"
                 },
@@ -2661,6 +2708,7 @@
                     "name": "Name",
                     "source": "Source"
                 },
+                "columnToSumRequired": "Column to sum is required",
                 "delete": "Delete",
                 "deleteDialog": {
                     "description": "Are you sure you want to delete \"{{ name }}\"? This action cannot be undone.",
@@ -2706,6 +2754,8 @@
                     "sumProperty": "Sum of property"
                 },
                 "modalTitle": "Add usage metric",
+                "nameRequired": "Name is required",
+                "propertyToSumRequired": "Property is required for sum",
                 "source": {
                     "events": "Events",
                     "unknownTable": "(unknown table)",

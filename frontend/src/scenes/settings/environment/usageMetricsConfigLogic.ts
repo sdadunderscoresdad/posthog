@@ -3,6 +3,7 @@ import { forms } from 'kea-forms'
 import type { DeepPartial, DeepPartialMap, FieldName, ValidationErrorType } from 'kea-forms'
 import { lazyLoaders } from 'kea-loaders'
 
+import { i18n } from 'lib/i18n/i18n'
 import { eventUsageLogic } from 'lib/utils/eventUsageLogic'
 import { projectLogic } from 'scenes/projectLogic'
 import { teamLogic } from 'scenes/teamLogic'
@@ -353,12 +354,18 @@ export const usageMetricsConfigLogic = kea<usageMetricsConfigLogicType>([
         usageMetric: {
             defaults: NEW_USAGE_METRIC,
             errors: ({ name, math, math_property, filters }) => ({
-                name: !name ? 'Name is required' : undefined,
+                name: !name
+                    ? i18n.t('settings.environment.usageMetrics.nameRequired', { defaultValue: 'Name is required' })
+                    : undefined,
                 math_property:
                     math === 'sum' && !math_property
                         ? getMetricSource(filters) === 'data_warehouse'
-                            ? 'Column to sum is required'
-                            : 'Property is required for sum'
+                            ? i18n.t('settings.environment.usageMetrics.columnToSumRequired', {
+                                  defaultValue: 'Column to sum is required',
+                              })
+                            : i18n.t('settings.environment.usageMetrics.propertyToSumRequired', {
+                                  defaultValue: 'Property is required for sum',
+                              })
                         : undefined,
             }),
             submit: (formData) => {

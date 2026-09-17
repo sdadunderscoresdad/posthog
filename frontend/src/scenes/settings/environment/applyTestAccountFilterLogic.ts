@@ -1,6 +1,7 @@
 import { MakeLogicType, actions, connect, kea, listeners, path, reducers } from 'kea'
 import { loaders } from 'kea-loaders'
 
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { teamLogic } from 'scenes/teamLogic'
 
@@ -81,25 +82,71 @@ export const applyTestAccountFilterLogic = kea<applyTestAccountFilterLogicType>(
                 return
             }
             const { updated, unsupported, skipped, legacy } = bulkSetResponse
-            const direction = payload?.enabled ? 'on' : 'off'
-            const noun = updated === 1 ? 'insight' : 'insights'
             const extras = [
-                unsupported > 0 ? `${unsupported} with no such filter, like SQL insights` : null,
+                unsupported > 0
+                    ? i18n.t('settings.environment.testAccountFilters.existingInsights.extraUnsupported', {
+                          count: unsupported,
+                          defaultValue_one: '{{ count }} with no such filter, like SQL insights',
+                          defaultValue_other: '{{ count }} with no such filter, like SQL insights',
+                      })
+                    : null,
                 // The two with a next step say what it is. Nothing can put the toggle on a SQL insight.
-                skipped > 0 ? `${skipped} you can't edit (an organization admin can apply it to those)` : null,
-                legacy > 0 ? `${legacy} saved in an older format (open and save one to convert it)` : null,
+                skipped > 0
+                    ? i18n.t('settings.environment.testAccountFilters.existingInsights.extraSkipped', {
+                          count: skipped,
+                          defaultValue_one: "{{ count }} you can't edit (an organization admin can apply it to those)",
+                          defaultValue_other:
+                              "{{ count }} you can't edit (an organization admin can apply it to those)",
+                      })
+                    : null,
+                legacy > 0
+                    ? i18n.t('settings.environment.testAccountFilters.existingInsights.extraLegacy', {
+                          count: legacy,
+                          defaultValue_one: '{{ count }} saved in an older format (open and save one to convert it)',
+                          defaultValue_other: '{{ count }} saved in an older format (open and save one to convert it)',
+                      })
+                    : null,
             ].filter(Boolean)
-            const leftAlone = extras.length > 0 ? ` Left alone: ${extras.join(', ')}.` : ''
+            const leftAlone =
+                extras.length > 0
+                    ? i18n.t('settings.environment.testAccountFilters.existingInsights.leftAlone', {
+                          extras: extras.join(', '),
+                          defaultValue: ' Left alone: {{ extras }}.',
+                      })
+                    : ''
             if (updated > 0) {
-                lemonToast.success(`Turned the filter ${direction} for ${updated} ${noun}.${leftAlone}`)
+                lemonToast.success(
+                    (payload?.enabled
+                        ? i18n.t('settings.environment.testAccountFilters.existingInsights.appliedOn', {
+                              count: updated,
+                              defaultValue_one: 'Turned the filter on for {{ count }} insight',
+                              defaultValue_other: 'Turned the filter on for {{ count }} insights',
+                          })
+                        : i18n.t('settings.environment.testAccountFilters.existingInsights.appliedOff', {
+                              count: updated,
+                              defaultValue_one: 'Turned the filter off for {{ count }} insight',
+                              defaultValue_other: 'Turned the filter off for {{ count }} insights',
+                          })) + `.${leftAlone}`
+                )
             } else {
                 // "Needed changing" would be a lie when insights were held back rather than already correct.
-                const nothing = extras.length > 0 ? 'No insights changed.' : 'No insights needed changing.'
+                const nothing =
+                    extras.length > 0
+                        ? i18n.t('settings.environment.testAccountFilters.existingInsights.nothingChanged', {
+                              defaultValue: 'No insights changed.',
+                          })
+                        : i18n.t('settings.environment.testAccountFilters.existingInsights.nothingNeededChanging', {
+                              defaultValue: 'No insights needed changing.',
+                          })
                 lemonToast.info(`${nothing}${leftAlone}`)
             }
         },
         applyToExistingInsightsFailure: () => {
-            lemonToast.error('Could not update your existing insights. Try again in a moment.')
+            lemonToast.error(
+                i18n.t('settings.environment.testAccountFilters.existingInsights.applyFailed', {
+                    defaultValue: 'Could not update your existing insights. Try again in a moment.',
+                })
+            )
         },
     })),
 ])

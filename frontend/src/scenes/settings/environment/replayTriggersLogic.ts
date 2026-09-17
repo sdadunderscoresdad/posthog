@@ -6,6 +6,7 @@ import { actionToUrl, router, urlToAction } from 'kea-router'
 import { subscriptions } from 'kea-subscriptions'
 
 import { UrlTriggerConfig } from 'lib/components/IngestionControls/types'
+import { i18n } from 'lib/i18n/i18n'
 import { compareVersion } from 'lib/utils/semver'
 import { sdkHealthLogic } from 'scenes/onboarding/shared/sdkHealth/sdkHealthLogic'
 import { teamLogic } from 'scenes/teamLogic'
@@ -668,13 +669,15 @@ export const replayTriggersLogic = kea<replayTriggersLogicType>([
             defaults: { url: '', matching: 'regex' } as UrlTriggerConfig,
             errors: ({ url }) => ({
                 url: !url
-                    ? 'Must have a URL'
+                    ? i18n.t('settings.environment.replayTriggers.urlRequired', { defaultValue: 'Must have a URL' })
                     : (() => {
                           try {
                               new RegExp(url)
                               return undefined
                           } catch {
-                              return 'Invalid regex pattern'
+                              return i18n.t('settings.environment.replayTriggers.invalidRegex', {
+                                  defaultValue: 'Invalid regex pattern',
+                              })
                           }
                       })(),
             }),
@@ -689,7 +692,9 @@ export const replayTriggersLogic = kea<replayTriggersLogicType>([
         proposedUrlBlocklist: {
             defaults: { url: '', matching: 'regex' } as UrlTriggerConfig,
             errors: ({ url }) => ({
-                url: !url ? 'Must have a URL' : undefined,
+                url: !url
+                    ? i18n.t('settings.environment.replayTriggers.urlRequired', { defaultValue: 'Must have a URL' })
+                    : undefined,
             }),
             submit: async ({ url, matching }) => {
                 if (values.editUrlBlocklistIndex !== null && values.editUrlBlocklistIndex >= 0) {

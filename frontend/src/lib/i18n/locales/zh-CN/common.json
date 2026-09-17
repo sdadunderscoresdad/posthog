@@ -2143,8 +2143,13 @@
                     "name": "名称",
                     "official": "官方"
                 },
+                "created": "主题已创建。",
                 "defaultTheme": "默认主题",
-                "description": "这些主题可以在洞察中使用。你也可以在下方为所有洞察设置默认主题。更多细节请查看我们的<DocsLink>文档</DocsLink>。"
+                "description": "这些主题可以在洞察中使用。你也可以在下方为所有洞察设置默认主题。更多细节请查看我们的<DocsLink>文档</DocsLink>。",
+                "nameRequired": "此字段为必填项",
+                "saved": "主题已保存。",
+                "saveFailed": "保存数据颜色主题时出错",
+                "saveFailedWithField": "保存数据颜色主题时出错：{{ field }}：{{ detail }}"
             },
             "deadClicksAutocapture": {
                 "label": "启用无效点击自动捕获"
@@ -2168,6 +2173,9 @@
             "errorTrackingConfigurationMoved": {
                 "message": "<Strong>错误跟踪配置已迁移。</Strong>告警、抑制规则、突增检测、分配规则、分组规则、符号集和版本的配置现在位于<ConfigLink>错误跟踪配置</ConfigLink>页面。",
                 "whereToFind": "你可以通过侧边栏进入：<Strong>错误跟踪 → 配置</Strong>。"
+            },
+            "experimentConfig": {
+                "updateFailed": "更新实验设置失败，请重试。"
             },
             "experimentRecalculationTime": {
                 "placeholder": "选择重算时间"
@@ -2214,7 +2222,9 @@
             "jsSnippetVersion": {
                 "acceptedFormats": "支持的格式：主版本（<code>1</code>）、次版本（<code>1.358</code>）或精确版本（<code>1.358.0</code>）。",
                 "currentlyResolves": "当前解析为：",
-                "placeholder": "1（默认）"
+                "placeholder": "1（默认）",
+                "updated": "代码片段版本已更新",
+                "updateFailed": "版本更新失败"
             },
             "logsAttributeKeys": {
                 "atLeastOneRequired": "至少需要一个属性键"
@@ -2239,7 +2249,10 @@
                 "retry": "重试"
             },
             "managedReverseProxy": {
+                "adBlockedContent": "域名「{{ domain }}」包含常与跟踪或分析相关的词。广告拦截器很可能会拦截发送到该域名的请求，从而导致数据丢失。确定要继续吗？",
+                "adBlockedTitle": "该域名可能被广告拦截器拦截",
                 "add": "添加托管代理",
+                "chooseDifferentDomain": "换一个域名",
                 "columns": {
                     "domain": "域名",
                     "status": "状态"
@@ -2248,8 +2261,12 @@
                     "adBlockerWarningItem": "<Strong>不要使用</Strong>包含与跟踪、分析、广告或 PostHog 相关词语的子域名（例如 <code>analytics.mydomain.com</code>、<code>posthog.mydomain.com</code> 或 <code>ph.mydomain.com</code>）。这些子域名经常被广告拦截器拦截，会导致数据丢失。如果域名被广告拦截器拦截，该代理将<Strong>无法</Strong>达到预期效果。",
                     "adBlockerWarningTitle": "避免使用可能被广告拦截器判定为分析或广告相关的域名。",
                     "add": "添加",
+                    "domainInvalid": "域名无效。请提供符合 RFC 1123 的小写子域名：只能包含小写字母、数字、'-' 和 '.'，且必须以字母或数字开头和结尾",
                     "domainLabel": "域名",
+                    "domainNoProtocol": "不要包含协议，例如 https://。",
+                    "domainNoWildcards": "域名不能包含通配符",
                     "domainPlaceholder": "输入域名（例如 t.mydomain.com）",
+                    "domainRequired": "请填写域名",
                     "genericSubdomainHint": "<Strong>请改用通用子域名</Strong>，例如 <code>t.mydomain.com</code>。",
                     "saving": "保存中"
                 },
@@ -2303,8 +2320,13 @@
                     },
                     "title": "启用托管代理"
                 },
+                "proceedAnyway": "仍然继续",
+                "recordCreated": "记录已创建",
                 "records": "反向代理记录",
                 "retry": "重试",
+                "retryInitiated": "已开始重试",
+                "rootRedirectRemoved": "根路径重定向已移除",
+                "rootRedirectUpdated": "根路径重定向已更新",
                 "sdkSetup": {
                     "description": "代理已上线，请更新 SDK 初始化配置，让数据通过你的自定义域名发送。",
                     "title": "更新 SDK 配置"
@@ -2360,10 +2382,14 @@
                 "testPlaceholder": "输入要测试的路径"
             },
             "pathCleaningSuggestions": {
+                "applied_other": "已应用 {{ count }} 条路径清理规则",
                 "applyAll": "全部应用",
+                "applyFailed": "无法应用路径清理建议，请重试。",
                 "bannerSummary_other": "我们分析了你的流量，建议添加 <Strong>{{ count }}</Strong> 条路径清理{{ rules }}，把相似页面归为一组。请检查并应用：",
                 "close": "关闭",
+                "dismissFailed": "无法忽略该建议，请重试。",
                 "previewDescription": "你最近 30 天访问量最高的路径，已按顺序应用所有建议规则。在你应用之前不会有任何变化。",
+                "previewLoadFailed": "无法加载预览，请重试。",
                 "previewOnYourPaths": "在你的路径上预览",
                 "previewSummary": "这些规则将你的前 <Strong>{{ sampled }}</Strong> 个热门路径中的 <Strong>{{ changed }}</Strong> 个归为一组",
                 "previewSummaryTruncated": "（仅显示前 {{ shown }} 个）",
@@ -2417,6 +2443,7 @@
                     "notConfigured": "未配置",
                     "patternCount_other": "{{ count }} 条规则"
                 },
+                "invalidRegex": "正则表达式无效",
                 "legacyConditions": {
                     "fallbackNotice": "适用于低于 v{{ version }} 的 SDK 版本，也作为未配置触发器分组时较新版本的兜底方案。",
                     "heading": "旧版录制条件",
@@ -2470,6 +2497,7 @@
                     "description": "当用户停留在与 URL 匹配的页面时暂停录制。",
                     "title": "URL 匹配时暂停录制"
                 },
+                "urlRequired": "请填写 URL",
                 "urlTrigger": {
                     "description": "添加 URL 触发器后，只有当用户访问与 URL 匹配的页面时才会开始录制。",
                     "title": "URL 匹配时开始录制"
@@ -2532,7 +2560,10 @@
                 "noDefaultSet": "没有设置默认值。运行会使用各个界面内置的模型。",
                 "noProjectDefault": "无项目默认值",
                 "pickModelFirst": "请先选择模型",
+                "projectDefaultCleared": "项目默认值已清除",
+                "projectDefaultSaved": "项目默认值已保存",
                 "reasoningEffort": "推理强度",
+                "resetDone": "已重置为项目默认值",
                 "resetToProjectDefault": "重置为项目默认值",
                 "resolvedDefault": "未选择模型就启动的运行将使用来自{{ source }}的 <Strong>{{ model }}</Strong> {{ effort }}。",
                 "saving": "保存中…",
@@ -2540,7 +2571,8 @@
                     "projectDefault": "项目默认值",
                     "userDefault": "你上方设置的默认值"
                 },
-                "useProjectDefault": "使用项目默认值"
+                "useProjectDefault": "使用项目默认值",
+                "yourDefaultSaved": "你的默认值已保存"
             },
             "team": {
                 "businessModel": {
@@ -2578,19 +2610,28 @@
                 "cohortLabel": "分群 {{ name }}",
                 "enableOnNewInsights": "在所有新建洞察中启用此过滤",
                 "existingInsights": {
+                    "appliedOff_other": "已为 {{ count }} 个洞察关闭该过滤",
+                    "appliedOn_other": "已为 {{ count }} 个洞察打开该过滤",
                     "applyButton": "将过滤切换为{{ state }}",
+                    "applyFailed": "无法更新你已有的洞察，请稍后重试。",
                     "applying": "正在应用你的上一次更改",
                     "confirmBody": "此项目中的每个洞察都会{{ action }}过滤内部和测试用户，包括其他人创建的洞察。这会替换每个洞察当前的设置。",
                     "confirmTitle": "要将此项目所有洞察的内部和测试用户过滤切换为{{ state }}吗？",
                     "dashboardsNote": "仪表盘会跟随其洞察的设置，除非仪表盘自己设置了覆盖项。新建洞察的默认设置不会改变。",
                     "description": "为此项目中的每个洞察打开或关闭内部和测试用户过滤。这不会改变新建洞察的默认设置。",
+                    "extraLegacy_other": "{{ count }} 个以旧格式保存（打开并保存其中一个即可转换）",
+                    "extraSkipped_other": "{{ count }} 个你无法编辑（组织管理员可以代为应用）",
+                    "extraUnsupported_other": "{{ count }} 个没有该过滤，例如 SQL 洞察",
                     "heading": "已有洞察",
+                    "leftAlone": " 以下内容保持不变：{{ extras }}。",
                     "leftAloneLeadIn": "以下内容保持不变：",
                     "leftAloneNoEdit": "你无法编辑的洞察。组织管理员可以执行此操作来覆盖这些洞察，或者你可以申请它们的编辑权限。 <DocsLink>关于访问控制</DocsLink>",
                     "leftAloneOldFormat": "以旧格式保存的洞察。打开并保存其中一个即可完成转换，然后再执行一次。",
                     "leftAloneSql": "SQL 洞察，它们没有这种过滤",
                     "noBulkUndo": "此操作无法批量撤销。之后反向执行只会把每个洞察设置为{{ state }}，而不会恢复它们各自原来的设置。如果要恢复单个洞察，请在它的活动日志中查看之前的设置。",
                     "noFilters": "请先在上方添加至少一个过滤条件",
+                    "nothingChanged": "没有洞察发生变化。",
+                    "nothingNeededChanging": "没有洞察需要修改。",
                     "turnOff": "为已有洞察关闭",
                     "turnOn": "为已有洞察打开"
                 },
@@ -2631,6 +2672,7 @@
                     "name": "名称",
                     "source": "数据来源"
                 },
+                "columnToSumRequired": "请选择要求和的列",
                 "delete": "删除",
                 "deleteDialog": {
                     "description": "确定要删除「{{ name }}」吗？此操作无法撤销。",
@@ -2676,6 +2718,8 @@
                     "sumProperty": "属性求和"
                 },
                 "modalTitle": "添加使用指标",
+                "nameRequired": "请填写名称",
+                "propertyToSumRequired": "求和需要指定属性",
                 "source": {
                     "events": "事件",
                     "unknownTable": "（未知表）",

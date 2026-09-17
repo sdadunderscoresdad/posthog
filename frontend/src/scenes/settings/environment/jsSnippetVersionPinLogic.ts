@@ -2,6 +2,7 @@ import { MakeLogicType, actions, afterMount, kea, listeners, path, reducers } fr
 import { loaders } from 'kea-loaders'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 import { teamLogic } from 'scenes/teamLogic'
 
@@ -89,7 +90,11 @@ export const jsSnippetVersionPinLogic = kea<jsSnippetVersionPinLogicType>([
                     const response = await api.update(`api/projects/${teamId}/js-snippet/version`, {
                         js_snippet_version: pin,
                     })
-                    lemonToast.success('Snippet version updated')
+                    lemonToast.success(
+                        i18n.t('settings.environment.jsSnippetVersion.updated', {
+                            defaultValue: 'Snippet version updated',
+                        })
+                    )
                     actions.setLocalPin(response.requested_version ?? '')
                     return response
                 },
@@ -107,7 +112,12 @@ export const jsSnippetVersionPinLogic = kea<jsSnippetVersionPinLogicType>([
     }),
     listeners(() => ({
         saveVersionPinFailure: ({ error }) => {
-            lemonToast.error(error || 'Failed to update version')
+            lemonToast.error(
+                error ||
+                    i18n.t('settings.environment.jsSnippetVersion.updateFailed', {
+                        defaultValue: 'Failed to update version',
+                    })
+            )
         },
     })),
     afterMount(({ actions }) => {

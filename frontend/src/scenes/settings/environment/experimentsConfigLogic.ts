@@ -2,6 +2,7 @@ import { MakeLogicType, actions, afterMount, connect, kea, listeners, path, redu
 import { loaders } from 'kea-loaders'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast/LemonToast'
 
 import { teamLogic } from '~/scenes/teamLogic'
@@ -106,7 +107,12 @@ export const experimentsConfigLogic = kea<experimentsConfigLogicType>([
             try {
                 await api.update(`api/environments/${values.currentTeamId}/experiments_config/`, payload)
             } catch (error: any) {
-                lemonToast.error(error.data?.detail || 'Failed to update experiment settings. Please try again.')
+                lemonToast.error(
+                    error.data?.detail ||
+                        i18n.t('settings.environment.experimentConfig.updateFailed', {
+                            defaultValue: 'Failed to update experiment settings. Please try again.',
+                        })
+                )
             } finally {
                 actions.loadExperimentsConfig()
             }

@@ -2165,8 +2165,13 @@
                     "name": "",
                     "official": ""
                 },
+                "created": "",
                 "defaultTheme": "",
-                "description": ""
+                "description": "",
+                "nameRequired": "",
+                "saved": "",
+                "saveFailed": "",
+                "saveFailedWithField": ""
             },
             "deadClicksAutocapture": {
                 "label": ""
@@ -2190,6 +2195,9 @@
             "errorTrackingConfigurationMoved": {
                 "message": "",
                 "whereToFind": ""
+            },
+            "experimentConfig": {
+                "updateFailed": ""
             },
             "experimentRecalculationTime": {
                 "placeholder": ""
@@ -2236,7 +2244,9 @@
             "jsSnippetVersion": {
                 "acceptedFormats": "",
                 "currentlyResolves": "",
-                "placeholder": ""
+                "placeholder": "",
+                "updated": "",
+                "updateFailed": ""
             },
             "logsAttributeKeys": {
                 "atLeastOneRequired": ""
@@ -2261,7 +2271,10 @@
                 "retry": ""
             },
             "managedReverseProxy": {
+                "adBlockedContent": "",
+                "adBlockedTitle": "",
                 "add": "",
+                "chooseDifferentDomain": "",
                 "columns": {
                     "domain": "",
                     "status": ""
@@ -2270,8 +2283,12 @@
                     "adBlockerWarningItem": "",
                     "adBlockerWarningTitle": "",
                     "add": "",
+                    "domainInvalid": "",
                     "domainLabel": "",
+                    "domainNoProtocol": "",
+                    "domainNoWildcards": "",
                     "domainPlaceholder": "",
+                    "domainRequired": "",
                     "genericSubdomainHint": "",
                     "saving": ""
                 },
@@ -2326,8 +2343,13 @@
                     },
                     "title": ""
                 },
+                "proceedAnyway": "",
+                "recordCreated": "",
                 "records": "",
                 "retry": "",
+                "retryInitiated": "",
+                "rootRedirectRemoved": "",
+                "rootRedirectUpdated": "",
                 "sdkSetup": {
                     "description": "",
                     "title": ""
@@ -2383,11 +2405,16 @@
                 "testPlaceholder": ""
             },
             "pathCleaningSuggestions": {
+                "applied_one": "",
+                "applied_other": "",
                 "applyAll": "",
+                "applyFailed": "",
                 "bannerSummary_one": "",
                 "bannerSummary_other": "",
                 "close": "",
+                "dismissFailed": "",
                 "previewDescription": "",
+                "previewLoadFailed": "",
                 "previewOnYourPaths": "",
                 "previewSummary": "",
                 "previewSummaryTruncated": "",
@@ -2445,6 +2472,7 @@
                     "patternCount_one": "",
                     "patternCount_other": ""
                 },
+                "invalidRegex": "",
                 "legacyConditions": {
                     "fallbackNotice": "",
                     "heading": "",
@@ -2500,6 +2528,7 @@
                     "description": "",
                     "title": ""
                 },
+                "urlRequired": "",
                 "urlTrigger": {
                     "description": "",
                     "title": ""
@@ -2562,7 +2591,10 @@
                 "noDefaultSet": "",
                 "noProjectDefault": "",
                 "pickModelFirst": "",
+                "projectDefaultCleared": "",
+                "projectDefaultSaved": "",
                 "reasoningEffort": "",
+                "resetDone": "",
                 "resetToProjectDefault": "",
                 "resolvedDefault": "",
                 "saving": "",
@@ -2570,7 +2602,8 @@
                     "projectDefault": "",
                     "userDefault": ""
                 },
-                "useProjectDefault": ""
+                "useProjectDefault": "",
+                "yourDefaultSaved": ""
             },
             "team": {
                 "businessModel": {
@@ -2608,19 +2641,33 @@
                 "cohortLabel": "",
                 "enableOnNewInsights": "",
                 "existingInsights": {
+                    "appliedOff_one": "",
+                    "appliedOff_other": "",
+                    "appliedOn_one": "",
+                    "appliedOn_other": "",
                     "applyButton": "",
+                    "applyFailed": "",
                     "applying": "",
                     "confirmBody": "",
                     "confirmTitle": "",
                     "dashboardsNote": "",
                     "description": "",
+                    "extraLegacy_one": "",
+                    "extraLegacy_other": "",
+                    "extraSkipped_one": "",
+                    "extraSkipped_other": "",
+                    "extraUnsupported_one": "",
+                    "extraUnsupported_other": "",
                     "heading": "",
+                    "leftAlone": "",
                     "leftAloneLeadIn": "",
                     "leftAloneNoEdit": "",
                     "leftAloneOldFormat": "",
                     "leftAloneSql": "",
                     "noBulkUndo": "",
                     "noFilters": "",
+                    "nothingChanged": "",
+                    "nothingNeededChanging": "",
                     "turnOff": "",
                     "turnOn": ""
                 },
@@ -2661,6 +2708,7 @@
                     "name": "",
                     "source": ""
                 },
+                "columnToSumRequired": "",
                 "delete": "",
                 "deleteDialog": {
                     "description": "",
@@ -2706,6 +2754,8 @@
                     "sumProperty": ""
                 },
                 "modalTitle": "",
+                "nameRequired": "",
+                "propertyToSumRequired": "",
                 "source": {
                     "events": "",
                     "unknownTable": "",
