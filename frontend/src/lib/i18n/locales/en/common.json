@@ -276,6 +276,27 @@
         "sourceWithContent": "source {{ source }} ({{ content }})",
         "unknownSource": "unknown source"
     },
+    "billingActivity": {
+        "actions": {
+            "canceledTrial": "canceled a trial",
+            "creditsPurchased": "purchased credits",
+            "nextPeriodLimitReset": "reset a next-period spend limit",
+            "planSwitched": "switched plan",
+            "productsActivated": "added products",
+            "productsDeactivated": "removed products",
+            "spendLimits": "updated the spend limits",
+            "trialActivated": "started a trial",
+            "trialExtended": "extended a trial"
+        },
+        "change": {
+            "changed": "{{ field }} from {{ before }} to {{ after }}",
+            "created": "{{ field }}: {{ value }}",
+            "deleted": "{{ field }}: {{ value }}"
+        },
+        "inBilling": "{{ action }} in <BillingLink>billing</BillingLink>",
+        "none": "none",
+        "updatedBilling": "updated billing"
+    },
     "cardEditor": {
         "addLink": "Add link",
         "addTextCard": "Add text card",

@@ -275,6 +275,27 @@
         "sourceWithContent": "",
         "unknownSource": ""
     },
+    "billingActivity": {
+        "actions": {
+            "canceledTrial": "",
+            "creditsPurchased": "",
+            "nextPeriodLimitReset": "",
+            "planSwitched": "",
+            "productsActivated": "",
+            "productsDeactivated": "",
+            "spendLimits": "",
+            "trialActivated": "",
+            "trialExtended": ""
+        },
+        "change": {
+            "changed": "",
+            "created": "",
+            "deleted": ""
+        },
+        "inBilling": "",
+        "none": "",
+        "updatedBilling": ""
+    },
     "cardEditor": {
         "addLink": "",
         "addTextCard": "",

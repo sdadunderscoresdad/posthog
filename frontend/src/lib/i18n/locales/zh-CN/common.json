@@ -275,6 +275,27 @@
         "sourceWithContent": "来源 {{ source }}（{{ content }}）",
         "unknownSource": "未知来源"
     },
+    "billingActivity": {
+        "actions": {
+            "canceledTrial": "取消了一次试用",
+            "creditsPurchased": "购买了额度",
+            "nextPeriodLimitReset": "重置了下一周期的支出上限",
+            "planSwitched": "切换了套餐",
+            "productsActivated": "添加了产品",
+            "productsDeactivated": "移除了产品",
+            "spendLimits": "更新了支出上限",
+            "trialActivated": "开始了试用",
+            "trialExtended": "延长了试用"
+        },
+        "change": {
+            "changed": "{{ field }} 从 {{ before }} 改为 {{ after }}",
+            "created": "{{ field }}：{{ value }}",
+            "deleted": "{{ field }}：{{ value }}"
+        },
+        "inBilling": "在<BillingLink>计费</BillingLink>中{{ action }}",
+        "none": "无",
+        "updatedBilling": "更新了计费信息"
+    },
     "cardEditor": {
         "addLink": "添加链接",
         "addTextCard": "添加文本卡片",
