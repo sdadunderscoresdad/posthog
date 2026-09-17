@@ -1,4 +1,16 @@
 {
+    "accessControl": {
+        "accessLevelDetail": " 你的访问级别（{{ current }}）未达到所需级别（{{ required }}）。",
+        "insufficient": "你没有访问该{{ resource }}的足够权限。",
+        "noAccess": "无",
+        "requiresWarehouseAccess": "需要 {{ level }} 权限才能访问数据仓库的表和视图。"
+    },
+    "accessDenied": {
+        "reasonTail": "如果你认为这是一个错误，请联系你账号的管理员或<Support>支持团队</Support>。",
+        "title": "无权访问",
+        "withObject": "你没有访问该{{ object }}的权限。如果你认为这是一个错误，请联系该{{ object }}的创建者或<Support>支持团队</Support>。",
+        "withPage": "你没有访问该页面的权限。如果你认为这是一个错误，请联系你账号的管理员或<Support>支持团队</Support>。"
+    },
     "accountConnected": {
         "canLogInWith": "现在你可以使用 {{ label }} 登录 PostHog 了。",
         "desktopManualReturn": "如果没有自动返回，请手动回到 PostHog Desktop 应用。",
@@ -95,11 +107,25 @@
         "teamActivity": "团队活动"
     },
     "activityLog": {
+        "aUser": "某位用户",
+        "aUserCapitalized": "某位用户",
+        "clientTooltip": "由 API 客户端在 x-posthog-client 请求头中自行上报",
         "commented": "评论了",
         "copied": "复制了",
+        "copyLink": "复制该活动的链接",
+        "copyLinkToast": "活动链接",
         "created": "创建了",
         "deleted": "删除了",
+        "diffTab": "变更对比",
+        "diffTooltip": "显示该项所做变更的差异。每条活动可能包含多处变更。",
+        "empty": {
+            "description": "历史记录会展示对该{{ noun }}所做的所有变更。做出变更后，你可以在这里看到记录。",
+            "thingName": "历史记录"
+        },
+        "extendedDescriptionTab": "详细描述",
+        "extendedDescriptionTooltip": "有些活动有更详细的描述，折叠时不会显示。",
         "from": "从",
+        "impersonatedActor": "PostHog 支持团队（以 {{ name }} 的身份）",
         "instanceSettings": {
             "changed": "修改了实例设置",
             "instanceSetting": "实例设置",
@@ -107,9 +133,55 @@
         },
         "listConjunction": "和",
         "listSeparator": "，",
+        "noExtendedDescription": "该项没有详细描述",
+        "object": "活动日志",
         "onA": "，对象为",
+        "rawTab": "原始数据",
+        "rawTooltip": "显示该活动的原始数据。",
         "repliedToA": "回复了",
         "restored": "恢复了",
+        "scope": {
+            "alert": {
+                "plural": "告警",
+                "singular": "告警"
+            },
+            "canvas": {
+                "plural": "画布",
+                "singular": "画布"
+            },
+            "dataPipeline": {
+                "plural": "数据管道",
+                "singular": "数据管道"
+            },
+            "destination": {
+                "plural": "目标",
+                "singular": "目标"
+            },
+            "llmTrace": {
+                "plural": "LLM 链路",
+                "singular": "LLM 链路"
+            },
+            "log": {
+                "plural": "日志",
+                "singular": "日志"
+            },
+            "personalApiKey": {
+                "plural": "个人 API 密钥",
+                "singular": "个人 API 密钥"
+            },
+            "projectSecretApiKey": {
+                "plural": "项目 API 密钥",
+                "singular": "项目 API 密钥"
+            },
+            "source": {
+                "plural": "数据源",
+                "singular": "数据源"
+            },
+            "supportTicket": {
+                "plural": "支持工单",
+                "singular": "支持工单"
+            }
+        },
         "tags": {
             "createdTheTag": "创建了标签",
             "deletedTheTag": "删除了标签",
@@ -118,9 +190,14 @@
             "updatedTheTag": "更新了标签",
             "withTag": "，标签为"
         },
+        "tagWithId": "标签 {{ id }}",
         "to": "改为",
         "toAnotherProject": "并复制到另一个项目",
-        "updated": "更新了"
+        "unknownSetting": "未知设置",
+        "unnamedTag": "未命名标签",
+        "updated": "更新了",
+        "via": "来自",
+        "viewAllNotifications": "查看全部通知"
     },
     "approvals": {
         "actions": {

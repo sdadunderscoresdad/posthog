@@ -1,4 +1,16 @@
 {
+    "accessControl": {
+        "accessLevelDetail": "",
+        "insufficient": "",
+        "noAccess": "",
+        "requiresWarehouseAccess": ""
+    },
+    "accessDenied": {
+        "reasonTail": "",
+        "title": "",
+        "withObject": "",
+        "withPage": ""
+    },
     "accountConnected": {
         "canLogInWith": "",
         "desktopManualReturn": "",
@@ -96,11 +108,25 @@
         "teamActivity": ""
     },
     "activityLog": {
+        "aUser": "",
+        "aUserCapitalized": "",
+        "clientTooltip": "",
         "commented": "",
         "copied": "",
+        "copyLink": "",
+        "copyLinkToast": "",
         "created": "",
         "deleted": "",
+        "diffTab": "",
+        "diffTooltip": "",
+        "empty": {
+            "description": "",
+            "thingName": ""
+        },
+        "extendedDescriptionTab": "",
+        "extendedDescriptionTooltip": "",
         "from": "",
+        "impersonatedActor": "",
         "instanceSettings": {
             "changed": "",
             "instanceSetting": "",
@@ -108,9 +134,55 @@
         },
         "listConjunction": "",
         "listSeparator": "",
+        "noExtendedDescription": "",
+        "object": "",
         "onA": "",
+        "rawTab": "",
+        "rawTooltip": "",
         "repliedToA": "",
         "restored": "",
+        "scope": {
+            "alert": {
+                "plural": "",
+                "singular": ""
+            },
+            "canvas": {
+                "plural": "",
+                "singular": ""
+            },
+            "dataPipeline": {
+                "plural": "",
+                "singular": ""
+            },
+            "destination": {
+                "plural": "",
+                "singular": ""
+            },
+            "llmTrace": {
+                "plural": "",
+                "singular": ""
+            },
+            "log": {
+                "plural": "",
+                "singular": ""
+            },
+            "personalApiKey": {
+                "plural": "",
+                "singular": ""
+            },
+            "projectSecretApiKey": {
+                "plural": "",
+                "singular": ""
+            },
+            "source": {
+                "plural": "",
+                "singular": ""
+            },
+            "supportTicket": {
+                "plural": "",
+                "singular": ""
+            }
+        },
         "tags": {
             "createdTheTag": "",
             "deletedTheTag": "",
@@ -119,9 +191,14 @@
             "updatedTheTag": "",
             "withTag": ""
         },
+        "tagWithId": "",
         "to": "",
         "toAnotherProject": "",
-        "updated": ""
+        "unknownSetting": "",
+        "unnamedTag": "",
+        "updated": "",
+        "via": "",
+        "viewAllNotifications": ""
     },
     "approvals": {
         "actions": {

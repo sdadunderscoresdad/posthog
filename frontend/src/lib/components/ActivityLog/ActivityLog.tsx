@@ -17,6 +17,7 @@ import {
 import { ActivityChange, HumanizedActivityLogItem } from 'lib/components/ActivityLog/humanizeActivity'
 import { TZLabel } from 'lib/components/TZLabel'
 import { FEATURE_FLAGS } from 'lib/constants'
+import { i18n } from 'lib/i18n/i18n'
 import { IconLink } from 'lib/lemon-ui/icons'
 import { LemonSkeleton } from 'lib/lemon-ui/LemonSkeleton'
 import { PaginationControl, usePagination } from 'lib/lemon-ui/PaginationControl'
@@ -48,8 +49,12 @@ const Empty = ({ scope }: { scope: string | string[] }): JSX.Element => {
 
     return (
         <ProductIntroduction
-            thingName="history record"
-            description={`History shows any ${noun} changes that have been made. After making changes you'll see them logged here.`}
+            thingName={i18n.t('activityLog.empty.thingName', { defaultValue: 'history record' })}
+            description={i18n.t('activityLog.empty.description', {
+                defaultValue:
+                    "History shows any {{ noun }} changes that have been made. After making changes you'll see them logged here.",
+                noun,
+            })}
             isEmpty={true}
         />
     )
@@ -163,7 +168,7 @@ export const ActivityLogRow = ({
         url.hash = hash || ''
         url.searchParams.delete(ACTIVITY_SEARCH_PARAM)
         url.searchParams.set(ACTIVITY_SEARCH_PARAM, logItem.id)
-        void copyToClipboard(url.toString(), 'activity link')
+        void copyToClipboard(url.toString(), i18n.t('activityLog.copyLinkToast', { defaultValue: 'activity link' }))
     }
 
     return (
@@ -207,9 +212,15 @@ export const ActivityLogRow = ({
                     <div className="text-secondary flex items-center gap-1.5">
                         <TZLabel time={logItem.created_at} />
                         {logItem.client && (
-                            <Tooltip title="Self-reported by the API client in the x-posthog-client request header">
+                            <Tooltip
+                                title={i18n.t('activityLog.clientTooltip', {
+                                    defaultValue:
+                                        'Self-reported by the API client in the x-posthog-client request header',
+                                })}
+                            >
                                 <LemonTag size="small" type="muted">
-                                    via {logItem.client === 'mcp' ? 'MCP' : logItem.client}
+                                    {i18n.t('activityLog.via', { defaultValue: 'via' })}{' '}
+                                    {logItem.client === 'mcp' ? 'MCP' : logItem.client}
                                 </LemonTag>
                             </Tooltip>
                         )}
@@ -220,7 +231,7 @@ export const ActivityLogRow = ({
                         noPadding={true}
                         icon={<IconLink />}
                         onClick={handleCopyLink}
-                        tooltip="Copy link to this activity"
+                        tooltip={i18n.t('activityLog.copyLink', { defaultValue: 'Copy link to this activity' })}
                         className="ActivityLogRow__copy-link"
                     />
                 )}
@@ -247,29 +258,39 @@ export const ActivityLogRow = ({
                             logItem.extendedDescription
                                 ? {
                                       key: 'extended description',
-                                      label: 'Extended Description',
-                                      tooltip:
-                                          'Some activities have a more detailed description that is not shown when collapsed.',
+                                      label: i18n.t('activityLog.extendedDescriptionTab', {
+                                          defaultValue: 'Extended Description',
+                                      }),
+                                      tooltip: i18n.t('activityLog.extendedDescriptionTooltip', {
+                                          defaultValue:
+                                              'Some activities have a more detailed description that is not shown when collapsed.',
+                                      }),
                                       content: (
                                           <div>
                                               {logItem.extendedDescription
                                                   ? logItem.extendedDescription
-                                                  : 'This item has no extended description'}
+                                                  : i18n.t('activityLog.noExtendedDescription', {
+                                                        defaultValue: 'This item has no extended description',
+                                                    })}
                                           </div>
                                       ),
                                   }
                                 : false,
                             {
                                 key: 'diff',
-                                label: 'Diff',
-                                tooltip:
-                                    'Show the diff of the changes made to the item. Each activity item could have more than one change.',
+                                label: i18n.t('activityLog.diffTab', { defaultValue: 'Diff' }),
+                                tooltip: i18n.t('activityLog.diffTooltip', {
+                                    defaultValue:
+                                        'Show the diff of the changes made to the item. Each activity item could have more than one change.',
+                                }),
                                 content: <ActivityLogDiff logItem={logItem} />,
                             },
                             {
                                 key: 'raw',
-                                label: 'Raw',
-                                tooltip: 'Show the raw data of the activity item.',
+                                label: i18n.t('activityLog.rawTab', { defaultValue: 'Raw' }),
+                                tooltip: i18n.t('activityLog.rawTooltip', {
+                                    defaultValue: 'Show the raw data of the activity item.',
+                                }),
                                 content: (
                                     <div>
                                         <pre>{JSON.stringify(logItem.unprocessed, null, 2)}</pre>
@@ -291,7 +312,7 @@ export const ActivityLog = ({ scope, id, caption, startingPage = 1 }: ActivityLo
     const hasAccess = userHasAccess(AccessControlResourceType.ActivityLog, AccessControlLevel.Viewer)
 
     if (!hasAccess) {
-        return <AccessDenied object="activity logs" />
+        return <AccessDenied object={i18n.t('activityLog.object', { defaultValue: 'activity logs' })} />
     }
 
     return (

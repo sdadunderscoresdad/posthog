@@ -3,6 +3,7 @@ import { combineUrl, router } from 'kea-router'
 import { IconBell } from '@posthog/icons'
 import { LemonButton, LemonMenu } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonMenuItems } from 'lib/lemon-ui/LemonMenu/LemonMenu'
 import { HOG_FUNCTION_SUB_TEMPLATES } from 'scenes/hog-functions/sub-templates/sub-templates'
 import { urls } from 'scenes/urls'
@@ -47,7 +48,9 @@ export function ActivityLogSubscribeMenu({
         {
             items: [
                 {
-                    label: 'View all notifications',
+                    label: i18n.t('activityLog.viewAllNotifications', {
+                        defaultValue: 'View all notifications',
+                    }),
                     onClick: () => {
                         onNavigate?.()
                         router.actions.push(urls.settings('environment-activity-logs', 'activity-log-notifications'))

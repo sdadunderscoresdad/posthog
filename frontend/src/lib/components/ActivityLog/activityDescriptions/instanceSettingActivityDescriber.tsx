@@ -45,7 +45,8 @@ export const instanceSettingActivityDescriber: Describer = (
         return defaultDescriber(logItem, asNotification)
     }
 
-    const key = change.field || logItem.detail.name || 'unknown setting'
+    const key =
+        change.field || logItem.detail.name || i18n.t('activityLog.unknownSetting', { defaultValue: 'unknown setting' })
     const transition = describeSecretTransition(change.before, change.after)
     const actor = <ActivityLogUserName logItem={logItem} />
 

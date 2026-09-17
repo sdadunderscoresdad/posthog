@@ -2,6 +2,7 @@ import posthog from 'posthog-js'
 
 import type { LemonSelectOptionLeaf } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { getAppContext } from 'lib/utils/getAppContext'
 import { toSentenceCase } from 'lib/utils/strings'
 import { Scene, sceneToAccessControlResourceType } from 'scenes/sceneTypes'
@@ -255,12 +256,22 @@ export const getAccessControlDisabledReason = (
         if (resourceType === AccessControlResourceType.WarehouseObjects) {
             // warehouse_objects is the umbrella scope id; the label users see in the picker is
             // "Data warehouse tables & views". Use it verbatim here for clarity.
-            reason = `Requires ${toSentenceCase(minAccessLevel)} access to Data warehouse tables & views.`
+            reason = i18n.t('accessControl.requiresWarehouseAccess', {
+                defaultValue: 'Requires {{ level }} access to Data warehouse tables & views.',
+                level: toSentenceCase(minAccessLevel),
+            })
         } else {
-            reason = `You don't have sufficient permissions for this ${resourceTypeToString(resourceType)}.`
+            reason = i18n.t('accessControl.insufficient', {
+                defaultValue: "You don't have sufficient permissions for this {{ resource }}.",
+                resource: resourceTypeToString(resourceType),
+            })
         }
         if (includeAccessDetails) {
-            reason += ` Your access level (${parsedUserAccessLevel ?? 'none'}) doesn't meet the required level (${minAccessLevel}).`
+            reason += i18n.t('accessControl.accessLevelDetail', {
+                defaultValue: " Your access level ({{ current }}) doesn't meet the required level ({{ required }}).",
+                current: parsedUserAccessLevel ?? i18n.t('accessControl.noAccess', { defaultValue: 'none' }),
+                required: minAccessLevel,
+            })
         }
         return reason
     }

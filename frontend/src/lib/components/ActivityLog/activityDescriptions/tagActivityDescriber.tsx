@@ -17,7 +17,9 @@ const nameOrId = (name?: string | null, id?: string | null): string => {
     if (name) {
         return name.length > 50 ? name.slice(0, 50) + '...' : name
     }
-    return id ? `Tag ${id}` : 'Unnamed tag'
+    return id
+        ? i18n.t('activityLog.tagWithId', { defaultValue: 'Tag {{ id }}', id })
+        : i18n.t('activityLog.unnamedTag', { defaultValue: 'Unnamed tag' })
 }
 
 const getRelatedObjectDescription = (context: any, preposition?: 'to' | 'from'): JSX.Element | null => {

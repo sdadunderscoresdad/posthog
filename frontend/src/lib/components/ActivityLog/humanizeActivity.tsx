@@ -1,6 +1,6 @@
 import { UserNameWithEmail } from 'lib/components/ActivityLog/UserNameWithEmail'
 import { dayjs } from 'lib/dayjs'
-import { i18n } from 'lib/i18n/i18n'
+import { getActiveLocale, i18n } from 'lib/i18n/i18n'
 import { LemonMarkdown } from 'lib/lemon-ui/LemonMarkdown'
 import { fullName } from 'lib/utils/strings'
 
@@ -156,9 +156,12 @@ export function userNameForLogItem(logItem: ActivityLogItem): string {
         return 'PostHog'
     }
     if (logItem.was_impersonated) {
-        return `PostHog Support (as ${nameOrEmailForUser(logItem.user, 'a user')})`
+        return i18n.t('activityLog.impersonatedActor', {
+            defaultValue: 'PostHog Support (as {{ name }})',
+            name: nameOrEmailForUser(logItem.user, i18n.t('activityLog.aUser', { defaultValue: 'a user' })),
+        })
     }
-    return nameOrEmailForUser(logItem.user, 'A user')
+    return nameOrEmailForUser(logItem.user, i18n.t('activityLog.aUserCapitalized', { defaultValue: 'A user' }))
 }
 
 // The user's name can be blank (e.g. SCIM-provisioned members whose IdP omits a name), so fall
@@ -199,24 +202,71 @@ export function ActivityLogUserName({ logItem }: { logItem: ActivityLogItem }): 
 const NO_PLURAL_SCOPES: ActivityScope[] = [ActivityScope.DATA_MANAGEMENT]
 
 // Keep in sync with SCOPE_DISPLAY_NAMES in ee/hogai/context/activity_log/context.py
-const SCOPE_DISPLAY_NAMES: Partial<Record<ActivityScope, { singular: string; plural: string }>> = {
-    [ActivityScope.ALERT_CONFIGURATION]: { singular: 'Alert', plural: 'Alerts' },
-    [ActivityScope.BATCH_EXPORT]: { singular: 'Destination', plural: 'Destinations' },
-    [ActivityScope.CANVAS]: { singular: 'Canvas', plural: 'Canvases' },
-    [ActivityScope.EXTERNAL_DATA_SOURCE]: { singular: 'Source', plural: 'Sources' },
-    [ActivityScope.HOG_FUNCTION]: { singular: 'Data pipeline', plural: 'Data pipelines' },
-    [ActivityScope.PERSONAL_API_KEY]: { singular: 'Personal API key', plural: 'Personal API keys' },
-    [ActivityScope.LLM_TRACE]: { singular: 'LLM trace', plural: 'LLM traces' },
-    [ActivityScope.LOG]: { singular: 'Log', plural: 'Logs' },
-    [ActivityScope.PROJECT_SECRET_API_KEY]: {
-        singular: 'Project secret API key',
-        plural: 'Project secret API keys',
-    },
-    [ActivityScope.TICKET]: { singular: 'Support ticket', plural: 'Support tickets' },
+function buildScopeDisplayNames(): Partial<Record<ActivityScope, { singular: string; plural: string }>> {
+    return {
+        [ActivityScope.ALERT_CONFIGURATION]: {
+            singular: i18n.t('activityLog.scope.alert.singular', { defaultValue: 'Alert' }),
+            plural: i18n.t('activityLog.scope.alert.plural', { defaultValue: 'Alerts' }),
+        },
+        [ActivityScope.BATCH_EXPORT]: {
+            singular: i18n.t('activityLog.scope.destination.singular', { defaultValue: 'Destination' }),
+            plural: i18n.t('activityLog.scope.destination.plural', { defaultValue: 'Destinations' }),
+        },
+        [ActivityScope.CANVAS]: {
+            singular: i18n.t('activityLog.scope.canvas.singular', { defaultValue: 'Canvas' }),
+            plural: i18n.t('activityLog.scope.canvas.plural', { defaultValue: 'Canvases' }),
+        },
+        [ActivityScope.EXTERNAL_DATA_SOURCE]: {
+            singular: i18n.t('activityLog.scope.source.singular', { defaultValue: 'Source' }),
+            plural: i18n.t('activityLog.scope.source.plural', { defaultValue: 'Sources' }),
+        },
+        [ActivityScope.HOG_FUNCTION]: {
+            singular: i18n.t('activityLog.scope.dataPipeline.singular', { defaultValue: 'Data pipeline' }),
+            plural: i18n.t('activityLog.scope.dataPipeline.plural', { defaultValue: 'Data pipelines' }),
+        },
+        [ActivityScope.PERSONAL_API_KEY]: {
+            singular: i18n.t('activityLog.scope.personalApiKey.singular', { defaultValue: 'Personal API key' }),
+            plural: i18n.t('activityLog.scope.personalApiKey.plural', { defaultValue: 'Personal API keys' }),
+        },
+        [ActivityScope.LLM_TRACE]: {
+            singular: i18n.t('activityLog.scope.llmTrace.singular', { defaultValue: 'LLM trace' }),
+            plural: i18n.t('activityLog.scope.llmTrace.plural', { defaultValue: 'LLM traces' }),
+        },
+        [ActivityScope.LOG]: {
+            singular: i18n.t('activityLog.scope.log.singular', { defaultValue: 'Log' }),
+            plural: i18n.t('activityLog.scope.log.plural', { defaultValue: 'Logs' }),
+        },
+        [ActivityScope.PROJECT_SECRET_API_KEY]: {
+            singular: i18n.t('activityLog.scope.projectSecretApiKey.singular', {
+                defaultValue: 'Project secret API key',
+            }),
+            plural: i18n.t('activityLog.scope.projectSecretApiKey.plural', {
+                defaultValue: 'Project secret API keys',
+            }),
+        },
+        [ActivityScope.TICKET]: {
+            singular: i18n.t('activityLog.scope.supportTicket.singular', { defaultValue: 'Support ticket' }),
+            plural: i18n.t('activityLog.scope.supportTicket.plural', { defaultValue: 'Support tickets' }),
+        },
+    }
+}
+
+let cachedScopeDisplayNames: {
+    locale: string
+    names: Partial<Record<ActivityScope, { singular: string; plural: string }>>
+} | null = null
+
+/** The resource nouns activity rows name, in the language the app is rendering. */
+function getScopeDisplayNames(): Partial<Record<ActivityScope, { singular: string; plural: string }>> {
+    const locale = getActiveLocale()
+    if (cachedScopeDisplayNames?.locale !== locale) {
+        cachedScopeDisplayNames = { locale, names: buildScopeDisplayNames() }
+    }
+    return cachedScopeDisplayNames.names
 }
 
 export function humanizeScope(scope: ActivityScope | string, singular = false): string {
-    const customName = SCOPE_DISPLAY_NAMES[scope as ActivityScope]
+    const customName = getScopeDisplayNames()[scope as ActivityScope]
     if (customName) {
         return singular ? customName.singular : customName.plural
     }

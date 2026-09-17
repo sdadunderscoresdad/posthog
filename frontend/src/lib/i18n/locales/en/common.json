@@ -1,4 +1,16 @@
 {
+    "accessControl": {
+        "accessLevelDetail": " Your access level ({{ current }}) doesn't meet the required level ({{ required }}).",
+        "insufficient": "You don't have sufficient permissions for this {{ resource }}.",
+        "noAccess": "none",
+        "requiresWarehouseAccess": "Requires {{ level }} access to Data warehouse tables & views."
+    },
+    "accessDenied": {
+        "reasonTail": "Please contact your account's administrators or <Support>support</Support> if you think this is a mistake.",
+        "title": "Access denied",
+        "withObject": "You do not have access to this {{ object }}. Please contact the creator of this {{ object }} or <Support>support</Support> if you think this is a mistake.",
+        "withPage": "You do not have access to this page. Please contact your account's administrators or <Support>support</Support> if you think this is a mistake."
+    },
     "accountConnected": {
         "canLogInWith": "You can now log into PostHog using {{ label }}.",
         "desktopManualReturn": "If this hasn't happened automatically, get back to the PostHog Desktop app manually.",
@@ -96,11 +108,25 @@
         "teamActivity": "Team activity"
     },
     "activityLog": {
+        "aUser": "a user",
+        "aUserCapitalized": "A user",
+        "clientTooltip": "Self-reported by the API client in the x-posthog-client request header",
         "commented": "commented",
         "copied": "copied",
+        "copyLink": "Copy link to this activity",
+        "copyLinkToast": "activity link",
         "created": "created",
         "deleted": "deleted",
+        "diffTab": "Diff",
+        "diffTooltip": "Show the diff of the changes made to the item. Each activity item could have more than one change.",
+        "empty": {
+            "description": "History shows any {{ noun }} changes that have been made. After making changes you'll see them logged here.",
+            "thingName": "history record"
+        },
+        "extendedDescriptionTab": "Extended Description",
+        "extendedDescriptionTooltip": "Some activities have a more detailed description that is not shown when collapsed.",
         "from": "from",
+        "impersonatedActor": "PostHog Support (as {{ name }})",
         "instanceSettings": {
             "changed": "changed instance setting",
             "instanceSetting": "instance setting",
@@ -108,9 +134,55 @@
         },
         "listConjunction": "and",
         "listSeparator": ", ",
+        "noExtendedDescription": "This item has no extended description",
+        "object": "activity logs",
         "onA": "on a",
+        "rawTab": "Raw",
+        "rawTooltip": "Show the raw data of the activity item.",
         "repliedToA": "replied to a",
         "restored": "restored",
+        "scope": {
+            "alert": {
+                "plural": "Alerts",
+                "singular": "Alert"
+            },
+            "canvas": {
+                "plural": "Canvases",
+                "singular": "Canvas"
+            },
+            "dataPipeline": {
+                "plural": "Data pipelines",
+                "singular": "Data pipeline"
+            },
+            "destination": {
+                "plural": "Destinations",
+                "singular": "Destination"
+            },
+            "llmTrace": {
+                "plural": "LLM traces",
+                "singular": "LLM trace"
+            },
+            "log": {
+                "plural": "Logs",
+                "singular": "Log"
+            },
+            "personalApiKey": {
+                "plural": "Personal API keys",
+                "singular": "Personal API key"
+            },
+            "projectSecretApiKey": {
+                "plural": "Project secret API keys",
+                "singular": "Project secret API key"
+            },
+            "source": {
+                "plural": "Sources",
+                "singular": "Source"
+            },
+            "supportTicket": {
+                "plural": "Support tickets",
+                "singular": "Support ticket"
+            }
+        },
         "tags": {
             "createdTheTag": "created the tag",
             "deletedTheTag": "deleted the tag",
@@ -119,9 +191,14 @@
             "updatedTheTag": "updated the tag",
             "withTag": "with tag"
         },
+        "tagWithId": "Tag {{ id }}",
         "to": "to",
         "toAnotherProject": "to another project",
-        "updated": "updated"
+        "unknownSetting": "unknown setting",
+        "unnamedTag": "Unnamed tag",
+        "updated": "updated",
+        "via": "via",
+        "viewAllNotifications": "View all notifications"
     },
     "approvals": {
         "actions": {
