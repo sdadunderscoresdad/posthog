@@ -1,4 +1,5 @@
 import { CardTopHeadingRow } from 'lib/components/Cards/CardTopHeadingRow'
+import { i18n } from 'lib/i18n/i18n'
 import { dateFilterToText } from 'lib/utils/dateFilters'
 import { alignResolvedDateRangeToInterval, formatResolvedDateRange } from 'lib/utils/datetime'
 import { InsightTypeMetadata, QUERY_TYPES_METADATA } from 'scenes/saved-insights/SavedInsights'
@@ -67,7 +68,9 @@ export function TopHeading({
     let dateText: string | null = null
     if (insightType?.name !== 'Retention') {
         const defaultDateRange =
-            query == undefined || isInsightQueryNode(query) || isInsightVizNode(query) ? 'Last 7 days' : null
+            query == undefined || isInsightQueryNode(query) || isInsightVizNode(query)
+                ? i18n.t('insightCard.lastSevenDays', { defaultValue: 'Last 7 days' })
+                : null
         dateText = dateFilterToText(date_from, date_to, defaultDateRange)
     }
     const dateLabel = showDate ? dateText : null

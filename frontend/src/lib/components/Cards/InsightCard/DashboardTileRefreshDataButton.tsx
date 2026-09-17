@@ -1,5 +1,6 @@
 import { TZLabel } from 'lib/components/TZLabel'
 import { dayjs, type Dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 
 export function DashboardTileRefreshDataButton({
@@ -22,14 +23,14 @@ export function DashboardTileRefreshDataButton({
         >
             {lastRefreshTime ? (
                 <div className="block my-1">
-                    Refresh data
+                    {i18n.t('insightCard.refreshData', { defaultValue: 'Refresh data' })}
                     <p className="text-xs text-muted mt-0.5">
                         Last computed{' '}
                         <TZLabel time={lastRefreshTime} noStyles className="whitespace-nowrap border-dotted border-b" />
                     </p>
                 </div>
             ) : (
-                <>Refresh data</>
+                <>{i18n.t('insightCard.refreshData', { defaultValue: 'Refresh data' })}</>
             )}
         </LemonButton>
     )

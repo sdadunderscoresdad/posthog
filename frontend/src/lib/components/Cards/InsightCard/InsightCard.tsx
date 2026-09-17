@@ -10,6 +10,7 @@ import { useInView } from 'react-intersection-observer'
 import { ApiError } from 'lib/api'
 import { Resizeable } from 'lib/components/Cards/CardMeta'
 import { usePageVisibility } from 'lib/hooks/usePageVisibility'
+import { i18n } from 'lib/i18n/i18n'
 import { SpinnerOverlay } from 'lib/lemon-ui/Spinner/Spinner'
 import { themeLogic } from 'lib/logic/themeLogic'
 import { accessLevelSatisfied, getAccessControlDisabledReason } from 'lib/utils/accessControlUtils'
@@ -365,7 +366,12 @@ function InsightCardInternal(
             return (
                 <InsightErrorState
                     data-attr="insight-access-denied-state"
-                    title={errorMessage || "You don't have permission to view this insight."}
+                    title={
+                        errorMessage ||
+                        i18n.t('insightCard.noViewPermission', {
+                            defaultValue: "You don't have permission to view this insight.",
+                        })
+                    }
                     titleStatus={403}
                     excludeDetail
                 />

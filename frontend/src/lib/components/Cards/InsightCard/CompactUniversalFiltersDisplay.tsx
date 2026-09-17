@@ -12,6 +12,7 @@ import {
 } from 'lib/components/PropertyFilters/utils'
 import { PropertyKeyInfo } from 'lib/components/PropertyKeyInfo'
 import { TaxonomicFilterGroupType } from 'lib/components/TaxonomicFilter/types'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { Tooltip } from 'lib/lemon-ui/Tooltip'
 import { allOperatorsMapping } from 'lib/utils/operators'
@@ -64,7 +65,7 @@ export function CompactUniversalFiltersDisplay({
     const { formatPropertyValueForDisplay } = useValues(propertyDefinitionsModel)
 
     if (!groupFilter || !groupFilter.values?.length) {
-        return <i>None</i>
+        return <i>{i18n.t('insightFilters.none', { defaultValue: 'None' })}</i>
     }
 
     return (
@@ -89,11 +90,23 @@ export function CompactUniversalFiltersDisplay({
                     return (
                         <div key={index} className="SeriesDisplay__condition">
                             <span>
-                                {embedded && index === 0 ? 'where ' : null}
-                                {index > 0 ? (groupFilter.type === FilterLogicalOperator.Or ? 'or ' : 'and ') : null}
+                                {embedded && index === 0
+                                    ? i18n.t('insightFilters.where', { defaultValue: 'where' }) + ' '
+                                    : null}
+                                {index > 0
+                                    ? groupFilter.type === FilterLogicalOperator.Or
+                                        ? i18n.t('insightFilters.or', { defaultValue: 'or' }) + ' '
+                                        : i18n.t('insightFilters.and', { defaultValue: 'and' }) + ' '
+                                    : null}
                                 {isActionFilter(filterOrGroup) ? (
                                     <>
-                                        {isFirstFilterOverall ? 'P' : 'p'}erformed action
+                                        {isFirstFilterOverall
+                                            ? i18n.t('insightFilters.performedActionCapitalized', {
+                                                  defaultValue: 'Performed action',
+                                              })
+                                            : i18n.t('insightFilters.performedAction', {
+                                                  defaultValue: 'performed action',
+                                              })}
                                         <Link
                                             to={urls.action(filterOrGroup.id as number)}
                                             className="SeriesDisplay__raw-name SeriesDisplay__raw-name--action"
@@ -103,7 +116,11 @@ export function CompactUniversalFiltersDisplay({
                                     </>
                                 ) : (
                                     <>
-                                        {isFirstFilterOverall ? 'H' : 'h'}ad event
+                                        {isFirstFilterOverall
+                                            ? i18n.t('insightFilters.hadEventCapitalized', {
+                                                  defaultValue: 'Had event',
+                                              })
+                                            : i18n.t('insightFilters.hadEvent', { defaultValue: 'had event' })}
                                         <span className="SeriesDisplay__raw-name SeriesDisplay__raw-name--event">
                                             <PropertyKeyInfo
                                                 value={filterOrGroup.id as string}
@@ -122,13 +139,25 @@ export function CompactUniversalFiltersDisplay({
                 return (
                     <div key={index} className="SeriesDisplay__condition">
                         <span>
-                            {isFirstFilterOverall && embedded ? 'where ' : null}
+                            {isFirstFilterOverall && embedded
+                                ? i18n.t('insightFilters.where', { defaultValue: 'where' }) + ' '
+                                : null}
                             {index > 0 ? (
-                                <strong>{groupFilter.type === FilterLogicalOperator.Or ? 'or ' : 'and '}</strong>
+                                <strong>
+                                    {groupFilter.type === FilterLogicalOperator.Or
+                                        ? i18n.t('insightFilters.or', { defaultValue: 'or' }) + ' '
+                                        : i18n.t('insightFilters.and', { defaultValue: 'and' }) + ' '}
+                                </strong>
                             ) : null}
                             {isCohortPropertyFilter(propertyFilter) ? (
                                 <>
-                                    {isFirstFilterOverall && !embedded ? 'Person' : 'person'} belongs to cohort
+                                    {isFirstFilterOverall && !embedded
+                                        ? i18n.t('insightFilters.personBelongsToCohortCapitalized', {
+                                              defaultValue: 'Person belongs to cohort',
+                                          })
+                                        : i18n.t('insightFilters.personBelongsToCohort', {
+                                              defaultValue: 'person belongs to cohort',
+                                          })}
                                     <span className="SeriesDisplay__raw-name">
                                         {formatPropertyLabel(
                                             propertyFilter,
@@ -172,7 +201,10 @@ export function CompactUniversalFiltersDisplay({
                                                     <PropertyValueDisplay value={subValue} />
                                                     {index <
                                                         (propertyFilter.value as PropertyFilterBaseValue[]).length -
-                                                            1 && ' or '}
+                                                            1 &&
+                                                        ` ${i18n.t('insightFilters.or', {
+                                                            defaultValue: 'or',
+                                                        })} `}
                                                 </React.Fragment>
                                             ))
                                         ) : propertyFilter.value != undefined ? (

@@ -1,3 +1,4 @@
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonDivider } from 'lib/lemon-ui/LemonDivider'
 import { LemonDropdown } from 'lib/lemon-ui/LemonDropdown'
@@ -35,7 +36,9 @@ export function DashboardInsightDisplayOptions({
                 placement="right-start"
                 fallbackPlacements={['left-start']}
             >
-                <LemonButton fullWidth>Display options</LemonButton>
+                <LemonButton fullWidth>
+                    {i18n.t('insightCard.displayOptions', { defaultValue: 'Display options' })}
+                </LemonButton>
             </LemonDropdown>
         </>
     )

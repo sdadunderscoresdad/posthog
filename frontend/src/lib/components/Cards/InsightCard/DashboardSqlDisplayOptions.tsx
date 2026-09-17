@@ -4,6 +4,8 @@ import { BindLogic, useValues } from 'kea'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 
+import { i18n } from 'lib/i18n/i18n'
+
 import { DisplayTab } from '~/queries/nodes/DataVisualization/Components/DisplayTab'
 import { TableDisplay } from '~/queries/nodes/DataVisualization/Components/TableDisplay'
 import {
@@ -95,11 +97,15 @@ function DashboardSqlChartTypeControl({
     let chartTypeDisabledReason = disabledReason
     if (chartTypeDisabledReason === undefined) {
         if (saving) {
-            chartTypeDisabledReason = 'Saving chart type'
+            chartTypeDisabledReason = i18n.t('insightCard.savingChartType', { defaultValue: 'Saving chart type' })
         } else if (loading) {
-            chartTypeDisabledReason = 'Waiting for this insight to load'
+            chartTypeDisabledReason = i18n.t('insightCard.waitingToLoad', {
+                defaultValue: 'Waiting for this insight to load',
+            })
         } else if (columns.length === 0) {
-            chartTypeDisabledReason = 'This insight returned no columns to visualize'
+            chartTypeDisabledReason = i18n.t('insightCard.noColumnsToVisualize', {
+                defaultValue: 'This insight returned no columns to visualize',
+            })
         }
     }
 

@@ -3,6 +3,7 @@ import { BuiltLogic, LogicWrapper, useValues } from 'kea'
 import React, { useState } from 'react'
 
 import { CardMeta } from 'lib/components/Cards/CardMeta'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonMenuItemList } from 'lib/lemon-ui/LemonMenu/LemonMenu'
 import { themeLogic } from 'lib/logic/themeLogic'
 import { urls } from 'scenes/urls'
@@ -79,7 +80,9 @@ export const QueryCard = React.forwardRef<HTMLDivElement, QueryCardProps>(functi
                         <LemonMenuItemList
                             items={[
                                 {
-                                    label: 'Open as new insight',
+                                    label: i18n.t('insightCard.openAsNewInsight', {
+                                        defaultValue: 'Open as new insight',
+                                    }),
                                     to: urls.insightNew({ query, sceneSource }),
                                 },
                             ]}

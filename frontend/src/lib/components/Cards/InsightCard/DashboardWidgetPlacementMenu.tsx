@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonInput } from 'lib/lemon-ui/LemonInput'
 import { LemonMenu, LemonMenuItem, LemonMenuItems } from 'lib/lemon-ui/LemonMenu'
@@ -24,8 +25,8 @@ interface DashboardWidgetPlacementMenuProps {
 export function DashboardWidgetPlacementMenu({
     destinations,
     onSelect,
-    label = 'Move to',
-    emptyDisabledReason = 'No other dashboards',
+    label,
+    emptyDisabledReason,
 }: DashboardWidgetPlacementMenuProps): JSX.Element {
     const [searchTerm, setSearchTermState] = useState('')
 
@@ -38,7 +39,9 @@ export function DashboardWidgetPlacementMenu({
         searchTerm.trim() === ''
             ? destinations
             : destinations.filter((entry) =>
-                  (entry.dashboard.name || 'Untitled').toLowerCase().includes(searchTerm.toLowerCase())
+                  (entry.dashboard.name || i18n.t('common.untitled', { defaultValue: 'Untitled' }))
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase())
               )
 
     const SearchInputLabel = useCallback(() => {
@@ -46,7 +49,7 @@ export function DashboardWidgetPlacementMenu({
             <div className="px-2 pt-2 pb-1">
                 <LemonInput
                     type="search"
-                    placeholder="Search dashboards"
+                    placeholder={i18n.t('insightCard.searchDashboards', { defaultValue: 'Search dashboards' })}
                     value={searchTerm}
                     onChange={handleSearchChange}
                     size="small"
@@ -72,11 +75,15 @@ export function DashboardWidgetPlacementMenu({
                       items: filteredDestinations.map(({ dashboard, disabledReason }) => ({
                           label: disabledReason ? (
                               <span className="flex flex-col items-start gap-0.5 text-left">
-                                  <span>{dashboard.name || <i>Untitled</i>}</span>
+                                  <span>
+                                      {dashboard.name || (
+                                          <i>{i18n.t('common.untitled', { defaultValue: 'Untitled' })}</i>
+                                      )}
+                                  </span>
                                   <span className="text-xs font-normal text-muted">{disabledReason}</span>
                               </span>
                           ) : (
-                              dashboard.name || <i>Untitled</i>
+                              dashboard.name || <i>{i18n.t('common.untitled', { defaultValue: 'Untitled' })}</i>
                           ),
                           key: dashboard.id,
                           // Use `disabled` only: `disabledReason` on LemonButton adds a redundant tooltip when the label already explains why.
@@ -96,7 +103,9 @@ export function DashboardWidgetPlacementMenu({
                       items: [
                           searchItem,
                           {
-                              label: 'No dashboards match this search',
+                              label: i18n.t('insightCard.noMatchingDashboards', {
+                                  defaultValue: 'No dashboards match this search',
+                              }),
                               key: 'no-results',
                           },
                       ],

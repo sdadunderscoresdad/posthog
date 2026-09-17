@@ -4,6 +4,7 @@ import { useCallback, useMemo, useRef } from 'react'
 import { Spinner } from '@posthog/lemon-ui'
 
 import { ChartFilter } from 'lib/components/ChartFilter/ChartFilter'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonMenuItems } from 'lib/lemon-ui/LemonMenu'
 import { insightLogic } from 'scenes/insights/insightLogic'
 import { insightVizDataLogic } from 'scenes/insights/insightVizDataLogic'
@@ -113,7 +114,10 @@ export function useDashboardVisualizationOptions({
                 saving={props.saving}
                 disabledReason={
                     props.overriddenVariable
-                        ? 'This dashboard overrides a variable this insight uses. Open the insight to change its chart type.'
+                        ? i18n.t('insightCard.variableOverridesChartType', {
+                              defaultValue:
+                                  'This dashboard overrides a variable this insight uses. Open the insight to change its chart type.',
+                          })
                         : undefined
                 }
                 persistChartType={props.persistChartType!}
@@ -151,7 +155,8 @@ export function useDashboardVisualizationOptions({
         if (props.loading) {
             return (
                 <div className="flex min-h-20 w-80 items-center justify-center gap-2 text-muted" role="status">
-                    <Spinner /> Loading display options
+                    <Spinner />{' '}
+                    {i18n.t('insightCard.loadingDisplayOptions', { defaultValue: 'Loading display options' })}
                 </div>
             )
         }
@@ -177,13 +182,13 @@ export function useDashboardVisualizationOptions({
                 title:
                     insightChartPicker && savingDisplayOptions ? (
                         <h5 className="mx-2 my-1 flex items-center justify-between gap-2">
-                            Chart type
+                            {i18n.t('insightCard.chartType', { defaultValue: 'Chart type' })}
                             <span className="flex items-center gap-1 font-normal text-muted" role="status">
-                                <Spinner /> Saving
+                                <Spinner /> {i18n.t('insightCard.saving', { defaultValue: 'Saving' })}
                             </span>
                         </h5>
                     ) : (
-                        'Chart type'
+                        i18n.t('insightCard.chartType', { defaultValue: 'Chart type' })
                     ),
                 items: [{ label: sqlQuery ? renderPicker : renderInsightChartPicker }],
             },

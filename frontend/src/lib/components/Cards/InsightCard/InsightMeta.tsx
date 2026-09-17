@@ -15,6 +15,7 @@ import { ObjectTags } from 'lib/components/ObjectTags/ObjectTags'
 import { captureImageLogic } from 'lib/components/Scenes/InsightOrDashboard/captureImageLogic'
 import { FEATURE_FLAGS } from 'lib/constants'
 import { dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 import { IconLink } from 'lib/lemon-ui/icons'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonDivider } from 'lib/lemon-ui/LemonDivider'
@@ -305,15 +306,23 @@ export function InsightMeta({
                     size="small"
                     icon={<IconThumbsUp className={insightFeedback === 'liked' ? 'text-accent' : ''} />}
                     onClick={() => setInsightFeedback('liked')}
-                    tooltip="Like this insight"
-                    disabledReason={insightFeedback === 'liked' ? 'Already liked' : ''}
+                    tooltip={i18n.t('insightMeta.like', { defaultValue: 'Like this insight' })}
+                    disabledReason={
+                        insightFeedback === 'liked'
+                            ? i18n.t('insightMeta.alreadyLiked', { defaultValue: 'Already liked' })
+                            : ''
+                    }
                 />
                 <LemonButton
                     size="small"
                     icon={<IconThumbsDown className={insightFeedback === 'disliked' ? 'text-accent' : ''} />}
                     onClick={() => setInsightFeedback('disliked')}
-                    tooltip="Dislike this insight"
-                    disabledReason={insightFeedback === 'disliked' ? 'Already disliked' : ''}
+                    tooltip={i18n.t('insightMeta.dislike', { defaultValue: 'Dislike this insight' })}
+                    disabledReason={
+                        insightFeedback === 'disliked'
+                            ? i18n.t('insightMeta.alreadyDisliked', { defaultValue: 'Already disliked' })
+                            : ''
+                    }
                 />
             </div>
         ) : null
@@ -337,13 +346,15 @@ export function InsightMeta({
                 showDetailsControls={false}
                 setAreDetailsShown={setAreDetailsShown}
                 areDetailsShown={areDetailsShown}
-                detailsTooltip="Show insight details, such as creator, last edit, and applied filters."
+                detailsTooltip={i18n.t('insightMeta.detailsTooltip', {
+                    defaultValue: 'Show insight details, such as creator, last edit, and applied filters.',
+                })}
                 topHeading={null}
                 onMouseDown={onDragHandleMouseDown}
                 content={
                     <InsightMetaContent
                         link={undefined}
-                        title="Access denied"
+                        title={i18n.t('accessDenied.title', { defaultValue: 'Access denied' })}
                         fallbackTitle={summary}
                         description={undefined}
                         loading={loading}
@@ -370,14 +381,16 @@ export function InsightMeta({
         : undefined
     // The always-visible "⋯" menu keeps refresh reachable on touch/keyboard. Unlike the hover
     // icon (which hides while this tile refreshes) the menu item stays but disables.
-    const refreshMenuDisabledReason = tileRefreshing ? 'Refreshing…' : refreshDisabledReason
+    const refreshMenuDisabledReason = tileRefreshing
+        ? i18n.t('insightMeta.refreshing', { defaultValue: 'Refreshing…' })
+        : refreshDisabledReason
 
     // A browser capture takes whatever is on screen, so a tile captured mid-load makes a valid PNG of an
     // empty card.
     const copyImageDisabledReason = isCapturingImage
-        ? 'Copying…'
+        ? i18n.t('insightMeta.copying', { defaultValue: 'Copying…' })
         : tileRefreshing
-          ? 'Wait for the insight to finish loading'
+          ? i18n.t('insightMeta.waitForLoading', { defaultValue: 'Wait for the insight to finish loading' })
           : undefined
 
     // Gate the hover icon on `showEditingControls` so it doesn't appear on public/export
@@ -443,7 +456,10 @@ export function InsightMeta({
         tileFiltersOverride
     )
     const copyInsightLink = (): void => {
-        void copyToClipboard(urls.absolute(urls.currentProject(insightViewUrl)), 'insight link')
+        void copyToClipboard(
+            urls.absolute(urls.currentProject(insightViewUrl)),
+            i18n.t('insightMeta.insightLink', { defaultValue: 'insight link' })
+        )
     }
 
     return (
@@ -455,7 +471,9 @@ export function InsightMeta({
                 showDetailsControls={showDetailsControls}
                 setAreDetailsShown={setAreDetailsShown}
                 areDetailsShown={areDetailsShown}
-                detailsTooltip="Show insight details, such as creator, last edit, and applied filters."
+                detailsTooltip={i18n.t('insightMeta.detailsTooltip', {
+                    defaultValue: 'Show insight details, such as creator, last edit, and applied filters.',
+                })}
                 onMouseDown={onDragHandleMouseDown}
                 topHeading={topHeadingEl}
                 popoverTopHeading={popoverTopHeadingEl}
@@ -501,8 +519,12 @@ export function InsightMeta({
                                 fullWidth
                                 sideAction={{
                                     icon: <IconLink />,
-                                    tooltip: 'Copy link to insight',
-                                    'aria-label': 'Copy link to insight',
+                                    tooltip: i18n.t('insightMeta.copyLink', {
+                                        defaultValue: 'Copy link to insight',
+                                    }),
+                                    'aria-label': i18n.t('insightMeta.copyLink', {
+                                        defaultValue: 'Copy link to insight',
+                                    }),
                                     'data-attr': dashboardId
                                         ? 'copy-insight-link-from-dashboard'
                                         : 'copy-insight-link-from-card-list-view',
@@ -533,7 +555,7 @@ export function InsightMeta({
                                 </LemonButton>
                                 {tile && (
                                     <LemonButton onClick={setOverride} fullWidth>
-                                        Set override
+                                        {i18n.t('insightMeta.setOverride', { defaultValue: 'Set override' })}
                                     </LemonButton>
                                 )}
                             </>
@@ -571,7 +593,9 @@ export function InsightMeta({
                         {canShowCopyToDashboardTile && !canEditDashboard && (
                             <>
                                 <LemonDivider />
-                                <h5 className="mx-2 my-1">Dashboard</h5>
+                                <h5 className="mx-2 my-1">
+                                    {i18n.t('insightMeta.dashboard', { defaultValue: 'Dashboard' })}
+                                </h5>
                                 <DashboardWidgetPlacementMenus
                                     placementDestinations={copyToDestinations}
                                     onCopyToDashboard={copyToDashboard}
@@ -585,7 +609,13 @@ export function InsightMeta({
                                 <LemonDivider />
                                 {showCompactTile && toggleShowDescription && !!insight.description && (
                                     <LemonButton onClick={toggleShowDescription} fullWidth>
-                                        {tile?.show_description === false ? 'Show description' : 'Hide description'}
+                                        {tile?.show_description === false
+                                            ? i18n.t('insightMeta.showDescription', {
+                                                  defaultValue: 'Show description',
+                                              })
+                                            : i18n.t('insightMeta.hideDescription', {
+                                                  defaultValue: 'Hide description',
+                                              })}
                                     </LemonButton>
                                 )}
                                 {updateColor && (
@@ -599,7 +629,9 @@ export function InsightMeta({
                                                     <span>
                                                         {availableColor !== InsightColor.White
                                                             ? capitalizeFirstLetter(availableColor)
-                                                            : 'No color'}
+                                                            : i18n.t('insightMeta.noColor', {
+                                                                  defaultValue: 'No color',
+                                                              })}
                                                     </span>
                                                 </span>
                                             ),
@@ -613,13 +645,17 @@ export function InsightMeta({
                                         fallbackPlacements={['left-start']}
                                         closeParentPopoverOnClickInside
                                     >
-                                        <LemonButton fullWidth>Set color</LemonButton>
+                                        <LemonButton fullWidth>
+                                            {i18n.t('insightMeta.setColor', { defaultValue: 'Set color' })}
+                                        </LemonButton>
                                     </LemonMenu>
                                 )}
                                 {hasDashboardPlacementActions && (
                                     <>
                                         {hasTileStyleActions && <LemonDivider />}
-                                        <h5 className="mx-2 my-1">Dashboard</h5>
+                                        <h5 className="mx-2 my-1">
+                                            {i18n.t('insightMeta.dashboard', { defaultValue: 'Dashboard' })}
+                                        </h5>
                                         <DashboardWidgetPlacementMenus
                                             placementDestinations={copyToDestinations}
                                             onMoveToDashboard={moveToDashboard}
@@ -627,7 +663,9 @@ export function InsightMeta({
                                         />
                                         {removeFromDashboard && (
                                             <LemonButton status="danger" onClick={removeFromDashboard} fullWidth>
-                                                Remove from dashboard
+                                                {i18n.t('insightMeta.removeFromDashboard', {
+                                                    defaultValue: 'Remove from dashboard',
+                                                })}
                                             </LemonButton>
                                         )}
                                     </>
@@ -652,7 +690,7 @@ export function InsightMeta({
                                     }}
                                     fullWidth
                                 >
-                                    Delete insight
+                                    {i18n.t('insightMeta.deleteInsight', { defaultValue: 'Delete insight' })}
                                 </LemonButton>
                             </>
                         )}
@@ -685,11 +723,13 @@ export function InsightMeta({
                         <LemonButton
                             onClick={() => copyImage(insightCardCaptureTarget(insight, tile, dashboardId))}
                             disabledReason={copyImageDisabledReason}
-                            tooltip="Copy the tile to your clipboard as a PNG"
+                            tooltip={i18n.t('insightMeta.copyAsPngTooltip', {
+                                defaultValue: 'Copy the tile to your clipboard as a PNG',
+                            })}
                             fullWidth
                             data-attr="insight-card-copy-image"
                         >
-                            Copy as PNG
+                            {i18n.t('insightMeta.copyAsPng', { defaultValue: 'Copy as PNG' })}
                         </LemonButton>
                         {refresh && (
                             <DashboardTileRefreshDataButton
@@ -709,8 +749,12 @@ export function InsightMeta({
                 }
                 moreTooltip={
                     canEditInsight
-                        ? 'Rename, duplicate, export, copy as PNG, refresh and more…'
-                        : 'Duplicate, export, copy as PNG, refresh and more…'
+                        ? i18n.t('insightMeta.moreTooltipEditable', {
+                              defaultValue: 'Rename, duplicate, export, copy as PNG, refresh and more…',
+                          })
+                        : i18n.t('insightMeta.moreTooltip', {
+                              defaultValue: 'Duplicate, export, copy as PNG, refresh and more…',
+                          })
                 }
                 extraControls={
                     placement !== DashboardPlacement.Public &&
@@ -756,10 +800,14 @@ function CreateAnomalyAlertButton({ onClick, showLabel }: { onClick: () => void;
             type="primary"
             icon={<IconPulse />}
             onClick={onClick}
-            tooltip={!showLabel ? 'Create anomaly alert' : undefined}
+            tooltip={
+                !showLabel
+                    ? i18n.t('insightMeta.createAnomalyAlert', { defaultValue: 'Create anomaly alert' })
+                    : undefined
+            }
             data-attr="create-anomaly-alert-button"
         >
-            {showLabel && 'Create anomaly alert'}
+            {showLabel && i18n.t('insightMeta.createAnomalyAlert', { defaultValue: 'Create anomaly alert' })}
         </LemonButton>
     )
 }
@@ -779,7 +827,9 @@ function InsightMetaExtraControls({
                     source={SURVEY_CREATED_SOURCE.INSIGHT_CROSS_SELL}
                     fromProduct={ProductKey.PRODUCT_ANALYTICS}
                     showLabel={showLabel}
-                    tooltip="Create a survey to understand why users are dropping off"
+                    tooltip={i18n.t('insightMeta.createSurveyTooltip', {
+                        defaultValue: 'Create a survey to understand why users are dropping off',
+                    })}
                 />
             ) : null}
             {onCreateAnomalyAlert ? (
@@ -825,7 +875,7 @@ export function InsightMetaContent({
     const queryScanIndicator = queryScanTooltip ? (
         <Tooltip title={queryScanTooltip}>
             <LemonTag type="warning" size="small" className="ml-1.5 shrink-0" data-attr="insight-card-query-scan">
-                Slow query
+                {i18n.t('insightMeta.slowQuery', { defaultValue: 'Slow query' })}
             </LemonTag>
         </Tooltip>
     ) : null
@@ -837,12 +887,14 @@ export function InsightMetaContent({
                     (infoPopover || dataRetentionIndicator || queryScanIndicator) && 'truncate'
                 )}
             >
-                {title || <i>{fallbackTitle || 'Untitled'}</i>}
+                {title || <i>{fallbackTitle || i18n.t('common.untitled', { defaultValue: 'Untitled' })}</i>}
             </span>
             {(loading || loadingQueued) && (
                 <span className={clsx('text-sm font-medium ml-1.5', loading ? 'text-accent' : 'text-muted')}>
                     <Spinner className="mr-1.5 text-base" textColored />
-                    {loading ? 'Loading' : 'Waiting to load'}
+                    {loading
+                        ? i18n.t('common.loading', { defaultValue: 'Loading' })
+                        : i18n.t('insightMeta.waitingToLoad', { defaultValue: 'Waiting to load' })}
                 </span>
             )}
         </>

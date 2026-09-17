@@ -2,6 +2,7 @@ import { IconClock, IconWarning } from '@posthog/icons'
 
 import { TZLabel } from 'lib/components/TZLabel'
 import { dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { Tooltip } from 'lib/lemon-ui/Tooltip'
 
@@ -29,7 +30,7 @@ export function InsightFreshness({ lastRefresh }: { lastRefresh: string }): JSX.
         <Tooltip
             title={
                 <div className="flex items-center gap-1">
-                    <span>Computed</span>
+                    <span>{i18n.t('insightCard.computed', { defaultValue: 'Computed' })}</span>
                     <TZLabel time={lastRefresh} showPopover={false} />
                 </div>
             }
@@ -40,7 +41,7 @@ export function InsightFreshness({ lastRefresh }: { lastRefresh: string }): JSX.
                 status={status}
                 // Indicator is informational only — keep it out of the tab order, but labelled for screen readers.
                 tabIndex={-1}
-                aria-label="Last computed time"
+                aria-label={i18n.t('insightCard.lastComputedTime', { defaultValue: 'Last computed time' })}
                 data-attr="insight-card-freshness"
                 // Render the glyph at the surrounding heading's text size (as the bare icon did);
                 // LemonButton's default icon sizing made the clock noticeably larger than its row.

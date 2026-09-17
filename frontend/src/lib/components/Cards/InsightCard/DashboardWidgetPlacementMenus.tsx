@@ -2,6 +2,7 @@ import {
     DashboardWidgetPlacementMenu,
     type DashboardWidgetPlacementDestination,
 } from 'lib/components/Cards/InsightCard/DashboardWidgetPlacementMenu'
+import { i18n } from 'lib/i18n/i18n'
 
 import type { DashboardBasicType, DashboardType } from '~/types'
 
@@ -24,18 +25,22 @@ export function DashboardWidgetPlacementMenus({
         <>
             {onMoveToDashboard && (
                 <DashboardWidgetPlacementMenu
-                    label="Move to"
+                    label={i18n.t('insightCard.moveTo', { defaultValue: 'Move to' })}
                     destinations={placementDestinations}
                     onSelect={(d) => onMoveToDashboard({ id: d.id, name: d.name })}
-                    emptyDisabledReason="No dashboards you can move to"
+                    emptyDisabledReason={i18n.t('insightCard.noMoveDestinations', {
+                        defaultValue: 'No dashboards you can move to',
+                    })}
                 />
             )}
             {onCopyToDashboard && (
                 <DashboardWidgetPlacementMenu
-                    label="Copy to"
+                    label={i18n.t('insightCard.copyTo', { defaultValue: 'Copy to' })}
                     destinations={placementDestinations}
                     onSelect={onCopyToDashboard}
-                    emptyDisabledReason="No dashboards you can copy to"
+                    emptyDisabledReason={i18n.t('insightCard.noCopyDestinations', {
+                        defaultValue: 'No dashboards you can copy to',
+                    })}
                 />
             )}
         </>

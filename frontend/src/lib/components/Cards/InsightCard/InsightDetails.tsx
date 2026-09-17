@@ -21,6 +21,7 @@ import { CodeSnippet, Language } from 'lib/components/CodeSnippet'
 import { convertPropertiesToPropertyGroup } from 'lib/components/PropertyFilters/utils'
 import { SeriesLetter } from 'lib/components/SeriesGlyph'
 import { TaxonomicFilterGroupType } from 'lib/components/TaxonomicFilter/types'
+import { i18n } from 'lib/i18n/i18n'
 import { IconCalculate } from 'lib/lemon-ui/icons'
 import { LemonDivider } from 'lib/lemon-ui/LemonDivider'
 import { LemonTag } from 'lib/lemon-ui/LemonTag/LemonTag'
@@ -171,22 +172,28 @@ function EntityDisplay({ entity }: { entity: AnyEntityNode<AnyDataWarehouseNode>
             <Link
                 to={urls.action(entity.id)}
                 className="SeriesDisplay__raw-name SeriesDisplay__raw-name--action"
-                title="Action series"
+                title={i18n.t('insightDetails.actionSeries', { defaultValue: 'Action series' })}
             >
                 {entity.name}
             </Link>
         )
     } else if (isEventsNode(entity)) {
         content = (
-            <span className="SeriesDisplay__raw-name SeriesDisplay__raw-name--event" title="Event series">
-                <PropertyKeyInfo value={entity.event || 'All events'} type={TaxonomicFilterGroupType.Events} />
+            <span
+                className="SeriesDisplay__raw-name SeriesDisplay__raw-name--event"
+                title={i18n.t('insightDetails.eventSeries', { defaultValue: 'Event series' })}
+            >
+                <PropertyKeyInfo
+                    value={entity.event || i18n.t('insightDetails.allEvents', { defaultValue: 'All events' })}
+                    type={TaxonomicFilterGroupType.Events}
+                />
             </span>
         )
     } else if (isAnyDataWarehouseNode(entity)) {
         content = (
             <span
                 className="SeriesDisplay__raw-name SeriesDisplay__raw-name--data-warehouse"
-                title="Data warehouse series"
+                title={i18n.t('insightDetails.dataWarehouseSeries', { defaultValue: 'Data warehouse series' })}
             >
                 <PropertyKeyInfo
                     value={entity.name || entity.table_name}
@@ -292,16 +299,21 @@ function PathsSummary({ query }: { query: PathsQuery }): JSX.Element {
         <div className="SeriesDisplay">
             <div>
                 <div>
-                    User paths based on <b>{humanizePathsEventTypes(includeEventTypes).join(' and ')}</b>
+                    {i18n.t('insightDetails.userPathsBasedOn', { defaultValue: 'User paths based on' })}{' '}
+                    <b>
+                        {humanizePathsEventTypes(includeEventTypes).join(
+                            ` ${i18n.t('activityLog.listConjunction', { defaultValue: 'and' })} `
+                        )}
+                    </b>
                 </div>
                 {startPoint && (
                     <div>
-                        starting at <b>{startPoint}</b>
+                        {i18n.t('insightDetails.startingAt', { defaultValue: 'starting at' })} <b>{startPoint}</b>
                     </div>
                 )}
                 {endPoint && (
                     <div>
-                        ending at <b>{endPoint}</b>
+                        {i18n.t('insightDetails.endingAt', { defaultValue: 'ending at' })} <b>{endPoint}</b>
                     </div>
                 )}
             </div>
@@ -316,7 +328,7 @@ function PathsV2Summary({ query }: { query: PathsV2Query }): JSX.Element {
         <div className="SeriesDisplay">
             <div>
                 <div>
-                    Journeys based on <b>{sources}</b>
+                    {i18n.t('insightDetails.journeysBasedOn', { defaultValue: 'Journeys based on' })} <b>{sources}</b>
                 </div>
                 {anchor && (
                     <div>
@@ -335,8 +347,8 @@ function RetentionSummary({ query }: { query: RetentionQuery }): JSX.Element {
         <>
             {query.aggregation_group_type_index != null
                 ? `${capitalizeFirstLetter(aggregationLabel(query.aggregation_group_type_index).plural)} which`
-                : 'Users who'}
-            {' performed'}
+                : i18n.t('insightDetails.usersWho', { defaultValue: 'Users who' })}{' '}
+            {i18n.t('insightDetails.performed', { defaultValue: 'performed' })}
             <EntityDisplay
                 entity={
                     query.retentionFilter.targetEntity?.type === 'actions'
@@ -353,15 +365,18 @@ function RetentionSummary({ query }: { query: RetentionQuery }): JSX.Element {
                 }
             />
             <strong>
-                {query.retentionFilter.retentionType === 'retention_recurring' ? 'recurringly' : 'for the first time'}
+                {query.retentionFilter.retentionType === 'retention_recurring'
+                    ? i18n.t('insightDetails.recurringly', { defaultValue: 'recurringly' })
+                    : i18n.t('insightDetails.forTheFirstTime', { defaultValue: 'for the first time' })}
             </strong>{' '}
-            in the preceding{' '}
+            {i18n.t('insightDetails.inThePreceding', { defaultValue: 'in the preceding' })}{' '}
             <strong>
                 {(query.retentionFilter.totalIntervals || 11) - 1}{' '}
                 {query.retentionFilter.period?.toLocaleLowerCase() ?? 'day'}s
             </strong>
             <br />
-            <strong>and</strong> who came back to perform
+            <strong>{i18n.t('activityLog.listConjunction', { defaultValue: 'and' })}</strong>{' '}
+            {i18n.t('insightDetails.whoCameBackToPerform', { defaultValue: 'who came back to perform' })}
             <EntityDisplay
                 entity={
                     query.retentionFilter.returningEntity?.type === 'actions'
@@ -412,7 +427,12 @@ export function SeriesSummary({
                             ))}
                         </>
                     ) : (
-                        <i>Query summary is not available for {(query as Node).kind} yet</i>
+                        <i>
+                            {i18n.t('insightDetails.querySummaryUnavailable', {
+                                defaultValue: 'Query summary is not available for {{ kind }} yet',
+                                kind: (query as Node).kind,
+                            })}
+                        </i>
                     )}
                 </>
             )}
@@ -465,15 +485,23 @@ export function PropertiesSummary({
     const allOverrideProperties = overrideGroups.flatMap((group) => group.properties)
     const { base, overrideFound } = splitOutOverrideProperties(properties, allOverrideProperties)
     const dedupedBase = overrideFound ? dropDuplicatesOfOverrides(base, allOverrideProperties) : base
-    const label = overrideFound ? 'Active filters' : 'Filters'
+    const label = overrideFound
+        ? i18n.t('insightDetails.activeFilters', { defaultValue: 'Active filters' })
+        : i18n.t('insightDetails.filters', { defaultValue: 'Filters' })
     return (
         <InsightDetailSectionDisplay icon={<IconFilter />} label={label}>
-            {overrideFound && <OverrideNote source="insight">base filters:</OverrideNote>}
+            {overrideFound && (
+                <OverrideNote source="insight">
+                    {i18n.t('insightDetails.baseFilters', { defaultValue: 'base filters:' })}
+                </OverrideNote>
+            )}
             <CompactUniversalFiltersDisplay groupFilter={convertPropertiesToPropertyGroup(dedupedBase)} />
             {overrideFound &&
                 overrideGroups.map((group) => (
                     <React.Fragment key={group.source}>
-                        <OverrideNote source={group.source}>filters added on top:</OverrideNote>
+                        <OverrideNote source={group.source}>
+                            {i18n.t('insightDetails.filtersAddedOnTop', { defaultValue: 'filters added on top:' })}
+                        </OverrideNote>
                         <CompactUniversalFiltersDisplay
                             groupFilter={convertPropertiesToPropertyGroup(group.properties)}
                         />
@@ -486,7 +514,9 @@ export function PropertiesSummary({
                     <div className="text-muted-alt">
                         <div className="mt-1.5 flex items-center gap-1">
                             <LayerTag source="dashboard" />
-                            <span>filter replaced by</span>
+                            <span>
+                                {i18n.t('insightDetails.filterReplacedBy', { defaultValue: 'filter replaced by' })}
+                            </span>
                             <LayerTag source="tile" />
                         </div>
                         <div className="line-through opacity-60">
@@ -504,9 +534,17 @@ export function PropertiesSummary({
 export function PropertiesIgnoredWarning(): JSX.Element {
     return (
         <InsightDetailSectionDisplay icon={<IconFilter />} label="Filters">
-            <Tooltip title="Filter overrides are not applied. Insights with a data warehouse series do not support filters.">
+            <Tooltip
+                title={i18n.t('insightDetails.filterOverridesUnsupported', {
+                    defaultValue:
+                        'Filter overrides are not applied. Insights with a data warehouse series do not support filters.',
+                })}
+            >
                 <div className="flex items-center gap-1 text-warning italic">
-                    <IconWarning /> Filter overrides ignored (data warehouse series).
+                    <IconWarning />{' '}
+                    {i18n.t('insightDetails.filterOverridesIgnored', {
+                        defaultValue: 'Filter overrides ignored (data warehouse series).',
+                    })}
                 </div>
             </Tooltip>
         </InsightDetailSectionDisplay>
@@ -515,10 +553,21 @@ export function PropertiesIgnoredWarning(): JSX.Element {
 
 export function BreakdownIgnoredWarning(): JSX.Element {
     return (
-        <InsightDetailSectionDisplay icon={<IconSort />} label="Breakdown by">
-            <Tooltip title="Breakdown overrides are not applied. Insights with a data warehouse series only support data warehouse property and HogQL breakdowns.">
+        <InsightDetailSectionDisplay
+            icon={<IconSort />}
+            label={i18n.t('insightDetails.breakdownBy', { defaultValue: 'Breakdown by' })}
+        >
+            <Tooltip
+                title={i18n.t('insightDetails.breakdownOverridesUnsupported', {
+                    defaultValue:
+                        'Breakdown overrides are not applied. Insights with a data warehouse series only support data warehouse property and HogQL breakdowns.',
+                })}
+            >
                 <div className="flex items-center gap-1 text-warning italic">
-                    <IconWarning /> Breakdown overrides ignored (data warehouse series).
+                    <IconWarning />{' '}
+                    {i18n.t('insightDetails.breakdownOverridesIgnored', {
+                        defaultValue: 'Breakdown overrides ignored (data warehouse series).',
+                    })}
                 </div>
             </Tooltip>
         </InsightDetailSectionDisplay>
@@ -604,8 +653,15 @@ export function BreakdownSummary({
     }
 
     return (
-        <InsightDetailSectionDisplay icon={<IconSort />} label="Breakdown by">
-            {override && <OverrideNote source={override.source}>breakdown replaced with:</OverrideNote>}
+        <InsightDetailSectionDisplay
+            icon={<IconSort />}
+            label={i18n.t('insightDetails.breakdownBy', { defaultValue: 'Breakdown by' })}
+        >
+            {override && (
+                <OverrideNote source={override.source}>
+                    {i18n.t('insightDetails.breakdownReplacedWith', { defaultValue: 'breakdown replaced with:' })}
+                </OverrideNote>
+            )}
             <div className="flex items-center gap-1 flex-wrap">{content}</div>
         </InsightDetailSectionDisplay>
     )
@@ -627,7 +683,10 @@ export function DateRangeSummary({
     const replaced = override?.replaced
     const replacedText = replaced ? dateFilterToText(replaced.dateFrom, replaced.dateTo, null) : null
     return (
-        <InsightDetailSectionDisplay icon={<IconCalendar />} label="Date range">
+        <InsightDetailSectionDisplay
+            icon={<IconCalendar />}
+            label={i18n.t('insightDetails.dateRange', { defaultValue: 'Date range' })}
+        >
             {/* Tag the value with its source layer rather than repeating "date range" in a note. */}
             <div className="flex items-center gap-1">
                 <span className="font-medium">{dateFilterText}</span>
@@ -636,7 +695,9 @@ export function DateRangeSummary({
             {replaced && replacedText && (
                 <div className="text-muted-alt text-xs mt-0.5 flex items-center gap-1">
                     <span>
-                        was <span className="line-through">{replacedText}</span> from
+                        {i18n.t('insightDetails.was', { defaultValue: 'was' })}{' '}
+                        <span className="line-through">{replacedText}</span>{' '}
+                        {i18n.t('insightDetails.from', { defaultValue: 'from' })}
                     </span>
                     <LayerTag source={replaced.source} />
                 </div>
@@ -656,7 +717,10 @@ export function IntervalSummary({
 }): JSX.Element {
     const replaced = insightInterval != null && insightInterval !== interval ? insightInterval : null
     return (
-        <InsightDetailSectionDisplay icon={<IconClock />} label="Grouped by">
+        <InsightDetailSectionDisplay
+            icon={<IconClock />}
+            label={i18n.t('insightDetails.groupedBy', { defaultValue: 'Grouped by' })}
+        >
             <div className="flex items-center gap-1">
                 <span className="font-medium">{capitalizeFirstLetter(interval)}</span>
                 <LayerTag source={override.source} />
@@ -664,7 +728,9 @@ export function IntervalSummary({
             {replaced && (
                 <div className="text-muted-alt text-xs mt-0.5 flex items-center gap-1">
                     <span>
-                        was <span className="line-through">{capitalizeFirstLetter(replaced)}</span> from
+                        {i18n.t('insightDetails.was', { defaultValue: 'was' })}{' '}
+                        <span className="line-through">{capitalizeFirstLetter(replaced)}</span>{' '}
+                        {i18n.t('insightDetails.from', { defaultValue: 'from' })}
                     </span>
                     <LayerTag source="insight" />
                 </div>
@@ -673,7 +739,10 @@ export function IntervalSummary({
     )
 }
 
-const testAccountsLabel = (excluded: boolean): string => (excluded ? 'Excluded' : 'Included')
+const testAccountsLabel = (excluded: boolean): string =>
+    excluded
+        ? i18n.t('insightDetails.testAccountsExcluded', { defaultValue: 'Excluded' })
+        : i18n.t('insightDetails.testAccountsIncluded', { defaultValue: 'Included' })
 
 export function TestAccountFilterSummary({
     filterTestAccounts,
@@ -690,7 +759,10 @@ export function TestAccountFilterSummary({
             ? insightFilterTestAccounts
             : null
     return (
-        <InsightDetailSectionDisplay icon={<IconPeople />} label="Internal and test users">
+        <InsightDetailSectionDisplay
+            icon={<IconPeople />}
+            label={i18n.t('insightDetails.internalAndTestUsers', { defaultValue: 'Internal and test users' })}
+        >
             <div className="flex items-center gap-1">
                 <span className="font-medium">{testAccountsLabel(filterTestAccounts)}</span>
                 <LayerTag source={override.source} />
@@ -772,8 +844,15 @@ export const InsightDetails = React.memo(
                             variablesOverride={variablesOverride}
                         />
                         {ignoresDashboardFilters && (
-                            <InsightDetailSectionDisplay icon={<IconFilter />} label="Dashboard filters">
-                                <span>Ignored for this insight</span>
+                            <InsightDetailSectionDisplay
+                                icon={<IconFilter />}
+                                label={i18n.t('insightDetails.dashboardFilters', { defaultValue: 'Dashboard filters' })}
+                            >
+                                <span>
+                                    {i18n.t('insightDetails.ignoredForThisInsight', {
+                                        defaultValue: 'Ignored for this insight',
+                                    })}
+                                </span>
                             </InsightDetailSectionDisplay>
                         )}
                         {dateOverride && (
@@ -828,20 +907,29 @@ export const InsightDetails = React.memo(
                 )}
                 {footerInfo && (
                     <>
-                        <InsightDetailSectionDisplay icon={<IconUser />} label="Created by">
+                        <InsightDetailSectionDisplay
+                            icon={<IconUser />}
+                            label={i18n.t('table.createdBy', { defaultValue: 'Created by' })}
+                        >
                             <div className="flex items-center py-px gap-1.5">
                                 <ProfilePicture user={footerInfo.created_by} showName size="sm" />
                                 <TZLabel time={footerInfo.created_at} />
                             </div>
                         </InsightDetailSectionDisplay>
-                        <InsightDetailSectionDisplay icon={<IconPencil />} label="Last modified by">
+                        <InsightDetailSectionDisplay
+                            icon={<IconPencil />}
+                            label={i18n.t('insightDetails.lastModifiedBy', { defaultValue: 'Last modified by' })}
+                        >
                             <div className="flex items-center py-px gap-1.5">
                                 <ProfilePicture user={footerInfo.last_modified_by} showName size="sm" />
                                 <TZLabel time={footerInfo.last_modified_at} />
                             </div>
                         </InsightDetailSectionDisplay>
                         {footerInfo.last_refresh && (
-                            <InsightDetailSectionDisplay icon={<IconCalculator />} label="Last computed">
+                            <InsightDetailSectionDisplay
+                                icon={<IconCalculator />}
+                                label={i18n.t('insightDetails.lastComputed', { defaultValue: 'Last computed' })}
+                            >
                                 <TZLabel time={footerInfo.last_refresh} />
                             </InsightDetailSectionDisplay>
                         )}
