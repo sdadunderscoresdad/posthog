@@ -1,5 +1,6 @@
 import { BindLogic, useActions, useValues } from 'kea'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonDivider } from 'lib/lemon-ui/LemonDivider'
 import { LemonField } from 'lib/lemon-ui/LemonField/LemonField'
@@ -15,10 +16,12 @@ import type { DashboardWidgetEditModalProps } from '../registry'
 import { editLogsWidgetModalLogic } from './editLogsWidgetModalLogic'
 import type { LogsTimezone } from './logsWidgetConfigValidation'
 
-const TIMEZONE_OPTIONS: { value: LogsTimezone; label: string }[] = [
-    { value: 'UTC', label: 'UTC' },
-    { value: 'local', label: 'Local time' },
-]
+function getTimezoneOptions(): { value: LogsTimezone; label: string }[] {
+    return [
+        { value: 'UTC', label: 'UTC' },
+        { value: 'local', label: i18n.t('dashboardWidgets.logs.edit.timezoneLocal', { defaultValue: 'Local time' }) },
+    ]
+}
 
 function EditLogsWidgetModalContents(): JSX.Element {
     const {
@@ -49,14 +52,16 @@ function EditLogsWidgetModalContents(): JSX.Element {
         <LemonModal
             isOpen
             onClose={onClose}
-            title="Widget settings"
-            description="Configure tile details and which logs appear on this dashboard."
+            title={i18n.t('dashboardWidgets.editModal.title', { defaultValue: 'Widget settings' })}
+            description={i18n.t('dashboardWidgets.logs.edit.description', {
+                defaultValue: 'Configure tile details and which logs appear on this dashboard.',
+            })}
             width={680}
             footer={
                 <>
                     <div className="flex-1" />
                     <LemonButton type="secondary" onClick={onClose} disabled={saving}>
-                        Cancel
+                        {i18n.t('common.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="primary"
@@ -64,7 +69,7 @@ function EditLogsWidgetModalContents(): JSX.Element {
                         disabledReason={saveDisabledReason}
                         onClick={() => submit()}
                     >
-                        Save
+                        {i18n.t('settings.save', { defaultValue: 'Save' })}
                     </LemonButton>
                 </>
             }
@@ -82,11 +87,15 @@ function EditLogsWidgetModalContents(): JSX.Element {
                 <section className="flex flex-col gap-3">
                     <h5 className="text-sm font-semibold m-0">{getDashboardWidgetGroupLabel('logs')}</h5>
                     <p className="text-sm text-muted m-0">
-                        Severity, service, and sort filters live on the tile filter bar. Use this modal for the date
-                        range and how many log lines to show.
+                        {i18n.t('dashboardWidgets.logs.edit.severityHint', {
+                            defaultValue:
+                                'Severity, service, and sort filters live on the tile filter bar. Use this modal for the date range and how many log lines to show.',
+                        })}
                     </p>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <LemonField.Pure label="Date range">
+                        <LemonField.Pure
+                            label={i18n.t('dashboard.tileFilters.dateRange', { defaultValue: 'Date range' })}
+                        >
                             <LemonSelect
                                 value={dateFrom as WidgetDateFromValue}
                                 disabled={saving}
@@ -100,8 +109,12 @@ function EditLogsWidgetModalContents(): JSX.Element {
                             />
                         </LemonField.Pure>
                         <LemonField.Pure
-                            label="Number of log lines"
-                            help="Show up to 100 log lines on the tile."
+                            label={i18n.t('dashboardWidgets.logs.edit.numberOfLines', {
+                                defaultValue: 'Number of log lines',
+                            })}
+                            help={i18n.t('dashboardWidgets.logs.edit.numberOfLinesHelp', {
+                                defaultValue: 'Show up to 100 log lines on the tile.',
+                            })}
                             error={activeFieldErrors.limit}
                         >
                             <LemonInput
@@ -116,11 +129,16 @@ function EditLogsWidgetModalContents(): JSX.Element {
                                 }}
                             />
                         </LemonField.Pure>
-                        <LemonField.Pure label="Timestamps" help="Display log times in UTC or your local timezone.">
+                        <LemonField.Pure
+                            label={i18n.t('dashboardWidgets.logs.edit.timestamps', { defaultValue: 'Timestamps' })}
+                            help={i18n.t('dashboardWidgets.logs.edit.timestampsHelp', {
+                                defaultValue: 'Display log times in UTC or your local timezone.',
+                            })}
+                        >
                             <LemonSelect
                                 value={timezone}
                                 disabled={saving}
-                                options={TIMEZONE_OPTIONS}
+                                options={getTimezoneOptions()}
                                 onChange={(value) => {
                                     if (value) {
                                         setTimezone(value)
@@ -134,7 +152,9 @@ function EditLogsWidgetModalContents(): JSX.Element {
                         checked={wrapLines}
                         onChange={setWrapLines}
                         disabled={saving}
-                        label="Wrap long log lines"
+                        label={i18n.t('dashboardWidgets.logs.edit.wrapLongLines', {
+                            defaultValue: 'Wrap long log lines',
+                        })}
                         bordered
                     />
                 </section>

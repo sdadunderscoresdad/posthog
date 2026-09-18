@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 
+import { i18n } from 'lib/i18n/i18n'
 import { TestAccountFilter } from 'scenes/insights/filters/TestAccountFilter'
 
 type EditWidgetModalTestAccountFilterProps = {
@@ -19,7 +20,9 @@ export function EditWidgetModalTestAccountFilter({
                 size="small"
                 filters={{ filter_test_accounts: filterTestAccounts }}
                 onChange={({ filter_test_accounts }) => setFilterTestAccounts(filter_test_accounts ?? false)}
-                disabledReason={saving ? 'Saving…' : undefined}
+                disabledReason={
+                    saving ? i18n.t('dashboardWidgets.editModal.saving', { defaultValue: 'Saving…' }) : undefined
+                }
             />
         </div>
     )

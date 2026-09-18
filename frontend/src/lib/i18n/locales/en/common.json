@@ -1205,6 +1205,20 @@
             "refreshData": "Refresh data",
             "refreshing": "Refreshing…"
         },
+        "editModal": {
+            "descriptionHelp": "Shown under the tile title. Supports markdown. Leave empty to hide.",
+            "descriptionLabel": "Description",
+            "descriptionPlaceholder": "Enter description (optional)",
+            "saving": "Saving…",
+            "sortBy": "Sort by",
+            "sortDirection": "Sort direction",
+            "sortDirectionHelp": "Ascending or descending sort.",
+            "sorting": "Sorting",
+            "tileDetails": "Tile details",
+            "tileNameHelp": "Shown on the tile. Leave empty to use the default title.",
+            "tileNameLabel": "Title",
+            "title": "Widget settings"
+        },
         "experimentResults": {
             "description": "Current results for the primary metrics of a selected experiment.",
             "headerTitle": "Experiment results",
@@ -1260,6 +1274,22 @@
             "ascending": "Ascending",
             "descending": "Descending"
         },
+        "logs": {
+            "edit": {
+                "description": "Configure tile details and which logs appear on this dashboard.",
+                "numberOfLines": "Number of log lines",
+                "numberOfLinesHelp": "Show up to 100 log lines on the tile.",
+                "severityHint": "Severity, service, and sort filters live on the tile filter bar. Use this modal for the date range and how many log lines to show.",
+                "timestamps": "Timestamps",
+                "timestampsHelp": "Display log times in UTC or your local timezone.",
+                "timezoneLocal": "Local time",
+                "wrapLongLines": "Wrap long log lines"
+            },
+            "empty": {
+                "message": "No logs matched your severity and service filters for this date range.",
+                "title": "No logs found"
+            }
+        },
         "menu": {
             "addDescription": "Add description",
             "dashboardSection": "Dashboard",
@@ -1302,6 +1332,30 @@
             "unavailableReason": "Triage and respond to customer questions with the context you need to solve them.",
             "unavailableTitle": "Keep customer conversations close to your product data"
         },
+        "sessionReplay": {
+            "edit": {
+                "description": "Configure tile details and which session recordings appear on this dashboard.",
+                "filtersHint": "Date range, property filters, and saved filters are on the tile filter bar (collapsible on the tile). Use this modal for test-account filtering, list size, and sort.",
+                "numberOfRecordings": "Number of recordings",
+                "numberOfRecordingsHelp": "Show up to 25 recordings on the tile.",
+                "recordingFilters": "Recording filters",
+                "sortByHelp": "Order recordings by this metric within the date range."
+            },
+            "empty": {
+                "message": "No session recordings matched your filters.",
+                "title": "No recordings yet"
+            },
+            "filters": {
+                "collectionLabel": "Collection:",
+                "collectionPlaceholder": "Collection",
+                "createCollection": "Create a collection",
+                "createSavedFilter": "Create a saved filter",
+                "filterLabel": "Filter:",
+                "noCollection": "No collection",
+                "noSavedFilter": "No saved filter",
+                "savedFilterPlaceholder": "Saved filter"
+            }
+        },
         "sharedPlaceholder": {
             "message": "Log in to PostHog to see this widget's data.",
             "title": "Widget data"
@@ -1314,8 +1368,20 @@
             "placeholderTitle": "Survey results"
         },
         "tileFilters": {
+            "allLevels": "All levels",
+            "allServices": "All services",
             "connectionFailed": "Could not update widget filters. Check your connection and try again.",
-            "invalidValues": "Could not update widget filters. Check the values and try again."
+            "createSavedView": "Create a saved view",
+            "invalidValues": "Could not update widget filters. Check the values and try again.",
+            "levelsLabel": "Levels:",
+            "newestFirst": "Newest first",
+            "noSavedView": "No saved view",
+            "oldestFirst": "Oldest first",
+            "savedViewLabel": "Saved view:",
+            "savedViewPlaceholder": "Saved view",
+            "serviceCount_one": "{{ count }} service",
+            "serviceCount_other": "{{ count }} services",
+            "servicesLabel": "Services:"
         },
         "tileFiltersReadonlyReason": "You don't have edit permissions for this dashboard. Ask a dashboard collaborator with edit access to add you.",
         "topIssues": {

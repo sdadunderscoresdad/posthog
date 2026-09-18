@@ -1,5 +1,6 @@
 import { LemonTextArea } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonField } from 'lib/lemon-ui/LemonField/LemonField'
 import { LemonInput } from 'lib/lemon-ui/LemonInput/LemonInput'
 
@@ -22,12 +23,16 @@ export function EditWidgetModalTileDetailsSection({
 }: EditWidgetModalTileDetailsSectionProps): JSX.Element {
     return (
         <section className="flex flex-col gap-3">
-            <h5 className="text-sm font-semibold m-0">Tile details</h5>
+            <h5 className="text-sm font-semibold m-0">
+                {i18n.t('dashboardWidgets.editModal.tileDetails', { defaultValue: 'Tile details' })}
+            </h5>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <LemonField.Pure
                     className="sm:col-span-2"
-                    label="Title"
-                    help="Shown on the tile. Leave empty to use the default title."
+                    label={i18n.t('dashboardWidgets.editModal.tileNameLabel', { defaultValue: 'Title' })}
+                    help={i18n.t('dashboardWidgets.editModal.tileNameHelp', {
+                        defaultValue: 'Shown on the tile. Leave empty to use the default title.',
+                    })}
                 >
                     <LemonInput
                         value={tileName}
@@ -39,13 +44,17 @@ export function EditWidgetModalTileDetailsSection({
                 </LemonField.Pure>
                 <LemonField.Pure
                     className="sm:col-span-2"
-                    label="Description"
-                    help="Shown under the tile title. Supports markdown. Leave empty to hide."
+                    label={i18n.t('dashboardWidgets.editModal.descriptionLabel', { defaultValue: 'Description' })}
+                    help={i18n.t('dashboardWidgets.editModal.descriptionHelp', {
+                        defaultValue: 'Shown under the tile title. Supports markdown. Leave empty to hide.',
+                    })}
                 >
                     <LemonTextArea
                         value={tileDescription}
                         onChange={setTileDescription}
-                        placeholder="Enter description (optional)"
+                        placeholder={i18n.t('dashboardWidgets.editModal.descriptionPlaceholder', {
+                            defaultValue: 'Enter description (optional)',
+                        })}
                         minRows={2}
                         disabled={saving}
                     />

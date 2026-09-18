@@ -1205,6 +1205,20 @@
             "refreshData": "",
             "refreshing": ""
         },
+        "editModal": {
+            "descriptionHelp": "",
+            "descriptionLabel": "",
+            "descriptionPlaceholder": "",
+            "saving": "",
+            "sortBy": "",
+            "sortDirection": "",
+            "sortDirectionHelp": "",
+            "sorting": "",
+            "tileDetails": "",
+            "tileNameHelp": "",
+            "tileNameLabel": "",
+            "title": ""
+        },
         "experimentResults": {
             "description": "",
             "headerTitle": "",
@@ -1260,6 +1274,22 @@
             "ascending": "",
             "descending": ""
         },
+        "logs": {
+            "edit": {
+                "description": "",
+                "numberOfLines": "",
+                "numberOfLinesHelp": "",
+                "severityHint": "",
+                "timestamps": "",
+                "timestampsHelp": "",
+                "timezoneLocal": "",
+                "wrapLongLines": ""
+            },
+            "empty": {
+                "message": "",
+                "title": ""
+            }
+        },
         "menu": {
             "addDescription": "",
             "dashboardSection": "",
@@ -1302,6 +1332,30 @@
             "unavailableReason": "",
             "unavailableTitle": ""
         },
+        "sessionReplay": {
+            "edit": {
+                "description": "",
+                "filtersHint": "",
+                "numberOfRecordings": "",
+                "numberOfRecordingsHelp": "",
+                "recordingFilters": "",
+                "sortByHelp": ""
+            },
+            "empty": {
+                "message": "",
+                "title": ""
+            },
+            "filters": {
+                "collectionLabel": "",
+                "collectionPlaceholder": "",
+                "createCollection": "",
+                "createSavedFilter": "",
+                "filterLabel": "",
+                "noCollection": "",
+                "noSavedFilter": "",
+                "savedFilterPlaceholder": ""
+            }
+        },
         "sharedPlaceholder": {
             "message": "",
             "title": ""
@@ -1314,8 +1368,20 @@
             "placeholderTitle": ""
         },
         "tileFilters": {
+            "allLevels": "",
+            "allServices": "",
             "connectionFailed": "",
-            "invalidValues": ""
+            "createSavedView": "",
+            "invalidValues": "",
+            "levelsLabel": "",
+            "newestFirst": "",
+            "noSavedView": "",
+            "oldestFirst": "",
+            "savedViewLabel": "",
+            "savedViewPlaceholder": "",
+            "serviceCount_one": "",
+            "serviceCount_other": "",
+            "servicesLabel": ""
         },
         "tileFiltersReadonlyReason": "",
         "topIssues": {

@@ -3,6 +3,7 @@ import { useEffect, useMemo } from 'react'
 
 import { IconExternal } from '@posthog/icons'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonSelect } from 'lib/lemon-ui/LemonSelect'
 import { urls } from 'scenes/urls'
 
@@ -26,31 +27,49 @@ import { logsWidgetSavedViewsLogic } from './logsWidgetSavedViewsLogic'
 
 export type LogsWidgetTileFiltersProps = DashboardWidgetTileFiltersProps
 
-const SORT_OPTIONS: { value: LogsOrderByValue; label: string }[] = [
-    { value: 'latest', label: 'Newest first' },
-    { value: 'earliest', label: 'Oldest first' },
-]
-
 const ALL_SEVERITY_LEVELS = 6
 
-const NO_SAVED_VIEW_OPTION = { value: null as string | null, label: 'No saved view' }
 const CREATE_SAVED_VIEW_VALUE = '__create_saved_view__'
+
+function getSortOptions(): { value: LogsOrderByValue; label: string }[] {
+    return [
+        {
+            value: 'latest',
+            label: i18n.t('dashboardWidgets.tileFilters.newestFirst', { defaultValue: 'Newest first' }),
+        },
+        {
+            value: 'earliest',
+            label: i18n.t('dashboardWidgets.tileFilters.oldestFirst', { defaultValue: 'Oldest first' }),
+        },
+    ]
+}
+
+function getNoSavedViewOption(): { value: string | null; label: string } {
+    return {
+        value: null,
+        label: i18n.t('dashboardWidgets.tileFilters.noSavedView', { defaultValue: 'No saved view' }),
+    }
+}
 
 function severityReadOnlyLabel(levels: LogsSeverityLevel[]): string {
     if (levels.length === 0 || levels.length === ALL_SEVERITY_LEVELS) {
-        return 'All levels'
+        return i18n.t('dashboardWidgets.tileFilters.allLevels', { defaultValue: 'All levels' })
     }
     return levels.join(', ')
 }
 
 function servicesReadOnlyLabel(services: string[]): string {
     if (services.length === 0) {
-        return 'All services'
+        return i18n.t('dashboardWidgets.tileFilters.allServices', { defaultValue: 'All services' })
     }
     if (services.length === 1) {
         return services[0]
     }
-    return `${services.length} services`
+    return i18n.t('dashboardWidgets.tileFilters.serviceCount', {
+        count: services.length,
+        defaultValue_one: '{{ count }} service',
+        defaultValue_other: '{{ count }} services',
+    })
 }
 
 export function LogsWidgetTileFilters({
@@ -75,11 +94,13 @@ export function LogsWidgetTileFilters({
 
     const savedViewSelectOptions = useMemo(
         () => [
-            NO_SAVED_VIEW_OPTION,
+            getNoSavedViewOption(),
             ...savedViewOptions,
             {
                 value: CREATE_SAVED_VIEW_VALUE,
-                label: 'Create a saved view',
+                label: i18n.t('dashboardWidgets.tileFilters.createSavedView', {
+                    defaultValue: 'Create a saved view',
+                }),
                 sideIcon: <IconExternal className="size-3.5" />,
             },
         ],
@@ -117,20 +138,29 @@ export function LogsWidgetTileFilters({
             <WidgetTileFiltersBar dataAttr="logs-widget-tile-filters-readonly">
                 {hasSavedView ? (
                     <WidgetTileFilterReadOnlyValue>
-                        <span className="text-secondary">Saved view:</span> {savedViewLabel}
+                        <span className="text-secondary">
+                            {i18n.t('dashboardWidgets.tileFilters.savedViewLabel', { defaultValue: 'Saved view:' })}
+                        </span>{' '}
+                        {savedViewLabel}
                     </WidgetTileFilterReadOnlyValue>
                 ) : (
                     <>
                         <WidgetTileFilterReadOnlyValue>
-                            <span className="text-secondary">Levels:</span> {severityReadOnlyLabel(severityLevels)}
+                            <span className="text-secondary">
+                                {i18n.t('dashboardWidgets.tileFilters.levelsLabel', { defaultValue: 'Levels:' })}
+                            </span>{' '}
+                            {severityReadOnlyLabel(severityLevels)}
                         </WidgetTileFilterReadOnlyValue>
                         <WidgetTileFilterReadOnlyValue>
-                            <span className="text-secondary">Services:</span> {servicesReadOnlyLabel(serviceNames)}
+                            <span className="text-secondary">
+                                {i18n.t('dashboardWidgets.tileFilters.servicesLabel', { defaultValue: 'Services:' })}
+                            </span>{' '}
+                            {servicesReadOnlyLabel(serviceNames)}
                         </WidgetTileFilterReadOnlyValue>
                     </>
                 )}
                 <WidgetTileFilterReadOnlyValue>
-                    {SORT_OPTIONS.find((option) => option.value === orderBy)?.label ?? orderBy}
+                    {getSortOptions().find((option) => option.value === orderBy)?.label ?? orderBy}
                 </WidgetTileFilterReadOnlyValue>
             </WidgetTileFiltersBar>
         )
@@ -145,7 +175,9 @@ export function LogsWidgetTileFilters({
                 value={savedViewId}
                 loading={savedViewsLoading}
                 options={savedViewSelectOptions}
-                placeholder="Saved view"
+                placeholder={i18n.t('dashboardWidgets.tileFilters.savedViewPlaceholder', {
+                    defaultValue: 'Saved view',
+                })}
                 onChange={(value) => void applySavedView(value ?? null)}
             />
             {!hasSavedView ? (
@@ -164,7 +196,7 @@ export function LogsWidgetTileFilters({
             <LemonSelect
                 size="small"
                 value={orderBy}
-                options={SORT_OPTIONS}
+                options={getSortOptions()}
                 onChange={(value) => {
                     if (value) {
                         void applyPatch({ orderBy: value })

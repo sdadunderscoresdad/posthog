@@ -1,5 +1,6 @@
 import { BindLogic, useActions, useValues } from 'kea'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonDivider } from 'lib/lemon-ui/LemonDivider'
 import { LemonField } from 'lib/lemon-ui/LemonField/LemonField'
@@ -14,13 +15,21 @@ import { EditWidgetModalTileDetailsSection } from '../EditWidgetModalTileDetails
 import type { DashboardWidgetEditModalProps } from '../registry'
 import { editSessionReplayWidgetModalLogic } from './editSessionReplayWidgetModalLogic'
 
-export const SESSION_REPLAY_WIDGET_ORDER_BY_OPTIONS = [
-    { value: 'start_time', label: 'Start time' },
-    { value: 'activity_score', label: 'Activity score' },
-    { value: 'recording_duration', label: 'Duration' },
-    { value: 'click_count', label: 'Clicks' },
-    { value: 'console_error_count', label: 'Console errors' },
-] as const
+export function getSessionReplayWidgetOrderByOptions(): {
+    value: 'start_time' | 'activity_score' | 'recording_duration' | 'click_count' | 'console_error_count'
+    label: string
+}[] {
+    return [
+        { value: 'start_time', label: i18n.t('insightFilters.startTime', { defaultValue: 'Start time' }) },
+        { value: 'activity_score', label: i18n.t('insightFilters.activityScore', { defaultValue: 'Activity score' }) },
+        { value: 'recording_duration', label: i18n.t('insightFilters.duration', { defaultValue: 'Duration' }) },
+        { value: 'click_count', label: i18n.t('insightFilters.clicks', { defaultValue: 'Clicks' }) },
+        {
+            value: 'console_error_count',
+            label: i18n.t('insightFilters.consoleErrors', { defaultValue: 'Console errors' }),
+        },
+    ]
+}
 
 function EditSessionReplayWidgetModalContents(): JSX.Element {
     const {
@@ -53,14 +62,16 @@ function EditSessionReplayWidgetModalContents(): JSX.Element {
         <LemonModal
             isOpen
             onClose={onClose}
-            title="Widget settings"
-            description="Configure tile details and which session recordings appear on this dashboard."
+            title={i18n.t('dashboardWidgets.editModal.title', { defaultValue: 'Widget settings' })}
+            description={i18n.t('dashboardWidgets.sessionReplay.edit.description', {
+                defaultValue: 'Configure tile details and which session recordings appear on this dashboard.',
+            })}
             width={680}
             footer={
                 <>
                     <div className="flex-1" />
                     <LemonButton type="secondary" onClick={onClose} disabled={saving}>
-                        Cancel
+                        {i18n.t('common.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="primary"
@@ -68,7 +79,7 @@ function EditSessionReplayWidgetModalContents(): JSX.Element {
                         disabledReason={saveDisabledReason}
                         onClick={() => submit()}
                     >
-                        Save
+                        {i18n.t('settings.save', { defaultValue: 'Save' })}
                     </LemonButton>
                 </>
             }
@@ -89,18 +100,26 @@ function EditSessionReplayWidgetModalContents(): JSX.Element {
                     <h5 className="text-sm font-semibold m-0">{getDashboardWidgetGroupLabel('session_replay')}</h5>
                     <div className="flex flex-col gap-4">
                         <EditWidgetModalFiltersSubsection
-                            title="Recording filters"
+                            title={i18n.t('dashboardWidgets.sessionReplay.edit.recordingFilters', {
+                                defaultValue: 'Recording filters',
+                            })}
                             filterTestAccounts={filterTestAccounts}
                             saving={saving}
                             setFilterTestAccounts={setFilterTestAccounts}
                         >
                             <p className="text-sm text-muted m-0 sm:col-span-2">
-                                Date range, property filters, and saved filters are on the tile filter bar (collapsible
-                                on the tile). Use this modal for test-account filtering, list size, and sort.
+                                {i18n.t('dashboardWidgets.sessionReplay.edit.filtersHint', {
+                                    defaultValue:
+                                        'Date range, property filters, and saved filters are on the tile filter bar (collapsible on the tile). Use this modal for test-account filtering, list size, and sort.',
+                                })}
                             </p>
                             <LemonField.Pure
-                                label="Number of recordings"
-                                help="Show up to 25 recordings on the tile."
+                                label={i18n.t('dashboardWidgets.sessionReplay.edit.numberOfRecordings', {
+                                    defaultValue: 'Number of recordings',
+                                })}
+                                help={i18n.t('dashboardWidgets.sessionReplay.edit.numberOfRecordingsHelp', {
+                                    defaultValue: 'Show up to 25 recordings on the tile.',
+                                })}
                                 error={activeFieldErrors.limit}
                             >
                                 <LemonInput
@@ -117,9 +136,18 @@ function EditSessionReplayWidgetModalContents(): JSX.Element {
                             </LemonField.Pure>
                         </EditWidgetModalFiltersSubsection>
                         <div className="flex flex-col gap-3">
-                            <h6 className="text-xs font-semibold text-muted m-0">Sorting</h6>
+                            <h6 className="text-xs font-semibold text-muted m-0">
+                                {i18n.t('dashboardWidgets.editModal.sorting', { defaultValue: 'Sorting' })}
+                            </h6>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <LemonField.Pure label="Sort direction" help="Ascending or descending sort.">
+                                <LemonField.Pure
+                                    label={i18n.t('dashboardWidgets.editModal.sortDirection', {
+                                        defaultValue: 'Sort direction',
+                                    })}
+                                    help={i18n.t('dashboardWidgets.editModal.sortDirectionHelp', {
+                                        defaultValue: 'Ascending or descending sort.',
+                                    })}
+                                >
                                     <LemonSelect
                                         fullWidth
                                         value={orderDirection}
@@ -128,8 +156,12 @@ function EditSessionReplayWidgetModalContents(): JSX.Element {
                                     />
                                 </LemonField.Pure>
                                 <LemonField.Pure
-                                    label="Sort by"
-                                    help="Order recordings by this metric within the date range."
+                                    label={i18n.t('dashboardWidgets.editModal.sortBy', {
+                                        defaultValue: 'Sort by',
+                                    })}
+                                    help={i18n.t('dashboardWidgets.sessionReplay.edit.sortByHelp', {
+                                        defaultValue: 'Order recordings by this metric within the date range.',
+                                    })}
                                     error={activeFieldErrors.orderBy}
                                 >
                                     <LemonSelect
@@ -139,7 +171,7 @@ function EditSessionReplayWidgetModalContents(): JSX.Element {
                                             setOrderBy(value)
                                             clearFieldError('orderBy')
                                         }}
-                                        options={[...SESSION_REPLAY_WIDGET_ORDER_BY_OPTIONS]}
+                                        options={getSessionReplayWidgetOrderByOptions()}
                                     />
                                 </LemonField.Pure>
                             </div>

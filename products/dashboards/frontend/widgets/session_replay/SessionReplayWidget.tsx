@@ -8,6 +8,7 @@ import * as directorPng from '@posthog/brand/hoggies/png/director'
 import api from 'lib/api'
 import { pngHoggie } from 'lib/brand/hoggies'
 import { CardTopHeadingRow } from 'lib/components/Cards/CardTopHeadingRow'
+import { i18n } from 'lib/i18n/i18n'
 import { Spinner } from 'lib/lemon-ui/Spinner'
 import { toParams } from 'lib/utils/url'
 import { sessionPlayerModalLogic } from 'scenes/session-recordings/player/modal/sessionPlayerModalLogic'
@@ -141,8 +142,16 @@ export function SessionReplayWidget({ result, loading, config }: DashboardWidget
                         data-attr="session-replay-widget-empty-state"
                     >
                         <HedgehogDirector className="size-20 shrink-0" />
-                        <p className="m-0 text-base font-semibold text-primary">No recordings yet</p>
-                        <p className="m-0 text-sm text-muted">No session recordings matched your filters.</p>
+                        <p className="m-0 text-base font-semibold text-primary">
+                            {i18n.t('dashboardWidgets.sessionReplay.empty.title', {
+                                defaultValue: 'No recordings yet',
+                            })}
+                        </p>
+                        <p className="m-0 text-sm text-muted">
+                            {i18n.t('dashboardWidgets.sessionReplay.empty.message', {
+                                defaultValue: 'No session recordings matched your filters.',
+                            })}
+                        </p>
                     </div>
                 </WidgetCardBodyMessage>
             </WidgetCardContent>
@@ -192,10 +201,18 @@ export function SessionReplayWidgetTopHeading({
 
     const scopeParts: string[] = []
     if (collectionId) {
-        scopeParts.push(collectionLabelById[collectionId] ?? 'Collection')
+        scopeParts.push(
+            collectionLabelById[collectionId] ??
+                i18n.t('dashboardWidgets.sessionReplay.filters.collectionPlaceholder', { defaultValue: 'Collection' })
+        )
     }
     if (savedFilterId) {
-        scopeParts.push(savedFilterLabelById[savedFilterId] ?? 'Saved filter')
+        scopeParts.push(
+            savedFilterLabelById[savedFilterId] ??
+                i18n.t('dashboardWidgets.sessionReplay.filters.savedFilterPlaceholder', {
+                    defaultValue: 'Saved filter',
+                })
+        )
     }
 
     return (

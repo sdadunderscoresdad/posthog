@@ -1185,6 +1185,20 @@
             "refreshData": "刷新数据",
             "refreshing": "正在刷新…"
         },
+        "editModal": {
+            "descriptionHelp": "显示在磁贴标题下方。支持 markdown。留空则隐藏。",
+            "descriptionLabel": "描述",
+            "descriptionPlaceholder": "输入描述（可选）",
+            "saving": "正在保存…",
+            "sortBy": "排序依据",
+            "sortDirection": "排序方向",
+            "sortDirectionHelp": "升序或降序排序。",
+            "sorting": "排序",
+            "tileDetails": "磁贴详情",
+            "tileNameHelp": "显示在磁贴上。留空则使用默认标题。",
+            "tileNameLabel": "标题",
+            "title": "组件设置"
+        },
         "experimentResults": {
             "description": "所选实验主要指标的当前结果。",
             "headerTitle": "实验结果",
@@ -1240,6 +1254,22 @@
             "ascending": "升序",
             "descending": "降序"
         },
+        "logs": {
+            "edit": {
+                "description": "配置磁贴详情以及该仪表盘上显示哪些日志。",
+                "numberOfLines": "日志行数",
+                "numberOfLinesHelp": "磁贴上最多显示 100 行日志。",
+                "severityHint": "严重级别、服务和排序筛选都在磁贴筛选栏上。用这个弹窗设置日期范围和显示的日志行数。",
+                "timestamps": "时间戳",
+                "timestampsHelp": "以 UTC 或你的本地时区显示日志时间。",
+                "timezoneLocal": "本地时间",
+                "wrapLongLines": "日志行过长时换行"
+            },
+            "empty": {
+                "message": "该日期范围内没有日志符合你的严重级别和服务筛选。",
+                "title": "没有找到日志"
+            }
+        },
         "menu": {
             "addDescription": "添加描述",
             "dashboardSection": "仪表盘",
@@ -1282,6 +1312,30 @@
             "unavailableReason": "在完整上下文中分类并回复客户问题，更快解决它们。",
             "unavailableTitle": "让客户对话与产品数据保持在一起"
         },
+        "sessionReplay": {
+            "edit": {
+                "description": "配置磁贴详情以及该仪表盘上显示哪些会话录像。",
+                "filtersHint": "日期范围、属性筛选和保存的筛选都在磁贴筛选栏上（可在磁贴上折叠）。用这个弹窗设置测试账号过滤、列表数量和排序。",
+                "numberOfRecordings": "录像数量",
+                "numberOfRecordingsHelp": "磁贴上最多显示 25 条录像。",
+                "recordingFilters": "录像筛选",
+                "sortByHelp": "在该日期范围内按此指标为录像排序。"
+            },
+            "empty": {
+                "message": "没有会话录像符合你的筛选。",
+                "title": "还没有录像"
+            },
+            "filters": {
+                "collectionLabel": "合集：",
+                "collectionPlaceholder": "合集",
+                "createCollection": "创建合集",
+                "createSavedFilter": "创建保存的筛选",
+                "filterLabel": "筛选：",
+                "noCollection": "不使用合集",
+                "noSavedFilter": "不使用保存的筛选",
+                "savedFilterPlaceholder": "保存的筛选"
+            }
+        },
         "sharedPlaceholder": {
             "message": "登录 PostHog 即可查看该组件的数据。",
             "title": "组件数据"
@@ -1294,8 +1348,19 @@
             "placeholderTitle": "问卷结果"
         },
         "tileFilters": {
+            "allLevels": "全部级别",
+            "allServices": "全部服务",
             "connectionFailed": "无法更新组件筛选，请检查网络连接后重试。",
-            "invalidValues": "无法更新组件筛选，请检查填写内容后重试。"
+            "createSavedView": "创建保存的视图",
+            "invalidValues": "无法更新组件筛选，请检查填写内容后重试。",
+            "levelsLabel": "级别：",
+            "newestFirst": "最新优先",
+            "noSavedView": "不使用保存的视图",
+            "oldestFirst": "最旧优先",
+            "savedViewLabel": "保存的视图：",
+            "savedViewPlaceholder": "保存的视图",
+            "serviceCount_other": "{{ count }} 个服务",
+            "servicesLabel": "服务："
         },
         "tileFiltersReadonlyReason": "你没有该仪表盘的编辑权限。请联系有编辑权限的仪表盘协作者将你加入。",
         "topIssues": {

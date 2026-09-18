@@ -5,6 +5,7 @@ import { useMemo } from 'react'
 import { IconExternal } from '@posthog/icons'
 
 import { quickFiltersLogic } from 'lib/components/QuickFilters/quickFiltersLogic'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonSelect, type LemonSelectOptionLeaf } from 'lib/lemon-ui/LemonSelect'
 import { urls } from 'scenes/urls'
 
@@ -67,12 +68,17 @@ export function SessionReplayWidgetTileFilters({
 
     const collectionSelectOptions = useMemo<LemonSelectOptionLeaf<string>[]>(
         () => [
-            { value: NONE_VALUE, label: 'No collection' },
+            {
+                value: NONE_VALUE,
+                label: i18n.t('dashboardWidgets.sessionReplay.filters.noCollection', { defaultValue: 'No collection' }),
+            },
             ...collectionOptions,
             // Always offer a shortcut to create a new collection in session replay.
             {
                 value: CREATE_COLLECTION_VALUE,
-                label: 'Create a collection',
+                label: i18n.t('dashboardWidgets.sessionReplay.filters.createCollection', {
+                    defaultValue: 'Create a collection',
+                }),
                 sideIcon: <IconExternal className="size-3.5" />,
             },
         ],
@@ -80,12 +86,19 @@ export function SessionReplayWidgetTileFilters({
     )
     const savedFilterSelectOptions = useMemo<LemonSelectOptionLeaf<string>[]>(
         () => [
-            { value: NONE_VALUE, label: 'No saved filter' },
+            {
+                value: NONE_VALUE,
+                label: i18n.t('dashboardWidgets.sessionReplay.filters.noSavedFilter', {
+                    defaultValue: 'No saved filter',
+                }),
+            },
             ...savedFilterOptions,
             // Always offer a shortcut to create a new saved filter in session replay.
             {
                 value: CREATE_SAVED_FILTER_VALUE,
-                label: 'Create a saved filter',
+                label: i18n.t('dashboardWidgets.sessionReplay.filters.createSavedFilter', {
+                    defaultValue: 'Create a saved filter',
+                }),
                 sideIcon: <IconExternal className="size-3.5" />,
             },
         ],
@@ -145,8 +158,20 @@ export function SessionReplayWidgetTileFilters({
     if (!onUpdateConfig) {
         return (
             <WidgetTileFiltersBar dataAttr="session-replay-widget-tile-filters-readonly">
-                {hasCollection ? <span className="text-sm text-muted">Collection: {collectionLabel}</span> : null}
-                {hasSavedFilter ? <span className="text-sm text-muted">Filter: {savedFilterLabel}</span> : null}
+                {hasCollection ? (
+                    <span className="text-sm text-muted">
+                        {i18n.t('dashboardWidgets.sessionReplay.filters.collectionLabel', {
+                            defaultValue: 'Collection:',
+                        })}{' '}
+                        {collectionLabel}
+                    </span>
+                ) : null}
+                {hasSavedFilter ? (
+                    <span className="text-sm text-muted">
+                        {i18n.t('dashboardWidgets.sessionReplay.filters.filterLabel', { defaultValue: 'Filter:' })}{' '}
+                        {savedFilterLabel}
+                    </span>
+                ) : null}
                 {showDateRange ? <WidgetDateRangeReadOnlyValue dateFrom={dateFrom} /> : null}
                 {showPropertyFilters && filterDefinitions.length > 0 ? (
                     <WidgetPropertyFiltersReadOnlyValues
@@ -167,7 +192,9 @@ export function SessionReplayWidgetTileFilters({
                 disabledReason={controlDisabledReason}
                 loading={collectionsLoading}
                 options={collectionSelectOptions}
-                placeholder="Collection"
+                placeholder={i18n.t('dashboardWidgets.sessionReplay.filters.collectionPlaceholder', {
+                    defaultValue: 'Collection',
+                })}
                 onChange={(value) => void applyCollection(value)}
             />
             <LemonSelect
@@ -177,7 +204,9 @@ export function SessionReplayWidgetTileFilters({
                 disabledReason={controlDisabledReason}
                 loading={savedFiltersLoading}
                 options={savedFilterSelectOptions}
-                placeholder="Saved filter"
+                placeholder={i18n.t('dashboardWidgets.sessionReplay.filters.savedFilterPlaceholder', {
+                    defaultValue: 'Saved filter',
+                })}
                 onChange={(value) => void applySavedFilter(value)}
             />
             {showDateRange ? (
