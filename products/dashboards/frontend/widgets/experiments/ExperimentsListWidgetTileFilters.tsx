@@ -1,11 +1,12 @@
 import { MemberSelect } from 'lib/components/MemberSelect'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonSelect } from 'lib/lemon-ui/LemonSelect'
 
 import type { DashboardWidgetTileFiltersProps } from '../registry'
 import { useWidgetTileConfigPersist } from '../widgetTileFiltersHooks'
 import { WidgetTileFilterReadOnlyValue, WidgetTileFiltersBar } from '../widgetTileFiltersReadOnly'
 import {
-    EXPERIMENTS_WIDGET_STATUS_OPTIONS,
+    getExperimentsWidgetStatusOptions,
     type ExperimentsListWidgetStatus,
     parseExperimentsListWidgetConfig,
     patchExperimentsListWidgetConfig,
@@ -35,11 +36,15 @@ export function ExperimentsListWidgetTileFilters({
     }
 
     if (!onUpdateConfig) {
-        const statusLabel = EXPERIMENTS_WIDGET_STATUS_OPTIONS.find((option) => option.value === status)?.label ?? status
+        const statusLabel =
+            getExperimentsWidgetStatusOptions().find((option) => option.value === status)?.label ?? status
         return (
             <WidgetTileFiltersBar dataAttr="experiments-list-widget-tile-filters-readonly">
                 <WidgetTileFilterReadOnlyValue>
-                    <span className="text-secondary">Status:</span> {statusLabel}
+                    <span className="text-secondary">
+                        {i18n.t('dashboardWidgets.experiments.statusFilterLabel', { defaultValue: 'Status:' })}
+                    </span>{' '}
+                    {statusLabel}
                 </WidgetTileFilterReadOnlyValue>
             </WidgetTileFiltersBar>
         )
@@ -52,7 +57,7 @@ export function ExperimentsListWidgetTileFilters({
                 value={status}
                 disabled={!canUpdate}
                 disabledReason={disabledReason ?? undefined}
-                options={EXPERIMENTS_WIDGET_STATUS_OPTIONS}
+                options={getExperimentsWidgetStatusOptions()}
                 onChange={(value) => {
                     if (value) {
                         void applyStatus(value)

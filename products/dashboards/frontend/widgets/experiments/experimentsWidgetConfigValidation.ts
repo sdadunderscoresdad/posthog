@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 import { ApiError } from 'lib/api-error'
+import { i18n } from 'lib/i18n/i18n'
 
 import {
     experimentResultsWidgetConfigSchema,
@@ -24,28 +25,47 @@ export type ExperimentsListWidgetStatus = NonNullable<ExperimentsWidgetConfig['s
 export type ExperimentsListWidgetOrderBy = NonNullable<ExperimentsWidgetConfig['orderBy']>
 export type ExperimentsListWidgetOrderDirection = NonNullable<ExperimentsWidgetConfig['orderDirection']>
 
-export const EXPERIMENTS_WIDGET_STATUS_OPTIONS: { value: ExperimentsListWidgetStatus; label: string }[] = [
-    { value: 'all', label: 'Any status' },
-    { value: 'draft', label: 'Draft' },
-    { value: 'running', label: 'Running' },
-    { value: 'paused', label: 'Paused' },
-    { value: 'exposure_frozen', label: 'Exposure frozen' },
-    { value: 'stopped', label: 'Complete' },
-]
+export function getExperimentsWidgetStatusOptions(): { value: ExperimentsListWidgetStatus; label: string }[] {
+    return [
+        {
+            value: 'all',
+            label: i18n.t('dashboardWidgets.experimentsList.filters.anyStatus', { defaultValue: 'Any status' }),
+        },
+        { value: 'draft', label: i18n.t('dashboardWidgets.experimentsList.filters.draft', { defaultValue: 'Draft' }) },
+        {
+            value: 'running',
+            label: i18n.t('dashboardWidgets.experimentsList.filters.running', { defaultValue: 'Running' }),
+        },
+        {
+            value: 'paused',
+            label: i18n.t('dashboardWidgets.experimentsList.filters.paused', { defaultValue: 'Paused' }),
+        },
+        {
+            value: 'exposure_frozen',
+            label: i18n.t('dashboardWidgets.experimentsList.filters.exposureFrozen', {
+                defaultValue: 'Exposure frozen',
+            }),
+        },
+        {
+            value: 'stopped',
+            label: i18n.t('dashboardWidgets.experimentsList.filters.complete', { defaultValue: 'Complete' }),
+        },
+    ]
+}
 
-export const EXPERIMENTS_WIDGET_ORDER_BY_OPTIONS: { value: ExperimentsListWidgetOrderBy; label: string }[] = [
-    { value: 'created_at', label: 'Created date' },
-    { value: 'name', label: 'Name' },
-    { value: 'start_date', label: 'Start date' },
-]
-
-export const EXPERIMENTS_WIDGET_ORDER_DIRECTION_OPTIONS: {
-    value: ExperimentsListWidgetOrderDirection
-    label: string
-}[] = [
-    { value: 'DESC', label: 'Descending' },
-    { value: 'ASC', label: 'Ascending' },
-]
+export function getExperimentsWidgetOrderByOptions(): { value: ExperimentsListWidgetOrderBy; label: string }[] {
+    return [
+        {
+            value: 'created_at',
+            label: i18n.t('dashboardWidgets.experimentsList.orderBy.createdDate', { defaultValue: 'Created date' }),
+        },
+        { value: 'name', label: i18n.t('dashboardWidgets.experimentsList.orderBy.name', { defaultValue: 'Name' }) },
+        {
+            value: 'start_date',
+            label: i18n.t('dashboardWidgets.experimentsList.orderBy.startDate', { defaultValue: 'Start date' }),
+        },
+    ]
+}
 
 const experimentsConfigDefaults = experimentsWidgetConfigSchema.parse({})
 

@@ -5,6 +5,7 @@ import { LemonSkeleton } from '@posthog/lemon-ui'
 
 import { WavingHog } from 'lib/components/hedgehogs'
 import { TZLabel } from 'lib/components/TZLabel'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonTag } from 'lib/lemon-ui/LemonTag'
 import { Link } from 'lib/lemon-ui/Link'
@@ -63,11 +64,22 @@ function surveyStatus(survey: NonNullable<SurveyResultsWidgetResult['survey']>):
     return survey.end_date ? 'ended' : 'active'
 }
 
-const STATUS_TAG: Record<SurveyStatus, { label: string; type: 'success' | 'default' | 'danger' }> = {
-    active: { label: 'Active', type: 'success' },
-    draft: { label: 'Draft', type: 'default' },
-    ended: { label: 'Ended', type: 'danger' },
-    archived: { label: 'Archived', type: 'default' },
+function getStatusTag(): Record<SurveyStatus, { label: string; type: 'success' | 'default' | 'danger' }> {
+    return {
+        active: {
+            label: i18n.t('dashboardWidgets.surveys.status.active', { defaultValue: 'Active' }),
+            type: 'success',
+        },
+        draft: {
+            label: i18n.t('dashboardWidgets.surveys.status.draft', { defaultValue: 'Draft' }),
+            type: 'default',
+        },
+        ended: { label: i18n.t('dashboardWidgets.surveys.status.ended', { defaultValue: 'Ended' }), type: 'danger' },
+        archived: {
+            label: i18n.t('dashboardWidgets.surveys.status.archived', { defaultValue: 'Archived' }),
+            type: 'default',
+        },
+    }
 }
 
 function formatAnswer(answer: unknown): string {
@@ -123,19 +135,41 @@ function SurveyStatsSummary({ stats, rates }: { stats: SurveyStats; rates: Surve
     const onlySeen = stats[SurveyEventName.SHOWN].total_count_only_seen
 
     const segments: StackedBarSegment[] = [
-        { count: sent, label: 'Submitted', colorClass: 'bg-success' },
-        { count: dismissed, label: 'Dismissed', colorClass: 'bg-warning' },
-        { count: onlySeen, label: 'Unanswered', colorClass: 'bg-brand-blue' },
+        {
+            count: sent,
+            label: i18n.t('dashboardWidgets.surveyResults.stats.submitted', { defaultValue: 'Submitted' }),
+            colorClass: 'bg-success',
+        },
+        {
+            count: dismissed,
+            label: i18n.t('dashboardWidgets.surveyResults.stats.dismissed', { defaultValue: 'Dismissed' }),
+            colorClass: 'bg-warning',
+        },
+        {
+            count: onlySeen,
+            label: i18n.t('dashboardWidgets.surveyResults.stats.unanswered', { defaultValue: 'Unanswered' }),
+            colorClass: 'bg-brand-blue',
+        },
     ]
 
     return (
         <div className="flex flex-col gap-2">
             <div className="flex items-stretch overflow-x-auto rounded border bg-bg-light/40">
                 {[
-                    { title: 'Shown', value: humanFriendlyNumber(shown), valueClass: 'text-primary' },
-                    { title: 'Responses', value: humanFriendlyNumber(sent), valueClass: 'text-success' },
                     {
-                        title: 'Conversion',
+                        title: i18n.t('dashboardWidgets.surveyResults.stats.shown', { defaultValue: 'Shown' }),
+                        value: humanFriendlyNumber(shown),
+                        valueClass: 'text-primary',
+                    },
+                    {
+                        title: i18n.t('dashboardWidgets.surveyResults.stats.responses', { defaultValue: 'Responses' }),
+                        value: humanFriendlyNumber(sent),
+                        valueClass: 'text-success',
+                    },
+                    {
+                        title: i18n.t('dashboardWidgets.surveyResults.stats.conversion', {
+                            defaultValue: 'Conversion',
+                        }),
                         value: `${humanFriendlyNumber(rates.response_rate)}%`,
                         valueClass: 'text-primary',
                     },
@@ -183,7 +217,12 @@ function SurveyResponseRow({ response }: { response: SurveyResultsWidgetResponse
                 }
                 return (
                     <div key={answer.question_id} className="flex flex-col">
-                        <span className="text-xs text-muted">Q: {answer.question_text}</span>
+                        <span className="text-xs text-muted">
+                            {i18n.t('dashboardWidgets.surveyResults.question', {
+                                question: answer.question_text,
+                                defaultValue: 'Q: {{ question }}',
+                            })}
+                        </span>
                         <span className="text-sm text-primary">{formatted}</span>
                     </div>
                 )
@@ -195,7 +234,13 @@ function SurveyResponseRow({ response }: { response: SurveyResultsWidgetResponse
 function SurveyResultsLoadingSkeleton(): JSX.Element {
     return (
         <WidgetCardContent>
-            <div className="flex flex-col gap-3 p-2" aria-busy aria-label="Loading survey results">
+            <div
+                className="flex flex-col gap-3 p-2"
+                aria-busy
+                aria-label={i18n.t('dashboardWidgets.surveyResults.loading', {
+                    defaultValue: 'Loading survey results',
+                })}
+            >
                 <div className="flex items-center justify-between gap-2" aria-hidden>
                     <LemonSkeleton className="h-4 w-1/3 max-w-xs" />
                     <LemonSkeleton className="h-5 w-16 rounded" />
@@ -256,7 +301,7 @@ function SurveyResultsContent({
     rates?: SurveyRates
     hasMore?: boolean
 }): JSX.Element {
-    const tag = STATUS_TAG[surveyStatus(survey)]
+    const tag = getStatusTag()[surveyStatus(survey)]
     return (
         <WidgetCardContent>
             <div className="flex flex-col gap-3 p-2" data-attr="survey-results-widget-body">
@@ -273,21 +318,29 @@ function SurveyResultsContent({
                             })
                         }
                     >
-                        See more
+                        {i18n.t('dashboardWidgets.surveyResults.seeMore', { defaultValue: 'See more' })}
                     </Link>
                     <LemonTag type={tag.type}>{tag.label}</LemonTag>
                 </div>
                 {stats && rates ? <SurveyStatsSummary stats={stats} rates={rates} /> : null}
                 <div className="flex flex-col gap-2">
-                    <h5 className="m-0 text-2xs font-semibold uppercase tracking-wide text-muted">Recent responses</h5>
+                    <h5 className="m-0 text-2xs font-semibold uppercase tracking-wide text-muted">
+                        {i18n.t('dashboardWidgets.surveyResults.recentResponses', { defaultValue: 'Recent responses' })}
+                    </h5>
                     {responses.length === 0 ? (
-                        <span className="text-sm text-muted">No responses to show yet.</span>
+                        <span className="text-sm text-muted">
+                            {i18n.t('dashboardWidgets.surveyResults.noResponsesYet', {
+                                defaultValue: 'No responses to show yet.',
+                            })}
+                        </span>
                     ) : (
                         responses.map((response) => <SurveyResponseRow key={response.uuid} response={response} />)
                     )}
                     {hasMore ? (
                         <Link to={urls.survey(survey.id)} target="_blank" className="text-xs text-muted">
-                            Open the survey to see all responses.
+                            {i18n.t('dashboardWidgets.surveyResults.openSurveyHint', {
+                                defaultValue: 'Open the survey to see all responses.',
+                            })}
                         </Link>
                     ) : null}
                 </div>
@@ -313,8 +366,10 @@ export function SurveyResultsWidget({
         if (onUpdateConfig && payload && payload.hasSurveys === false) {
             return (
                 <SurveyResultsWidgetMessage
-                    title="No surveys yet"
-                    message="Create a survey to start collecting feedback from your users."
+                    title={i18n.t('dashboardWidgets.surveys.noSurveysTitle', { defaultValue: 'No surveys yet' })}
+                    message={i18n.t('dashboardWidgets.surveys.noSurveysMessage', {
+                        defaultValue: 'Create a survey to start collecting feedback from your users.',
+                    })}
                     cta={
                         <LemonButton
                             type="primary"
@@ -323,7 +378,7 @@ export function SurveyResultsWidget({
                             targetBlank
                             onClick={() => captureCreateSurveyClicked(tileId)}
                         >
-                            New survey
+                            {i18n.t('dashboardWidgets.surveys.newSurvey', { defaultValue: 'New survey' })}
                         </LemonButton>
                     }
                 />
@@ -331,11 +386,15 @@ export function SurveyResultsWidget({
         }
         return (
             <SurveyResultsWidgetMessage
-                title="No survey selected"
+                title={i18n.t('dashboardWidgets.surveys.noSurveySelected', { defaultValue: 'No survey selected' })}
                 message={
                     onUpdateConfig
-                        ? 'Pick a survey to see its performance and recent responses here.'
-                        : 'No survey has been selected for this tile yet.'
+                        ? i18n.t('dashboardWidgets.surveys.pickSurvey', {
+                              defaultValue: 'Pick a survey to see its performance and recent responses here.',
+                          })
+                        : i18n.t('dashboardWidgets.surveys.noSurveyForTile', {
+                              defaultValue: 'No survey has been selected for this tile yet.',
+                          })
                 }
                 cta={
                     onUpdateConfig ? (
@@ -353,8 +412,10 @@ export function SurveyResultsWidget({
     if (payload.surveyNotFound || !payload.survey) {
         return (
             <SurveyResultsWidgetMessage
-                title="Survey not found"
-                message="This survey may have been deleted. Pick another one in the widget settings."
+                title={i18n.t('dashboardWidgets.surveys.notFound', { defaultValue: 'Survey not found' })}
+                message={i18n.t('dashboardWidgets.surveys.notFoundMessage', {
+                    defaultValue: 'This survey may have been deleted. Pick another one in the widget settings.',
+                })}
             />
         )
     }

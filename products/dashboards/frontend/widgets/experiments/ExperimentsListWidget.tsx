@@ -6,6 +6,7 @@ import { LemonSkeleton } from '@posthog/lemon-ui'
 
 import { pngHoggie } from 'lib/brand/hoggies'
 import { TZLabel } from 'lib/components/TZLabel'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { Link } from 'lib/lemon-ui/Link'
 import { urls } from 'scenes/urls'
@@ -78,10 +79,18 @@ function ExperimentsListWidgetRowItem({ experiment }: { experiment: ExperimentsL
                 <div className="flex min-w-0 items-center gap-1 text-xs text-muted">
                     {experiment.created_at ? (
                         <span className="inline-flex items-center gap-1 whitespace-nowrap">
-                            Created <TZLabel time={experiment.created_at} />
+                            {i18n.t('dashboardWidgets.experiments.rowCreated', { defaultValue: 'Created' })}{' '}
+                            <TZLabel time={experiment.created_at} />
                         </span>
                     ) : null}
-                    {creatorName ? <span className="truncate">by {creatorName}</span> : null}
+                    {creatorName ? (
+                        <span className="truncate">
+                            {i18n.t('dashboardWidgets.experiments.rowCreatedBy', {
+                                name: creatorName,
+                                defaultValue: 'by {{ name }}',
+                            })}
+                        </span>
+                    ) : null}
                 </div>
             </div>
             <div className="flex shrink-0 items-center gap-2">
@@ -94,7 +103,11 @@ function ExperimentsListWidgetRowItem({ experiment }: { experiment: ExperimentsL
 
 function ExperimentsListLoadingSkeleton(): JSX.Element {
     return (
-        <div className="flex w-full flex-col" aria-busy aria-label="Loading experiments">
+        <div
+            className="flex w-full flex-col"
+            aria-busy
+            aria-label={i18n.t('dashboardWidgets.experiments.loading', { defaultValue: 'Loading experiments' })}
+        >
             {Array.from({ length: 5 }, (_, index) => (
                 <div key={index} className="flex items-center justify-between gap-2 border-b px-2 py-2" aria-hidden>
                     <div className="flex min-w-0 flex-1 flex-col gap-1.5">
@@ -133,16 +146,28 @@ export function ExperimentsListWidget({ tileId, config, result, loading }: Dashb
                         <HedgehogExperiment className="size-20 shrink-0" />
                         {hasActiveFilters ? (
                             <>
-                                <p className="m-0 text-base font-semibold text-primary">No experiments found</p>
+                                <p className="m-0 text-base font-semibold text-primary">
+                                    {i18n.t('dashboardWidgets.experimentsList.empty.filteredTitle', {
+                                        defaultValue: 'No experiments found',
+                                    })}
+                                </p>
                                 <p className="m-0 text-sm text-muted">
-                                    No experiments matched the status and creator filters.
+                                    {i18n.t('dashboardWidgets.experimentsList.empty.filteredMessage', {
+                                        defaultValue: 'No experiments matched the status and creator filters.',
+                                    })}
                                 </p>
                             </>
                         ) : (
                             <>
-                                <p className="m-0 text-base font-semibold text-primary">No experiments yet</p>
+                                <p className="m-0 text-base font-semibold text-primary">
+                                    {i18n.t('dashboardWidgets.experiments.noExperimentsTitle', {
+                                        defaultValue: 'No experiments yet',
+                                    })}
+                                </p>
                                 <p className="m-0 text-sm text-muted">
-                                    Run A/B tests to measure the impact of changes on your product.
+                                    {i18n.t('dashboardWidgets.experiments.noExperimentsMessage', {
+                                        defaultValue: 'Run A/B tests to measure the impact of changes on your product.',
+                                    })}
                                 </p>
                                 <LemonButton
                                     type="primary"
@@ -156,7 +181,9 @@ export function ExperimentsListWidget({ tileId, config, result, loading }: Dashb
                                         })
                                     }
                                 >
-                                    New experiment
+                                    {i18n.t('dashboardWidgets.experiments.newExperiment', {
+                                        defaultValue: 'New experiment',
+                                    })}
                                 </LemonButton>
                             </>
                         )}

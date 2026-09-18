@@ -1,5 +1,6 @@
 import { BindLogic, useActions, useValues } from 'kea'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonDivider } from 'lib/lemon-ui/LemonDivider'
 import { LemonField } from 'lib/lemon-ui/LemonField/LemonField'
@@ -11,7 +12,7 @@ import { getDashboardWidgetGroupLabel } from '../../widget_types/catalog'
 import { EditWidgetModalTileDetailsSection } from '../EditWidgetModalTileDetailsSection'
 import type { DashboardWidgetEditModalProps } from '../registry'
 import { editSurveyResultsWidgetModalLogic } from './editSurveyResultsWidgetModalLogic'
-import { SURVEY_RESULTS_WIDGET_DATE_RANGE_OPTIONS } from './surveysWidgetConfigValidation'
+import { getSurveyResultsWidgetDateRangeOptions } from './surveysWidgetConfigValidation'
 
 function EditSurveyResultsWidgetModalContents(): JSX.Element {
     const {
@@ -33,14 +34,16 @@ function EditSurveyResultsWidgetModalContents(): JSX.Element {
         <LemonModal
             isOpen
             onClose={onClose}
-            title="Widget settings"
-            description="Configure the tile details. Pick which survey to show from the tile's filter bar."
+            title={i18n.t('dashboardWidgets.editModal.title', { defaultValue: 'Widget settings' })}
+            description={i18n.t('dashboardWidgets.surveys.edit.description', {
+                defaultValue: "Configure the tile details. Pick which survey to show from the tile's filter bar.",
+            })}
             width={680}
             footer={
                 <>
                     <div className="flex-1" />
                     <LemonButton type="secondary" onClick={onClose} disabled={saving}>
-                        Cancel
+                        {i18n.t('common.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="primary"
@@ -48,7 +51,7 @@ function EditSurveyResultsWidgetModalContents(): JSX.Element {
                         disabledReason={saveDisabledReason}
                         onClick={() => submit()}
                     >
-                        Save
+                        {i18n.t('settings.save', { defaultValue: 'Save' })}
                     </LemonButton>
                 </>
             }
@@ -67,13 +70,15 @@ function EditSurveyResultsWidgetModalContents(): JSX.Element {
                     <h5 className="text-sm font-semibold m-0">{getDashboardWidgetGroupLabel('surveys')}</h5>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <LemonField.Pure
-                            label="Date range"
-                            help="Scopes both the performance stats and the recent responses."
+                            label={i18n.t('dashboard.tileFilters.dateRange', { defaultValue: 'Date range' })}
+                            help={i18n.t('dashboardWidgets.surveys.edit.dateRangeHelp', {
+                                defaultValue: 'Scopes both the performance stats and the recent responses.',
+                            })}
                         >
                             <LemonSelect
                                 value={dateFrom}
                                 disabled={saving}
-                                options={SURVEY_RESULTS_WIDGET_DATE_RANGE_OPTIONS}
+                                options={getSurveyResultsWidgetDateRangeOptions()}
                                 onChange={(value) => {
                                     if (value) {
                                         setDateFrom(value)
@@ -83,8 +88,12 @@ function EditSurveyResultsWidgetModalContents(): JSX.Element {
                             />
                         </LemonField.Pure>
                         <LemonField.Pure
-                            label="Number of responses"
-                            help="Show up to 25 recent responses on the tile."
+                            label={i18n.t('dashboardWidgets.surveys.edit.numberOfResponses', {
+                                defaultValue: 'Number of responses',
+                            })}
+                            help={i18n.t('dashboardWidgets.surveys.edit.numberOfResponsesHelp', {
+                                defaultValue: 'Show up to 25 recent responses on the tile.',
+                            })}
                             error={activeFieldErrors.limit}
                         >
                             <LemonInput

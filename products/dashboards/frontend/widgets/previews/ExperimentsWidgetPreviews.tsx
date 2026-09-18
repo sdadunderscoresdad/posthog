@@ -1,5 +1,7 @@
 import { clsx } from 'clsx'
 
+import { i18n } from 'lib/i18n/i18n'
+
 import type { ExperimentMetric, NewExperimentQueryResponse } from '~/queries/schema/schema-general'
 import { type ExperimentConclusion, type ExperimentStatus } from '~/types'
 
@@ -25,7 +27,12 @@ export function ExperimentsListWidgetPreview(): JSX.Element {
                         <div className="flex min-w-0 flex-col">
                             <span className="truncate font-semibold text-primary">{experiment.name}</span>
                             {creatorName ? (
-                                <span className="truncate text-xs text-muted">Created by {creatorName}</span>
+                                <span className="truncate text-xs text-muted">
+                                    {i18n.t('dashboardWidgets.experiments.previewCreatedBy', {
+                                        name: creatorName,
+                                        defaultValue: 'Created by {{ name }}',
+                                    })}
+                                </span>
                             ) : null}
                         </div>
                         <div className="flex shrink-0 items-center gap-2">

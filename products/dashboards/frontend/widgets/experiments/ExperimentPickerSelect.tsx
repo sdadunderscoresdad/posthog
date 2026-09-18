@@ -3,6 +3,7 @@ import './ExperimentPickerSelect.scss'
 import { useActions, useValues } from 'kea'
 import { useEffect, useMemo } from 'react'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonInputSelect, type LemonInputSelectOption } from 'lib/lemon-ui/LemonInputSelect'
 import { ProfilePicture } from 'lib/lemon-ui/ProfilePicture'
 import { fullName } from 'lib/utils/strings'
@@ -82,7 +83,9 @@ export function ExperimentPickerSelect({
             size={size}
             fullWidth={fullWidth}
             popoverClassName="ExperimentPickerSelect__dropdown"
-            placeholder="Select an experiment"
+            placeholder={i18n.t('dashboardWidgets.experiments.selectExperiment', {
+                defaultValue: 'Select an experiment',
+            })}
             loading={experimentOptionsLoading}
             disabled={disabled}
             disableFiltering
@@ -90,7 +93,14 @@ export function ExperimentPickerSelect({
             options={options}
             emptyStateComponent={
                 <p className="text-secondary italic p-1">
-                    {search ? `No experiments matching "${search}"` : 'No experiments yet'}
+                    {search
+                        ? i18n.t('dashboardWidgets.experiments.noExperimentsMatching', {
+                              search,
+                              defaultValue: 'No experiments matching "{{ search }}"',
+                          })
+                        : i18n.t('dashboardWidgets.experiments.noExperimentsTitle', {
+                              defaultValue: 'No experiments yet',
+                          })}
                 </p>
             }
             onFocus={() => ensureOptionsLoaded()}

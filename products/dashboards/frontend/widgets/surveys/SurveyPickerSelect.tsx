@@ -5,6 +5,7 @@ import { useMemo } from 'react'
 
 import { IconPlus } from '@posthog/icons'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonInputSelect, type LemonInputSelectOption } from 'lib/lemon-ui/LemonInputSelect'
 import { urls } from 'scenes/urls'
 
@@ -27,12 +28,14 @@ export type SurveyPickerSelectProps = {
 
 function surveyStatusLabel(survey: SurveyApi): string {
     if (survey.archived) {
-        return 'Archived'
+        return i18n.t('dashboardWidgets.surveys.status.archived', { defaultValue: 'Archived' })
     }
     if (!survey.start_date) {
-        return 'Draft'
+        return i18n.t('dashboardWidgets.surveys.status.draft', { defaultValue: 'Draft' })
     }
-    return survey.end_date ? 'Ended' : 'Active'
+    return survey.end_date
+        ? i18n.t('dashboardWidgets.surveys.status.ended', { defaultValue: 'Ended' })
+        : i18n.t('dashboardWidgets.surveys.status.active', { defaultValue: 'Active' })
 }
 
 function SurveyOptionLabel({ survey }: { survey: SurveyApi }): JSX.Element {
@@ -79,7 +82,7 @@ export function SurveyPickerSelect({
             size={size}
             fullWidth={fullWidth}
             popoverClassName="SurveyPickerSelect__dropdown"
-            placeholder="Select a survey"
+            placeholder={i18n.t('dashboardWidgets.surveys.selectSurvey', { defaultValue: 'Select a survey' })}
             loading={surveyOptionsLoading}
             disabled={disabled}
             disableFiltering
@@ -87,7 +90,12 @@ export function SurveyPickerSelect({
             options={options}
             emptyStateComponent={
                 <p className="text-secondary italic p-1">
-                    {search ? `No surveys matching "${search}"` : 'No surveys yet'}
+                    {search
+                        ? i18n.t('dashboardWidgets.surveys.noSurveysMatching', {
+                              search,
+                              defaultValue: 'No surveys matching "{{ search }}"',
+                          })
+                        : i18n.t('dashboardWidgets.surveys.noSurveysTitle', { defaultValue: 'No surveys yet' })}
                 </p>
             }
             onFocus={() => ensureOptionsLoaded()}
@@ -101,7 +109,7 @@ export function SurveyPickerSelect({
                 },
                 children: (
                     <span className="flex items-center gap-1">
-                        <IconPlus /> New survey
+                        <IconPlus /> {i18n.t('dashboardWidgets.surveys.newSurvey', { defaultValue: 'New survey' })}
                     </span>
                 ),
             }}

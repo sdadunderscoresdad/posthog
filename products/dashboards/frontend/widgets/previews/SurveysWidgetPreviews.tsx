@@ -1,3 +1,5 @@
+import { i18n } from 'lib/i18n/i18n'
+
 // Inline sample data keeps this preview off widgetOverviewStoryFixtures, which would import the
 // widget catalog back and form a dependency cycle.
 const SAMPLE_SURVEY = {
@@ -19,14 +21,25 @@ export function SurveyResultsWidgetPreview(): JSX.Element {
             <div className="flex items-center justify-between gap-2">
                 <span className="truncate font-semibold">{SAMPLE_SURVEY.name}</span>
                 <span className="rounded-full bg-success/10 px-2 py-0.5 text-xs font-semibold text-success">
-                    Active
+                    {i18n.t('dashboardWidgets.surveys.status.active', { defaultValue: 'Active' })}
                 </span>
             </div>
             <div className="flex items-stretch rounded border bg-bg-light/40">
                 {[
-                    { title: 'Shown', value: SAMPLE_SURVEY.shown },
-                    { title: 'Responses', value: SAMPLE_SURVEY.responses },
-                    { title: 'Conversion', value: `${SAMPLE_SURVEY.conversionRate}%` },
+                    {
+                        title: i18n.t('dashboardWidgets.surveyResults.stats.shown', { defaultValue: 'Shown' }),
+                        value: SAMPLE_SURVEY.shown,
+                    },
+                    {
+                        title: i18n.t('dashboardWidgets.surveyResults.stats.responses', { defaultValue: 'Responses' }),
+                        value: SAMPLE_SURVEY.responses,
+                    },
+                    {
+                        title: i18n.t('dashboardWidgets.surveyResults.stats.conversion', {
+                            defaultValue: 'Conversion',
+                        }),
+                        value: `${SAMPLE_SURVEY.conversionRate}%`,
+                    },
                 ].map((item, index) => (
                     <div
                         key={item.title}
@@ -40,11 +53,18 @@ export function SurveyResultsWidgetPreview(): JSX.Element {
                 ))}
             </div>
             <div className="flex flex-col gap-2">
-                <h5 className="m-0 text-2xs font-semibold uppercase tracking-wide text-muted">Recent responses</h5>
+                <h5 className="m-0 text-2xs font-semibold uppercase tracking-wide text-muted">
+                    {i18n.t('dashboardWidgets.surveyResults.recentResponses', { defaultValue: 'Recent responses' })}
+                </h5>
                 {SAMPLE_RESPONSES.map((response) => (
                     <div key={response.person} className="flex flex-col gap-1 rounded border p-2">
                         <span className="truncate text-xs font-medium text-primary">{response.person}</span>
-                        <span className="text-xs text-muted">Q: {SAMPLE_QUESTION}</span>
+                        <span className="text-xs text-muted">
+                            {i18n.t('dashboardWidgets.surveyResults.question', {
+                                question: SAMPLE_QUESTION,
+                                defaultValue: 'Q: {{ question }}',
+                            })}
+                        </span>
                         <span className="text-sm text-primary">{response.answer}</span>
                     </div>
                 ))}

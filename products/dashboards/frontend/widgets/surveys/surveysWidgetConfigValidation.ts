@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 import { ApiError } from 'lib/api-error'
+import { i18n } from 'lib/i18n/i18n'
 
 import {
     surveyResultsWidgetConfigSchema,
@@ -14,10 +15,15 @@ import { fieldErrorsFromZodError, parseWidgetConfig } from '../widgetConfigValid
 export const SURVEY_DATE_ALL_TIME = 'all' as const
 export type SurveyWidgetDateFrom = WidgetDateFromValue | typeof SURVEY_DATE_ALL_TIME
 
-export const SURVEY_RESULTS_WIDGET_DATE_RANGE_OPTIONS: { value: SurveyWidgetDateFrom; label: string }[] = [
-    { value: SURVEY_DATE_ALL_TIME, label: 'All time' },
-    ...WIDGET_DATE_RANGE_SELECT_OPTIONS,
-]
+export function getSurveyResultsWidgetDateRangeOptions(): { value: SurveyWidgetDateFrom; label: string }[] {
+    return [
+        {
+            value: SURVEY_DATE_ALL_TIME,
+            label: i18n.t('dashboard.settingsChanges.allTime', { defaultValue: 'All time' }),
+        },
+        ...WIDGET_DATE_RANGE_SELECT_OPTIONS,
+    ]
+}
 
 type SurveyResultsWidgetFormField = keyof z.infer<typeof surveyResultsWidgetFormSchema>
 

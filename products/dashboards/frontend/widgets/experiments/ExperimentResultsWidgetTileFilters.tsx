@@ -1,6 +1,8 @@
 import { useActions, useValues } from 'kea'
 import { useEffect, useState } from 'react'
 
+import { i18n } from 'lib/i18n/i18n'
+
 import type { DashboardWidgetTileFiltersProps } from '../registry'
 import { useWidgetTileConfigPersist } from '../widgetTileFiltersHooks'
 import { WidgetTileFilterReadOnlyValue, WidgetTileFiltersBar } from '../widgetTileFiltersReadOnly'
@@ -26,7 +28,9 @@ function ExperimentResultsReadOnlyValue({
     }, [experimentId, ensureSelectedLoaded])
     return (
         <WidgetTileFilterReadOnlyValue>
-            <span className="text-secondary">Experiment:</span>{' '}
+            <span className="text-secondary">
+                {i18n.t('dashboardWidgets.experiments.experimentLabel', { defaultValue: 'Experiment:' })}
+            </span>{' '}
             {selectedExperiment?.id === experimentId ? selectedExperiment.name : `#${experimentId}`}
         </WidgetTileFilterReadOnlyValue>
     )
@@ -66,7 +70,10 @@ export function ExperimentResultsWidgetTileFilters({
                     <ExperimentResultsReadOnlyValue tileId={tileId} experimentId={experimentId} />
                 ) : (
                     <WidgetTileFilterReadOnlyValue>
-                        <span className="text-secondary">Experiment:</span> None selected
+                        <span className="text-secondary">
+                            {i18n.t('dashboardWidgets.experiments.experimentLabel', { defaultValue: 'Experiment:' })}
+                        </span>{' '}
+                        {i18n.t('dashboardWidgets.experiments.noneSelected', { defaultValue: 'None selected' })}
                     </WidgetTileFilterReadOnlyValue>
                 )}
             </WidgetTileFiltersBar>

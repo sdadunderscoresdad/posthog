@@ -1,5 +1,6 @@
 import { BindLogic, useActions, useValues } from 'kea'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonDivider } from 'lib/lemon-ui/LemonDivider'
 import { LemonField } from 'lib/lemon-ui/LemonField/LemonField'
@@ -8,13 +9,11 @@ import { LemonModal } from 'lib/lemon-ui/LemonModal'
 import { LemonSelect } from 'lib/lemon-ui/LemonSelect'
 
 import { getDashboardWidgetGroupLabel } from '../../widget_types/catalog'
+import { getWidgetListOrderDirectionOptions } from '../constants'
 import { EditWidgetModalTileDetailsSection } from '../EditWidgetModalTileDetailsSection'
 import type { DashboardWidgetEditModalProps } from '../registry'
 import { editExperimentsListWidgetModalLogic } from './editExperimentsListWidgetModalLogic'
-import {
-    EXPERIMENTS_WIDGET_ORDER_BY_OPTIONS,
-    EXPERIMENTS_WIDGET_ORDER_DIRECTION_OPTIONS,
-} from './experimentsWidgetConfigValidation'
+import { getExperimentsWidgetOrderByOptions } from './experimentsWidgetConfigValidation'
 
 function EditExperimentsListWidgetModalContents(): JSX.Element {
     const {
@@ -36,14 +35,16 @@ function EditExperimentsListWidgetModalContents(): JSX.Element {
         <LemonModal
             isOpen
             onClose={onClose}
-            title="Widget settings"
-            description="Configure tile details and which experiments appear on this dashboard."
+            title={i18n.t('dashboardWidgets.editModal.title', { defaultValue: 'Widget settings' })}
+            description={i18n.t('dashboardWidgets.experimentsList.edit.description', {
+                defaultValue: 'Configure tile details and which experiments appear on this dashboard.',
+            })}
             width={680}
             footer={
                 <>
                     <div className="flex-1" />
                     <LemonButton type="secondary" onClick={onClose} disabled={saving}>
-                        Cancel
+                        {i18n.t('common.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="primary"
@@ -51,7 +52,7 @@ function EditExperimentsListWidgetModalContents(): JSX.Element {
                         disabledReason={saveDisabledReason}
                         onClick={() => submit()}
                     >
-                        Save
+                        {i18n.t('settings.save', { defaultValue: 'Save' })}
                     </LemonButton>
                 </>
             }
@@ -69,10 +70,15 @@ function EditExperimentsListWidgetModalContents(): JSX.Element {
                 <section className="flex flex-col gap-3">
                     <h5 className="text-sm font-semibold m-0">{getDashboardWidgetGroupLabel('experiments')}</h5>
                     <p className="m-0 text-xs text-muted">
-                        Filter by status and creator directly on the tile using the filter bar.
+                        {i18n.t('dashboardWidgets.experimentsList.edit.filterHint', {
+                            defaultValue: 'Filter by status and creator directly on the tile using the filter bar.',
+                        })}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <LemonField.Pure label="Sort by" error={activeFieldErrors.orderBy}>
+                        <LemonField.Pure
+                            label={i18n.t('dashboardWidgets.editModal.sortBy', { defaultValue: 'Sort by' })}
+                            error={activeFieldErrors.orderBy}
+                        >
                             <LemonSelect
                                 fullWidth
                                 value={orderBy}
@@ -82,10 +88,13 @@ function EditExperimentsListWidgetModalContents(): JSX.Element {
                                         clearFieldError('orderBy')
                                     }
                                 }}
-                                options={EXPERIMENTS_WIDGET_ORDER_BY_OPTIONS}
+                                options={getExperimentsWidgetOrderByOptions()}
                             />
                         </LemonField.Pure>
-                        <LemonField.Pure label="Direction" error={activeFieldErrors.orderDirection}>
+                        <LemonField.Pure
+                            label={i18n.t('dashboardWidgets.editModal.direction', { defaultValue: 'Direction' })}
+                            error={activeFieldErrors.orderDirection}
+                        >
                             <LemonSelect
                                 fullWidth
                                 value={orderDirection}
@@ -95,13 +104,17 @@ function EditExperimentsListWidgetModalContents(): JSX.Element {
                                         clearFieldError('orderDirection')
                                     }
                                 }}
-                                options={EXPERIMENTS_WIDGET_ORDER_DIRECTION_OPTIONS}
+                                options={getWidgetListOrderDirectionOptions()}
                             />
                         </LemonField.Pure>
                     </div>
                     <LemonField.Pure
-                        label="Number of experiments"
-                        help="Show up to 25 experiments on the tile."
+                        label={i18n.t('dashboardWidgets.experimentsList.edit.numberOfExperiments', {
+                            defaultValue: 'Number of experiments',
+                        })}
+                        help={i18n.t('dashboardWidgets.experimentsList.edit.numberOfExperimentsHelp', {
+                            defaultValue: 'Show up to 25 experiments on the tile.',
+                        })}
                         error={activeFieldErrors.limit}
                     >
                         <LemonInput

@@ -1189,6 +1189,7 @@
             "descriptionHelp": "显示在磁贴标题下方。支持 markdown。留空则隐藏。",
             "descriptionLabel": "描述",
             "descriptionPlaceholder": "输入描述（可选）",
+            "direction": "方向",
             "saving": "正在保存…",
             "sortBy": "排序依据",
             "sortDirection": "排序方向",
@@ -1201,15 +1202,69 @@
         },
         "experimentResults": {
             "description": "所选实验主要指标的当前结果。",
+            "edit": {
+                "description": "配置磁贴详情。在磁贴筛选栏中选择要展示哪个实验的结果。"
+            },
             "headerTitle": "实验结果",
             "label": "实验结果",
+            "loading": "正在加载实验结果",
+            "metricNoResults": "该指标暂时没有可展示的结果。",
+            "noExperimentForTile": "还没有为该磁贴选择实验。",
+            "noExperimentSelected": "未选择实验",
+            "noPrimaryMetrics": "该实验没有可展示的主要指标。",
+            "notFound": "找不到实验",
+            "notFoundMessage": "该实验可能已被删除。请在组件设置中另选一个。",
+            "notLaunched": "该实验尚未启动。启动后即可看到结果。",
+            "pickExperiment": "选择一个实验即可在这里查看其结果。",
             "placeholderMessage": "登录 PostHog 即可查看该仪表盘中的实验结果。",
-            "placeholderTitle": "实验结果"
+            "placeholderTitle": "实验结果",
+            "primaryMetrics": "主要指标",
+            "secondaryMetrics": "次要指标",
+            "seeMore": "查看更多",
+            "showingFirst": "仅显示前 {{ shown }} 项，共 {{ total }} 项{{ noun }}。打开实验可查看全部。",
+            "totalExposures": "{{ value }} 次曝光"
+        },
+        "experiments": {
+            "experimentLabel": "实验：",
+            "loading": "正在加载实验",
+            "newExperiment": "新建实验",
+            "noExperimentsMatching": "没有匹配“{{ search }}”的实验",
+            "noExperimentsMessage": "运行 A/B 测试，衡量改动对产品的影响。",
+            "noExperimentsTitle": "还没有实验",
+            "noneSelected": "未选择",
+            "previewCreatedBy": "由 {{ name }} 创建",
+            "rowCreated": "创建于",
+            "rowCreatedBy": "由 {{ name }} 创建",
+            "selectExperiment": "选择一个实验",
+            "statusFilterLabel": "状态："
         },
         "experimentsList": {
             "description": "按状态和创建者筛选的实验列表。",
+            "edit": {
+                "description": "配置磁贴详情以及该仪表盘上显示哪些实验。",
+                "filterHint": "直接在磁贴上用筛选栏按状态和创建者筛选。",
+                "numberOfExperiments": "实验数量",
+                "numberOfExperimentsHelp": "磁贴上最多显示 25 个实验。"
+            },
+            "empty": {
+                "filteredMessage": "没有实验符合状态和创建者筛选。",
+                "filteredTitle": "没有找到实验"
+            },
+            "filters": {
+                "anyStatus": "任意状态",
+                "complete": "已完成",
+                "draft": "草稿",
+                "exposureFrozen": "曝光已冻结",
+                "paused": "已暂停",
+                "running": "进行中"
+            },
             "headerTitle": "实验",
             "label": "实验列表",
+            "orderBy": {
+                "createdDate": "创建日期",
+                "name": "名称",
+                "startDate": "开始日期"
+            },
             "placeholderMessage": "登录 PostHog 即可查看该仪表盘中的实验。",
             "placeholderTitle": "实验"
         },
@@ -1344,8 +1399,49 @@
             "description": "所选问卷的表现数据和最近的回答。",
             "headerTitle": "问卷结果",
             "label": "问卷结果",
+            "loading": "正在加载问卷结果",
+            "noResponsesYet": "暂时没有可展示的回答。",
+            "openSurveyHint": "打开问卷查看全部回答。",
             "placeholderMessage": "登录 PostHog 即可查看该仪表盘中的问卷结果。",
-            "placeholderTitle": "问卷结果"
+            "placeholderTitle": "问卷结果",
+            "question": "问：{{ question }}",
+            "recentResponses": "最近的回答",
+            "seeMore": "查看更多",
+            "stats": {
+                "conversion": "转化率",
+                "dismissed": "已关闭",
+                "responses": "回答数",
+                "shown": "展示数",
+                "submitted": "已提交",
+                "unanswered": "未回答"
+            }
+        },
+        "surveys": {
+            "edit": {
+                "dateRangeHelp": "同时限定表现数据和最近回答的范围。",
+                "description": "配置磁贴详情。在磁贴筛选栏中选择要展示哪个问卷。",
+                "numberOfResponses": "回答数量",
+                "numberOfResponsesHelp": "磁贴上最多显示 25 条最近回答。"
+            },
+            "newSurvey": "新建问卷",
+            "noneSelected": "未选择",
+            "noSurveyForTile": "还没有为该磁贴选择问卷。",
+            "noSurveySelected": "未选择问卷",
+            "noSurveysMatching": "没有匹配“{{ search }}”的问卷",
+            "noSurveysMessage": "创建问卷，开始收集用户的反馈。",
+            "noSurveysTitle": "还没有问卷",
+            "notFound": "找不到问卷",
+            "notFoundMessage": "该问卷可能已被删除。请在组件设置中另选一个。",
+            "pickSurvey": "选择一个问卷即可在这里查看其表现和最近回答。",
+            "selectedSurvey": "已选择的问卷",
+            "selectSurvey": "选择一个问卷",
+            "status": {
+                "active": "进行中",
+                "archived": "已归档",
+                "draft": "草稿",
+                "ended": "已结束"
+            },
+            "surveyLabel": "问卷："
         },
         "tileFilters": {
             "allLevels": "全部级别",

@@ -1209,6 +1209,7 @@
             "descriptionHelp": "",
             "descriptionLabel": "",
             "descriptionPlaceholder": "",
+            "direction": "",
             "saving": "",
             "sortBy": "",
             "sortDirection": "",
@@ -1221,15 +1222,69 @@
         },
         "experimentResults": {
             "description": "",
+            "edit": {
+                "description": ""
+            },
             "headerTitle": "",
             "label": "",
+            "loading": "",
+            "metricNoResults": "",
+            "noExperimentForTile": "",
+            "noExperimentSelected": "",
+            "noPrimaryMetrics": "",
+            "notFound": "",
+            "notFoundMessage": "",
+            "notLaunched": "",
+            "pickExperiment": "",
             "placeholderMessage": "",
-            "placeholderTitle": ""
+            "placeholderTitle": "",
+            "primaryMetrics": "",
+            "secondaryMetrics": "",
+            "seeMore": "",
+            "showingFirst": "",
+            "totalExposures": ""
+        },
+        "experiments": {
+            "experimentLabel": "",
+            "loading": "",
+            "newExperiment": "",
+            "noExperimentsMatching": "",
+            "noExperimentsMessage": "",
+            "noExperimentsTitle": "",
+            "noneSelected": "",
+            "previewCreatedBy": "",
+            "rowCreated": "",
+            "rowCreatedBy": "",
+            "selectExperiment": "",
+            "statusFilterLabel": ""
         },
         "experimentsList": {
             "description": "",
+            "edit": {
+                "description": "",
+                "filterHint": "",
+                "numberOfExperiments": "",
+                "numberOfExperimentsHelp": ""
+            },
+            "empty": {
+                "filteredMessage": "",
+                "filteredTitle": ""
+            },
+            "filters": {
+                "anyStatus": "",
+                "complete": "",
+                "draft": "",
+                "exposureFrozen": "",
+                "paused": "",
+                "running": ""
+            },
             "headerTitle": "",
             "label": "",
+            "orderBy": {
+                "createdDate": "",
+                "name": "",
+                "startDate": ""
+            },
             "placeholderMessage": "",
             "placeholderTitle": ""
         },
@@ -1364,8 +1419,49 @@
             "description": "",
             "headerTitle": "",
             "label": "",
+            "loading": "",
+            "noResponsesYet": "",
+            "openSurveyHint": "",
             "placeholderMessage": "",
-            "placeholderTitle": ""
+            "placeholderTitle": "",
+            "question": "",
+            "recentResponses": "",
+            "seeMore": "",
+            "stats": {
+                "conversion": "",
+                "dismissed": "",
+                "responses": "",
+                "shown": "",
+                "submitted": "",
+                "unanswered": ""
+            }
+        },
+        "surveys": {
+            "edit": {
+                "dateRangeHelp": "",
+                "description": "",
+                "numberOfResponses": "",
+                "numberOfResponsesHelp": ""
+            },
+            "newSurvey": "",
+            "noneSelected": "",
+            "noSurveyForTile": "",
+            "noSurveySelected": "",
+            "noSurveysMatching": "",
+            "noSurveysMessage": "",
+            "noSurveysTitle": "",
+            "notFound": "",
+            "notFoundMessage": "",
+            "pickSurvey": "",
+            "selectedSurvey": "",
+            "selectSurvey": "",
+            "status": {
+                "active": "",
+                "archived": "",
+                "draft": "",
+                "ended": ""
+            },
+            "surveyLabel": ""
         },
         "tileFilters": {
             "allLevels": "",

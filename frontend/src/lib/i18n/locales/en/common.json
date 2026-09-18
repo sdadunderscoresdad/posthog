@@ -1209,6 +1209,7 @@
             "descriptionHelp": "Shown under the tile title. Supports markdown. Leave empty to hide.",
             "descriptionLabel": "Description",
             "descriptionPlaceholder": "Enter description (optional)",
+            "direction": "Direction",
             "saving": "Saving…",
             "sortBy": "Sort by",
             "sortDirection": "Sort direction",
@@ -1221,15 +1222,69 @@
         },
         "experimentResults": {
             "description": "Current results for the primary metrics of a selected experiment.",
+            "edit": {
+                "description": "Configure the tile details. Pick which experiment's results to show from the tile's filter bar."
+            },
             "headerTitle": "Experiment results",
             "label": "Experiment results",
+            "loading": "Loading experiment results",
+            "metricNoResults": "No results available for this metric yet.",
+            "noExperimentForTile": "No experiment has been selected for this tile yet.",
+            "noExperimentSelected": "No experiment selected",
+            "noPrimaryMetrics": "This experiment has no primary metrics to show.",
+            "notFound": "Experiment not found",
+            "notFoundMessage": "This experiment may have been deleted. Pick another one in the widget settings.",
+            "notLaunched": "This experiment has not launched yet. Results will appear once it is running.",
+            "pickExperiment": "Pick an experiment to see its results here.",
             "placeholderMessage": "Log in to PostHog to see experiment results from this dashboard.",
-            "placeholderTitle": "Experiment results"
+            "placeholderTitle": "Experiment results",
+            "primaryMetrics": "Primary metrics",
+            "secondaryMetrics": "Secondary metrics",
+            "seeMore": "See more",
+            "showingFirst": "Showing the first {{ shown }} of {{ total }} {{ noun }}. Open the experiment to see all of them.",
+            "totalExposures": "{{ value }} total exposures"
+        },
+        "experiments": {
+            "experimentLabel": "Experiment:",
+            "loading": "Loading experiments",
+            "newExperiment": "New experiment",
+            "noExperimentsMatching": "No experiments matching \"{{ search }}\"",
+            "noExperimentsMessage": "Run A/B tests to measure the impact of changes on your product.",
+            "noExperimentsTitle": "No experiments yet",
+            "noneSelected": "None selected",
+            "previewCreatedBy": "Created by {{ name }}",
+            "rowCreated": "Created",
+            "rowCreatedBy": "by {{ name }}",
+            "selectExperiment": "Select an experiment",
+            "statusFilterLabel": "Status:"
         },
         "experimentsList": {
             "description": "List of experiments filtered by status and creator.",
+            "edit": {
+                "description": "Configure tile details and which experiments appear on this dashboard.",
+                "filterHint": "Filter by status and creator directly on the tile using the filter bar.",
+                "numberOfExperiments": "Number of experiments",
+                "numberOfExperimentsHelp": "Show up to 25 experiments on the tile."
+            },
+            "empty": {
+                "filteredMessage": "No experiments matched the status and creator filters.",
+                "filteredTitle": "No experiments found"
+            },
+            "filters": {
+                "anyStatus": "Any status",
+                "complete": "Complete",
+                "draft": "Draft",
+                "exposureFrozen": "Exposure frozen",
+                "paused": "Paused",
+                "running": "Running"
+            },
             "headerTitle": "Experiments",
             "label": "Experiments list",
+            "orderBy": {
+                "createdDate": "Created date",
+                "name": "Name",
+                "startDate": "Start date"
+            },
             "placeholderMessage": "Log in to PostHog to see experiments from this dashboard.",
             "placeholderTitle": "Experiments"
         },
@@ -1364,8 +1419,49 @@
             "description": "Performance stats and recent responses for a selected survey.",
             "headerTitle": "Survey results",
             "label": "Survey results",
+            "loading": "Loading survey results",
+            "noResponsesYet": "No responses to show yet.",
+            "openSurveyHint": "Open the survey to see all responses.",
             "placeholderMessage": "Log in to PostHog to see survey results from this dashboard.",
-            "placeholderTitle": "Survey results"
+            "placeholderTitle": "Survey results",
+            "question": "Q: {{ question }}",
+            "recentResponses": "Recent responses",
+            "seeMore": "See more",
+            "stats": {
+                "conversion": "Conversion",
+                "dismissed": "Dismissed",
+                "responses": "Responses",
+                "shown": "Shown",
+                "submitted": "Submitted",
+                "unanswered": "Unanswered"
+            }
+        },
+        "surveys": {
+            "edit": {
+                "dateRangeHelp": "Scopes both the performance stats and the recent responses.",
+                "description": "Configure the tile details. Pick which survey to show from the tile's filter bar.",
+                "numberOfResponses": "Number of responses",
+                "numberOfResponsesHelp": "Show up to 25 recent responses on the tile."
+            },
+            "newSurvey": "New survey",
+            "noneSelected": "None selected",
+            "noSurveyForTile": "No survey has been selected for this tile yet.",
+            "noSurveySelected": "No survey selected",
+            "noSurveysMatching": "No surveys matching \"{{ search }}\"",
+            "noSurveysMessage": "Create a survey to start collecting feedback from your users.",
+            "noSurveysTitle": "No surveys yet",
+            "notFound": "Survey not found",
+            "notFoundMessage": "This survey may have been deleted. Pick another one in the widget settings.",
+            "pickSurvey": "Pick a survey to see its performance and recent responses here.",
+            "selectedSurvey": "Selected survey",
+            "selectSurvey": "Select a survey",
+            "status": {
+                "active": "Active",
+                "archived": "Archived",
+                "draft": "Draft",
+                "ended": "Ended"
+            },
+            "surveyLabel": "Survey:"
         },
         "tileFilters": {
             "allLevels": "All levels",

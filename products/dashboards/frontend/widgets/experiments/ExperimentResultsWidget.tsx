@@ -5,6 +5,7 @@ import * as experimentPng from '@posthog/brand/hoggies/png/experiment'
 import { LemonDivider, LemonSkeleton } from '@posthog/lemon-ui'
 
 import { pngHoggie } from 'lib/brand/hoggies'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonBanner } from 'lib/lemon-ui/LemonBanner'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { Link } from 'lib/lemon-ui/Link'
@@ -100,7 +101,10 @@ function ExperimentResultsWidgetMetric({ entry }: { entry: ExperimentResultsWidg
             <h6 className="m-0 text-xs font-semibold text-muted">{entry.name}</h6>
             {entry.error || !entry.metric || !entry.result ? (
                 <LemonBanner type="info" className="text-sm">
-                    {entry.error ?? 'No results available for this metric yet.'}
+                    {entry.error ??
+                        i18n.t('dashboardWidgets.experimentResults.metricNoResults', {
+                            defaultValue: 'No results available for this metric yet.',
+                        })}
                 </LemonBanner>
             ) : (
                 <NotebookCompactTable result={entry.result} metric={entry.metric} />
@@ -135,8 +139,13 @@ function ExperimentMetricsSection({
             )}
             {totalCount != null && totalCount > metrics.length ? (
                 <span className="text-xs text-muted">
-                    Showing the first {metrics.length} of {totalCount} {label.toLowerCase()}. Open the experiment to see
-                    all of them.
+                    {i18n.t('dashboardWidgets.experimentResults.showingFirst', {
+                        shown: metrics.length,
+                        total: totalCount,
+                        noun: label.toLowerCase(),
+                        defaultValue:
+                            'Showing the first {{ shown }} of {{ total }} {{ noun }}. Open the experiment to see all of them.',
+                    })}
                 </span>
             ) : null}
         </div>
@@ -146,7 +155,13 @@ function ExperimentMetricsSection({
 function ExperimentResultsLoadingSkeleton(): JSX.Element {
     return (
         <WidgetCardContent>
-            <div className="flex flex-col gap-3 p-2" aria-busy aria-label="Loading experiment results">
+            <div
+                className="flex flex-col gap-3 p-2"
+                aria-busy
+                aria-label={i18n.t('dashboardWidgets.experimentResults.loading', {
+                    defaultValue: 'Loading experiment results',
+                })}
+            >
                 <div className="flex items-center justify-between gap-2" aria-hidden>
                     <LemonSkeleton className="h-4 w-1/3 max-w-xs" />
                     <LemonSkeleton className="h-5 w-20 rounded" />
@@ -189,8 +204,12 @@ export function ExperimentResultsWidget({
         if (onUpdateConfig && payload && payload.hasExperiments === false) {
             return (
                 <ExperimentResultsWidgetMessage
-                    title="No experiments yet"
-                    message="Run A/B tests to measure the impact of changes on your product."
+                    title={i18n.t('dashboardWidgets.experiments.noExperimentsTitle', {
+                        defaultValue: 'No experiments yet',
+                    })}
+                    message={i18n.t('dashboardWidgets.experiments.noExperimentsMessage', {
+                        defaultValue: 'Run A/B tests to measure the impact of changes on your product.',
+                    })}
                     cta={
                         <LemonButton
                             type="primary"
@@ -204,7 +223,7 @@ export function ExperimentResultsWidget({
                                 })
                             }
                         >
-                            New experiment
+                            {i18n.t('dashboardWidgets.experiments.newExperiment', { defaultValue: 'New experiment' })}
                         </LemonButton>
                     }
                 />
@@ -232,11 +251,17 @@ export function ExperimentResultsWidget({
         ) : undefined
         return (
             <ExperimentResultsWidgetMessage
-                title="No experiment selected"
+                title={i18n.t('dashboardWidgets.experimentResults.noExperimentSelected', {
+                    defaultValue: 'No experiment selected',
+                })}
                 message={
                     onUpdateConfig
-                        ? 'Pick an experiment to see its results here.'
-                        : 'No experiment has been selected for this tile yet.'
+                        ? i18n.t('dashboardWidgets.experimentResults.pickExperiment', {
+                              defaultValue: 'Pick an experiment to see its results here.',
+                          })
+                        : i18n.t('dashboardWidgets.experimentResults.noExperimentForTile', {
+                              defaultValue: 'No experiment has been selected for this tile yet.',
+                          })
                 }
                 cta={inlinePicker}
             />
@@ -246,8 +271,10 @@ export function ExperimentResultsWidget({
     if (payload.experimentNotFound || !payload.experiment) {
         return (
             <ExperimentResultsWidgetMessage
-                title="Experiment not found"
-                message="This experiment may have been deleted. Pick another one in the widget settings."
+                title={i18n.t('dashboardWidgets.experimentResults.notFound', { defaultValue: 'Experiment not found' })}
+                message={i18n.t('dashboardWidgets.experimentResults.notFoundMessage', {
+                    defaultValue: 'This experiment may have been deleted. Pick another one in the widget settings.',
+                })}
             />
         )
     }
@@ -274,30 +301,42 @@ export function ExperimentResultsWidget({
                             })
                         }
                     >
-                        See more
+                        {i18n.t('dashboardWidgets.experimentResults.seeMore', { defaultValue: 'See more' })}
                     </Link>
                     <StatusTag status={experiment.status as ExperimentStatus} />
                 </div>
                 {primarySampleCount != null ? (
                     <span className="text-xs text-muted">
-                        {humanFriendlyNumber(primarySampleCount)} total exposures
+                        {i18n.t('dashboardWidgets.experimentResults.totalExposures', {
+                            value: humanFriendlyNumber(primarySampleCount),
+                            defaultValue: '{{ value }} total exposures',
+                        })}
                     </span>
                 ) : null}
                 {isDraft ? (
                     <LemonBanner type="info" className="text-sm">
-                        This experiment has not launched yet. Results will appear once it is running.
+                        {i18n.t('dashboardWidgets.experimentResults.notLaunched', {
+                            defaultValue:
+                                'This experiment has not launched yet. Results will appear once it is running.',
+                        })}
                     </LemonBanner>
                 ) : (
                     <>
                         <ExperimentMetricsSection
-                            label="Primary metrics"
+                            label={i18n.t('dashboardWidgets.experimentResults.primaryMetrics', {
+                                defaultValue: 'Primary metrics',
+                            })}
                             metrics={metrics}
                             totalCount={payload.totalMetricsCount}
-                            emptyMessage="This experiment has no primary metrics to show."
+                            emptyMessage={i18n.t('dashboardWidgets.experimentResults.noPrimaryMetrics', {
+                                defaultValue: 'This experiment has no primary metrics to show.',
+                            })}
                         />
                         {secondaryMetrics.length > 0 ? (
                             <ExperimentMetricsSection
-                                label="Secondary metrics"
+                                label={i18n.t('dashboardWidgets.experimentResults.secondaryMetrics', {
+                                    defaultValue: 'Secondary metrics',
+                                })}
                                 metrics={secondaryMetrics}
                                 totalCount={payload.totalSecondaryMetricsCount}
                             />

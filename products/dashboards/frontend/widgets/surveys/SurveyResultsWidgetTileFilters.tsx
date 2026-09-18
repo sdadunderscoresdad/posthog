@@ -2,6 +2,8 @@ import { useValues } from 'kea'
 import posthog from 'posthog-js'
 import { useState } from 'react'
 
+import { i18n } from 'lib/i18n/i18n'
+
 import type { DashboardWidgetTileFiltersProps } from '../registry'
 import { useWidgetTileConfigPersist } from '../widgetTileFiltersHooks'
 import { WidgetTileFilterReadOnlyValue, WidgetTileFiltersBar } from '../widgetTileFiltersReadOnly'
@@ -15,8 +17,12 @@ function SurveyResultsReadOnlyValue({ tileId, surveyId }: { tileId: number; surv
     )
     return (
         <WidgetTileFilterReadOnlyValue>
-            <span className="text-secondary">Survey:</span>{' '}
-            {selectedSurvey?.id === surveyId ? selectedSurvey.name : 'Selected survey'}
+            <span className="text-secondary">
+                {i18n.t('dashboardWidgets.surveys.surveyLabel', { defaultValue: 'Survey:' })}
+            </span>{' '}
+            {selectedSurvey?.id === surveyId
+                ? selectedSurvey.name
+                : i18n.t('dashboardWidgets.surveys.selectedSurvey', { defaultValue: 'Selected survey' })}
         </WidgetTileFilterReadOnlyValue>
     )
 }
@@ -53,7 +59,10 @@ export function SurveyResultsWidgetTileFilters({
                     <SurveyResultsReadOnlyValue tileId={tileId} surveyId={surveyId} />
                 ) : (
                     <WidgetTileFilterReadOnlyValue>
-                        <span className="text-secondary">Survey:</span> None selected
+                        <span className="text-secondary">
+                            {i18n.t('dashboardWidgets.surveys.surveyLabel', { defaultValue: 'Survey:' })}
+                        </span>{' '}
+                        {i18n.t('dashboardWidgets.surveys.noneSelected', { defaultValue: 'None selected' })}
                     </WidgetTileFilterReadOnlyValue>
                 )}
             </WidgetTileFiltersBar>
