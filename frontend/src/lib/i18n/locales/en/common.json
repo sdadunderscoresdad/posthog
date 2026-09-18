@@ -1023,6 +1023,36 @@
             "tile": "Tile",
             "unnamedInsight": "Unnamed insight"
         },
+        "websiteMetricsTiles": {
+            "dailyVisitors": {
+                "name": "Daily visitors"
+            },
+            "pageviews": {
+                "name": "Pageviews"
+            },
+            "pageviewsPerSession": {
+                "name": "Pageviews per session"
+            },
+            "searchEnginesVsAi": {
+                "name": "Search engines vs AI"
+            },
+            "sessions": {
+                "name": "Sessions"
+            },
+            "sessionsByChannel": {
+                "description": "Where sessions come from: organic search, direct, referral, paid, social and so on.",
+                "name": "Sessions by channel"
+            },
+            "topReferrers": {
+                "name": "Top referrers"
+            },
+            "topWebsitePages": {
+                "name": "Top Website Pages"
+            },
+            "websiteUsersByLocation": {
+                "name": "Website Users by Location"
+            }
+        },
         "widgetType": {
             "insight": "Insight",
             "textCard": "Text card"
@@ -1188,6 +1218,26 @@
         "visibilityAriaLabel": "View visibility"
     },
     "dashboardWidgets": {
+        "activity": {
+            "edit": {
+                "description": "Configure tile details and which events appear on this dashboard.",
+                "eventFilters": "Event filters",
+                "filtersHint": "The date range is on the tile filter bar (collapsible on the tile). Use this modal for test-account filtering and list size.",
+                "numberOfEvents": "Number of events",
+                "numberOfEventsHelp": "Show up to 50 events on the tile."
+            },
+            "empty": {
+                "message": "No events matched your filters for this date range.",
+                "title": "No events yet"
+            },
+            "filters": {
+                "allEvents": "All events",
+                "eventLabel": "Event",
+                "propertiesCount_one": "{{ count }} filter",
+                "propertiesCount_other": "{{ count }} filters",
+                "propertiesLabel": "Properties"
+            }
+        },
         "addModal": {
             "addButton": "Add widget",
             "addButtonCount_one": "Add {{ count }} widgets",
@@ -1205,11 +1255,51 @@
             "refreshData": "Refresh data",
             "refreshing": "Refreshing…"
         },
+        "conversations": {
+            "edit": {
+                "description": "Configure the tile details and number of recent tickets.",
+                "limitInvalid": "Enter a number from 1 to 25",
+                "numberOfTickets": "Number of tickets",
+                "numberOfTicketsHelp": "Show up to 25 recently updated tickets."
+            },
+            "empty": {
+                "filteredMessage": "No tickets matched your filters.",
+                "filteredTitle": "No tickets found",
+                "message": "New support tickets will appear here.",
+                "title": "No tickets yet"
+            },
+            "error": "Couldn't load recent tickets. Try again.",
+            "filters": {
+                "allAssignees": "All assignees",
+                "allPriorities": "All priorities",
+                "assigneeLabel": "Assignee",
+                "clearPriority": "Clear priority filter",
+                "couldNotLoadSavedViews": "Could not load saved views.",
+                "priorityLabel": "Priority",
+                "selectedCount_one": "{{ count }} selected",
+                "selectedCount_other": "{{ count }} selected",
+                "statusLabel": "Status"
+            },
+            "loading": "Loading tickets",
+            "sla": {
+                "breached": "SLA breached",
+                "due": "{{ label }}. Due {{ time }}",
+                "dueSoon": "SLA due soon",
+                "onTrack": "SLA on track"
+            },
+            "toasts": {
+                "assigneeUpdateFailed": "Could not update the assignee. Try again.",
+                "saveFailed": "Could not save widget settings. Check your connection and try again."
+            },
+            "unassigned": "Unassigned",
+            "updatingAssignee": "Updating assignee..."
+        },
         "editModal": {
             "descriptionHelp": "Shown under the tile title. Supports markdown. Leave empty to hide.",
             "descriptionLabel": "Description",
             "descriptionPlaceholder": "Enter description (optional)",
             "direction": "Direction",
+            "fixValidationErrors": "Fix validation errors to save",
             "saving": "Saving…",
             "sortBy": "Sort by",
             "sortDirection": "Sort direction",
@@ -1219,6 +1309,25 @@
             "tileNameHelp": "Shown on the tile. Leave empty to use the default title.",
             "tileNameLabel": "Title",
             "title": "Widget settings"
+        },
+        "errorTracking": {
+            "edit": {
+                "description": "Configure tile details and which error tracking issues appear on this dashboard.",
+                "descriptionNoIssues": "Configure tile details for this dashboard widget.",
+                "filtersHint": "Date range, status, and assignee are on the tile filter bar (collapsible on the tile). Use this modal for test-account filtering, list size, and sort.",
+                "issueFilters": "Issue filters",
+                "numberOfIssues": "Number of issues",
+                "numberOfIssuesHelp": "Show up to 25 issues on the tile.",
+                "sortByHelp": "Order issues by this metric within the date range."
+            },
+            "empty": {
+                "message": "No issues matched your filters. That's a good thing. Enjoy the quiet.",
+                "title": "All clear!"
+            },
+            "filters": {
+                "allLabel": "All",
+                "anyAssignee": "Any assignee"
+            }
         },
         "experimentResults": {
             "description": "Current results for the primary metrics of a selected experiment.",
@@ -1473,6 +1582,7 @@
             "newestFirst": "Newest first",
             "noSavedView": "No saved view",
             "oldestFirst": "Oldest first",
+            "retry": "Retry",
             "savedViewLabel": "Saved view:",
             "savedViewPlaceholder": "Saved view",
             "serviceCount_one": "{{ count }} service",

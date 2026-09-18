@@ -1,3 +1,5 @@
+import { i18n } from 'lib/i18n/i18n'
+
 import type { ErrorTrackingIssue } from '~/queries/schema/schema-general'
 
 import {
@@ -14,7 +16,11 @@ export function ErrorTrackingStatusReadOnlyValue({ status }: { status: ErrorTrac
     if (status === 'all') {
         return (
             <WidgetTileFilterReadOnlyValue>
-                <LabelIndicator intent="muted" label="All" size="small" />
+                <LabelIndicator
+                    intent="muted"
+                    label={i18n.t('dashboardWidgets.errorTracking.filters.allLabel', { defaultValue: 'All' })}
+                    size="small"
+                />
             </WidgetTileFilterReadOnlyValue>
         )
     }
@@ -38,7 +44,9 @@ export function ErrorTrackingAssigneeReadOnlyValue({
                         <AssigneeIconDisplay assignee={resolvedAssignee} size="small" />
                         <AssigneeLabelDisplay
                             assignee={resolvedAssignee}
-                            placeholder="Any assignee"
+                            placeholder={i18n.t('dashboardWidgets.errorTracking.filters.anyAssignee', {
+                                defaultValue: 'Any assignee',
+                            })}
                             size="small"
                             className="text-primary"
                         />

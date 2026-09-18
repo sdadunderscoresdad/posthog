@@ -9,6 +9,7 @@ import { LemonBadge, LemonButton, LemonSkeleton, LemonTag, Tooltip } from '@post
 import { pngHoggie } from 'lib/brand/hoggies'
 import { CardTopHeadingRow } from 'lib/components/Cards/CardTopHeadingRow'
 import { TZLabel } from 'lib/components/TZLabel'
+import { i18n } from 'lib/i18n/i18n'
 import { Link } from 'lib/lemon-ui/Link'
 import { cn } from 'lib/utils/css-classes'
 import { stripMarkdown } from 'lib/utils/markdown'
@@ -75,7 +76,12 @@ export function ConversationsWidgetTopHeading({
         <CardTopHeadingRow
             typeLabel={widgetTypeLabel}
             showTypeLabel={showWidgetType}
-            dateText={savedViewId ? (savedViewLabelById[savedViewId] ?? 'Saved view') : dateText}
+            dateText={
+                savedViewId
+                    ? (savedViewLabelById[savedViewId] ??
+                      i18n.t('dashboardWidgets.tileFilters.savedViewPlaceholder', { defaultValue: 'Saved view' }))
+                    : dateText
+            }
         />
     )
 }
@@ -94,7 +100,9 @@ function ConversationsWidgetRow({
     const assignee = ticketAssignee(ticket)
     const assigneeName = ticketAssigneeName(ticket)
     const isAssignmentLoading = ticketAssignmentLoadingId === ticket.id
-    const assignmentDisabledReason = ticketAssignmentLoadingId ? 'Updating assignee...' : undefined
+    const assignmentDisabledReason = ticketAssignmentLoadingId
+        ? i18n.t('dashboardWidgets.conversations.updatingAssignee', { defaultValue: 'Updating assignee...' })
+        : undefined
     const channelLabel = channelOptions.find((option) => option.value === ticket.channel_source)?.label
     const captureTicketOpened = (): void => {
         posthog.capture('dashboard widget open support ticket clicked', {
@@ -156,7 +164,12 @@ function ConversationsWidgetRow({
                                     <AssigneeDisplay
                                         assignee={resolvedAssignee}
                                         size="xsmall"
-                                        placeholder={assigneeName ?? 'Unassigned'}
+                                        placeholder={
+                                            assigneeName ??
+                                            i18n.t('dashboardWidgets.conversations.unassigned', {
+                                                defaultValue: 'Unassigned',
+                                            })
+                                        }
                                     />
                                 </LemonButton>
                             )}
@@ -167,7 +180,12 @@ function ConversationsWidgetRow({
                                 <AssigneeDisplay
                                     assignee={resolvedAssignee}
                                     size="xsmall"
-                                    placeholder={assigneeName ?? 'Unassigned'}
+                                    placeholder={
+                                        assigneeName ??
+                                        i18n.t('dashboardWidgets.conversations.unassigned', {
+                                            defaultValue: 'Unassigned',
+                                        })
+                                    }
                                 />
                             )}
                         </AssigneeResolver>
@@ -209,7 +227,11 @@ function ConversationsWidgetRow({
 function ConversationsWidgetLoadingState(): JSX.Element {
     return (
         <WidgetCardContent>
-            <div className="flex flex-col" aria-busy aria-label="Loading tickets">
+            <div
+                className="flex flex-col"
+                aria-busy
+                aria-label={i18n.t('dashboardWidgets.conversations.loading', { defaultValue: 'Loading tickets' })}
+            >
                 {Array.from({ length: 4 }, (_, index) => (
                     <div key={index} className="space-y-1.5 border-b border-primary px-3 py-3" aria-hidden>
                         <div className="flex items-center gap-2">
@@ -263,7 +285,9 @@ export function ConversationsWidget({
         return (
             <WidgetCardContent>
                 <WidgetCardBodyMessage variant="error" onRefresh={onRefresh} refreshing={loading}>
-                    Couldn't load recent tickets. Try again.
+                    {i18n.t('dashboardWidgets.conversations.error', {
+                        defaultValue: "Couldn't load recent tickets. Try again.",
+                    })}
                 </WidgetCardBodyMessage>
             </WidgetCardContent>
         )
@@ -278,12 +302,22 @@ export function ConversationsWidget({
                     >
                         <HedgehogMagnifyingGlass className="size-20 shrink-0" />
                         <p className="m-0 text-base font-semibold text-primary">
-                            {hasActiveFilters ? 'No tickets found' : 'No tickets yet'}
+                            {hasActiveFilters
+                                ? i18n.t('dashboardWidgets.conversations.empty.filteredTitle', {
+                                      defaultValue: 'No tickets found',
+                                  })
+                                : i18n.t('dashboardWidgets.conversations.empty.title', {
+                                      defaultValue: 'No tickets yet',
+                                  })}
                         </p>
                         <p className="m-0 text-sm text-muted">
                             {hasActiveFilters
-                                ? 'No tickets matched your filters.'
-                                : 'New support tickets will appear here.'}
+                                ? i18n.t('dashboardWidgets.conversations.empty.filteredMessage', {
+                                      defaultValue: 'No tickets matched your filters.',
+                                  })
+                                : i18n.t('dashboardWidgets.conversations.empty.message', {
+                                      defaultValue: 'New support tickets will appear here.',
+                                  })}
                         </p>
                     </div>
                 </WidgetCardBodyMessage>

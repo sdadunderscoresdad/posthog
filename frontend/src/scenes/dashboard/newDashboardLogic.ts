@@ -40,7 +40,7 @@ import {
     JsonType,
 } from '~/types'
 
-import { WEBSITE_METRICS_METRIC_CARD_TILES } from 'products/dashboards/frontend/websiteMetricsMetricCardTemplate'
+import { getWebsiteMetricsMetricCardTiles } from 'products/dashboards/frontend/websiteMetricsMetricCardTemplate'
 
 import type { FeatureFlagsSet } from '../../lib/logic/featureFlagLogic'
 import type { InsightModel } from '../../types'
@@ -128,7 +128,7 @@ export function applyMetricTemplateVariant(
     template: DashboardTemplateType,
     isTestVariant: boolean
 ): DashboardTemplateStoredTile[] {
-    return isTestVariant && isMetricTemplate(template) ? WEBSITE_METRICS_METRIC_CARD_TILES : tiles
+    return isTestVariant && isMetricTemplate(template) ? getWebsiteMetricsMetricCardTiles() : tiles
 }
 
 function makeTilesUsingVariables(

@@ -1,5 +1,6 @@
 import { MakeLogicType, actions, afterMount, kea, listeners, path, props, reducers, selectors } from 'kea'
 
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast'
 
 import type { ConversationsRecentTicketsWidgetConfig } from '../../generated/widget-configs.zod'
@@ -81,7 +82,11 @@ export const editConversationsWidgetModalLogic = kea<editConversationsWidgetModa
                 props.onClose()
             } catch {
                 actions.submitFailure()
-                lemonToast.error('Could not save widget settings. Check your connection and try again.')
+                lemonToast.error(
+                    i18n.t('dashboardWidgets.conversations.toasts.saveFailed', {
+                        defaultValue: 'Could not save widget settings. Check your connection and try again.',
+                    })
+                )
             }
         },
     })),

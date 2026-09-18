@@ -1,4 +1,5 @@
 import { TaxonomicFilterGroupType } from 'lib/components/TaxonomicFilter/types'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonSelect } from 'lib/lemon-ui/LemonSelect'
 
 import { EventPropertyFilters } from '~/queries/nodes/EventsNode/EventPropertyFilters'
@@ -21,6 +22,14 @@ import {
 } from './activityEventsWidgetConfigValidation'
 
 export type ActivityEventsWidgetTileFiltersProps = DashboardWidgetTileFiltersProps
+
+function propertiesCountLabel(count: number): string {
+    return i18n.t('dashboardWidgets.activity.filters.propertiesCount', {
+        count,
+        defaultValue_one: '{{ count }} filter',
+        defaultValue_other: '{{ count }} filters',
+    })
+}
 
 export function ActivityEventsWidgetTileFilters({
     config,
@@ -59,11 +68,18 @@ export function ActivityEventsWidgetTileFilters({
         return (
             <WidgetTileFiltersBar dataAttr="activity-events-widget-tile-filters-readonly">
                 <WidgetDateRangeReadOnlyValue dateFrom={dateFrom} />
-                {eventName ? <WidgetTileFilterReadOnlyLabel name="Event" value={eventName} /> : null}
+                {eventName ? (
+                    <WidgetTileFilterReadOnlyLabel
+                        name={i18n.t('dashboardWidgets.activity.filters.eventLabel', { defaultValue: 'Event' })}
+                        value={eventName}
+                    />
+                ) : null}
                 {properties.length > 0 ? (
                     <WidgetTileFilterReadOnlyLabel
-                        name="Properties"
-                        value={`${properties.length} ${properties.length === 1 ? 'filter' : 'filters'}`}
+                        name={i18n.t('dashboardWidgets.activity.filters.propertiesLabel', {
+                            defaultValue: 'Properties',
+                        })}
+                        value={propertiesCountLabel(properties.length)}
                     />
                 ) : null}
             </WidgetTileFiltersBar>
@@ -95,7 +111,7 @@ export function ActivityEventsWidgetTileFilters({
                 value={eventName}
                 allEventsOption="clear"
                 disabled={!canUpdate}
-                placeholder="All events"
+                placeholder={i18n.t('dashboardWidgets.activity.filters.allEvents', { defaultValue: 'All events' })}
                 onChange={(value) => {
                     void applyEventName(value === '' ? null : value)
                 }}
@@ -112,8 +128,10 @@ export function ActivityEventsWidgetTileFilters({
             )}
             {!canUpdate && properties.length > 0 && (
                 <WidgetTileFilterReadOnlyLabel
-                    name="Properties"
-                    value={`${properties.length} ${properties.length === 1 ? 'filter' : 'filters'}`}
+                    name={i18n.t('dashboardWidgets.activity.filters.propertiesLabel', {
+                        defaultValue: 'Properties',
+                    })}
+                    value={propertiesCountLabel(properties.length)}
                 />
             )}
         </WidgetTileFiltersBar>

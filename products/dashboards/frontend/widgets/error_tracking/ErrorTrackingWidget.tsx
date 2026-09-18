@@ -5,6 +5,7 @@ import * as superheroPng from '@posthog/brand/hoggies/png/superhero'
 import { Spinner } from '@posthog/lemon-ui'
 
 import { pngHoggie } from 'lib/brand/hoggies'
+import { i18n } from 'lib/i18n/i18n'
 import { teamLogic } from 'scenes/teamLogic'
 
 import { ErrorTrackingIssue } from '~/queries/schema/schema-general'
@@ -134,9 +135,13 @@ function ErrorTrackingWidgetBody({
                         data-attr="error-tracking-widget-empty-state"
                     >
                         <HedgehogSuperhero className="size-20 shrink-0" />
-                        <p className="m-0 text-base font-semibold text-primary">All clear!</p>
+                        <p className="m-0 text-base font-semibold text-primary">
+                            {i18n.t('dashboardWidgets.errorTracking.empty.title', { defaultValue: 'All clear!' })}
+                        </p>
                         <p className="m-0 text-sm text-muted">
-                            No issues matched your filters. That's a good thing. Enjoy the quiet.
+                            {i18n.t('dashboardWidgets.errorTracking.empty.message', {
+                                defaultValue: "No issues matched your filters. That's a good thing. Enjoy the quiet.",
+                            })}
                         </p>
                     </div>
                 </WidgetCardBodyMessage>

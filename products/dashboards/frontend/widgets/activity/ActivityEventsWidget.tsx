@@ -1,6 +1,7 @@
 import * as magnifyingGlassPng from '@posthog/brand/hoggies/png/magnifying-glass-1'
 
 import { pngHoggie } from 'lib/brand/hoggies'
+import { i18n } from 'lib/i18n/i18n'
 
 import {
     getWidgetListCountEvents,
@@ -51,8 +52,14 @@ export function ActivityEventsWidget({ result, loading }: DashboardWidgetCompone
                         data-attr="activity-events-widget-empty-state"
                     >
                         <HedgehogMagnifyingGlass className="size-20 shrink-0" />
-                        <p className="m-0 text-base font-semibold text-primary">No events yet</p>
-                        <p className="m-0 text-sm text-muted">No events matched your filters for this date range.</p>
+                        <p className="m-0 text-base font-semibold text-primary">
+                            {i18n.t('dashboardWidgets.activity.empty.title', { defaultValue: 'No events yet' })}
+                        </p>
+                        <p className="m-0 text-sm text-muted">
+                            {i18n.t('dashboardWidgets.activity.empty.message', {
+                                defaultValue: 'No events matched your filters for this date range.',
+                            })}
+                        </p>
                     </div>
                 </WidgetCardBodyMessage>
             </WidgetCardContent>

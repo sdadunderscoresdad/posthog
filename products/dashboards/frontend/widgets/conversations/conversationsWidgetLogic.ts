@@ -1,5 +1,6 @@
 import { MakeLogicType, actions, kea, key, listeners, path, props, reducers } from 'kea'
 
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast'
 import { getCurrentTeamId } from 'lib/utils/getAppContext'
 
@@ -60,7 +61,11 @@ export const conversationsWidgetLogic = kea<conversationsWidgetLogicType>([
                 props.onRefreshData?.()
             } catch {
                 actions.assignTicketFailure(ticketId)
-                lemonToast.error('Could not update the assignee. Try again.')
+                lemonToast.error(
+                    i18n.t('dashboardWidgets.conversations.toasts.assigneeUpdateFailed', {
+                        defaultValue: 'Could not update the assignee. Try again.',
+                    })
+                )
             }
         },
     })),

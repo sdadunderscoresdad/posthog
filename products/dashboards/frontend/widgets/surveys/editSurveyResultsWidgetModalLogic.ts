@@ -7,6 +7,7 @@ import {
     widgetEditModalTileActions,
     buildWidgetTileMetadataPatch,
     getWidgetEditModalTileDefaults,
+    getWidgetEditModalSaveDisabledReason,
 } from '../editWidgetModalBuilders'
 import type { DashboardWidgetEditModalProps } from '../registry'
 import {
@@ -362,49 +363,7 @@ export const editSurveyResultsWidgetModalLogic = kea<editSurveyResultsWidgetModa
                 return fieldErrors
             },
         ],
-        saveDisabledReason: [
-            (s) => [s.saving, s.validation],
-            (
-                saving: boolean,
-                validation:
-                    | {
-                          config: {
-                              dateRange?:
-                                  | {
-                                        date_from?:
-                                            | '-14d'
-                                            | '-1h'
-                                            | '-1M'
-                                            | '-24h'
-                                            | '-30d'
-                                            | '-30M'
-                                            | '-3h'
-                                            | '-7d'
-                                            | '-90d'
-                                            | null
-                                            | undefined
-                                    }
-                                  | null
-                                  | undefined
-                              limit: number
-                              surveyId?: string | null | undefined
-                          }
-                          success: true
-                      }
-                    | {
-                          fieldErrors: Partial<Record<'dateRange' | 'limit' | 'surveyId', string>>
-                          success: false
-                      }
-            ): string | undefined => {
-                if (saving) {
-                    return 'Saving…'
-                }
-                if (!validation.success) {
-                    return 'Fix validation errors to save'
-                }
-                return undefined
-            },
-        ],
+        saveDisabledReason: [(s) => [s.saving, s.validation], getWidgetEditModalSaveDisabledReason],
     }),
 
     defaults(({ props }) => {

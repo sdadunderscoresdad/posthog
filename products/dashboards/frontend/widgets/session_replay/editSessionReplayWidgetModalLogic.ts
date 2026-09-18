@@ -13,6 +13,7 @@ import {
     widgetEditModalTileActions,
     buildWidgetTileMetadataPatch,
     getWidgetEditModalTileDefaults,
+    getWidgetEditModalSaveDisabledReason,
 } from '../editWidgetModalBuilders'
 import type { DashboardWidgetEditModalProps } from '../registry'
 import {
@@ -804,115 +805,7 @@ export const editSessionReplayWidgetModalLogic = kea<editSessionReplayWidgetModa
                 return fieldErrors
             },
         ],
-        saveDisabledReason: [
-            (s) => [s.saving, s.validation],
-            (
-                saving: boolean,
-                validation:
-                    | {
-                          config: {
-                              collectionId?: string | null | undefined
-                              dateRange?:
-                                  | {
-                                        date_from?:
-                                            | '-14d'
-                                            | '-1h'
-                                            | '-1M'
-                                            | '-24h'
-                                            | '-30d'
-                                            | '-30M'
-                                            | '-3h'
-                                            | '-7d'
-                                            | '-90d'
-                                            | null
-                                            | undefined
-                                    }
-                                  | null
-                                  | undefined
-                              filterTestAccounts?: boolean | null | undefined
-                              limit: number
-                              orderBy:
-                                  | 'activity_score'
-                                  | 'click_count'
-                                  | 'console_error_count'
-                                  | 'duration'
-                                  | 'recording_duration'
-                                  | 'start_time'
-                              orderDirection: 'ASC' | 'DESC'
-                              savedFilterId?: string | null | undefined
-                              widgetFilters?:
-                                  | Record<
-                                        string,
-                                        {
-                                            filterId: string
-                                            operator:
-                                                | 'between'
-                                                | 'ends_with'
-                                                | 'exact'
-                                                | 'flag_evaluates_to'
-                                                | 'gt'
-                                                | 'gte'
-                                                | 'icontains'
-                                                | 'icontains_multi'
-                                                | 'in'
-                                                | 'is_cleaned_path_exact'
-                                                | 'is_date_after'
-                                                | 'is_date_before'
-                                                | 'is_date_exact'
-                                                | 'is_not'
-                                                | 'is_not_set'
-                                                | 'is_set'
-                                                | 'lt'
-                                                | 'lte'
-                                                | 'max'
-                                                | 'min'
-                                                | 'not_between'
-                                                | 'not_ends_with'
-                                                | 'not_icontains'
-                                                | 'not_icontains_multi'
-                                                | 'not_in'
-                                                | 'not_regex'
-                                                | 'not_starts_with'
-                                                | 'regex'
-                                                | 'semver_caret'
-                                                | 'semver_eq'
-                                                | 'semver_gt'
-                                                | 'semver_gte'
-                                                | 'semver_lt'
-                                                | 'semver_lte'
-                                                | 'semver_neq'
-                                                | 'semver_tilde'
-                                                | 'semver_wildcard'
-                                                | 'starts_with'
-                                            optionId: string
-                                            propertyName: string
-                                            value?: string | string[] | null | undefined
-                                        }
-                                    >
-                                  | null
-                                  | undefined
-                          }
-                          success: true
-                      }
-                    | {
-                          fieldErrors: Partial<
-                              Record<
-                                  'dateRange' | 'filterTestAccounts' | 'limit' | 'orderBy' | 'orderDirection',
-                                  string
-                              >
-                          >
-                          success: false
-                      }
-            ): string | undefined => {
-                if (saving) {
-                    return 'Saving…'
-                }
-                if (!validation.success) {
-                    return 'Fix validation errors to save'
-                }
-                return undefined
-            },
-        ],
+        saveDisabledReason: [(s) => [s.saving, s.validation], getWidgetEditModalSaveDisabledReason],
     }),
 
     defaults(({ props, values }) => {

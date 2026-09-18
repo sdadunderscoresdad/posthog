@@ -6,6 +6,7 @@ import {
     widgetEditModalTileActions,
     buildWidgetTileMetadataPatch,
     getWidgetEditModalTileDefaults,
+    getWidgetEditModalSaveDisabledReason,
 } from '../editWidgetModalBuilders'
 import type { DashboardWidgetEditModalProps } from '../registry'
 import {
@@ -213,31 +214,7 @@ export const editExperimentResultsWidgetModalLogic = kea<editExperimentResultsWi
                 return fieldErrors
             },
         ],
-        saveDisabledReason: [
-            (s) => [s.saving, s.validation],
-            (
-                saving: boolean,
-                validation:
-                    | {
-                          config: {
-                              experimentId?: number | null | undefined
-                          }
-                          success: true
-                      }
-                    | {
-                          fieldErrors: Partial<Record<'experimentId', string>>
-                          success: false
-                      }
-            ): string | undefined => {
-                if (saving) {
-                    return 'Saving…'
-                }
-                if (!validation.success) {
-                    return 'Fix validation errors to save'
-                }
-                return undefined
-            },
-        ],
+        saveDisabledReason: [(s) => [s.saving, s.validation], getWidgetEditModalSaveDisabledReason],
     }),
 
     defaults(({ props }) => ({

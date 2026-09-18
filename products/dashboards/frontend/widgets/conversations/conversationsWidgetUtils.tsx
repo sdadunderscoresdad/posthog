@@ -2,6 +2,7 @@ import { IconCheckCircle, IconClock, IconWarning } from '@posthog/icons'
 import { Tooltip } from '@posthog/lemon-ui'
 
 import { dayjs } from 'lib/dayjs'
+import { i18n } from 'lib/i18n/i18n'
 
 import type { TicketAssignee } from 'products/conversations/frontend/components/Assignee'
 import { getSlaState } from 'products/conversations/frontend/components/SlaDisplay/SlaDisplay'
@@ -71,16 +72,20 @@ export function TicketSlaIcon({ slaDueAt }: { slaDueAt: string | null }): JSX.El
 
     const slaState = getSlaState(slaDueAt)
     let icon = <IconCheckCircle className="text-success" />
-    let tooltip = 'SLA on track'
+    let stateLabel = i18n.t('dashboardWidgets.conversations.sla.onTrack', { defaultValue: 'SLA on track' })
 
     if (slaState === 'breached') {
         icon = <IconWarning className="text-danger" />
-        tooltip = 'SLA breached'
+        stateLabel = i18n.t('dashboardWidgets.conversations.sla.breached', { defaultValue: 'SLA breached' })
     } else if (slaState === 'at-risk') {
         icon = <IconClock className="text-warning" />
-        tooltip = 'SLA due soon'
+        stateLabel = i18n.t('dashboardWidgets.conversations.sla.dueSoon', { defaultValue: 'SLA due soon' })
     }
-    tooltip = `${tooltip}. Due ${dayjs(slaDueAt).fromNow()}`
+    const tooltip = i18n.t('dashboardWidgets.conversations.sla.due', {
+        label: stateLabel,
+        time: dayjs(slaDueAt).fromNow(),
+        defaultValue: '{{ label }}. Due {{ time }}',
+    })
 
     return (
         <Tooltip title={tooltip}>

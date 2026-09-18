@@ -1,5 +1,6 @@
 import { BindLogic, useActions, useValues } from 'kea'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonDivider } from 'lib/lemon-ui/LemonDivider'
 import { LemonField } from 'lib/lemon-ui/LemonField/LemonField'
@@ -32,14 +33,16 @@ function EditActivityEventsWidgetModalContents(): JSX.Element {
         <LemonModal
             isOpen
             onClose={onClose}
-            title="Widget settings"
-            description="Configure tile details and which events appear on this dashboard."
+            title={i18n.t('dashboardWidgets.editModal.title', { defaultValue: 'Widget settings' })}
+            description={i18n.t('dashboardWidgets.activity.edit.description', {
+                defaultValue: 'Configure tile details and which events appear on this dashboard.',
+            })}
             width={680}
             footer={
                 <>
                     <div className="flex-1" />
                     <LemonButton type="secondary" onClick={onClose} disabled={saving}>
-                        Cancel
+                        {i18n.t('common.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="primary"
@@ -47,7 +50,7 @@ function EditActivityEventsWidgetModalContents(): JSX.Element {
                         disabledReason={saveDisabledReason}
                         onClick={() => submit()}
                     >
-                        Save
+                        {i18n.t('settings.save', { defaultValue: 'Save' })}
                     </LemonButton>
                 </>
             }
@@ -66,18 +69,26 @@ function EditActivityEventsWidgetModalContents(): JSX.Element {
                     <h5 className="text-sm font-semibold m-0">{getDashboardWidgetGroupLabel('activity')}</h5>
                     <div className="flex flex-col gap-4">
                         <EditWidgetModalFiltersSubsection
-                            title="Event filters"
+                            title={i18n.t('dashboardWidgets.activity.edit.eventFilters', {
+                                defaultValue: 'Event filters',
+                            })}
                             filterTestAccounts={filterTestAccounts}
                             saving={saving}
                             setFilterTestAccounts={setFilterTestAccounts}
                         >
                             <p className="text-sm text-muted m-0 sm:col-span-2">
-                                The date range is on the tile filter bar (collapsible on the tile). Use this modal for
-                                test-account filtering and list size.
+                                {i18n.t('dashboardWidgets.activity.edit.filtersHint', {
+                                    defaultValue:
+                                        'The date range is on the tile filter bar (collapsible on the tile). Use this modal for test-account filtering and list size.',
+                                })}
                             </p>
                             <LemonField.Pure
-                                label="Number of events"
-                                help="Show up to 50 events on the tile."
+                                label={i18n.t('dashboardWidgets.activity.edit.numberOfEvents', {
+                                    defaultValue: 'Number of events',
+                                })}
+                                help={i18n.t('dashboardWidgets.activity.edit.numberOfEventsHelp', {
+                                    defaultValue: 'Show up to 50 events on the tile.',
+                                })}
                                 error={activeFieldErrors.limit}
                             >
                                 <LemonInput

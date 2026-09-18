@@ -2,6 +2,7 @@ import { BindLogic, useActions, useValues } from 'kea'
 
 import { LemonButton, LemonInput, LemonModal } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonField } from 'lib/lemon-ui/LemonField/LemonField'
 
 import { EditWidgetModalTileDetailsSection } from '../EditWidgetModalTileDetailsSection'
@@ -17,22 +18,30 @@ function Contents(): JSX.Element {
         <LemonModal
             isOpen
             onClose={onClose}
-            title="Widget settings"
-            description="Configure the tile details and number of recent tickets."
+            title={i18n.t('dashboardWidgets.editModal.title', { defaultValue: 'Widget settings' })}
+            description={i18n.t('dashboardWidgets.conversations.edit.description', {
+                defaultValue: 'Configure the tile details and number of recent tickets.',
+            })}
             width={680}
             footer={
                 <>
                     <div className="flex-1" />
                     <LemonButton type="secondary" onClick={onClose} disabled={saving}>
-                        Cancel
+                        {i18n.t('common.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="primary"
                         loading={saving}
-                        disabledReason={limit < 1 || limit > 25 ? 'Enter a number from 1 to 25' : undefined}
+                        disabledReason={
+                            limit < 1 || limit > 25
+                                ? i18n.t('dashboardWidgets.conversations.edit.limitInvalid', {
+                                      defaultValue: 'Enter a number from 1 to 25',
+                                  })
+                                : undefined
+                        }
                         onClick={() => submit()}
                     >
-                        Save
+                        {i18n.t('settings.save', { defaultValue: 'Save' })}
                     </LemonButton>
                 </>
             }
@@ -46,7 +55,14 @@ function Contents(): JSX.Element {
                     setTileName={setTileName}
                     setTileDescription={setTileDescription}
                 />
-                <LemonField.Pure label="Number of tickets" help="Show up to 25 recently updated tickets.">
+                <LemonField.Pure
+                    label={i18n.t('dashboardWidgets.conversations.edit.numberOfTickets', {
+                        defaultValue: 'Number of tickets',
+                    })}
+                    help={i18n.t('dashboardWidgets.conversations.edit.numberOfTicketsHelp', {
+                        defaultValue: 'Show up to 25 recently updated tickets.',
+                    })}
+                >
                     <LemonInput
                         type="number"
                         min={1}

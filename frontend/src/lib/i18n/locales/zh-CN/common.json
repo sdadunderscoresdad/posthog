@@ -1008,6 +1008,36 @@
             "tile": "磁贴",
             "unnamedInsight": "未命名洞察"
         },
+        "websiteMetricsTiles": {
+            "dailyVisitors": {
+                "name": "每日访客"
+            },
+            "pageviews": {
+                "name": "页面浏览量"
+            },
+            "pageviewsPerSession": {
+                "name": "每次会话页面浏览量"
+            },
+            "searchEnginesVsAi": {
+                "name": "搜索引擎与 AI"
+            },
+            "sessions": {
+                "name": "会话"
+            },
+            "sessionsByChannel": {
+                "description": "会话的来源：自然搜索、直接访问、引荐、付费、社交等。",
+                "name": "按渠道划分的会话"
+            },
+            "topReferrers": {
+                "name": "主要引荐来源"
+            },
+            "topWebsitePages": {
+                "name": "热门网站页面"
+            },
+            "websiteUsersByLocation": {
+                "name": "按地区划分的网站用户"
+            }
+        },
         "widgetType": {
             "insight": "洞察",
             "textCard": "文本卡片"
@@ -1169,6 +1199,25 @@
         "visibilityAriaLabel": "视图可见范围"
     },
     "dashboardWidgets": {
+        "activity": {
+            "edit": {
+                "description": "配置磁贴详情，以及哪些事件会显示在这个仪表盘上。",
+                "eventFilters": "事件筛选",
+                "filtersHint": "日期范围在磁贴筛选栏上（可在磁贴上折叠）。用这个弹窗设置测试账号过滤和列表数量。",
+                "numberOfEvents": "事件数量",
+                "numberOfEventsHelp": "磁贴上最多显示 50 个事件。"
+            },
+            "empty": {
+                "message": "该日期范围内没有事件符合你的筛选。",
+                "title": "暂无事件"
+            },
+            "filters": {
+                "allEvents": "所有事件",
+                "eventLabel": "事件",
+                "propertiesCount_other": "{{ count }} 个筛选条件",
+                "propertiesLabel": "属性"
+            }
+        },
         "addModal": {
             "addButton": "添加组件",
             "addButtonCount_other": "添加 {{ count }} 个组件",
@@ -1185,11 +1234,50 @@
             "refreshData": "刷新数据",
             "refreshing": "正在刷新…"
         },
+        "conversations": {
+            "edit": {
+                "description": "配置磁贴详情和最近工单的数量。",
+                "limitInvalid": "请输入 1 到 25 之间的数字",
+                "numberOfTickets": "工单数量",
+                "numberOfTicketsHelp": "磁贴上最多显示 25 个最近更新的工单。"
+            },
+            "empty": {
+                "filteredMessage": "没有工单符合你的筛选。",
+                "filteredTitle": "未找到工单",
+                "message": "新的支持工单会显示在这里。",
+                "title": "暂无工单"
+            },
+            "error": "无法加载最近的工单，请重试。",
+            "filters": {
+                "allAssignees": "所有负责人",
+                "allPriorities": "所有优先级",
+                "assigneeLabel": "负责人",
+                "clearPriority": "清除优先级筛选",
+                "couldNotLoadSavedViews": "无法加载保存的视图。",
+                "priorityLabel": "优先级",
+                "selectedCount_other": "已选 {{ count }} 项",
+                "statusLabel": "状态"
+            },
+            "loading": "正在加载工单",
+            "sla": {
+                "breached": "SLA 已超时",
+                "due": "{{ label }}。{{ time }}到期",
+                "dueSoon": "SLA 即将超时",
+                "onTrack": "SLA 正常"
+            },
+            "toasts": {
+                "assigneeUpdateFailed": "无法更新负责人，请重试。",
+                "saveFailed": "无法保存组件设置，请检查网络连接后重试。"
+            },
+            "unassigned": "未分配",
+            "updatingAssignee": "正在更新负责人…"
+        },
         "editModal": {
             "descriptionHelp": "显示在磁贴标题下方。支持 markdown。留空则隐藏。",
             "descriptionLabel": "描述",
             "descriptionPlaceholder": "输入描述（可选）",
             "direction": "方向",
+            "fixValidationErrors": "修复校验错误后才能保存",
             "saving": "正在保存…",
             "sortBy": "排序依据",
             "sortDirection": "排序方向",
@@ -1199,6 +1287,25 @@
             "tileNameHelp": "显示在磁贴上。留空则使用默认标题。",
             "tileNameLabel": "标题",
             "title": "组件设置"
+        },
+        "errorTracking": {
+            "edit": {
+                "description": "配置磁贴详情，以及哪些错误跟踪问题会显示在这个仪表盘上。",
+                "descriptionNoIssues": "为此仪表盘组件配置磁贴详情。",
+                "filtersHint": "日期范围、状态和负责人都在磁贴筛选栏上（可在磁贴上折叠）。用这个弹窗设置测试账号过滤、列表数量和排序。",
+                "issueFilters": "问题筛选",
+                "numberOfIssues": "问题数量",
+                "numberOfIssuesHelp": "磁贴上最多显示 25 个问题。",
+                "sortByHelp": "在日期范围内按此指标排序问题。"
+            },
+            "empty": {
+                "message": "没有符合筛选条件的问题，这是好事，享受安静吧。",
+                "title": "全部正常！"
+            },
+            "filters": {
+                "allLabel": "全部",
+                "anyAssignee": "任意负责人"
+            }
         },
         "experimentResults": {
             "description": "所选实验主要指标的当前结果。",
@@ -1453,6 +1560,7 @@
             "newestFirst": "最新优先",
             "noSavedView": "不使用保存的视图",
             "oldestFirst": "最旧优先",
+            "retry": "重试",
             "savedViewLabel": "保存的视图：",
             "savedViewPlaceholder": "保存的视图",
             "serviceCount_other": "{{ count }} 个服务",

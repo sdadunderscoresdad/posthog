@@ -1038,6 +1038,36 @@
             "tile": "",
             "unnamedInsight": ""
         },
+        "websiteMetricsTiles": {
+            "dailyVisitors": {
+                "name": ""
+            },
+            "pageviews": {
+                "name": ""
+            },
+            "pageviewsPerSession": {
+                "name": ""
+            },
+            "searchEnginesVsAi": {
+                "name": ""
+            },
+            "sessions": {
+                "name": ""
+            },
+            "sessionsByChannel": {
+                "description": "",
+                "name": ""
+            },
+            "topReferrers": {
+                "name": ""
+            },
+            "topWebsitePages": {
+                "name": ""
+            },
+            "websiteUsersByLocation": {
+                "name": ""
+            }
+        },
         "widgetType": {
             "insight": "",
             "textCard": ""
@@ -1207,6 +1237,27 @@
         "visibilityAriaLabel": ""
     },
     "dashboardWidgets": {
+        "activity": {
+            "edit": {
+                "description": "",
+                "eventFilters": "",
+                "filtersHint": "",
+                "numberOfEvents": "",
+                "numberOfEventsHelp": ""
+            },
+            "empty": {
+                "message": "",
+                "title": ""
+            },
+            "filters": {
+                "allEvents": "",
+                "eventLabel": "",
+                "propertiesCount_one": "",
+                "propertiesCount_many": "",
+                "propertiesCount_other": "",
+                "propertiesLabel": ""
+            }
+        },
         "addModal": {
             "addButton": "",
             "addButtonCount_one": "",
@@ -1225,11 +1276,52 @@
             "refreshData": "",
             "refreshing": ""
         },
+        "conversations": {
+            "edit": {
+                "description": "",
+                "limitInvalid": "",
+                "numberOfTickets": "",
+                "numberOfTicketsHelp": ""
+            },
+            "empty": {
+                "filteredMessage": "",
+                "filteredTitle": "",
+                "message": "",
+                "title": ""
+            },
+            "error": "",
+            "filters": {
+                "allAssignees": "",
+                "allPriorities": "",
+                "assigneeLabel": "",
+                "clearPriority": "",
+                "couldNotLoadSavedViews": "",
+                "priorityLabel": "",
+                "selectedCount_one": "",
+                "selectedCount_many": "",
+                "selectedCount_other": "",
+                "statusLabel": ""
+            },
+            "loading": "",
+            "sla": {
+                "breached": "",
+                "due": "",
+                "dueSoon": "",
+                "onTrack": ""
+            },
+            "toasts": {
+                "assigneeUpdateFailed": "",
+                "saveFailed": ""
+            },
+            "unassigned": "",
+            "updatingAssignee": ""
+        },
         "editModal": {
             "descriptionHelp": "",
             "descriptionLabel": "",
             "descriptionPlaceholder": "",
             "direction": "",
+            "fixValidationErrors": "",
             "saving": "",
             "sortBy": "",
             "sortDirection": "",
@@ -1239,6 +1331,25 @@
             "tileNameHelp": "",
             "tileNameLabel": "",
             "title": ""
+        },
+        "errorTracking": {
+            "edit": {
+                "description": "",
+                "descriptionNoIssues": "",
+                "filtersHint": "",
+                "issueFilters": "",
+                "numberOfIssues": "",
+                "numberOfIssuesHelp": "",
+                "sortByHelp": ""
+            },
+            "empty": {
+                "message": "",
+                "title": ""
+            },
+            "filters": {
+                "allLabel": "",
+                "anyAssignee": ""
+            }
         },
         "experimentResults": {
             "description": "",
@@ -1493,6 +1604,7 @@
             "newestFirst": "",
             "noSavedView": "",
             "oldestFirst": "",
+            "retry": "",
             "savedViewLabel": "",
             "savedViewPlaceholder": "",
             "serviceCount_one": "",

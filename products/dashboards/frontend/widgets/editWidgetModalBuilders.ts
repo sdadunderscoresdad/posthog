@@ -1,3 +1,5 @@
+import { i18n } from 'lib/i18n/i18n'
+
 import type { WidgetDateFromValue } from '../widget_types/widgetConfigShared'
 import type { DashboardWidgetEditModalProps } from './registry'
 
@@ -139,6 +141,25 @@ export const widgetEditModalPropSelectors = {
     ],
 }
 
+/**
+ * Shared reason a widget edit modal's save button is disabled. Every widget edit modal uses this
+ * so the copy, and its translation, live in one place.
+ */
+export function getWidgetEditModalSaveDisabledReason(
+    saving: boolean,
+    validation: { success: boolean }
+): string | undefined {
+    if (saving) {
+        return i18n.t('dashboardWidgets.editModal.saving', { defaultValue: 'Saving…' })
+    }
+    if (!validation.success) {
+        return i18n.t('dashboardWidgets.editModal.fixValidationErrors', {
+            defaultValue: 'Fix validation errors to save',
+        })
+    }
+    return undefined
+}
+
 export const widgetEditModalValidationSelectors = {
     activeFieldErrors: [
         (s: { validation: ValidationResult; fieldErrors: Record<string, string> }) => [s.validation, s.fieldErrors],
@@ -151,14 +172,6 @@ export const widgetEditModalValidationSelectors = {
     ],
     saveDisabledReason: [
         (s: { saving: boolean; validation: ValidationResult }) => [s.saving, s.validation],
-        (saving: boolean, validation: ValidationResult): string | undefined => {
-            if (saving) {
-                return 'Saving…'
-            }
-            if (!validation.success) {
-                return 'Fix validation errors to save'
-            }
-            return undefined
-        },
+        getWidgetEditModalSaveDisabledReason,
     ],
 }
