@@ -18,8 +18,6 @@ import {
     SDK_CONFIGS,
 } from './SDKSetupInstructions'
 
-const PROXY_SDK_OPTIONS = buildSDKSelectOptions(['web', 'mobile'])
-
 export function ProxySDKSetup(): JSX.Element {
     const { t } = useTranslation()
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
@@ -27,6 +25,7 @@ export function ProxySDKSetup(): JSX.Element {
     const [showFullSetup, setShowFullSetup] = useState(false)
 
     const config = useMemo(() => SDK_CONFIGS[selectedSDK], [selectedSDK])
+    const proxySDKOptions = useMemo(() => buildSDKSelectOptions(t, ['web', 'mobile']), [t])
 
     if (currentTeamLoading && !currentTeam) {
         return (
@@ -51,7 +50,7 @@ export function ProxySDKSetup(): JSX.Element {
                     setSelectedSDK(value)
                     setShowFullSetup(false)
                 }}
-                options={PROXY_SDK_OPTIONS}
+                options={proxySDKOptions}
                 className="max-w-80"
             />
             <OnboardingDocsContentWrapper snippets={snippets} minimal useReverseProxy>

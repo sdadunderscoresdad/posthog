@@ -2076,6 +2076,7 @@
         "journeysBasedOn": "Journeys based on",
         "lastComputed": "Last computed",
         "lastModifiedBy": "Last modified by",
+        "or": "or",
         "overridden": "Overridden:",
         "performed": "performed",
         "querySummaryUnavailable": "Query summary is not available for {{ kind }} yet",
@@ -2693,7 +2694,8 @@
                 "useUniqUpToDescription": "Uses the <code>uniqUpTo</code> function to count if the total unique pageviews + screen events + autocaptures is >= 2"
             },
             "businessModel": {
-                "notSpecified": "Not specified"
+                "notSpecified": "Not specified",
+                "other": "Other"
             },
             "cookielessServerHashMode": {
                 "description": "When cookieless tracking is enabled, the IP address is hashed into the distinct ID and stripped before transformations run, so IP-based transformations like GeoIP enrichment and bot detection will not enrich those events.",
@@ -3310,8 +3312,15 @@
                 }
             },
             "sdkSetup": {
+                "category": {
+                    "integration": "Integrations",
+                    "mobile": "Mobile",
+                    "server": "Server",
+                    "web": "Web"
+                },
                 "docsLink": "{{ name }} docs",
                 "modalTitle": "{{ name }} setup",
+                "popular": "Popular",
                 "viewFullDocs": "View full {{ name }} documentation",
                 "viewFullInstructions": "View full setup instructions"
             },
@@ -3356,6 +3365,9 @@
                 "v1": "Version 1",
                 "v2": "Version 2",
                 "v3": "Version 3"
+            },
+            "sessionsV2JoinMode": {
+                "string": "String"
             },
             "taskAgentDefaults": {
                 "adminsOnlyNotice": "Only project admins can change this. You can still set your own default below.",
@@ -3515,6 +3527,11 @@
                 "format": {
                     "currency": "Currency",
                     "numeric": "Numeric"
+                },
+                "intervals": {
+                    "days30": "30d",
+                    "days7": "7d",
+                    "days90": "90d"
                 },
                 "intro": "Define what usage means for your product based on one or more events.",
                 "introPlacement": "Usage metrics are displayed in the person {{ surface }}.",
@@ -5564,6 +5581,7 @@
                 "messagePlaceholder": "Optional details",
                 "new": "New reminder",
                 "noEndDate": "No end date",
+                "organizationWide": "Organization-wide (no project)",
                 "recurrence": {
                     "daily": "Daily",
                     "monthly": "Monthly",

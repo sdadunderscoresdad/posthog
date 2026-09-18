@@ -31,7 +31,10 @@ export function BusinessModelConfig(): JSX.Element {
                 },
                 { value: 'b2b', label: 'B2B' },
                 { value: 'b2c', label: 'B2C' },
-                { value: 'other', label: 'Other' },
+                {
+                    value: 'other',
+                    label: i18n.t('settings.environment.businessModel.other', { defaultValue: 'Other' }),
+                },
             ]}
         />
     )

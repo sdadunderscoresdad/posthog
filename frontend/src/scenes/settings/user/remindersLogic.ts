@@ -322,7 +322,12 @@ export const remindersLogic = kea<remindersLogicType>([
             (
                 currentOrganization: null | import('../../../types').OrganizationType
             ): { value: number | null; label: string }[] => [
-                { value: null, label: 'Organization-wide (no project)' },
+                {
+                    value: null,
+                    label: i18n.t('settings.user.reminders.organizationWide', {
+                        defaultValue: 'Organization-wide (no project)',
+                    }),
+                },
                 ...(currentOrganization?.teams ?? []).map((team) => ({ value: team.id, label: team.name })),
             ],
         ],

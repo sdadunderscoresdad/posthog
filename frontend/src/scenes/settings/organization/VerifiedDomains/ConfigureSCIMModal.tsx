@@ -85,7 +85,7 @@ export function ConfigureSCIMModal(): JSX.Element {
                 },
             },
             secondaryButton: {
-                children: 'Cancel',
+                children: i18n.t('common.cancel', { defaultValue: 'Cancel' }),
             },
         })
     }

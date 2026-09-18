@@ -2053,6 +2053,7 @@
         "journeysBasedOn": "旅程基于",
         "lastComputed": "上次计算",
         "lastModifiedBy": "最后修改者",
+        "or": "或",
         "overridden": "已被覆盖：",
         "performed": "执行了",
         "querySummaryUnavailable": "暂不支持 {{ kind }} 的查询摘要",
@@ -2666,7 +2667,8 @@
                 "useUniqUpToDescription": "使用 <code>uniqUpTo</code> 函数，判断唯一页面浏览量 + 屏幕事件 + 自动捕获的总数是否 >= 2"
             },
             "businessModel": {
-                "notSpecified": "未指定"
+                "notSpecified": "未指定",
+                "other": "其他"
             },
             "cookielessServerHashMode": {
                 "description": "启用无 Cookie 跟踪后，IP 地址会被哈希进 distinct ID，并在转换执行前被剥离，因此基于 IP 的转换（例如 GeoIP 增强和机器人检测）不会对这些事件做增强。",
@@ -3272,8 +3274,15 @@
                 }
             },
             "sdkSetup": {
+                "category": {
+                    "integration": "集成",
+                    "mobile": "移动端",
+                    "server": "服务端",
+                    "web": "Web"
+                },
                 "docsLink": "{{ name }} 文档",
                 "modalTitle": "{{ name }} 接入设置",
+                "popular": "热门",
                 "viewFullDocs": "查看完整的 {{ name }} 文档",
                 "viewFullInstructions": "查看完整接入说明"
             },
@@ -3318,6 +3327,9 @@
                 "v1": "版本 1",
                 "v2": "版本 2",
                 "v3": "版本 3"
+            },
+            "sessionsV2JoinMode": {
+                "string": "字符串"
             },
             "taskAgentDefaults": {
                 "adminsOnlyNotice": "只有项目管理员可以修改此项。你仍然可以在下方设置自己的默认值。",
@@ -3472,6 +3484,11 @@
                 "format": {
                     "currency": "货币",
                     "numeric": "数值"
+                },
+                "intervals": {
+                    "days30": "30 天",
+                    "days7": "7 天",
+                    "days90": "90 天"
                 },
                 "intro": "用一个或多个事件来定义对你产品而言什么算作使用。",
                 "introPlacement": "使用指标会展示在个人{{ surface }}中。",
@@ -5509,6 +5526,7 @@
                 "messagePlaceholder": "可选详情",
                 "new": "新建提醒",
                 "noEndDate": "不设结束日期",
+                "organizationWide": "整个组织（不限项目）",
                 "recurrence": {
                     "daily": "每天",
                     "monthly": "每月",

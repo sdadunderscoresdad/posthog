@@ -203,9 +203,24 @@ function UsageMetricsForm(): JSX.Element {
                     >
                         <LemonSelect
                             options={[
-                                { value: 7, label: '7d' },
-                                { value: 30, label: '30d' },
-                                { value: 90, label: '90d' },
+                                {
+                                    value: 7,
+                                    label: t('settings.environment.usageMetrics.intervals.days7', {
+                                        defaultValue: '7d',
+                                    }),
+                                },
+                                {
+                                    value: 30,
+                                    label: t('settings.environment.usageMetrics.intervals.days30', {
+                                        defaultValue: '30d',
+                                    }),
+                                },
+                                {
+                                    value: 90,
+                                    label: t('settings.environment.usageMetrics.intervals.days90', {
+                                        defaultValue: '90d',
+                                    }),
+                                },
                             ]}
                         />
                     </LemonField>

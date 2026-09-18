@@ -236,7 +236,9 @@ function SeriesDisplay({
         series.kind === 'GroupNode' ? (
             series.nodes.map((node, i) => (
                 <React.Fragment key={i}>
-                    {i > 0 && <span className="text-muted"> or </span>}
+                    {i > 0 && (
+                        <span className="text-muted"> {i18n.t('insightDetails.or', { defaultValue: 'or' })} </span>
+                    )}
                     <EntityDisplay entity={node} />
                 </React.Fragment>
             ))

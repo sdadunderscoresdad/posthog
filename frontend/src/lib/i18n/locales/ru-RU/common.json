@@ -2144,6 +2144,7 @@
         "journeysBasedOn": "",
         "lastComputed": "",
         "lastModifiedBy": "",
+        "or": "",
         "overridden": "",
         "performed": "",
         "querySummaryUnavailable": "",
@@ -2771,7 +2772,8 @@
                 "useUniqUpToDescription": ""
             },
             "businessModel": {
-                "notSpecified": ""
+                "notSpecified": "",
+                "other": ""
             },
             "cookielessServerHashMode": {
                 "description": "",
@@ -3410,8 +3412,15 @@
                 }
             },
             "sdkSetup": {
+                "category": {
+                    "integration": "",
+                    "mobile": "",
+                    "server": "",
+                    "web": ""
+                },
                 "docsLink": "",
                 "modalTitle": "",
+                "popular": "",
                 "viewFullDocs": "",
                 "viewFullInstructions": ""
             },
@@ -3456,6 +3465,9 @@
                 "v1": "",
                 "v2": "",
                 "v3": ""
+            },
+            "sessionsV2JoinMode": {
+                "string": ""
             },
             "taskAgentDefaults": {
                 "adminsOnlyNotice": "",
@@ -3625,6 +3637,11 @@
                 "format": {
                     "currency": "",
                     "numeric": ""
+                },
+                "intervals": {
+                    "days30": "",
+                    "days7": "",
+                    "days90": ""
                 },
                 "intro": "",
                 "introPlacement": "",
@@ -5698,6 +5715,7 @@
                 "messagePlaceholder": "",
                 "new": "",
                 "noEndDate": "",
+                "organizationWide": "",
                 "recurrence": {
                     "daily": "",
                     "monthly": "",

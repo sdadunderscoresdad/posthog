@@ -1,3 +1,4 @@
+import type { TFunction } from 'i18next'
 import { useValues } from 'kea'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -299,14 +300,20 @@ export const SDK_CONFIGS: { [key in SDKKey]?: SDKConfig } = {
     },
 }
 
-const CATEGORY_TITLES: Record<SDKCategory, string> = {
-    web: 'Web',
-    mobile: 'Mobile',
-    server: 'Server',
-    integration: 'Integrations',
+function categoryTitle(t: TFunction, category: SDKCategory): string {
+    switch (category) {
+        case 'web':
+            return t('settings.environment.sdkSetup.category.web', { defaultValue: 'Web' })
+        case 'mobile':
+            return t('settings.environment.sdkSetup.category.mobile', { defaultValue: 'Mobile' })
+        case 'server':
+            return t('settings.environment.sdkSetup.category.server', { defaultValue: 'Server' })
+        case 'integration':
+            return t('settings.environment.sdkSetup.category.integration', { defaultValue: 'Integrations' })
+    }
 }
 
-export function buildSDKSelectOptions(categories?: SDKCategory[]): LemonSelectSection<SDKKey>[] {
+export function buildSDKSelectOptions(t: TFunction, categories?: SDKCategory[]): LemonSelectSection<SDKKey>[] {
     const entries = Object.entries(SDK_CONFIGS) as [SDKKey, SDKConfig][]
     const filtered = categories ? entries.filter(([_, c]) => categories.includes(c.category)) : entries
 
@@ -314,7 +321,10 @@ export function buildSDKSelectOptions(categories?: SDKCategory[]): LemonSelectSe
 
     const popular = filtered.filter(([_, c]) => c.popular)
     if (popular.length > 0) {
-        groups.push({ title: 'Popular', options: popular.map(([k, c]) => ({ value: k, label: c.name })) })
+        groups.push({
+            title: t('settings.environment.sdkSetup.popular', { defaultValue: 'Popular' }),
+            options: popular.map(([k, c]) => ({ value: k, label: c.name })),
+        })
     }
 
     for (const cat of ['web', 'mobile', 'server', 'integration'] as const) {
@@ -323,16 +333,15 @@ export function buildSDKSelectOptions(categories?: SDKCategory[]): LemonSelectSe
         }
         const items = filtered.filter(([_, c]) => c.category === cat && !c.popular)
         if (items.length > 0) {
-            groups.push({ title: CATEGORY_TITLES[cat], options: items.map(([k, c]) => ({ value: k, label: c.name })) })
+            groups.push({
+                title: categoryTitle(t, cat),
+                options: items.map(([k, c]) => ({ value: k, label: c.name })),
+            })
         }
     }
 
     return groups
 }
-
-// Derived purely from the static SDK_CONFIGS, so compute once at module scope rather than rebuilding
-// a fresh options array (new identity) on every render.
-const ALL_SDK_SELECT_OPTIONS = buildSDKSelectOptions()
 
 export function SDKSetupInstructions(): JSX.Element {
     const { currentTeam, currentTeamLoading } = useValues(teamLogic)
@@ -341,6 +350,8 @@ export function SDKSetupInstructions(): JSX.Element {
 
     const { t } = useTranslation()
     const config = useMemo(() => SDK_CONFIGS[selectedSDK], [selectedSDK])
+    // Rebuilt only when the translator changes, so the option array keeps a stable identity.
+    const allSDKSelectOptions = useMemo(() => buildSDKSelectOptions(t), [t])
 
     if (currentTeamLoading && !currentTeam) {
         return (
@@ -366,7 +377,7 @@ export function SDKSetupInstructions(): JSX.Element {
                     setSelectedSDK(value)
                     setShowFullSetup(false)
                 }}
-                options={ALL_SDK_SELECT_OPTIONS}
+                options={allSDKSelectOptions}
                 className="max-w-80"
             />
             <OnboardingDocsContentWrapper snippets={snippets} minimal useReverseProxy={isClientSideSDK}>

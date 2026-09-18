@@ -45,8 +45,8 @@ export function WeekStartConfig({ displayWarning = true }: { displayWarning?: bo
                 }
             }}
             options={[
-                { value: 0, label: 'Sunday' },
-                { value: 1, label: 'Monday' },
+                { value: 0, label: i18n.t('settings.environment.weekStart.sunday', { defaultValue: 'Sunday' }) },
+                { value: 1, label: i18n.t('settings.environment.weekStart.monday', { defaultValue: 'Monday' }) },
             ]}
             disabledReason={restrictedReason}
         />

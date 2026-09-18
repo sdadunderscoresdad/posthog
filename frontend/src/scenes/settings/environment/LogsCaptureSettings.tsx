@@ -206,7 +206,7 @@ export function LogsRetentionSettings(): JSX.Element {
                         },
                     }),
             },
-            secondaryButton: { children: 'Cancel' },
+            secondaryButton: { children: i18n.t('common.cancel', { defaultValue: 'Cancel' }) },
         })
     }
 

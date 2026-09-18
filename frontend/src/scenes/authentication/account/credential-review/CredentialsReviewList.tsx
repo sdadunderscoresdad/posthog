@@ -161,7 +161,7 @@ export function CredentialsReviewList(): JSX.Element {
                         rowKey={(passkey) => passkey.id}
                         columns={[
                             {
-                                title: 'Label',
+                                title: t('credentialsReview.columns.label', { defaultValue: 'Label' }),
                                 dataIndex: 'label',
                                 render: (_, passkey) => <span className="font-semibold">{passkey.label}</span>,
                             },
@@ -170,7 +170,7 @@ export function CredentialsReviewList(): JSX.Element {
                                 render: (_, passkey) => passkeyTypeLabel(passkey),
                             },
                             {
-                                title: 'Created',
+                                title: t('credentialsReview.columns.created', { defaultValue: 'Created' }),
                                 dataIndex: 'created_at',
                                 render: (value) => humanFriendlyDetailedTime(value as string),
                             },
