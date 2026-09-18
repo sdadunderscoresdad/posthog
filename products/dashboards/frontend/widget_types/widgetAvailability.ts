@@ -43,19 +43,24 @@ export const WIDGET_AVAILABILITY_PRESENTATION: Record<WidgetAvailabilityRequirem
         },
     }
 
-export type WidgetAvailabilityConfig = {
+/** What a widget catalog entry declares: which requirement gates it, and where its docs live. */
+export type WidgetAvailabilityRequirement = {
     /** Stable id evaluated by `widgetAvailability` helpers. */
     requirement: WidgetAvailabilityRequirementId
+    /** Optional docs link for a secondary CTA. */
+    docsHref?: string
+    /** Use compact spacing when the setup prompt must fit a short widget tile. */
+    compactSetupPrompt?: boolean
+}
+
+/** A requirement plus the copy its setup prompt shows, resolved from the message catalog. */
+export type WidgetAvailabilityConfig = WidgetAvailabilityRequirement & {
     /** Title shown in setup prompts when the requirement is unmet. */
     unavailableTitle: string
     /** Body copy shown in setup prompts when the requirement is unmet. */
     unavailableReason: string
     /** Primary setup CTA label. */
     setupActionLabel: string
-    /** Optional docs link for a secondary CTA. */
-    docsHref?: string
-    /** Use compact spacing when the setup prompt must fit a short widget tile. */
-    compactSetupPrompt?: boolean
 }
 
 export type WidgetAvailabilityStatus = {
