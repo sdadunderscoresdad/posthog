@@ -1,8 +1,13 @@
 import { LemonSkeleton } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
+
 export function DashboardLoadingState(): JSX.Element {
     return (
-        <div className="flex flex-col gap-4" aria-label="Loading dashboard">
+        <div
+            className="flex flex-col gap-4"
+            aria-label={i18n.t('dashboard.loadingState.ariaLabel', { defaultValue: 'Loading dashboard' })}
+        >
             <div className="flex flex-wrap items-center justify-between gap-2" data-attr="dashboard-loading-controls">
                 <div className="flex flex-wrap items-center gap-2">
                     <LemonSkeleton className="h-8 w-36 rounded" />

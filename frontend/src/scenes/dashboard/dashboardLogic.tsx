@@ -27,7 +27,7 @@ import { Trans } from 'react-i18next'
 import { LemonButton, LemonDialog, lemonToast } from '@posthog/lemon-ui'
 import type { DashboardWidgetRunResultApi } from '@posthog/products-dashboards/frontend/generated/api.schemas'
 import { isWidgetConfigValidationError, updateDashboardWidgetTile } from '@posthog/products-dashboards/frontend/utils'
-import { DASHBOARD_WIDGET_FETCH_ERROR_MESSAGE } from '@posthog/products-dashboards/frontend/widgets/constants'
+import { getDashboardWidgetFetchErrorMessage } from '@posthog/products-dashboards/frontend/widgets/constants'
 import {
     applyIssueMetadataToWidgetListResult,
     type WidgetIssueMetadataContext,
@@ -4419,11 +4419,11 @@ export const dashboardLogic = kea<dashboardLogicType>([
                         actions.setWidgetRefreshStatuses(
                             [result.tile_id],
                             false,
-                            result.error ? DASHBOARD_WIDGET_FETCH_ERROR_MESSAGE : null
+                            result.error ? getDashboardWidgetFetchErrorMessage() : null
                         )
                     }
                 } catch {
-                    actions.setWidgetRefreshStatuses(chunk, false, DASHBOARD_WIDGET_FETCH_ERROR_MESSAGE)
+                    actions.setWidgetRefreshStatuses(chunk, false, getDashboardWidgetFetchErrorMessage())
                 }
             })
 

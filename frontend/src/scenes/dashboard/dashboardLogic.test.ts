@@ -6,7 +6,7 @@ import { expectLogic, truth } from 'kea-test-utils'
 
 import { LemonDialog, lemonToast } from '@posthog/lemon-ui'
 import * as dashboardWidgetUtils from '@posthog/products-dashboards/frontend/utils'
-import { DASHBOARD_WIDGET_FETCH_ERROR_MESSAGE } from '@posthog/products-dashboards/frontend/widgets/constants'
+import { getDashboardWidgetFetchErrorMessage } from '@posthog/products-dashboards/frontend/widgets/constants'
 
 import api from 'lib/api'
 import { ApiError } from 'lib/api-error'
@@ -4042,7 +4042,7 @@ describe('dashboardLogic', () => {
                 logic.actions.refreshDashboardWidgets({ tileIds: [WIDGET_TILE.id], forceRefresh: true })
             }).toFinishAllListeners()
 
-            expect(logic.values.widgetRefreshStatus[WIDGET_TILE.id]?.error).toBe(DASHBOARD_WIDGET_FETCH_ERROR_MESSAGE)
+            expect(logic.values.widgetRefreshStatus[WIDGET_TILE.id]?.error).toBe(getDashboardWidgetFetchErrorMessage())
         })
 
         it('refreshDashboardWidgets sets friendly error when run_widgets returns per-tile error', async () => {
@@ -4063,7 +4063,7 @@ describe('dashboardLogic', () => {
                 logic.actions.refreshDashboardWidgets({ tileIds: [WIDGET_TILE.id], forceRefresh: true })
             }).toFinishAllListeners()
 
-            expect(logic.values.widgetRefreshStatus[WIDGET_TILE.id]?.error).toBe(DASHBOARD_WIDGET_FETCH_ERROR_MESSAGE)
+            expect(logic.values.widgetRefreshStatus[WIDGET_TILE.id]?.error).toBe(getDashboardWidgetFetchErrorMessage())
             expect(logic.values.widgetResultsByTileId[WIDGET_TILE.id]?.error).toBe('Query timeout')
         })
 
@@ -4092,7 +4092,7 @@ describe('dashboardLogic', () => {
             }).toFinishAllListeners()
 
             expect(logic.values.widgetRefreshStatus[10]?.error).toBeNull()
-            expect(logic.values.widgetRefreshStatus[11]?.error).toBe(DASHBOARD_WIDGET_FETCH_ERROR_MESSAGE)
+            expect(logic.values.widgetRefreshStatus[11]?.error).toBe(getDashboardWidgetFetchErrorMessage())
         })
 
         it('duplicateTile refreshes newly duplicated widget tiles', async () => {

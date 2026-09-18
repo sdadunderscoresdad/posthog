@@ -21,7 +21,7 @@ import { webScriptsEmptyState } from 'products/cdp/frontend/emptyState/webScript
 import { cohortsEmptyState } from 'products/cohorts/frontend/emptyState/cohortsEmptyState'
 import { supportEmptyState } from 'products/conversations/frontend/emptyState/supportEmptyState'
 import { customerAnalyticsEmptyState } from 'products/customer_analytics/frontend/emptyState/customerAnalyticsEmptyState'
-import { dashboardsEmptyState } from 'products/dashboards/frontend/emptyState/dashboardsEmptyState'
+import { getDashboardsEmptyState } from 'products/dashboards/frontend/emptyState/dashboardsEmptyState'
 import { dataCatalogEmptyState } from 'products/data_catalog/frontend/emptyState/dataCatalogEmptyState'
 import { dataWarehouseEmptyState } from 'products/data_warehouse/frontend/emptyState/dataWarehouseEmptyState'
 import { earlyAccessFeaturesEmptyState } from 'products/early_access_features/frontend/emptyState/earlyAccessFeaturesEmptyState'
@@ -307,7 +307,7 @@ const dashboardsMocks = {
 } as const
 
 export const DashboardsNeedsSetup: ProductEmptyStateStory = productEmptyStateStory(
-    dashboardsEmptyState,
+    getDashboardsEmptyState(),
     'needs-setup',
     { mocks: dashboardsMocks }
 )

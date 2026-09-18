@@ -1,13 +1,25 @@
 import { deepEqual as equal } from 'fast-equals'
 
 import { formatPropertyLabel } from 'lib/components/PropertyFilters/utils'
+import { i18n } from 'lib/i18n/i18n'
 import { dateFilterToText } from 'lib/utils/dateFilters'
 import { capitalizeFirstLetter } from 'lib/utils/strings'
 
 import type { DashboardFilter, HogQLVariable, MultipleBreakdownType } from '~/queries/schema/schema-general'
 import { type AnyPropertyFilter, type BreakdownType, PropertyFilterType } from '~/types'
 
+/** Which dashboard setting a change touches. Drives the icon and the label. */
+export type DashboardChangeKind =
+    | 'propertyFilter'
+    | 'propertyFilters'
+    | 'dateRange'
+    | 'interval'
+    | 'breakdown'
+    | 'testAccounts'
+    | 'variable'
+
 export interface DashboardSettingsChange {
+    kind: DashboardChangeKind
     label: string
     previousValue: string[]
     value: string[]
@@ -84,6 +96,7 @@ export function getDashboardVariableChanges(
 
         return [
             {
+                kind: 'variable' as const,
                 label: current?.code_name ?? previous?.code_name ?? variableId,
                 previousValue: formatVariableValue(previous),
                 value: formatVariableValue(current),
@@ -93,19 +106,47 @@ export function getDashboardVariableChanges(
     })
 }
 
-const DASHBOARD_FILTER_TYPE_LABELS: Partial<Record<string, string>> = {
-    [PropertyFilterType.Cohort]: 'cohort',
-    [PropertyFilterType.DataWarehouse]: 'data warehouse property',
-    [PropertyFilterType.DataWarehousePersonProperty]: 'data warehouse person property',
-    [PropertyFilterType.Element]: 'element',
-    [PropertyFilterType.Event]: 'event property',
-    [PropertyFilterType.EventMetadata]: 'event metadata',
-    [PropertyFilterType.Feature]: 'feature flag',
-    [PropertyFilterType.Group]: 'group property',
-    [PropertyFilterType.HogQL]: 'SQL expression',
-    [PropertyFilterType.Person]: 'person property',
-    [PropertyFilterType.RevenueAnalytics]: 'revenue analytics property',
-    [PropertyFilterType.Session]: 'session property',
+function getDashboardFilterTypeLabels(): Partial<Record<string, string>> {
+    return {
+        [PropertyFilterType.Cohort]: i18n.t('dashboard.settingsChanges.filterTypes.cohort', {
+            defaultValue: 'cohort',
+        }),
+        [PropertyFilterType.DataWarehouse]: i18n.t('dashboard.settingsChanges.filterTypes.dataWarehouseProperty', {
+            defaultValue: 'data warehouse property',
+        }),
+        [PropertyFilterType.DataWarehousePersonProperty]: i18n.t(
+            'dashboard.settingsChanges.filterTypes.dataWarehousePersonProperty',
+            { defaultValue: 'data warehouse person property' }
+        ),
+        [PropertyFilterType.Element]: i18n.t('dashboard.settingsChanges.filterTypes.element', {
+            defaultValue: 'element',
+        }),
+        [PropertyFilterType.Event]: i18n.t('dashboard.settingsChanges.filterTypes.eventProperty', {
+            defaultValue: 'event property',
+        }),
+        [PropertyFilterType.EventMetadata]: i18n.t('dashboard.settingsChanges.filterTypes.eventMetadata', {
+            defaultValue: 'event metadata',
+        }),
+        [PropertyFilterType.Feature]: i18n.t('dashboard.settingsChanges.filterTypes.featureFlag', {
+            defaultValue: 'feature flag',
+        }),
+        [PropertyFilterType.Group]: i18n.t('dashboard.settingsChanges.filterTypes.groupProperty', {
+            defaultValue: 'group property',
+        }),
+        [PropertyFilterType.HogQL]: i18n.t('dashboard.settingsChanges.filterTypes.sqlExpression', {
+            defaultValue: 'SQL expression',
+        }),
+        [PropertyFilterType.Person]: i18n.t('dashboard.settingsChanges.filterTypes.personProperty', {
+            defaultValue: 'person property',
+        }),
+        [PropertyFilterType.RevenueAnalytics]: i18n.t(
+            'dashboard.settingsChanges.filterTypes.revenueAnalyticsProperty',
+            { defaultValue: 'revenue analytics property' }
+        ),
+        [PropertyFilterType.Session]: i18n.t('dashboard.settingsChanges.filterTypes.sessionProperty', {
+            defaultValue: 'session property',
+        }),
+    }
 }
 
 // The same property name exists in several taxonomies, and the formatted label carries only the
@@ -113,8 +154,14 @@ const DASHBOARD_FILTER_TYPE_LABELS: Partial<Record<string, string>> = {
 // reads as the same filter removed and added again.
 function formatProperty(property: AnyPropertyFilter): string {
     const label = formatPropertyLabel(property, {}).trim()
-    const taxonomy = property.type ? DASHBOARD_FILTER_TYPE_LABELS[property.type] : undefined
-    return taxonomy ? `${label} (${taxonomy})` : label
+    const taxonomy = property.type ? getDashboardFilterTypeLabels()[property.type] : undefined
+    return taxonomy
+        ? i18n.t('dashboard.settingsChanges.taxonomySuffix', {
+              label,
+              taxonomy,
+              defaultValue: '{{ label }} ({{ taxonomy }})',
+          })
+        : label
 }
 
 function propertyIdentity(property: AnyPropertyFilter): string {
@@ -130,10 +177,16 @@ function propertyIdentity(property: AnyPropertyFilter): string {
 }
 
 function formatDateRange(filters: DashboardFilter): string {
-    const dateRange = dateFilterToText(filters.date_from, filters.date_to, 'All time') || 'All time'
+    const allTime = i18n.t('dashboard.settingsChanges.allTime', { defaultValue: 'All time' })
+    const dateRange = dateFilterToText(filters.date_from, filters.date_to, allTime) || allTime
     // explicitDate moves the period boundaries to the current time, so a flip of the "Exact time
     // range" switch alone has to read as a change rather than as the same range twice.
-    return filters.explicitDate ? `${dateRange} (exact time range)` : dateRange
+    return filters.explicitDate
+        ? i18n.t('dashboard.settingsChanges.exactTimeRangeSuffix', {
+              range: dateRange,
+              defaultValue: '{{ range }} (exact time range)',
+          })
+        : dateRange
 }
 
 // The same property name exists in several taxonomies, so a breakdown that keeps the name and
@@ -143,8 +196,14 @@ function formatBreakdownValue(
     type: BreakdownType | MultipleBreakdownType | null | undefined
 ): string {
     const name = String(property)
-    const label = type ? DASHBOARD_FILTER_TYPE_LABELS[type] : undefined
-    return label ? `${name} (${label})` : name
+    const label = type ? getDashboardFilterTypeLabels()[type] : undefined
+    return label
+        ? i18n.t('dashboard.settingsChanges.taxonomySuffix', {
+              label: name,
+              taxonomy: label,
+              defaultValue: '{{ label }} ({{ taxonomy }})',
+          })
+        : name
 }
 
 function formatBreakdown(filters: DashboardFilter): string[] {
@@ -167,10 +226,30 @@ function formatBreakdown(filters: DashboardFilter): string[] {
 
 function formatTestAccounts(filterTestAccounts: DashboardFilter['filterTestAccounts']): string {
     if (filterTestAccounts === null || filterTestAccounts === undefined) {
-        return 'Default'
+        return i18n.t('dashboard.settingsChanges.defaultValue', { defaultValue: 'Default' })
     }
     // A true filterTestAccounts filters internal and test users out.
-    return filterTestAccounts ? 'Excluded' : 'Included'
+    return filterTestAccounts
+        ? i18n.t('dashboard.settingsChanges.excluded', { defaultValue: 'Excluded' })
+        : i18n.t('dashboard.settingsChanges.included', { defaultValue: 'Included' })
+}
+
+function formatInterval(interval: string | null | undefined): string | undefined {
+    switch (interval) {
+        case 'hour':
+            return i18n.t('dashboard.settingsChanges.interval.hour', { defaultValue: 'Hour' })
+        case 'day':
+            return i18n.t('dashboard.settingsChanges.interval.day', { defaultValue: 'Day' })
+        case 'week':
+            return i18n.t('dashboard.settingsChanges.interval.week', { defaultValue: 'Week' })
+        case 'month':
+            return i18n.t('dashboard.settingsChanges.interval.month', { defaultValue: 'Month' })
+        case null:
+        case undefined:
+            return undefined
+        default:
+            return capitalizeFirstLetter(interval)
+    }
 }
 
 function getChangeStatus(previousExists: boolean, currentExists: boolean): DashboardFilterChange['status'] {
@@ -194,7 +273,10 @@ function getPropertyChanges(previous: AnyPropertyFilter[], current: AnyPropertyF
 
         if (previousIndex === -1) {
             changes.push({
-                label: 'Property filter',
+                kind: 'propertyFilter',
+                label: i18n.t('dashboard.settingsChanges.filter.propertyFilter', {
+                    defaultValue: 'Property filter',
+                }),
                 previousValue: [],
                 value: [formatProperty(property)],
                 status: 'new',
@@ -205,7 +287,10 @@ function getPropertyChanges(previous: AnyPropertyFilter[], current: AnyPropertyF
         const previousProperty = unmatchedPrevious.splice(previousIndex, 1)[0]
         if (!equal(previousProperty, property)) {
             changes.push({
-                label: 'Property filter',
+                kind: 'propertyFilter',
+                label: i18n.t('dashboard.settingsChanges.filter.propertyFilter', {
+                    defaultValue: 'Property filter',
+                }),
                 previousValue: [formatProperty(previousProperty)],
                 value: [formatProperty(property)],
                 status: 'changed',
@@ -215,7 +300,10 @@ function getPropertyChanges(previous: AnyPropertyFilter[], current: AnyPropertyF
 
     unmatchedPrevious.forEach((property) => {
         changes.push({
-            label: 'Property filter',
+            kind: 'propertyFilter',
+            label: i18n.t('dashboard.settingsChanges.filter.propertyFilter', {
+                defaultValue: 'Property filter',
+            }),
             previousValue: [formatProperty(property)],
             value: [],
             status: 'removed',
@@ -234,15 +322,21 @@ function getPropertyFilterChanges(
     const changes = getPropertyChanges(previousProperties, currentProperties)
     const previousPropertiesAreExplicit = previousFilters.properties != null
     const currentPropertiesAreExplicit = currentFilters.properties != null
+    const noPropertyFilters = i18n.t('dashboard.settingsChanges.noPropertyFilters', {
+        defaultValue: 'No property filters',
+    })
     if (
         !changes.length &&
         previousPropertiesAreExplicit !== currentPropertiesAreExplicit &&
         (previousProperties.length === 0 || currentProperties.length === 0)
     ) {
         changes.push({
-            label: 'Property filters',
-            previousValue: previousPropertiesAreExplicit ? ['No property filters'] : [],
-            value: currentPropertiesAreExplicit ? ['No property filters'] : [],
+            kind: 'propertyFilters',
+            label: i18n.t('dashboard.settingsChanges.filter.propertyFilters', {
+                defaultValue: 'Property filters',
+            }),
+            previousValue: previousPropertiesAreExplicit ? [noPropertyFilters] : [],
+            value: currentPropertiesAreExplicit ? [noPropertyFilters] : [],
             status: getChangeStatus(previousPropertiesAreExplicit, currentPropertiesAreExplicit),
         })
     }
@@ -264,7 +358,8 @@ export function getDashboardFilterChanges(
         !dashboardFilterValuesEqual(previousFilters.explicitDate, currentFilters.explicitDate)
     ) {
         changes.push({
-            label: 'Date range',
+            kind: 'dateRange',
+            label: i18n.t('dashboard.settingsChanges.filter.dateRange', { defaultValue: 'Date range' }),
             previousValue: previousHasDate ? [formatDateRange(previousFilters)] : [],
             value: currentHasDate ? [formatDateRange(currentFilters)] : [],
             status: getChangeStatus(previousHasDate, currentHasDate),
@@ -273,11 +368,10 @@ export function getDashboardFilterChanges(
 
     if (!dashboardFilterValuesEqual(previousFilters.interval, currentFilters.interval)) {
         changes.push({
-            label: 'Grouped by',
-            previousValue: changeValue(
-                previousFilters.interval ? capitalizeFirstLetter(previousFilters.interval) : undefined
-            ),
-            value: changeValue(currentFilters.interval ? capitalizeFirstLetter(currentFilters.interval) : undefined),
+            kind: 'interval',
+            label: i18n.t('dashboard.settingsChanges.filter.groupedBy', { defaultValue: 'Grouped by' }),
+            previousValue: changeValue(formatInterval(previousFilters.interval)),
+            value: changeValue(formatInterval(currentFilters.interval)),
             status: getChangeStatus(!!previousFilters.interval, !!currentFilters.interval),
         })
     }
@@ -288,7 +382,8 @@ export function getDashboardFilterChanges(
         const currentHasBreakdown =
             !!currentFilters.breakdown_filter?.breakdown || !!currentFilters.breakdown_filter?.breakdowns?.length
         changes.push({
-            label: 'Breakdown by',
+            kind: 'breakdown',
+            label: i18n.t('dashboard.settingsChanges.filter.breakdownBy', { defaultValue: 'Breakdown by' }),
             previousValue: previousHasBreakdown ? formatBreakdown(previousFilters) : [],
             value: currentHasBreakdown ? formatBreakdown(currentFilters) : [],
             status: getChangeStatus(previousHasBreakdown, currentHasBreakdown),
@@ -301,7 +396,8 @@ export function getDashboardFilterChanges(
         const currentHasTestAccountSetting =
             currentFilters.filterTestAccounts !== null && currentFilters.filterTestAccounts !== undefined
         changes.push({
-            label: 'Test accounts',
+            kind: 'testAccounts',
+            label: i18n.t('dashboard.settingsChanges.filter.testAccounts', { defaultValue: 'Test accounts' }),
             previousValue: previousHasTestAccountSetting
                 ? [formatTestAccounts(previousFilters.filterTestAccounts)]
                 : [],

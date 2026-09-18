@@ -13,7 +13,7 @@ import {
     widgetTileFrameDecorator,
 } from '../../components/WidgetCard/widgetCardStoryFixtures'
 import { getDashboardWidgetCatalogEntry, getDashboardWidgetGroupLabel } from '../../widget_types/catalog'
-import { DASHBOARD_WIDGET_TILE_FILTERS_READONLY_REASON } from '../constants'
+import { getDashboardWidgetTileFiltersReadonlyReason } from '../constants'
 import type { DashboardWidgetComponentProps } from '../registry'
 import { LogsWidget } from './LogsWidget'
 import { logsWidgetSampleLogLines } from './logsWidgetSampleData'
@@ -74,7 +74,7 @@ function LogsWidgetTileStory({
                     tileId={widgetProps.tileId ?? 1}
                     config={widgetProps.config}
                     onUpdateConfig={tileFiltersReadOnly ? undefined : widgetProps.onUpdateConfig}
-                    disabledReason={tileFiltersReadOnly ? DASHBOARD_WIDGET_TILE_FILTERS_READONLY_REASON : undefined}
+                    disabledReason={tileFiltersReadOnly ? getDashboardWidgetTileFiltersReadonlyReason() : undefined}
                 />
             )}
             <WidgetCardBody>{body ?? <LogsWidget {...widgetProps} />}</WidgetCardBody>

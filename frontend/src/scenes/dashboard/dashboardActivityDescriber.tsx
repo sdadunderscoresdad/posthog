@@ -4,8 +4,8 @@ import { DashboardFilter, HogQLVariable } from 'src/queries/schema/schema-genera
 
 import { Link } from '@posthog/lemon-ui'
 import {
-    DASHBOARD_GRID_COMPACTION_LABELS,
-    DASHBOARD_TILE_SPACING_LABELS,
+    getDashboardGridCompactionLabels,
+    getDashboardTileSpacingLabels,
 } from '@posthog/products-dashboards/frontend/dashboardCustomization'
 
 import {
@@ -231,7 +231,7 @@ const dashboardActionsMapping: Record<
                     {i18n.t('dashboardActivity.customization.tileMovement', {
                         defaultValue: 'changed tile movement to ',
                     })}
-                    <strong>{DASHBOARD_GRID_COMPACTION_LABELS[after.layout_compaction]}</strong>
+                    <strong>{getDashboardGridCompactionLabels()[after.layout_compaction]}</strong>
                 </>
             )
         }
@@ -244,7 +244,7 @@ const dashboardActionsMapping: Record<
                     {i18n.t('dashboardActivity.customization.tileDensity', {
                         defaultValue: 'changed tile density to ',
                     })}
-                    <strong>{DASHBOARD_TILE_SPACING_LABELS[after.tile_spacing]}</strong>
+                    <strong>{getDashboardTileSpacingLabels()[after.tile_spacing]}</strong>
                 </>
             )
         }

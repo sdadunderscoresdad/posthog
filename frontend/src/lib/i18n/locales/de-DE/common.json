@@ -580,6 +580,24 @@
             "action": "",
             "tooltip": ""
         },
+        "customizeMenu": {
+            "compaction": {
+                "horizontal": "",
+                "stable": "",
+                "vertical": ""
+            },
+            "moveBehavior": "",
+            "moveBehaviorAriaLabel": "",
+            "recommended": "",
+            "tileDensity": "",
+            "tileSpacing": {
+                "condensed": "",
+                "relaxed": "",
+                "standard": "",
+                "tight": "",
+                "wide": ""
+            }
+        },
         "delete": {
             "insightsHelp": "",
             "insightsLabel": ""
@@ -617,6 +635,28 @@
             "baseText": "",
             "buildTitle": "",
             "viewWebAnalytics": ""
+        },
+        "emptyState": {
+            "createFirstAction": "",
+            "headline": "",
+            "lead": "",
+            "preview": {
+                "activeUsers": "",
+                "complete30d": "",
+                "complete7d": "",
+                "exampleData": "",
+                "hint": "",
+                "range30d": "",
+                "range7d": "",
+                "signupFunnel": "",
+                "title": "",
+                "topPages": "",
+                "vsPrevious30d": "",
+                "vsPrevious7d": "",
+                "weeklyActives": ""
+            },
+            "previewLabel": "",
+            "productName": ""
         },
         "errorTile": {
             "remove": "",
@@ -669,6 +709,9 @@
             "youLastViewed": ""
         },
         "loadError": "",
+        "loadingState": {
+            "ariaLabel": ""
+        },
         "menuBar": {
             "copyToProject": "",
             "create": "",
@@ -755,6 +798,62 @@
         },
         "saveAsTemplate": {
             "action": ""
+        },
+        "settingsChanges": {
+            "actions": "",
+            "allTime": "",
+            "changedTo": "",
+            "defaultValue": "",
+            "discard": "",
+            "discardTooltip": "",
+            "exactTimeRangeSuffix": "",
+            "excluded": "",
+            "filter": {
+                "breakdownBy": "",
+                "dateRange": "",
+                "groupedBy": "",
+                "propertyFilter": "",
+                "propertyFilters": "",
+                "testAccounts": ""
+            },
+            "filtersSaving": "",
+            "filterTypes": {
+                "cohort": "",
+                "dataWarehousePersonProperty": "",
+                "dataWarehouseProperty": "",
+                "element": "",
+                "eventMetadata": "",
+                "eventProperty": "",
+                "featureFlag": "",
+                "groupProperty": "",
+                "personProperty": "",
+                "revenueAnalyticsProperty": "",
+                "sessionProperty": "",
+                "sqlExpression": ""
+            },
+            "included": "",
+            "interval": {
+                "day": "",
+                "hour": "",
+                "month": "",
+                "week": ""
+            },
+            "noPropertyFilters": "",
+            "preview": "",
+            "previewing": "",
+            "previewingUnsavedFilters": "",
+            "previewTooltip": "",
+            "saveFilters": "",
+            "saveTooltip": "",
+            "showChanges": "",
+            "taxonomySuffix": "",
+            "title": "",
+            "unsavedChanges": "",
+            "unsavedCount_one": "",
+            "unsavedCount_other": "",
+            "unsavedCountOne": "",
+            "unsavedCountShort_one": "",
+            "unsavedCountShort_other": ""
         },
         "share": {
             "action": ""
@@ -928,6 +1027,14 @@
             "insight": "",
             "textCard": ""
         },
+        "widgetViews": {
+            "insightCount_one": "",
+            "insightCount_other": "",
+            "insightCountOne": "",
+            "noDescription": "",
+            "shared": "",
+            "title": ""
+        },
         "zoom": {
             "collapse": "",
             "expand": "",
@@ -1092,6 +1199,12 @@
             "title": "",
             "widgetTypes": ""
         },
+        "card": {
+            "loadingWidget": "",
+            "lockedMessage": "",
+            "refreshData": "",
+            "refreshing": ""
+        },
         "experimentResults": {
             "description": "",
             "headerTitle": "",
@@ -1106,6 +1219,7 @@
             "placeholderMessage": "",
             "placeholderTitle": ""
         },
+        "fetchError": "",
         "groups": {
             "activity": "",
             "errorTracking": "",
@@ -1124,6 +1238,34 @@
                 "ctaLabel": "",
                 "valueProp": ""
             }
+        },
+        "listCount": {
+            "atLeast": "",
+            "event": "",
+            "events": "",
+            "exact": "",
+            "experiment": "",
+            "experiments": "",
+            "issue": "",
+            "issues": "",
+            "logLine": "",
+            "logLines": "",
+            "range": "",
+            "recording": "",
+            "recordings": "",
+            "ticket": "",
+            "tickets": ""
+        },
+        "listOrder": {
+            "ascending": "",
+            "descending": ""
+        },
+        "menu": {
+            "addDescription": "",
+            "dashboardSection": "",
+            "hideDescription": "",
+            "removeFromDashboard": "",
+            "showDescription": ""
         },
         "recentEvents": {
             "description": "",
@@ -1171,6 +1313,11 @@
             "placeholderMessage": "",
             "placeholderTitle": ""
         },
+        "tileFilters": {
+            "connectionFailed": "",
+            "invalidValues": ""
+        },
+        "tileFiltersReadonlyReason": "",
         "topIssues": {
             "badge": "",
             "description": "",
@@ -1530,6 +1677,8 @@
         "imageDisplay": "",
         "modalDescription": "",
         "notAnImage": "",
+        "openPreview": "",
+        "preview": "",
         "replaceImage": "",
         "showFullImage": "",
         "supportedTypesHint": "",

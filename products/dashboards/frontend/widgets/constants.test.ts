@@ -1,4 +1,4 @@
-import { formatWidgetListCountFooter, WIDGET_LIST_COUNT_RECORDINGS } from '../components/WidgetCard/WidgetCardBody'
+import { formatWidgetListCountFooter, getWidgetListCountRecordings } from '../components/WidgetCard/WidgetCardBody'
 
 describe('formatWidgetListCountFooter', () => {
     it('formats exact totals for issues', () => {
@@ -20,15 +20,17 @@ describe('formatWidgetListCountFooter', () => {
     })
 
     it('formats exact totals for recordings', () => {
-        expect(formatWidgetListCountFooter(1, 1, false, WIDGET_LIST_COUNT_RECORDINGS)).toBe('1 of 1 recording')
-        expect(formatWidgetListCountFooter(3, 12, false, WIDGET_LIST_COUNT_RECORDINGS)).toBe('3 of 12 recordings')
+        expect(formatWidgetListCountFooter(1, 1, false, getWidgetListCountRecordings())).toBe('1 of 1 recording')
+        expect(formatWidgetListCountFooter(3, 12, false, getWidgetListCountRecordings())).toBe('3 of 12 recordings')
     })
 
     it('formats capped totals for recordings', () => {
-        expect(formatWidgetListCountFooter(2, 25, true, WIDGET_LIST_COUNT_RECORDINGS)).toBe('2 of 25+ recordings')
+        expect(formatWidgetListCountFooter(2, 25, true, getWidgetListCountRecordings())).toBe('2 of 25+ recordings')
     })
 
     it('falls back for recordings when total is missing', () => {
-        expect(formatWidgetListCountFooter(2, undefined, undefined, WIDGET_LIST_COUNT_RECORDINGS)).toBe('2 recordings')
+        expect(formatWidgetListCountFooter(2, undefined, undefined, getWidgetListCountRecordings())).toBe(
+            '2 recordings'
+        )
     })
 })

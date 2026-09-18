@@ -576,6 +576,24 @@
             "action": "自定义",
             "tooltip": "自定义仪表盘"
         },
+        "customizeMenu": {
+            "compaction": {
+                "horizontal": "向左堆叠磁贴",
+                "stable": "自由摆放",
+                "vertical": "向上堆叠磁贴"
+            },
+            "moveBehavior": "移动磁贴时",
+            "moveBehaviorAriaLabel": "移动磁贴时其它磁贴如何重新排列",
+            "recommended": "推荐",
+            "tileDensity": "磁贴密度",
+            "tileSpacing": {
+                "condensed": "紧凑",
+                "relaxed": "宽松",
+                "standard": "标准",
+                "tight": "贴紧",
+                "wide": "超宽"
+            }
+        },
         "delete": {
             "insightsHelp": "只有当这些洞察不在其它任何仪表盘上时，才会被删除。",
             "insightsLabel": "同时删除该仪表盘的洞察"
@@ -613,6 +631,28 @@
             "baseText": "从图表库添加图表，或直接提问你关心的问题。",
             "buildTitle": "搭建你的仪表盘",
             "viewWebAnalytics": "或查看网站分析"
+        },
+        "emptyState": {
+            "createFirstAction": "创建你的第一个仪表盘",
+            "headline": "把每天都要看的数字放在同一页",
+            "lead": "仪表盘把洞察、回放以及你跟踪的其它内容汇总到一个视图里，整个团队都能打开查看。可以从针对常见场景（例如产品健康度或网站流量）的模板开始，也可以先建一个空白仪表盘，再逐步添加磁贴。",
+            "preview": {
+                "activeUsers": "活跃用户",
+                "complete30d": "27% 已完成",
+                "complete7d": "31% 已完成",
+                "exampleData": "示例数据",
+                "hint": "切换时间范围可以一次性移动所有磁贴。",
+                "range30d": "30 天",
+                "range7d": "7 天",
+                "signupFunnel": "注册漏斗",
+                "title": "产品健康度",
+                "topPages": "热门页面",
+                "vsPrevious30d": "较上期 +14.6%",
+                "vsPrevious7d": "较上期 +8.2%",
+                "weeklyActives": "周活跃用户"
+            },
+            "previewLabel": "创建后的仪表盘",
+            "productName": "仪表盘"
         },
         "errorTile": {
             "remove": "从仪表盘移除",
@@ -664,6 +704,9 @@
             "youLastViewed": "你上次查看时间"
         },
         "loadError": "加载该仪表盘时出错",
+        "loadingState": {
+            "ariaLabel": "正在加载仪表盘"
+        },
         "menuBar": {
             "copyToProject": "复制到其它项目",
             "create": "新建",
@@ -748,6 +791,60 @@
         },
         "saveAsTemplate": {
             "action": "保存为仪表盘模板"
+        },
+        "settingsChanges": {
+            "actions": "操作",
+            "allTime": "全部时间",
+            "changedTo": "改为",
+            "defaultValue": "默认",
+            "discard": "丢弃",
+            "discardTooltip": "恢复到该仪表盘已保存的设置。",
+            "exactTimeRangeSuffix": "{{ range }}（精确时间范围）",
+            "excluded": "已排除",
+            "filter": {
+                "breakdownBy": "细分维度",
+                "dateRange": "日期范围",
+                "groupedBy": "分组方式",
+                "propertyFilter": "属性筛选",
+                "propertyFilters": "属性筛选",
+                "testAccounts": "测试账号"
+            },
+            "filtersSaving": "仪表盘筛选正在保存",
+            "filterTypes": {
+                "cohort": "分群",
+                "dataWarehousePersonProperty": "数据仓库人员属性",
+                "dataWarehouseProperty": "数据仓库属性",
+                "element": "元素",
+                "eventMetadata": "事件元数据",
+                "eventProperty": "事件属性",
+                "featureFlag": "功能开关",
+                "groupProperty": "分组属性",
+                "personProperty": "人员属性",
+                "revenueAnalyticsProperty": "收入分析属性",
+                "sessionProperty": "会话属性",
+                "sqlExpression": "SQL 表达式"
+            },
+            "included": "已包含",
+            "interval": {
+                "day": "天",
+                "hour": "小时",
+                "month": "月",
+                "week": "周"
+            },
+            "noPropertyFilters": "无属性筛选",
+            "preview": "预览",
+            "previewing": "正在预览",
+            "previewingUnsavedFilters": "正在预览未保存的筛选",
+            "previewTooltip": "用这些未保存的筛选更新仪表盘数据。这不会保存它们。",
+            "saveFilters": "保存筛选",
+            "saveTooltip": "把这些变更保存为该仪表盘的默认设置。",
+            "showChanges": "显示{{ summary }}",
+            "taxonomySuffix": "{{ label }}（{{ taxonomy }}）",
+            "title": "筛选变更",
+            "unsavedChanges": "未保存的变更",
+            "unsavedCount_other": "{{ count }} 项未保存的筛选",
+            "unsavedCountOne": "1 项未保存的筛选",
+            "unsavedCountShort_other": "{{ count }} 项未保存"
         },
         "share": {
             "action": "分享"
@@ -915,6 +1012,13 @@
             "insight": "洞察",
             "textCard": "文本卡片"
         },
+        "widgetViews": {
+            "insightCount_other": "{{ count }} 个洞察",
+            "insightCountOne": "1 个洞察",
+            "noDescription": "无描述",
+            "shared": "已共享",
+            "title": "仪表盘"
+        },
         "zoom": {
             "collapse": "收起视图",
             "expand": "展开视图",
@@ -1075,6 +1179,12 @@
             "title": "添加组件",
             "widgetTypes": "组件类型"
         },
+        "card": {
+            "loadingWidget": "正在加载组件",
+            "lockedMessage": "你没有查看该组件的权限。",
+            "refreshData": "刷新数据",
+            "refreshing": "正在刷新…"
+        },
         "experimentResults": {
             "description": "所选实验主要指标的当前结果。",
             "headerTitle": "实验结果",
@@ -1089,6 +1199,7 @@
             "placeholderMessage": "登录 PostHog 即可查看该仪表盘中的实验。",
             "placeholderTitle": "实验"
         },
+        "fetchError": "无法加载组件数据。",
         "groups": {
             "activity": "活动",
             "errorTracking": "错误跟踪",
@@ -1107,6 +1218,34 @@
                 "ctaLabel": "了解会话回放",
                 "valueProp": "观看真实会话，准确看到用户卡在哪里。"
             }
+        },
+        "listCount": {
+            "atLeast": "{{ shown }}+ 个{{ noun }}",
+            "event": "事件",
+            "events": "事件",
+            "exact": "{{ shown }} 个{{ noun }}",
+            "experiment": "实验",
+            "experiments": "实验",
+            "issue": "问题",
+            "issues": "问题",
+            "logLine": "日志行",
+            "logLines": "日志行",
+            "range": "{{ total }} 个{{ noun }}中的 {{ shown }} 个",
+            "recording": "录像",
+            "recordings": "录像",
+            "ticket": "工单",
+            "tickets": "工单"
+        },
+        "listOrder": {
+            "ascending": "升序",
+            "descending": "降序"
+        },
+        "menu": {
+            "addDescription": "添加描述",
+            "dashboardSection": "仪表盘",
+            "hideDescription": "隐藏描述",
+            "removeFromDashboard": "从仪表盘移除",
+            "showDescription": "显示描述"
         },
         "recentEvents": {
             "description": "该项目中最新捕获的事件，与「活动 > 探索」一致。",
@@ -1154,6 +1293,11 @@
             "placeholderMessage": "登录 PostHog 即可查看该仪表盘中的问卷结果。",
             "placeholderTitle": "问卷结果"
         },
+        "tileFilters": {
+            "connectionFailed": "无法更新组件筛选，请检查网络连接后重试。",
+            "invalidValues": "无法更新组件筛选，请检查填写内容后重试。"
+        },
+        "tileFiltersReadonlyReason": "你没有该仪表盘的编辑权限。请联系有编辑权限的仪表盘协作者将你加入。",
         "topIssues": {
             "badge": "很受欢迎",
             "description": "按影响程度排序的错误跟踪问题列表。",
@@ -1513,6 +1657,8 @@
         "imageDisplay": "图片显示方式",
         "modalDescription": "上传一张图片，选择它在磁贴中的显示方式，并调整位置。",
         "notAnImage": "请上传图片文件。",
+        "openPreview": "打开图片预览",
+        "preview": "图片预览",
         "replaceImage": "更换图片",
         "showFullImage": "显示完整图片",
         "supportedTypesHint": "支持 PNG、JPG、GIF、WebP 或 AVIF，最大 4 MB。",

@@ -1,5 +1,6 @@
 import './DashboardsPreview.scss'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonTag } from 'lib/lemon-ui/LemonTag'
 import { cn } from 'lib/utils/css-classes'
 import { inStorybook, inStorybookTestRunner } from 'lib/utils/dom'
@@ -43,38 +44,52 @@ export function DashboardsPreview(): JSX.Element {
 
             <div className="DashboardPreview__board">
                 <div className="DashboardPreview__head">
-                    <span className="DashboardPreview__title">Product health</span>
+                    <span className="DashboardPreview__title">
+                        {i18n.t('dashboard.emptyState.preview.title', { defaultValue: 'Product health' })}
+                    </span>
                     <div className="DashboardPreview__ranges">
                         <label
                             htmlFor="dashboard-preview-7d"
                             className="DashboardPreview__range DashboardPreview__range--7d"
                         >
-                            7 days
+                            {i18n.t('dashboard.emptyState.preview.range7d', { defaultValue: '7 days' })}
                         </label>
                         <label
                             htmlFor="dashboard-preview-30d"
                             className="DashboardPreview__range DashboardPreview__range--30d"
                         >
-                            30 days
+                            {i18n.t('dashboard.emptyState.preview.range30d', { defaultValue: '30 days' })}
                         </label>
                     </div>
                 </div>
 
                 <div className="DashboardPreview__grid">
                     <div className="DashboardPreview__tile">
-                        <span className="DashboardPreview__tile-title">Active users</span>
+                        <span className="DashboardPreview__tile-title">
+                            {i18n.t('dashboard.emptyState.preview.activeUsers', { defaultValue: 'Active users' })}
+                        </span>
                         <span className="DashboardPreview__tile-value DashboardPreview__swap">
                             <span className="DashboardPreview__on-7d">4,182</span>
                             <span className="DashboardPreview__on-30d">12,940</span>
                         </span>
                         <span className="DashboardPreview__tile-delta DashboardPreview__swap">
-                            <span className="DashboardPreview__on-7d">+8.2% vs previous</span>
-                            <span className="DashboardPreview__on-30d">+14.6% vs previous</span>
+                            <span className="DashboardPreview__on-7d">
+                                {i18n.t('dashboard.emptyState.preview.vsPrevious7d', {
+                                    defaultValue: '+8.2% vs previous',
+                                })}
+                            </span>
+                            <span className="DashboardPreview__on-30d">
+                                {i18n.t('dashboard.emptyState.preview.vsPrevious30d', {
+                                    defaultValue: '+14.6% vs previous',
+                                })}
+                            </span>
                         </span>
                     </div>
 
                     <div className="DashboardPreview__tile">
-                        <span className="DashboardPreview__tile-title">Weekly actives</span>
+                        <span className="DashboardPreview__tile-title">
+                            {i18n.t('dashboard.emptyState.preview.weeklyActives', { defaultValue: 'Weekly actives' })}
+                        </span>
                         <svg
                             className="DashboardPreview__spark-svg"
                             viewBox="0 0 100 40"
@@ -113,20 +128,28 @@ export function DashboardsPreview(): JSX.Element {
                     </div>
 
                     <div className="DashboardPreview__tile">
-                        <span className="DashboardPreview__tile-title">Sign-up funnel</span>
+                        <span className="DashboardPreview__tile-title">
+                            {i18n.t('dashboard.emptyState.preview.signupFunnel', { defaultValue: 'Sign-up funnel' })}
+                        </span>
                         <div className="DashboardPreview__funnel">
                             <span className="DashboardPreview__bar DashboardPreview__bar--1" />
                             <span className="DashboardPreview__bar DashboardPreview__bar--2" />
                             <span className="DashboardPreview__bar DashboardPreview__bar--3" />
                         </div>
                         <span className="DashboardPreview__tile-delta DashboardPreview__swap">
-                            <span className="DashboardPreview__on-7d">31% complete</span>
-                            <span className="DashboardPreview__on-30d">27% complete</span>
+                            <span className="DashboardPreview__on-7d">
+                                {i18n.t('dashboard.emptyState.preview.complete7d', { defaultValue: '31% complete' })}
+                            </span>
+                            <span className="DashboardPreview__on-30d">
+                                {i18n.t('dashboard.emptyState.preview.complete30d', { defaultValue: '27% complete' })}
+                            </span>
                         </span>
                     </div>
 
                     <div className="DashboardPreview__tile">
-                        <span className="DashboardPreview__tile-title">Top pages</span>
+                        <span className="DashboardPreview__tile-title">
+                            {i18n.t('dashboard.emptyState.preview.topPages', { defaultValue: 'Top pages' })}
+                        </span>
                         <div className="DashboardPreview__list">
                             <span className="DashboardPreview__list-row">
                                 <span className="DashboardPreview__list-key">/pricing</span>
@@ -154,8 +177,14 @@ export function DashboardsPreview(): JSX.Element {
                 </div>
 
                 <div className="DashboardPreview__foot">
-                    <LemonTag size="small">example data</LemonTag>
-                    <span className="DashboardPreview__hint">Switch the range to move every tile at once.</span>
+                    <LemonTag size="small">
+                        {i18n.t('dashboard.emptyState.preview.exampleData', { defaultValue: 'example data' })}
+                    </LemonTag>
+                    <span className="DashboardPreview__hint">
+                        {i18n.t('dashboard.emptyState.preview.hint', {
+                            defaultValue: 'Switch the range to move every tile at once.',
+                        })}
+                    </span>
                 </div>
             </div>
         </div>

@@ -2,6 +2,8 @@ import { cloneLayoutItem, horizontalCompactor, noCompactor } from 'react-grid-la
 import type { Compactor, Layout, LayoutItem } from 'react-grid-layout'
 import { fastVerticalCompactor } from 'react-grid-layout/extras'
 
+import { i18n } from 'lib/i18n/i18n'
+
 import type { DashboardTileSpacing } from '~/types'
 
 export const DashboardGridCompaction = {
@@ -20,18 +22,28 @@ export const DASHBOARD_TILE_SPACING_GAPS: Record<DashboardTileSpacing, number> =
     wide: 48,
 }
 
-export const DASHBOARD_TILE_SPACING_LABELS: Record<DashboardTileSpacing, string> = {
-    tight: 'Tight',
-    condensed: 'Compact',
-    standard: 'Standard',
-    relaxed: 'Relaxed',
-    wide: 'Wide',
+export function getDashboardTileSpacingLabels(): Record<DashboardTileSpacing, string> {
+    return {
+        tight: i18n.t('dashboard.customizeMenu.tileSpacing.tight', { defaultValue: 'Tight' }),
+        condensed: i18n.t('dashboard.customizeMenu.tileSpacing.condensed', { defaultValue: 'Compact' }),
+        standard: i18n.t('dashboard.customizeMenu.tileSpacing.standard', { defaultValue: 'Standard' }),
+        relaxed: i18n.t('dashboard.customizeMenu.tileSpacing.relaxed', { defaultValue: 'Relaxed' }),
+        wide: i18n.t('dashboard.customizeMenu.tileSpacing.wide', { defaultValue: 'Wide' }),
+    }
 }
 
-export const DASHBOARD_GRID_COMPACTION_LABELS: Record<DashboardGridCompaction, string> = {
-    [DashboardGridCompaction.Vertical]: 'Stack tiles upward',
-    [DashboardGridCompaction.Horizontal]: 'Stack tiles to the left',
-    [DashboardGridCompaction.Stable]: 'Free-form placement',
+export function getDashboardGridCompactionLabels(): Record<DashboardGridCompaction, string> {
+    return {
+        [DashboardGridCompaction.Vertical]: i18n.t('dashboard.customizeMenu.compaction.vertical', {
+            defaultValue: 'Stack tiles upward',
+        }),
+        [DashboardGridCompaction.Horizontal]: i18n.t('dashboard.customizeMenu.compaction.horizontal', {
+            defaultValue: 'Stack tiles to the left',
+        }),
+        [DashboardGridCompaction.Stable]: i18n.t('dashboard.customizeMenu.compaction.stable', {
+            defaultValue: 'Free-form placement',
+        }),
+    }
 }
 
 type GridOccupancy = Map<number, Array<LayoutItem | undefined>>

@@ -580,6 +580,24 @@
             "action": "Customize",
             "tooltip": "Customize dashboard"
         },
+        "customizeMenu": {
+            "compaction": {
+                "horizontal": "Stack tiles to the left",
+                "stable": "Free-form placement",
+                "vertical": "Stack tiles upward"
+            },
+            "moveBehavior": "When you move a tile",
+            "moveBehaviorAriaLabel": "How moving a tile rearranges other tiles",
+            "recommended": "Recommended",
+            "tileDensity": "Tile density",
+            "tileSpacing": {
+                "condensed": "Compact",
+                "relaxed": "Relaxed",
+                "standard": "Standard",
+                "tight": "Tight",
+                "wide": "Wide"
+            }
+        },
         "delete": {
             "insightsHelp": "This will only delete insights if they're not on any other dashboards.",
             "insightsLabel": "Delete this dashboard's insights"
@@ -617,6 +635,28 @@
             "baseText": "Add a chart from your library, or start with a question about what matters to your product.",
             "buildTitle": "Build your dashboard",
             "viewWebAnalytics": "or View Web Analytics"
+        },
+        "emptyState": {
+            "createFirstAction": "Create your first dashboard",
+            "headline": "Put the numbers you check every day on one page",
+            "lead": "A dashboard collects insights, replays, and anything else you track into a single view your whole team can open. Start from a template built for a common job, like product health or web traffic, or start blank and add tiles as you go.",
+            "preview": {
+                "activeUsers": "Active users",
+                "complete30d": "27% complete",
+                "complete7d": "31% complete",
+                "exampleData": "example data",
+                "hint": "Switch the range to move every tile at once.",
+                "range30d": "30 days",
+                "range7d": "7 days",
+                "signupFunnel": "Sign-up funnel",
+                "title": "Product health",
+                "topPages": "Top pages",
+                "vsPrevious30d": "+14.6% vs previous",
+                "vsPrevious7d": "+8.2% vs previous",
+                "weeklyActives": "Weekly actives"
+            },
+            "previewLabel": "Your dashboard, once created",
+            "productName": "Dashboards"
         },
         "errorTile": {
             "remove": "Remove from dashboard",
@@ -669,6 +709,9 @@
             "youLastViewed": "You last viewed"
         },
         "loadError": "There was an error loading this dashboard",
+        "loadingState": {
+            "ariaLabel": "Loading dashboard"
+        },
         "menuBar": {
             "copyToProject": "Copy to another project",
             "create": "Create",
@@ -755,6 +798,62 @@
         },
         "saveAsTemplate": {
             "action": "Save as dashboard template"
+        },
+        "settingsChanges": {
+            "actions": "Actions",
+            "allTime": "All time",
+            "changedTo": "changed to",
+            "defaultValue": "Default",
+            "discard": "Discard",
+            "discardTooltip": "Restore the settings saved to this dashboard.",
+            "exactTimeRangeSuffix": "{{ range }} (exact time range)",
+            "excluded": "Excluded",
+            "filter": {
+                "breakdownBy": "Breakdown by",
+                "dateRange": "Date range",
+                "groupedBy": "Grouped by",
+                "propertyFilter": "Property filter",
+                "propertyFilters": "Property filters",
+                "testAccounts": "Test accounts"
+            },
+            "filtersSaving": "Dashboard filters are saving",
+            "filterTypes": {
+                "cohort": "cohort",
+                "dataWarehousePersonProperty": "data warehouse person property",
+                "dataWarehouseProperty": "data warehouse property",
+                "element": "element",
+                "eventMetadata": "event metadata",
+                "eventProperty": "event property",
+                "featureFlag": "feature flag",
+                "groupProperty": "group property",
+                "personProperty": "person property",
+                "revenueAnalyticsProperty": "revenue analytics property",
+                "sessionProperty": "session property",
+                "sqlExpression": "SQL expression"
+            },
+            "included": "Included",
+            "interval": {
+                "day": "Day",
+                "hour": "Hour",
+                "month": "Month",
+                "week": "Week"
+            },
+            "noPropertyFilters": "No property filters",
+            "preview": "Preview",
+            "previewing": "Previewing",
+            "previewingUnsavedFilters": "Previewing unsaved filters",
+            "previewTooltip": "Update the dashboard data with these unsaved filters. This does not save them.",
+            "saveFilters": "Save filters",
+            "saveTooltip": "Save these changes as the dashboard default.",
+            "showChanges": "Show {{ summary }}",
+            "taxonomySuffix": "{{ label }} ({{ taxonomy }})",
+            "title": "Filter changes",
+            "unsavedChanges": "Unsaved changes",
+            "unsavedCount_one": "{{ count }} unsaved filters",
+            "unsavedCount_other": "{{ count }} unsaved filters",
+            "unsavedCountOne": "1 unsaved filter",
+            "unsavedCountShort_one": "{{ count }} unsaved",
+            "unsavedCountShort_other": "{{ count }} unsaved"
         },
         "share": {
             "action": "Share"
@@ -928,6 +1027,14 @@
             "insight": "Insight",
             "textCard": "Text card"
         },
+        "widgetViews": {
+            "insightCount_one": "{{ count }} insights",
+            "insightCount_other": "{{ count }} insights",
+            "insightCountOne": "1 insight",
+            "noDescription": "No description",
+            "shared": "Shared",
+            "title": "Dashboard"
+        },
         "zoom": {
             "collapse": "Collapse view",
             "expand": "Expand view",
@@ -1092,6 +1199,12 @@
             "title": "Add widget",
             "widgetTypes": "Widget types"
         },
+        "card": {
+            "loadingWidget": "Loading widget",
+            "lockedMessage": "You do not have access to view this widget.",
+            "refreshData": "Refresh data",
+            "refreshing": "Refreshing…"
+        },
         "experimentResults": {
             "description": "Current results for the primary metrics of a selected experiment.",
             "headerTitle": "Experiment results",
@@ -1106,6 +1219,7 @@
             "placeholderMessage": "Log in to PostHog to see experiments from this dashboard.",
             "placeholderTitle": "Experiments"
         },
+        "fetchError": "Failed to load widget data.",
         "groups": {
             "activity": "Activity",
             "errorTracking": "Error tracking",
@@ -1124,6 +1238,34 @@
                 "ctaLabel": "Explore session replay",
                 "valueProp": "Watch real sessions to see exactly where users get stuck."
             }
+        },
+        "listCount": {
+            "atLeast": "{{ shown }}+ {{ noun }}",
+            "event": "event",
+            "events": "events",
+            "exact": "{{ shown }} {{ noun }}",
+            "experiment": "experiment",
+            "experiments": "experiments",
+            "issue": "issue",
+            "issues": "issues",
+            "logLine": "log line",
+            "logLines": "log lines",
+            "range": "{{ shown }} of {{ total }} {{ noun }}",
+            "recording": "recording",
+            "recordings": "recordings",
+            "ticket": "ticket",
+            "tickets": "tickets"
+        },
+        "listOrder": {
+            "ascending": "Ascending",
+            "descending": "Descending"
+        },
+        "menu": {
+            "addDescription": "Add description",
+            "dashboardSection": "Dashboard",
+            "hideDescription": "Hide description",
+            "removeFromDashboard": "Remove from dashboard",
+            "showDescription": "Show description"
         },
         "recentEvents": {
             "description": "Latest events captured in this project, as on Activity > Explore.",
@@ -1171,6 +1313,11 @@
             "placeholderMessage": "Log in to PostHog to see survey results from this dashboard.",
             "placeholderTitle": "Survey results"
         },
+        "tileFilters": {
+            "connectionFailed": "Could not update widget filters. Check your connection and try again.",
+            "invalidValues": "Could not update widget filters. Check the values and try again."
+        },
+        "tileFiltersReadonlyReason": "You don't have edit permissions for this dashboard. Ask a dashboard collaborator with edit access to add you.",
         "topIssues": {
             "badge": "Crowd favorite",
             "description": "Ranked list of the most impactful error tracking issues.",
@@ -1530,6 +1677,8 @@
         "imageDisplay": "Image display",
         "modalDescription": "Upload one image, choose how it appears in the tile, and reposition it.",
         "notAnImage": "Upload an image file.",
+        "openPreview": "Open image preview",
+        "preview": "Image preview",
         "replaceImage": "Replace image",
         "showFullImage": "Show full image",
         "supportedTypesHint": "PNG, JPG, GIF, WebP, or AVIF. Maximum size: 4 MB.",

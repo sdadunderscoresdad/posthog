@@ -47,18 +47,26 @@ describe('getDashboardFilterChanges', () => {
             )
         ).toEqual([
             {
+                kind: 'propertyFilter',
                 label: 'Property filter',
                 previousValue: ['browser = Chrome (event property)'],
                 value: ['browser = Firefox (event property)'],
                 status: 'changed',
             },
             {
+                kind: 'propertyFilter',
                 label: 'Property filter',
                 previousValue: [],
                 value: ['country = Canada (event property)'],
                 status: 'new',
             },
-            { label: 'Property filter', previousValue: ['os = macOS (event property)'], value: [], status: 'removed' },
+            {
+                kind: 'propertyFilter',
+                label: 'Property filter',
+                previousValue: ['os = macOS (event property)'],
+                value: [],
+                status: 'removed',
+            },
         ])
     })
 
@@ -73,12 +81,14 @@ describe('getDashboardFilterChanges', () => {
 
         expect(getDashboardFilterChanges({ properties: [eventPlan] }, { properties: [personPlan] })).toEqual([
             {
+                kind: 'propertyFilter',
                 label: 'Property filter',
                 previousValue: [],
                 value: ['plan = pro (person property)'],
                 status: 'new',
             },
             {
+                kind: 'propertyFilter',
                 label: 'Property filter',
                 previousValue: ['plan = pro (event property)'],
                 value: [],
@@ -89,7 +99,7 @@ describe('getDashboardFilterChanges', () => {
 
     it('groups date changes into one change', () => {
         expect(getDashboardFilterChanges({}, { date_from: '-1d' })).toEqual([
-            { label: 'Date range', previousValue: [], value: ['Last 1 day'], status: 'new' },
+            { kind: 'dateRange', label: 'Date range', previousValue: [], value: ['Last 1 day'], status: 'new' },
         ])
     })
 
@@ -103,7 +113,7 @@ describe('getDashboardFilterChanges', () => {
 
     it('still reports a change when a saved setting returns to inherit', () => {
         expect(getDashboardFilterChanges({ interval: 'week' }, { interval: null })).toEqual([
-            { label: 'Grouped by', previousValue: ['Week'], value: [], status: 'removed' },
+            { kind: 'interval', label: 'Grouped by', previousValue: ['Week'], value: [], status: 'removed' },
         ])
     })
 
@@ -115,6 +125,7 @@ describe('getDashboardFilterChanges', () => {
             )
         ).toEqual([
             {
+                kind: 'dateRange',
                 label: 'Date range',
                 previousValue: ['Last 7 days (exact time range)'],
                 value: ['Last 7 days'],
@@ -125,7 +136,13 @@ describe('getDashboardFilterChanges', () => {
 
     it('shows the exact time range mode when no date range is set', () => {
         expect(getDashboardFilterChanges({}, { explicitDate: true })).toEqual([
-            { label: 'Date range', previousValue: [], value: ['All time (exact time range)'], status: 'new' },
+            {
+                kind: 'dateRange',
+                label: 'Date range',
+                previousValue: [],
+                value: ['All time (exact time range)'],
+                status: 'new',
+            },
         ])
     })
 
@@ -134,13 +151,19 @@ describe('getDashboardFilterChanges', () => {
         ['includes test accounts when the filter is turned off', false, 'Included'],
     ])('%s', (_name, filterTestAccounts, expectedValue) => {
         expect(getDashboardFilterChanges({}, { filterTestAccounts })).toEqual([
-            { label: 'Test accounts', previousValue: [], value: [expectedValue], status: 'new' },
+            { kind: 'testAccounts', label: 'Test accounts', previousValue: [], value: [expectedValue], status: 'new' },
         ])
     })
 
     it('lists a switch from excluded to included test accounts', () => {
         expect(getDashboardFilterChanges({ filterTestAccounts: true }, { filterTestAccounts: false })).toEqual([
-            { label: 'Test accounts', previousValue: ['Excluded'], value: ['Included'], status: 'changed' },
+            {
+                kind: 'testAccounts',
+                label: 'Test accounts',
+                previousValue: ['Excluded'],
+                value: ['Included'],
+                status: 'changed',
+            },
         ])
     })
 
@@ -152,6 +175,7 @@ describe('getDashboardFilterChanges', () => {
             )
         ).toEqual([
             {
+                kind: 'breakdown',
                 label: 'Breakdown by',
                 previousValue: ['$browser (event property)'],
                 value: ['$browser (person property)'],
@@ -175,6 +199,7 @@ describe('getDashboardFilterChanges', () => {
             )
         ).toEqual([
             {
+                kind: 'breakdown',
                 label: 'Breakdown by',
                 previousValue: [],
                 value: ['$browser (event property)', '$geoip_country_code (person property)'],
@@ -185,7 +210,13 @@ describe('getDashboardFilterChanges', () => {
 
     it('lists an explicit property-filter clear', () => {
         expect(getDashboardFilterChanges({}, { properties: [] })).toEqual([
-            { label: 'Property filters', previousValue: [], value: ['No property filters'], status: 'new' },
+            {
+                kind: 'propertyFilters',
+                label: 'Property filters',
+                previousValue: [],
+                value: ['No property filters'],
+                status: 'new',
+            },
         ])
     })
 })
@@ -249,9 +280,9 @@ describe('getDashboardVariableChanges', () => {
                 }
             )
         ).toEqual([
-            { label: 'saved', previousValue: ['before'], value: ['after'], status: 'changed' },
-            { label: 'first', previousValue: ['default one'], value: ['one'], status: 'changed' },
-            { label: 'second', previousValue: ['default two'], value: ['two'], status: 'changed' },
+            { kind: 'variable', label: 'saved', previousValue: ['before'], value: ['after'], status: 'changed' },
+            { kind: 'variable', label: 'first', previousValue: ['default one'], value: ['one'], status: 'changed' },
+            { kind: 'variable', label: 'second', previousValue: ['default two'], value: ['two'], status: 'changed' },
         ])
     })
 
@@ -274,7 +305,7 @@ describe('getDashboardVariableChanges', () => {
                 { variable: variable('variable', null, true) },
                 {}
             )
-        ).toEqual([{ label: 'variable', previousValue: [], value: ['null'], status: 'changed' }])
+        ).toEqual([{ kind: 'variable', label: 'variable', previousValue: [], value: ['null'], status: 'changed' }])
     })
 
     it('reports removing a saved variable override when its default differs', () => {
@@ -285,7 +316,13 @@ describe('getDashboardVariableChanges', () => {
                 { variable: variable('variable', 'default value') }
             )
         ).toEqual([
-            { label: 'variable', previousValue: ['saved override'], value: ['default value'], status: 'changed' },
+            {
+                kind: 'variable',
+                label: 'variable',
+                previousValue: ['saved override'],
+                value: ['default value'],
+                status: 'changed',
+            },
         ])
     })
 })

@@ -2,66 +2,60 @@ import { useActions, useValues } from 'kea'
 
 import { LemonTag } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonRadio } from 'lib/lemon-ui/LemonRadio'
 import { dashboardLogic } from 'scenes/dashboard/dashboardLogic'
 
 import type { DashboardTileSpacing } from '~/types'
 
 import {
-    DASHBOARD_GRID_COMPACTION_LABELS,
-    DASHBOARD_TILE_SPACING_LABELS,
     DashboardGridCompaction,
     type DashboardGridCompaction as DashboardGridCompactionType,
+    getDashboardGridCompactionLabels,
+    getDashboardTileSpacingLabels,
 } from '../../dashboardCustomization'
 import { DashboardTileMovementPreview } from './DashboardTileMovementPreview'
 
-const TILE_SPACING_OPTIONS: { value: DashboardTileSpacing; label: string }[] = [
-    { value: 'tight', label: DASHBOARD_TILE_SPACING_LABELS.tight },
-    { value: 'condensed', label: DASHBOARD_TILE_SPACING_LABELS.condensed },
-    { value: 'standard', label: DASHBOARD_TILE_SPACING_LABELS.standard },
-    { value: 'relaxed', label: DASHBOARD_TILE_SPACING_LABELS.relaxed },
-    { value: 'wide', label: DASHBOARD_TILE_SPACING_LABELS.wide },
-]
+function getTileSpacingOptions(): { value: DashboardTileSpacing; label: string }[] {
+    const labels = getDashboardTileSpacingLabels()
+    return [
+        { value: 'tight', label: labels.tight },
+        { value: 'condensed', label: labels.condensed },
+        { value: 'standard', label: labels.standard },
+        { value: 'relaxed', label: labels.relaxed },
+        { value: 'wide', label: labels.wide },
+    ]
+}
 
-const GRID_COMPACTION_OPTIONS: {
+function getGridCompactionOptions(): {
     value: DashboardGridCompactionType
     label: JSX.Element
-}[] = [
-    {
-        value: DashboardGridCompaction.Vertical,
+}[] {
+    const labels = getDashboardGridCompactionLabels()
+    const option = (
+        value: DashboardGridCompactionType,
+        tag?: JSX.Element
+    ): { value: DashboardGridCompactionType; label: JSX.Element } => ({
+        value,
         label: (
             <span className="flex items-center gap-2">
-                <span className="text-xs font-medium">
-                    {DASHBOARD_GRID_COMPACTION_LABELS[DashboardGridCompaction.Vertical]}
-                </span>
-                <LemonTag type="success">Recommended</LemonTag>
-                <DashboardTileMovementPreview mode={DashboardGridCompaction.Vertical} />
+                <span className="text-xs font-medium">{labels[value]}</span>
+                {tag}
+                <DashboardTileMovementPreview mode={value} />
             </span>
         ),
-    },
-    {
-        value: DashboardGridCompaction.Horizontal,
-        label: (
-            <span className="flex items-center gap-2">
-                <span className="text-xs font-medium">
-                    {DASHBOARD_GRID_COMPACTION_LABELS[DashboardGridCompaction.Horizontal]}
-                </span>
-                <DashboardTileMovementPreview mode={DashboardGridCompaction.Horizontal} />
-            </span>
+    })
+    return [
+        option(
+            DashboardGridCompaction.Vertical,
+            <LemonTag type="success">
+                {i18n.t('dashboard.customizeMenu.recommended', { defaultValue: 'Recommended' })}
+            </LemonTag>
         ),
-    },
-    {
-        value: DashboardGridCompaction.Stable,
-        label: (
-            <span className="flex items-center gap-2">
-                <span className="text-xs font-medium">
-                    {DASHBOARD_GRID_COMPACTION_LABELS[DashboardGridCompaction.Stable]}
-                </span>
-                <DashboardTileMovementPreview mode={DashboardGridCompaction.Stable} />
-            </span>
-        ),
-    },
-]
+        option(DashboardGridCompaction.Horizontal),
+        option(DashboardGridCompaction.Stable),
+    ]
+}
 
 export function DashboardCustomizeMenu(): JSX.Element | null {
     const { dashboard, canEditDashboard } = useValues(dashboardLogic)
@@ -91,25 +85,31 @@ export function DashboardCustomizeMenu(): JSX.Element | null {
     return (
         <div className="space-y-2 p-2">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <span className="text-xs text-muted whitespace-nowrap">Tile density</span>
+                <span className="text-xs text-muted whitespace-nowrap">
+                    {i18n.t('dashboard.customizeMenu.tileDensity', { defaultValue: 'Tile density' })}
+                </span>
                 <LemonRadio<DashboardTileSpacing>
                     value={tileSpacing}
                     onChange={setTileSpacing}
-                    options={TILE_SPACING_OPTIONS}
+                    options={getTileSpacingOptions()}
                     orientation="horizontal"
                     className="flex-1 flex-wrap gap-x-3 gap-y-1"
-                    aria-label="Tile density"
+                    aria-label={i18n.t('dashboard.customizeMenu.tileDensity', { defaultValue: 'Tile density' })}
                 />
             </div>
             <div className="flex gap-x-3 border-t pt-2">
-                <span className="pt-3 text-xs text-muted whitespace-nowrap">When you move a tile</span>
+                <span className="pt-3 text-xs text-muted whitespace-nowrap">
+                    {i18n.t('dashboard.customizeMenu.moveBehavior', { defaultValue: 'When you move a tile' })}
+                </span>
                 <LemonRadio<DashboardGridCompactionType>
                     value={layoutCompaction}
                     onChange={setGridCompaction}
-                    options={GRID_COMPACTION_OPTIONS}
+                    options={getGridCompactionOptions()}
                     radioPosition="top"
                     className="flex-1"
-                    aria-label="How moving a tile rearranges other tiles"
+                    aria-label={i18n.t('dashboard.customizeMenu.moveBehaviorAriaLabel', {
+                        defaultValue: 'How moving a tile rearranges other tiles',
+                    })}
                 />
             </div>
         </div>

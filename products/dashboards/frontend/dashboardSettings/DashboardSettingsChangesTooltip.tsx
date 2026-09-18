@@ -4,9 +4,10 @@ import { IconCalendar, IconClock, IconFilter, IconPeople, IconSort } from '@post
 import { LemonTag } from '@posthog/lemon-ui'
 
 import { InsightDetailSectionDisplay } from 'lib/components/Cards/InsightCard/InsightDetails'
+import { i18n } from 'lib/i18n/i18n'
 import { Tooltip } from 'lib/lemon-ui/Tooltip'
 
-import type { DashboardFilterChange } from './dashboardChanges'
+import type { DashboardChangeKind, DashboardFilterChange } from './dashboardChanges'
 
 interface DashboardSettingsChangesTooltipProps {
     changes: DashboardFilterChange[]
@@ -14,25 +15,24 @@ interface DashboardSettingsChangesTooltipProps {
     title?: string
 }
 
-function getChangeIcon(label: DashboardFilterChange['label']): JSX.Element {
-    if (label === 'Date range') {
-        return <IconCalendar />
+function getChangeIcon(kind: DashboardChangeKind): JSX.Element {
+    switch (kind) {
+        case 'dateRange':
+            return <IconCalendar />
+        case 'interval':
+            return <IconClock />
+        case 'breakdown':
+            return <IconSort />
+        case 'testAccounts':
+            return <IconPeople />
+        default:
+            return <IconFilter />
     }
-    if (label === 'Grouped by') {
-        return <IconClock />
-    }
-    if (label === 'Breakdown by') {
-        return <IconSort />
-    }
-    if (label === 'Test accounts') {
-        return <IconPeople />
-    }
-    return <IconFilter />
 }
 
 function ChangeValue({ value }: { value: string[] }): JSX.Element {
     if (value.length === 0) {
-        return <span>Default</span>
+        return <span>{i18n.t('dashboard.settingsChanges.defaultValue', { defaultValue: 'Default' })}</span>
     }
 
     if (value.length === 1) {
@@ -57,7 +57,9 @@ function renderChangeValue(change: DashboardFilterChange): JSX.Element {
                 <ChangeValue value={change.previousValue} />
             </span>
             <span aria-hidden="true">→</span>
-            <span className="sr-only">changed to</span>
+            <span className="sr-only">
+                {i18n.t('dashboard.settingsChanges.changedTo', { defaultValue: 'changed to' })}
+            </span>
             <span className="font-medium">
                 <ChangeValue value={change.value} />
             </span>
@@ -68,7 +70,7 @@ function renderChangeValue(change: DashboardFilterChange): JSX.Element {
 export function DashboardSettingsChangesTooltip({
     changes,
     children,
-    title = 'Filter changes',
+    title = i18n.t('dashboard.settingsChanges.title', { defaultValue: 'Filter changes' }),
 }: DashboardSettingsChangesTooltipProps): JSX.Element {
     if (!changes.length) {
         return <>{children}</>
@@ -88,7 +90,7 @@ export function DashboardSettingsChangesTooltip({
                         {changes.map((change, index) => (
                             <InsightDetailSectionDisplay
                                 key={`${change.label}-${index}`}
-                                icon={getChangeIcon(change.label)}
+                                icon={getChangeIcon(change.kind)}
                                 label={change.label}
                             >
                                 {renderChangeValue(change)}

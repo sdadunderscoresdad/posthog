@@ -6,6 +6,7 @@ import { IconLock } from '@posthog/icons'
 import { LemonSkeleton } from '@posthog/lemon-ui'
 
 import { pngHoggie } from 'lib/brand/hoggies'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { cn } from 'lib/utils/css-classes'
 
@@ -58,7 +59,9 @@ function WidgetCardBodyContent({
 
 export function WidgetCardBody({
     locked,
-    lockedMessage = 'You do not have access to view this widget.',
+    lockedMessage = i18n.t('dashboardWidgets.card.lockedMessage', {
+        defaultValue: 'You do not have access to view this widget.',
+    }),
     error,
     onRefresh,
     refreshing = false,
@@ -131,10 +134,14 @@ export function WidgetCardBodyMessage({
                         size="small"
                         data-attr="widget-card-body-refresh"
                         loading={refreshing}
-                        disabledReason={refreshing ? 'Refreshing…' : undefined}
+                        disabledReason={
+                            refreshing
+                                ? i18n.t('dashboardWidgets.card.refreshing', { defaultValue: 'Refreshing…' })
+                                : undefined
+                        }
                         onClick={onRefresh}
                     >
-                        Refresh data
+                        {i18n.t('dashboardWidgets.card.refreshData', { defaultValue: 'Refresh data' })}
                     </LemonButton>
                 ) : null}
             </div>
@@ -162,7 +169,11 @@ type WidgetCardBodySkeletonProps = {
 /** Generic skeleton rows for dashboard widget loading UI. Prefer wrapping in `WidgetLoadingState`. */
 export function WidgetCardBodySkeleton({ rowCount = 4, className }: WidgetCardBodySkeletonProps): JSX.Element {
     return (
-        <div className={cn('flex flex-col gap-3', className)} aria-busy aria-label="Loading widget">
+        <div
+            className={cn('flex flex-col gap-3', className)}
+            aria-busy
+            aria-label={i18n.t('dashboardWidgets.card.loadingWidget', { defaultValue: 'Loading widget' })}
+        >
             {Array.from({ length: rowCount }, (_, index) => (
                 <div key={index} className="flex flex-col gap-2" aria-hidden>
                     <LemonSkeleton className="h-4 w-[70%] max-w-md" />
@@ -231,31 +242,79 @@ export type WidgetListCountNoun = {
     plural: string
 }
 
-export const WIDGET_LIST_COUNT_EVENTS: WidgetListCountNoun = { singular: 'event', plural: 'events' }
-export const WIDGET_LIST_COUNT_ISSUES: WidgetListCountNoun = { singular: 'issue', plural: 'issues' }
-export const WIDGET_LIST_COUNT_RECORDINGS: WidgetListCountNoun = { singular: 'recording', plural: 'recordings' }
-export const WIDGET_LIST_COUNT_EXPERIMENTS: WidgetListCountNoun = { singular: 'experiment', plural: 'experiments' }
-export const WIDGET_LIST_COUNT_LOGS: WidgetListCountNoun = { singular: 'log line', plural: 'log lines' }
-export const WIDGET_LIST_COUNT_TICKETS: WidgetListCountNoun = { singular: 'ticket', plural: 'tickets' }
+export function getWidgetListCountEvents(): WidgetListCountNoun {
+    return {
+        singular: i18n.t('dashboardWidgets.listCount.event', { defaultValue: 'event' }),
+        plural: i18n.t('dashboardWidgets.listCount.events', { defaultValue: 'events' }),
+    }
+}
+
+export function getWidgetListCountIssues(): WidgetListCountNoun {
+    return {
+        singular: i18n.t('dashboardWidgets.listCount.issue', { defaultValue: 'issue' }),
+        plural: i18n.t('dashboardWidgets.listCount.issues', { defaultValue: 'issues' }),
+    }
+}
+
+export function getWidgetListCountRecordings(): WidgetListCountNoun {
+    return {
+        singular: i18n.t('dashboardWidgets.listCount.recording', { defaultValue: 'recording' }),
+        plural: i18n.t('dashboardWidgets.listCount.recordings', { defaultValue: 'recordings' }),
+    }
+}
+
+export function getWidgetListCountExperiments(): WidgetListCountNoun {
+    return {
+        singular: i18n.t('dashboardWidgets.listCount.experiment', { defaultValue: 'experiment' }),
+        plural: i18n.t('dashboardWidgets.listCount.experiments', { defaultValue: 'experiments' }),
+    }
+}
+
+export function getWidgetListCountLogs(): WidgetListCountNoun {
+    return {
+        singular: i18n.t('dashboardWidgets.listCount.logLine', { defaultValue: 'log line' }),
+        plural: i18n.t('dashboardWidgets.listCount.logLines', { defaultValue: 'log lines' }),
+    }
+}
+
+export function getWidgetListCountTickets(): WidgetListCountNoun {
+    return {
+        singular: i18n.t('dashboardWidgets.listCount.ticket', { defaultValue: 'ticket' }),
+        plural: i18n.t('dashboardWidgets.listCount.tickets', { defaultValue: 'tickets' }),
+    }
+}
 
 export function formatWidgetListCountFooter(
     shown: number,
     totalCount: number | undefined,
     totalCountIsLowerBound?: boolean,
-    noun: WidgetListCountNoun = WIDGET_LIST_COUNT_ISSUES,
+    noun: WidgetListCountNoun = getWidgetListCountIssues(),
     hasMore?: boolean
 ): string {
     const label = shown === 1 && totalCount === 1 && !totalCountIsLowerBound ? noun.singular : noun.plural
 
     if (totalCount === undefined) {
         if (hasMore && shown > 0) {
-            return `${shown}+ ${shown === 1 ? noun.singular : noun.plural}`
+            return i18n.t('dashboardWidgets.listCount.atLeast', {
+                shown,
+                noun: shown === 1 ? noun.singular : noun.plural,
+                defaultValue: '{{ shown }}+ {{ noun }}',
+            })
         }
-        return `${shown} ${shown === 1 ? noun.singular : noun.plural}`
+        return i18n.t('dashboardWidgets.listCount.exact', {
+            shown,
+            noun: shown === 1 ? noun.singular : noun.plural,
+            defaultValue: '{{ shown }} {{ noun }}',
+        })
     }
 
     const totalLabel = totalCountIsLowerBound ? `${totalCount}+` : String(totalCount)
-    return `${shown} of ${totalLabel} ${label}`
+    return i18n.t('dashboardWidgets.listCount.range', {
+        shown,
+        total: totalLabel,
+        noun: label,
+        defaultValue: '{{ shown }} of {{ total }} {{ noun }}',
+    })
 }
 
 type WidgetListCountProps = {
@@ -271,7 +330,7 @@ export function WidgetListCount({
     shown,
     totalCount,
     totalCountIsLowerBound,
-    noun = WIDGET_LIST_COUNT_ISSUES,
+    noun = getWidgetListCountIssues(),
     hasMore,
     dataAttr,
 }: WidgetListCountProps): JSX.Element {

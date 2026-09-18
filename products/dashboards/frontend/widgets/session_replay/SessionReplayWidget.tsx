@@ -26,7 +26,7 @@ import {
     WidgetCardContent,
     WidgetContentFooter,
     WidgetListCount,
-    WIDGET_LIST_COUNT_RECORDINGS,
+    getWidgetListCountRecordings,
 } from '../../components/WidgetCard'
 import type { DashboardWidgetTopHeadingProps } from '../../components/WidgetCard/WidgetCardHeader'
 import type { DashboardWidgetComponentProps } from '../registry'
@@ -168,7 +168,7 @@ export function SessionReplayWidget({ result, loading, config }: DashboardWidget
                     shown={recordings.length}
                     totalCount={payload?.totalCount}
                     totalCountIsLowerBound={payload?.totalCountCapped}
-                    noun={WIDGET_LIST_COUNT_RECORDINGS}
+                    noun={getWidgetListCountRecordings()}
                     hasMore={payload?.hasMore}
                     dataAttr="session-replay-widget-count"
                 />

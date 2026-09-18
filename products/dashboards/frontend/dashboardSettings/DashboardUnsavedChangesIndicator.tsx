@@ -4,6 +4,7 @@ import { Fragment } from 'react'
 import { IconInfo } from '@posthog/icons'
 import { LemonButton, LemonMenu } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { dashboardLogic } from 'scenes/dashboard/dashboardLogic'
 
 import { DashboardSettingsChangesTooltip } from './DashboardSettingsChangesTooltip'
@@ -25,15 +26,27 @@ export function DashboardUnsavedChangesIndicator(): JSX.Element | null {
     }
 
     const changedCount = dashboardSettingsChanges.length
-    const changeSummary = `${changedCount} unsaved ${changedCount === 1 ? 'filter' : 'filters'}`
+    const changeSummary =
+        changedCount === 1
+            ? i18n.t('dashboard.settingsChanges.unsavedCountOne', { defaultValue: '1 unsaved filter' })
+            : i18n.t('dashboard.settingsChanges.unsavedCount', {
+                  count: changedCount,
+                  defaultValue: '{{ count }} unsaved filters',
+              })
     const discardDataAttr = layoutEditMode ? 'dashboard-discard-filters' : 'dashboard-edit-mode-discard'
     const actions = [
         {
             key: 'discard',
-            label: 'Discard',
+            label: i18n.t('dashboard.settingsChanges.discard', { defaultValue: 'Discard' }),
             dataAttr: discardDataAttr,
-            disabledReason: dashboardFiltersSaving ? 'Dashboard filters are saving' : undefined,
-            tooltip: 'Restore the settings saved to this dashboard.',
+            disabledReason: dashboardFiltersSaving
+                ? i18n.t('dashboard.settingsChanges.filtersSaving', {
+                      defaultValue: 'Dashboard filters are saving',
+                  })
+                : undefined,
+            tooltip: i18n.t('dashboard.settingsChanges.discardTooltip', {
+                defaultValue: 'Restore the settings saved to this dashboard.',
+            }),
             onClick: discardDashboardChanges,
             loading: false,
         },
@@ -41,10 +54,19 @@ export function DashboardUnsavedChangesIndicator(): JSX.Element | null {
             ? [
                   {
                       key: 'preview',
-                      label: loadingPreview ? 'Previewing' : 'Preview',
+                      label: loadingPreview
+                          ? i18n.t('dashboard.settingsChanges.previewing', { defaultValue: 'Previewing' })
+                          : i18n.t('dashboard.settingsChanges.preview', { defaultValue: 'Preview' }),
                       dataAttr: 'dashboard-apply-filters',
-                      disabledReason: loadingPreview ? 'Previewing unsaved filters' : undefined,
-                      tooltip: 'Update the dashboard data with these unsaved filters. This does not save them.',
+                      disabledReason: loadingPreview
+                          ? i18n.t('dashboard.settingsChanges.previewingUnsavedFilters', {
+                                defaultValue: 'Previewing unsaved filters',
+                            })
+                          : undefined,
+                      tooltip: i18n.t('dashboard.settingsChanges.previewTooltip', {
+                          defaultValue:
+                              'Update the dashboard data with these unsaved filters. This does not save them.',
+                      }),
                       onClick: previewDashboardChanges,
                       loading: false,
                   },
@@ -54,10 +76,12 @@ export function DashboardUnsavedChangesIndicator(): JSX.Element | null {
             ? [
                   {
                       key: 'save',
-                      label: 'Save filters',
+                      label: i18n.t('dashboard.settingsChanges.saveFilters', { defaultValue: 'Save filters' }),
                       dataAttr: 'dashboard-save-filters',
                       disabledReason: undefined,
-                      tooltip: 'Save these changes as the dashboard default.',
+                      tooltip: i18n.t('dashboard.settingsChanges.saveTooltip', {
+                          defaultValue: 'Save these changes as the dashboard default.',
+                      }),
                       onClick: saveDashboardChanges,
                       loading: dashboardFiltersSaving,
                   },
@@ -70,19 +94,28 @@ export function DashboardUnsavedChangesIndicator(): JSX.Element | null {
             data-attr="dashboard-filters-unsaved"
             className="flex max-w-full items-center gap-1.5 rounded-full border border-warning bg-warning-highlight py-0.5 pl-2.5 pr-1 text-xs font-semibold text-warning"
         >
-            <DashboardSettingsChangesTooltip changes={dashboardSettingsChanges} title="Unsaved changes">
+            <DashboardSettingsChangesTooltip
+                changes={dashboardSettingsChanges}
+                title={i18n.t('dashboard.settingsChanges.unsavedChanges', { defaultValue: 'Unsaved changes' })}
+            >
                 <LemonButton
                     type="tertiary"
                     size="small"
                     noPadding
                     className="text-inherit"
-                    aria-label={`Show ${changeSummary}`}
+                    aria-label={i18n.t('dashboard.settingsChanges.showChanges', {
+                        summary: changeSummary,
+                        defaultValue: 'Show {{ summary }}',
+                    })}
                 >
                     <span className="flex items-center gap-1.5">
                         <span className="h-2 w-2 animate-pulse motion-reduce:animate-none rounded-full bg-warning" />
                         <span className="@max-lg/dashboard-filters:hidden whitespace-nowrap">{changeSummary}</span>
                         <span className="@min-lg/dashboard-filters:hidden whitespace-nowrap">
-                            {`${changedCount} unsaved`}
+                            {i18n.t('dashboard.settingsChanges.unsavedCountShort', {
+                                count: changedCount,
+                                defaultValue: '{{ count }} unsaved',
+                            })}
                         </span>
                         <IconInfo className="text-sm" />
                     </span>
@@ -126,7 +159,7 @@ export function DashboardUnsavedChangesIndicator(): JSX.Element | null {
                     size="small"
                     loading={dashboardFiltersSaving}
                 >
-                    Actions
+                    {i18n.t('dashboard.settingsChanges.actions', { defaultValue: 'Actions' })}
                 </LemonButton>
             </LemonMenu>
         </span>

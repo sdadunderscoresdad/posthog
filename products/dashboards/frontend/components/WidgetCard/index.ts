@@ -8,12 +8,12 @@ export {
     WidgetListCount,
     WidgetCardSharedPlaceholderBody,
     type WidgetCardSharedPlaceholderCopy,
-    WIDGET_LIST_COUNT_EVENTS,
-    WIDGET_LIST_COUNT_EXPERIMENTS,
-    WIDGET_LIST_COUNT_ISSUES,
-    WIDGET_LIST_COUNT_LOGS,
-    WIDGET_LIST_COUNT_RECORDINGS,
-    WIDGET_LIST_COUNT_TICKETS,
+    getWidgetListCountEvents,
+    getWidgetListCountExperiments,
+    getWidgetListCountIssues,
+    getWidgetListCountLogs,
+    getWidgetListCountRecordings,
+    getWidgetListCountTickets,
     WidgetLoadingState,
 } from './WidgetCardBody'
 export {

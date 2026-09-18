@@ -1,6 +1,7 @@
 import { useActions } from 'kea'
 
 import { AccessControlAction } from 'lib/components/AccessControlAction'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { newDashboardLogic } from 'scenes/dashboard/newDashboardLogic'
 import { NewDashboardModal } from 'scenes/dashboard/NewDashboardModal'
@@ -22,7 +23,7 @@ export function DashboardsPrimaryAction(): JSX.Element {
                 minAccessLevel={AccessControlLevel.Editor}
             >
                 <LemonButton type="primary" onClick={showNewDashboardModal} data-attr="new-dashboard">
-                    Create your first dashboard
+                    {i18n.t('dashboard.emptyState.createFirstAction', { defaultValue: 'Create your first dashboard' })}
                 </LemonButton>
             </AccessControlAction>
             <NewDashboardModal />

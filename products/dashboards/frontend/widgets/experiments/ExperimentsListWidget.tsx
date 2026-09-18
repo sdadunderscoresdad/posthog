@@ -16,7 +16,7 @@ import { StatusTag } from 'products/experiments/frontend/components/StatusTag'
 import { CONCLUSION_DISPLAY_CONFIG } from 'products/experiments/frontend/constants'
 
 import {
-    WIDGET_LIST_COUNT_EXPERIMENTS,
+    getWidgetListCountExperiments,
     WidgetCardBodyMessage,
     WidgetCardContent,
     WidgetContentFooter,
@@ -180,7 +180,7 @@ export function ExperimentsListWidget({ tileId, config, result, loading }: Dashb
                     shown={experiments.length}
                     totalCount={payload?.totalCount}
                     totalCountIsLowerBound={payload?.totalCountCapped}
-                    noun={WIDGET_LIST_COUNT_EXPERIMENTS}
+                    noun={getWidgetListCountExperiments()}
                     hasMore={payload?.hasMore}
                     dataAttr="experiments-list-widget-count"
                 />

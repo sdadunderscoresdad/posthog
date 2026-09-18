@@ -7,7 +7,7 @@ import { getLocalTimeZone } from 'lib/utils/timezones'
 import { urls } from 'scenes/urls'
 
 import {
-    WIDGET_LIST_COUNT_LOGS,
+    getWidgetListCountLogs,
     WidgetCardBodyMessage,
     WidgetCardContent,
     WidgetContentFooter,
@@ -130,7 +130,7 @@ export function LogsWidget({ result, loading, config }: DashboardWidgetComponent
                     shown={logLines.length}
                     totalCount={payload?.totalCount}
                     totalCountIsLowerBound={payload?.totalCountCapped}
-                    noun={WIDGET_LIST_COUNT_LOGS}
+                    noun={getWidgetListCountLogs()}
                     hasMore={payload?.hasMore}
                     dataAttr="logs-widget-count"
                 />

@@ -8,6 +8,7 @@ import { DashboardTileRefreshDataButton } from 'lib/components/Cards/InsightCard
 import { dashboardWidgetMenusLogic } from 'lib/components/Cards/InsightCard/dashboardWidgetMenusLogic'
 import { DashboardWidgetPlacementMenus } from 'lib/components/Cards/InsightCard/DashboardWidgetPlacementMenus'
 import { EditModeEdge } from 'lib/components/Cards/InsightCard/EditModeEdgeOverlay'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonDivider } from 'lib/lemon-ui/LemonDivider'
 
@@ -28,7 +29,7 @@ import {
     userCanMutateErrorTrackingIssuesOnDashboard,
     userHasDashboardWidgetProductAccess,
 } from '../../widgetProductAccess'
-import { DASHBOARD_WIDGET_TILE_FILTERS_READONLY_REASON } from '../../widgets/constants'
+import { getDashboardWidgetTileFiltersReadonlyReason } from '../../widgets/constants'
 import type {
     WidgetIssueMetadataContext,
     WidgetIssueMetadataDelta,
@@ -240,23 +241,25 @@ function DashboardWidgetItemContent({
                     <>
                         {titleHref && (
                             <LemonButton to={titleHref} fullWidth>
-                                View
+                                {i18n.t('dashboard.table.view', { defaultValue: 'View' })}
                             </LemonButton>
                         )}
                         {showEditingControls && EditModal && (
                             <LemonButton fullWidth data-attr="dashboard-widget-edit" onClick={() => setEditOpen(true)}>
-                                Edit
+                                {i18n.t('dashboard.menuBar.edit', { defaultValue: 'Edit' })}
                             </LemonButton>
                         )}
                         {onDuplicate && (
                             <LemonButton fullWidth onClick={onDuplicate}>
-                                Duplicate
+                                {i18n.t('dashboard.menuBar.duplicate', { defaultValue: 'Duplicate' })}
                             </LemonButton>
                         )}
                         {hasDashboardSectionActions && (
                             <>
                                 <LemonDivider />
-                                <h5 className="mx-2 my-1">Dashboard</h5>
+                                <h5 className="mx-2 my-1">
+                                    {i18n.t('dashboardWidgets.menu.dashboardSection', { defaultValue: 'Dashboard' })}
+                                </h5>
                                 {showEditingControls && onUpdateWidgetTile && !showDescription && !description && (
                                     <LemonButton
                                         fullWidth
@@ -265,12 +268,20 @@ function DashboardWidgetItemContent({
                                             setEditOpen(true)
                                         }}
                                     >
-                                        Add description
+                                        {i18n.t('dashboardWidgets.menu.addDescription', {
+                                            defaultValue: 'Add description',
+                                        })}
                                     </LemonButton>
                                 )}
                                 {showEditingControls && toggleShowDescription && !!description && (
                                     <LemonButton fullWidth onClick={toggleShowDescription}>
-                                        {tile.show_description === false ? 'Show description' : 'Hide description'}
+                                        {tile.show_description === false
+                                            ? i18n.t('dashboardWidgets.menu.showDescription', {
+                                                  defaultValue: 'Show description',
+                                              })
+                                            : i18n.t('dashboardWidgets.menu.hideDescription', {
+                                                  defaultValue: 'Hide description',
+                                              })}
                                     </LemonButton>
                                 )}
                                 {(onMoveToDashboard || onCopyToDashboard) && (
@@ -282,7 +293,9 @@ function DashboardWidgetItemContent({
                                 )}
                                 {onRemove && (
                                     <LemonButton status="danger" fullWidth onClick={onRemove}>
-                                        Remove from dashboard
+                                        {i18n.t('dashboardWidgets.menu.removeFromDashboard', {
+                                            defaultValue: 'Remove from dashboard',
+                                        })}
                                     </LemonButton>
                                 )}
                             </>
@@ -309,7 +322,7 @@ function DashboardWidgetItemContent({
                         onUpdateConfig={componentProps.onUpdateConfig}
                         canMutateErrorTrackingIssues={componentProps.canMutateErrorTrackingIssues}
                         disabledReason={
-                            canUpdateWidgetTileConfig ? undefined : DASHBOARD_WIDGET_TILE_FILTERS_READONLY_REASON
+                            canUpdateWidgetTileConfig ? undefined : getDashboardWidgetTileFiltersReadonlyReason()
                         }
                     />
                 </Suspense>

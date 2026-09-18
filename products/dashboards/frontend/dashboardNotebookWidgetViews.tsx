@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { LemonTag } from '@posthog/lemon-ui'
 
 import { NotFound } from 'lib/components/NotFound'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonSkeleton } from 'lib/lemon-ui/LemonSkeleton'
 import { Dashboard } from 'scenes/dashboard/Dashboard'
 import { dashboardLogic } from 'scenes/dashboard/dashboardLogic'
@@ -23,7 +24,7 @@ function DashboardMetadata({ attributes }: NotebookNodeProps<DashboardNotebookWi
     const { setTitlePlaceholder } = useActions(notebookNodeLogic)
 
     useEffect(() => {
-        setTitlePlaceholder(dashboard?.name || 'Dashboard')
+        setTitlePlaceholder(dashboard?.name || i18n.t('dashboard.widgetViews.title', { defaultValue: 'Dashboard' }))
     }, [dashboard?.name, setTitlePlaceholder])
 
     return null
@@ -51,10 +52,22 @@ function DashboardSummary({ attributes }: NotebookNodeProps<DashboardNotebookWid
         <>
             <DashboardMetadata attributes={attributes} updateAttributes={() => {}} />
             <div className="flex flex-wrap items-center gap-2 p-3">
-                <span className="min-w-48 flex-1 truncate">{dashboard.description || 'No description'}</span>
-                {dashboard.is_shared ? <LemonTag type="muted">Shared</LemonTag> : null}
+                <span className="min-w-48 flex-1 truncate">
+                    {dashboard.description ||
+                        i18n.t('dashboard.widgetViews.noDescription', { defaultValue: 'No description' })}
+                </span>
+                {dashboard.is_shared ? (
+                    <LemonTag type="muted">
+                        {i18n.t('dashboard.widgetViews.shared', { defaultValue: 'Shared' })}
+                    </LemonTag>
+                ) : null}
                 <span className="text-xs text-secondary">
-                    {insightCount} {insightCount === 1 ? 'insight' : 'insights'}
+                    {insightCount === 1
+                        ? i18n.t('dashboard.widgetViews.insightCountOne', { defaultValue: '1 insight' })
+                        : i18n.t('dashboard.widgetViews.insightCount', {
+                              count: insightCount,
+                              defaultValue: '{{ count }} insights',
+                          })}
                 </span>
             </div>
         </>

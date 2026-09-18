@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react'
 
+import { i18n } from 'lib/i18n/i18n'
 import { lemonToast } from 'lib/lemon-ui/LemonToast'
 
 import type { QuickFilter } from '~/types'
@@ -93,10 +94,17 @@ export function useWidgetTileConfigPersist(
                 const fieldErrors = error.fieldErrors as Record<string, string | undefined>
                 const validationMessage = Object.values(fieldErrors).find((message) => !!message)
                 lemonToast.error(
-                    validationMessage ?? 'Could not update widget filters. Check the values and try again.'
+                    validationMessage ??
+                        i18n.t('dashboardWidgets.tileFilters.invalidValues', {
+                            defaultValue: 'Could not update widget filters. Check the values and try again.',
+                        })
                 )
             } else {
-                lemonToast.error('Could not update widget filters. Check your connection and try again.')
+                lemonToast.error(
+                    i18n.t('dashboardWidgets.tileFilters.connectionFailed', {
+                        defaultValue: 'Could not update widget filters. Check your connection and try again.',
+                    })
+                )
             }
         } finally {
             pendingPersistCountRef.current -= 1

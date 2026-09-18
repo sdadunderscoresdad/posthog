@@ -4,6 +4,7 @@ import React from 'react'
 import { Resizeable } from 'lib/components/Cards/CardMeta'
 import { DashboardResizeHandles } from 'lib/components/Cards/handles'
 import { EditModeEdge, EditModeEdgeOverlay } from 'lib/components/Cards/InsightCard/EditModeEdgeOverlay'
+import { i18n } from 'lib/i18n/i18n'
 import { More, MoreProps } from 'lib/lemon-ui/LemonButton/More'
 import { LemonModal } from 'lib/lemon-ui/LemonModal'
 
@@ -91,7 +92,9 @@ function DashboardImageTileInternal(
                             type="button"
                             className="flex h-full w-full cursor-pointer items-center justify-center overflow-hidden rounded"
                             onClick={() => setIsImagePreviewOpen(true)}
-                            aria-label={image.alt || 'Open image preview'}
+                            aria-label={
+                                image.alt || i18n.t('imageTile.openPreview', { defaultValue: 'Open image preview' })
+                            }
                             data-attr="open-image-tile-preview"
                         >
                             <img
@@ -116,7 +119,7 @@ function DashboardImageTileInternal(
             <LemonModal
                 isOpen={isImagePreviewOpen}
                 onClose={() => setIsImagePreviewOpen(false)}
-                title="Image preview"
+                title={i18n.t('imageTile.preview', { defaultValue: 'Image preview' })}
                 width="90vw"
                 maxWidth={1400}
             >

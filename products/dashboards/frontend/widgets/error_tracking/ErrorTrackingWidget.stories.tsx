@@ -15,7 +15,7 @@ import {
 import { errorTrackingSampleIssues } from '../../components/WidgetCard/widgetOverviewStoryFixtures'
 import { getDashboardWidgetCatalogEntry, getDashboardWidgetGroupLabel } from '../../widget_types/catalog'
 import { useWidgetAvailability } from '../../widget_types/widgetAvailability'
-import { DASHBOARD_WIDGET_TILE_FILTERS_READONLY_REASON } from '../constants'
+import { getDashboardWidgetTileFiltersReadonlyReason } from '../constants'
 import type { DashboardWidgetComponentProps } from '../registry'
 import { ErrorTrackingWidget } from './ErrorTrackingWidget'
 import { ErrorTrackingWidgetTileFilters } from './ErrorTrackingWidgetTileFilters'
@@ -65,7 +65,7 @@ function ErrorTrackingWidgetTileStory({
                     tileId={widgetProps.tileId}
                     config={widgetProps.config}
                     onUpdateConfig={tileFiltersReadOnly ? undefined : widgetProps.onUpdateConfig}
-                    disabledReason={tileFiltersReadOnly ? DASHBOARD_WIDGET_TILE_FILTERS_READONLY_REASON : undefined}
+                    disabledReason={tileFiltersReadOnly ? getDashboardWidgetTileFiltersReadonlyReason() : undefined}
                 />
             ) : null}
             <WidgetCardBody>{body ?? <ErrorTrackingWidget {...widgetProps} />}</WidgetCardBody>

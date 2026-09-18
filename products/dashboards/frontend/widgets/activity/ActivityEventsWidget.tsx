@@ -3,7 +3,7 @@ import * as magnifyingGlassPng from '@posthog/brand/hoggies/png/magnifying-glass
 import { pngHoggie } from 'lib/brand/hoggies'
 
 import {
-    WIDGET_LIST_COUNT_EVENTS,
+    getWidgetListCountEvents,
     WidgetCardBodyMessage,
     WidgetCardContent,
     WidgetContentFooter,
@@ -73,7 +73,7 @@ export function ActivityEventsWidget({ result, loading }: DashboardWidgetCompone
                     shown={events.length}
                     totalCount={payload?.totalCount}
                     totalCountIsLowerBound={payload?.totalCountCapped}
-                    noun={WIDGET_LIST_COUNT_EVENTS}
+                    noun={getWidgetListCountEvents()}
                     hasMore={payload?.hasMore}
                     dataAttr="activity-events-widget-count"
                 />

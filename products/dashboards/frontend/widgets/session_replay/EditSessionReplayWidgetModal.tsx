@@ -8,7 +8,7 @@ import { LemonModal } from 'lib/lemon-ui/LemonModal'
 import { LemonSelect } from 'lib/lemon-ui/LemonSelect'
 
 import { getDashboardWidgetGroupLabel } from '../../widget_types/catalog'
-import { WIDGET_LIST_ORDER_DIRECTION_OPTIONS } from '../constants'
+import { getWidgetListOrderDirectionOptions } from '../constants'
 import { EditWidgetModalFiltersSubsection } from '../EditWidgetModalFiltersSection'
 import { EditWidgetModalTileDetailsSection } from '../EditWidgetModalTileDetailsSection'
 import type { DashboardWidgetEditModalProps } from '../registry'
@@ -124,7 +124,7 @@ function EditSessionReplayWidgetModalContents(): JSX.Element {
                                         fullWidth
                                         value={orderDirection}
                                         onChange={(value) => setOrderDirection(value)}
-                                        options={[...WIDGET_LIST_ORDER_DIRECTION_OPTIONS]}
+                                        options={getWidgetListOrderDirectionOptions()}
                                     />
                                 </LemonField.Pure>
                                 <LemonField.Pure

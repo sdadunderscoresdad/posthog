@@ -25,7 +25,7 @@ import { dashboardsModel } from '~/models/dashboardsModel'
 import { ProductKey } from '~/queries/schema/schema-general'
 import { AccessControlLevel, AccessControlResourceType } from '~/types'
 
-import { dashboardsEmptyState } from 'products/dashboards/frontend/emptyState/dashboardsEmptyState'
+import { getDashboardsEmptyState } from 'products/dashboards/frontend/emptyState/dashboardsEmptyState'
 import { DashboardSavedViews } from 'products/dashboards/frontend/saved-views/DashboardSavedViews'
 
 import { DashboardsTableContainer } from './DashboardsTable'
@@ -34,7 +34,11 @@ export const scene: SceneExport = {
     component: Dashboards,
     logic: dashboardsLogic,
     productKey: ProductKey.PRODUCT_ANALYTICS,
-    emptyState: dashboardsEmptyState,
+    // Read on render so the empty state's copy follows the active language rather than the
+    // language that was loaded when this module was first imported.
+    get emptyState() {
+        return getDashboardsEmptyState()
+    },
 }
 
 export function Dashboards(): JSX.Element {

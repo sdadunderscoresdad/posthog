@@ -21,7 +21,7 @@ import { channelOptions } from 'products/conversations/frontend/types'
 import { PersonDisplay } from 'products/persons/frontend/components/PersonDisplay'
 
 import {
-    WIDGET_LIST_COUNT_TICKETS,
+    getWidgetListCountTickets,
     WidgetCardBodyMessage,
     WidgetCardContent,
     WidgetContentFooter,
@@ -309,7 +309,7 @@ export function ConversationsWidget({
                     shown={tickets.length}
                     totalCount={payload?.totalCount}
                     totalCountIsLowerBound={payload?.totalCountCapped}
-                    noun={WIDGET_LIST_COUNT_TICKETS}
+                    noun={getWidgetListCountTickets()}
                     hasMore={payload?.hasMore}
                     dataAttr="conversations-widget-count"
                 />

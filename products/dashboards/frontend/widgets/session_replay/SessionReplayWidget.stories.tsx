@@ -16,7 +16,7 @@ import { sessionReplaySampleRecordings } from '../../components/WidgetCard/widge
 import { WidgetRuntimeAvailabilityGuard } from '../../components/WidgetRuntimeAvailabilityGuard/WidgetRuntimeAvailabilityGuard'
 import { getDashboardWidgetCatalogEntry, getDashboardWidgetGroupLabel } from '../../widget_types/catalog'
 import { useWidgetAvailability } from '../../widget_types/widgetAvailability'
-import { DASHBOARD_WIDGET_TILE_FILTERS_READONLY_REASON } from '../constants'
+import { getDashboardWidgetTileFiltersReadonlyReason } from '../constants'
 import type { DashboardWidgetComponentProps } from '../registry'
 import { SessionReplayWidget } from './SessionReplayWidget'
 import { SessionReplayWidgetTileFilters } from './SessionReplayWidgetTileFilters'
@@ -70,7 +70,7 @@ function SessionReplayWidgetTileStory({
                           config={widgetProps.config}
                           onUpdateConfig={tileFiltersReadOnly ? undefined : widgetProps.onUpdateConfig}
                           disabledReason={
-                              tileFiltersReadOnly ? DASHBOARD_WIDGET_TILE_FILTERS_READONLY_REASON : undefined
+                              tileFiltersReadOnly ? getDashboardWidgetTileFiltersReadonlyReason() : undefined
                           }
                       />
                   ))
