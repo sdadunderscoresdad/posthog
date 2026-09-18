@@ -1,6 +1,7 @@
 import { MakeLogicType, actions, connect, kea, listeners, path, reducers, selectors } from 'kea'
 import { loaders } from 'kea-loaders'
 
+import { i18n } from 'lib/i18n/i18n'
 import { teamLogic } from 'scenes/teamLogic'
 
 import { logsViewsList } from 'products/logs/frontend/generated/api'
@@ -96,7 +97,7 @@ export const logsWidgetSavedViewsLogic = kea<logsWidgetSavedViewsLogicType>([
             (savedViews: LogsViewApi[]): { value: string; label: string }[] =>
                 savedViews.map((view) => ({
                     value: view.short_id,
-                    label: view.name || 'Unnamed view',
+                    label: view.name || i18n.t('logs.savedViews.unnamedView', { defaultValue: 'Unnamed view' }),
                 })),
         ],
         // Single source for resolving a saved-view short_id to its display label, shared by the

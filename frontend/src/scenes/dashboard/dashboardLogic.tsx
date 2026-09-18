@@ -3812,7 +3812,7 @@ export const dashboardLogic = kea<dashboardLogicType>([
                             })
                         },
                     },
-                    secondaryButton: { children: 'Cancel' },
+                    secondaryButton: { children: i18n.t('common.cancel', { defaultValue: 'Cancel' }) },
                 })
             }
             const undoTileRemoval = async (): Promise<void> => {
@@ -3902,7 +3902,7 @@ export const dashboardLogic = kea<dashboardLogicType>([
                     : {
                           toastId,
                           button: {
-                              label: 'Undo',
+                              label: i18n.t('dashboard.remove.undo', { defaultValue: 'Undo' }),
                               dataAttr: 'undo-remove-tile-from-dashboard',
                               action: undoTileRemoval,
                           },
@@ -4659,7 +4659,7 @@ export const dashboardLogic = kea<dashboardLogicType>([
                     onClick: () => changeCompaction(true),
                 },
                 secondaryButton: {
-                    children: 'Cancel',
+                    children: i18n.t('common.cancel', { defaultValue: 'Cancel' }),
                 },
             })
         },

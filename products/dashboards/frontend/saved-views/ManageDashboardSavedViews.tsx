@@ -196,7 +196,11 @@ export function ManageDashboardSavedViews({
                 if (editDisabledReason || !view.can_change_scope) {
                     return (
                         <span className="text-secondary">
-                            {view.scope === 'private' ? 'Private' : 'Shared with team'}
+                            {view.scope === 'private'
+                                ? i18n.t('dashboardSavedViews.private', { defaultValue: 'Private' })
+                                : i18n.t('dashboardSavedViews.sharedWithTeam', {
+                                      defaultValue: 'Shared with team',
+                                  })}
                         </span>
                     )
                 }

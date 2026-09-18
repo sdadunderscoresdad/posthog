@@ -2,6 +2,7 @@ import { deepEqual as isEqual } from 'fast-equals'
 import { MakeLogicType, actions, afterMount, connect, kea, key, listeners, path, props, reducers } from 'kea'
 import posthog from 'posthog-js'
 
+import { i18n } from 'lib/i18n/i18n'
 import { buildUserScopedPersistenceConfig } from 'lib/logic/persistence'
 import {
     DEFAULT_FILTERS,
@@ -264,7 +265,11 @@ export const dashboardSavedViewsLogic = kea<dashboardSavedViewsLogicType>([
             } catch (error) {
                 posthog.captureException(error)
                 actions.loadSavedViewsFailure(
-                    error instanceof Error ? error.message : 'Could not load saved views',
+                    error instanceof Error
+                        ? error.message
+                        : i18n.t('dashboardSavedViews.loadFailed', {
+                              defaultValue: 'Could not load saved views. Retry',
+                          }),
                     error
                 )
             }
@@ -281,7 +286,11 @@ export const dashboardSavedViewsLogic = kea<dashboardSavedViewsLogicType>([
             } catch (error) {
                 posthog.captureException(error)
                 actions.loadMoreSavedViewsFailure(
-                    error instanceof Error ? error.message : 'Could not load more saved views',
+                    error instanceof Error
+                        ? error.message
+                        : i18n.t('dashboardSavedViews.loadMoreFailedShort', {
+                              defaultValue: 'Could not load more views.',
+                          }),
                     error
                 )
             }

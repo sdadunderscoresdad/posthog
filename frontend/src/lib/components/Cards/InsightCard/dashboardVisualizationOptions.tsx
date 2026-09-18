@@ -129,7 +129,9 @@ export function useDashboardVisualizationOptions({
     insightChartPickerPropsRef.current = { insightChartPicker, savingDisplayOptions }
     const renderInsightChartPicker = useCallback((): JSX.Element => {
         const props = insightChartPickerPropsRef.current
-        const disabledReason = props.savingDisplayOptions ? 'Saving…' : undefined
+        const disabledReason = props.savingDisplayOptions
+            ? i18n.t('insightCard.savingDisplayOptions', { defaultValue: 'Saving…' })
+            : undefined
         return (
             <div className="w-full px-2 pb-2">
                 {props.insightChartPicker === 'retention' ? (
@@ -197,10 +199,10 @@ export function useDashboardVisualizationOptions({
                       key: 'display',
                       title: (
                           <h5 className="mx-2 my-1 flex items-center justify-between gap-2">
-                              Display
+                              {i18n.t('insightCard.display', { defaultValue: 'Display' })}
                               {persistence.saving ? (
                                   <span className="flex items-center gap-1 font-normal text-muted" role="status">
-                                      <Spinner /> Saving
+                                      <Spinner /> {i18n.t('insightCard.saving', { defaultValue: 'Saving' })}
                                   </span>
                               ) : null}
                           </h5>

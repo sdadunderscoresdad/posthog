@@ -2,6 +2,7 @@ import { MakeLogicType, afterMount, kea, path, selectors } from 'kea'
 import { loaders } from 'kea-loaders'
 
 import api from 'lib/api'
+import { i18n } from 'lib/i18n/i18n'
 import { toParams } from 'lib/utils/url'
 
 import type { SessionRecordingPlaylistType } from '~/types'
@@ -128,12 +129,18 @@ export const sessionReplayWidgetSavedFiltersLogic = kea<sessionReplayWidgetSaved
         savedFilterOptions: [
             (s) => [s.savedFilters],
             (savedFilters: SessionRecordingPlaylistType[]): { value: string; label: string }[] =>
-                toOptions(savedFilters, 'Unnamed filter'),
+                toOptions(
+                    savedFilters,
+                    i18n.t('sessionReplay.savedFilters.unnamedFilter', { defaultValue: 'Unnamed filter' })
+                ),
         ],
         collectionOptions: [
             (s) => [s.collections],
             (collections: SessionRecordingPlaylistType[]): { value: string; label: string }[] =>
-                toOptions(collections, 'Unnamed collection'),
+                toOptions(
+                    collections,
+                    i18n.t('sessionReplay.savedFilters.unnamedCollection', { defaultValue: 'Unnamed collection' })
+                ),
         ],
         // Single source for resolving a saved-filter short_id to its display label, shared by the
         // tile filter bar and the card header top heading.

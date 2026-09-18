@@ -134,7 +134,7 @@ export function DashboardsTable({
             },
         },
         {
-            title: 'Name',
+            title: i18n.t('dashboard.list.columns.name', { defaultValue: 'Name' }),
             dataIndex: 'name',
             width: '40%',
             render: function Render(_, { id, name, description, is_shared, user_access_level }) {
@@ -200,7 +200,7 @@ export function DashboardsTable({
             sorter: nameCompareFunction,
         },
         {
-            title: 'Tags',
+            title: i18n.t('dashboard.list.columns.tags', { defaultValue: 'Tags' }),
             dataIndex: 'tags' as keyof DashboardType,
             render: function Render(tags: DashboardType['tags']) {
                 return tags ? (
@@ -215,7 +215,7 @@ export function DashboardsTable({
             },
         } as LemonTableColumn<DashboardType, keyof DashboardType | undefined>,
         {
-            title: 'Folder',
+            title: i18n.t('dashboard.list.columns.folder', { defaultValue: 'Folder' }),
             dataIndex: 'folder' as keyof DashboardType,
             render: function Render(folder: DashboardType['folder']) {
                 // Unfiled dashboards live in the default `Unfiled/Dashboards` folder — that's not a folder

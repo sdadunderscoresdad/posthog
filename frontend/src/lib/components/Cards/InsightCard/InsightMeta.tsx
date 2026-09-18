@@ -531,7 +531,7 @@ export function InsightMeta({
                                     onClick: copyInsightLink,
                                 }}
                             >
-                                View
+                                {i18n.t('insightMeta.view', { defaultValue: 'View' })}
                             </LemonButton>
                         )}
                         {canEditInsight && (
@@ -548,10 +548,10 @@ export function InsightMeta({
                                     fullWidth
                                     {...getOverrideWarningPropsForButton(filtersOverride, variablesOverride)}
                                 >
-                                    Edit
+                                    {i18n.t('insightMeta.edit', { defaultValue: 'Edit' })}
                                 </LemonButton>
                                 <LemonButton onClick={rename} fullWidth>
-                                    Rename
+                                    {i18n.t('insightMeta.rename', { defaultValue: 'Rename' })}
                                 </LemonButton>
                                 {tile && (
                                     <LemonButton onClick={setOverride} fullWidth>
@@ -569,7 +569,7 @@ export function InsightMeta({
                                     : 'duplicate-insight-from-card-list-view'
                             }
                         >
-                            Duplicate
+                            {i18n.t('insightMeta.duplicate', { defaultValue: 'Duplicate' })}
                         </LemonButton>
                         {showDashboardAlertsMenuItem && insight.id ? (
                             <LemonButton
@@ -580,7 +580,7 @@ export function InsightMeta({
                                 fullWidth
                                 data-attr="dashboard-insight-manage-alerts"
                             >
-                                Alerts
+                                {i18n.t('insightMeta.alerts', { defaultValue: 'Alerts' })}
                             </LemonButton>
                         ) : null}
                         {showDisplayOptionsMenu && (
@@ -1015,7 +1015,7 @@ function CompactInfoPopover({
                                 name="title"
                                 value={metaTitle || ''}
                                 onSave={(value) => onMetaSave({ name: value })}
-                                placeholder="Untitled"
+                                placeholder={i18n.t('common.untitled', { defaultValue: 'Untitled' })}
                                 saveOnBlur
                                 clickToEdit
                                 compactButtons
@@ -1027,7 +1027,9 @@ function CompactInfoPopover({
                                 name="description"
                                 value={metaDescriptionText || ''}
                                 onSave={(value) => onMetaSave({ description: value })}
-                                placeholder="Enter description (optional)"
+                                placeholder={i18n.t('insightMeta.descriptionPlaceholder', {
+                                    defaultValue: 'Enter description (optional)',
+                                })}
                                 saveOnBlur
                                 clickToEdit
                                 multiline

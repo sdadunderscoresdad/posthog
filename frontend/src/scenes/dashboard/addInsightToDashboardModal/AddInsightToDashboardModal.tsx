@@ -20,14 +20,22 @@ import { InsightType } from '~/types'
 import { addInsightToDashboardLogic } from '../addInsightToDashboardModalLogic'
 import { dashboardLogic } from '../dashboardLogic'
 
+/** Data only. A label stored here would freeze the language that loaded this module. */
 const QUICK_CREATE_TYPES = [
-    { type: InsightType.TRENDS, icon: IconInsightTrends, label: 'Trend' },
-    { type: InsightType.FUNNELS, icon: IconInsightFunnels, label: 'Funnel' },
-    { type: InsightType.RETENTION, icon: IconInsightRetention, label: 'Retention' },
-]
+    { type: InsightType.TRENDS, icon: IconInsightTrends },
+    { type: InsightType.FUNNELS, icon: IconInsightFunnels },
+    { type: InsightType.RETENTION, icon: IconInsightRetention },
+] as const
+
+type QuickCreateType = (typeof QUICK_CREATE_TYPES)[number]['type']
 
 export function AddInsightToDashboardModal(): JSX.Element {
     const { t } = useTranslation()
+    const quickCreateLabels: Record<QuickCreateType, string> = {
+        [InsightType.TRENDS]: t('dashboard.addInsight.quickCreate.trends', { defaultValue: 'Trend' }),
+        [InsightType.FUNNELS]: t('dashboard.addInsight.quickCreate.funnels', { defaultValue: 'Funnel' }),
+        [InsightType.RETENTION]: t('dashboard.addInsight.quickCreate.retention', { defaultValue: 'Retention' }),
+    }
     const { hideAddInsightToDashboardModal, toggleShowMoreInsightTypes } = useActions(addInsightToDashboardLogic)
     const { addInsightToDashboardModalVisible, showMoreInsightTypes } = useValues(addInsightToDashboardLogic)
     const { dashboard } = useValues(dashboardLogic)
@@ -76,7 +84,7 @@ export function AddInsightToDashboardModal(): JSX.Element {
                                 </div>
                             </div>
                             <div className="flex items-center gap-2 sm:ml-auto flex-wrap pr-0.5">
-                                {QUICK_CREATE_TYPES.map(({ type, icon: Icon, label }) => (
+                                {QUICK_CREATE_TYPES.map(({ type, icon: Icon }) => (
                                     <LemonButton
                                         key={type}
                                         type="primary"
@@ -87,7 +95,7 @@ export function AddInsightToDashboardModal(): JSX.Element {
                                         data-attr={`quick-create-${type.toLowerCase()}`}
                                         onClick={() => handleNewInsightClicked(type)}
                                     >
-                                        {label}
+                                        {quickCreateLabels[type]}
                                     </LemonButton>
                                 ))}
                                 <Popover

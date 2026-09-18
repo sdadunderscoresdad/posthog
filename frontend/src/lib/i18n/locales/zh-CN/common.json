@@ -487,6 +487,11 @@
             "createNew": "新建洞察",
             "createNewDescription": "新建一个洞察并添加到该仪表盘",
             "more": "更多",
+            "quickCreate": {
+                "funnels": "漏斗",
+                "retention": "留存",
+                "trends": "趋势"
+            },
             "title": "添加洞察到仪表盘"
         },
         "addTile": {
@@ -687,6 +692,11 @@
         },
         "list": {
             "all": "所有仪表盘",
+            "columns": {
+                "folder": "文件夹",
+                "name": "名称",
+                "tags": "标签"
+            },
             "empty": "没有符合筛选条件的仪表盘！",
             "filterToFolder": "筛选 {{ folder }} 中的仪表盘",
             "lastAccessedAt": "上次访问时间",
@@ -700,6 +710,7 @@
             "selectAll": "选中本页所有仪表盘",
             "selectRow": "选中仪表盘 {{ name }}",
             "someNotFiled": "所选的 {{ total }} 个中有 {{ skipped }} 个尚未归档，将保持原位",
+            "templates": "模板",
             "unpin": "取消置顶",
             "youLastViewed": "你上次查看时间"
         },
@@ -1936,9 +1947,12 @@
         "unsupportedType": "请选择 PNG、JPG、GIF、WebP 或 AVIF 格式的图片。",
         "uploaded": "图片已上传。",
         "uploadFailed": "无法上传该图片，请重试。",
+        "uploadFirst": "请先上传图片",
         "uploadsUnavailable": "当前无法上传图片。",
         "waitForCurrentOperation": "请等待当前图片操作完成",
-        "waitForOperation": "请等待图片操作完成"
+        "waitForOperation": "请等待图片操作完成",
+        "waitForSave": "请等待图片保存完成",
+        "waitForUpload": "请等待图片上传完成"
     },
     "insightActivity": {
         "added": "添加了",
@@ -1982,6 +1996,7 @@
         "chartType": "图表类型",
         "computed": "计算时间",
         "copyTo": "复制到",
+        "display": "显示",
         "displayOptions": "显示选项",
         "ignoresDashboardFilters": "忽略仪表盘过滤条件",
         "lastComputed": "上次计算",
@@ -1999,6 +2014,7 @@
         "refreshDataLastComputed": "刷新数据（上次计算于 {{ time }}）",
         "saving": "正在保存",
         "savingChartType": "正在保存图表类型",
+        "savingDisplayOptions": "正在保存…",
         "searchDashboards": "搜索仪表盘",
         "tileFiltersApplied": "已应用磁贴过滤条件",
         "tileFiltersMerge": "磁贴过滤条件会与仪表盘的过滤条件合并，重叠部分以磁贴为准",
@@ -2015,6 +2031,7 @@
         "breakdownOverridesIgnored": "已忽略拆解维度的覆盖（数据仓库序列）。",
         "breakdownOverridesUnsupported": "拆解维度的覆盖不会生效。含数据仓库序列的洞察仅支持数据仓库属性和 HogQL 拆解。",
         "breakdownReplacedWith": "拆解维度已替换为：",
+        "by": "按",
         "dashboardFilters": "仪表盘过滤条件",
         "dataWarehouseSeries": "数据仓库序列",
         "dateRange": "日期范围",
@@ -2026,6 +2043,7 @@
         "filterReplacedBy": "过滤条件被替换为",
         "filters": "过滤条件",
         "filtersAddedOnTop": "额外添加的过滤条件：",
+        "formula": "公式",
         "forTheFirstTime": "首次",
         "from": "来自",
         "groupedBy": "分组依据",
@@ -2039,11 +2057,14 @@
         "performed": "执行了",
         "querySummaryUnavailable": "暂不支持 {{ kind }} 的查询摘要",
         "recurringly": "重复地",
+        "seriesCounting": "统计",
+        "seriesPerformed": "执行了",
         "startingAt": "起始于",
         "testAccountsExcluded": "已排除",
         "testAccountsIncluded": "已包含",
         "userPathsBasedOn": "用户路径基于",
         "usersWho": "在以下用户中",
+        "variables": "变量",
         "was": "原为",
         "whoCameBackToPerform": "之后回来执行"
     },
@@ -2087,6 +2108,7 @@
         "where": "满足"
     },
     "insightMeta": {
+        "alerts": "告警",
         "alreadyDisliked": "已标记为不喜欢",
         "alreadyLiked": "已标记为喜欢",
         "copyAsPng": "复制为 PNG",
@@ -2097,8 +2119,11 @@
         "createSurveyTooltip": "创建问卷，了解用户为何流失",
         "dashboard": "仪表盘",
         "deleteInsight": "删除洞察",
+        "descriptionPlaceholder": "输入描述（可选）",
         "detailsTooltip": "显示洞察详情，例如创建者、最后编辑时间和应用的过滤条件。",
         "dislike": "不喜欢该洞察",
+        "duplicate": "复制",
+        "edit": "编辑",
         "hideDescription": "隐藏描述",
         "insightLink": "洞察链接",
         "like": "喜欢该洞察",
@@ -2107,10 +2132,12 @@
         "noColor": "无颜色",
         "refreshing": "正在刷新…",
         "removeFromDashboard": "从仪表盘移除",
+        "rename": "重命名",
         "setColor": "设置颜色",
         "setOverride": "设置覆盖",
         "showDescription": "显示描述",
         "slowQuery": "慢查询",
+        "view": "查看",
         "waitForLoading": "等待洞察加载完成",
         "waitingToLoad": "等待加载"
     },
@@ -2333,6 +2360,11 @@
         "verifyAndLogIn": "验证并登录",
         "verifyEmailToContinue": "请先验证邮箱以继续。我们刚刚发送了一个新的验证码。",
         "welcomeBack": "欢迎回来，开始发布点什么吧。"
+    },
+    "logs": {
+        "savedViews": {
+            "unnamedView": "未命名视图"
+        }
     },
     "mcp": {
         "columns": {
@@ -2557,6 +2589,12 @@
         "by": "由",
         "created": "创建于",
         "lastModified": "最后修改"
+    },
+    "sessionReplay": {
+        "savedFilters": {
+            "unnamedCollection": "未命名合集",
+            "unnamedFilter": "未命名过滤条件"
+        }
     },
     "settings": {
         "apiKeys": {

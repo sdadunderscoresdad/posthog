@@ -3,6 +3,7 @@ import React, { Suspense } from 'react'
 
 import { CardMeta } from 'lib/components/Cards/CardMeta'
 import { CardTopHeadingRow } from 'lib/components/Cards/CardTopHeadingRow'
+import { i18n } from 'lib/i18n/i18n'
 import { More, MoreProps } from 'lib/lemon-ui/LemonButton/More'
 import { LemonMarkdown } from 'lib/lemon-ui/LemonMarkdown'
 import { LemonTableLoader } from 'lib/lemon-ui/LemonTable/LemonTableLoader'
@@ -306,7 +307,7 @@ export function WidgetCardHeader({
 
 function widgetDateRangeToText(
     dateRange: Record<string, unknown> | null | undefined,
-    defaultValue: string | null = 'Last 7 days'
+    defaultValue: string | null = i18n.t('insightCard.lastSevenDays', { defaultValue: 'Last 7 days' })
 ): string | null {
     if (!dateRange || typeof dateRange !== 'object') {
         return defaultValue

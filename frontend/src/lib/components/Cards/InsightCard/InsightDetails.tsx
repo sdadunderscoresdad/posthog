@@ -252,11 +252,13 @@ function SeriesDisplay({
                 <SeriesLetter seriesIndex={seriesIndex} hasBreakdown={hasBreakdown} className="mt-0.5" />
             )}
             <div>
-                {isFunnelsQuery(query) ? 'Performed' : 'Counting'}
+                {isFunnelsQuery(query)
+                    ? i18n.t('insightDetails.seriesPerformed', { defaultValue: 'Performed' })
+                    : i18n.t('insightDetails.seriesCounting', { defaultValue: 'Counting' })}
                 {entityDisplay}
                 {!isFunnelsQuery(query) && (
                     <>
-                        by{' '}
+                        {i18n.t('insightDetails.by', { defaultValue: 'by' })}{' '}
                         {mathDefinition?.category === MathCategory.HogQLExpression ? (
                             <code>{series.math_hogql}</code>
                         ) : (
@@ -332,7 +334,10 @@ function PathsV2Summary({ query }: { query: PathsV2Query }): JSX.Element {
                 </div>
                 {anchor && (
                     <div>
-                        {anchor.verb} at <b>{anchor.label}</b>
+                        {anchor.verb === 'starting'
+                            ? i18n.t('insightDetails.startingAt', { defaultValue: 'starting at' })
+                            : i18n.t('insightDetails.endingAt', { defaultValue: 'ending at' })}{' '}
+                        <b>{anchor.label}</b>
                     </div>
                 )}
             </div>
@@ -455,7 +460,7 @@ export function FormulaSummary({ query }: { query: TrendsQuery }): JSX.Element |
                 <div className="SeriesDisplay" key={index}>
                     <IconCalculate className="text-xl m-px text-text-secondary-3000" />
                     <span>
-                        Formula
+                        {i18n.t('insightDetails.formula', { defaultValue: 'Formula' })}
                         {node.custom_name && (
                             <>
                                 {' '}
@@ -533,7 +538,10 @@ export function PropertiesSummary({
 
 export function PropertiesIgnoredWarning(): JSX.Element {
     return (
-        <InsightDetailSectionDisplay icon={<IconFilter />} label="Filters">
+        <InsightDetailSectionDisplay
+            icon={<IconFilter />}
+            label={i18n.t('insightDetails.filters', { defaultValue: 'Filters' })}
+        >
             <Tooltip
                 title={i18n.t('insightDetails.filterOverridesUnsupported', {
                     defaultValue:
@@ -586,7 +594,10 @@ export function VariablesSummary({
     }
 
     return (
-        <InsightDetailSectionDisplay icon={<IconCode2 />} label="Variables">
+        <InsightDetailSectionDisplay
+            icon={<IconCode2 />}
+            label={i18n.t('insightDetails.variables', { defaultValue: 'Variables' })}
+        >
             {Object.entries(variables).map(([key, variable]) => {
                 const overrideValue = variablesOverride?.[key]?.value
                 const hasOverride = overrideValue !== undefined && overrideValue !== variable.value
@@ -771,7 +782,9 @@ export function TestAccountFilterSummary({
             {replaced != null && (
                 <div className="text-muted-alt text-xs mt-0.5 flex items-center gap-1">
                     <span>
-                        was <span className="line-through">{testAccountsLabel(replaced)}</span> from
+                        {i18n.t('insightDetails.was', { defaultValue: 'was' })}{' '}
+                        <span className="line-through">{testAccountsLabel(replaced)}</span>{' '}
+                        {i18n.t('insightDetails.from', { defaultValue: 'from' })}
                     </span>
                     <LayerTag source="insight" />
                 </div>

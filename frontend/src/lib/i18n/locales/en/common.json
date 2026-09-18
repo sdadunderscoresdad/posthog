@@ -491,6 +491,11 @@
             "createNew": "Create a new insight",
             "createNewDescription": "Build a new insight and add it to this dashboard",
             "more": "More",
+            "quickCreate": {
+                "funnels": "Funnel",
+                "retention": "Retention",
+                "trends": "Trend"
+            },
             "title": "Add insight to dashboard"
         },
         "addTile": {
@@ -691,6 +696,11 @@
         },
         "list": {
             "all": "All dashboards",
+            "columns": {
+                "folder": "Folder",
+                "name": "Name",
+                "tags": "Tags"
+            },
             "empty": "No dashboards matching your filters!",
             "filterToFolder": "Filter to dashboards in {{ folder }}",
             "lastAccessedAt": "Last accessed at",
@@ -705,6 +715,7 @@
             "selectAll": "Select all dashboards on this page",
             "selectRow": "Select dashboard {{ name }}",
             "someNotFiled": "{{ skipped }} of the {{ total }} selected are not filed anywhere yet, so they stay put",
+            "templates": "Templates",
             "unpin": "Unpin dashboard",
             "youLastViewed": "You last viewed"
         },
@@ -1959,9 +1970,12 @@
         "unsupportedType": "Choose a PNG, JPG, GIF, WebP, or AVIF image.",
         "uploaded": "Image uploaded.",
         "uploadFailed": "We could not upload that image. Try again.",
+        "uploadFirst": "Upload an image first",
         "uploadsUnavailable": "Image uploads are unavailable right now.",
         "waitForCurrentOperation": "Wait for the current image operation to finish",
-        "waitForOperation": "Wait for the image operation to finish"
+        "waitForOperation": "Wait for the image operation to finish",
+        "waitForSave": "Wait for image save to finish",
+        "waitForUpload": "Wait for image upload to finish"
     },
     "insightActivity": {
         "added": "added",
@@ -2005,6 +2019,7 @@
         "chartType": "Chart type",
         "computed": "Computed",
         "copyTo": "Copy to",
+        "display": "Display",
         "displayOptions": "Display options",
         "ignoresDashboardFilters": "Ignores dashboard filters",
         "lastComputed": "Last computed",
@@ -2022,6 +2037,7 @@
         "refreshDataLastComputed": "Refresh data (last computed {{ time }})",
         "saving": "Saving",
         "savingChartType": "Saving chart type",
+        "savingDisplayOptions": "Saving…",
         "searchDashboards": "Search dashboards",
         "tileFiltersApplied": "Tile filters applied",
         "tileFiltersMerge": "Tile filters merge with the dashboard's, taking precedence where they overlap",
@@ -2038,6 +2054,7 @@
         "breakdownOverridesIgnored": "Breakdown overrides ignored (data warehouse series).",
         "breakdownOverridesUnsupported": "Breakdown overrides are not applied. Insights with a data warehouse series only support data warehouse property and HogQL breakdowns.",
         "breakdownReplacedWith": "breakdown replaced with:",
+        "by": "by",
         "dashboardFilters": "Dashboard filters",
         "dataWarehouseSeries": "Data warehouse series",
         "dateRange": "Date range",
@@ -2049,6 +2066,7 @@
         "filterReplacedBy": "filter replaced by",
         "filters": "Filters",
         "filtersAddedOnTop": "filters added on top:",
+        "formula": "Formula",
         "forTheFirstTime": "for the first time",
         "from": "from",
         "groupedBy": "Grouped by",
@@ -2062,11 +2080,14 @@
         "performed": "performed",
         "querySummaryUnavailable": "Query summary is not available for {{ kind }} yet",
         "recurringly": "recurringly",
+        "seriesCounting": "Counting",
+        "seriesPerformed": "Performed",
         "startingAt": "starting at",
         "testAccountsExcluded": "Excluded",
         "testAccountsIncluded": "Included",
         "userPathsBasedOn": "User paths based on",
         "usersWho": "Users who",
+        "variables": "Variables",
         "was": "was",
         "whoCameBackToPerform": "who came back to perform"
     },
@@ -2113,6 +2134,7 @@
         "where": "where"
     },
     "insightMeta": {
+        "alerts": "Alerts",
         "alreadyDisliked": "Already disliked",
         "alreadyLiked": "Already liked",
         "copyAsPng": "Copy as PNG",
@@ -2123,8 +2145,11 @@
         "createSurveyTooltip": "Create a survey to understand why users are dropping off",
         "dashboard": "Dashboard",
         "deleteInsight": "Delete insight",
+        "descriptionPlaceholder": "Enter description (optional)",
         "detailsTooltip": "Show insight details, such as creator, last edit, and applied filters.",
         "dislike": "Dislike this insight",
+        "duplicate": "Duplicate",
+        "edit": "Edit",
         "hideDescription": "Hide description",
         "insightLink": "insight link",
         "like": "Like this insight",
@@ -2133,10 +2158,12 @@
         "noColor": "No color",
         "refreshing": "Refreshing…",
         "removeFromDashboard": "Remove from dashboard",
+        "rename": "Rename",
         "setColor": "Set color",
         "setOverride": "Set override",
         "showDescription": "Show description",
         "slowQuery": "Slow query",
+        "view": "View",
         "waitForLoading": "Wait for the insight to finish loading",
         "waitingToLoad": "Waiting to load"
     },
@@ -2361,6 +2388,11 @@
         "verifyEmailToContinue": "Verify your email to continue. We just sent you a new code.",
         "welcomeBack": "Welcome back. Let's go ship something."
     },
+    "logs": {
+        "savedViews": {
+            "unnamedView": "Unnamed view"
+        }
+    },
     "mcp": {
         "columns": {
             "key": "Key",
@@ -2584,6 +2616,12 @@
         "by": "by",
         "created": "Created",
         "lastModified": "Last modified"
+    },
+    "sessionReplay": {
+        "savedFilters": {
+            "unnamedCollection": "Unnamed collection",
+            "unnamedFilter": "Unnamed filter"
+        }
     },
     "settings": {
         "apiKeys": {

@@ -55,7 +55,7 @@ export function Dashboards(): JSX.Element {
         { key: DashboardsTab.Yours, label: i18n.t('dashboard.list.mine', { defaultValue: 'My dashboards' }) },
         {
             key: DashboardsTab.Templates,
-            label: 'Templates',
+            label: i18n.t('dashboard.list.templates', { defaultValue: 'Templates' }),
         },
     ]
 

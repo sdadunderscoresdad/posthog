@@ -317,15 +317,17 @@ export function ImageTileModal({
     const bodyError = textTileValidationErrors.body as string | null
     let saveDisabledReason: string | null = bodyError
     if (uploading) {
-        saveDisabledReason = 'Wait for image upload to finish'
+        saveDisabledReason = i18n.t('imageTile.waitForUpload', { defaultValue: 'Wait for image upload to finish' })
     } else if (!image) {
-        saveDisabledReason = 'Upload an image first'
+        saveDisabledReason = i18n.t('imageTile.uploadFirst', { defaultValue: 'Upload an image first' })
     }
-    let uploadDisabledReason: string | null = 'Image uploads are unavailable right now'
+    let uploadDisabledReason: string | null = i18n.t('imageTile.uploadsUnavailable', {
+        defaultValue: 'Image uploads are unavailable right now.',
+    })
     if (isTextTileSubmitting) {
-        uploadDisabledReason = 'Wait for image save to finish'
+        uploadDisabledReason = i18n.t('imageTile.waitForSave', { defaultValue: 'Wait for image save to finish' })
     } else if (uploading) {
-        uploadDisabledReason = 'Wait for image upload to finish'
+        uploadDisabledReason = i18n.t('imageTile.waitForUpload', { defaultValue: 'Wait for image upload to finish' })
     } else if (objectStorageAvailable) {
         uploadDisabledReason = null
     }

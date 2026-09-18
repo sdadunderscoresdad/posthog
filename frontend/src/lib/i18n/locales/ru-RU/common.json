@@ -499,6 +499,11 @@
             "createNew": "",
             "createNewDescription": "",
             "more": "",
+            "quickCreate": {
+                "funnels": "",
+                "retention": "",
+                "trends": ""
+            },
             "title": ""
         },
         "addTile": {
@@ -699,6 +704,11 @@
         },
         "list": {
             "all": "",
+            "columns": {
+                "folder": "",
+                "name": "",
+                "tags": ""
+            },
             "empty": "",
             "filterToFolder": "",
             "lastAccessedAt": "",
@@ -715,6 +725,7 @@
             "selectAll": "",
             "selectRow": "",
             "someNotFiled": "",
+            "templates": "",
             "unpin": "",
             "youLastViewed": ""
         },
@@ -2023,9 +2034,12 @@
         "unsupportedType": "",
         "uploaded": "",
         "uploadFailed": "",
+        "uploadFirst": "",
         "uploadsUnavailable": "",
         "waitForCurrentOperation": "",
-        "waitForOperation": ""
+        "waitForOperation": "",
+        "waitForSave": "",
+        "waitForUpload": ""
     },
     "insightActivity": {
         "added": "",
@@ -2073,6 +2087,7 @@
         "chartType": "",
         "computed": "",
         "copyTo": "",
+        "display": "",
         "displayOptions": "",
         "ignoresDashboardFilters": "",
         "lastComputed": "",
@@ -2090,6 +2105,7 @@
         "refreshDataLastComputed": "",
         "saving": "",
         "savingChartType": "",
+        "savingDisplayOptions": "",
         "searchDashboards": "",
         "tileFiltersApplied": "",
         "tileFiltersMerge": "",
@@ -2106,6 +2122,7 @@
         "breakdownOverridesIgnored": "",
         "breakdownOverridesUnsupported": "",
         "breakdownReplacedWith": "",
+        "by": "",
         "dashboardFilters": "",
         "dataWarehouseSeries": "",
         "dateRange": "",
@@ -2117,6 +2134,7 @@
         "filterReplacedBy": "",
         "filters": "",
         "filtersAddedOnTop": "",
+        "formula": "",
         "forTheFirstTime": "",
         "from": "",
         "groupedBy": "",
@@ -2130,11 +2148,14 @@
         "performed": "",
         "querySummaryUnavailable": "",
         "recurringly": "",
+        "seriesCounting": "",
+        "seriesPerformed": "",
         "startingAt": "",
         "testAccountsExcluded": "",
         "testAccountsIncluded": "",
         "userPathsBasedOn": "",
         "usersWho": "",
+        "variables": "",
         "was": "",
         "whoCameBackToPerform": ""
     },
@@ -2187,6 +2208,7 @@
         "where": ""
     },
     "insightMeta": {
+        "alerts": "",
         "alreadyDisliked": "",
         "alreadyLiked": "",
         "copyAsPng": "",
@@ -2197,8 +2219,11 @@
         "createSurveyTooltip": "",
         "dashboard": "",
         "deleteInsight": "",
+        "descriptionPlaceholder": "",
         "detailsTooltip": "",
         "dislike": "",
+        "duplicate": "",
+        "edit": "",
         "hideDescription": "",
         "insightLink": "",
         "like": "",
@@ -2207,10 +2232,12 @@
         "noColor": "",
         "refreshing": "",
         "removeFromDashboard": "",
+        "rename": "",
         "setColor": "",
         "setOverride": "",
         "showDescription": "",
         "slowQuery": "",
+        "view": "",
         "waitForLoading": "",
         "waitingToLoad": ""
     },
@@ -2437,6 +2464,11 @@
         "verifyEmailToContinue": "",
         "welcomeBack": ""
     },
+    "logs": {
+        "savedViews": {
+            "unnamedView": ""
+        }
+    },
     "mcp": {
         "columns": {
             "key": "",
@@ -2662,6 +2694,12 @@
         "by": "",
         "created": "",
         "lastModified": ""
+    },
+    "sessionReplay": {
+        "savedFilters": {
+            "unnamedCollection": "",
+            "unnamedFilter": ""
+        }
     },
     "settings": {
         "apiKeys": {
