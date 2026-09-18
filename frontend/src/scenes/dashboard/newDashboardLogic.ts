@@ -378,7 +378,12 @@ export const newDashboardLogic = kea<newDashboardLogicType>([
                 } catch (e: any) {
                     if (!isBreakpoint(e)) {
                         const message = e.code && e.detail ? `${e.code}: ${e.detail}` : e
-                        lemonToast.error(`Could not create dashboard: ${message}`)
+                        lemonToast.error(
+                            i18n.t('dashboard.createFailed', {
+                                defaultValue: 'Could not create dashboard: {{ error }}',
+                                error: String(message),
+                            })
+                        )
                     }
                 }
                 actions.setIsLoading(false)
@@ -450,7 +455,12 @@ export const newDashboardLogic = kea<newDashboardLogicType>([
             } catch (e: any) {
                 if (!isBreakpoint(e)) {
                     const message = e.code && e.detail ? `${e.code}: ${e.detail}` : e
-                    lemonToast.error(`Could not create dashboard: ${message}`)
+                    lemonToast.error(
+                        i18n.t('dashboard.createFailed', {
+                            defaultValue: 'Could not create dashboard: {{ error }}',
+                            error: String(message),
+                        })
+                    )
                 }
             }
             actions.setIsLoading(false)

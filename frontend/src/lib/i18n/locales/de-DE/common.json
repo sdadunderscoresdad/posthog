@@ -548,7 +548,8 @@
         },
         "buttonTile": {
             "delete": "",
-            "edit": ""
+            "edit": "",
+            "saveFailed": ""
         },
         "colors": {
             "allProperties": "",
@@ -574,13 +575,9 @@
         },
         "copy": {
             "copiedTo": "",
-            "error": {
-                "buttonTile": "",
-                "insight": "",
-                "textCard": "",
-                "widget": ""
-            }
+            "copyFailed": ""
         },
+        "createFailed": "",
         "customize": {
             "action": "",
             "tooltip": ""
@@ -690,6 +687,7 @@
             "enterEditMode": "",
             "saveLayout": ""
         },
+        "insightLoadFailedHighLoad": "",
         "items": {
             "layoutEditingDisabled": "",
             "loadingTiles": ""
@@ -1158,6 +1156,7 @@
         "hasBeenRestored": "",
         "keepEditing": "",
         "leaveDashboard": "",
+        "loadFailed": "",
         "notFound": "",
         "nowEditing": "",
         "overrideTileFilters": "",
@@ -2145,6 +2144,7 @@
         "createAnomalyAlert": "",
         "createSurveyTooltip": "",
         "dashboard": "",
+        "deleteFailed": "",
         "deleteInsight": "",
         "descriptionPlaceholder": "",
         "detailsTooltip": "",
@@ -3223,6 +3223,9 @@
                 "queryTimeDescription": "",
                 "queryTimeLabel": "",
                 "recommended": ""
+            },
+            "proxy": {
+                "diagnoseFailed": ""
             },
             "replayTriggers": {
                 "anyWith100SamplingWarning": "",
@@ -4796,6 +4799,7 @@
                 "cancelDialogDescription": "",
                 "cancelDialogKeep": "",
                 "cancelDialogTitle": "",
+                "canceled": "",
                 "cancelTitle": "",
                 "cannotInvite": "",
                 "emptyState": "",
@@ -5081,6 +5085,7 @@
                     "title": "",
                     "upgradeTooltip": ""
                 },
+                "samlConfigUpdated": "",
                 "saveSettings": "",
                 "scim": {
                     "baseUrl": "",
@@ -5149,7 +5154,8 @@
                 "verifyOneDomainFirst": "",
                 "verifyOwnDomainFirst": "",
                 "verifyTitle": "",
-                "viewScimLogs": ""
+                "viewScimLogs": "",
+                "xaaConfigUpdated": ""
             }
         },
         "project": {
@@ -5819,6 +5825,7 @@
         "joinExistingOrg": "",
         "logIn": "",
         "logInInstead": "",
+        "maintenanceRedirect": "",
         "namePlaceholder": "",
         "notes": {
             "almostThere": "",

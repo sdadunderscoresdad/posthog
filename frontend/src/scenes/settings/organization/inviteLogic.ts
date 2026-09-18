@@ -273,7 +273,12 @@ export const inviteLogic = kea<inviteLogicType>([
                         `api/organizations/${organizationLogic.values.currentOrganizationId}/invites/${invite.id}/`
                     )
                     preflightLogic.actions.loadPreflight() // Make sure licensed_users_available is updated
-                    lemonToast.success(`Invite for ${invite.target_email} has been canceled`)
+                    lemonToast.success(
+                        i18n.t('settings.organization.invites.canceled', {
+                            defaultValue: 'Invite for {{ email }} has been canceled',
+                            email: invite.target_email,
+                        })
+                    )
                     return values.invites.filter((thisInvite) => thisInvite.id !== invite.id)
                 },
             },

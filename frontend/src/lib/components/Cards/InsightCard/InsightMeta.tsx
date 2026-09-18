@@ -684,7 +684,12 @@ export function InsightMeta({
                                             try {
                                                 await deleteWithUndo?.()
                                             } catch (error: any) {
-                                                lemonToast.error(`Failed to delete insight meta: ${error.detail}`)
+                                                lemonToast.error(
+                                                    i18n.t('insightMeta.deleteFailed', {
+                                                        defaultValue: 'Failed to delete insight meta: {{ error }}',
+                                                        error: String(error.detail),
+                                                    })
+                                                )
                                             }
                                         })()
                                     }}

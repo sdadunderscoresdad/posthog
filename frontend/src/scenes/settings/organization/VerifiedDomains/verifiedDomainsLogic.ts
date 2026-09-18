@@ -1228,7 +1228,12 @@ export const verifiedDomainsLogic = kea<verifiedDomainsLogicType>([
                 const refreshed = await refreshDomain(orgId, id, actions.replaceDomain)
                 actions.setConfigureSAMLModalId(null)
                 actions.setSamlConfigValues({})
-                lemonToast.success(`SAML configuration for ${refreshed.domain} updated successfully.`)
+                lemonToast.success(
+                    i18n.t('settings.organization.verifiedDomains.samlConfigUpdated', {
+                        defaultValue: 'SAML configuration for {{ domain }} updated successfully.',
+                        domain: refreshed.domain,
+                    })
+                )
             },
         },
         idJagConfig: {
@@ -1268,7 +1273,12 @@ export const verifiedDomainsLogic = kea<verifiedDomainsLogicType>([
                 const refreshed = await refreshDomain(orgId, id, actions.replaceDomain)
                 actions.setConfigureIdJagModalId(null)
                 actions.setIdJagConfigValues({})
-                lemonToast.success(`XAA configuration for ${refreshed.domain} updated successfully.`)
+                lemonToast.success(
+                    i18n.t('settings.organization.verifiedDomains.xaaConfigUpdated', {
+                        defaultValue: 'XAA configuration for {{ domain }} updated successfully.',
+                        domain: refreshed.domain,
+                    })
+                )
             },
         },
     })),

@@ -587,7 +587,12 @@ export const proxyLogic = kea<proxyLogicType>([
             } catch (e) {
                 const message = e instanceof Error ? e.message : String(e)
                 actions.diagnoseFailure(id, message)
-                lemonToast.error(`Diagnose failed: ${message}`)
+                lemonToast.error(
+                    i18n.t('settings.environment.proxy.diagnoseFailed', {
+                        defaultValue: 'Diagnose failed: {{ error }}',
+                        error: message,
+                    })
+                )
             }
         },
         diagnoseSuccess: ({ id }) => {

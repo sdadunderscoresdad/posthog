@@ -361,9 +361,11 @@ export async function getInsightWithRetry(
 
                         // If something went wrong with async, show an error.
                         lemonToast.error(
-                            `Insight "${
-                                insight.name || insight.derived_name
-                            }" failed to load due to high load. Please try again later.`,
+                            i18n.t('dashboard.insightLoadFailedHighLoad', {
+                                defaultValue:
+                                    'Insight "{{ name }}" failed to load due to high load. Please try again later.',
+                                name: insight.name || insight.derived_name,
+                            }),
                             { toastId: `insight-concurrency-error-${insight.short_id}` }
                         )
                         return result
@@ -373,9 +375,11 @@ export async function getInsightWithRetry(
                         }
                         // if polling throws, show an error.
                         lemonToast.error(
-                            `Insight "${
-                                insight.name || insight.derived_name
-                            }" failed to load due to high load. Please try again later.`,
+                            i18n.t('dashboard.insightLoadFailedHighLoad', {
+                                defaultValue:
+                                    'Insight "{{ name }}" failed to load due to high load. Please try again later.',
+                                name: insight.name || insight.derived_name,
+                            }),
                             { toastId: `insight-concurrency-error-${insight.short_id}` }
                         )
                         return result

@@ -771,7 +771,11 @@ export const signupLogic = kea<signupLogicType>([
                 }
                 if (maintenanceRedirect && isRegionOverrideValid) {
                     lemonToast.info(
-                        `You've been redirected to signup on our ${regionOverrideFlag.toUpperCase()} instance while we perform maintenance on our other instance.`
+                        i18n.t('signup.maintenanceRedirect', {
+                            defaultValue:
+                                "You've been redirected to signup on our {{ region }} instance while we perform maintenance on our other instance.",
+                            region: regionOverrideFlag.toUpperCase(),
+                        })
                     )
                 }
             }

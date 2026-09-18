@@ -1864,17 +1864,6 @@ export const dashboardLogic = kea<dashboardLogicType>([
                         button_tile: i18n.t('dashboard.addTile.button', { defaultValue: 'Button' }),
                         widget: i18n.t('dashboard.addTile.widget', { defaultValue: 'Widget' }),
                     }
-                    const copyErrorPrefix: Record<DashboardWidgetType, string> = {
-                        insight: i18n.t('dashboard.copy.error.insight', { defaultValue: 'Could not copy insight' }),
-                        text: i18n.t('dashboard.copy.error.textCard', {
-                            defaultValue: 'Could not copy text card',
-                        }),
-                        button_tile: i18n.t('dashboard.copy.error.buttonTile', {
-                            defaultValue: 'Could not copy button tile',
-                        }),
-                        widget: i18n.t('dashboard.copy.error.widget', { defaultValue: 'Could not copy widget' }),
-                    }
-
                     try {
                         await api.create(
                             `api/environments/${teamLogic.values.currentTeamId}/dashboards/${toDashboard}/copy_tile`,
@@ -1912,7 +1901,13 @@ export const dashboardLogic = kea<dashboardLogicType>([
                             />
                         )
                     } catch (e) {
-                        lemonToast.error(`${copyErrorPrefix[widgetType]} to dashboard: ${String(e)}`)
+                        lemonToast.error(
+                            i18n.t('dashboard.copy.copyFailed', {
+                                defaultValue: 'Could not copy {{ label }} to dashboard: {{ error }}',
+                                label: copyToastLabel[widgetType],
+                                error: String(e),
+                            })
+                        )
                     }
 
                     return values.dashboard
@@ -3623,7 +3618,12 @@ export const dashboardLogic = kea<dashboardLogicType>([
                 const errorMessage =
                     error?.message ||
                     i18n.t('dashboardLogic.streamingFailed', { defaultValue: 'Dashboard streaming failed' })
-                lemonToast.error(`Failed to load dashboard: ${errorMessage}`)
+                lemonToast.error(
+                    i18n.t('dashboardLogic.loadFailed', {
+                        defaultValue: 'Failed to load dashboard: {{ error }}',
+                        error: errorMessage,
+                    })
+                )
                 // If the stream died before any metadata arrived there is no dashboard to render.
                 // The empty-state gate would otherwise fall through to the "Dashboard not found" screen,
                 // so mark the load as failed to show a load-error state instead.

@@ -548,7 +548,8 @@
         },
         "buttonTile": {
             "delete": "Delete",
-            "edit": "Edit button"
+            "edit": "Edit button",
+            "saveFailed": "Could not save button: {{ error }}"
         },
         "colors": {
             "allProperties": "All properties",
@@ -574,13 +575,9 @@
         },
         "copy": {
             "copiedTo": "{{label}} copied to <link>{{dashboard}}</link>",
-            "error": {
-                "buttonTile": "Could not copy button tile",
-                "insight": "Could not copy insight",
-                "textCard": "Could not copy text card",
-                "widget": "Could not copy widget"
-            }
+            "copyFailed": "Could not copy {{ label }} to dashboard: {{ error }}"
         },
+        "createFailed": "Could not create dashboard: {{ error }}",
         "customize": {
             "action": "Customize",
             "tooltip": "Customize dashboard"
@@ -690,6 +687,7 @@
             "enterEditMode": "Enter edit mode",
             "saveLayout": "Save dashboard layout"
         },
+        "insightLoadFailedHighLoad": "Insight \"{{ name }}\" failed to load due to high load. Please try again later.",
         "items": {
             "layoutEditingDisabled": "Layout editing is disabled on smaller screens. Please zoom out or use a larger screen to move or resize tiles.",
             "loadingTiles": "Loading tiles..."
@@ -1158,6 +1156,7 @@
         "hasBeenRestored": "has been restored",
         "keepEditing": "Keep editing",
         "leaveDashboard": "Leave dashboard?\nChanges you made to the layout will be discarded.",
+        "loadFailed": "Failed to load dashboard: {{ error }}",
         "notFound": "Not found",
         "nowEditing": "Now editing the dashboard – press E or click Save to persist changes",
         "overrideTileFilters": "Override Tile Filters",
@@ -2145,6 +2144,7 @@
         "createAnomalyAlert": "Create anomaly alert",
         "createSurveyTooltip": "Create a survey to understand why users are dropping off",
         "dashboard": "Dashboard",
+        "deleteFailed": "Failed to delete insight meta: {{ error }}",
         "deleteInsight": "Delete insight",
         "descriptionPlaceholder": "Enter description (optional)",
         "detailsTooltip": "Show insight details, such as creator, last edit, and applied filters.",
@@ -3223,6 +3223,9 @@
                 "queryTimeDescription": "Slower queries. If the person property is updated, query results on past data <em>will</em> change accordingly.",
                 "queryTimeLabel": "Use person properties as of running the query",
                 "recommended": "RECOMMENDED"
+            },
+            "proxy": {
+                "diagnoseFailed": "Diagnose failed: {{ error }}"
             },
             "replayTriggers": {
                 "anyWith100SamplingWarning": "<Strong>100% sampling rate with \"any\" matching records every session.</Strong> To fix this, either lower the sample rate or switch to \"all\" matching.",
@@ -4796,6 +4799,7 @@
                 "cancelDialogDescription": "Do you want to cancel the invite for {{ email }}?",
                 "cancelDialogKeep": "No, keep invite",
                 "cancelDialogTitle": "Cancel invite",
+                "canceled": "Invite for {{ email }} has been canceled",
                 "cancelTitle": "Cancel the invite",
                 "cannotInvite": "You can't invite other members or view invites",
                 "emptyState": "There are no outstanding invitations. You can invite another team member above.",
@@ -5081,6 +5085,7 @@
                     "title": "Configure SAML authentication and provisioning",
                     "upgradeTooltip": "Upgrade your plan to enable SAML"
                 },
+                "samlConfigUpdated": "SAML configuration for {{ domain }} updated successfully.",
                 "saveSettings": "Save settings",
                 "scim": {
                     "baseUrl": "SCIM Base URL",
@@ -5149,7 +5154,8 @@
                 "verifyOneDomainFirst": "Verify at least one domain to enable this setting",
                 "verifyOwnDomainFirst": "Verify the domain of your own email address first, otherwise this would lock you out",
                 "verifyTitle": "Verify your domain",
-                "viewScimLogs": "View SCIM logs"
+                "viewScimLogs": "View SCIM logs",
+                "xaaConfigUpdated": "XAA configuration for {{ domain }} updated successfully."
             }
         },
         "project": {
@@ -5819,6 +5825,7 @@
         "joinExistingOrg": "Trying to join an existing organization?",
         "logIn": "Log in →",
         "logInInstead": "Log in instead →",
+        "maintenanceRedirect": "You've been redirected to signup on our {{ region }} instance while we perform maintenance on our other instance.",
         "namePlaceholder": "Jane Doe",
         "notes": {
             "almostThere": "almost there",

@@ -544,7 +544,8 @@
         },
         "buttonTile": {
             "delete": "删除",
-            "edit": "编辑按钮"
+            "edit": "编辑按钮",
+            "saveFailed": "无法保存按钮：{{ error }}"
         },
         "colors": {
             "allProperties": "所有属性",
@@ -570,13 +571,9 @@
         },
         "copy": {
             "copiedTo": "{{label}} 已复制到 <link>{{dashboard}}</link>",
-            "error": {
-                "buttonTile": "无法复制按钮图表块",
-                "insight": "无法复制洞察",
-                "textCard": "无法复制文本卡片",
-                "widget": "无法复制组件"
-            }
+            "copyFailed": "无法复制{{ label }}到仪表盘：{{ error }}"
         },
+        "createFailed": "无法创建仪表盘：{{ error }}",
         "customize": {
             "action": "自定义",
             "tooltip": "自定义仪表盘"
@@ -686,6 +683,7 @@
             "enterEditMode": "进入编辑模式",
             "saveLayout": "保存仪表盘布局"
         },
+        "insightLoadFailedHighLoad": "洞察“{{ name }}”因负载过高加载失败。请稍后重试。",
         "items": {
             "layoutEditingDisabled": "屏幕较小时无法编辑布局。请缩小页面，或使用更大的屏幕来移动、调整图表块。",
             "loadingTiles": "正在加载图表块..."
@@ -1140,6 +1138,7 @@
         "hasBeenRestored": "已恢复",
         "keepEditing": "继续编辑",
         "leaveDashboard": "离开仪表盘？\n你对布局所做的变更将被丢弃。",
+        "loadFailed": "加载仪表盘失败：{{ error }}",
         "notFound": "未找到",
         "nowEditing": "正在编辑仪表盘 – 按 E 或点击保存以写入变更",
         "overrideTileFilters": "覆盖磁贴过滤条件",
@@ -2119,6 +2118,7 @@
         "createAnomalyAlert": "创建异常告警",
         "createSurveyTooltip": "创建问卷，了解用户为何流失",
         "dashboard": "仪表盘",
+        "deleteFailed": "删除洞察信息失败：{{ error }}",
         "deleteInsight": "删除洞察",
         "descriptionPlaceholder": "输入描述（可选）",
         "detailsTooltip": "显示洞察详情，例如创建者、最后编辑时间和应用的过滤条件。",
@@ -3189,6 +3189,9 @@
                 "queryTimeDescription": "查询较慢。如果人员属性被更新，过去数据的查询结果会<em>相应</em>改变。",
                 "queryTimeLabel": "使用运行查询时的人员属性",
                 "recommended": "推荐"
+            },
+            "proxy": {
+                "diagnoseFailed": "诊断失败：{{ error }}"
             },
             "replayTriggers": {
                 "anyWith100SamplingWarning": "<Strong>「任意」匹配条件下使用 100% 采样率会录制每个会话。</Strong>要解决这个问题，请降低采样率或改用「全部」匹配。",
@@ -4751,6 +4754,7 @@
                 "cancelDialogDescription": "要取消发给 {{ email }} 的邀请吗？",
                 "cancelDialogKeep": "不，保留邀请",
                 "cancelDialogTitle": "取消邀请",
+                "canceled": "{{ email }} 的邀请已取消",
                 "cancelTitle": "取消邀请",
                 "cannotInvite": "你无法邀请其他成员或查看邀请",
                 "emptyState": "没有待处理的邀请。你可以在上方邀请其他团队成员。",
@@ -5026,6 +5030,7 @@
                     "title": "配置 SAML 认证与预配",
                     "upgradeTooltip": "升级套餐以启用 SAML"
                 },
+                "samlConfigUpdated": "{{ domain }} 的 SAML 配置已更新。",
                 "saveSettings": "保存设置",
                 "scim": {
                     "baseUrl": "SCIM 基础 URL",
@@ -5094,7 +5099,8 @@
                 "verifyOneDomainFirst": "请先验证至少一个域名以启用此设置",
                 "verifyOwnDomainFirst": "请先验证你自己邮箱地址所属的域名，否则这会把你锁在外面",
                 "verifyTitle": "验证你的域名",
-                "viewScimLogs": "查看 SCIM 日志"
+                "viewScimLogs": "查看 SCIM 日志",
+                "xaaConfigUpdated": "{{ domain }} 的 XAA 配置已更新。"
             }
         },
         "project": {
@@ -5762,6 +5768,7 @@
         "joinExistingOrg": "想加入已有的组织？",
         "logIn": "登录 →",
         "logInInstead": "改为登录 →",
+        "maintenanceRedirect": "我们的另一套实例正在维护，因此你已被重定向到 {{ region }} 实例完成注册。",
         "namePlaceholder": "Jane Doe",
         "notes": {
             "almostThere": "就快好了",

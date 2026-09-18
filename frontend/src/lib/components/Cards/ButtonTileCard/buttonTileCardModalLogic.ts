@@ -132,7 +132,12 @@ export const buttonTileCardModalLogic = kea<buttonTileCardModalLogicType>([
     listeners(({ props, actions }) => ({
         submitButtonTileFailure: (error) => {
             if (props.dashboard && props.buttonTileId) {
-                lemonToast.error(`Could not save button: ${error.error} (${JSON.stringify(error.errors)})`)
+                lemonToast.error(
+                    i18n.t('dashboard.buttonTile.saveFailed', {
+                        defaultValue: 'Could not save button: {{ error }}',
+                        error: `${error.error} (${JSON.stringify(error.errors)})`,
+                    })
+                )
             }
             actions.resetButtonTile()
             props?.onClose?.()
