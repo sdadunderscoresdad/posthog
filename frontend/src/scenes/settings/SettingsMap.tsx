@@ -183,6 +183,7 @@ import { AllowImpersonation } from './user/AllowImpersonation'
 import { ChangePassword, ChangePasswordTitle } from './user/ChangePassword'
 import { ConnectedApps } from './user/ConnectedApps'
 import { HedgehogModeSettings } from './user/HedgehogModeSettings'
+import { LanguageSettings } from './user/LanguageSettings'
 import { LoginSessions } from './user/LoginSessions'
 import { MCPHintsSetting } from './user/MCPHintsSetting'
 import { OptOutCapture } from './user/OptOutCapture'
@@ -2810,6 +2811,15 @@ function buildSettingsMap(): SettingSection[] {
             id: 'user-customization',
             title: i18n.t('settings.map.user-customization.title', { defaultValue: 'Customization' }),
             settings: [
+                {
+                    id: 'language',
+                    title: i18n.t('settings.map.language.title', { defaultValue: 'Language' }),
+                    description: i18n.t('settings.map.language.description', {
+                        defaultValue: 'The language PostHog shows you. Saved to this browser.',
+                    }),
+                    component: <LanguageSettings />,
+                    keywords: ['language', 'locale', 'translation', 'i18n'],
+                },
                 {
                     id: 'theme',
                     title: i18n.t('settings.map.theme.title', { defaultValue: 'Theme' }),

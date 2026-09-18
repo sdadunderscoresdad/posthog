@@ -4021,6 +4021,10 @@
                 "experimental": "Experimental",
                 "title": "Snippet version"
             },
+            "language": {
+                "description": "The language PostHog shows you. Saved to this browser.",
+                "title": "Language"
+            },
             "login-sessions": {
                 "description": "Devices and browsers currently signed in to your PostHog account.",
                 "title": "Web sessions"
