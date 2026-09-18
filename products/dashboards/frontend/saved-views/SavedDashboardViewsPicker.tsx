@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { IconCheck, IconChevronDown, IconPeople, IconPlus, IconUser } from '@posthog/icons'
 import { LemonButton, LemonSkeleton, LemonTag, Popover } from '@posthog/lemon-ui'
 
+import { i18n } from 'lib/i18n/i18n'
 import { LemonTabs } from 'lib/lemon-ui/LemonTabs'
 
 import type {
@@ -63,8 +64,11 @@ export function SavedDashboardViewsPicker({
     const selectedSavedViews = scope === 'private' ? privateSavedViews : teamSavedViews
     const hasMore = nextCursors[scope] !== null
     const hasSavedViews = savedViews.length > 0
-    const tooltip = activeSavedView?.name || 'Saved views'
-    const emptyScopeMessage = scope === 'private' ? 'No private views yet.' : 'No team views yet.'
+    const tooltip = activeSavedView?.name || i18n.t('dashboardSavedViews.savedViews', { defaultValue: 'Saved views' })
+    const emptyScopeMessage =
+        scope === 'private'
+            ? i18n.t('dashboardSavedViews.noPrivateViews', { defaultValue: 'No private views yet.' })
+            : i18n.t('dashboardSavedViews.noTeamViews', { defaultValue: 'No team views yet.' })
     let triggerIcon: JSX.Element | undefined
     if (activeSavedView) {
         triggerIcon = activeSavedView.scope === 'private' ? <IconUser /> : <IconPeople />
@@ -92,9 +96,14 @@ export function SavedDashboardViewsPicker({
                             onClick={() => onSaveChanges(activeSavedView)}
                         >
                             <span className="flex flex-col items-start gap-1">
-                                <span className="font-semibold text-primary">Save changes</span>
+                                <span className="font-semibold text-primary">
+                                    {i18n.t('dashboardSavedViews.saveChanges', { defaultValue: 'Save changes' })}
+                                </span>
                                 <span className="text-xs font-normal text-secondary">
-                                    Current filters differ from '{activeSavedView.name}'
+                                    {i18n.t('dashboardSavedViews.filtersDiffer', {
+                                        name: activeSavedView.name,
+                                        defaultValue: "Current filters differ from '{{ name }}'",
+                                    })}
                                 </span>
                             </span>
                         </LemonButton>
@@ -112,16 +121,26 @@ export function SavedDashboardViewsPicker({
                             }}
                         >
                             <span className="flex flex-col items-start gap-1">
-                                <span className="font-semibold">Save as new view</span>
+                                <span className="font-semibold">
+                                    {i18n.t('dashboardSavedViews.saveAsNewView', { defaultValue: 'Save as new view' })}
+                                </span>
                                 <span className="text-xs font-normal text-secondary">
-                                    Create a new view from these filters
+                                    {i18n.t('dashboardSavedViews.createFromFilters', {
+                                        defaultValue: 'Create a new view from these filters',
+                                    })}
                                 </span>
                             </span>
                         </LemonButton>
                     )}
                     {(activeSavedView || isFiltering) && <div className="mx-3 border-t" />}
                     {loading && (
-                        <div className="space-y-2 px-3 py-2" role="status" aria-label="Loading saved views">
+                        <div
+                            className="space-y-2 px-3 py-2"
+                            role="status"
+                            aria-label={i18n.t('dashboardSavedViews.loadingSavedViews', {
+                                defaultValue: 'Loading saved views',
+                            })}
+                        >
                             <LemonSkeleton repeat={3} className="h-8" />
                         </div>
                     )}
@@ -133,11 +152,17 @@ export function SavedDashboardViewsPicker({
                             className="justify-start rounded-none px-3"
                             onClick={onRetryLoad}
                         >
-                            Could not load saved views. Retry
+                            {i18n.t('dashboardSavedViews.loadFailed', {
+                                defaultValue: 'Could not load saved views. Retry',
+                            })}
                         </LemonButton>
                     )}
                     {!loading && !loadError && !hasSavedViews && !isFiltering && (
-                        <div className="px-3 py-2 text-sm text-secondary">Add a filter to create a saved view.</div>
+                        <div className="px-3 py-2 text-sm text-secondary">
+                            {i18n.t('dashboardSavedViews.addFilterToCreate', {
+                                defaultValue: 'Add a filter to create a saved view.',
+                            })}
+                        </div>
                     )}
                     {!loading && hasSavedViews && (
                         <>
@@ -151,7 +176,9 @@ export function SavedDashboardViewsPicker({
                                         key: 'private',
                                         label: (
                                             <span className="flex items-center gap-1">
-                                                Private views
+                                                {i18n.t('dashboardSavedViews.privateViews', {
+                                                    defaultValue: 'Private views',
+                                                })}
                                                 {activeSavedView?.scope === 'private' && (
                                                     <IconCheck className="text-success" />
                                                 )}
@@ -162,7 +189,9 @@ export function SavedDashboardViewsPicker({
                                         key: 'team',
                                         label: (
                                             <span className="flex items-center gap-1">
-                                                Shared with team
+                                                {i18n.t('dashboardSavedViews.sharedWithTeam', {
+                                                    defaultValue: 'Shared with team',
+                                                })}
                                                 {activeSavedView != null && activeSavedView.scope !== 'private' && (
                                                     <IconCheck className="text-success" />
                                                 )}
@@ -192,7 +221,11 @@ export function SavedDashboardViewsPicker({
                                                 closePicker()
                                             }}
                                             tooltip={
-                                                activeSavedView?.id === view.id ? 'Clear selected view' : undefined
+                                                activeSavedView?.id === view.id
+                                                    ? i18n.t('dashboardSavedViews.clearSelectedView', {
+                                                          defaultValue: 'Clear selected view',
+                                                      })
+                                                    : undefined
                                             }
                                         >
                                             <span className="truncate">{view.name}</span>
@@ -210,7 +243,13 @@ export function SavedDashboardViewsPicker({
                                             onClick={() => onLoadMore(scope)}
                                             data-attr="load-more-dashboard-saved-views"
                                         >
-                                            {loadMoreFailed ? 'Could not load more views. Retry' : 'Load more views'}
+                                            {loadMoreFailed
+                                                ? i18n.t('dashboardSavedViews.loadMoreFailed', {
+                                                      defaultValue: 'Could not load more views. Retry',
+                                                  })
+                                                : i18n.t('dashboardSavedViews.loadMore', {
+                                                      defaultValue: 'Load more views',
+                                                  })}
                                         </LemonButton>
                                     </div>
                                 )}
@@ -227,7 +266,7 @@ export function SavedDashboardViewsPicker({
                                             onManageViews()
                                         }}
                                     >
-                                        Manage views
+                                        {i18n.t('dashboardSavedViews.manageViews', { defaultValue: 'Manage views' })}
                                     </LemonButton>
                                 </div>
                             )}
@@ -252,13 +291,20 @@ export function SavedDashboardViewsPicker({
                 }}
             >
                 <span className="flex items-center gap-1">
-                    <span>{activeSavedView?.name || 'Saved views'}</span>
+                    <span>
+                        {activeSavedView?.name ||
+                            i18n.t('dashboardSavedViews.savedViews', { defaultValue: 'Saved views' })}
+                    </span>
                     {!activeSavedView && (
                         <LemonTag type="highlight" size="small">
-                            New
+                            {i18n.t('common.new', { defaultValue: 'New' })}
                         </LemonTag>
                     )}
-                    {canEdit && activeSavedViewHasUnsavedChanges && <span className="text-warning">Unsaved</span>}
+                    {canEdit && activeSavedViewHasUnsavedChanges && (
+                        <span className="text-warning">
+                            {i18n.t('dashboardSavedViews.unsaved', { defaultValue: 'Unsaved' })}
+                        </span>
+                    )}
                 </span>
             </LemonButton>
         </Popover>

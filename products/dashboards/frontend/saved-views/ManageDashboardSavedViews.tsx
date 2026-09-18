@@ -4,6 +4,7 @@ import { IconTrash } from '@posthog/icons'
 import { LemonButton, LemonDialog, LemonInput, LemonSelect } from '@posthog/lemon-ui'
 
 import { TZLabel } from 'lib/components/TZLabel'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonTable, LemonTableColumns } from 'lib/lemon-ui/LemonTable'
 
 import type {
@@ -95,13 +96,20 @@ export function ManageDashboardSavedViews({
 
     const deleteView = (view: DashboardListSavedView): void => {
         LemonDialog.open({
-            title: `Delete saved view “${view.name}”?`,
+            title: i18n.t('dashboardSavedViews.deleteViewTitle', {
+                name: view.name,
+                defaultValue: 'Delete saved view “{{ name }}”?',
+            }),
             description:
                 view.scope === 'private'
-                    ? 'This removes the saved view only for you.'
-                    : 'This removes the saved view for everyone in this project.',
+                    ? i18n.t('dashboardSavedViews.deletePrivateDescription', {
+                          defaultValue: 'This removes the saved view only for you.',
+                      })
+                    : i18n.t('dashboardSavedViews.deleteTeamDescription', {
+                          defaultValue: 'This removes the saved view for everyone in this project.',
+                      }),
             primaryButton: {
-                children: 'Delete view',
+                children: i18n.t('dashboardSavedViews.deleteView', { defaultValue: 'Delete view' }),
                 status: 'danger',
                 onClick: async () => {
                     setViews((currentViews) => currentViews.filter((savedView) => savedView.id !== view.id))
@@ -197,8 +205,16 @@ export function ManageDashboardSavedViews({
                         size="small"
                         value={view.scope ?? 'team'}
                         options={[
-                            { value: 'private', label: 'Private' },
-                            { value: 'team', label: 'Shared with team' },
+                            {
+                                value: 'private',
+                                label: i18n.t('dashboardSavedViews.private', { defaultValue: 'Private' }),
+                            },
+                            {
+                                value: 'team',
+                                label: i18n.t('dashboardSavedViews.sharedWithTeam', {
+                                    defaultValue: 'Shared with team',
+                                }),
+                            },
                         ]}
                         onChange={(scope) => void saveScope(view, scope)}
                         disabled={updatingIds.includes(view.id)}
@@ -207,7 +223,7 @@ export function ManageDashboardSavedViews({
             },
         },
         {
-            title: 'Created by',
+            title: i18n.t('dashboardSavedViews.createdByColumn', { defaultValue: 'Created by' }),
             key: 'created_by',
             width: 160,
             render: function renderCreatorColumn(_, view) {
@@ -215,7 +231,7 @@ export function ManageDashboardSavedViews({
             },
         },
         {
-            title: 'Last updated',
+            title: i18n.t('dashboardSavedViews.lastUpdatedColumn', { defaultValue: 'Last updated' }),
             key: 'updated_at',
             width: 130,
             render: function renderUpdated(_, view) {
@@ -223,7 +239,7 @@ export function ManageDashboardSavedViews({
             },
         },
         {
-            title: 'Saved filters',
+            title: i18n.t('dashboardSavedViews.savedFiltersColumn', { defaultValue: 'Saved filters' }),
             key: 'filters',
             render: function renderFiltersColumn(_, view) {
                 return <span className="text-secondary">{renderFilters(view.filters)}</span>
@@ -243,15 +259,23 @@ export function ManageDashboardSavedViews({
                 rowKey="id"
                 size="small"
                 className="max-w-full"
-                emptyState="No saved views yet. Add a filter to create one."
+                emptyState={i18n.t('dashboardSavedViews.emptyState', {
+                    defaultValue: 'No saved views yet. Add a filter to create one.',
+                })}
                 rowActions={(view) => (
                     <LemonButton
                         size="xsmall"
                         type="tertiary"
                         status="danger"
                         icon={<IconTrash />}
-                        tooltip={`Delete ${view.name}`}
-                        aria-label={`Delete ${view.name}`}
+                        tooltip={i18n.t('dashboardSavedViews.deleteViewTooltip', {
+                            name: view.name,
+                            defaultValue: 'Delete {{ name }}',
+                        })}
+                        aria-label={i18n.t('dashboardSavedViews.deleteViewTooltip', {
+                            name: view.name,
+                            defaultValue: 'Delete {{ name }}',
+                        })}
                         disabledReason={editDisabledReason}
                         onClick={() => deleteView(view)}
                     />
@@ -259,9 +283,17 @@ export function ManageDashboardSavedViews({
             />
             {(Object.values(nextCursors).some((cursor) => cursor !== null) || loadMoreFailed) && (
                 <div className="flex flex-col items-center gap-1 border-t p-2">
-                    {loadMoreFailed && <div className="text-sm text-danger">Could not load more views.</div>}
+                    {loadMoreFailed && (
+                        <div className="text-sm text-danger">
+                            {i18n.t('dashboardSavedViews.loadMoreFailedShort', {
+                                defaultValue: 'Could not load more views.',
+                            })}
+                        </div>
+                    )}
                     <LemonButton size="small" type="secondary" loading={loadingMoreViews} onClick={loadMoreViews}>
-                        {loadMoreFailed ? 'Retry loading views' : 'Load more views'}
+                        {loadMoreFailed
+                            ? i18n.t('dashboardSavedViews.retryLoadingViews', { defaultValue: 'Retry loading views' })
+                            : i18n.t('dashboardSavedViews.loadMore', { defaultValue: 'Load more views' })}
                     </LemonButton>
                 </div>
             )}

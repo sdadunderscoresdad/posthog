@@ -11,6 +11,7 @@ import { textCardConverter } from 'lib/components/Cards/TextCard/textCardMarkdow
 import { textCardModalLogic } from 'lib/components/Cards/TextCard/textCardModalLogic'
 import type { TextCardModalProps } from 'lib/components/Cards/TextCard/textCardModalLogic'
 import { useUploadFiles } from 'lib/hooks/useUploadFiles'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonButton } from 'lib/lemon-ui/LemonButton'
 import { LemonFileInput } from 'lib/lemon-ui/LemonFileInput'
 import { LemonInput } from 'lib/lemon-ui/LemonInput'
@@ -31,10 +32,16 @@ import {
 } from './imageTileUtils'
 import type { ImageTileImage, ImageTilePosition } from './imageTileUtils'
 
-const IMAGE_TILE_LAYOUT_OPTIONS = [
-    { value: 'contain', label: 'Show full image' },
-    { value: 'cover', label: 'Fill the tile' },
-] satisfies { value: ImageTileImage['layout']; label: string }[]
+/** Resolved per call, because a list built at import would keep the language the app started in. */
+function imageTileLayoutOptions(): { value: ImageTileImage['layout']; label: string }[] {
+    return [
+        {
+            value: 'contain',
+            label: i18n.t('imageTile.showFullImage', { defaultValue: 'Show full image' }),
+        },
+        { value: 'cover', label: i18n.t('imageTile.fillTile', { defaultValue: 'Fill the tile' }) },
+    ]
+}
 
 interface ImagePreviewDragState {
     pointerId: number
@@ -132,13 +139,19 @@ export function ImageTileModal({
         onError: (detail) => {
             posthog.capture('dashboard image tile upload failed')
             if (detail === IMAGE_UPLOAD_ERROR_MESSAGES.NOT_AN_IMAGE) {
-                lemonToast.error('Upload an image file.')
+                lemonToast.error(i18n.t('imageTile.notAnImage', { defaultValue: 'Upload an image file.' }))
             } else if (detail === IMAGE_UPLOAD_ERROR_MESSAGES.UNSUPPORTED_TYPE) {
-                lemonToast.error('Choose a PNG, JPG, GIF, WebP, or AVIF image.')
+                lemonToast.error(
+                    i18n.t('imageTile.unsupportedType', {
+                        defaultValue: 'Choose a PNG, JPG, GIF, WebP, or AVIF image.',
+                    })
+                )
             } else if (detail === IMAGE_UPLOAD_ERROR_MESSAGES.TOO_LARGE) {
-                lemonToast.error('Image must be 4 MB or smaller.')
+                lemonToast.error(i18n.t('imageTile.tooLarge', { defaultValue: 'Image must be 4 MB or smaller.' }))
             } else {
-                lemonToast.error('We could not upload that image. Try again.')
+                lemonToast.error(
+                    i18n.t('imageTile.uploadFailed', { defaultValue: 'We could not upload that image. Try again.' })
+                )
             }
         },
     })
@@ -342,8 +355,14 @@ export function ImageTileModal({
             isOpen={isOpen}
             onClose={handleClose}
             hasUnsavedInput={hasUnsavedInput || isTextTileSubmitting || uploading}
-            title={isNewTile ? 'Add image' : 'Edit image'}
-            description="Upload one image, choose how it appears in the tile, and reposition it."
+            title={
+                isNewTile
+                    ? i18n.t('imageTile.addImage', { defaultValue: 'Add image' })
+                    : i18n.t('imageTile.editImage', { defaultValue: 'Edit image' })
+            }
+            description={i18n.t('imageTile.modalDescription', {
+                defaultValue: 'Upload one image, choose how it appears in the tile, and reposition it.',
+            })}
             width={640}
             data-attr="image-tile-modal"
             footer={
@@ -351,9 +370,15 @@ export function ImageTileModal({
                     <LemonButton
                         type="secondary"
                         onClick={handleClose}
-                        disabledReason={imageOperationInProgress ? 'Wait for the image operation to finish' : null}
+                        disabledReason={
+                            imageOperationInProgress
+                                ? i18n.t('imageTile.waitForOperation', {
+                                      defaultValue: 'Wait for the image operation to finish',
+                                  })
+                                : null
+                        }
                     >
-                        Cancel
+                        {i18n.t('common.cancel', { defaultValue: 'Cancel' })}
                     </LemonButton>
                     <LemonButton
                         type="primary"
@@ -363,7 +388,7 @@ export function ImageTileModal({
                         disabledReason={saveDisabledReason}
                         data-attr={isNewTile ? 'save-new-image-tile' : 'edit-image-tile'}
                     >
-                        Save
+                        {i18n.t('cardEditor.save', { defaultValue: 'Save' })}
                     </LemonButton>
                 </>
             }
@@ -382,7 +407,9 @@ export function ImageTileModal({
                             type="button"
                             className={previewClassName}
                             tabIndex={imageOperationInProgress ? -1 : 0}
-                            aria-label="Drag to reposition the image"
+                            aria-label={i18n.t('imageTile.dragToReposition', {
+                                defaultValue: 'Drag to reposition the image',
+                            })}
                             aria-disabled={imageOperationInProgress || undefined}
                             onPointerDown={handlePreviewPointerDown}
                             onPointerMove={handlePreviewPointerMove}
@@ -394,7 +421,10 @@ export function ImageTileModal({
                         >
                             <img
                                 src={previewImage?.src}
-                                alt={previewImage?.alt || 'Dashboard image'}
+                                alt={
+                                    previewImage?.alt ||
+                                    i18n.t('imageTile.imageAlt', { defaultValue: 'Dashboard image' })
+                                }
                                 draggable={false}
                                 className={clsx(
                                     'pointer-events-none h-full w-full',
@@ -417,7 +447,11 @@ export function ImageTileModal({
                         >
                             <span className="flex flex-col items-center gap-2">
                                 <IconImage className="text-3xl" />
-                                <span>Drag and drop an image or click here to upload an image</span>
+                                <span>
+                                    {i18n.t('imageTile.dropOrClick', {
+                                        defaultValue: 'Drag and drop an image or click here to upload an image',
+                                    })}
+                                </span>
                             </span>
                         </button>
                     )}
@@ -430,31 +464,39 @@ export function ImageTileModal({
                             disabledReason={uploadDisabledReason}
                             data-attr="replace-image-tile-image"
                         >
-                            Replace image
+                            {i18n.t('imageTile.replaceImage', { defaultValue: 'Replace image' })}
                         </LemonButton>
                     )}
                     {!objectStorageAvailable && !imageOperationInProgress && (
                         <span className="text-sm text-danger" role="alert">
-                            Image uploads are unavailable right now.
+                            {i18n.t('imageTile.uploadsUnavailable', {
+                                defaultValue: 'Image uploads are unavailable right now.',
+                            })}
                         </span>
                     )}
                     {!image && (
                         <span className="text-xs text-secondary">
-                            PNG, JPG, GIF, WebP, or AVIF. Maximum size: 4 MB.
+                            {i18n.t('imageTile.supportedTypesHint', {
+                                defaultValue: 'PNG, JPG, GIF, WebP, or AVIF. Maximum size: 4 MB.',
+                            })}
                         </span>
                     )}
                     {image && (
                         <>
                             <div className="flex flex-col gap-1">
-                                <LemonLabel htmlFor="image-tile-layout">Image display</LemonLabel>
+                                <LemonLabel htmlFor="image-tile-layout">
+                                    {i18n.t('imageTile.imageDisplay', { defaultValue: 'Image display' })}
+                                </LemonLabel>
                                 <LemonSelect<ImageTileImage['layout']>
                                     id="image-tile-layout"
                                     value={image.layout}
-                                    options={IMAGE_TILE_LAYOUT_OPTIONS}
+                                    options={imageTileLayoutOptions()}
                                     onChange={updateLayout}
                                     disabledReason={
                                         imageOperationInProgress
-                                            ? 'Wait for the current image operation to finish'
+                                            ? i18n.t('imageTile.waitForCurrentOperation', {
+                                                  defaultValue: 'Wait for the current image operation to finish',
+                                              })
                                             : null
                                     }
                                     fullWidth
@@ -466,10 +508,14 @@ export function ImageTileModal({
                                     <LemonSwitch
                                         checked={value}
                                         onChange={onChange}
-                                        label="Transparent card background"
+                                        label={i18n.t('imageTile.transparentCardBackground', {
+                                            defaultValue: 'Transparent card background',
+                                        })}
                                         disabledReason={
                                             imageOperationInProgress
-                                                ? 'Wait for the current image operation to finish'
+                                                ? i18n.t('imageTile.waitForCurrentOperation', {
+                                                      defaultValue: 'Wait for the current image operation to finish',
+                                                  })
                                                 : null
                                         }
                                         data-attr="image-tile-transparent-background"
@@ -477,22 +523,28 @@ export function ImageTileModal({
                                 )}
                             </Field>
                             <div className="flex flex-col gap-1">
-                                <LemonLabel htmlFor="image-tile-alt">Alt text</LemonLabel>
+                                <LemonLabel htmlFor="image-tile-alt">
+                                    {i18n.t('imageTile.altText', { defaultValue: 'Alt text' })}
+                                </LemonLabel>
                                 <LemonInput
                                     id="image-tile-alt"
                                     value={image.alt}
                                     onChange={(alt) => updateImageBody({ ...image, alt })}
                                     disabledReason={
                                         imageOperationInProgress
-                                            ? 'Wait for the current image operation to finish'
+                                            ? i18n.t('imageTile.waitForCurrentOperation', {
+                                                  defaultValue: 'Wait for the current image operation to finish',
+                                              })
                                             : null
                                     }
                                     fullWidth
                                     data-attr="image-tile-alt"
                                 />
                                 <span className="text-xs text-secondary">
-                                    Used by screen readers. This text does not display on the image. Leave blank for a
-                                    decorative image.
+                                    {i18n.t('imageTile.altTextHint', {
+                                        defaultValue:
+                                            'Used by screen readers. This text does not display on the image. Leave blank for a decorative image.',
+                                    })}
                                 </span>
                             </div>
                         </>
@@ -512,7 +564,7 @@ export function ImageTileModal({
                     </div>
                     {uploadComplete && (
                         <span className="sr-only" role="status">
-                            Image uploaded.
+                            {i18n.t('imageTile.uploaded', { defaultValue: 'Image uploaded.' })}
                         </span>
                     )}
                 </div>

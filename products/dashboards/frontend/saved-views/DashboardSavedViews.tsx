@@ -7,6 +7,7 @@ import { LemonDialog, LemonInput, LemonTag, lemonToast } from '@posthog/lemon-ui
 
 import { ApiError } from 'lib/api-error'
 import { ObjectTags } from 'lib/components/ObjectTags/ObjectTags'
+import { i18n } from 'lib/i18n/i18n'
 import { LemonField } from 'lib/lemon-ui/LemonField'
 import { LemonRadio } from 'lib/lemon-ui/LemonRadio'
 import { ProfilePicture } from 'lib/lemon-ui/ProfilePicture'
@@ -83,20 +84,22 @@ function SavedViewVisibilityPicker({
 
     return (
         <div className="flex items-center gap-4">
-            <div className="text-xs font-semibold uppercase tracking-wide text-secondary">Visibility</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-secondary">
+                {i18n.t('dashboardSavedViews.visibility', { defaultValue: 'Visibility' })}
+            </div>
             <LemonRadio<DashboardSavedViewScope>
                 value={scope}
                 onChange={selectScope}
                 orientation="horizontal"
-                aria-label="View visibility"
+                aria-label={i18n.t('dashboardSavedViews.visibilityAriaLabel', { defaultValue: 'View visibility' })}
                 options={[
                     {
                         value: 'private',
-                        label: 'Private',
+                        label: i18n.t('dashboardSavedViews.private', { defaultValue: 'Private' }),
                     },
                     {
                         value: 'team',
-                        label: 'Shared with team',
+                        label: i18n.t('dashboardSavedViews.sharedWithTeam', { defaultValue: 'Shared with team' }),
                         disabledReason:
                             getAccessControlDisabledReason(
                                 AccessControlResourceType.Dashboard,
@@ -140,21 +143,32 @@ export function DashboardSavedViews(): JSX.Element | null {
     const membersById = Object.fromEntries(selectableMembers().map((member) => [member.user.id, member]))
     const savedViewCreatorName = (view: DashboardListSavedView): string => {
         if (view.created_by == null) {
-            return 'Unknown user'
+            return i18n.t('dashboardSavedViews.unknownUser', { defaultValue: 'Unknown user' })
         }
         const viewCreator = membersById[view.created_by]?.user
-        return viewCreator ? fullName(viewCreator) || viewCreator.email : `User ${view.created_by}`
+        return viewCreator
+            ? fullName(viewCreator) || viewCreator.email
+            : i18n.t('dashboardSavedViews.userFallbackName', {
+                  id: view.created_by,
+                  defaultValue: 'User {{ id }}',
+              })
     }
     const savedFiltersSummary = (viewFilters: DashboardsFilters): JSX.Element => (
         <div>
-            <div className="text-sm text-secondary">This view saves:</div>
+            <div className="text-sm text-secondary">
+                {i18n.t('dashboardSavedViews.thisViewSaves', { defaultValue: 'This view saves:' })}
+            </div>
             <ul className="list-disc space-y-2 pl-5 text-sm">
-                {viewFilters.shared && <li>Shared dashboards</li>}
-                {viewFilters.pinned && <li>Pinned dashboards</li>}
+                {viewFilters.shared && (
+                    <li>{i18n.t('dashboardSavedViews.sharedDashboards', { defaultValue: 'Shared dashboards' })}</li>
+                )}
+                {viewFilters.pinned && (
+                    <li>{i18n.t('dashboardSavedViews.pinnedDashboards', { defaultValue: 'Pinned dashboards' })}</li>
+                )}
                 {viewFilters.tags && viewFilters.tags.length > 0 && (
                     <li>
                         <div className="flex flex-wrap items-center gap-1">
-                            <span>Tags:</span>
+                            <span>{i18n.t('dashboardSavedViews.tagsLabel', { defaultValue: 'Tags:' })}</span>
                             <ObjectTags tags={viewFilters.tags} staticOnly />
                         </div>
                     </li>
@@ -162,10 +176,15 @@ export function DashboardSavedViews(): JSX.Element | null {
                 {viewFilters.createdBy !== 'All users' && (
                     <li>
                         <div className="flex flex-wrap items-center gap-1">
-                            <span>Created by:</span>
+                            <span>{i18n.t('dashboardSavedViews.createdByLabel', { defaultValue: 'Created by:' })}</span>
                             {viewFilters.createdBy.map((id) => {
                                 const member = membersById[id]
-                                const name = member ? fullName(member.user) || member.user.email : `User ${id}`
+                                const name = member
+                                    ? fullName(member.user) || member.user.email
+                                    : i18n.t('dashboardSavedViews.userFallbackName', {
+                                          id,
+                                          defaultValue: 'User {{ id }}',
+                                      })
 
                                 return (
                                     <LemonTag
@@ -180,8 +199,24 @@ export function DashboardSavedViews(): JSX.Element | null {
                         </div>
                     </li>
                 )}
-                {viewFilters.folder != null && <li>Folder: {viewFilters.folder || 'Project root'}</li>}
-                {viewFilters.search && <li>Search: “{viewFilters.search}”</li>}
+                {viewFilters.folder != null && (
+                    <li>
+                        {i18n.t('dashboardSavedViews.folderSummary', {
+                            folder:
+                                viewFilters.folder ||
+                                i18n.t('dashboardSavedViews.projectRoot', { defaultValue: 'Project root' }),
+                            defaultValue: 'Folder: {{ folder }}',
+                        })}
+                    </li>
+                )}
+                {viewFilters.search && (
+                    <li>
+                        {i18n.t('dashboardSavedViews.searchSummary', {
+                            search: viewFilters.search,
+                            defaultValue: 'Search: “{{ search }}”',
+                        })}
+                    </li>
+                )}
             </ul>
         </div>
     )
@@ -192,24 +227,34 @@ export function DashboardSavedViews(): JSX.Element | null {
 
     const saveView = (initialScope: DashboardSavedViewScope = 'private'): void => {
         if (!isFiltering) {
-            lemonToast.error('Add a filter before saving a view')
+            lemonToast.error(
+                i18n.t('dashboardSavedViews.addFilterFirst', { defaultValue: 'Add a filter before saving a view' })
+            )
             return
         }
         let scope = initialScope
         LemonDialog.openForm({
-            title: 'Save as new view',
-            initialValues: { name: 'My view' },
+            title: i18n.t('dashboardSavedViews.saveAsNewView', { defaultValue: 'Save as new view' }),
+            initialValues: { name: i18n.t('dashboardSavedViews.defaultViewName', { defaultValue: 'My view' }) },
             content: (
                 <div className="space-y-6">
                     {savedFiltersSummary(filters)}
                     <LemonField name="name">
-                        <LemonInput autoFocus placeholder="View name" />
+                        <LemonInput
+                            autoFocus
+                            placeholder={i18n.t('dashboardSavedViews.viewNamePlaceholder', {
+                                defaultValue: 'View name',
+                            })}
+                        />
                     </LemonField>
                     <SavedViewVisibilityPicker initialScope={scope} onChange={(value) => (scope = value)} />
                 </div>
             ),
             errors: {
-                name: (value) => (!value?.trim() ? 'Enter a view name' : undefined),
+                name: (value) =>
+                    !value?.trim()
+                        ? i18n.t('dashboardSavedViews.enterViewName', { defaultValue: 'Enter a view name' })
+                        : undefined,
             },
             showErrorsOnTouch: true,
             onSubmit: async ({ name }) => {
@@ -227,16 +272,27 @@ export function DashboardSavedViews(): JSX.Element | null {
                     if (teamId === teamLogic.values.currentTeamId) {
                         savedViewCreated(dashboardListSavedView(savedView))
                         setActiveSavedViewId(savedView.id)
-                        lemonToast.success(scope === 'private' ? 'Saved private view' : 'Saved view shared with team')
+                        lemonToast.success(
+                            scope === 'private'
+                                ? i18n.t('dashboardSavedViews.savedPrivateView', { defaultValue: 'Saved private view' })
+                                : i18n.t('dashboardSavedViews.savedSharedView', {
+                                      defaultValue: 'Saved view shared with team',
+                                  })
+                        )
                     }
                 } catch (error) {
                     const detail = error instanceof ApiError ? error.detail : null
-                    lemonToast.error(detail || 'Could not save this view. Try again.')
+                    lemonToast.error(
+                        detail ||
+                            i18n.t('dashboardSavedViews.saveFailed', {
+                                defaultValue: 'Could not save this view. Try again.',
+                            })
+                    )
                     throw error
                 }
             },
             primaryButtonProps: {
-                children: 'Save view',
+                children: i18n.t('dashboardSavedViews.saveView', { defaultValue: 'Save view' }),
             },
             shouldAwaitSubmit: true,
             width: 600,
@@ -253,11 +309,16 @@ export function DashboardSavedViews(): JSX.Element | null {
             await dashboardSavedViewsDestroy(teamId.toString(), view.id)
             if (teamId === teamLogic.values.currentTeamId) {
                 savedViewDeleted(view.id)
-                lemonToast.success('Saved view deleted')
+                lemonToast.success(i18n.t('dashboardSavedViews.deleted', { defaultValue: 'Saved view deleted' }))
             }
         } catch (error) {
             const detail = error instanceof ApiError ? error.detail : null
-            lemonToast.error(detail || 'Could not delete this view. Try again.')
+            lemonToast.error(
+                detail ||
+                    i18n.t('dashboardSavedViews.deleteFailed', {
+                        defaultValue: 'Could not delete this view. Try again.',
+                    })
+            )
             throw error
         }
     }
@@ -275,12 +336,17 @@ export function DashboardSavedViews(): JSX.Element | null {
             const updatedView = dashboardListSavedView(savedView)
             if (teamId === teamLogic.values.currentTeamId) {
                 savedViewUpdated(updatedView)
-                lemonToast.success('Saved view updated')
+                lemonToast.success(i18n.t('dashboardSavedViews.updated', { defaultValue: 'Saved view updated' }))
             }
             return updatedView
         } catch (error) {
             const detail = error instanceof ApiError ? error.detail : null
-            lemonToast.error(detail || 'Could not update this view. Try again.')
+            lemonToast.error(
+                detail ||
+                    i18n.t('dashboardSavedViews.updateFailed', {
+                        defaultValue: 'Could not update this view. Try again.',
+                    })
+            )
             throw error
         }
     }
@@ -288,29 +354,55 @@ export function DashboardSavedViews(): JSX.Element | null {
     const savedFiltersDescription = (viewFilters: DashboardsFilters): string => {
         const descriptions: string[] = []
         if (viewFilters.shared) {
-            descriptions.push('Shared dashboards')
+            descriptions.push(i18n.t('dashboardSavedViews.sharedDashboards', { defaultValue: 'Shared dashboards' }))
         }
         if (viewFilters.pinned) {
-            descriptions.push('Pinned dashboards')
+            descriptions.push(i18n.t('dashboardSavedViews.pinnedDashboards', { defaultValue: 'Pinned dashboards' }))
         }
         if (viewFilters.tags?.length) {
-            descriptions.push(`Tags: ${viewFilters.tags.join(', ')}`)
+            descriptions.push(
+                i18n.t('dashboardSavedViews.tagsSummary', {
+                    tags: viewFilters.tags.join(', '),
+                    defaultValue: 'Tags: {{ tags }}',
+                })
+            )
         }
         const createdBy = viewFilters.createdBy === 'All users' ? [] : viewFilters.createdBy || []
         if (createdBy.length > 0) {
             const creators = createdBy.map((id) => {
                 const member = membersById[id]
-                return member ? fullName(member.user) || member.user.email : `User ${id}`
+                return member
+                    ? fullName(member.user) || member.user.email
+                    : i18n.t('dashboardSavedViews.userFallbackName', { id, defaultValue: 'User {{ id }}' })
             })
-            descriptions.push(`Created by: ${creators.join(', ')}`)
+            descriptions.push(
+                i18n.t('dashboardSavedViews.createdBySummary', {
+                    creators: creators.join(', '),
+                    defaultValue: 'Created by: {{ creators }}',
+                })
+            )
         }
         if (viewFilters.folder != null) {
-            descriptions.push(`Folder: ${viewFilters.folder || 'Project root'}`)
+            descriptions.push(
+                i18n.t('dashboardSavedViews.folderSummary', {
+                    folder:
+                        viewFilters.folder ||
+                        i18n.t('dashboardSavedViews.projectRoot', { defaultValue: 'Project root' }),
+                    defaultValue: 'Folder: {{ folder }}',
+                })
+            )
         }
         if (viewFilters.search) {
-            descriptions.push(`Search: “${viewFilters.search}”`)
+            descriptions.push(
+                i18n.t('dashboardSavedViews.searchSummary', {
+                    search: viewFilters.search,
+                    defaultValue: 'Search: “{{ search }}”',
+                })
+            )
         }
-        return descriptions.length > 0 ? descriptions.join(', ') : 'No filters'
+        return descriptions.length > 0
+            ? descriptions.join(', ')
+            : i18n.t('dashboardSavedViews.noFilters', { defaultValue: 'No filters' })
     }
 
     const loadMoreSavedViewsForManagement = async (
@@ -331,7 +423,7 @@ export function DashboardSavedViews(): JSX.Element | null {
 
     const manageSavedViews = (): void => {
         LemonDialog.open({
-            title: 'Manage saved views',
+            title: i18n.t('dashboardSavedViews.manageSavedViews', { defaultValue: 'Manage saved views' }),
             content: (
                 <ManageDashboardSavedViews
                     views={savedViews}
@@ -353,7 +445,7 @@ export function DashboardSavedViews(): JSX.Element | null {
                 />
             ),
             primaryButton: null,
-            secondaryButton: { children: 'Close' },
+            secondaryButton: { children: i18n.t('common.cancel', { defaultValue: 'Cancel' }) },
             width: 1100,
             maxWidth: 'calc(100vw - 2rem)',
             zIndex: '1169',
@@ -372,11 +464,16 @@ export function DashboardSavedViews(): JSX.Element | null {
             })
             if (teamId === teamLogic.values.currentTeamId) {
                 savedViewUpdated(dashboardListSavedView(savedView))
-                lemonToast.success('Saved view updated')
+                lemonToast.success(i18n.t('dashboardSavedViews.updated', { defaultValue: 'Saved view updated' }))
             }
         } catch (error) {
             const detail = error instanceof ApiError ? error.detail : null
-            lemonToast.error(detail || 'Could not update this view. Try again.')
+            lemonToast.error(
+                detail ||
+                    i18n.t('dashboardSavedViews.updateFailed', {
+                        defaultValue: 'Could not update this view. Try again.',
+                    })
+            )
         } finally {
             setUpdatingSavedView(false)
         }
